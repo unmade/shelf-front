@@ -1,3 +1,5 @@
+@import '~antd/dist/antd.css';
+
 .App {
   text-align: center;
 }
@@ -35,4 +37,31 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.logo {
+  height: 32px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px;
+}
+
+.ant-table {
+  border-radius: 10px;
+}
+
+.ant-table-container table > thead > tr:first-child th:first-child {
+  border-top-left-radius: 10px;
+}
+
+.ant-table-container table > thead > tr:first-child th:last-child {
+  border-top-right-radius: 10px;
+}
+
+.ant-table-thead > tr > th {
+  background: white;
+}
+
+.sidebar-preview .ant-card-cover {
+  padding: 15px 15px 0 15px;
+  border-radius: 7px;
 }
