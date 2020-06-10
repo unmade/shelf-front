@@ -112,7 +112,7 @@ const Files = () => (
         title="Photos"
         subTitle="4 folders & 1 file"
         breadcrumb={{ routes }}
-        style={{ paddingTop: '78px' }}
+        style={{ paddingTop: '68px' }}
       />
       <Table
         columns={columns}
