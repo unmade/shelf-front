@@ -1,10 +1,10 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { Layout } from 'antd';
 
 import './App.css';
 import SideMenu from './components/SideMenu';
-import Files from './pages/Files';
+import FileBrowser from './pages/Files';
 
 
 class App extends React.Component {
@@ -12,8 +12,10 @@ class App extends React.Component {
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <SideMenu />
-        <Layout className="site-layout"> 
-          <Route path="/" component={Files} />
+        <Layout> 
+          <Switch>
+            <Route path="/files/:dirPath*" component={FileBrowser} />
+          </Switch>
         </Layout>
       </Layout>
     );

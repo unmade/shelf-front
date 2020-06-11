@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 import {
   Avatar,
   Button,
@@ -11,7 +11,6 @@ import {
   Space,
   Typography,
 } from 'antd';
-
 import {
   BookOutlined,
   CameraOutlined,
@@ -76,7 +75,7 @@ const SideMenu = () => (
             Cameras
           </Menu.Item>
           <Menu.Item key="4" icon={<FileSearchOutlined />}>
-            Files
+            <Link to="/files">Files</Link>
           </Menu.Item>
         </Menu>
       </Col>
