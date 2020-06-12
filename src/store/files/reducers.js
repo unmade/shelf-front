@@ -26,12 +26,24 @@ const FilesReducer = (state = INITIAL_STATE, action) => {
         ...state,
         loading: true,
       };
-    case LIST_FILES_SUCCESS:
+    case LIST_FILES_SUCCESS: {
+      const data = (action.payload.directory.path !== state.data.directory.path) ? (
+        action.payload
+      ) : (
+        {
+          ...state.data,
+          files: [
+            ...state.data.files,
+            ...action.payload.files,
+          ]
+        }
+      );
       return {
         ...state,
         loading: false,
-        data: action.payload,
+        data: data,
       };
+    }
     default:
       return {
         ...state,

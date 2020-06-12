@@ -1,129 +1,73 @@
 import React from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
-import {
-  PageHeader,
-  Space,
-  Table,
-  Typography,
-} from "antd";
-import {
-  FileImageOutlined,
-  FolderOutlined,
-} from '@ant-design/icons';
-
-const { Text } = Typography;
-
-const columns = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-  },
-  {
-    title: 'Size',
-    dataIndex: 'size',
-  },
-  {
-    title: 'Modified',
-    dataIndex: 'modifiedAt',
-  },
-];
-
-
-function Folder({ name }) {
-  let { url } = useRouteMatch();
-
-  return (
-    <Space>
-      <FolderOutlined style={{ fontSize: '24px', color: '#1890ff' }} />
-      <Link to={`${url}/${name}`} component={Typography.Link}>
-        {name}
-      </Link>
-    </Space>
-  )
-}
-
-
-function File({ name }) {
-  return (
-    <Space>
-      <FileImageOutlined style={{ fontSize: '24px' }} />
-      <Text style={{ cursor: 'pointer' }}>
-        {name}
-      </Text>
-    </Space>
-  )
-}
-
-
-function breadcrumbs(path) {
-  const parts = path.split("/").filter((e) => e !== "" && e !== ".");
-
-  return [
-    {
-      path: "files",
-      breadcrumbName: "home",
-    },
-    ...parts.map((item) => ({
-      path: item,
-      breadcrumbName: item,
-    })),
-  ]
-}
-
-
-function itemRender(route, params, routes, paths) {
-  const last = routes.indexOf(route) === routes.length - 1;
-  return last ? (
-    <span>{route.breadcrumbName}</span>
-  ) : (
-    <Link to={`/${paths.join('/')}`}>{route.breadcrumbName}</Link>
-  );
-}
+import InfiniteScroll from 'react-infinite-scroller';
 
 
 class Files extends React.Component {
+  state = {
+    count: 0,
+    checked: false,
+  };
+
   componentDidMount() {
-    const { match, listFiles } = this.props;
-    listFiles({ path: match.params.dirPath });
+    this.loadFiles();
   }
 
   componentDidUpdate(prevProps) {
-    const { match, listFiles } = this.props;
+    const { match } = this.props;
     const { match: prevMatch } = prevProps
     if (prevMatch.params.dirPath !== match.params.dirPath) {
-      listFiles({ path: match.params.dirPath });
+      this.loadFiles();
     }
   }
 
+  loadFiles() {
+    const { match, listFiles } = this.props;
+    listFiles({ path: match.params.dirPath });
+    this.state.count++;
+  }
+
   render() {
-    const { data, loading, history } = this.props;
+    const { data, loading } = this.props;
     const { directory, files } = data;
-    const routes = breadcrumbs(directory.path);
 
     return (
       <div>
-        <PageHeader
-          title={directory.name}
-          subTitle={`${directory.folderCount} folders & ${directory.fileCount} file`}
-          breadcrumb={{ routes, itemRender }}
-          style={{ paddingTop: '68px' }}
-        />
-        <Table
-          columns={columns}
-          loading={loading}
-          dataSource={files.map((item) => ({
-            key: item.name,
-            name: (item.type === "folder") ? (
-              <Folder name={item.name} />
-            ): (
-              <File name={item.name} />
-            ),
-            size: <Text type="secondary">{item.size}</Text>,
-            modifiedAt: <Text type="secondary">{item.modified_at}</Text>,
-          }))}
-          pagination={false}
-          rowSelection={{}}
-        />
+        <div>
+          <div className="text-gray-900 font-bold text-xl mb-2">
+            {directory.name}
+          </div>
+        </div>
+        <InfiniteScroll
+          pageStart={0}
+          loadMore={() => {this.loadFiles()}}
+          hasMore={this.state.count < 200}
+          className="p-8"
+        >
+          <table className="table-auto w-full">
+            <thead>
+              <tr>
+                <th className="w-1/32 px-4 py-2">
+                  <input type="checkbox" />
+                </th>
+                <th className="w-1/2 px-4 py-2 text-left">Name</th>
+                <th className="w-1/16 px-4 py-2">Size</th>
+                <th className="w-1/16 px-4 py-2">Modified</th>
+              </tr>
+            </thead>
+            <tbody>
+              {files.map((file, i) => (
+                <tr key={i} className="border" style={{ borderLeft: 'none', borderRight: 'none' }}>
+                  <td className="px-4 py-2 text-center">
+                    <input type="checkbox"/>
+                  </td>
+                  <td className="px-4 py-4 text-black-600">{file.name}</td>
+                  <td className="px-4 py-4 text-center text-gray-600">{file.size}</td>
+                  <td className="px-4 py-4 text-center text-gray-600">{file.modified_at}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </InfiniteScroll>
       </div>
     )
   }
