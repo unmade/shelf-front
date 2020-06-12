@@ -43,60 +43,26 @@ export function listFiles({ path }) {
 
 function* listFilesSaga({ payload }) {
   const { path } = payload;
+  let url = "http://localhost:8000/files"
+  if (path !== null && path !== undefined)
+    url = `${url}?path=${path}`
 
   yield put(listFilesRequest());
 
-  yield put(listFilesSuccess(files));
+  try {
+    const response = yield fetch(url, { method: 'GET', mode: 'cors' })
+    const data = yield response.json();
+    if (response.ok) {
+      yield put(listFilesSuccess(data));
+    } else {
+      yield put(listFilesFailure(data));
+    }
+  } catch (e) {
+      yield put(listFilesFailure(e));
+  }
 };
 
 
 export const filesSagas = [
   takeEvery(LIST_FILES, listFilesSaga),
 ];
-
-
-const files = {
-  directory: { 
-    name: "Photos",
-    path: "/Archive/Photos",
-    folderCount: 4,
-    fileCount: 1,
-  },
-  files: [
-    {
-      type: "folder",
-      name: "25 лет выпуск 2008 С-П-бург сентябрь",
-      size: "367.2 MB",
-      modifiedAt: "11 days ago",
-      path: "/Archive/Photos/25 лет выпуск 2008 С-П-бург сентябрь",
-    },
-    {
-      type: "folder",
-      name: "Алексей",
-      size: "1.2 GB",
-      modifiedAt: "3 days ago",
-      path: "/Archive/Photos/Алексей",
-    },
-    {
-      type: "folder",
-      name: "Ваня и Таня",
-      size: "118.2 MB",
-      modifiedAt: "4 days ago",
-      path: "/Archive/Photos/Ваня и Таня",
-    },
-    {
-      type: "folder",
-      name: "Гараж",
-      size: "1.1 MB",
-      modifiedAt: "11 days ago",
-      path: "/Archive/Photos/Гараж",
-    },
-    {
-      type: "image",
-      name: "IMG_2408.jpg",
-      size: "340 KB",
-      modifiedAt: "1 day ago",
-      path: "/Archive/Photos/IMG_2408.jpg",
-    },
-  ],
-};

@@ -56,12 +56,18 @@ function File({ name }) {
 
 
 function breadcrumbs(path) {
-  const parts = path.split("/").filter((e) => e !== "");
+  const parts = path.split("/").filter((e) => e !== "" && e !== ".");
 
-  return parts.map((item) => ({
-    path: item,
-    breadcrumbName: item,
-  }));
+  return [
+    {
+      path: "files",
+      breadcrumbName: "home",
+    },
+    ...parts.map((item) => ({
+      path: item,
+      breadcrumbName: item,
+    })),
+  ]
 }
 
 
@@ -70,39 +76,57 @@ function itemRender(route, params, routes, paths) {
   return last ? (
     <span>{route.breadcrumbName}</span>
   ) : (
-    <Link to={`/files/${paths.join('/')}`}>{route.breadcrumbName}</Link>
+    <Link to={`/${paths.join('/')}`}>{route.breadcrumbName}</Link>
   );
 }
 
 
-function Files({ directory, files }) {
-  let routes = breadcrumbs(directory.path);
+class Files extends React.Component {
+  componentDidMount() {
+    const { match, listFiles } = this.props;
+    listFiles({ path: match.params.dirPath });
+  }
 
-  return (
-    <div>
-      <PageHeader
-        title={directory.name}
-        subTitle={`${directory.folderCount} folders & ${directory.fileCount} file`}
-        breadcrumb={{ routes, itemRender }}
-        style={{ paddingTop: '68px' }}
-      />
-      <Table
-        columns={columns}
-        dataSource={files.map((item) => ({
-          key: item.name,
-          name: (item.type === "folder") ? (
-            <Folder name={item.name} />
-          ): (
-            <File name={item.name} />
-          ),
-          size: <Text type="secondary">{item.size}</Text>,
-          modifiedAt: <Text type="secondary">{item.modifiedAt}</Text>,
-        }))}
-        pagination={false}
-        rowSelection={{}}
-      />
-    </div>
-  )
+  componentDidUpdate(prevProps) {
+    const { match, listFiles } = this.props;
+    const { match: prevMatch } = prevProps
+    if (prevMatch.params.dirPath !== match.params.dirPath) {
+      listFiles({ path: match.params.dirPath });
+    }
+  }
+
+  render() {
+    const { data, loading, history } = this.props;
+    const { directory, files } = data;
+    const routes = breadcrumbs(directory.path);
+
+    return (
+      <div>
+        <PageHeader
+          title={directory.name}
+          subTitle={`${directory.folderCount} folders & ${directory.fileCount} file`}
+          breadcrumb={{ routes, itemRender }}
+          style={{ paddingTop: '68px' }}
+        />
+        <Table
+          columns={columns}
+          loading={loading}
+          dataSource={files.map((item) => ({
+            key: item.name,
+            name: (item.type === "folder") ? (
+              <Folder name={item.name} />
+            ): (
+              <File name={item.name} />
+            ),
+            size: <Text type="secondary">{item.size}</Text>,
+            modifiedAt: <Text type="secondary">{item.modified_at}</Text>,
+          }))}
+          pagination={false}
+          rowSelection={{}}
+        />
+      </div>
+    )
+  }
 }
 
 export default Files;

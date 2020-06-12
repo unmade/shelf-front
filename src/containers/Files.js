@@ -1,14 +1,19 @@
+import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import Files from '../components/Files';
+import { listFiles } from '../store/files/actions';
 
 
 const mapStateToProps = (state) => ({
-  directory: state.files.data.directory,
-  files: state.files.data.files,
+  ...state.files
 });
 
 
-export default connect(
-  mapStateToProps,
-  null
+export default compose(
+  withRouter,
+  connect(
+    mapStateToProps,
+    { listFiles },
+  )
 )(Files);

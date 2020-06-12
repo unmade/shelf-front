@@ -58,7 +58,7 @@ const SideMenu = () => (
           Upload
         </Button>
 
-        <Menu theme="light" defaultSelectedKeys={['4']} mode="inline" style={{border: 'none'}} inlineCollapsed={true}>
+        <Menu theme="light" defaultSelectedKeys={['4']} mode="inline" style={{border: 'none'}}>
           <Menu.Item key="1" icon={<PictureOutlined />}>
             All Photos
           </Menu.Item>

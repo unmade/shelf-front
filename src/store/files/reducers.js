@@ -23,18 +23,18 @@ const FilesReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case LIST_FILES_REQUEST:
       return {
-        loading: true,
         ...state,
+        loading: true,
       };
     case LIST_FILES_SUCCESS:
       return {
+        ...state,
         loading: false,
-        items: action.payload,
-        ...state
+        data: action.payload,
       };
     default:
       return {
-        ...state
+        ...state,
       };
   };
 };
