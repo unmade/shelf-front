@@ -1,5 +1,8 @@
 import React from 'react';
-import InfiniteScroll from 'react-infinite-scroller';
+import { Link } from 'react-router-dom';
+import { FixedSizeList as List } from 'react-window';
+import AutoSizer from 'react-virtualized-auto-sizer';
+import * as icons from '../icons';
 
 
 class Files extends React.Component {
@@ -27,47 +30,69 @@ class Files extends React.Component {
   }
 
   render() {
-    const { data, loading } = this.props;
+    const { data } = this.props;
     const { directory, files } = data;
 
     return (
-      <div>
-        <div>
-          <div className="text-gray-900 font-bold text-xl mb-2">
-            {directory.name}
+      <div className="h-full">
+
+        <div style={{ height: '50px' }} className="flex flex-row items-center space-x-4 text-sm font-bold">
+          <div>
+            <input type="checkbox" />
+          </div>
+          <div className="w-3/4">
+            Name
+          </div>
+          <div className="text-right">
+            Size
+          </div>
+          <div className="w-1/4 text-center">
+            Modified
           </div>
         </div>
-        <InfiniteScroll
-          pageStart={0}
-          loadMore={() => {this.loadFiles()}}
-          hasMore={this.state.count < 200}
-          className="p-8"
-        >
-          <table className="table-auto w-full">
-            <thead>
-              <tr>
-                <th className="w-1/32 px-4 py-2">
-                  <input type="checkbox" />
-                </th>
-                <th className="w-1/2 px-4 py-2 text-left">Name</th>
-                <th className="w-1/16 px-4 py-2">Size</th>
-                <th className="w-1/16 px-4 py-2">Modified</th>
-              </tr>
-            </thead>
-            <tbody>
-              {files.map((file, i) => (
-                <tr key={i} className="border" style={{ borderLeft: 'none', borderRight: 'none' }}>
-                  <td className="px-4 py-2 text-center">
-                    <input type="checkbox"/>
-                  </td>
-                  <td className="px-4 py-4 text-black-600">{file.name}</td>
-                  <td className="px-4 py-4 text-center text-gray-600">{file.size}</td>
-                  <td className="px-4 py-4 text-center text-gray-600">{file.modified_at}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </InfiniteScroll>
+
+        <AutoSizer>
+          {({ height, width }) => (
+            <List
+              height={height}
+              itemCount={files.length}
+              itemSize={50}
+              width={width}
+            >
+              {({ index, style }) => {
+                const file = files[index];
+
+                return (
+                  <div style={style}>
+                    <div className="h-full flex flex-row items-center space-x-4 text-sm" style={{ borderBottom: '1px solid #f0f0f0' }}>
+                      <div>
+                        <input type="checkbox" />
+                      </div>
+                      <div className="w-3/4">
+                        <div className="flex flex-row">
+                          {(file.type === "folder") ? (
+                            <icons.Folder className="text-2xl text-blue-400" />
+                          ) : (
+                            <icons.FileImage className="text-2xl" />
+                          )}
+                          <Link to={`/files/${directory.path}/${file.path}`} className="mx-2">
+                            {file.name}
+                          </Link>
+                        </div>
+                      </div>
+                      <div className="text-right text-gray-600">
+                        {file.size}
+                      </div>
+                      <div className="w-1/4 text-center text-gray-600">
+                        {file.modified_at}
+                      </div>
+                    </div>
+                  </div>
+                )
+              }}
+            </List>
+          )}
+        </AutoSizer>
       </div>
     )
   }
