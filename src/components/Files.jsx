@@ -11,6 +11,11 @@ class Files extends React.Component {
     checked: false,
   };
 
+  constructor(props) {
+    super(props);
+    this.listRef = React.createRef();
+  }
+
   componentDidMount() {
     this.loadFiles();
   }
@@ -21,6 +26,7 @@ class Files extends React.Component {
     if (prevMatch.params.dirPath !== match.params.dirPath) {
       this.loadFiles();
     }
+    this.listRef.current.scrollTo(0);
   }
 
   loadFiles() {
@@ -34,66 +40,69 @@ class Files extends React.Component {
     const { directory, files } = data;
 
     return (
-      <div className="h-full">
-
-        <div style={{ height: '50px' }} className="flex flex-row items-center space-x-4 text-sm font-bold">
+      <AutoSizer>
+        {({ height, width }) => (
           <div>
-            <input type="checkbox" />
-          </div>
-          <div className="w-3/4">
-            Name
-          </div>
-          <div className="text-right">
-            Size
-          </div>
-          <div className="w-1/4 text-center">
-            Modified
-          </div>
-        </div>
+            <div style={{ height: '50px', width: width }} className="flex flex-row items-center space-x-4 text-sm font-bold">
+              <div>
+                <input type="checkbox" />
+              </div>
+              <div className="w-3/4">
+                Name
+              </div>
+              <div className="text-right">
+                Size
+              </div>
+              <div className="w-1/4 text-center">
+                Modified
+              </div>
+            </div>
 
-        <AutoSizer>
-          {({ height, width }) => (
-            <List
-              height={height}
-              itemCount={files.length}
-              itemSize={50}
-              width={width}
-            >
-              {({ index, style }) => {
-                const file = files[index];
+            <div>
+              <List
+                ref={this.listRef}
+                height={height - 50}
+                itemCount={files.length}
+                itemSize={50}
+                width={width}
+              >
+                {({ index, style }) => {
+                  const file = files[index];
 
-                return (
-                  <div style={style}>
-                    <div className="h-full flex flex-row items-center space-x-4 text-sm" style={{ borderBottom: '1px solid #f0f0f0' }}>
-                      <div>
-                        <input type="checkbox" />
-                      </div>
-                      <div className="w-3/4">
-                        <div className="flex flex-row">
-                          {(file.type === "folder") ? (
-                            <icons.Folder className="text-2xl text-blue-400" />
-                          ) : (
-                            <icons.FileImage className="text-2xl" />
-                          )}
-                          <Link to={`/files/${directory.path}/${file.path}`} className="mx-2">
-                            {file.name}
-                          </Link>
+                  return (
+                    <div style={style}>
+                      <div className="h-full flex flex-row items-center space-x-4 text-sm" style={{ borderBottom: '1px solid #f0f0f0' }}>
+                        <div>
+                          <input type="checkbox" />
+                        </div>
+                        <div className="w-3/4">
+                          <div className="flex flex-row space-x-2">
+                            {(file.type === "folder") ? (
+                              <icons.Folder className="text-2xl text-blue-400" />
+                            ) : (
+                              <icons.FileImage className="text-2xl" />
+                            )}
+                            <Link to={`/files/${directory.path}/${file.path}`} className="text-gray-800">
+                              {file.name}
+                            </Link>
+                          </div>
+                        </div>
+                        <div className="text-right text-gray-600">
+                          {file.size}
+                        </div>
+                        <div className="w-1/4 text-center text-gray-600">
+                          {file.modified_at}
                         </div>
                       </div>
-                      <div className="text-right text-gray-600">
-                        {file.size}
-                      </div>
-                      <div className="w-1/4 text-center text-gray-600">
-                        {file.modified_at}
-                      </div>
                     </div>
-                  </div>
-                )
-              }}
-            </List>
-          )}
-        </AutoSizer>
-      </div>
+                  )
+                }}
+              </List>
+            </div>
+
+          </div>
+        )}
+      </AutoSizer>
     )
   }
 }

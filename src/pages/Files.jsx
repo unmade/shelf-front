@@ -36,8 +36,7 @@ function FileBrowser() {
   const breadcrumbs = breadcrumbsFromPath(dirPath);
 
   return (
-    <div className="h-full p-8">
-
+    <div className="flex flex-col h-full p-8 pb-0">
       <Breadcrumbs>
         {breadcrumbs.map((item, idx) => (
           (idx !== breadcrumbs.length - 1) ? (
@@ -52,9 +51,10 @@ function FileBrowser() {
         ))}
       </Breadcrumbs>
 
-      <div className="h-full">
-        <Files />
+      <div className="flex-1">
+        <Files /> 
       </div>
+
     </div>
   );
 }
