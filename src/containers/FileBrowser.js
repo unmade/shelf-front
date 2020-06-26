@@ -1,7 +1,7 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import Files from '../components/Files';
+import FileBrowser from '../components/FileBrowser';
 import { listFiles } from '../store/files/actions';
 
 
@@ -16,4 +16,4 @@ export default compose(
     mapStateToProps,
     { listFiles },
   )
-)(Files);
+)(FileBrowser);
