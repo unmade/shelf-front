@@ -5,22 +5,20 @@ import SideMenu from './components/SideMenu';
 import FileBrowser from './containers/FileBrowser';
 
 
-class App extends React.Component {
-  render() {
-    return (
-      <div className="flex md:flex-row-reverse flex-wrap h-screen bg-gray-200">
-        <div className="w-5/6 my-0 mx-auto bg-white shadow">
-          <Switch>
-            <Route path="/files/:dirPath*" component={FileBrowser} />
-          </Switch>
-        </div>
-
-        <div className="w-full md:w-1/6 p-4 text-gray-700">
-          <SideMenu />
-        </div>
+function App() {
+  return (
+    <div className="flex md:flex-row-reverse flex-wrap h-screen bg-gray-200">
+      <div className="w-5/6 my-0 mx-auto bg-white shadow">
+        <Switch>
+          <Route path="/files/:dirPath*" component={FileBrowser} />
+        </Switch>
       </div>
-    );
-  }
+
+      <div className="w-full md:w-1/6 p-4 text-gray-700">
+        <SideMenu />
+      </div>
+    </div>
+  );
 }
 
 export default App;

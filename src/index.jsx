@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './index.css';
 import './tailwind.generated.css';
 import App from './App';
+import Login from './containers/Login';
+import withAuth from './containers/withAuth';
 import * as serviceWorker from './serviceWorker';
 
 import store from './store/store';
@@ -14,7 +16,10 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <App />
+        <Switch>
+          <Route path="/signin" component={Login} exact />
+          <Route path="/" component={withAuth(App)} />
+        </Switch>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>,
