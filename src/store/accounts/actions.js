@@ -1,9 +1,12 @@
 import {
   put,
+  select,
   takeEvery,
 } from 'redux-saga/effects';
 
 import API_BASE_URL from '../api-config';
+
+import { getTokens } from '../auth/selectors';
 
 const RETRIEVE_ACC_ME = 'RETRIEVE_ACC_ME';
 export const RETRIEVE_ACC_ME_REQUEST = 'RETRIEVE_ACC_ME_REQUEST';
@@ -27,29 +30,28 @@ function retrieveAccMeSuccess(payload) {
 }
 
 
-function retrieveAccMeFailure({ code }) {
+function retrieveAccMeFailure({ errCode }) {
   return {
     type: RETRIEVE_ACC_ME_FAILURE,
     payload: {
-      code
+      errCode
     },
   };
 }
 
 
-export function retrieveAccMe({ token }) {
+export function retrieveAccMe() {
   return {
     type: RETRIEVE_ACC_ME,
-    payload: {
-      token,
-    },
+    payload: null,
   };
 }
 
 
-function* retrieveAccMeSaga({ payload }) {
-  const { token } = payload;
+function* retrieveAccMeSaga() {
   const url = `${API_BASE_URL}/accounts/me`;
+  const tokens = yield select(getTokens);
+  const { access: token } = tokens;
 
   const options = {
     method: 'GET',

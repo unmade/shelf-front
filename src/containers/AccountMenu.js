@@ -4,7 +4,6 @@ import { retrieveAccMe } from '../store/accounts/actions';
 
 
 const mapStateToProps = (state) => ({
-  tokens: state.auth.tokens,
   ...state.accounts,
 });
 

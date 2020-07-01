@@ -3,9 +3,9 @@ import React from 'react';
 
 class AccountMenu extends React.Component {
   componentDidMount() {
-    const { account, tokens, retrieveAccMe } = this.props;
+    const { account, retrieveAccMe } = this.props;
     if (!account) {
-      retrieveAccMe({ token: tokens.access });
+      retrieveAccMe();
     }
   }
 

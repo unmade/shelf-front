@@ -4,6 +4,5 @@ export function getAuth(state) {
 
 
 export function getTokens(state) {
-  return state.auth.tokens;
+  return getAuth(state).tokens;
 }
-  

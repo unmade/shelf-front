@@ -1,4 +1,7 @@
 import {
+  REFRESH_TOKEN_FAILURE,
+  REFRESH_TOKEN_REQUEST,
+  REFRESH_TOKEN_SUCCESS,
   SIGN_IN_FAILURE,
   SIGN_IN_REQUEST,
   SIGN_IN_SUCCESS,
@@ -13,8 +16,8 @@ export const INITIAL_STATE = {
 };
 
 
-function errorFromCode({ code }) {
-  switch (code) {
+function errorFromCode({ errCode }) {
+  switch (errCode) {
     case "USER_NOT_FOUND": {
       return {
         message: "Incorrect username or password."
@@ -50,6 +53,30 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
           access: null,
         },
         loading: false,
+        error: errorFromCode(action.payload),
+      };
+    }
+    case REFRESH_TOKEN_REQUEST: {
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    }
+    case REFRESH_TOKEN_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        tokens: action.payload,
+      };
+    }
+    case REFRESH_TOKEN_FAILURE: {
+      return {
+        ...state,
+        loading: false,
+        tokens: {
+          access: null,
+        },
         error: errorFromCode(action.payload),
       };
     }
