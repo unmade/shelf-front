@@ -9,7 +9,7 @@ import {
 
 import API_BASE_URL from '../api-config';
 
-import { getAccessToken } from './selectors';
+import { getAccessToken, getIsExpired } from './selectors';
 
 const SIGN_IN = 'SIGN_IN';
 export const SIGN_IN_REQUEST = 'SIGN_IN_REQUEST';
@@ -84,8 +84,8 @@ function* signInSaga({ payload }) {
     if (response.ok) {
       yield put(signInSuccess(data));
     } else {
-      if (response.status < 500 && data.detail) {
-        yield put(signInFailure({ errCode: data.detail.code }));
+      if (response.status < 500 && data.code) {
+        yield put(signInFailure({ errCode: data.code }));
       } else {
         console.log(response);
       }
@@ -161,11 +161,19 @@ function* refreshTokenSaga() {
 
 
 function* refreshTokenWatcher() {
-  const expiresIn = 10 * 60 * 1000  // 10 minutes
+  // first refresh happens as soon as possible
+  // cause it could be after accidental page reload 
+  let expiresIn = 5 * 1000; // 5 seconds
+
+  // all next refreshes happen within this interval
+  const refreshRate = 10 * 60 * 1000;  // 10 minutes
+
   let accessToken = yield select(getAccessToken);
+  let isExpired = yield select(getIsExpired);
+  console.log(isExpired);
 
   while (true) {
-    if (!accessToken) {
+    if (!accessToken || isExpired) {
       yield take(SIGN_IN_SUCCESS);
       accessToken = yield select(getAccessToken);
     }
@@ -176,12 +184,19 @@ function* refreshTokenWatcher() {
 
     if (expired) {
       yield put(refreshToken());
-      const { success } = yield race({
+      const { success, failure } = yield race({
         success: take(REFRESH_TOKEN_SUCCESS),
         failure: take(REFRESH_TOKEN_FAILURE),
       });
       if (success) {
         accessToken = yield select(getAccessToken);
+        isExpired = yield select(getIsExpired);
+        expiresIn = refreshRate;
+      }
+      if (failure) {
+        // if something goes wrong, just stop refreshing
+        accessToken = null;
+        expiresIn = 30 * 1000; // 30 seconds
       }
     }
   }

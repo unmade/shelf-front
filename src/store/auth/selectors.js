@@ -8,7 +8,17 @@ export function getAccessToken(state) {
 }
 
 
-export function isLoading(state) {
+export function getExpireAt(state) {
+  return getAuth(state).expireAt;
+}
+
+
+export function getIsExpired(state) {
+  return getExpireAt(state) && getExpireAt(state) < Date.now();
+}
+
+
+export function getIsLoading(state) {
   return getAuth(state).loading;
 }
 
@@ -18,7 +28,6 @@ export function getErrorMessage(state) {
 }
 
 
-export function isAuthenticated(state) {
-  // should also check token is not expired;
-  return !!getAccessToken(state);
+export function getIsAuthenticated(state) {
+  return getAccessToken(state) && !getIsExpired(state);
 }

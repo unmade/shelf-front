@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Login from '../components/Login';
 import { signIn } from '../store/auth/actions';
-import { getErrorMessage, isAuthenticated, isLoading } from '../store/auth/selectors';
+import { getErrorMessage, getIsAuthenticated, getIsLoading } from '../store/auth/selectors';
 
 
 const mapStateToProps = (state) => ({
-  authenticated: isAuthenticated(state),
-  loading: isLoading(state),
+  authenticated: getIsAuthenticated(state),
+  loading: getIsLoading(state),
   errorMessage: getErrorMessage(state),
 });
 

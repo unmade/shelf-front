@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { isAuthenticated } from '../store/auth/selectors';
+import { getIsAuthenticated } from '../store/auth/selectors';
 
 
 function withAuth(Component) {
@@ -30,7 +30,7 @@ function withAuth(Component) {
   }
 
   const mapStateToProps = (state) => ({
-    authenticated: isAuthenticated(state),
+    authenticated: getIsAuthenticated(state),
   });
 
   return withRouter(connect(mapStateToProps)(AuthenticatedComponent));

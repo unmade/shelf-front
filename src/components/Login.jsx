@@ -14,7 +14,7 @@ class Login extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  componenDidMount() {
+  componentDidMount() {
     const { authenticated } = this.props;
     if (authenticated) {
       this.redirect();
@@ -147,9 +147,9 @@ class Login extends React.Component {
             >
               Sign In
             </button>
-            <a className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
+            <button className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
               Forgot Password?
-            </a>
+            </button>
           </div>
         </form>
         <p className="text-center text-gray-500 text-xs">

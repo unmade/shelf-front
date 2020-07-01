@@ -9,6 +9,7 @@ import {
 
 export const INITIAL_STATE = {
   accessToken: null,
+  expireAt: null,
   loading: false,
   errorMessage: null,
 };
@@ -25,6 +26,11 @@ function errorFromCode({ errCode }) {
 }
 
 
+function expireAt() {
+  return Date.now() + 12 * 60 * 1000; // 12 minutes from now
+}
+
+
 const AuthReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SIGN_IN_REQUEST: {
@@ -38,12 +44,14 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         accessToken: action.payload.access,
+        expireAt: expireAt(),
         loading: false,
       };
     }
     case SIGN_IN_FAILURE: {
       return {
         accessToken: null,
+        expireAt: null,
         loading: false,
         errorMessage: errorFromCode(action.payload),
       };
@@ -60,6 +68,7 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
         ...state,
         loading: false,
         accessToken: action.payload.access,
+        expireAt: expireAt(),
       };
     }
     case REFRESH_TOKEN_FAILURE: {
@@ -67,6 +76,7 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
         ...state,
         loading: false,
         accessToken: null,
+        expireAt: null,
         errorMessage: errorFromCode(action.payload.access),
       };
     }

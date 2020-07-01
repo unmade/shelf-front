@@ -1,23 +1,25 @@
 import { INITIAL_STATE } from './reducers';
-import { getAccessToken } from './selectors';
+import { getAccessToken, getExpireAt } from './selectors';
 
-const KEY = 'accessToken';
+const KEY = 'state.auth';
 
 
 export function saveAuthState(state) {
-  const token = getAccessToken(state);
-  if (token !== localStorage.getItem(KEY)) {
-    localStorage.setItem(KEY, token);
+  const accessToken = getAccessToken(state);
+  const expireAt = getExpireAt(state);
+  const authState = JSON.stringify({ accessToken, expireAt });
+  if (authState !== localStorage.getItem(KEY)) {
+    localStorage.setItem(KEY, authState);
   }
 }
 
 
 export function loadAuthState() {
-  const accessToken = localStorage.getItem(KEY);
+  const authState = JSON.parse(localStorage.getItem(KEY)) || {};
   return {
     auth: {
       ...INITIAL_STATE,
-      accessToken,
-    },
+      ...authState,
+    }
   };
 }
