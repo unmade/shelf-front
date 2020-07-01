@@ -9,7 +9,7 @@ import {
 
 import API_BASE_URL from '../api-config';
 
-import { getTokens } from './selectors';
+import { getAccessToken } from './selectors';
 
 const SIGN_IN = 'SIGN_IN';
 export const SIGN_IN_REQUEST = 'SIGN_IN_REQUEST';
@@ -84,8 +84,8 @@ function* signInSaga({ payload }) {
     if (response.ok) {
       yield put(signInSuccess(data));
     } else {
-      if (response.status < 500) {
-        yield put(signInFailure(data.detail));
+      if (response.status < 500 && data.detail) {
+        yield put(signInFailure({ errCode: data.detail.code }));
       } else {
         console.log(response);
       }
@@ -124,23 +124,21 @@ function refreshTokenFailure({ errCode }) {
 }
 
 
-export function refreshToken({ access }) {
+export function refreshToken() {
   return {
     type: REFRESH_TOKEN,
-    payload: {
-      access,
-    },
+    payload: null,
   };
 }
 
 
-function* refreshTokenSaga({ payload }) {
+function* refreshTokenSaga() {
   const url = `${API_BASE_URL}/auth/tokens`;
-  const { access: token } = payload;
+  const accessToken = yield select(getAccessToken);
   const options = {
     method: 'PUT',
     headers: {
-      authorization: `Bearer ${token}`,
+      authorization: `Bearer ${accessToken}`,
     },
     mode: 'cors',
     cache: 'default',
@@ -164,14 +162,12 @@ function* refreshTokenSaga({ payload }) {
 
 function* refreshTokenWatcher() {
   const expiresIn = 10 * 60 * 1000  // 10 minutes
-  let tokens = yield select(getTokens);
+  let accessToken = yield select(getAccessToken);
 
   while (true) {
-    if (!tokens.access) {
-      const { payload } = yield take(SIGN_IN_SUCCESS);
-      if (payload) {
-        tokens = payload;
-      }
+    if (!accessToken) {
+      yield take(SIGN_IN_SUCCESS);
+      accessToken = yield select(getAccessToken);
     }
 
     const { expired } = yield race({
@@ -179,13 +175,13 @@ function* refreshTokenWatcher() {
     });
 
     if (expired) {
-      yield put(refreshToken(tokens));
+      yield put(refreshToken());
       const { success } = yield race({
         success: take(REFRESH_TOKEN_SUCCESS),
         failure: take(REFRESH_TOKEN_FAILURE),
       });
       if (success) {
-        tokens = yield select(getTokens);
+        accessToken = yield select(getAccessToken);
       }
     }
   }

@@ -8,25 +8,19 @@ import {
 } from './actions';
 
 export const INITIAL_STATE = {
-  tokens: {
-    access: null,
-  },
+  accessToken: null,
   loading: false,
-  error: null,
+  errorMessage: null,
 };
 
 
 function errorFromCode({ errCode }) {
   switch (errCode) {
     case "USER_NOT_FOUND": {
-      return {
-        message: "Incorrect username or password."
-      };
+      return "Incorrect username or password.";
     }
     default:
-      return {
-        message: "Unknown error."
-      };
+      return "Unknown error.";
   }
 }
 
@@ -37,47 +31,43 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: true,
-        error: null,
+        errorMessage: null,
       };
     }
     case SIGN_IN_SUCCESS: {
       return {
         ...state,
-        tokens: action.payload,
+        accessToken: action.payload.access,
         loading: false,
       };
     }
     case SIGN_IN_FAILURE: {
       return {
-        tokens: {
-          access: null,
-        },
+        accessToken: null,
         loading: false,
-        error: errorFromCode(action.payload),
+        errorMessage: errorFromCode(action.payload),
       };
     }
     case REFRESH_TOKEN_REQUEST: {
       return {
         ...state,
         loading: true,
-        error: null,
+        errorMessage: null,
       };
     }
     case REFRESH_TOKEN_SUCCESS: {
       return {
         ...state,
         loading: false,
-        tokens: action.payload,
+        accessToken: action.payload.access,
       };
     }
     case REFRESH_TOKEN_FAILURE: {
       return {
         ...state,
         loading: false,
-        tokens: {
-          access: null,
-        },
-        error: errorFromCode(action.payload),
+        accessToken: null,
+        errorMessage: errorFromCode(action.payload.access),
       };
     }
     default:

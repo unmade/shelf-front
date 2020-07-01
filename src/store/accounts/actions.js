@@ -6,7 +6,7 @@ import {
 
 import API_BASE_URL from '../api-config';
 
-import { getTokens } from '../auth/selectors';
+import { getAccessToken } from '../auth/selectors';
 
 const RETRIEVE_ACC_ME = 'RETRIEVE_ACC_ME';
 export const RETRIEVE_ACC_ME_REQUEST = 'RETRIEVE_ACC_ME_REQUEST';
@@ -50,13 +50,12 @@ export function retrieveAccMe() {
 
 function* retrieveAccMeSaga() {
   const url = `${API_BASE_URL}/accounts/me`;
-  const tokens = yield select(getTokens);
-  const { access: token } = tokens;
+  const accessToken = yield select(getAccessToken);
 
   const options = {
     method: 'GET',
     headers: {
-      authorization: `Bearer ${token}`,
+      authorization: `Bearer ${accessToken}`,
     },
     mode: 'cors',
     cache: 'default',

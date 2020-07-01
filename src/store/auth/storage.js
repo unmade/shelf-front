@@ -1,23 +1,23 @@
 import { INITIAL_STATE } from './reducers';
-import { getTokens } from './selectors';
+import { getAccessToken } from './selectors';
 
-const KEY = 'state.auth.tokens';
+const KEY = 'accessToken';
 
 
 export function saveAuthState(state) {
-  const tokens = getTokens(state);
-  if (tokens !== localStorage.getItem(KEY)) {
-    localStorage.setItem(KEY, JSON.stringify(tokens));
+  const token = getAccessToken(state);
+  if (token !== localStorage.getItem(KEY)) {
+    localStorage.setItem(KEY, token);
   }
 }
 
 
 export function loadAuthState() {
-  const tokens = JSON.parse(localStorage.getItem(KEY)) || null;
+  const accessToken = localStorage.getItem(KEY);
   return {
     auth: {
       ...INITIAL_STATE,
-      tokens,
+      accessToken,
     },
   };
 }

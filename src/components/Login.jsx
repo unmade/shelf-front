@@ -15,39 +15,38 @@ class Login extends React.Component {
   }
 
   componenDidMount() {
-    const { auth, location, history } = this.props;
-    const redirect = new URLSearchParams(location.search).get("next");
-    if (auth.tokens.access) {
-      if (redirect) {
-        history.push(redirect);
-      } else {
-        history.push("/");
-      }
+    const { authenticated } = this.props;
+    if (authenticated) {
+      this.redirect();
     }
   }
 
   componentDidUpdate(prevProps) {
-    const { auth, location, history } = this.props;
-    const { auth: prevAuth } = prevProps;
+    const { authenticated, errorMessage } = this.props;
 
-    if (auth.error && auth.error !== prevAuth.error) {
+    if (errorMessage !== prevProps.errorMessage) {
       const { errors } = this.state;
       this.setState({
         errors: {
           ...errors,
-          nonField: auth.error.message,
+          nonField: errorMessage,
         }
       });
       return;
     }
 
-    const redirect = new URLSearchParams(location.search).get("next");
-    if (auth.tokens.access !== prevAuth.tokens.access) {
-      if (redirect) {
-        history.push(redirect);
-      } else {
-        history.push("/");
-      }
+    if (authenticated !== prevProps.authenticated) {
+      this.redirect();
+    }
+  }
+
+  redirect() {
+    const { location, history } = this.props;
+    const redirectUrl = new URLSearchParams(location.search).get("next");
+    if (redirectUrl) {
+      history.push(redirectUrl);
+    } else {
+      history.push("/");
     }
   }
 
@@ -98,6 +97,7 @@ class Login extends React.Component {
   }
 
   render() {
+    const { loading } = this.props;
     const { errors } = this.state;
     
     return (
@@ -143,6 +143,7 @@ class Login extends React.Component {
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
               onClick={this.onSubmit}
+              disabled={loading}
             >
               Sign In
             </button>
