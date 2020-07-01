@@ -19,12 +19,11 @@ function signInRequest() {
 }
 
 
-function signInSuccess({ token, refresh }) {
+function signInSuccess({ access_token }) {
   return {
     type: SIGN_IN_SUCCESS,
     payload: {
-      token,
-      refresh,
+      access: access_token,
     },
   };
 }
@@ -77,11 +76,11 @@ function* signInSaga({ payload }) {
       if (response.status < 500) {
         yield put(signInFailure(data.detail));
       } else {
-        console.log("server error");
+        console.log(response);
       }
     }
   } catch (e) {
-    yield put(signInFailure(e));
+    console.log(e);
   }
 }
 

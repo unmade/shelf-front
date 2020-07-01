@@ -15,7 +15,7 @@ function withAuth(Component) {
 
     checkAuth() {
       const { auth, location, history } = this.props;
-      if (!auth.tokens) {
+      if (!auth.tokens.access) {
         history.push(`/signin?next=${location.pathname}`);
       }
     }

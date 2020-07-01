@@ -8,7 +8,7 @@ import FileBrowser from './containers/FileBrowser';
 function App() {
   return (
     <div className="flex md:flex-row-reverse flex-wrap h-screen bg-gray-200">
-      <div className="w-5/6 my-0 mx-auto bg-white shadow">
+      <div className="w-5/6 my-0 mx-auto bg-white border-l-2">
         <Switch>
           <Route path="/files/:dirPath*" component={FileBrowser} />
         </Switch>
