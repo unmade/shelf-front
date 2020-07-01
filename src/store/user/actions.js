@@ -8,31 +8,31 @@ import API_BASE_URL from '../api-config';
 
 import { getAccessToken } from '../auth/selectors';
 
-const RETRIEVE_ACC_ME = 'RETRIEVE_ACC_ME';
-export const RETRIEVE_ACC_ME_REQUEST = 'RETRIEVE_ACC_ME_REQUEST';
-export const RETRIEVE_ACC_ME_SUCCESS = 'RETRIEVE_ACC_ME_SUCCESS';
-export const RETRIEVE_ACC_ME_FAILURE = 'RETRIEVE_ACC_ME_FAILURE';
+const RETRIEVE_USER = 'RETRIEVE_USER';
+export const RETRIEVE_USER_REQUEST = 'RETRIEVE_USER_REQUEST';
+export const RETRIEVE_USER_SUCCESS = 'RETRIEVE_USER_SUCCESS';
+export const RETRIEVE_USER_FAILURE = 'RETRIEVE_USER_FAILURE';
 
 
-function retrieveAccMeRequest() {
+function retrieveUserRequest() {
   return {
-    type: RETRIEVE_ACC_ME_REQUEST,
+    type: RETRIEVE_USER_REQUEST,
     payload: null,
   };
 }
 
 
-function retrieveAccMeSuccess(payload) {
+function retrieveUserSuccess(payload) {
   return {
-    type: RETRIEVE_ACC_ME_SUCCESS,
+    type: RETRIEVE_USER_SUCCESS,
     payload: payload,
   };
 }
 
 
-function retrieveAccMeFailure({ errCode }) {
+function retrieveUserFailure({ errCode }) {
   return {
-    type: RETRIEVE_ACC_ME_FAILURE,
+    type: RETRIEVE_USER_FAILURE,
     payload: {
       errCode
     },
@@ -40,15 +40,15 @@ function retrieveAccMeFailure({ errCode }) {
 }
 
 
-export function retrieveAccMe() {
+export function retrieveUser() {
   return {
-    type: RETRIEVE_ACC_ME,
+    type: RETRIEVE_USER,
     payload: null,
   };
 }
 
 
-function* retrieveAccMeSaga() {
+function* retrieveUserSaga() {
   const url = `${API_BASE_URL}/accounts/me`;
   const accessToken = yield select(getAccessToken);
 
@@ -61,16 +61,16 @@ function* retrieveAccMeSaga() {
     cache: 'default',
   };
 
-  yield put(retrieveAccMeRequest());
+  yield put(retrieveUserRequest());
 
   try {
     const response = yield fetch(url, options);
     const data = yield response.json();
     if (response.ok) {
-      yield put(retrieveAccMeSuccess(data));
+      yield put(retrieveUserSuccess(data));
     } else {
       if (response.status < 500) {
-        yield put(retrieveAccMeFailure(data.detail));
+        yield put(retrieveUserFailure(data.detail));
       } else {
         console.log(response);
       }
@@ -81,6 +81,6 @@ function* retrieveAccMeSaga() {
 }
 
 
-export const accountsSagas = [
-  takeEvery(RETRIEVE_ACC_ME, retrieveAccMeSaga),
+export const userSagas = [
+  takeEvery(RETRIEVE_USER, retrieveUserSaga),
 ];

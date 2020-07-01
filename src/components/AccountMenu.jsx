@@ -1,16 +1,18 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 
 class AccountMenu extends React.Component {
   componentDidMount() {
-    const { account, retrieveAccMe } = this.props;
-    if (!account) {
-      retrieveAccMe();
+    const { username, retrieveUser } = this.props;
+    if (!username) {
+      retrieveUser();
     }
   }
 
   render() {
-    const { account } = this.props;
+    const { username } = this.props;
+
     return (
       <div className="flex flex-row space-x-2 items-center">
         <div
@@ -20,15 +22,19 @@ class AccountMenu extends React.Component {
         </div>
         <div className="flex flex-col flex-1">
           <div className="text-sm font-bold">
-            {account && account.username}
+            {username}
           </div>
           <div className="text-xs text-gray-600">
-            @{account && account.username}
+            @{username}
           </div>
         </div>
       </div>
     );
   }
 }
+
+AccountMenu.propTypes = {
+  username: PropTypes.string,
+};
 
 export default AccountMenu;

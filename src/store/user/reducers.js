@@ -1,39 +1,39 @@
 import { 
-  RETRIEVE_ACC_ME_REQUEST,
-  RETRIEVE_ACC_ME_SUCCESS,
-  RETRIEVE_ACC_ME_FAILURE,
+  RETRIEVE_USER_REQUEST,
+  RETRIEVE_USER_SUCCESS,
+  RETRIEVE_USER_FAILURE,
 } from './actions';
 
 const INITIAL_STATE = {
-  account: null,
+  user: null,
   loading: false,
   error: null,
 };
 
 
-function AccountsReducer(state = INITIAL_STATE, action) {
+function UserReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
-    case RETRIEVE_ACC_ME_REQUEST: {
+    case RETRIEVE_USER_REQUEST: {
       return {
         ...state,
         error: null,
         loading: true,
       };
     }
-    case RETRIEVE_ACC_ME_SUCCESS: {
+    case RETRIEVE_USER_SUCCESS: {
       return {
         ...state,
         loading: false,
         error: null,
-        account: action.payload,
+        user: action.payload,
       };
     }
-    case RETRIEVE_ACC_ME_FAILURE: {
+    case RETRIEVE_USER_FAILURE: {
       return {
         ...state,
         loading: false,
         error: action.payload,
-        account: null,
+        user: null,
       };
     }
     default:
@@ -41,4 +41,4 @@ function AccountsReducer(state = INITIAL_STATE, action) {
   }
 }
 
-export default AccountsReducer;
+export default UserReducer;

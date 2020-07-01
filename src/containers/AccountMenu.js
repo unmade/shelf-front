@@ -1,14 +1,15 @@
 import { connect } from 'react-redux';
 import AccountMenu from '../components/AccountMenu';
-import { retrieveAccMe } from '../store/accounts/actions';
+import { retrieveUser } from '../store/user/actions';
+import { getUsername } from '../store/user/selectors';
 
 
 const mapStateToProps = (state) => ({
-  ...state.accounts,
+  username: getUsername(state),
 });
 
 
 export default connect(
   mapStateToProps,
-  { retrieveAccMe },
+  { retrieveUser },
 )(AccountMenu);
