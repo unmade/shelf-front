@@ -33,6 +33,7 @@ function expireAt() {
 
 const AuthReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case REFRESH_TOKEN_REQUEST:
     case SIGN_IN_REQUEST: {
       return {
         ...state,
@@ -40,6 +41,7 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
         errorMessage: null,
       };
     }
+    case REFRESH_TOKEN_SUCCESS:
     case SIGN_IN_SUCCESS: {
       return {
         ...state,
@@ -48,36 +50,14 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
         loading: false,
       };
     }
+    case REFRESH_TOKEN_FAILURE:
     case SIGN_IN_FAILURE: {
       return {
+        ...state,
         accessToken: null,
         expireAt: null,
         loading: false,
         errorMessage: errorFromCode(action.payload),
-      };
-    }
-    case REFRESH_TOKEN_REQUEST: {
-      return {
-        ...state,
-        loading: true,
-        errorMessage: null,
-      };
-    }
-    case REFRESH_TOKEN_SUCCESS: {
-      return {
-        ...state,
-        loading: false,
-        accessToken: action.payload.access,
-        expireAt: expireAt(),
-      };
-    }
-    case REFRESH_TOKEN_FAILURE: {
-      return {
-        ...state,
-        loading: false,
-        accessToken: null,
-        expireAt: null,
-        errorMessage: errorFromCode(action.payload.access),
       };
     }
     default:

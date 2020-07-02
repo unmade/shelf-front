@@ -170,7 +170,6 @@ function* refreshTokenWatcher() {
 
   let accessToken = yield select(getAccessToken);
   let isExpired = yield select(getIsExpired);
-  console.log(isExpired);
 
   while (true) {
     if (!accessToken || isExpired) {

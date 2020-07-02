@@ -6,12 +6,12 @@ import {
 
 const INITIAL_STATE = {
   data: {
-    directory: {
-      name: "home",
-      path: "",
-      folderCount: 0,
-      fileCount: 0,
-    },
+    // directory: {
+    //   name: "home",
+    //   path: "",
+    //   folderCount: 0,
+    //   fileCount: 0,
+    // },
     files: [],
   },
   error: null,
@@ -27,21 +27,10 @@ const FilesReducer = (state = INITIAL_STATE, action) => {
         loading: true,
       };
     case LIST_FILES_SUCCESS: {
-      const data = (action.payload.directory.path !== state.data.directory.path) ? (
-        action.payload
-      ) : (
-        {
-          ...state.data,
-          files: [
-            ...state.data.files,
-            ...action.payload.files,
-          ]
-        }
-      );
       return {
         ...state,
         loading: false,
-        data: data,
+        data: action.payload,
       };
     }
     default:

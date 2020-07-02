@@ -1,5 +1,12 @@
-import { put, takeEvery } from 'redux-saga/effects';
+import {
+  put,
+  select,
+  takeEvery,
+} from 'redux-saga/effects';
 
+import API_BASE_URL from '../api-config';
+
+import { getAccessToken } from '../auth/selectors';
 
 const LIST_FILES = "LIST_FILES";
 export const LIST_FILES_REQUEST = "LIST_FILES_REQUEST";
@@ -43,14 +50,24 @@ export function listFiles({ path }) {
 
 function* listFilesSaga({ payload }) {
   const { path } = payload;
-  let url = "http://localhost:8000/files"
-  if (path !== null && path !== undefined)
-    url = `${url}?path=${path}`
+  const accessToken = yield select(getAccessToken);
+  let url = `${API_BASE_URL}/files`
+  if (path !== null && path !== undefined) {
+    url = `${url}?path=${path}`;
+  }
+  const options = {
+    method: 'GET',
+    headers: {
+      authorization: `Bearer ${accessToken}`,
+    },
+    mode: 'cors',
+    cache: 'default',
+  };
 
   yield put(listFilesRequest());
 
   try {
-    const response = yield fetch(url, { method: 'GET', mode: 'cors' })
+    const response = yield fetch(url, options)
     const data = yield response.json();
     if (response.ok) {
       yield put(listFilesSuccess(data));
