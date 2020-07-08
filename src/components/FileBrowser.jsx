@@ -78,7 +78,7 @@ class FileBrowser extends React.Component {
   
         <div className="flex-1">
           {(preview) && <FilePreview file={preview} />}
-          <FileTableView data={data} />
+          <FileTableView files={data.items} />
         </div>
       </div>
     );

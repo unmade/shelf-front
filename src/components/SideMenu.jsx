@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import AccountMenu from '../containers/AccountMenu';
+import Upload from '../containers/Upload';
 
 const menu = [
   // {
@@ -34,9 +35,7 @@ const menu = [
 const SideMenu = () => ( 
   <div className="flex flex-col h-full">
     <div className="py-2 m-2">
-      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        Upload
-      </button>
+      <Upload />
     </div>
 
     <div className="py-2 m-2 text-base flex-1">

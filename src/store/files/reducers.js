@@ -6,13 +6,7 @@ import {
 
 const INITIAL_STATE = {
   data: {
-    // directory: {
-    //   name: "home",
-    //   path: "",
-    //   folderCount: 0,
-    //   fileCount: 0,
-    // },
-    files: [],
+    items: [],
   },
   error: null,
   loading: false,

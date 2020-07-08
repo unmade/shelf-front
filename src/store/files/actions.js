@@ -13,6 +13,8 @@ export const LIST_FILES_REQUEST = "LIST_FILES_REQUEST";
 export const LIST_FILES_SUCCESS = "LIST_FILES_SUCCESS";
 export const LIST_FILES_FAILURE = "LIST_FILES_FAILURE";
 
+const UPLOAD_FILE = 'UPLOAD_FILE';
+
 
 function listFilesRequest() {
   return {
@@ -51,15 +53,13 @@ export function listFiles({ path }) {
 function* listFilesSaga({ payload }) {
   const { path } = payload;
   const accessToken = yield select(getAccessToken);
-  let url = `${API_BASE_URL}/files`
-  if (path !== null && path !== undefined) {
-    url = `${url}?path=${path}`;
-  }
+  let url = `${API_BASE_URL}/files/list_folder`
   const options = {
-    method: 'GET',
+    method: 'POST',
     headers: {
       authorization: `Bearer ${accessToken}`,
     },
+    body: JSON.stringify({ path: path || "." }),
     mode: 'cors',
     cache: 'default',
   };
@@ -80,6 +80,41 @@ function* listFilesSaga({ payload }) {
 };
 
 
+export function uploadFile({ file }) {
+  return {
+    type: UPLOAD_FILE,
+    payload: {
+      file,
+    },
+  };
+}
+
+
+function* uploadFileSaga({ payload }) {
+  const { file } = payload;
+
+  const url = `${API_BASE_URL}/files/upload`;
+  const accessToken = yield select(getAccessToken);
+
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('path', '.');
+
+  const options = {
+    method: 'POST',
+    headers: {
+      authorization: `Bearer ${accessToken}`,
+    },
+    body: formData,
+    mode: 'cors',
+    cache: 'default',
+  };
+
+  yield fetch(url, options);
+}
+
+
 export const filesSagas = [
   takeEvery(LIST_FILES, listFilesSaga),
+  takeEvery(UPLOAD_FILE, uploadFileSaga),
 ];

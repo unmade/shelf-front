@@ -1,39 +1,31 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 
 import * as icons from '../icons';
 
+const TYPE_FOLDER = "folder";
+
 
 function FileIcon({ item }) {
-  const { type, meta } = item;
-  const { mediatype } = meta;
+  const { type, name } = item;
 
-  switch (mediatype || type) {
-    case "folder": {
+  if (type === TYPE_FOLDER) {
       return (
         <icons.Folder className="text-blue-400 w-6 h-6" />
-      )
-    }
-    case "image": {
-      const { previews } = meta;
-      const preview = previews.filter((e) => e.size === "xs");
-      return (
-        <img 
-          className="object-contain w-6 h-6"
-          src={`http://localhost:8000/static/${preview[0].url}`}
-        />
       );
-    }
-    default:
-      return (
-        <icons.File className="w-6 h-6" />
-      )
   }
+
+  const ext = `.${name.split('.').pop()}`;
+  const Icon = icons.getIconByExt(ext);
+  return (
+    <Icon className="w-6 h-6" />
+  );
 }
 
 
 function FileTableCell({ item }) {
-  const { type, name, size, modified_at } = item;
+  const match = useRouteMatch();
+  const { type, name, size, mtime } = item;
 
   return (
     <div className="h-full flex flex-row items-center space-x-4 text-sm mx-4 border-b border-gray-200">
@@ -43,27 +35,22 @@ function FileTableCell({ item }) {
       <div className="w-3/4">
         <div className="flex flex-row items-center space-x-2">
           <FileIcon item={item} />
-          {(type === "folder") ? (
+          {(type === TYPE_FOLDER) ? (
             <Link to={`/files/${item.path}`}>
               {name}
             </Link>
           ) : (
-            <div>
+            <Link to={`${match.url}?preview=${item.name}`}>
               {name}
-            </div>
+            </Link>
           )}
-          
         </div>
       </div>
       <div className="text-right text-gray-600">
-        {(type === "folder") ? (
-          "-"
-        ) : (
-          size
-        )}
+          {size}
       </div>
       <div className="w-1/4 text-center text-gray-600">
-        {modified_at}
+        {mtime}
       </div>
     </div>
   )

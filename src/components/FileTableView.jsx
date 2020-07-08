@@ -7,9 +7,7 @@ import FileTableCell from './FileTableCell';
 const HEIGHT = 64;
 
 
-function FileTableView({ data }) {
-  const { files } = data;
-
+function FileTableView({ files }) {
   return (
     <AutoSizer>
       {({ height, width }) => (
