@@ -3,14 +3,13 @@ import createSagaMiddleware from 'redux-saga';
 
 import { saveAuthState, loadAuthState } from './auth/storage';
 
-import reducers from './reducers';
+import rootReducer from './reducers';
 import rootSaga from './sagas';
-
 
 const sagaMiddleware = createSagaMiddleware();
 
 const store = (() => createStore(
-  reducers,
+  rootReducer,
   { ...loadAuthState() },
   applyMiddleware(sagaMiddleware),
 ))();

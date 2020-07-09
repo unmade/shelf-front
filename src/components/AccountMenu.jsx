@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-
 class AccountMenu extends React.Component {
   componentDidMount() {
-    const { username, retrieveUser } = this.props;
+    const { username, accountMe } = this.props;
     if (!username) {
-      retrieveUser();
+      accountMe();
     }
   }
 
@@ -25,7 +24,7 @@ class AccountMenu extends React.Component {
             {username}
           </div>
           <div className="text-xs text-gray-600">
-            @{username}
+            {`@${username}`}
           </div>
         </div>
       </div>

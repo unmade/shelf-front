@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { uploadFile } from '../store/files/actions';
+import { uploadFile } from '../store/actions/files';
 
 import Uploader from '../components/Uploader';
 

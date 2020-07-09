@@ -1,15 +1,11 @@
 import { connect } from 'react-redux';
 import AccountMenu from '../components/AccountMenu';
-import { retrieveUser } from '../store/user/actions';
-import { getUsername } from '../store/user/selectors';
-
-
-const mapStateToProps = (state) => ({
-  username: getUsername(state),
-});
-
+import { accountMe } from '../store/actions/accounts';
+import { getUsername } from '../store/reducers/accounts';
 
 export default connect(
-  mapStateToProps,
-  { retrieveUser },
+  (state) => ({
+    username: getUsername(state),
+  }),
+  { accountMe },
 )(AccountMenu);

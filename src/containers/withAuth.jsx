@@ -2,10 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { getIsAuthenticated } from '../store/auth/selectors';
+import { getIsAuthenticated } from '../store/reducers/auth';
 
-
-function withAuth(Component) {
+export default (Component) => {
   class AuthenticatedComponent extends React.Component {
     componentDidMount() {
       this.checkAuth();
@@ -25,7 +24,7 @@ function withAuth(Component) {
     render() {
       return (
         <Component {...this.props}/>
-      )
+      );
     }
   }
 
@@ -34,7 +33,4 @@ function withAuth(Component) {
   });
 
   return withRouter(connect(mapStateToProps)(AuthenticatedComponent));
-}
-
-
-export default withAuth;
+};
