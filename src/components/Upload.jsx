@@ -6,17 +6,16 @@ class Upload extends React.Component {
     super(props);
     this.inputRef = React.createRef(null);
 
-    this.setFiles = this.setFiles.bind(this);
-    this.uploadFiles = this.uploadFiles.bind(this);
+    this.setUploadFiles = this.setUploadFiles.bind(this);
+    this.openUpload = this.openUpload.bind(this);
   }
 
-  setFiles(event) {
-    const { uploadFile } = this.props;
-    const files = [...event.target.files];
-    files.map(file => uploadFile({ file }));
+  setUploadFiles(event) {
+    const { addUploadFiles } = this.props;
+    addUploadFiles(event.target.files);
   }
 
-  uploadFiles(event) {
+  openUpload(event) {
     event.preventDefault();
     this.inputRef.current.click();
   }
@@ -29,12 +28,12 @@ class Upload extends React.Component {
           type="file"
           name="file"
           className="hidden"
-          onChange={this.setFiles}
+          onChange={this.setUploadFiles}
           multiple
         />
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          onClick={this.uploadFiles}
+          onClick={this.openUpload}
         >
           Upload
         </button>
