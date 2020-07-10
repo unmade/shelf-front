@@ -1,13 +1,16 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+
+import { listFolder } from '../store/actions/files';
+import { getFolder } from '../store/reducers/files';
+
 import FileBrowser from '../components/FileBrowser';
-import { listFiles } from '../store/actions/files';
 
 export default compose(
   withRouter,
   connect(
-    (state) => ({ ...state.files }),
-    { listFiles },
+    (state) => ({ ...getFolder(state) }),
+    { listFolder },
   ),
 )(FileBrowser);

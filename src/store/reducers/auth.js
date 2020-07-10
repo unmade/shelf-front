@@ -10,11 +10,7 @@ function errorFromCode({ errCode }) {
   }
 }
 
-function expireAt() {
-  return Date.now() + 12 * 60 * 1000; // 12 minutes from now
-}
-
-export const INITIAL_STATE = {
+const INITIAL_STATE = {
   accessToken: null,
   errorMessage: null,
   expireAt: null,
@@ -36,7 +32,7 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         accessToken: action.payload.access,
-        expireAt: expireAt(),
+        expireAt: Date.now() + 12 * 60 * 1000, // 12 minutes from now
         loading: false,
       };
     }
@@ -62,3 +58,24 @@ export const getIsExpired = (state) => getExpireAt(state) && getExpireAt(state) 
 export const getIsLoading = (state) => getAuth(state).loading;
 export const getErrorMessage = (state) => getAuth(state).errorMessage;
 export const getIsAuthenticated = (state) => getAccessToken(state) && !getIsExpired(state);
+
+const KEY = 'state.auth';
+
+export const saveAuthState = (state) => {
+  const accessToken = getAccessToken(state);
+  const expireAt = getExpireAt(state);
+  const authState = JSON.stringify({ accessToken, expireAt });
+  if (authState !== localStorage.getItem(KEY)) {
+    localStorage.setItem(KEY, authState);
+  }
+};
+
+export const loadAuthState = () => {
+  const authState = JSON.parse(localStorage.getItem(KEY)) || {};
+  return {
+    auth: {
+      ...INITIAL_STATE,
+      ...authState,
+    },
+  };
+};

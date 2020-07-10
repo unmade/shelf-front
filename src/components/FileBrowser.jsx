@@ -5,12 +5,11 @@ import Breadcrumbs from './Breadcrumbs';
 import FilePreview from './FilePreview';
 import FileTableView from './FileTableView';
 
-
 function breadcrumbsFromPath(path) {
   const breadcrumbs = [
     {
-      path: "/files",
-      name: "Home",
+      path: '/files',
+      name: 'Home',
     },
   ];
 
@@ -18,8 +17,8 @@ function breadcrumbsFromPath(path) {
     return breadcrumbs;
   }
 
-  const parts = path.split("/").filter((e) => e !== "" && e !== ".");
-  let prefix = "/files";
+  const parts = path.split('/').filter((e) => e !== '' && e !== '.');
+  let prefix = '/files';
   parts.forEach((part) => {
     prefix = `${prefix}/${part}`;
     breadcrumbs.push({
@@ -29,8 +28,7 @@ function breadcrumbsFromPath(path) {
   });
 
   return breadcrumbs;
-};
-
+}
 
 class FileBrowser extends React.Component {
   componentDidMount() {
@@ -48,14 +46,14 @@ class FileBrowser extends React.Component {
   loadFiles() {
     const { match } = this.props;
     const { dirPath } = match.params;
-    const { listFiles } = this.props;
-    listFiles({ path: dirPath });
+    const { listFolder } = this.props;
+    listFolder(dirPath);
   }
 
   render() {
     const { data, match, location } = this.props;
     const { dirPath } = match.params;
-    const preview = new URLSearchParams(location.search).get("preview");
+    const preview = new URLSearchParams(location.search).get('preview');
     const breadcrumbs = breadcrumbsFromPath(dirPath);
 
     return (
@@ -75,7 +73,7 @@ class FileBrowser extends React.Component {
             ))}
           </Breadcrumbs>
         </div>
-  
+
         <div className="flex-1">
           {(preview) && <FilePreview file={preview} />}
           <FileTableView files={data.items} />
@@ -84,6 +82,5 @@ class FileBrowser extends React.Component {
     );
   }
 }
-
 
 export default FileBrowser;

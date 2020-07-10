@@ -1,12 +1,13 @@
 import { connect } from 'react-redux';
 
-import { uploadFile } from '../store/actions/files';
+import { uploadFile } from '../store/actions/uploads';
+import { getUploads } from '../store/reducers/uploads';
 
 import Uploader from '../components/Uploader';
 
 export default connect(
   (state) => ({
-    files: Object.values(state.uploadFiles.data),
+    files: getUploads(state),
   }),
   { uploadFile },
 )(Uploader);
