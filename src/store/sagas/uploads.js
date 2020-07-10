@@ -1,15 +1,22 @@
-import { buffers, eventChannel, END } from 'redux-saga';
+import {
+  END,
+  buffers,
+  channel,
+  eventChannel,
+} from 'redux-saga';
 import {
   call,
+  fork,
   put,
   select,
   take,
-  takeEvery,
 } from 'redux-saga/effects';
 
 import API_BASE_URL from '../api-config';
 import * as actions from '../actions/uploads';
 import { getAccessToken } from '../reducers/auth';
+
+const MAX_PARALLEL_UPLOADS = 3;
 
 function createUploadFileChannel(url, accessToken, file) {
   return eventChannel((emitter) => {
@@ -55,16 +62,16 @@ function createUploadFileChannel(url, accessToken, file) {
       xhr.onreadystatechange = null;
       xhr.abort();
     };
-  }, buffers.sliding(2));
+  }, buffers.sliding(3));
 }
 
 function* uploadFile({ payload }) {
   const url = `${API_BASE_URL}/files/upload`;
   const { file } = payload;
   const accessToken = yield select(getAccessToken);
-  const channel = yield call(createUploadFileChannel, url, accessToken, file);
+  const chan = yield call(createUploadFileChannel, url, accessToken, file);
   while (true) {
-    const { progress = 0, err, success } = yield take(channel);
+    const { progress = 0, err, success } = yield take(chan);
     if (err) {
       yield put(actions.uploadFailure(file, err));
       return;
@@ -77,6 +84,26 @@ function* uploadFile({ payload }) {
   }
 }
 
+function* handleUpload(queue) {
+  while (true) {
+    const action = yield take(queue);
+    yield uploadFile(action);
+  }
+}
+
+function* uploadsWatcher() {
+  const queue = yield call(channel);
+
+  for (let i = 0; i < MAX_PARALLEL_UPLOADS; i++) {
+    yield fork(handleUpload, queue);
+  }
+
+  while (true) {
+    const action = yield take(actions.types.UPLOAD_FILE);
+    yield put(queue, action);
+  }
+}
+
 export default [
-  takeEvery(actions.types.UPLOAD_FILE, uploadFile),
+  uploadsWatcher(),
 ];

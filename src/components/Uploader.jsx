@@ -32,7 +32,7 @@ function Uploader({ files, uploadFile }) {
   useEffect(() => {
     const filesToUpload = files.filter((item) => item.progress === 0);
     filesToUpload.map((file) => uploadFile(file));
-  });
+  }, [files.length]);
 
   return (files.length) ? (
     files.map((item) => (

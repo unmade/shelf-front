@@ -7,10 +7,11 @@ const INITIAL_STATE = {
 
 function prepareFiles(files, nextId) {
   const data = {};
-  for (let i = nextId; i < files.length; i++) {
-    const file = files[i - nextId];
-    data[nextId] = {
-      id: nextId,
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    const id = i + nextId;
+    data[id] = {
+      id,
       file,
       progress: 0,
     };

@@ -21,7 +21,7 @@ function FilePreview({ file }) {
         </div>
 
         <div className="flex-1 flex flex-row items-center border rounded">
-          <img src={path} className="object-contain h-full mx-auto" />
+          <img src={path} className="object-contain h-full mx-auto" alt="preview" />
         </div>
 
         <div className="h-48" />

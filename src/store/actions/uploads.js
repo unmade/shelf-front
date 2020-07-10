@@ -7,6 +7,11 @@ export const types = {
   UPLOAD_FAILURE: 'UPLOAD_FAILURE',
 };
 
+export const addUploadFiles = (files) => ({
+  type: types.ADD_UPLOAD_FILES,
+  payload: files,
+});
+
 export const uploadFile = (file) => ({
   type: types.UPLOAD_FILE,
   payload: { file },
