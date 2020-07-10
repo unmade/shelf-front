@@ -1,15 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import UploaderItem from '../containers/UploaderItem';
 
-function Uploader({ files, uploadFile }) {
-  useEffect(() => {
-    const filesToUpload = files.filter((item) => item.progress === 0);
-    filesToUpload.map((file) => uploadFile(file));
-  });
-
-  return (files.length) ? (
+function Uploader({ uploads }) {
+  return (uploads.length) ? (
     <div
       className="absolute bottom-0 right-0 w-1/4 m-4 bg-white rounded shadow"
     >
@@ -18,8 +13,8 @@ function Uploader({ files, uploadFile }) {
       </div>
 
       <div className="p-4 h-64 overflow-scroll">
-        {files.map((item) => (
-          <UploaderItem key={item.id} uniqueKey={item.id} />
+        {uploads.map((uploadId) => (
+          <UploaderItem key={uploadId} uniqueKey={uploadId} />
         ))}
       </div>
 
@@ -30,7 +25,7 @@ function Uploader({ files, uploadFile }) {
 }
 
 Uploader.propTypes = {
-  files: PropTypes.array.isRequired,
+  uploads: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default Uploader;

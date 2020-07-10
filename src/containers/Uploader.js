@@ -7,7 +7,7 @@ import Uploader from '../components/Uploader';
 
 export default connect(
   (state) => ({
-    files: getUploads(state),
+    uploads: getUploads(state),
   }),
   { uploadFile },
 )(Uploader);

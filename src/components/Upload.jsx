@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { v4 as uuidv4 } from 'uuid';
+
 class Upload extends React.Component {
   constructor(props) {
     super(props);
@@ -11,7 +13,12 @@ class Upload extends React.Component {
 
   setUploadFiles(event) {
     const { addUploadFiles } = this.props;
-    addUploadFiles(event.target.files);
+    const { files } = event.target;
+    const uploads = [];
+    for (let i = 0; i < event.target.files.length; i++) {
+      uploads.push({ id: uuidv4(), file: files[i] });
+    }
+    addUploadFiles(uploads);
     this.inputRef.current.value = '';
   }
 

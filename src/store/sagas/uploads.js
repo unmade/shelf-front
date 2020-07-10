@@ -65,11 +65,11 @@ function createUploadFileChannel(url, accessToken, file) {
   }, buffers.sliding(3));
 }
 
-function* uploadFile({ payload }) {
+function* uploadFile(file) {
   const url = `${API_BASE_URL}/files/upload`;
-  const { file } = payload;
   const accessToken = yield select(getAccessToken);
-  const chan = yield call(createUploadFileChannel, url, accessToken, file);
+  const chan = yield call(createUploadFileChannel, url, accessToken, file.file);
+  yield put(actions.uploadRequest(file));
   while (true) {
     const { progress = 0, err, success } = yield take(chan);
     if (err) {
@@ -86,8 +86,8 @@ function* uploadFile({ payload }) {
 
 function* handleUpload(queue) {
   while (true) {
-    const action = yield take(queue);
-    yield uploadFile(action);
+    const file = yield take(queue);
+    yield uploadFile(file);
   }
 }
 
@@ -99,8 +99,11 @@ function* uploadsWatcher() {
   }
 
   while (true) {
-    const action = yield take(actions.types.UPLOAD_FILE);
-    yield put(queue, action);
+    const action = yield take(actions.types.ADD_UPLOAD_FILES);
+    const files = action.payload;
+    for (let i = 0; i < files.length; i++) {
+      yield put(queue, files[i]);
+    }
   }
 }
 

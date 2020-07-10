@@ -1,72 +1,58 @@
+import { combineReducers } from 'redux';
+
 import { types } from '../actions/uploads';
 
-const INITIAL_STATE = {
-  data: {},
-  nextId: 0,
-};
-
-function prepareFiles(files, nextId) {
+function normalize(files) {
   const data = {};
-  for (let i = 0; i < files.length; i++) {
-    const file = files[i];
-    const id = i + nextId;
-    data[id] = {
-      id,
-      file,
+  files.forEach((file) => {
+    data[file.id] = {
+      ...file,
       progress: 0,
     };
-  }
+  });
   return data;
 }
 
-export default (state = INITIAL_STATE, action) => {
+function uploadsById(state = {}, action) {
   switch (action.type) {
     case types.ADD_UPLOAD_FILES: {
-      const { data, nextId } = state;
-      const files = prepareFiles(action.payload, nextId);
       return {
         ...state,
-        data: {
-          ...data,
-          ...files,
-        },
-        nextId: nextId + action.payload.length,
+        ...normalize(action.payload),
       };
     }
-
-    case types.UPLOAD_FILE: {
-      const { data } = state;
-      const { file } = action.payload;
-      return {
-        ...state,
-        data: {
-          ...data,
-          [file.id]: {
-            ...file,
-            progress: 1,
-          },
-        },
-      };
-    }
-
     case types.UPLOAD_PROGRESS: {
-      const { data } = state;
       const { file, progress } = action.payload;
       return {
         ...state,
-        data: {
-          ...data,
-          [file.id]: {
-            ...file,
-            progress,
-          },
+        [file.id]: {
+          ...file,
+          progress,
         },
       };
     }
     default:
       return state;
   }
-};
+}
 
-export const getUploads = (state) => Object.values(state.uploads.data);
-export const getUploadById = (state, id) => state.uploads.data[id];
+function allUploads(state = [], action) {
+  switch (action.type) {
+    case types.ADD_UPLOAD_FILES: {
+      return [
+        ...state,
+        ...action.payload.map((item) => item.id),
+      ];
+    }
+    default:
+      return state;
+  }
+}
+
+export default combineReducers({
+  byId: uploadsById,
+  allIds: allUploads,
+});
+
+export const getUploadById = (state, id) => state.uploads.byId[id];
+export const getUploads = (state) => state.uploads.allIds;
