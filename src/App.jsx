@@ -19,9 +19,7 @@ function App() {
         <SideMenu />
       </div>
 
-      <div className="absolute">
-        <Uploader />
-      </div>
+      <Uploader />
     </div>
   );
 }
