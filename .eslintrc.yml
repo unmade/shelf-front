@@ -21,3 +21,7 @@ rules:
       minProperties: 4
       multiline: true
       consistent: true
+  no-plusplus: 
+    - error
+    - allowForLoopAfterthoughts: 
+        true

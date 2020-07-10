@@ -1,33 +1,42 @@
+import { combineReducers } from 'redux';
+
 import { types } from '../actions/files';
 
-const INITIAL_STATE = {
-  data: {
-    items: [],
-  },
-  error: null,
-  loading: false,
-};
+function normalize(files) {
+  const data = {};
+  files.forEach((file) => {
+    data[file.id] = file;
+  });
+  return data;
+}
 
-export default (state = INITIAL_STATE, action) => {
+function filesById(state = {}, action) {
   switch (action.type) {
-    case types.LIST_FOLDER_REQUEST: {
-      return {
-        ...state,
-        loading: true,
-      };
-    }
     case types.LIST_FOLDER_SUCCESS: {
       return {
         ...state,
-        loading: false,
-        data: action.payload,
+        ...normalize(action.payload.items),
       };
     }
     default:
-      return {
-        ...state,
-      };
+      return state;
   }
-};
+}
 
-export const getFolder = (state) => state.files;
+function folder(state = [], action) {
+  switch (action.type) {
+    case types.LIST_FOLDER_SUCCESS: {
+      return action.payload.items.map((file) => file.id);
+    }
+    default:
+      return state;
+  }
+}
+
+export default combineReducers({
+  byId: filesById,
+  folderIds: folder,
+});
+
+export const getFileById = (state, id) => state.files.byId[id];
+export const getFolder = (state) => state.files.folderIds;

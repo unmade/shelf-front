@@ -51,7 +51,7 @@ function createUploadFileChannel(url, accessToken, file) {
     xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
 
     const formData = new FormData();
-    formData.append('file', file.file);
+    formData.append('file', file);
     formData.append('path', '.');
 
     xhr.send(formData);

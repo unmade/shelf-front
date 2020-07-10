@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import FileTableView from '../containers/FileTableView';
+
 import Breadcrumbs from './Breadcrumbs';
 import FilePreview from './FilePreview';
-import FileTableView from './FileTableView';
 
 function breadcrumbsFromPath(path) {
   const breadcrumbs = [
@@ -51,7 +52,7 @@ class FileBrowser extends React.Component {
   }
 
   render() {
-    const { data, match, location } = this.props;
+    const { match, location } = this.props;
     const { dirPath } = match.params;
     const preview = new URLSearchParams(location.search).get('preview');
     const breadcrumbs = breadcrumbsFromPath(dirPath);
@@ -76,7 +77,7 @@ class FileBrowser extends React.Component {
 
         <div className="flex-1">
           {(preview) && <FilePreview file={preview} />}
-          <FileTableView files={data.items} />
+          <FileTableView />
         </div>
       </div>
     );

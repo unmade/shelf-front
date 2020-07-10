@@ -1,18 +1,17 @@
 import React from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import * as icons from '../icons';
 
-const TYPE_FOLDER = "folder";
-
+const TYPE_FOLDER = 'folder';
 
 function FileIcon({ item }) {
   const { type, name } = item;
 
   if (type === TYPE_FOLDER) {
-      return (
-        <icons.Folder className="text-blue-400 w-6 h-6" />
-      );
+    return (
+      <icons.Folder className="text-blue-400 w-6 h-6" />
+    );
   }
 
   const ext = `.${name.split('.').pop()}`;
@@ -22,9 +21,7 @@ function FileIcon({ item }) {
   );
 }
 
-
 function FileTableCell({ item }) {
-  const match = useRouteMatch();
   const { type, name, size, mtime } = item;
 
   return (
@@ -40,20 +37,20 @@ function FileTableCell({ item }) {
               {name}
             </Link>
           ) : (
-            <Link to={`${match.url}?preview=${item.name}`}>
+            <button type="button">
               {name}
-            </Link>
+            </button>
           )}
         </div>
       </div>
       <div className="text-right text-gray-600">
-          {size}
+        {size}
       </div>
       <div className="w-1/4 text-center text-gray-600">
         {mtime}
       </div>
     </div>
-  )
+  );
 }
 
 export default FileTableCell;
