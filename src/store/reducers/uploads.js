@@ -23,11 +23,12 @@ export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case types.ADD_UPLOAD_FILES: {
       const { data, nextId } = state;
+      const files = prepareFiles(action.payload, nextId);
       return {
         ...state,
         data: {
           ...data,
-          ...prepareFiles(action.payload, nextId),
+          ...files,
         },
         nextId: nextId + action.payload.length,
       };
@@ -68,3 +69,4 @@ export default (state = INITIAL_STATE, action) => {
 };
 
 export const getUploads = (state) => Object.values(state.uploads.data);
+export const getUploadById = (state, id) => state.uploads.data[id];
