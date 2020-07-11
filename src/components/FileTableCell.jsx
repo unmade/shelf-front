@@ -25,7 +25,7 @@ function FileTableCell({ item }) {
   const { type, name, size, mtime } = item;
 
   return (
-    <div className="h-full flex flex-row items-center space-x-4 text-sm mx-4 border-b border-gray-200">
+    <div className="h-full flex flex-row items-center space-x-4 text-sm mx-4 border-gray-200">
       <div>
         <input type="checkbox" />
       </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import FileTableView from '../containers/FileTableView';
 
@@ -59,18 +59,18 @@ class FileBrowser extends React.Component {
 
     return (
       <div className="flex flex-col h-full">
-        <div className="p-4 border-b-2">
+        <div className="p-4 border-b-2 border-gray-100">
           <Breadcrumbs>
-            {breadcrumbs.map((item, idx) => (
-              (idx !== breadcrumbs.length - 1) ? (
-                <Link key={item.path} to={item.path} className="hover:text-blue-500">
-                  {item.name}
-                </Link>
-              ) : (
-                <span key={item.path} className="text-gray-800">
-                  {item.name}
-                </span>
-              )
+            {breadcrumbs.map(({ name, path }) => (
+              <NavLink
+                key={path}
+                to={path}
+                className="font-semibold text-gray-600 hover:text-blue-500"
+                activeClassName="text-gray-800 pointer-events-none"
+                exact
+              >
+                {name}
+              </NavLink>
             ))}
           </Breadcrumbs>
         </div>

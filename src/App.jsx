@@ -5,11 +5,10 @@ import SideMenu from './components/SideMenu';
 import FileBrowser from './containers/FileBrowser';
 import Uploader from './containers/Uploader';
 
-
 function App() {
   return (
     <div className="flex md:flex-row-reverse flex-wrap h-screen bg-gray-200">
-      <div className="w-5/6 my-0 mx-auto bg-white border-l-2">
+      <div className="w-5/6 my-0 mx-auto bg-white border-l">
         <Switch>
           <Route path="/files/:dirPath*" component={FileBrowser} />
         </Switch>

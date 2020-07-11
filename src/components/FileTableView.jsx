@@ -7,6 +7,7 @@ import AutoSizer from 'react-virtualized-auto-sizer';
 import FileTableCell from '../containers/FileTableCell';
 
 const HEIGHT = 64;
+const HEADER_HEIGHT = 48;
 
 function FileTableView({ files }) {
   return (
@@ -14,8 +15,8 @@ function FileTableView({ files }) {
       {({ height, width }) => (
         <div>
           <div
-            style={{ height: '32px', width, boxShadow: '-1px 1px 2px #f0f0f0' }}
-            className="flex flex-row items-center space-x-4 text-sm font-bold bg-gray-100 text-gray-700 px-4"
+            style={{ height: `${HEADER_HEIGHT}px`, width }}
+            className="flex flex-row items-center space-x-4 text-sm font-bold  text-gray-700 px-8"
           >
             <div>
               <input type="checkbox" />
@@ -33,7 +34,7 @@ function FileTableView({ files }) {
 
           <div>
             <List
-              height={height - 32}
+              height={height - HEADER_HEIGHT}
               itemCount={files.length}
               itemData={files}
               itemSize={HEIGHT}
@@ -41,7 +42,9 @@ function FileTableView({ files }) {
             >
               {({ data, index, style }) => (
                 <div style={style}>
-                  <FileTableCell uniqueKey={data[index]} />
+                  <div className={`h-full mx-4 rounded-lg ${(index % 2) ? 'bg-white' : 'bg-gray-100'}`}>
+                    <FileTableCell uniqueKey={data[index]} />
+                  </div>
                 </div>
               )}
             </List>
