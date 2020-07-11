@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 
 import * as icons from '../icons';
 
+import FileSize from './FileSize';
+import TimeAgo from './TimeAgo';
+
 const TYPE_FOLDER = 'folder';
 
 function FileIcon({ item }) {
@@ -26,10 +29,7 @@ function FileTableCell({ item }) {
 
   return (
     <div className="h-full flex flex-row items-center space-x-4 text-sm mx-4 border-gray-200">
-      <div>
-        <input type="checkbox" />
-      </div>
-      <div className="w-3/4">
+      <div className="flex-1">
         <div className="flex flex-row items-center space-x-2">
           <FileIcon item={item} />
           {(type === TYPE_FOLDER) ? (
@@ -43,11 +43,11 @@ function FileTableCell({ item }) {
           )}
         </div>
       </div>
-      <div className="text-right text-gray-600">
-        {size}
+      <div className="w-32 px-4 text-right text-gray-600">
+        <FileSize size={size} />
       </div>
-      <div className="w-1/4 text-center text-gray-600">
-        {mtime}
+      <div className="w-40 px-4 text-left text-gray-600">
+        <TimeAgo mtime={mtime * 1000} />
       </div>
     </div>
   );

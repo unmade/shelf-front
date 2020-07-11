@@ -18,16 +18,13 @@ function FileTableView({ files }) {
             style={{ height: `${HEADER_HEIGHT}px`, width }}
             className="flex flex-row items-center space-x-4 text-sm font-bold  text-gray-700 px-8"
           >
-            <div>
-              <input type="checkbox" />
-            </div>
-            <div className="w-3/4">
+            <div className="flex-1">
               Name
             </div>
-            <div className="text-right">
+            <div className="w-32 px-6 text-right">
               Size
             </div>
-            <div className="w-1/4 text-center">
+            <div className="w-40 px-4 text-left">
               Modified
             </div>
           </div>
@@ -42,7 +39,9 @@ function FileTableView({ files }) {
             >
               {({ data, index, style }) => (
                 <div style={style}>
-                  <div className={`h-full mx-4 rounded-lg ${(index % 2) ? 'bg-white' : 'bg-gray-100'}`}>
+                  <div
+                    className={`h-full mx-4 rounded-lg ${(index % 2) ? 'bg-white' : 'bg-gray-100'}`}
+                  >
                     <FileTableCell uniqueKey={data[index]} />
                   </div>
                 </div>
