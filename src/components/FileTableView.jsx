@@ -16,7 +16,7 @@ function FileTableView({ files }) {
         <div>
           <div
             style={{ height: `${HEADER_HEIGHT}px`, width }}
-            className="flex flex-row items-center space-x-4 text-sm font-bold  text-gray-700 px-8"
+            className="flex flex-row items-center text-sm font-bold  text-gray-700 px-8"
           >
             <div className="flex-1">
               Name

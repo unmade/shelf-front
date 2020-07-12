@@ -5,9 +5,9 @@ import moment from 'moment';
 
 function TimeAgo({ mtime }) {
   return (
-    <div>
+    <>
       {moment(mtime).fromNow()}
-    </div>
+    </>
   );
 }
 

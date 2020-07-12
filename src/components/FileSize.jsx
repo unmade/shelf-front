@@ -5,9 +5,9 @@ import getHumanSize from '../filesize';
 
 function FileSize({ size }) {
   return (
-    <div>
+    <>
       {getHumanSize(size)}
-    </div>
+    </>
   );
 }
 
