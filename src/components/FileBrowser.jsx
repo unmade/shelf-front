@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import FileTableView from '../containers/FileTableView';
 
 import Breadcrumbs from './Breadcrumbs';
-import FilePreview from './FilePreview';
+import FilePreview from '../containers/FilePreview';
 
 function breadcrumbsFromPath(path) {
   const breadcrumbs = [
@@ -52,9 +52,8 @@ class FileBrowser extends React.Component {
   }
 
   render() {
-    const { match, location } = this.props;
+    const { match } = this.props;
     const { dirPath } = match.params;
-    const preview = new URLSearchParams(location.search).get('preview');
     const breadcrumbs = breadcrumbsFromPath(dirPath);
 
     return (
@@ -75,9 +74,9 @@ class FileBrowser extends React.Component {
           </Breadcrumbs>
         </div>
 
-        <div className="flex-1">
-          {(preview) && <FilePreview file={preview} />}
+        <div className="flex-1 flex flex-row">
           <FileTableView />
+          <FilePreview />
         </div>
       </div>
     );

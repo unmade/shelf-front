@@ -37,7 +37,7 @@ function FileActions() {
     },
     {
       name: 'Move',
-      icon: <icons.FolderOutlined />,
+      icon: <icons.FolderMove />,
     },
     {
       name: <span className="text-red-600">Delete</span>,
