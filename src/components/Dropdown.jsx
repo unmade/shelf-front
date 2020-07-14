@@ -21,6 +21,7 @@ class Dropdown extends React.Component {
 
     this.openPopover = this.openPopover.bind(this);
     this.closePopover = this.closePopover.bind(this);
+    this.togglePopover = this.togglePopover.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
   }
 
@@ -28,7 +29,7 @@ class Dropdown extends React.Component {
     if (this.popper) {
       this.popper.destroy();
     }
-    document.removeEventListener('mousedown', this.handleClickOutside);
+    document.removeEventListener('mouseup', this.handleClickOutside);
   }
 
   setPopoverVisible(value) {
@@ -44,14 +45,24 @@ class Dropdown extends React.Component {
           placement: 'bottom-start',
         },
       );
-      document.addEventListener('mousedown', this.handleClickOutside);
+      document.addEventListener('mouseup', this.handleClickOutside);
     }
     this.setPopoverVisible(true);
   }
 
   closePopover() {
     this.setPopoverVisible(false);
-    document.removeEventListener('mousedown', this.handleClickOutside);
+    document.removeEventListener('mouseup', this.handleClickOutside);
+  }
+
+  togglePopover(event) {
+    event.stopPropagation();
+    const { popoverVisible } = this.state;
+    if (popoverVisible) {
+      this.closePopover();
+    } else {
+      this.openPopover();
+    }
   }
 
   handleClickOutside(event) {
@@ -68,7 +79,7 @@ class Dropdown extends React.Component {
       <>
         <div
           ref={this.triggerRef}
-          onClick={popoverVisible ? this.closePopover : this.openPopover}
+          onClick={this.togglePopover}
         >
           {this.trigger}
         </div>

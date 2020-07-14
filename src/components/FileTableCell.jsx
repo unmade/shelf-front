@@ -1,29 +1,16 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 import * as icons from '../icons';
 
 import Dropdown from './Dropdown';
+import FileIcon from './FileIcon';
 import FileSize from './FileSize';
 import TimeAgo from './TimeAgo';
 
 const TYPE_FOLDER = 'folder';
-
-function FileIcon({ item }) {
-  const { type, name } = item;
-
-  if (type === TYPE_FOLDER) {
-    return (
-      <icons.Folder className="text-blue-400 w-6 h-6" />
-    );
-  }
-
-  const ext = `.${name.split('.').pop()}`;
-  const Icon = icons.getIconByExt(ext);
-  return (
-    <Icon className="w-6 h-6" />
-  );
-}
 
 function FileActions() {
   const menu = [
@@ -51,7 +38,7 @@ function FileActions() {
         <button
           key={item.name}
           type="button"
-          className="w-full rounded px-4 py-2 hover:bg-gray-200 hover:shadow-sm"
+          className="w-full rounded px-4 py-2 hover:bg-gray-100"
         >
           <div className="flex flex-row items-center space-x-4">
             <p className="text-left flex-1">
@@ -65,18 +52,26 @@ function FileActions() {
   );
 }
 
-function FileTableCell({ item }) {
+function FileTableCell({ item, selected, onSelect }) {
   const { type, name, size, mtime } = item;
+  const primaryText = (selected) ? 'text-orange-900 font-medium' : 'text-gray-800';
+  const secondaryText = (selected) ? 'text-orange-800' : 'text-gray-600';
+  const background = (selected) ? 'bg-orange-100 border-orange-200' : 'border-transparent';
 
   return (
-    <div className="h-full flex flex-row items-center text-sm mx-4 border-gray-200">
+    <div
+      onClick={() => onSelect(item.id)}
+      className={`h-full flex flex-row items-center text-sm px-4 border rounded-lg ${(background)}`}
+    >
       <div className="flex-1">
-        <div className="flex flex-row items-center space-x-2">
-          <FileIcon item={item} />
+        <div className={`flex flex-row items-center space-x-2 ${primaryText}`}>
+          <FileIcon item={item} className="w-6 h-6" />
           {(type === TYPE_FOLDER) ? (
-            <Link to={`/files/${item.path}`}>
-              {name}
-            </Link>
+            <span onClick={(event) => event.stopPropagation}>
+              <Link to={`/files/${item.path}`}>
+                {name}
+              </Link>
+            </span>
           ) : (
             <button type="button">
               {name}
@@ -85,15 +80,18 @@ function FileTableCell({ item }) {
         </div>
       </div>
 
-      <Dropdown overlay={<FileActions />}>
-        <button type="button" className="p-2 rounded-full text-gray-600 hover:text-blue-700">
-          <icons.More />
-        </button>
-      </Dropdown>
-      <div className="w-24 pr-4 text-right text-gray-600">
+      {/* apply classes here, otherwise they end up in closure */}
+      <div className={`${secondaryText} hover:${primaryText}`}>
+        <Dropdown overlay={<FileActions />} selected={selected}>
+          <button type="button" className="font-bold p-2 rounded-full">
+            <icons.More />
+          </button>
+        </Dropdown>
+      </div>
+      <div className={`w-24 pr-4 text-right ${secondaryText}`}>
         <FileSize size={size} />
       </div>
-      <div className="w-40 px-4 text-left text-gray-600">
+      <div className={`w-40 px-4 text-left ${secondaryText}`}>
         <TimeAgo mtime={mtime * 1000} />
       </div>
     </div>

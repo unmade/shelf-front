@@ -40,7 +40,7 @@ function FileTableView({ files }) {
               {({ data, index, style }) => (
                 <div style={style}>
                   <div
-                    className={`h-full mx-4 rounded-lg ${(index % 2) ? 'bg-white' : 'bg-gray-100'}`}
+                    className={`h-full mx-4 rounded-lg ${(index % 2) ? 'bg-white' : 'bg-gray-75'}`}
                   >
                     <FileTableCell uniqueKey={data[index]} />
                   </div>

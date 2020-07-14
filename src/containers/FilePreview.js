@@ -1,11 +1,15 @@
 import { connect } from 'react-redux';
 
-import { getFileById } from '../store/reducers/files';
+import { deselectFiles } from '../store/actions/files';
+import { getSelectedFiles } from '../store/reducers/files';
 
 import FilePreview from '../components/FilePreview';
 
 export default connect(
   (state) => ({
-    file: getFileById(state, 4),
+    files: getSelectedFiles(state),
   }),
+  {
+    onClose: deselectFiles,
+  },
 )(FilePreview);

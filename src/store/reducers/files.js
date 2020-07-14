@@ -33,10 +33,31 @@ function folder(state = [], action) {
   }
 }
 
+function selectFiles(state = new Set(), action) {
+  switch (action.type) {
+    case types.SELECT_FILE: {
+      const { id } = action.payload;
+      if (!state.has(id)) {
+        return new Set([id]);
+      }
+      return state;
+    }
+    case types.DESELECT_FILES: {
+      return new Set();
+    }
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   byId: filesById,
   folderIds: folder,
+  selectedIds: selectFiles,
 });
 
 export const getFileById = (state, id) => state.files.byId[id];
 export const getFolder = (state) => state.files.folderIds;
+export const getIsFileSelected = (state, id) => state.files.selectedIds.has(id);
+export const getSelectedFiles = (state) => [...state.files.selectedIds].map((id) => getFileById(state, id));
+export const getHasSelectedFiles = (state) => state.files.selectedIds.size !== 0;

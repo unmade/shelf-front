@@ -45,14 +45,17 @@ class FileBrowser extends React.Component {
   }
 
   loadFiles() {
-    const { match } = this.props;
+    const { match, listFolder, deselectFiles } = this.props;
     const { dirPath } = match.params;
-    const { listFolder } = this.props;
     listFolder(dirPath);
+
+    // we want to deselect all files when
+    // current directory has changed
+    deselectFiles();
   }
 
   render() {
-    const { match } = this.props;
+    const { match, hasSelectedFiles } = this.props;
     const { dirPath } = match.params;
     const breadcrumbs = breadcrumbsFromPath(dirPath);
 
@@ -75,8 +78,14 @@ class FileBrowser extends React.Component {
         </div>
 
         <div className="flex-1 flex flex-row">
-          <FileTableView />
-          <FilePreview />
+          <div className="flex-1">
+            <FileTableView />
+          </div>
+          {(hasSelectedFiles) && (
+            <div className="w-2/6">
+              <FilePreview />
+            </div>
+          )}
         </div>
       </div>
     );
