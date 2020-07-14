@@ -2,9 +2,11 @@ import {
   FaCheckCircle,
   FaChevronRight,
   FaFolder,
-  FaRegFile,
+  FaFile,
+  FaFileCode,
+  FaFileImage,
+  FaFileAlt,
   FaRegFolder,
-  FaRegFileImage,
   FaTimes,
 } from 'react-icons/fa';
 import {
@@ -22,11 +24,13 @@ export const CheckCircle = FaCheckCircle;
 export const ChevronRight = FaChevronRight;
 export const Close = BsX;
 export const Download = BsDownload;
-export const File = FaRegFile;
+export const File = FaFile;
+export const FileCode = FaFileCode;
+export const FileImage = FaFileImage;
+export const FileText = FaFileAlt;
 export const Folder = FaFolder;
 export const FolderMove = BsForward;
 export const FolderOutlined = FaRegFolder;
-export const FileImage = FaRegFileImage;
 export const ICursor = BsCursorText;
 export const More = IoIosMore;
 export const Times = FaTimes;
@@ -36,6 +40,9 @@ const EXT_MAP = {
   '.jpg': FileImage,
   '.jpeg': FileImage,
   '.jpe': FileImage,
+  '.js': FileCode,
+  '.json': FileCode,
+  '.md': FileText,
   '.png': FileImage,
 };
 

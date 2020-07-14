@@ -17,7 +17,7 @@ function FileIcon({ className, item }) {
   const ext = `.${name.split('.').pop()}`;
   const Icon = icons.getIconByExt(ext);
   return (
-    <Icon className={`text-gray-800 ${className}`} />
+    <Icon className={`text-gray-400 ${className}`} />
   );
 }
 
