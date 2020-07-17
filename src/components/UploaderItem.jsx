@@ -5,13 +5,13 @@ import * as icons from '../icons';
 import ProgressBar from './ProgressBar';
 
 function UploaderItem({ item }) {
-  const { file, progress } = item;
+  const { name, progress } = item;
   return (
     <div>
       <div className="flex mb-2 items-center justify-between">
         <div>
           <span className="text-xs font-semibold inline-block py-1 px-2">
-            {file.name}
+            {name}
           </span>
         </div>
         <div className="text-right">

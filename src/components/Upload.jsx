@@ -16,7 +16,12 @@ class Upload extends React.Component {
     const { files } = event.target;
     const uploads = [];
     for (let i = 0; i < event.target.files.length; i++) {
-      uploads.push({ id: uuidv4(), file: files[i] });
+      uploads.push({
+        id: uuidv4(),
+        name: files[i].name,
+        file: files[i],
+        fileEntry: null,
+      });
     }
     addUploadFiles(uploads);
     this.inputRef.current.value = '';
