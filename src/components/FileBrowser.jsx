@@ -82,7 +82,7 @@ class FileBrowser extends React.Component {
 
           {(hasUploads) && (
             <Dropdown overlay={<Uploader />}>
-              <button type="button" className="text-xl px-4">
+              <button type="button" className="mr-4 align-middle text-xl text-gray-700 rounded-full">
                 <icons.CloudUpload />
               </button>
             </Dropdown>

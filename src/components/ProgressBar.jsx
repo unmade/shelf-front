@@ -9,7 +9,7 @@ function ProgressBar({ progress }) {
   const fillerColor = (progress < 100) ? 'bg-indigo-500' : 'bg-green-500';
 
   return (
-    <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
+    <div className="h-2 text-xs flex bg-gray-200 overflow-hidden rounded">
       <div
         style={fillerStyles}
         className={`shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center ${fillerColor}`}

@@ -6,25 +6,27 @@ import {
   FaFileCode,
   FaFileImage,
   FaFileAlt,
+  FaRedo,
   FaRegFolder,
-  FaTimes,
+  FaTimesCircle,
 } from 'react-icons/fa';
 import {
   IoIosMore,
 } from 'react-icons/io';
 import {
-  BsX,
   BsCloudUpload,
   BsCursorText,
   BsDownload,
   BsForward,
   BsTrash,
+  BsX,
 } from 'react-icons/bs';
 
 export const CheckCircle = FaCheckCircle;
 export const ChevronRight = FaChevronRight;
 export const CloudUpload = BsCloudUpload;
 export const Close = BsX;
+export const CrossCircle = FaTimesCircle;
 export const Download = BsDownload;
 export const File = FaFile;
 export const FileCode = FaFileCode;
@@ -35,7 +37,7 @@ export const FolderMove = BsForward;
 export const FolderOutlined = FaRegFolder;
 export const ICursor = BsCursorText;
 export const More = IoIosMore;
-export const Times = FaTimes;
+export const Redo = FaRedo;
 export const TrashOutlined = BsTrash;
 
 const EXT_MAP = {

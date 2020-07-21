@@ -66,7 +66,11 @@ class Dropdown extends React.Component {
   }
 
   handleClickOutside(event) {
-    if (this.triggerRef && !this.triggerRef.current.contains(event.target)) {
+    const shouldClose = (
+      this.triggerRef && !this.triggerRef.current.contains(event.target)
+      && this.popoverRef && !this.popoverRef.current.contains(event.target)
+    );
+    if (shouldClose) {
       this.closePopover();
     }
   }

@@ -27,9 +27,9 @@ export const uploadSuccess = (file) => ({
   payload: { file },
 });
 
-export const uploadFailure = () => ({
+export const uploadFailure = (file, err) => ({
   type: types.UPLOAD_FAILURE,
-  payload: null,
+  payload: { file, err },
 });
 
 export const uploadProgress = (file, progress) => ({

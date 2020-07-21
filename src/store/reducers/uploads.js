@@ -8,6 +8,7 @@ function normalize(files) {
     data[file.id] = {
       ...file,
       progress: 0,
+      error: null,
     };
   });
   return data;
@@ -26,8 +27,20 @@ function uploadsById(state = {}, action) {
       return {
         ...state,
         [file.id]: {
+          ...state[file.id],
           ...file,
           progress,
+        },
+      };
+    }
+    case types.UPLOAD_FAILURE: {
+      const { file, err } = action.payload;
+      return {
+        ...state,
+        [file.id]: {
+          ...state[file.id],
+          ...file,
+          error: err,
         },
       };
     }
