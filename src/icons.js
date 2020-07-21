@@ -14,6 +14,7 @@ import {
 } from 'react-icons/io';
 import {
   BsX,
+  BsCloudUpload,
   BsCursorText,
   BsDownload,
   BsForward,
@@ -22,6 +23,7 @@ import {
 
 export const CheckCircle = FaCheckCircle;
 export const ChevronRight = FaChevronRight;
+export const CloudUpload = BsCloudUpload;
 export const Close = BsX;
 export const Download = BsDownload;
 export const File = FaFile;

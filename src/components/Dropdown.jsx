@@ -85,7 +85,7 @@ class Dropdown extends React.Component {
         </div>
         <div
           ref={this.popoverRef}
-          className="z-50"
+          className="absolute z-50"
         >
           {(popoverVisible) && (
             overlay

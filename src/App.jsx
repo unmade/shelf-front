@@ -3,7 +3,6 @@ import { Switch, Route } from 'react-router-dom';
 
 import SideMenu from './components/SideMenu';
 import FileBrowser from './containers/FileBrowser';
-import Uploader from './containers/Uploader';
 
 function App() {
   return (
@@ -17,8 +16,6 @@ function App() {
       <div className="w-full md:w-1/6 p-4 text-gray-700">
         <SideMenu />
       </div>
-
-      <Uploader />
     </div>
   );
 }

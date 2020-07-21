@@ -56,3 +56,4 @@ export default combineReducers({
 
 export const getUploadById = (state, id) => state.uploads.byId[id];
 export const getUploads = (state) => state.uploads.allIds;
+export const getHasUploads = (state) => state.uploads.allIds.length > 0;

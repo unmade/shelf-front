@@ -4,7 +4,11 @@ import { NavLink } from 'react-router-dom';
 import FileTableView from '../containers/FileTableView';
 
 import Breadcrumbs from './Breadcrumbs';
+import Dropdown from './Dropdown';
 import FilePreview from '../containers/FilePreview';
+import Uploader from '../containers/Uploader';
+
+import * as icons from '../icons';
 
 function breadcrumbsFromPath(path) {
   const breadcrumbs = [
@@ -55,13 +59,13 @@ class FileBrowser extends React.Component {
   }
 
   render() {
-    const { match, hasSelectedFiles } = this.props;
+    const { match, hasSelectedFiles, hasUploads } = this.props;
     const { dirPath } = match.params;
     const breadcrumbs = breadcrumbsFromPath(dirPath);
 
     return (
       <div className="flex flex-col h-full">
-        <div className="p-4 border-b-2 border-gray-100">
+        <div className="flex flex-row justify-between p-4 border-b-2 border-gray-100">
           <Breadcrumbs>
             {breadcrumbs.map(({ name, path }) => (
               <NavLink
@@ -75,6 +79,14 @@ class FileBrowser extends React.Component {
               </NavLink>
             ))}
           </Breadcrumbs>
+
+          {(hasUploads) && (
+            <Dropdown overlay={<Uploader />}>
+              <button type="button" className="text-xl px-4">
+                <icons.CloudUpload />
+              </button>
+            </Dropdown>
+          )}
         </div>
 
         <div className="flex-1 flex flex-row">
