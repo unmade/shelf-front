@@ -2,11 +2,11 @@ import { combineReducers } from 'redux';
 
 import { types } from '../actions/uploads';
 
-function normalize(files) {
+function normalize(items) {
   const data = {};
-  files.forEach((file) => {
-    data[file.id] = {
-      ...file,
+  items.forEach((item) => {
+    data[item.id] = {
+      ...item,
       progress: 0,
       error: null,
     };
@@ -19,27 +19,27 @@ function uploadsById(state = {}, action) {
     case types.ADD_UPLOAD_FILES: {
       return {
         ...state,
-        ...normalize(action.payload),
+        ...normalize(action.payload.uploads),
       };
     }
     case types.UPLOAD_PROGRESS: {
-      const { file, progress } = action.payload;
+      const { upload, progress } = action.payload;
       return {
         ...state,
-        [file.id]: {
-          ...state[file.id],
-          ...file,
+        [upload.id]: {
+          ...state[upload.id],
+          ...upload,
           progress,
         },
       };
     }
     case types.UPLOAD_FAILURE: {
-      const { file, err } = action.payload;
+      const { upload, err } = action.payload;
       return {
         ...state,
-        [file.id]: {
-          ...state[file.id],
-          ...file,
+        [upload.id]: {
+          ...state[upload.id],
+          ...upload,
           error: err,
         },
       };
@@ -54,7 +54,7 @@ function allUploads(state = [], action) {
     case types.ADD_UPLOAD_FILES: {
       return [
         ...state,
-        ...action.payload.map((item) => item.id),
+        ...action.payload.uploads.map((item) => item.id),
       ];
     }
     default:

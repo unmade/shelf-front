@@ -1,12 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
+import FilePreview from '../containers/FilePreview';
 import FileTableView from '../containers/FileTableView';
+import Uploader from '../containers/Uploader';
 
 import Breadcrumbs from './Breadcrumbs';
 import Dropdown from './Dropdown';
-import FilePreview from '../containers/FilePreview';
-import Uploader from '../containers/Uploader';
 
 import * as icons from '../icons';
 

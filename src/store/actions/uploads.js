@@ -7,32 +7,32 @@ export const types = {
   UPLOAD_FAILURE: 'UPLOAD_FAILURE',
 };
 
-export const addUploadFiles = (files) => ({
+export const addUploadFiles = (uploads) => ({
   type: types.ADD_UPLOAD_FILES,
-  payload: files,
+  payload: { uploads },
 });
 
-export const uploadFile = (file) => ({
+export const uploadFile = (upload) => ({
   type: types.UPLOAD_FILE,
-  payload: { file },
+  payload: { upload },
 });
 
-export const uploadRequest = (file) => ({
+export const uploadRequest = (upload) => ({
   type: types.UPLOAD_REQUEST,
-  payload: { file },
+  payload: { upload },
 });
 
-export const uploadSuccess = (file) => ({
+export const uploadSuccess = (upload, file) => ({
   type: types.UPLOAD_SUCCESS,
-  payload: { file },
+  payload: { upload, file },
 });
 
-export const uploadFailure = (file, err) => ({
+export const uploadFailure = (upload, err) => ({
   type: types.UPLOAD_FAILURE,
-  payload: { file, err },
+  payload: { upload, err },
 });
 
-export const uploadProgress = (file, progress) => ({
+export const uploadProgress = (upload, progress) => ({
   type: types.UPLOAD_PROGRESS,
-  payload: { file, progress },
+  payload: { upload, progress },
 });

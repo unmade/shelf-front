@@ -41,7 +41,7 @@ function createUploadFileChannel(url, accessToken, fileObj, fullPath) {
       const { readyState, status } = xhr;
       if (readyState === 4) {
         if (status === 200) {
-          emitter({ success: true });
+          emitter({ response: JSON.parse(xhr.response) });
           emitter(END);
         } else {
           onFailure(null);
@@ -66,47 +66,47 @@ function createUploadFileChannel(url, accessToken, fileObj, fullPath) {
   }, buffers.sliding(3));
 }
 
-function* getFileObj(file) {
-  if (file.fileObj) {
-    return file.fileObj;
+function* getFileObj(upload) {
+  if (upload.fileObj) {
+    return upload.fileObj;
   }
-  const resolveFile = new Promise((resolve, reject) => file.fileEntry.file(resolve, reject));
+  const resolveFile = new Promise((resolve, reject) => upload.fileEntry.file(resolve, reject));
   return yield resolveFile;
 }
 
-function getFullPath(file) {
-  if (file.fileObj) {
-    return `${file.baseDir}${file.name}`;
+function getFullPath(upload) {
+  if (upload.fileObj) {
+    return `${upload.baseDir}${upload.name}`;
   }
-  return `${file.baseDir}${file.fileEntry.fullPath}`;
+  return `${upload.baseDir}${upload.fileEntry.fullPath}`;
 }
 
-function* uploadFile(file) {
+function* uploadFile(upload) {
   const url = `${API_BASE_URL}/files/upload`;
   const accessToken = yield select(getAccessToken);
-  const fileObj = yield getFileObj(file);
-  const fullPath = getFullPath(file);
+  const fileObj = yield getFileObj(upload);
+  const fullPath = getFullPath(upload);
   const chan = yield call(createUploadFileChannel, url, accessToken, fileObj, fullPath);
 
-  yield put(actions.uploadRequest(file));
+  yield put(actions.uploadRequest(upload));
   while (true) {
-    const { progress = 0, err, success } = yield take(chan);
+    const { progress = 0, err, response } = yield take(chan);
     if (err) {
-      yield put(actions.uploadFailure(file, err));
+      yield put(actions.uploadFailure(upload, err));
       return;
     }
-    if (success) {
-      yield put(actions.uploadSuccess(file));
+    if (response) {
+      yield put(actions.uploadSuccess(upload, response));
       return;
     }
-    yield put(actions.uploadProgress(file, progress));
+    yield put(actions.uploadProgress(upload, progress));
   }
 }
 
 function* handleUpload(queue) {
   while (true) {
-    const file = yield take(queue);
-    yield uploadFile(file);
+    const upload = yield take(queue);
+    yield uploadFile(upload);
   }
 }
 
@@ -119,9 +119,9 @@ function* uploadsWatcher() {
 
   while (true) {
     const action = yield take(actions.types.ADD_UPLOAD_FILES);
-    const files = action.payload;
-    for (let i = 0; i < files.length; i++) {
-      yield put(queue, files[i]);
+    const { uploads } = action.payload;
+    for (let i = 0; i < uploads.length; i++) {
+      yield put(queue, uploads[i]);
     }
   }
 }
