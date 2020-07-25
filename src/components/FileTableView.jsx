@@ -4,17 +4,18 @@ import PropTypes from 'prop-types';
 import { FixedSizeList as List } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 
+import FileDrop from '../containers/FileDrop';
 import FileTableCell from '../containers/FileTableCell';
-import Dropzone from '../containers/FileDrop';
 
 const HEIGHT = 64;
 const HEADER_HEIGHT = 48;
 
-function FileTableView({ files }) {
+function FileTableView({ baseDir, files }) {
   return (
     <AutoSizer>
       {({ height, width }) => (
-        <Dropzone
+        <FileDrop
+          baseDir={baseDir}
           render={({ dragging }) => (
             <>
               <div
@@ -42,9 +43,7 @@ function FileTableView({ files }) {
               >
                 {({ data, index, style }) => (
                   <div style={style}>
-                    <div
-                      className={`h-full mx-4 rounded-lg ${(index % 2) ? 'bg-white' : 'bg-gray-75'}`}
-                    >
+                    <div className={`h-full mx-4 rounded-lg ${(index % 2) ? 'bg-white' : 'bg-gray-75'}`}>
                       <FileTableCell uniqueKey={data[index]} />
                     </div>
                   </div>
@@ -59,7 +58,12 @@ function FileTableView({ files }) {
 }
 
 FileTableView.propTypes = {
+  baseDir: PropTypes.string,
   files: PropTypes.arrayOf(PropTypes.number).isRequired,
+};
+
+FileTableView.defaultProps = {
+  baseDir: '.',
 };
 
 export default FileTableView;

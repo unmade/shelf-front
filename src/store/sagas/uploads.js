@@ -19,7 +19,7 @@ import { getAccessToken } from '../reducers/auth';
 const MAX_PARALLEL_UPLOADS = 3;
 
 // taken from: https://decembersoft.com/posts/file-upload-progress-with-redux-saga/
-function createUploadFileChannel(url, accessToken, file) {
+function createUploadFileChannel(url, accessToken, fileObj, fullPath) {
   return eventChannel((emitter) => {
     const xhr = new XMLHttpRequest();
     const onProgress = (event) => {
@@ -52,8 +52,8 @@ function createUploadFileChannel(url, accessToken, file) {
     xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
 
     const formData = new FormData();
-    formData.append('file', file);
-    formData.append('path', '.');
+    formData.append('file', fileObj);
+    formData.append('path', fullPath);
 
     xhr.send(formData);
     return () => {
@@ -66,19 +66,27 @@ function createUploadFileChannel(url, accessToken, file) {
   }, buffers.sliding(3));
 }
 
-function* getRawFile(file) {
-  if (file.file) {
-    return file.file;
+function* getFileObj(file) {
+  if (file.fileObj) {
+    return file.fileObj;
   }
   const resolveFile = new Promise((resolve, reject) => file.fileEntry.file(resolve, reject));
   return yield resolveFile;
 }
 
+function getFullPath(file) {
+  if (file.fileObj) {
+    return `${file.baseDir}${file.name}`;
+  }
+  return `${file.baseDir}${file.fileEntry.fullPath}`;
+}
+
 function* uploadFile(file) {
   const url = `${API_BASE_URL}/files/upload`;
   const accessToken = yield select(getAccessToken);
-  const rawFile = yield getRawFile(file);
-  const chan = yield call(createUploadFileChannel, url, accessToken, rawFile);
+  const fileObj = yield getFileObj(file);
+  const fullPath = getFullPath(file);
+  const chan = yield call(createUploadFileChannel, url, accessToken, fileObj, fullPath);
 
   yield put(actions.uploadRequest(file));
   while (true) {

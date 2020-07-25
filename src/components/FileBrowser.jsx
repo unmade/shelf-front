@@ -91,7 +91,7 @@ class FileBrowser extends React.Component {
 
         <div className="flex-1 flex flex-row">
           <div className="flex-1">
-            <FileTableView />
+            <FileTableView baseDir={dirPath} />
           </div>
           {(hasSelectedFiles) && (
             <div className="w-2/6">

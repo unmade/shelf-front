@@ -19,7 +19,8 @@ class Upload extends React.Component {
       uploads.push({
         id: uuidv4(),
         name: files[i].name,
-        file: files[i],
+        baseDir: '.',
+        fileObj: files[i],
         fileEntry: null,
       });
     }

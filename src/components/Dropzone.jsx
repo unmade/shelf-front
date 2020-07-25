@@ -1,4 +1,5 @@
 import React from 'react';
+import PropType from 'prop-types';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -36,10 +37,10 @@ class Dropzone extends React.Component {
   }
 
   handleDrop(event) {
-    const { onDrop } = this.props;
     event.preventDefault();
     this.setDragging(false);
 
+    const { baseDir, onDrop } = this.props;
     const { items } = event.dataTransfer;
     getFileEntries(items).then(
       (files) => {
@@ -47,7 +48,8 @@ class Dropzone extends React.Component {
           onDrop(files.map((file) => ({
             id: uuidv4(),
             name: file.name,
-            file: null,
+            baseDir,
+            fileObj: null,
             fileEntry: file,
           })));
         }
@@ -71,5 +73,18 @@ class Dropzone extends React.Component {
     );
   }
 }
+
+Dropzone.propTypes = {
+  baseDir: PropType.string,
+  className: PropType.string,
+  onDrop: PropType.func,
+  render: PropType.func.isRequired,
+};
+
+Dropzone.defaultProps = {
+  baseDir: '.',
+  className: '',
+  onDrop: null,
+};
 
 export default Dropzone;
