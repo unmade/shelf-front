@@ -20,9 +20,10 @@ function filesById(state = {}, action) {
       };
     }
     case uploadTypes.UPLOAD_SUCCESS: {
-      const { file } = action.payload;
+      const { file, updates } = action.payload;
       return {
         ...state,
+        ...normalize(updates),
         [file.id]: action.payload.file,
       };
     }
@@ -57,19 +58,22 @@ function filesByPath(state = {}, action) {
         [path]: items.map((file) => file.id),
       };
     }
-    case uploadTypes.UPLOAD_SUCCESS: {
-      const { file } = action.payload;
-      let path = file.path.substring(0, file.path.length - file.name.length - 1);
-      if (path !== '.') {
-        path = path.substring(2);
-      }
+    case types.UPDATE_FOLDER_BY_PATH: {
+      const { path, ids } = action.payload;
       return {
         ...state,
-        [path]: [
-          ...(state[path] || []),
-          file.id,
-        ],
+        [path]: ids,
       };
+    }
+    default:
+      return state;
+  }
+}
+
+function currPath(state = '.', action) {
+  switch (action.type) {
+    case types.PATH_CHANGED: {
+      return action.payload.path;
     }
     default:
       return state;
@@ -80,6 +84,7 @@ export default combineReducers({
   byId: filesById,
   byPath: filesByPath,
   selectedIds: selectFiles,
+  currPath,
 });
 
 export const getFileById = (state, id) => state.files.byId[id];
@@ -87,3 +92,6 @@ export const getFilesByPath = (state, path) => state.files.byPath[path] || [];
 export const getIsFileSelected = (state, id) => state.files.selectedIds.has(id);
 export const getSelectedFiles = (state) => [...state.files.selectedIds].map((id) => getFileById(state, id));
 export const getHasSelectedFiles = (state) => state.files.selectedIds.size !== 0;
+
+// I think I should move it to another reducer;
+export const getCurrPath = (state) => state.files.currPath;

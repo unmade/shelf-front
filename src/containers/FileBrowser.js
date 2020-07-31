@@ -2,7 +2,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { deselectFiles, listFolder } from '../store/actions/files';
+import { deselectFiles, listFolder, changePath } from '../store/actions/files';
 import { getHasSelectedFiles } from '../store/reducers/files';
 import { getHasUploads } from '../store/reducers/uploads';
 
@@ -18,6 +18,7 @@ export default compose(
     {
       deselectFiles,
       listFolder,
+      changePath,
     },
   ),
 )(FileBrowser);

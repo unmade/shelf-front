@@ -49,8 +49,11 @@ class FileBrowser extends React.Component {
   }
 
   loadFiles() {
-    const { match, listFolder, deselectFiles } = this.props;
+    const { match, listFolder, deselectFiles, changePath } = this.props;
     const { dirPath } = match.params;
+    if (dirPath) {
+      changePath(dirPath);
+    }
     listFolder(dirPath);
 
     // we want to deselect all files when

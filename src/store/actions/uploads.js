@@ -22,9 +22,9 @@ export const uploadRequest = (upload) => ({
   payload: { upload },
 });
 
-export const uploadSuccess = (upload, file) => ({
+export const uploadSuccess = (upload, response) => ({
   type: types.UPLOAD_SUCCESS,
-  payload: { upload, file },
+  payload: { upload, file: response.file, updates: response.updates },
 });
 
 export const uploadFailure = (upload, err) => ({
