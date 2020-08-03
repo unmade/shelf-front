@@ -1,11 +1,13 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
+import FileBrowserActions from '../containers/FileBrowserActions';
 import FilePreview from '../containers/FilePreview';
 import FileTableView from '../containers/FileTableView';
 import Uploader from '../containers/Uploader';
 
 import Breadcrumbs from './Breadcrumbs';
+import CreateFolder from './CreateFolder';
 import Dropdown from './Dropdown';
 
 import * as icons from '../icons';
@@ -62,7 +64,7 @@ class FileBrowser extends React.Component {
   }
 
   render() {
-    const { match, hasSelectedFiles, hasUploads } = this.props;
+    const { match, hasSelectedFiles, hasUploads, createFolderShown } = this.props;
     const { dirPath } = match.params;
     const breadcrumbs = breadcrumbsFromPath(dirPath);
 
@@ -83,13 +85,21 @@ class FileBrowser extends React.Component {
             ))}
           </Breadcrumbs>
 
-          {(hasUploads) && (
-            <Dropdown overlay={<Uploader />}>
+          <div className="flex flex-row">
+            {(hasUploads) && (
+              <Dropdown overlay={<Uploader />}>
+                <button type="button" className="mr-4 align-middle text-xl text-gray-700 rounded-full">
+                  <icons.CloudUpload />
+                </button>
+              </Dropdown>
+            )}
+
+            <Dropdown overlay={<FileBrowserActions />}>
               <button type="button" className="mr-4 align-middle text-xl text-gray-700 rounded-full">
-                <icons.CloudUpload />
+                <icons.More />
               </button>
             </Dropdown>
-          )}
+          </div>
         </div>
 
         <div className="flex-1 flex flex-row">
@@ -102,6 +112,10 @@ class FileBrowser extends React.Component {
             </div>
           )}
         </div>
+
+        {(createFolderShown) && (
+          <CreateFolder />
+        )}
       </div>
     );
   }

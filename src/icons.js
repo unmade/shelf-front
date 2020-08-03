@@ -9,6 +9,7 @@ import {
   FaRedo,
   FaRegFolder,
   FaTimesCircle,
+  FaFolderPlus,
 } from 'react-icons/fa';
 import {
   IoIosMore,
@@ -39,6 +40,7 @@ export const ICursor = BsCursorText;
 export const More = IoIosMore;
 export const Redo = FaRedo;
 export const TrashOutlined = BsTrash;
+export const NewFolder = FaFolderPlus;
 
 const EXT_MAP = {
   '.jpg': FileImage,
