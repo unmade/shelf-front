@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import CreateFolder from '../containers/CreateFolder';
+import CreateFolderDialog from '../containers/CreateFolderDialog';
 import FileBrowserActions from '../containers/FileBrowserActions';
 import FilePreview from '../containers/FilePreview';
 import FileTableView from '../containers/FileTableView';
@@ -113,9 +113,7 @@ class FileBrowser extends React.Component {
           )}
         </div>
 
-        {/* {(createFolderShown) && ( */}
-        <CreateFolder />
-        {/* )} */}
+        <CreateFolderDialog />
       </div>
     );
   }

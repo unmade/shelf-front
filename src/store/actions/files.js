@@ -1,4 +1,8 @@
 export const types = {
+  CREATE_FOLDER: 'CREATE_FOLDER',
+  CREATE_FOLDER_REQUEST: 'CREATE_FOLDER_REQUEST',
+  CREATE_FOLDER_SUCCESS: 'CREATE_FOLDER_SUCCESS',
+  CREATE_FOLDER_FAILURE: 'CREATE_FOLDER_FAILURE',
   LIST_FOLDER: 'LIST_FILES',
   LIST_FOLDER_REQUEST: 'LIST_FILES_REQUEST',
   LIST_FOLDER_SUCCESS: 'LIST_FILES_SUCCESS',
@@ -8,6 +12,26 @@ export const types = {
   UPDATE_FOLDER_BY_PATH: 'UPDATE_FOLDER_BY_PATH',
   PATH_CHANGED: 'PATH_CHANGED',
 };
+
+export const createFolder = (name, parentFolderPath) => ({
+  type: types.CREATE_FOLDER,
+  payload: { name, parentFolderPath },
+});
+
+export const createFolderRequest = () => ({
+  type: types.CREATE_FOLDER_REQUEST,
+  payload: null,
+});
+
+export const createFolderSuccess = (folder) => ({
+  type: types.CREATE_FOLDER_SUCCESS,
+  payload: { folder },
+});
+
+export const createFolderFailure = (err) => ({
+  type: types.CREATE_FOLDER_FAILURE,
+  payload: { err },
+});
 
 export const listFolder = (path) => ({
   type: types.LIST_FOLDER,
