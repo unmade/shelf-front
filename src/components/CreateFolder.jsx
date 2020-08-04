@@ -21,6 +21,8 @@ function CreateFolder() {
                 type="input"
                 className="p-1 border rounded focus:outline-none focus:shadow-outline"
                 placeholder="Folder name"
+                // eslint-disable-next-line jsx-a11y/no-autofocus
+                autoFocus
               />
             </form>
           </div>

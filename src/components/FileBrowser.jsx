@@ -87,14 +87,14 @@ class FileBrowser extends React.Component {
 
           <div className="flex flex-row">
             {(hasUploads) && (
-              <Dropdown overlay={<Uploader />}>
+              <Dropdown overlay={() => (<Uploader />)}>
                 <button type="button" className="mr-4 align-middle text-xl text-gray-700 rounded-full">
                   <icons.CloudUpload />
                 </button>
               </Dropdown>
             )}
 
-            <Dropdown overlay={<FileBrowserActions />}>
+            <Dropdown overlay={({ closePopover }) => <FileBrowserActions onClickCallback={closePopover} />}>
               <button type="button" className="mr-4 align-middle text-xl text-gray-700 rounded-full">
                 <icons.More />
               </button>
