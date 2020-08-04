@@ -2,10 +2,11 @@ import React from 'react';
 
 import * as icons from '../icons';
 
-function CreateFolder() {
-  return (
-    <div className="fixed bottom-0 inset-x-0 px-4 pb-4 sm:inset-0 sm:flex sm:items-center sm:justify-center">
+import Modal from './Modal';
 
+function CreateFolder({ visible, onClose }) {
+  return (
+    <Modal visible={visible} onClose={onClose}>
       <div className="bg-white rounded-lg overflow-hidden z-50">
         <div className="flex flex-row p-4">
           <div className="w-12 h-12 flex items-center justify-center bg-gray-75 rounded-full">
@@ -35,16 +36,14 @@ function CreateFolder() {
             </button>
           </span>
           <span className="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
-            <button type="button" className="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-1 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+            <button type="button" className="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-1 bg-white text-base leading-6 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
               Cancel
             </button>
           </span>
         </div>
 
       </div>
-
-      <div className="opacity-25 fixed inset-0 z-40 bg-gray-900" />
-    </div>
+    </Modal>
   );
 }
 
