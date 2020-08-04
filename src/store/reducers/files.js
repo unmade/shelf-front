@@ -13,6 +13,13 @@ function normalize(files) {
 
 function filesById(state = {}, action) {
   switch (action.type) {
+    case types.CREATE_FOLDER_SUCCESS: {
+      const { folder } = action.payload;
+      return {
+        ...state,
+        [folder.id]: folder,
+      };
+    }
     case types.LIST_FOLDER_SUCCESS: {
       return {
         ...state,
