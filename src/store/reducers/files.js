@@ -26,12 +26,19 @@ function filesById(state = {}, action) {
         ...normalize(action.payload.items),
       };
     }
+    case types.MOVE_FILE_SUCCESS: {
+      const { file } = action.payload;
+      return {
+        ...state,
+        [file.id]: file,
+      };
+    }
     case uploadTypes.UPLOAD_SUCCESS: {
       const { file, updates } = action.payload;
       return {
         ...state,
         ...normalize(updates),
-        [file.id]: action.payload.file,
+        [file.id]: file,
       };
     }
     default:

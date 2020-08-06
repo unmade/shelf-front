@@ -12,6 +12,105 @@ import * as uploadActions from '../actions/uploads';
 import { getAccessToken } from '../reducers/auth';
 import { getFilesByPath, getCurrPath, getFileById } from '../reducers/files';
 
+function* binarySearch(arr, target, low, high, cmp) {
+  if (high <= low) {
+    const file = yield select(getFileById, arr[low]);
+    return (cmp(target, file) > 0) ? (low + 1) : low;
+  }
+
+  const mid = Math.ceil((low + high) / 2);
+
+  const file = yield select(getFileById, arr[mid]);
+  const res = cmp(target, file);
+  if (res === 0) {
+    return mid + 1;
+  }
+
+  if (res > 0) {
+    return yield binarySearch(arr, target, mid + 1, high, cmp);
+  }
+  return yield binarySearch(arr, target, low, mid - 1, cmp);
+}
+
+function compareFiles(a, b) {
+  if (a.type === b.type) {
+    return a.path.localeCompare(b.path);
+  }
+  return (a.type === 'folder') ? -1 : 1;
+}
+
+function* handleMoveFile(action) {
+  const { file } = action.payload;
+  const currPath = yield select(getCurrPath);
+
+  const parentPath = file.path.substring(0, file.path.length - file.name.length - 1);
+  if (parentPath !== currPath) {
+    const ids = yield select(getFilesByPath, currPath);
+    yield put(actions.updateFolderByPath(currPath, ids.map((id) => id !== file.id)));
+  }
+}
+
+function* handleNewFolder(action) {
+  const { folder } = action.payload;
+  const currPath = yield select(getCurrPath);
+
+  const ids = new Set(yield select(getFilesByPath, currPath));
+  if (!ids.has(folder.id)) {
+    const nextFiles = [...ids];
+    const idx = yield binarySearch(nextFiles, folder, 0, nextFiles.length - 1, compareFiles);
+    nextFiles.splice(idx, 0, folder.id);
+    yield put(actions.updateFolderByPath(currPath, nextFiles));
+  }
+}
+
+function* handleUpload(action) {
+  const { file, updates } = action.payload;
+  const currPath = yield select(getCurrPath);
+
+  const path = file.path.substring(0, file.path.length - file.name.length - 1);
+
+  let target = null;
+  if (path === currPath) {
+    target = file;
+  } else {
+    for (let i = 0; i < updates.length; i++) {
+      if (updates[i].path === currPath) {
+        target = updates[i + 1];
+        break;
+      }
+    }
+  }
+
+  if (target) {
+    const ids = new Set(yield select(getFilesByPath, currPath));
+    if (!ids.has(target.id)) {
+      const nextFiles = [...ids];
+      const idx = yield binarySearch(nextFiles, target, 0, nextFiles.length - 1, compareFiles);
+      nextFiles.splice(idx, 0, target.id);
+      yield put(actions.updateFolderByPath(currPath, nextFiles));
+    }
+  }
+}
+
+function* filesWatcher() {
+  while (true) {
+    const [createFolderSuccess, uploadSuccess, moveFileSuccess] = yield race([
+      take(actions.types.CREATE_FOLDER_SUCCESS),
+      take(uploadActions.types.UPLOAD_SUCCESS),
+      take(actions.types.MOVE_FILE_SUCCESS),
+    ]);
+    if (uploadSuccess) {
+      yield handleUpload(uploadSuccess);
+    }
+    if (createFolderSuccess) {
+      yield handleNewFolder(createFolderSuccess);
+    }
+    if (moveFileSuccess) {
+      yield handleMoveFile(moveFileSuccess);
+    }
+  }
+}
+
 function* createFolder({ payload }) {
   const { name, parentFolderPath } = payload;
   const accessToken = yield select(getAccessToken);
@@ -72,87 +171,35 @@ function* listFolder({ payload }) {
   }
 }
 
-function* binarySearch(arr, target, low, high, cmp) {
-  if (high <= low) {
-    const file = yield select(getFileById, arr[low]);
-    return (cmp(target, file) > 0) ? (low + 1) : low;
-  }
+function* moveFile({ payload }) {
+  const { fromPath, toPath } = payload;
+  const accessToken = yield select(getAccessToken);
+  const url = `${API_BASE_URL}/files/move`;
+  const options = {
+    method: 'POST',
+    headers: {
+      authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({
+      from_path: fromPath,
+      to_path: toPath,
+    }),
+    mode: 'cors',
+    cache: 'default',
+  };
 
-  const mid = Math.ceil((low + high) / 2);
+  yield put(actions.moveFileRequest());
 
-  const file = yield select(getFileById, arr[mid]);
-  const res = cmp(target, file);
-  if (res === 0) {
-    return mid + 1;
-  }
-
-  if (res > 0) {
-    return yield binarySearch(arr, target, mid + 1, high, cmp);
-  }
-  return yield binarySearch(arr, target, low, mid - 1, cmp);
-}
-
-function compareFiles(a, b) {
-  if (a.type === b.type) {
-    return a.path.localeCompare(b.path);
-  }
-  return (a.type === 'folder') ? -1 : 1;
-}
-
-function* handleUpload(action) {
-  const { file, updates } = action.payload;
-  const currPath = yield select(getCurrPath);
-
-  const path = file.path.substring(0, file.path.length - file.name.length - 1);
-
-  let target = null;
-  if (path === currPath) {
-    target = file;
-  } else {
-    for (let i = 0; i < updates.length; i++) {
-      if (updates[i].path === currPath) {
-        target = updates[i + 1];
-        break;
-      }
+  try {
+    const response = yield fetch(url, options);
+    const data = yield response.json();
+    if (response.ok) {
+      yield put(actions.moveFileSuccess(data));
+    } else {
+      yield put(actions.moveFileFailure(data));
     }
-  }
-
-  if (target) {
-    const ids = new Set(yield select(getFilesByPath, currPath));
-    if (!ids.has(target.id)) {
-      const nextFiles = [...ids];
-      const idx = yield binarySearch(nextFiles, target, 0, nextFiles.length - 1, compareFiles);
-      nextFiles.splice(idx, 0, target.id);
-      yield put(actions.updateFolderByPath(currPath, nextFiles));
-    }
-  }
-}
-
-function* handleNewFolder(action) {
-  const { folder } = action.payload;
-  const currPath = yield select(getCurrPath);
-
-  const ids = new Set(yield select(getFilesByPath, currPath));
-  if (!ids.has(folder.id)) {
-    const nextFiles = [...ids];
-    const idx = yield binarySearch(nextFiles, folder, 0, nextFiles.length - 1, compareFiles);
-    nextFiles.splice(idx, 0, folder.id);
-    yield put(actions.updateFolderByPath(currPath, nextFiles));
-  }
-}
-
-function* filesWatcher() {
-  while (true) {
-    const { createFolderSuccess, uploadSuccess } = yield race({
-      createFolderSuccess: take(actions.types.CREATE_FOLDER_SUCCESS),
-      uploadSuccess: take(uploadActions.types.UPLOAD_SUCCESS),
-    });
-    if (uploadSuccess) {
-      yield handleUpload(uploadSuccess);
-    }
-    if (createFolderSuccess) {
-      yield handleNewFolder(createFolderSuccess);
-    }
+  } catch (e) {
+    yield put(actions.moveFileFailure(e));
   }
 }
 
@@ -160,4 +207,5 @@ export default [
   filesWatcher(),
   takeEvery(actions.types.CREATE_FOLDER, createFolder),
   takeEvery(actions.types.LIST_FOLDER, listFolder),
+  takeEvery(actions.types.MOVE_FILE, moveFile),
 ];

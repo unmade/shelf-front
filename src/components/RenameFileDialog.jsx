@@ -35,9 +35,7 @@ function RenameFileDialog({ file, onRename, onCancel }) {
     } else {
       const parentPath = file.path.substring(0, file.path.length - file.name.length);
       const toPath = `${parentPath}${name}`;
-      if (onRename) {
-        onRename(file.path, toPath);
-      }
+      onRename(file.path, toPath);
       onClose();
     }
   };
@@ -78,14 +76,12 @@ RenameFileDialog.propTypes = {
     name: PropTypes.string.isRequired,
     path: PropTypes.string.isRequired,
   }),
-  onRename: PropTypes.func,
-  onCancel: PropTypes.func,
+  onRename: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
 };
 
 RenameFileDialog.defaultProps = {
   file: null,
-  onRename: null,
-  onCancel: null,
 };
 
 export default RenameFileDialog;
