@@ -19,6 +19,7 @@ import {
   BsCursorText,
   BsDownload,
   BsForward,
+  BsPencil,
   BsTrash,
   BsX,
 } from 'react-icons/bs';
@@ -29,6 +30,7 @@ export const CloudUpload = BsCloudUpload;
 export const Close = BsX;
 export const CrossCircle = FaTimesCircle;
 export const Download = BsDownload;
+export const Edit = BsPencil;
 export const File = FaFile;
 export const FileCode = FaFileCode;
 export const FileImage = FaFileImage;

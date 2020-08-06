@@ -5,6 +5,7 @@ import CreateFolderDialog from '../containers/CreateFolderDialog';
 import FileBrowserActions from '../containers/FileBrowserActions';
 import FilePreview from '../containers/FilePreview';
 import FileTableView from '../containers/FileTableView';
+import RenameFileDialog from '../containers/RenameFileDialog';
 import Uploader from '../containers/Uploader';
 
 import Breadcrumbs from './Breadcrumbs';
@@ -114,6 +115,7 @@ class FileBrowser extends React.Component {
         </div>
 
         <CreateFolderDialog />
+        <RenameFileDialog />
       </div>
     );
   }

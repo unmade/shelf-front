@@ -11,10 +11,6 @@ class Modal extends React.Component {
     this.handleKeyUp = this.handleKeyUp.bind(this);
   }
 
-  componentWillUnmount() {
-    document.removeEventListener('mouseup', this.handleClickOutside);
-  }
-
   handleClickOutside(event) {
     const { onClose } = this.props;
     if (onClose) {
