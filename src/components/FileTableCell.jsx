@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import * as icons from '../icons';
@@ -14,11 +15,33 @@ import TimeAgo from './TimeAgo';
 
 const TYPE_FOLDER = 'folder';
 
+function getPrimaryText(selected, hidden) {
+  return (
+    (selected && 'text-orange-900 font-medium')
+    || (hidden && 'text-gray-500')
+    || 'text-gray-800'
+  );
+}
+
+function getSecondaryText(selected, hidden) {
+  return (
+    (selected && 'text-orange-800')
+    || (hidden && 'text-gray-500')
+    || 'text-gray-600'
+  );
+}
+
+function getBackground(selected) {
+  return (
+    (selected && 'bg-orange-100 border-orange-200')
+    || 'border-transparent'
+  );
+}
+
 function FileTableCell({ item, selected, onSelect }) {
-  const { type, name, size, mtime } = item;
-  const primaryText = (selected) ? 'text-orange-900 font-medium' : 'text-gray-800';
-  const secondaryText = (selected) ? 'text-orange-800' : 'text-gray-600';
-  const background = (selected) ? 'bg-orange-100 border-orange-200' : 'border-transparent';
+  const primaryText = getPrimaryText(selected, item.hidden);
+  const secondaryText = getSecondaryText(selected, item.hidden);
+  const background = getBackground(selected);
 
   return (
     <div
@@ -28,15 +51,15 @@ function FileTableCell({ item, selected, onSelect }) {
       <div className="flex-1">
         <div className={`flex flex-row items-center space-x-2 ${primaryText}`}>
           <FileIcon item={item} className="w-6 h-6" />
-          {(type === TYPE_FOLDER) ? (
+          {(item.type === TYPE_FOLDER) ? (
             <span onClick={(event) => event.stopPropagation}>
               <Link to={`/files/${item.path}`}>
-                {name}
+                {item.name}
               </Link>
             </span>
           ) : (
             <button type="button">
-              {name}
+              {item.name}
             </button>
           )}
         </div>
@@ -51,13 +74,29 @@ function FileTableCell({ item, selected, onSelect }) {
         </Dropdown>
       </div>
       <div className={`w-24 pr-4 text-right ${secondaryText}`}>
-        <FileSize size={size} />
+        <FileSize size={item.size} />
       </div>
       <div className={`w-40 px-4 text-left ${secondaryText}`}>
-        <TimeAgo mtime={mtime * 1000} />
+        <TimeAgo mtime={item.mtime * 1000} />
       </div>
     </div>
   );
 }
+
+FileTableCell.propTypes = {
+  item: PropTypes.shape({
+    type: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    size: PropTypes.number.isRequired,
+    mtime: PropTypes.number.isRequired,
+    hidden: PropTypes.bool.isRequired,
+  }).isRequired,
+  selected: PropTypes.bool,
+  onSelect: PropTypes.func.isRequired,
+};
+
+FileTableCell.defaultProps = {
+  selected: false,
+};
 
 export default FileTableCell;
