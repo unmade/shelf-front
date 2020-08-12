@@ -26,6 +26,7 @@ function filesById(state = {}, action) {
         ...normalize(action.payload.items),
       };
     }
+    case types.MOVE_TO_TRASH_SUCCESS:
     case types.MOVE_FILE_SUCCESS: {
       const { file } = action.payload;
       return {

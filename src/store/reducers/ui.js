@@ -6,6 +6,7 @@ function fileBrowser(
   state = {
     createFolderShown: false,
     fileIdToRename: null,
+    fileIdToDelete: null,
   },
   action,
 ) {
@@ -29,6 +30,19 @@ function fileBrowser(
         fileIdToRename: null,
       };
     }
+    case types.OPEN_DELETE_DIALOG: {
+      const { fileId } = action.payload;
+      return {
+        ...state,
+        fileIdToDelete: fileId,
+      };
+    }
+    case types.CLOSE_DELETE_DIALOG: {
+      return {
+        ...state,
+        fileIdToDelete: null,
+      };
+    }
     default:
       return state;
   }
@@ -40,3 +54,4 @@ export default combineReducers({
 
 export const getCreateFolderShown = (state) => state.ui.fileBrowser.createFolderShown;
 export const getFileIdToRename = (state) => state.ui.fileBrowser.fileIdToRename;
+export const getFileIdToDelete = (state) => state.ui.fileBrowser.fileIdToDelete;

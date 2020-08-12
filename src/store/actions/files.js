@@ -3,14 +3,22 @@ export const types = {
   CREATE_FOLDER_REQUEST: 'CREATE_FOLDER_REQUEST',
   CREATE_FOLDER_SUCCESS: 'CREATE_FOLDER_SUCCESS',
   CREATE_FOLDER_FAILURE: 'CREATE_FOLDER_FAILURE',
+
   LIST_FOLDER: 'LIST_FILES',
   LIST_FOLDER_REQUEST: 'LIST_FILES_REQUEST',
   LIST_FOLDER_SUCCESS: 'LIST_FILES_SUCCESS',
   LIST_FOLDER_FAILURE: 'LIST_FILES_FAILURE',
+
   MOVE_FILE: 'MOVE_FILE',
   MOVE_FILE_REQUEST: 'MOVE_FILE_REQUEST',
   MOVE_FILE_SUCCESS: 'MOVE_FILE_SUCCESS',
   MOVE_FILE_FAILURE: 'MOVE_FILE_FAILURE',
+
+  MOVE_TO_TRASH: 'MOVE_TO_TRASH',
+  MOVE_TO_TRASH_REQUEST: 'MOVE_TO_TRASH_REQUEST',
+  MOVE_TO_TRASH_SUCCESS: 'MOVE_TO_TRASH_SUCCESS',
+  MOVE_TO_TRASH_FAILURE: 'MOVE_TO_TRASH_FAILURE',
+
   SELECT_FILE: 'SELECT_FILE',
   DESELECT_FILES: 'DESELECT_FILES',
   UPDATE_FOLDER_BY_PATH: 'UPDATE_FOLDER_BY_PATH',
@@ -74,6 +82,26 @@ export const moveFileSuccess = (file, prevPath) => ({
 
 export const moveFileFailure = (err) => ({
   type: types.MOVE_FILE_FAILURE,
+  payload: { err },
+});
+
+export const moveToTrash = (path) => ({
+  type: types.MOVE_TO_TRASH,
+  payload: { path },
+});
+
+export const moveToTrashRequest = () => ({
+  type: types.MOVE_TO_TRASH_REQUEST,
+  payload: null,
+});
+
+export const moveToTrashSuccess = (file) => ({
+  type: types.MOVE_TO_TRASH_SUCCESS,
+  payload: { file },
+});
+
+export const moveToTrashFailure = (err) => ({
+  type: types.MOVE_TO_TRASH_FAILURE,
   payload: { err },
 });
 

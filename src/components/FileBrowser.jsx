@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 import CreateFolderDialog from '../containers/CreateFolderDialog';
+import DeleteDialog from '../containers/DeleteDialog';
 import FileBrowserActions from '../containers/FileBrowserActions';
 import FilePreview from '../containers/FilePreview';
 import FileTableView from '../containers/FileTableView';
@@ -116,6 +117,7 @@ class FileBrowser extends React.Component {
 
         <CreateFolderDialog />
         <RenameFileDialog />
+        <DeleteDialog />
       </div>
     );
   }

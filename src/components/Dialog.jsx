@@ -8,12 +8,14 @@ function Dialog({
   title,
   icon,
   visible,
+  okTitle,
+  okColor,
   onOk,
   onCancel,
 }) {
   return (
     <Modal visible={visible} onClose={onCancel}>
-      <div className="bg-white rounded-lg overflow-hidden z-50">
+      <div className="max-w-md bg-white rounded-lg overflow-hidden z-50">
         <div className="flex flex-row p-4">
           {(icon) && (
             <div className="w-12 h-12 flex items-center justify-center bg-gray-75 rounded-full">
@@ -35,10 +37,10 @@ function Dialog({
           <span className="flex w-full rounded-md shadow-sm sm:ml-2 sm:w-auto">
             <button
               type="button"
-              className="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-1 bg-blue-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:shadow-outline-red transition ease-in-out duration-150 sm:text-sm sm:leading-5"
+              className={`inline-flex justify-center w-full rounded-md border border-transparent px-4 py-1 bg-${okColor}-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-${okColor}-500 focus:outline-none focus:shadow-outline-red transition ease-in-out duration-150 sm:text-sm sm:leading-5`}
               onClick={onOk || (() => {})}
             >
-              Ok
+              {okTitle}
             </button>
           </span>
           <span className="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
@@ -61,6 +63,8 @@ Dialog.propTypes = {
   title: PropTypes.string,
   icon: PropTypes.element,
   visible: PropTypes.bool,
+  okTitle: PropTypes.string,
+  okColor: PropTypes.string,
   onOk: PropTypes.func,
   onCancel: PropTypes.func,
 };
@@ -69,6 +73,8 @@ Dialog.defaultProps = {
   title: '',
   icon: null,
   visible: false,
+  okTitle: 'OK',
+  okColor: 'blue',
   onOk: null,
   onCancel: null,
 };

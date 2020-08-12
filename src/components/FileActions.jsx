@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import * as icons from '../icons';
 
-function FileActions({ fileId, onRename }) {
+function FileActions({ fileId, onRename, onDelete }) {
   const defaultCallback = (event) => event.stopPropagation();
   const menu = [
     {
@@ -24,7 +24,7 @@ function FileActions({ fileId, onRename }) {
     {
       name: <span className="text-red-600">Delete</span>,
       icon: <icons.TrashOutlined className="text-red-600" />,
-      callback: defaultCallback,
+      callback: (event) => { event.stopPropagation(); onDelete(fileId); },
     },
   ];
 
@@ -52,6 +52,7 @@ function FileActions({ fileId, onRename }) {
 FileActions.propTypes = {
   fileId: PropTypes.number.isRequired,
   onRename: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
 export default FileActions;

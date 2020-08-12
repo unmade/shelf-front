@@ -46,7 +46,7 @@ function* handleMoveFile(action) {
   const parentPath = file.path.substring(0, file.path.length - file.name.length - 1);
   if (parentPath !== currPath) {
     const ids = yield select(getFilesByPath, currPath);
-    yield put(actions.updateFolderByPath(currPath, ids.map((id) => id !== file.id)));
+    yield put(actions.updateFolderByPath(currPath, ids.filter((id) => id !== file.id)));
   }
 }
 
@@ -94,10 +94,11 @@ function* handleUpload(action) {
 
 function* filesWatcher() {
   while (true) {
-    const [createFolderSuccess, uploadSuccess, moveFileSuccess] = yield race([
+    const [createFolderSuccess, uploadSuccess, moveFileSuccess, moveToTrashSuccess] = yield race([
       take(actions.types.CREATE_FOLDER_SUCCESS),
       take(uploadActions.types.UPLOAD_SUCCESS),
       take(actions.types.MOVE_FILE_SUCCESS),
+      take(actions.types.MOVE_TO_TRASH_SUCCESS),
     ]);
     if (uploadSuccess) {
       yield handleUpload(uploadSuccess);
@@ -107,6 +108,9 @@ function* filesWatcher() {
     }
     if (moveFileSuccess) {
       yield handleMoveFile(moveFileSuccess);
+    }
+    if (moveToTrashSuccess) {
+      yield handleMoveFile(moveToTrashSuccess);
     }
   }
 }
@@ -203,9 +207,41 @@ function* moveFile({ payload }) {
   }
 }
 
+function* moveToTrash({ payload }) {
+  const { path } = payload;
+  const accessToken = yield select(getAccessToken);
+  const url = `${API_BASE_URL}/files/delete`;
+  const options = {
+    method: 'POST',
+    headers: {
+      authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({
+      path,
+    }),
+    mode: 'cors',
+    cache: 'default',
+  };
+
+  yield put(actions.moveToTrashRequest());
+
+  try {
+    const response = yield fetch(url, options);
+    const data = yield response.json();
+    if (response.ok) {
+      yield put(actions.moveToTrashSuccess(data));
+    } else {
+      yield put(actions.moveToTrashFailure(data));
+    }
+  } catch (e) {
+    yield put(actions.moveToTrashFailure(e));
+  }
+}
+
 export default [
   filesWatcher(),
   takeEvery(actions.types.CREATE_FOLDER, createFolder),
   takeEvery(actions.types.LIST_FOLDER, listFolder),
   takeEvery(actions.types.MOVE_FILE, moveFile),
+  takeEvery(actions.types.MOVE_TO_TRASH, moveToTrash),
 ];
