@@ -3,35 +3,35 @@ import PropTypes from 'prop-types';
 
 import * as icons from '../icons';
 
-function FileActions({ closePopover, fileId, onRename, onDelete }) {
-  const onClickFactory = (callback) => (event) => {
-    event.stopPropagation();
-    if (callback) {
-      callback(fileId);
-    }
-    closePopover();
-  };
+const onClickFactory = (onClick, action, fileId) => (event) => {
+  event.stopPropagation();
+  if (action) {
+    action(fileId);
+  }
+  onClick();
+};
 
+function FileActions({ closeOverlay, fileId, onRename, onDelete }) {
   const menu = [
     {
       name: 'Download',
       icon: <icons.Download />,
-      onClick: onClickFactory(),
+      onClick: onClickFactory(closeOverlay),
     },
     {
       name: 'Rename',
       icon: <icons.ICursor />,
-      onClick: onClickFactory(onRename),
+      onClick: onClickFactory(closeOverlay, onRename, fileId),
     },
     {
       name: 'Move',
       icon: <icons.FolderMove />,
-      onClick: onClickFactory(),
+      onClick: onClickFactory(closeOverlay),
     },
     {
       name: <span className="text-red-600">Delete</span>,
       icon: <icons.TrashOutlined className="text-red-600" />,
-      onClick: onClickFactory(onDelete),
+      onClick: onClickFactory(closeOverlay, onDelete, fileId),
     },
   ];
 
@@ -57,7 +57,7 @@ function FileActions({ closePopover, fileId, onRename, onDelete }) {
 }
 
 FileActions.propTypes = {
-  closePopover: PropTypes.func.isRequired,
+  closeOverlay: PropTypes.func.isRequired,
   fileId: PropTypes.number.isRequired,
   onRename: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,

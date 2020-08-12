@@ -55,9 +55,7 @@ class FileBrowser extends React.Component {
   loadFiles() {
     const { match, listFolder, deselectFiles, changePath } = this.props;
     const { dirPath } = match.params;
-    if (dirPath) {
-      changePath(dirPath);
-    }
+    changePath(dirPath);
     listFolder(dirPath);
 
     // we want to deselect all files when
@@ -96,7 +94,7 @@ class FileBrowser extends React.Component {
               </Dropdown>
             )}
 
-            <Dropdown overlay={({ closePopover }) => <FileBrowserActions onClickCallback={closePopover} />}>
+            <Dropdown overlay={FileBrowserActions}>
               <button type="button" className="mr-4 align-middle text-xl text-gray-700 rounded-full">
                 <icons.More />
               </button>

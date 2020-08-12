@@ -52,7 +52,7 @@ function FileTableCell({ item, selected, onSelect }) {
         <div className={`flex flex-row items-center space-x-2 ${primaryText}`}>
           <FileIcon item={item} className="w-6 h-6" />
           {(item.type === TYPE_FOLDER) ? (
-            <span onClick={(event) => event.stopPropagation}>
+            <span onClick={(event) => { event.stopPropagation(); }}>
               <Link to={`/files/${item.path}`}>
                 {item.name}
               </Link>
@@ -68,8 +68,8 @@ function FileTableCell({ item, selected, onSelect }) {
       {/* apply classes here, otherwise they end up in closure */}
       <div className={`${secondaryText} hover:${primaryText}`}>
         <Dropdown
-          overlay={({ closePopover }) => <FileActions closePopover={closePopover} fileId={item.id} />}
-          selected={selected}
+          overlay={FileActions}
+          overlayProps={{ fileId: item.id }}
         >
           <button type="button" className="font-bold p-2 rounded-full">
             <icons.More />

@@ -88,7 +88,7 @@ function filesByPath(state = {}, action) {
 function currPath(state = '.', action) {
   switch (action.type) {
     case types.PATH_CHANGED: {
-      return action.payload.path;
+      return action.payload.path || '.';
     }
     default:
       return state;

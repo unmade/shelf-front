@@ -76,7 +76,7 @@ class Dropdown extends React.Component {
   }
 
   render() {
-    const { overlay: Overlay } = this.props;
+    const { overlay: Overlay, overlayProps } = this.props;
     const { popoverVisible } = this.state;
 
     return (
@@ -92,7 +92,8 @@ class Dropdown extends React.Component {
           className="absolute z-50"
         >
           {(popoverVisible) && (
-            <Overlay closePopover={this.closePopover} />
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            <Overlay closeOverlay={this.closePopover} {...overlayProps} />
           )}
         </div>
       </>
@@ -102,7 +103,15 @@ class Dropdown extends React.Component {
 
 Dropdown.propTypes = {
   children: PropTypes.element.isRequired,
-  overlay: PropTypes.func.isRequired,
+  overlay: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.object,
+  ]).isRequired,
+  overlayProps: PropTypes.objectOf(PropTypes.any),
+};
+
+Dropdown.defaultProps = {
+  overlayProps: {},
 };
 
 export default Dropdown;

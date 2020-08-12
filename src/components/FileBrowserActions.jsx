@@ -10,7 +10,7 @@ const menu = [
   },
 ];
 
-function FileBrowserActions({ onClickCallback, onCreateFolder }) {
+function FileBrowserActions({ closeOverlay, onCreateFolder }) {
   return (
     <div className="w-40 text-sm text-gray-700 p-2 bg-white py-2 rounded-md shadow-lg mt-1">
       {menu.map((item) => (
@@ -20,9 +20,7 @@ function FileBrowserActions({ onClickCallback, onCreateFolder }) {
           className="w-full rounded px-4 py-2 hover:bg-gray-100"
           onClick={() => {
             onCreateFolder();
-            if (onClickCallback) {
-              onClickCallback();
-            }
+            closeOverlay();
           }}
         >
           <div className="flex flex-row items-center space-x-4">
@@ -38,12 +36,8 @@ function FileBrowserActions({ onClickCallback, onCreateFolder }) {
 }
 
 FileBrowserActions.propTypes = {
-  onClickCallback: PropTypes.func,
+  closeOverlay: PropTypes.func.isRequired,
   onCreateFolder: PropTypes.func.isRequired,
-};
-
-FileBrowserActions.defaultProps = {
-  onClickCallback: null,
 };
 
 export default FileBrowserActions;
