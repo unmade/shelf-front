@@ -67,7 +67,10 @@ function FileTableCell({ item, selected, onSelect }) {
 
       {/* apply classes here, otherwise they end up in closure */}
       <div className={`${secondaryText} hover:${primaryText}`}>
-        <Dropdown overlay={() => <FileActions fileId={item.id} />} selected={selected}>
+        <Dropdown
+          overlay={({ closePopover }) => <FileActions closePopover={closePopover} fileId={item.id} />}
+          selected={selected}
+        >
           <button type="button" className="font-bold p-2 rounded-full">
             <icons.More />
           </button>

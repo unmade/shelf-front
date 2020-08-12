@@ -20,7 +20,7 @@ function CreateFolderDialog({ visible, parentFolderPath, onCreate, onCancel }) {
     onCancel();
   };
 
-  const onSubmit = () => {
+  const onConfirm = () => {
     if (!folderName) {
       setError('Name cannot be empty.');
     } else {
@@ -34,10 +34,11 @@ function CreateFolderDialog({ visible, parentFolderPath, onCreate, onCancel }) {
       title="New Folder"
       icon={<icons.Folder className="h-6 w-6 text-blue-400" />}
       visible={visible}
-      onOk={onSubmit}
+      confirmTitle="Create"
+      onConfirm={onConfirm}
       onCancel={onClose}
     >
-      <form className="text-sm mt-4" onSubmit={(e) => e.preventDefault()}>
+      <form className="text-sm mt-4" onSubmit={(e) => { e.preventDefault(); onConfirm(); }}>
         <input
           type="input"
           className={`p-1 border rounded focus:outline-none focus:shadow-outline ${error && 'border-red-500'}`}

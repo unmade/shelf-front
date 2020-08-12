@@ -27,7 +27,7 @@ function RenameFileDialog({ file, onRename, onCancel }) {
     onCancel();
   };
 
-  const onSubmit = () => {
+  const onConfirm = () => {
     if (!name) {
       setError('Name cannot be empty.');
     } else if (name === file.name) {
@@ -49,10 +49,11 @@ function RenameFileDialog({ file, onRename, onCancel }) {
       title={`Rename ${type}`}
       icon={<icons.Edit className="h-6 w-6 text-gray-500" />}
       visible={visible}
-      onOk={onSubmit}
+      confirmTitle="Rename"
+      onConfirm={onConfirm}
       onCancel={onClose}
     >
-      <form className="text-sm mt-4" onSubmit={(e) => e.preventDefault()}>
+      <form className="text-sm mt-4" onSubmit={(e) => { e.preventDefault(); onConfirm(); }}>
         <input
           type="input"
           className={`p-1 border rounded focus:outline-none focus:shadow-outline ${error && 'border-red-500'}`}

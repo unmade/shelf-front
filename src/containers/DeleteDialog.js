@@ -10,10 +10,10 @@ import DeleteDialog from '../components/DeleteDialog';
 
 export default connect(
   (state) => ({
-    item: getFileIdToDelete(state) && getFileById(state, getFileIdToDelete(state)),
+    file: getFileIdToDelete(state) && getFileById(state, getFileIdToDelete(state)),
   }),
   {
-    onConfirm: moveToTrash,
+    onDelete: moveToTrash,
     onCancel: closeDeleteDialog,
   },
 )(DeleteDialog);

@@ -8,9 +8,9 @@ function Dialog({
   title,
   icon,
   visible,
-  okTitle,
-  okColor,
-  onOk,
+  confirmTitle,
+  confirmColor,
+  onConfirm,
   onCancel,
 }) {
   return (
@@ -34,24 +34,28 @@ function Dialog({
         </div>
 
         <div className="bg-gray-75 px-4 py-3 sm:flex sm:flex-row-reverse">
-          <span className="flex w-full rounded-md shadow-sm sm:ml-2 sm:w-auto">
-            <button
-              type="button"
-              className={`inline-flex justify-center w-full rounded-md border border-transparent px-4 py-1 bg-${okColor}-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-${okColor}-500 focus:outline-none focus:shadow-outline-red transition ease-in-out duration-150 sm:text-sm sm:leading-5`}
-              onClick={onOk || (() => {})}
-            >
-              {okTitle}
-            </button>
-          </span>
-          <span className="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
-            <button
-              type="button"
-              className="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-1 bg-white text-base leading-6 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5"
-              onClick={onCancel || (() => {})}
-            >
-              Cancel
-            </button>
-          </span>
+          {(onConfirm) && (
+            <span className="flex w-full rounded-md shadow-sm sm:ml-2 sm:w-auto">
+              <button
+                type="button"
+                className={`inline-flex justify-center w-full rounded-md border border-transparent px-4 py-1 bg-${confirmColor}-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-${confirmColor}-500 focus:outline-none focus:shadow-outline-red transition ease-in-out duration-150 sm:text-sm sm:leading-5`}
+                onClick={onConfirm}
+              >
+                {confirmTitle}
+              </button>
+            </span>
+          )}
+          {(onCancel) && (
+            <span className="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
+              <button
+                type="button"
+                className="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-1 bg-white text-base leading-6 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5"
+                onClick={onCancel}
+              >
+                Cancel
+              </button>
+            </span>
+          )}
         </div>
 
       </div>
@@ -63,9 +67,9 @@ Dialog.propTypes = {
   title: PropTypes.string,
   icon: PropTypes.element,
   visible: PropTypes.bool,
-  okTitle: PropTypes.string,
-  okColor: PropTypes.string,
-  onOk: PropTypes.func,
+  confirmTitle: PropTypes.string,
+  confirmColor: PropTypes.string,
+  onConfirm: PropTypes.func,
   onCancel: PropTypes.func,
 };
 
@@ -73,9 +77,9 @@ Dialog.defaultProps = {
   title: '',
   icon: null,
   visible: false,
-  okTitle: 'OK',
-  okColor: 'blue',
-  onOk: null,
+  confirmTitle: 'OK',
+  confirmColor: 'blue',
+  onConfirm: null,
   onCancel: null,
 };
 

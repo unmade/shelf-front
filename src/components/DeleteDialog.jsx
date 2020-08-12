@@ -5,31 +5,31 @@ import * as icons from '../icons';
 
 import Dialog from './Dialog';
 
-function DeleteDialog({ item, onConfirm, onCancel }) {
-  const visible = !!item;
+function DeleteDialog({ file, onDelete, onCancel }) {
+  const visible = !!file;
 
-  const onSubmit = () => {
-    onConfirm(item.path);
+  const onConfirm = () => {
+    onDelete(file.path);
     onCancel();
   };
 
   if (!visible) {
     return null;
   }
-  const type = (item.type === 'folder') ? 'Folder' : 'File';
+  const type = (file.type === 'folder') ? 'Folder' : 'File';
   return (
     <Dialog
       title={`Delete ${type}`}
       icon={<icons.TrashOutlined className="h-6 w-6 text-red-500" />}
       visible={visible}
-      okTitle="Delete"
-      okColor="red"
-      onOk={onSubmit}
+      confirmTitle="Delete"
+      confirmColor="red"
+      onConfirm={onConfirm}
       onCancel={onCancel}
     >
       <p className="mt-4 text-sm text-gray-600">
         Are you sure you want to move&nbsp;
-        <b className="text-gray-700">{item.name}</b>
+        <b className="text-gray-700">{file.name}</b>
         &nbsp;to the trash?
       </p>
     </Dialog>
@@ -37,17 +37,17 @@ function DeleteDialog({ item, onConfirm, onCancel }) {
 }
 
 DeleteDialog.propTypes = {
-  item: PropTypes.shape({
+  file: PropTypes.shape({
     type: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     path: PropTypes.string.isRequired,
   }),
-  onConfirm: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
 };
 
 DeleteDialog.defaultProps = {
-  item: null,
+  file: null,
 };
 
 export default DeleteDialog;
