@@ -62,11 +62,33 @@ function fileBrowser(
   }
 }
 
+function folderPicker(
+  state = {
+    path: '.',
+  },
+  action,
+) {
+  switch (action.type) {
+    case types.CHANGE_FOLDER_PICKER_PATH: {
+      const { path } = action.payload;
+      return {
+        ...state,
+        path,
+      };
+    }
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   fileBrowser,
+  folderPicker,
 });
 
 export const getCreateFolderShown = (state) => state.ui.fileBrowser.createFolderShown;
 export const getFileIdToRename = (state) => state.ui.fileBrowser.fileIdToRename;
 export const getFileIdToDelete = (state) => state.ui.fileBrowser.fileIdToDelete;
 export const getFileIdToMove = (state) => state.ui.fileBrowser.fileIdToMove;
+
+export const getFolderPickerPath = (state) => state.ui.folderPicker.path;

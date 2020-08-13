@@ -1,16 +1,20 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-import * as icons from '../icons';
+const smallText = 'text-xs space-x-1';
+const largeText = 'text-xl space-x-2';
 
-function Breadcrumbs({ children }) {
+function Breadcrumbs({ children, size }) {
+  const classes = (size === 'small') ? smallText : largeText;
+
   return (
-    <nav className="flex flex-row items-center space-x-2 text-xl text-gray-600">
+    <nav className={`flex flex-row items-center ${classes} text-gray-600`}>
       {(children.length) ? (
         children.map((child, idx) => (
-          <div key={child.key} className="flex flex-row items-center space-x-2">
+          <React.Fragment key={child.key}>
             {child}
-            {(idx !== (children.length - 1)) && <icons.ChevronRight className="text-xs" />}
-          </div>
+            {(idx !== (children.length - 1)) && <span>&#8250;</span>}
+          </React.Fragment>
         ))
       ) : (
         children
@@ -18,5 +22,14 @@ function Breadcrumbs({ children }) {
     </nav>
   );
 }
+
+Breadcrumbs.propTypes = {
+  children: PropTypes.arrayOf(PropTypes.element).isRequired,
+  size: PropTypes.oneOf(['small', 'large']),
+};
+
+Breadcrumbs.defaultProps = {
+  size: 'large',
+};
 
 export default Breadcrumbs;

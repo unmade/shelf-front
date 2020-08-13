@@ -7,6 +7,7 @@ export const types = {
   CLOSE_MOVE_DIALOG: 'CLOSE_MOVE_DIALOG',
   TOGGLE_CREATE_FOLDER_SHOWN: 'TOGGLE_CREATE_FOLDER_SHOWN',
   TOGGLE_RENAME_FILE_DIALOG: 'TOGGLE_RENAME_FILE_DIALOG',
+  CHANGE_FOLDER_PICKER_PATH: 'CHANGE_FOLDER_PICKER_PATH',
 };
 
 export const toggleCreateFolderShown = () => ({
@@ -42,4 +43,9 @@ export const openMoveDialog = (fileId) => ({
 export const closeMoveDialog = () => ({
   type: types.CLOSE_MOVE_DIALOG,
   payload: null,
+});
+
+export const changeFolderPickerPath = (path) => ({
+  type: types.CHANGE_FOLDER_PICKER_PATH,
+  payload: { path },
 });

@@ -1,18 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import FolderPicker from '../containers/FolderPicker';
+
 import Dialog from './Dialog';
 
 function MoveDialog({ file, onMove, onCancel }) {
+  const [toPath, setToPath] = React.useState('.');
   const visible = !!file;
   if (!visible) {
     return null;
   }
 
-  const toPath = '.';
   const onConfirm = () => {
-    onMove(file.path, toPath);
+    // this is certainly not a safe way to concat paths
+    onMove(file.path, `${toPath}/${file.name}`);
     onCancel();
+  };
+
+  const onPathChange = (path) => {
+    setToPath(path);
   };
 
   const type = (file.type === 'folder') ? 'Folder' : 'File';
@@ -24,16 +31,16 @@ function MoveDialog({ file, onMove, onCancel }) {
       onConfirm={onConfirm}
       onCancel={onCancel}
     >
-      <p className="mt-4 text-sm text-gray-600">
-        Select where you want to move&nbsp;
-        <b className="text-gray-700">{file.name}</b>
-      </p>
+      <div className="my-4" style={{ minWidth: '350px', height: '40vh' }}>
+        <FolderPicker onPathChange={onPathChange} />
+      </div>
     </Dialog>
   );
 }
 
 MoveDialog.propTypes = {
   file: PropTypes.shape({
+    type: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     path: PropTypes.string.isRequired,
   }),

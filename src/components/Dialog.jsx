@@ -18,12 +18,12 @@ function Dialog({
       <div className="max-w-md bg-white rounded-lg overflow-hidden z-50">
         <div className="flex flex-row p-4">
           {(icon) && (
-            <div className="w-12 h-12 flex items-center justify-center bg-gray-75 rounded-full">
+            <div className="w-12 h-12 mr-4 flex items-center justify-center bg-gray-75 rounded-full">
               {icon}
             </div>
           )}
 
-          <div className="flex-1 ml-4">
+          <div className="flex-1">
             {(title) && (
               <h3 className="text-lg leading-6 font-medium text-gray-900">
                 {title}
