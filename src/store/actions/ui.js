@@ -3,6 +3,8 @@ export const types = {
   CLOSE_RENAME_FILE_DIALOG: 'CLOSE_RENAME_FILE_DIALOG',
   OPEN_DELETE_DIALOG: 'OPEN_MOVE_TO_TRASH_DIALOG',
   CLOSE_DELETE_DIALOG: 'CLOSE_MOVE_TO_TRASH_DIALOG',
+  OPEN_MOVE_DIALOG: 'OPEN_MOVE_DIALOG',
+  CLOSE_MOVE_DIALOG: 'CLOSE_MOVE_DIALOG',
   TOGGLE_CREATE_FOLDER_SHOWN: 'TOGGLE_CREATE_FOLDER_SHOWN',
   TOGGLE_RENAME_FILE_DIALOG: 'TOGGLE_RENAME_FILE_DIALOG',
 };
@@ -29,5 +31,15 @@ export const openDeleteDialog = (fileId) => ({
 
 export const closeDeleteDialog = () => ({
   type: types.CLOSE_DELETE_DIALOG,
+  payload: null,
+});
+
+export const openMoveDialog = (fileId) => ({
+  type: types.OPEN_MOVE_DIALOG,
+  payload: { fileId },
+});
+
+export const closeMoveDialog = () => ({
+  type: types.CLOSE_MOVE_DIALOG,
   payload: null,
 });

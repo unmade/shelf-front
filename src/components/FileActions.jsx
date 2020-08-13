@@ -11,7 +11,9 @@ const onClickFactory = (onClick, action, fileId) => (event) => {
   onClick();
 };
 
-function FileActions({ closeOverlay, fileId, onRename, onDelete }) {
+function FileActions({
+  closeOverlay, fileId, onRename, onMove, onDelete,
+}) {
   const menu = [
     {
       name: 'Download',
@@ -26,7 +28,7 @@ function FileActions({ closeOverlay, fileId, onRename, onDelete }) {
     {
       name: 'Move',
       icon: <icons.FolderMove />,
-      onClick: onClickFactory(closeOverlay),
+      onClick: onClickFactory(closeOverlay, onMove, fileId),
     },
     {
       name: <span className="text-red-600">Delete</span>,
@@ -60,6 +62,7 @@ FileActions.propTypes = {
   closeOverlay: PropTypes.func.isRequired,
   fileId: PropTypes.number.isRequired,
   onRename: PropTypes.func.isRequired,
+  onMove: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
 };
 
