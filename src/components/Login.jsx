@@ -1,5 +1,5 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
-
 
 class Login extends React.Component {
   constructor(props) {
@@ -26,27 +26,18 @@ class Login extends React.Component {
 
     if (errorMessage !== prevProps.errorMessage) {
       const { errors } = this.state;
+      // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         errors: {
           ...errors,
           nonField: errorMessage,
-        }
+        },
       });
       return;
     }
 
     if (authenticated !== prevProps.authenticated) {
       this.redirect();
-    }
-  }
-
-  redirect() {
-    const { location, history } = this.props;
-    const redirectUrl = new URLSearchParams(location.search).get("next");
-    if (redirectUrl) {
-      history.push(redirectUrl);
-    } else {
-      history.push("/");
     }
   }
 
@@ -71,18 +62,28 @@ class Login extends React.Component {
     }
   }
 
+  redirect() {
+    const { location, history } = this.props;
+    const redirectUrl = new URLSearchParams(location.search).get('next');
+    if (redirectUrl) {
+      history.push(redirectUrl);
+    } else {
+      history.push('/');
+    }
+  }
+
   validate() {
     const { username, password, errors: prevErrors } = this.state;
     const errors = {};
     let hasError = false;
 
     if (!username) {
-      errors.username = "This field is required";
+      errors.username = 'This field is required';
       hasError = true;
     }
 
     if (!password) {
-      errors.password = "This field is required";
+      errors.password = 'This field is required';
       hasError = true;
     }
 
@@ -99,10 +100,13 @@ class Login extends React.Component {
   render() {
     const { loading } = this.props;
     const { errors } = this.state;
-    
+
     return (
       <div className="w-full max-w-xs mx-auto mt-16">
-        <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 ">
+        <form
+          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+          onSubmit={(event) => { event.preventDefault(); this.onSubmit(); }}
+        >
           {errors && errors.nonField && (
             <div className="border border-red-500 bg-red-100 rounded mb-3">
               <p className="text-red-500 text-xs italic p-2">{errors.nonField}</p>
@@ -113,11 +117,11 @@ class Login extends React.Component {
               Username
             </label>
             <input
-              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors && errors.username && "border-red-500"}`}
               id="username"
+              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors && errors.username && 'border-red-500'}`}
               type="text"
               placeholder="Username"
-              onChange={this.onInputChange("username")}
+              onChange={this.onInputChange('username')}
             />
             {errors && errors.username && (
               <p className="text-red-500 text-xs italic mt-3">{errors.username}</p>
@@ -128,11 +132,11 @@ class Login extends React.Component {
               Password
             </label>
             <input
-              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors && errors.password && "border-red-500"}`}
+              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors && errors.password && 'border-red-500'}`}
               id="password"
               type="password"
               placeholder="******************"
-              onChange={this.onInputChange("password")}
+              onChange={this.onInputChange('password')}
             />
             {errors && errors.username && (
               <p className="text-red-500 text-xs italic mt-3">{errors.password}</p>
@@ -140,14 +144,14 @@ class Login extends React.Component {
           </div>
           <div className="flex items-center justify-between">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               onClick={this.onSubmit}
               disabled={loading}
             >
               Sign In
             </button>
-            <button className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
+            <button type="button" className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
               Forgot Password?
             </button>
           </div>
@@ -157,8 +161,7 @@ class Login extends React.Component {
         </p>
       </div>
     );
-  };
+  }
 }
-
 
 export default Login;
