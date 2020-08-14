@@ -38,7 +38,7 @@ function getBackground(selected) {
   );
 }
 
-function FileTableCell({ item, selected, onSelect }) {
+function FileTableCell({ className, item, selected, onSelect }) {
   const primaryText = getPrimaryText(selected, item.hidden);
   const secondaryText = getSecondaryText(selected, item.hidden);
   const background = getBackground(selected);
@@ -46,7 +46,7 @@ function FileTableCell({ item, selected, onSelect }) {
   return (
     <div
       onClick={() => onSelect(item.id)}
-      className={`h-full flex flex-row items-center text-sm px-4 border rounded-lg ${(background)}`}
+      className={`${className} mx-4 h-full flex flex-row items-center text-sm px-4 border rounded-lg ${(background)}`}
     >
       <div className="flex-1">
         <div className={`flex flex-row items-center space-x-2 ${primaryText}`}>
@@ -87,6 +87,7 @@ function FileTableCell({ item, selected, onSelect }) {
 }
 
 FileTableCell.propTypes = {
+  className: PropTypes.string,
   item: PropTypes.shape({
     type: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
@@ -99,6 +100,7 @@ FileTableCell.propTypes = {
 };
 
 FileTableCell.defaultProps = {
+  className: '',
   selected: false,
 };
 

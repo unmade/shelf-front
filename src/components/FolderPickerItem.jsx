@@ -5,12 +5,12 @@ import PropTypes from 'prop-types';
 
 import FileIcon from './FileIcon';
 
-function FolderPickerItem({ item, onClick }) {
+function FolderPickerItem({ className, item, onClick }) {
   const primaryText = (item.hidden) ? 'text-gray-500' : 'text-gray-800';
 
   return (
     <div
-      className="h-full flex flex-row items-center text-sm px-4 rounded-lg"
+      className={`${className} h-full flex flex-row items-center text-sm px-4 rounded-lg`}
       onClick={() => onClick(item.path)}
     >
       <div className={`flex flex-row items-center space-x-2 ${primaryText}`}>
@@ -24,11 +24,16 @@ function FolderPickerItem({ item, onClick }) {
 }
 
 FolderPickerItem.propTypes = {
+  className: PropTypes.string,
   item: PropTypes.shape({
     name: PropTypes.string.isRequired,
     path: PropTypes.string.isRequired,
     hidden: PropTypes.bool.isRequired,
   }).isRequired,
+};
+
+FolderPickerItem.defaultProps = {
+  className: '',
 };
 
 export default FolderPickerItem;

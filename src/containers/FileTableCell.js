@@ -7,8 +7,8 @@ import FileTableCell from '../components/FileTableCell';
 
 export default connect(
   (state, ownProps) => ({
-    item: getFileById(state, ownProps.uniqueKey),
-    selected: getIsFileSelected(state, ownProps.uniqueKey),
+    item: getFileById(state, ownProps.item),
+    selected: getIsFileSelected(state, ownProps.item),
   }),
   {
     onSelect: selectFile,

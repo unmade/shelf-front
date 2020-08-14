@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 
-const HEADER_HEIGHT = 0;
-
-function List({ className, items, itemHeight, itemRender: View }) {
+function List({
+  className, heightOffset, items, itemHeight, itemRender: View,
+}) {
   return (
     <AutoSizer>
       {({ height, width }) => (
         <FixedSizeList
-          height={height - HEADER_HEIGHT}
+          height={height - heightOffset}
           itemCount={items.length}
           itemData={items}
           itemSize={itemHeight}
@@ -20,9 +20,7 @@ function List({ className, items, itemHeight, itemRender: View }) {
         >
           {({ data, index, style }) => (
             <div style={style}>
-              <div className={`h-full ${(index % 2) ? 'bg-white' : 'bg-gray-75'}`}>
-                <View item={data[index]} />
-              </div>
+              <View item={data[index]} className={(index % 2) ? 'bg-white' : 'bg-gray-75'} />
             </div>
           )}
         </FixedSizeList>
@@ -33,6 +31,7 @@ function List({ className, items, itemHeight, itemRender: View }) {
 
 List.propTypes = {
   className: PropTypes.string,
+  heightOffset: PropTypes.number,
   items: PropTypes.arrayOf(PropTypes.any).isRequired,
   itemHeight: PropTypes.number,
   itemRender: PropTypes.oneOfType([
@@ -43,6 +42,7 @@ List.propTypes = {
 
 List.defaultProps = {
   className: '',
+  heightOffset: 0,
   itemHeight: 64,
 };
 

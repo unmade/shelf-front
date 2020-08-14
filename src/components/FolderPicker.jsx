@@ -53,8 +53,8 @@ function FolderPicker({ path, items, onPathChange }) {
       <List
         className="border rounded"
         items={items}
-        itemRender={({ item }) => (
-          <FolderPickerItem item={item} onClick={onPathChange} />
+        itemRender={({ className, item }) => (
+          <FolderPickerItem className={className} item={item} onClick={onPathChange} />
         )}
       />
     </>
