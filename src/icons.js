@@ -22,8 +22,10 @@ import {
   BsPencil,
   BsTrash,
   BsX,
+  BsLayersFill,
 } from 'react-icons/bs';
 
+export const AppLogo = BsLayersFill;
 export const CheckCircle = FaCheckCircle;
 export const ChevronRight = FaChevronRight;
 export const CloudUpload = BsCloudUpload;

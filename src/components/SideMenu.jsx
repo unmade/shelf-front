@@ -1,61 +1,48 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+
+import * as icons from '../icons';
 
 import AccountMenu from '../containers/AccountMenu';
-import Upload from '../containers/Upload';
 
 const menu = [
-  // {
-  //   path: "#",
-  //   title: "All Photos",
-  // },
-  // {
-  //   path: "#",
-  //   title: "Albums",
-  // },
-  // {
-  //   path: "#",
-  //   title: "Faces",
-  // },
-  // {
-  //   path: "#",
-  //   title: "Places",
-  // },
-  // {
-  //   path: "#",
-  //   title: "Cameras",
-  // },
   {
-    path: "/files",
-    title: "Files",
+    path: '/files',
+    title: 'All files',
   },
-]
+  {
+    path: '/trash',
+    title: 'Trash',
+  },
+];
 
+function SideMenu() {
+  return (
+    <div className="p-2 flex flex-col h-full">
+      <icons.AppLogo className="my-12 w-10 h-10 text-gray-500" />
 
-const SideMenu = () => ( 
-  <div className="flex flex-col h-full">
-    <div className="py-2 m-2">
-      <Upload />
+      <div className="py-2 text-lg text-gray-600 flex-1">
+        <ul className="space-y-4">
+          {menu.map((item) => (
+            <li key={item.path}>
+              <NavLink
+                to={item.path}
+                className="hover:text-gray-800"
+                activeClassName="text-gray-800 pointer-events-none"
+              >
+                {item.title}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <AccountMenu />
+      </div>
+
     </div>
-
-    <div className="py-2 m-2 text-base flex-1">
-      <ul>
-        {menu.map((item, i) => (
-          <li key={i} className="py-2">
-            <Link to={item.path} className="text-gray-700">
-              {item.title}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
-
-    <div>
-      <AccountMenu />
-    </div>
-
-  </div>
-)
-
+  );
+}
 
 export default SideMenu;
