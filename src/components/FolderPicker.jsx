@@ -31,12 +31,8 @@ function breadcrumbsFromPath(path) {
   return breadcrumbs;
 }
 
-function FolderPicker({ path, items, onBreadcrumbClick, onPathChange }) {
+function FolderPicker({ path, items, onPathChange }) {
   const breadcrumbs = breadcrumbsFromPath(path);
-
-  React.useEffect(() => {
-    onPathChange(path);
-  }, [path]);
 
   return (
     <>
@@ -47,7 +43,7 @@ function FolderPicker({ path, items, onBreadcrumbClick, onPathChange }) {
               key={nextPath}
               type="button"
               className="font-semibold hover:text-blue-500"
-              onClick={() => onBreadcrumbClick(nextPath)}
+              onClick={() => onPathChange(nextPath)}
             >
               {name}
             </button>
@@ -57,7 +53,9 @@ function FolderPicker({ path, items, onBreadcrumbClick, onPathChange }) {
       <List
         className="border rounded"
         items={items}
-        itemRender={FolderPickerItem}
+        itemRender={({ item }) => (
+          <FolderPickerItem item={item} onClick={onPathChange} />
+        )}
       />
     </>
   );
@@ -66,7 +64,6 @@ function FolderPicker({ path, items, onBreadcrumbClick, onPathChange }) {
 FolderPicker.propTypes = {
   path: PropTypes.string.isRequired,
   items: PropTypes.arrayOf(PropTypes.number).isRequired,
-  onBreadcrumbClick: PropTypes.func.isRequired,
   onPathChange: PropTypes.func.isRequired,
 };
 

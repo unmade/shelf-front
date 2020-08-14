@@ -32,7 +32,7 @@ function MoveDialog({ file, onMove, onCancel }) {
       onCancel={onCancel}
     >
       <div className="my-4" style={{ minWidth: '350px', height: '40vh' }}>
-        <FolderPicker onPathChange={onPathChange} />
+        <FolderPicker path={toPath} onPathChange={onPathChange} />
       </div>
     </Dialog>
   );
