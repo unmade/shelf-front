@@ -11,7 +11,7 @@ const menu = [
     title: 'All files',
   },
   {
-    path: '/trash',
+    path: '/files/.Shelf_Trash',
     title: 'Trash',
   },
 ];
