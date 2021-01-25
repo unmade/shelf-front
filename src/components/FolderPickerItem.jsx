@@ -11,13 +11,19 @@ function FolderPickerItem({ className, item, onClick }) {
   return (
     <div
       className={`${className} h-full flex flex-row items-center text-sm px-4 rounded-lg`}
-      onClick={() => onClick(item.path)}
+      onClick={() => (item.type === 'folder') && onClick(item.path)}
     >
       <div className={`flex flex-row items-center space-x-2 ${primaryText}`}>
         <FileIcon item={item} className="w-6 h-6" />
-        <button type="button">
-          {item.name}
-        </button>
+        {(item.type === 'folder') ? (
+          <button type="button">
+            {item.name}
+          </button>
+        ) : (
+          <div>
+            {item.name}
+          </div>
+        )}
       </div>
     </div>
   );
