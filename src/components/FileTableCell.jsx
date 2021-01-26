@@ -48,39 +48,41 @@ function FileTableCell({ className, item, selected, onSelect }) {
       onClick={() => onSelect(item.id)}
       className={`${className} mx-4 h-full flex flex-row items-center text-sm px-4 border rounded-lg ${(background)}`}
     >
-      <div className="flex-1">
-        <div className={`flex flex-row items-center space-x-2 ${primaryText}`}>
+      <div className={`sm:w-3/5 w-2/3 flex flex-row items-center space-x-2 ${primaryText}`}>
+        <div className="w-6">
           <FileIcon item={item} className="w-6 h-6" />
-          {(item.type === TYPE_FOLDER) ? (
-            <span onClick={(event) => { event.stopPropagation(); }}>
-              <Link to={`/files/${item.path}`}>
-                {item.name}
-              </Link>
-            </span>
-          ) : (
-            <button type="button">
-              {item.name}
-            </button>
-          )}
         </div>
+        {(item.type === TYPE_FOLDER) ? (
+          <span className="truncate" onClick={(event) => { event.stopPropagation(); }}>
+            <Link to={`/files/${item.path}`}>
+              {item.name}
+            </Link>
+          </span>
+        ) : (
+          <button type="button" className="truncate">
+            {item.name}
+          </button>
+        )}
       </div>
 
       {/* apply classes here, otherwise they end up in closure */}
-      <div className={`${secondaryText} hover:${primaryText}`}>
-        <Dropdown
-          overlay={FileActions}
-          overlayProps={{ fileId: item.id }}
-        >
-          <button type="button" className="font-bold p-2 rounded-full">
-            <icons.More />
-          </button>
-        </Dropdown>
-      </div>
-      <div className={`w-24 pr-4 text-right ${secondaryText}`}>
-        <FileSize size={item.size} />
-      </div>
-      <div className={`w-40 px-4 text-left ${secondaryText}`}>
-        <TimeAgo mtime={item.mtime * 1000} />
+      <div className="sm:w-2/5 w-1/3 flex flex-row items-center justify-end">
+        <div className={`${secondaryText} hover:${primaryText}`}>
+          <Dropdown
+            overlay={FileActions}
+            overlayProps={{ fileId: item.id }}
+          >
+            <button type="button" className="font-bold p-2 rounded-full">
+              <icons.More />
+            </button>
+          </Dropdown>
+        </div>
+        <div className={`w-24 pr-4 text-right ${secondaryText}`}>
+          <FileSize size={item.size} />
+        </div>
+        <div className={`w-40 px-4 text-left ${secondaryText}`}>
+          <TimeAgo mtime={item.mtime * 1000} />
+        </div>
       </div>
     </div>
   );

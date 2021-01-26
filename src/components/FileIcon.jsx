@@ -15,9 +15,9 @@ function FileIcon({ className, item }) {
     );
   }
 
+  const color = (hidden) ? 'text-gray-300' : 'text-gray-400';
   const ext = `.${name.split('.').pop()}`;
   const Icon = icons.getIconByExt(ext);
-  const color = (hidden) ? 'text-gray-300' : 'text-gray-400';
   return (
     <Icon className={`${color} ${className}`} />
   );
