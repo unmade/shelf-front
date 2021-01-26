@@ -29,6 +29,7 @@ function SideMenu() {
                 to={item.path}
                 className="hover:text-gray-800"
                 activeClassName="text-gray-800 pointer-events-none"
+                exact
               >
                 {item.title}
               </NavLink>
