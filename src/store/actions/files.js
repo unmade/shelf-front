@@ -19,10 +19,16 @@ export const types = {
   MOVE_TO_TRASH_SUCCESS: 'MOVE_TO_TRASH_SUCCESS',
   MOVE_TO_TRASH_FAILURE: 'MOVE_TO_TRASH_FAILURE',
 
+  PERFORM_DOWNLOAD: 'PERFORM_DOWNLOAD',
+  RETRIEVE_DOWNLOAD_URL_REQUEST: 'RETRIEVE_DOWNLOAD_URL_REQUEST',
+  RETRIEVE_DOWNLOAD_URL_SUCCESS: 'RETRIEVE_DOWNLOAD_URL_SUCCESS',
+  RETRIEVE_DOWNLOAD_URL_FAILURE: 'RETRIEVE_DOWNLOAD_URL_FAILURE',
+
   SELECT_FILE: 'SELECT_FILE',
   DESELECT_FILES: 'DESELECT_FILES',
   UPDATE_FOLDER_BY_PATH: 'UPDATE_FOLDER_BY_PATH',
   PATH_CHANGED: 'PATH_CHANGED',
+
 };
 
 export const createFolder = (name, parentFolderPath) => ({
@@ -102,6 +108,26 @@ export const moveToTrashSuccess = (file) => ({
 
 export const moveToTrashFailure = (err) => ({
   type: types.MOVE_TO_TRASH_FAILURE,
+  payload: { err },
+});
+
+export const performDownload = (path) => ({
+  type: types.PERFORM_DOWNLOAD,
+  payload: { path },
+});
+
+export const retrieveDownloadUrlRequest = () => ({
+  type: types.RETRIEVE_DOWNLOAD_URL_REQUEST,
+  payload: null,
+});
+
+export const retrieveDownloadUrlSuccess = () => ({
+  type: types.RETRIEVE_DOWNLOAD_URL_SUCCESS,
+  payload: null,
+});
+
+export const retrieveDownloadUrlFailure = (err) => ({
+  type: types.RETRIEVE_DOWNLOAD_URL_FAILURE,
   payload: { err },
 });
 

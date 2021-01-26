@@ -238,10 +238,45 @@ function* moveToTrash({ payload }) {
   }
 }
 
+function* performDownload({ payload }) {
+  const { path } = payload;
+  const accessToken = yield select(getAccessToken);
+  const url = `${API_BASE_URL}/files/get_download_url`;
+  const options = {
+    method: 'POST',
+    headers: {
+      authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({
+      path,
+    }),
+    mode: 'cors',
+    cache: 'default',
+  };
+
+  yield put(actions.retrieveDownloadUrlRequest());
+
+  try {
+    const response = yield fetch(url, options);
+    const data = yield response.json();
+    if (response.ok) {
+      yield put(actions.retrieveDownloadUrlSuccess());
+      const link = document.createElement('a');
+      link.href = data.download_url;
+      link.click();
+    } else {
+      yield put(actions.retrieveDownloadUrlFailure(data));
+    }
+  } catch (e) {
+    yield put(actions.retrieveDownloadUrlFailure(e));
+  }
+}
+
 export default [
   filesWatcher(),
   takeEvery(actions.types.CREATE_FOLDER, createFolder),
   takeEvery(actions.types.LIST_FOLDER, listFolder),
   takeEvery(actions.types.MOVE_FILE, moveFile),
   takeEvery(actions.types.MOVE_TO_TRASH, moveToTrash),
+  takeEvery(actions.types.PERFORM_DOWNLOAD, performDownload),
 ];

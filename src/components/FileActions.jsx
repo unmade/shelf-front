@@ -12,13 +12,13 @@ const onClickFactory = (onClick, action, fileId) => (event) => {
 };
 
 function FileActions({
-  closeOverlay, fileId, onRename, onMove, onDelete,
+  closeOverlay, fileId, filePath, onRename, onMove, onDelete, onDownload,
 }) {
   const menu = [
     {
       name: 'Download',
       icon: <icons.Download />,
-      onClick: onClickFactory(closeOverlay),
+      onClick: onClickFactory(closeOverlay, onDownload, filePath),
     },
     {
       name: 'Rename',
@@ -61,9 +61,11 @@ function FileActions({
 FileActions.propTypes = {
   closeOverlay: PropTypes.func.isRequired,
   fileId: PropTypes.number.isRequired,
+  filePath: PropTypes.string.isRequired,
   onRename: PropTypes.func.isRequired,
   onMove: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+  onDownload: PropTypes.func.isRequired,
 };
 
 export default FileActions;

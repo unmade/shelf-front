@@ -70,7 +70,7 @@ function FileTableCell({ className, item, selected, onSelect }) {
         <div className={`${secondaryText} hover:${primaryText}`}>
           <Dropdown
             overlay={FileActions}
-            overlayProps={{ fileId: item.id }}
+            overlayProps={{ fileId: item.id, filePath: item.path }}
           >
             <button type="button" className="font-bold p-2 rounded-full">
               <icons.More />
