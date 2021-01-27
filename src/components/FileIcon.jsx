@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { FileType } from '../constants';
 import * as icons from '../icons';
-
-const TYPE_FOLDER = 'folder';
 
 function FileIcon({ className, item }) {
   const { type, name, hidden } = item;
 
-  if (type === TYPE_FOLDER) {
+  if (type === FileType.FOLDER || type === FileType.TRASH) {
     const color = (hidden) ? 'text-blue-200' : 'text-blue-400';
     return (
       <icons.Folder className={`${color} ${className}`} />

@@ -3,6 +3,8 @@ import { NavLink } from 'react-router-dom';
 
 import * as icons from '../icons';
 
+import { TRASH_FOLDER_NAME } from '../constants';
+
 import AccountMenu from '../containers/AccountMenu';
 
 const menu = [
@@ -11,8 +13,8 @@ const menu = [
     title: 'All files',
   },
   {
-    path: '/files/.Shelf_Trash',
-    title: 'Trash',
+    path: `/files/${TRASH_FOLDER_NAME}`,
+    title: TRASH_FOLDER_NAME,
   },
 ];
 

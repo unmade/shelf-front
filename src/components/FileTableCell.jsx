@@ -4,6 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+import { FileType } from '../constants';
 import * as icons from '../icons';
 
 import FileActions from '../containers/FileActions';
@@ -12,8 +13,6 @@ import Dropdown from './Dropdown';
 import FileIcon from './FileIcon';
 import FileSize from './FileSize';
 import TimeAgo from './TimeAgo';
-
-const TYPE_FOLDER = 'folder';
 
 function getPrimaryText(selected, hidden) {
   return (
@@ -52,7 +51,7 @@ function FileTableCell({ className, item, selected, onSelect }) {
         <div className="w-6">
           <FileIcon item={item} className="w-6 h-6" />
         </div>
-        {(item.type === TYPE_FOLDER) ? (
+        {(item.type === FileType.FOLDER || item.type === FileType.TRASH) ? (
           <span className="truncate" onClick={(event) => { event.stopPropagation(); }}>
             <Link to={`/files/${item.path}`}>
               {item.name}
@@ -65,18 +64,20 @@ function FileTableCell({ className, item, selected, onSelect }) {
         )}
       </div>
 
-      {/* apply classes here, otherwise they end up in closure */}
       <div className="sm:w-2/5 w-1/3 flex flex-row items-center justify-end">
-        <div className={`${secondaryText} hover:${primaryText}`}>
-          <Dropdown
-            overlay={FileActions}
-            overlayProps={{ fileId: item.id, filePath: item.path }}
-          >
-            <button type="button" className="font-bold p-2 rounded-full">
-              <icons.More />
-            </button>
-          </Dropdown>
-        </div>
+        {/* apply classes here, otherwise they end up in closure */}
+        {(item.type === FileType.FOLDER) && (
+          <div className={`${secondaryText} hover:${primaryText}`}>
+            <Dropdown
+              overlay={FileActions}
+              overlayProps={{ fileId: item.id, filePath: item.path }}
+            >
+              <button type="button" className="font-bold p-2 rounded-full">
+                <icons.More />
+              </button>
+            </Dropdown>
+          </div>
+        )}
         <div className={`w-24 pr-4 text-right ${secondaryText}`}>
           <FileSize size={item.size} />
         </div>

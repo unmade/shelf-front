@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { FileType } from '../constants';
 import * as icons from '../icons';
 
 import Dialog from './Dialog';
@@ -16,7 +17,7 @@ function DeleteDialog({ file, onDelete, onCancel }) {
   if (!visible) {
     return null;
   }
-  const type = (file.type === 'folder') ? 'Folder' : 'File';
+  const type = (file.type === FileType.FILE) ? 'File' : 'Folder';
   return (
     <Dialog
       title={`Delete ${type}`}

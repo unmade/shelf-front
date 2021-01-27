@@ -6,6 +6,8 @@ import {
   race,
 } from 'redux-saga/effects';
 
+import { FileType } from '../../constants';
+
 import API_BASE_URL from '../api-config';
 import * as actions from '../actions/files';
 import * as uploadActions from '../actions/uploads';
@@ -18,6 +20,9 @@ function* binarySearch(arr, target, cmp) {
 
   while (low < high) {
     const mid = low + Math.ceil((high - low) / 2);
+    if (mid === high) {
+      return mid;
+    }
     const file = yield select(getFileById, arr[mid]);
     const cond = cmp(target, file);
     if (cond < 0) {
@@ -36,7 +41,7 @@ function compareFiles(a, b) {
   if (a.type === b.type) {
     return a.path.toLowerCase().localeCompare(b.path.toLowerCase());
   }
-  return (a.type === 'folder') ? -1 : 1;
+  return (a.type === FileType.FOLDER || a.type === FileType.TRASH) ? -1 : 1;
 }
 
 function* handleMoveFile(action) {
@@ -67,10 +72,10 @@ function* handleUpload(action) {
   const { file, updates } = action.payload;
   const currPath = yield select(getCurrPath);
 
-  const path = file.path.substring(0, file.path.length - file.name.length - 1) || '.';
+  const path = file.path.substring(0, file.path.length - file.name.length - 1);
 
   let target = null;
-  if (path === currPath) {
+  if (path === currPath || (path === '' && currPath === '.')) {
     target = file;
   } else {
     for (let i = 0; i < updates.length; i++) {
@@ -80,7 +85,6 @@ function* handleUpload(action) {
       }
     }
   }
-
   if (target) {
     const ids = new Set(yield select(getFilesByPath, currPath));
     if (!ids.has(target.id)) {
