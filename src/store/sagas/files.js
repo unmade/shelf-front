@@ -14,31 +14,52 @@ import * as uploadActions from '../actions/uploads';
 import { getAccessToken } from '../reducers/auth';
 import { getFilesByPath, getCurrPath, getFileById } from '../reducers/files';
 
-function* binarySearch(arr, target, cmp) {
+/**
+   * Return index in an `arr` where `target` should be inserted in order.
+   * This is sort of modified version of binary search
+   */
+function* findNextIdx(arr, target, cmp) {
   let low = 0;
   let high = arr.length;
 
-  while (low < high) {
+  let prevCond = null;
+  let prevMid = null;
+  while (low <= high) {
     const mid = low + Math.ceil((high - low) / 2);
-    if (mid === high) {
-      return mid;
-    }
     const file = yield select(getFileById, arr[mid]);
     const cond = cmp(target, file);
-    if (cond < 0) {
+    if (high - mid <= 1) {
+      if (cond > 0) {
+        return mid + 1;
+      }
+      high = mid - 1;
+    } else if (prevCond !== cond && prevMid !== null) {
+      if (prevCond < cond) {
+        low = mid;
+        high = prevMid;
+      } else {
+        low = prevMid;
+        high = mid;
+      }
+    } else if (cond < 0) {
       high = mid;
     } else if (cond > 0) {
       low = mid + 1;
     } else {
       return mid;
     }
+    prevCond = cond;
+    prevMid = mid;
   }
 
+  if (low === high || high < 0) {
+    return low;
+  }
   return arr.length;
 }
 
 function compareFiles(a, b) {
-  if (a.type === b.type) {
+  if (a.type === b.type || (a.type === FileType.FOLDER && b.type === FileType.TRASH)) {
     return a.path.toLowerCase().localeCompare(b.path.toLowerCase());
   }
   return (a.type === FileType.FOLDER || a.type === FileType.TRASH) ? -1 : 1;
@@ -62,7 +83,7 @@ function* handleNewFolder(action) {
   const ids = new Set(yield select(getFilesByPath, currPath));
   if (!ids.has(folder.id)) {
     const nextFiles = [...ids];
-    const idx = yield binarySearch(nextFiles, folder, compareFiles);
+    const idx = yield findNextIdx(nextFiles, folder, compareFiles);
     nextFiles.splice(idx, 0, folder.id);
     yield put(actions.updateFolderByPath(currPath, nextFiles));
   }
@@ -89,7 +110,7 @@ function* handleUpload(action) {
     const ids = new Set(yield select(getFilesByPath, currPath));
     if (!ids.has(target.id)) {
       const nextFiles = [...ids];
-      const idx = yield binarySearch(nextFiles, target, compareFiles);
+      const idx = yield findNextIdx(nextFiles, target, compareFiles);
       nextFiles.splice(idx, 0, target.id);
       yield put(actions.updateFolderByPath(currPath, nextFiles));
     }

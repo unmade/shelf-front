@@ -66,7 +66,7 @@ function FileTableCell({ className, item, selected, onSelect }) {
 
       <div className="sm:w-2/5 w-1/3 flex flex-row items-center justify-end">
         {/* apply classes here, otherwise they end up in closure */}
-        {(item.type === FileType.FOLDER) && (
+        {(item.type !== FileType.TRASH) && (
           <div className={`${secondaryText} hover:${primaryText}`}>
             <Dropdown
               overlay={FileActions}
