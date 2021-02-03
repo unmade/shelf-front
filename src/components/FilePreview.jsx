@@ -2,9 +2,10 @@ import React from 'react';
 
 import * as icons from '../icons';
 
+import FileSize from './ui/FileSize';
+import TimeAgo from './ui/TimeAgo';
+
 import FileIcon from './FileIcon';
-import FileSize from './FileSize';
-import TimeAgo from './TimeAgo';
 
 function FilePreview({ files, onClose }) {
   let name; let size; let mtime;

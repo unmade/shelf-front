@@ -10,8 +10,8 @@ function App() {
     <div className="flex md:flex-row-reverse flex-wrap h-screen bg-gray-200">
       <div className="w-5/6 my-0 mx-auto bg-white border-l">
         <Switch>
-          <Route path="/trash/:dirPath*" component={Trash} />
           <Route path="/files/:dirPath*" component={FileBrowser} />
+          <Route path="/trash/:dirPath*" component={Trash} />
         </Switch>
       </div>
 

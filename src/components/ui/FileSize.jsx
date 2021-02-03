@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import getHumanSize from '../filesize';
+import getHumanSize from '../../filesize';
 
 function FileSize({ size }) {
   return (

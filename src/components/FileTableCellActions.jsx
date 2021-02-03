@@ -6,8 +6,8 @@ import { FileType, TRASH_FOLDER_NAME } from '../constants';
 
 import FileActions from '../containers/FileActions';
 
+import Dropdown from './ui/Dropdown';
 import DeletedFileActions from './DeletedFileActions';
-import Dropdown from './Dropdown';
 
 function getActionsByType(type, path) {
   if (path !== TRASH_FOLDER_NAME && path.startsWith(TRASH_FOLDER_NAME)) {

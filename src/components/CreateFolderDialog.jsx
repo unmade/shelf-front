@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import * as icons from '../icons';
 
-import Dialog from './Dialog';
+import Dialog from './ui/Dialog';
 
 function CreateFolderDialog({ visible, parentFolderPath, onCreate, onCancel }) {
   const [folderName, setFolderName] = React.useState(null);

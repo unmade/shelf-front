@@ -4,10 +4,12 @@ import { TRASH_FOLDER_NAME } from '../constants';
 import * as icons from '../icons';
 
 import EmptyTrashDialog from '../containers/EmptyTrashDialog';
+import FileTableCell from '../containers/FileTableCell';
 import FileTableView from '../containers/FileTableView';
 
-import Breadcrumbs from './Breadcrumbs';
-import FileTableCell from '../containers/FileTableCell';
+import Breadcrumbs from './ui/Breadcrumbs';
+
+import BreadcrumbItem from './BreadcrumbItem';
 
 function Trash({
   match, listFolder, deselectFiles, changePath, onEmptyTrash,
@@ -27,7 +29,7 @@ function Trash({
   return (
     <div className="flex flex-col h-full">
       <div className="flex flex-row justify-between p-4 border-b-2 border-gray-100">
-        <Breadcrumbs path={match.url} />
+        <Breadcrumbs path={match.url} itemRender={BreadcrumbItem} />
 
         <div className="flex flex-row">
           <button

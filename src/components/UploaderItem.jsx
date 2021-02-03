@@ -2,7 +2,7 @@ import React from 'react';
 
 import * as icons from '../icons';
 
-import ProgressBar from './ProgressBar';
+import ProgressBar from './ui/ProgressBar';
 
 const styles = {
   padding: '0.25rem',

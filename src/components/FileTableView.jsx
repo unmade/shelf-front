@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import FileDrop from '../containers/FileDrop';
 
-import List from './List';
+import List from './ui/List';
 
 const HEADER_HEIGHT = 48;
 

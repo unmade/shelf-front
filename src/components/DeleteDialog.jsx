@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { FileType } from '../constants';
 import * as icons from '../icons';
 
-import Dialog from './Dialog';
+import Dialog from './ui/Dialog';
 
 function DeleteDialog({ file, onDelete, onCancel }) {
   const visible = !!file;

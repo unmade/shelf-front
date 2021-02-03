@@ -12,8 +12,10 @@ import MoveDialog from '../containers/MoveDialog';
 import RenameFileDialog from '../containers/RenameFileDialog';
 import Uploader from '../containers/Uploader';
 
-import Breadcrumbs from './Breadcrumbs';
-import Dropdown from './Dropdown';
+import Dropdown from './ui/Dropdown';
+import Breadcrumbs from './ui/Breadcrumbs';
+
+import BreadcrumbItem from './BreadcrumbItem';
 
 class FileBrowser extends React.Component {
   componentDidMount() {
@@ -46,7 +48,7 @@ class FileBrowser extends React.Component {
     return (
       <div className="flex flex-col h-full">
         <div className="flex flex-row justify-between p-4 border-b-2 border-gray-100">
-          <Breadcrumbs path={match.url} />
+          <Breadcrumbs path={match.url} itemRender={BreadcrumbItem} />
 
           <div className="flex flex-row">
             {(hasUploads) && (

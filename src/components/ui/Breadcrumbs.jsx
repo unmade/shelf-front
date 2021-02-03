@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
 
-import { BREADCRUMBS_ALIASES } from '../constants';
+import { BREADCRUMBS_ALIASES } from '../../constants';
 
 const smallText = 'text-xs space-x-1';
 const largeText = 'text-xl space-x-2';
@@ -21,24 +20,6 @@ function breadcrumbsFromPath(path, aliases = BREADCRUMBS_ALIASES) {
 
   return breadcrumbs;
 }
-
-function BreadcrumbItem({ name, path }) {
-  return (
-    <NavLink
-      to={path}
-      className="font-semibold text-gray-600 hover:text-blue-500"
-      activeClassName="text-gray-800 pointer-events-none"
-      exact
-    >
-      {name}
-    </NavLink>
-  );
-}
-
-BreadcrumbItem.propTypes = {
-  name: PropTypes.string.isRequired,
-  path: PropTypes.string.isRequired,
-};
 
 function Breadcrumbs({ size, path, itemRender: Render }) {
   const textSize = (size === 'small') ? smallText : largeText;
@@ -59,12 +40,11 @@ function Breadcrumbs({ size, path, itemRender: Render }) {
 Breadcrumbs.propTypes = {
   size: PropTypes.oneOf(['small', 'large']),
   path: PropTypes.string.isRequired,
-  itemRender: PropTypes.func,
+  itemRender: PropTypes.func.isRequired,
 };
 
 Breadcrumbs.defaultProps = {
   size: 'large',
-  itemRender: BreadcrumbItem,
 };
 
 export default Breadcrumbs;

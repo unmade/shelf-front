@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import * as icons from '../icons';
 
-import Dialog from './Dialog';
+import Dialog from './ui/Dialog';
 
 function EmptyTrashDialog({ visible, onEmpty, onCancel }) {
   const onConfirm = () => {

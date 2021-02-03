@@ -6,10 +6,11 @@ import { Link, useRouteMatch } from 'react-router-dom';
 
 import { FileType } from '../constants';
 
+import FileSize from './ui/FileSize';
+import TimeAgo from './ui/TimeAgo';
+
 import FileTableCellActions from './FileTableCellActions';
 import FileIcon from './FileIcon';
-import FileSize from './FileSize';
-import TimeAgo from './TimeAgo';
 
 function getPrimaryText(selected, hidden) {
   return (

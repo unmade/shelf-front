@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 import FolderPickerItem from '../containers/FolderPickerItem';
 
-import Breadcrumbs from './Breadcrumbs';
-import List from './List';
+import Breadcrumbs from './ui/Breadcrumbs';
+import List from './ui/List';
 
 function FolderPicker({ path, items, onPathChange }) {
   return (

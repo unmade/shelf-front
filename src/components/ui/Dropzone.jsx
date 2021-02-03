@@ -3,7 +3,7 @@ import PropType from 'prop-types';
 
 import { v4 as uuidv4 } from 'uuid';
 
-import getFileEntries from '../filereader';
+import getFileEntries from '../../filereader';
 
 class Dropzone extends React.Component {
   constructor(props) {

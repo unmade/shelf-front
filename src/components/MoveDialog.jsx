@@ -5,7 +5,7 @@ import { FileType } from '../constants';
 
 import FolderPicker from '../containers/FolderPicker';
 
-import Dialog from './Dialog';
+import Dialog from './ui/Dialog';
 
 function MoveDialog({ file, onMove, onCancel }) {
   const [toPath, setToPath] = React.useState('.');
