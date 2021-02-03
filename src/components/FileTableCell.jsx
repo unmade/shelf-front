@@ -5,11 +5,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import { FileType } from '../constants';
-import * as icons from '../icons';
 
-import FileActions from '../containers/FileActions';
-
-import Dropdown from './Dropdown';
+import FileTableCellActions from './FileTableCellActions';
 import FileIcon from './FileIcon';
 import FileSize from './FileSize';
 import TimeAgo from './TimeAgo';
@@ -66,18 +63,9 @@ function FileTableCell({ className, item, selected, onSelect }) {
 
       <div className="sm:w-2/5 w-1/3 flex flex-row items-center justify-end">
         {/* apply classes here, otherwise they end up in closure */}
-        {(item.type !== FileType.TRASH) && (
-          <div className={`${secondaryText} hover:${primaryText}`}>
-            <Dropdown
-              overlay={FileActions}
-              overlayProps={{ fileId: item.id, filePath: item.path }}
-            >
-              <button type="button" className="font-bold p-2 rounded-full">
-                <icons.More />
-              </button>
-            </Dropdown>
-          </div>
-        )}
+        <div className={`${secondaryText} hover:${primaryText}`}>
+          <FileTableCellActions id={item.id} type={item.type} path={item.path} />
+        </div>
         <div className={`w-24 pr-4 text-right ${secondaryText}`}>
           <FileSize size={item.size} />
         </div>
