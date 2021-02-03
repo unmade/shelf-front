@@ -6,6 +6,6 @@ import FileTableView from '../components/FileTableView';
 
 export default connect(
   (state, ownProps) => ({
-    files: getFilesByPath(state, ownProps.baseDir || '.'),
+    items: getFilesByPath(state, ownProps.path),
   }),
 )(FileTableView);

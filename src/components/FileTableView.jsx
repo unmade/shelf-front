@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import FileDrop from '../containers/FileDrop';
-import FileTableCell from '../containers/FileTableCell';
 
 import List from './List';
 
@@ -31,33 +30,51 @@ function TableHeader() {
   );
 }
 
-function FileTableView({ baseDir, files }) {
+function Table({ className, items, itemRender }) {
   return (
-    <FileDrop
-      baseDir={baseDir}
-      className="h-full"
-      render={({ dragging }) => (
-        <>
-          <TableHeader />
-          <List
-            items={files}
-            itemRender={FileTableCell}
-            heightOffset={HEADER_HEIGHT}
-            className={`transition ease-in duration-75 border-4 rounded-lg ${(dragging) ? 'border-blue-300' : 'border-transparent'}`}
-          />
-        </>
-      )}
-    />
+    <>
+      <TableHeader />
+      <List
+        items={items}
+        itemRender={itemRender}
+        heightOffset={HEADER_HEIGHT}
+        className={`transition ease-in duration-75 border-4 rounded-lg ${className}`}
+      />
+    </>
   );
 }
 
+function FileTableView({ path, droppable, items, itemRender }) {
+  if (droppable) {
+    return (
+      <FileDrop
+        baseDir={path}
+        className="h-full"
+        render={({ dragging }) => (
+          <Table
+            items={items}
+            itemRender={itemRender}
+            className={(dragging) ? 'border-blue-300' : 'border-transparent'}
+          />
+        )}
+      />
+    );
+  }
+  return <Table items={items} itemRender={itemRender} className="border-transparent" />;
+}
+
 FileTableView.propTypes = {
-  baseDir: PropTypes.string,
-  files: PropTypes.arrayOf(PropTypes.number).isRequired,
+  path: PropTypes.string.isRequired,
+  items: PropTypes.arrayOf(PropTypes.number).isRequired,
+  droppable: PropTypes.bool,
+  itemRender: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.object,
+  ]).isRequired,
 };
 
 FileTableView.defaultProps = {
-  baseDir: '.',
+  droppable: false,
 };
 
 export default FileTableView;

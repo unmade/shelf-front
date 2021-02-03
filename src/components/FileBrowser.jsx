@@ -14,6 +14,7 @@ import Breadcrumbs from './Breadcrumbs';
 import Dropdown from './Dropdown';
 
 import * as icons from '../icons';
+import FileTableCell from '../containers/FileTableCell';
 
 function breadcrumbsFromPath(path) {
   const breadcrumbs = [
@@ -105,7 +106,7 @@ class FileBrowser extends React.Component {
 
         <div className="flex-1 flex flex-row">
           <div className="flex-1">
-            <FileTableView baseDir={dirPath} />
+            <FileTableView path={dirPath || '.'} itemRender={FileTableCell} droppable />
           </div>
           {(hasSelectedFiles) && (
             <div className="w-2/6">

@@ -8,6 +8,7 @@ import EmptyTrashDialog from '../containers/EmptyTrashDialog';
 import FileTableView from '../containers/FileTableView';
 
 import Breadcrumbs from './Breadcrumbs';
+import FileTableCell from '../containers/FileTableCell';
 
 function breadcrumbsFromPath(path) {
   const breadcrumbs = [];
@@ -71,7 +72,7 @@ function Trash({
       </div>
 
       <div className="flex-1">
-        <FileTableView baseDir={dirPath} />
+        <FileTableView path={dirPath} itemRender={FileTableCell} />
       </div>
 
       <EmptyTrashDialog />
