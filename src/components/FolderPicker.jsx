@@ -6,49 +6,26 @@ import FolderPickerItem from '../containers/FolderPickerItem';
 import Breadcrumbs from './Breadcrumbs';
 import List from './List';
 
-function breadcrumbsFromPath(path) {
-  const breadcrumbs = [
-    {
-      path: '.',
-      name: 'Home',
-    },
-  ];
-
-  if (!path) {
-    return breadcrumbs;
-  }
-
-  const parts = path.split('/').filter((e) => e !== '' && e !== '.');
-  let prefix = null;
-  parts.forEach((part) => {
-    prefix = (prefix) ? `${prefix}/${part}` : part;
-    breadcrumbs.push({
-      path: prefix,
-      name: part,
-    });
-  });
-
-  return breadcrumbs;
-}
-
 function FolderPicker({ path, items, onPathChange }) {
-  const breadcrumbs = breadcrumbsFromPath(path);
-
   return (
     <>
       <div className="pb-1">
-        <Breadcrumbs size="small">
-          {breadcrumbs.map(({ name, path: nextPath }) => (
+        <Breadcrumbs
+          size="small"
+          path={(path.startsWith('.')) ? path : `./${path}`}
+          itemRender={({ name, path: nextPath }) => (
             <button
               key={nextPath}
               type="button"
               className="font-semibold hover:text-blue-500"
-              onClick={() => onPathChange(nextPath)}
+              onClick={() => (
+                onPathChange((nextPath === '.') ? nextPath : nextPath.substring(2, nextPath.length))
+              )}
             >
               {name}
             </button>
-          ))}
-        </Breadcrumbs>
+          )}
+        />
       </div>
       <List
         className="border rounded"

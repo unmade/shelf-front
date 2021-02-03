@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
 
 import { TRASH_FOLDER_NAME } from '../constants';
 import * as icons from '../icons';
@@ -10,33 +9,11 @@ import FileTableView from '../containers/FileTableView';
 import Breadcrumbs from './Breadcrumbs';
 import FileTableCell from '../containers/FileTableCell';
 
-function breadcrumbsFromPath(path) {
-  const breadcrumbs = [
-    {
-      path: '/trash',
-      name: 'Trash',
-    },
-  ];
-
-  const parts = path.split('/').filter((e) => e !== 'Trash' && e !== '.');
-  let prefix = '/trash';
-  parts.forEach((part) => {
-    prefix = `${prefix}/${part}`;
-    breadcrumbs.push({
-      path: prefix,
-      name: part,
-    });
-  });
-
-  return breadcrumbs;
-}
-
 function Trash({
   match, listFolder, deselectFiles, changePath, onEmptyTrash,
 }) {
   let { dirPath } = match.params;
   dirPath = (dirPath) ? `${TRASH_FOLDER_NAME}/${dirPath}` : TRASH_FOLDER_NAME;
-  const breadcrumbs = breadcrumbsFromPath(dirPath);
 
   useEffect(() => {
     changePath(dirPath);
@@ -50,19 +27,7 @@ function Trash({
   return (
     <div className="flex flex-col h-full">
       <div className="flex flex-row justify-between p-4 border-b-2 border-gray-100">
-        <Breadcrumbs>
-          {breadcrumbs.map(({ name, path }) => (
-            <NavLink
-              key={path}
-              to={path}
-              className="font-semibold text-gray-600 hover:text-blue-500"
-              activeClassName="text-gray-800 pointer-events-none"
-              exact
-            >
-              {name}
-            </NavLink>
-          ))}
-        </Breadcrumbs>
+        <Breadcrumbs path={match.url} />
 
         <div className="flex flex-row">
           <button

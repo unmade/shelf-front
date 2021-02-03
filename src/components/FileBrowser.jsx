@@ -1,10 +1,12 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+
+import * as icons from '../icons';
 
 import CreateFolderDialog from '../containers/CreateFolderDialog';
 import DeleteDialog from '../containers/DeleteDialog';
 import FileBrowserActions from '../containers/FileBrowserActions';
 import FilePreview from '../containers/FilePreview';
+import FileTableCell from '../containers/FileTableCell';
 import FileTableView from '../containers/FileTableView';
 import MoveDialog from '../containers/MoveDialog';
 import RenameFileDialog from '../containers/RenameFileDialog';
@@ -12,34 +14,6 @@ import Uploader from '../containers/Uploader';
 
 import Breadcrumbs from './Breadcrumbs';
 import Dropdown from './Dropdown';
-
-import * as icons from '../icons';
-import FileTableCell from '../containers/FileTableCell';
-
-function breadcrumbsFromPath(path) {
-  const breadcrumbs = [
-    {
-      path: '/files',
-      name: 'Home',
-    },
-  ];
-
-  if (!path) {
-    return breadcrumbs;
-  }
-
-  const parts = path.split('/').filter((e) => e !== '' && e !== '.');
-  let prefix = '/files';
-  parts.forEach((part) => {
-    prefix = `${prefix}/${part}`;
-    breadcrumbs.push({
-      path: prefix,
-      name: part,
-    });
-  });
-
-  return breadcrumbs;
-}
 
 class FileBrowser extends React.Component {
   componentDidMount() {
@@ -67,27 +41,12 @@ class FileBrowser extends React.Component {
 
   render() {
     const { match, hasSelectedFiles, hasUploads } = this.props;
-    // console.log(match);
-    // console.log(this.props);
     const { dirPath } = match.params;
-    const breadcrumbs = breadcrumbsFromPath(dirPath);
 
     return (
       <div className="flex flex-col h-full">
         <div className="flex flex-row justify-between p-4 border-b-2 border-gray-100">
-          <Breadcrumbs>
-            {breadcrumbs.map(({ name, path }) => (
-              <NavLink
-                key={path}
-                to={path}
-                className="font-semibold text-gray-600 hover:text-blue-500"
-                activeClassName="text-gray-800 pointer-events-none"
-                exact
-              >
-                {name}
-              </NavLink>
-            ))}
-          </Breadcrumbs>
+          <Breadcrumbs path={match.url} />
 
           <div className="flex flex-row">
             {(hasUploads) && (
