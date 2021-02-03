@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 
 import { FileType } from '../constants';
 
@@ -35,6 +35,8 @@ function getBackground(selected) {
 }
 
 function FileTableCell({ className, item, selected, onSelect }) {
+  const match = useRouteMatch();
+
   const primaryText = getPrimaryText(selected, item.hidden);
   const secondaryText = getSecondaryText(selected, item.hidden);
   const background = getBackground(selected);
@@ -50,7 +52,7 @@ function FileTableCell({ className, item, selected, onSelect }) {
         </div>
         {(item.type === FileType.FOLDER || item.type === FileType.TRASH) ? (
           <span className="truncate" onClick={(event) => { event.stopPropagation(); }}>
-            <Link to={`/files/${item.path}`}>
+            <Link to={`${match.url}/${item.name}`}>
               {item.name}
             </Link>
           </span>

@@ -67,6 +67,8 @@ class FileBrowser extends React.Component {
 
   render() {
     const { match, hasSelectedFiles, hasUploads } = this.props;
+    // console.log(match);
+    // console.log(this.props);
     const { dirPath } = match.params;
     const breadcrumbs = breadcrumbsFromPath(dirPath);
 

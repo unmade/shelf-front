@@ -11,10 +11,15 @@ import Breadcrumbs from './Breadcrumbs';
 import FileTableCell from '../containers/FileTableCell';
 
 function breadcrumbsFromPath(path) {
-  const breadcrumbs = [];
+  const breadcrumbs = [
+    {
+      path: '/trash',
+      name: 'Trash',
+    },
+  ];
 
-  const parts = path.split('/').filter((e) => e !== '' && e !== '.');
-  let prefix = '/files';
+  const parts = path.split('/').filter((e) => e !== 'Trash' && e !== '.');
+  let prefix = '/trash';
   parts.forEach((part) => {
     prefix = `${prefix}/${part}`;
     breadcrumbs.push({

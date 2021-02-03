@@ -13,7 +13,7 @@ const menu = [
     title: 'All files',
   },
   {
-    path: `/files/${TRASH_FOLDER_NAME}`,
+    path: '/trash',
     title: TRASH_FOLDER_NAME,
   },
 ];
@@ -31,7 +31,6 @@ function SideMenu() {
                 to={item.path}
                 className="hover:text-gray-800"
                 activeClassName="text-gray-800 pointer-events-none"
-                exact
               >
                 {item.title}
               </NavLink>
