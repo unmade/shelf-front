@@ -6,11 +6,16 @@ export const types = {
   OPEN_MOVE_DIALOG: 'OPEN_MOVE_DIALOG',
   CLOSE_MOVE_DIALOG: 'CLOSE_MOVE_DIALOG',
   TOGGLE_CREATE_FOLDER_SHOWN: 'TOGGLE_CREATE_FOLDER_SHOWN',
-  TOGGLE_RENAME_FILE_DIALOG: 'TOGGLE_RENAME_FILE_DIALOG',
+  TOGGLE_EMPTY_TRASH_DIALOG: 'TOGGLE_EMPTY_TRASH_DIALOG',
 };
 
 export const toggleCreateFolderShown = () => ({
   type: types.TOGGLE_CREATE_FOLDER_SHOWN,
+  payload: null,
+});
+
+export const toggleEmptyTrashDialog = () => ({
+  type: types.TOGGLE_EMPTY_TRASH_DIALOG,
   payload: null,
 });
 

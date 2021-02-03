@@ -5,6 +5,7 @@ import { types } from '../actions/ui';
 function fileBrowser(
   state = {
     createFolderShown: false,
+    emptyTrashDialogVisible: false,
     fileIdToRename: null,
     fileIdToDelete: null,
     fileIdToMove: null,
@@ -16,6 +17,12 @@ function fileBrowser(
       return {
         ...state,
         createFolderShown: !state.createFolderShown,
+      };
+    }
+    case types.TOGGLE_EMPTY_TRASH_DIALOG: {
+      return {
+        ...state,
+        emptyTrashDialogVisible: !state.emptyTrashDialogVisible,
       };
     }
     case types.OPEN_RENAME_FILE_DIALOG: {
@@ -67,6 +74,7 @@ export default combineReducers({
 });
 
 export const getCreateFolderShown = (state) => state.ui.fileBrowser.createFolderShown;
+export const getEmptyTrashDialogVisible = (state) => state.ui.fileBrowser.emptyTrashDialogVisible;
 export const getFileIdToRename = (state) => state.ui.fileBrowser.fileIdToRename;
 export const getFileIdToDelete = (state) => state.ui.fileBrowser.fileIdToDelete;
 export const getFileIdToMove = (state) => state.ui.fileBrowser.fileIdToMove;

@@ -24,6 +24,11 @@ export const types = {
   RETRIEVE_DOWNLOAD_URL_SUCCESS: 'RETRIEVE_DOWNLOAD_URL_SUCCESS',
   RETRIEVE_DOWNLOAD_URL_FAILURE: 'RETRIEVE_DOWNLOAD_URL_FAILURE',
 
+  EMPTY_TRASH: 'EMPTY_TRASH',
+  EMPTY_TRASH_REQUEST: 'EMPTY_TRASH_REQUEST',
+  EMPTY_TRASH_SUCCESS: 'EMPTY_TRASH_SUCCESS',
+  EMPTY_TRASH_FAILURE: 'EMPTY_TRASH_FAILURE',
+
   SELECT_FILE: 'SELECT_FILE',
   DESELECT_FILES: 'DESELECT_FILES',
   UPDATE_FOLDER_BY_PATH: 'UPDATE_FOLDER_BY_PATH',
@@ -129,6 +134,26 @@ export const retrieveDownloadUrlSuccess = () => ({
 export const retrieveDownloadUrlFailure = (err) => ({
   type: types.RETRIEVE_DOWNLOAD_URL_FAILURE,
   payload: { err },
+});
+
+export const emptyTrash = () => ({
+  type: types.EMPTY_TRASH,
+  payload: null,
+});
+
+export const emptyTrashRequest = () => ({
+  type: types.EMPTY_TRASH_REQUEST,
+  payload: null,
+});
+
+export const emptyTrashSuccess = () => ({
+  type: types.EMPTY_TRASH_SUCCESS,
+  payload: null,
+});
+
+export const emptyTrashFailure = () => ({
+  type: types.EMPTY_TRASH_FAILURE,
+  payload: null,
 });
 
 export const selectFile = (id) => ({

@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { TRASH_FOLDER_NAME } from '../constants';
 import * as icons from '../icons';
 
+import EmptyTrashDialog from '../containers/EmptyTrashDialog';
 import FileTableView from '../containers/FileTableView';
 
 import Breadcrumbs from './Breadcrumbs';
@@ -24,7 +25,9 @@ function breadcrumbsFromPath(path) {
   return breadcrumbs;
 }
 
-function Trash({ match, listFolder, deselectFiles, changePath }) {
+function Trash({
+  match, listFolder, deselectFiles, changePath, onEmptyTrash,
+}) {
   let { dirPath } = match.params;
   dirPath = (dirPath) ? `${TRASH_FOLDER_NAME}/${dirPath}` : TRASH_FOLDER_NAME;
   const breadcrumbs = breadcrumbsFromPath(dirPath);
@@ -60,6 +63,7 @@ function Trash({ match, listFolder, deselectFiles, changePath }) {
             type="button"
             title="Empty Trash"
             className="mr-4 align-middle text-xl text-red-500 rounded-full"
+            onClick={onEmptyTrash}
           >
             <icons.TrashOutlined />
           </button>
@@ -69,6 +73,8 @@ function Trash({ match, listFolder, deselectFiles, changePath }) {
       <div className="flex-1">
         <FileTableView baseDir={dirPath} />
       </div>
+
+      <EmptyTrashDialog />
     </div>
   );
 }
