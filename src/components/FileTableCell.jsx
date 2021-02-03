@@ -50,7 +50,7 @@ function FileTableCell({ className, item, selected, onSelect }) {
         <div className="w-6">
           <FileIcon item={item} className="w-6 h-6" />
         </div>
-        {(item.type === FileType.FOLDER || item.type === FileType.TRASH) ? (
+        {(item.type === FileType.FOLDER) ? (
           <span className="truncate" onClick={(event) => { event.stopPropagation(); }}>
             <Link to={`${match.url}/${item.name}`}>
               {item.name}

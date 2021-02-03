@@ -7,7 +7,7 @@ import * as icons from '../icons';
 function FileIcon({ className, item }) {
   const { type, name, hidden } = item;
 
-  if (type === FileType.FOLDER || type === FileType.TRASH) {
+  if (type === FileType.FOLDER) {
     const color = (hidden) ? 'text-blue-200' : 'text-blue-400';
     return (
       <icons.Folder className={`${color} ${className}`} />

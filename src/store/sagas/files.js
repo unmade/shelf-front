@@ -59,10 +59,10 @@ function* findNextIdx(arr, target, cmp) {
 }
 
 function compareFiles(a, b) {
-  if (a.type === b.type || (a.type === FileType.FOLDER && b.type === FileType.TRASH)) {
+  if (a.type === b.type) {
     return a.path.toLowerCase().localeCompare(b.path.toLowerCase());
   }
-  return (a.type === FileType.FOLDER || a.type === FileType.TRASH) ? -1 : 1;
+  return (a.type === FileType.FOLDER) ? -1 : 1;
 }
 
 function* handleMoveFile(action) {

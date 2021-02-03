@@ -9,7 +9,7 @@ import FileIcon from './FileIcon';
 
 function FolderPickerItem({ className, item, onClick }) {
   const primaryText = (item.hidden) ? 'text-gray-500' : 'text-gray-800';
-  const isFolder = (item.type === FileType.FOLDER || item.type === FileType.TRASH);
+  const isFolder = (item.type === FileType.FOLDER);
 
   return (
     <div
