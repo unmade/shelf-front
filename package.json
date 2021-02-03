@@ -7,7 +7,9 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "autoprefixer": "^10.2.4",
     "moment": "^2.27.0",
+    "postcss": "^8.2.4",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -19,11 +21,11 @@
     "react-window": "^1.8.5",
     "redux": "^4.0.5",
     "redux-saga": "^1.1.3",
-    "tailwindcss": "^1.4.6",
+    "tailwindcss": "2.0.2",
     "uuid": "^8.2.0"
   },
   "scripts": {
-    "build:tailwind": "tailwindcss build src/tailwind.css -o src/tailwind.generated.css",
+    "build:tailwind": "npx tailwindcss-cli build src/tailwind.css -o src/tailwind.generated.css",
     "prestart": "npm run build:tailwind",
     "start": "react-scripts start",
     "prebuild": "npm run build:tailwind",

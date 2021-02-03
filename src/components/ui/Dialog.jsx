@@ -38,7 +38,7 @@ function Dialog({
             <span className="flex w-full rounded-md shadow-sm sm:ml-2 sm:w-auto">
               <button
                 type="button"
-                className={`inline-flex justify-center w-full rounded-md border border-transparent px-4 py-1 bg-${confirmColor}-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-${confirmColor}-500 focus:outline-none focus:shadow-outline-red transition ease-in-out duration-150 sm:text-sm sm:leading-5`}
+                className={`inline-flex justify-center w-full rounded-md border border-transparent px-4 py-1 bg-${confirmColor}-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-${confirmColor}-500 focus:outline-none focus:ring-red transition ease-in-out duration-150 sm:text-sm sm:leading-5`}
                 onClick={onConfirm}
               >
                 {confirmTitle}
@@ -49,7 +49,7 @@ function Dialog({
             <span className="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
               <button
                 type="button"
-                className="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-1 bg-white text-base leading-6 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5"
+                className="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-1 bg-white text-base leading-6 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5"
                 onClick={onCancel}
               >
                 Cancel

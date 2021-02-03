@@ -118,7 +118,7 @@ class Login extends React.Component {
             </label>
             <input
               id="username"
-              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors && errors.username && 'border-red-500'}`}
+              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring ${errors && errors.username && 'border-red-500'}`}
               type="text"
               placeholder="Username"
               onChange={this.onInputChange('username')}
@@ -132,7 +132,7 @@ class Login extends React.Component {
               Password
             </label>
             <input
-              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors && errors.password && 'border-red-500'}`}
+              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring ${errors && errors.password && 'border-red-500'}`}
               id="password"
               type="password"
               placeholder="******************"
@@ -145,7 +145,7 @@ class Login extends React.Component {
           <div className="flex items-center justify-between">
             <button
               type="button"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring"
               onClick={this.onSubmit}
               disabled={loading}
             >

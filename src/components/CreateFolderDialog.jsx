@@ -41,7 +41,7 @@ function CreateFolderDialog({ visible, parentFolderPath, onCreate, onCancel }) {
       <form className="text-sm mt-4" onSubmit={(e) => { e.preventDefault(); onConfirm(); }}>
         <input
           type="input"
-          className={`p-1 border rounded focus:outline-none focus:shadow-outline ${error && 'border-red-500'}`}
+          className={`p-1 border rounded focus:outline-none focus:ring ${error && 'border-red-500'}`}
           placeholder="Folder name"
           // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus
