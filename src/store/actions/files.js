@@ -29,6 +29,11 @@ export const types = {
   EMPTY_TRASH_SUCCESS: 'EMPTY_TRASH_SUCCESS',
   EMPTY_TRASH_FAILURE: 'EMPTY_TRASH_FAILURE',
 
+  DELETE_IMMEDIATELY: 'DELETE_IMMEDIATELY',
+  DELETE_IMMEDIATELY_REQUEST: 'DELETE_IMMEDIATELY_REQUEST',
+  DELETE_IMMEDIATELY_SUCCESS: 'DELETE_IMMEDIATELY_SUCCESS',
+  DELETE_IMMEDIATELY_FAILURE: 'DELETE_IMMEDIATELY_FAILURE',
+
   SELECT_FILE: 'SELECT_FILE',
   DESELECT_FILES: 'DESELECT_FILES',
   UPDATE_FOLDER_BY_PATH: 'UPDATE_FOLDER_BY_PATH',
@@ -146,13 +151,33 @@ export const emptyTrashRequest = () => ({
   payload: null,
 });
 
-export const emptyTrashSuccess = () => ({
+export const emptyTrashSuccess = (file) => ({
   type: types.EMPTY_TRASH_SUCCESS,
+  payload: { file },
+});
+
+export const emptyTrashFailure = (err) => ({
+  type: types.EMPTY_TRASH_FAILURE,
+  payload: { err },
+});
+
+export const deleteImmediately = (path) => ({
+  type: types.DELETE_IMMEDIATELY,
+  payload: { path },
+});
+
+export const deleteImmediatelyRequest = () => ({
+  type: types.DELETE_IMMEDIATELY_REQUEST,
   payload: null,
 });
 
-export const emptyTrashFailure = () => ({
-  type: types.EMPTY_TRASH_FAILURE,
+export const deleteImmediatelySucess = (file) => ({
+  type: types.DELETE_IMMEDIATELY_SUCCESS,
+  payload: { file },
+});
+
+export const deleteImmediatelyFailure = () => ({
+  type: types.DELETE_IMMEDIATELY_FAILURE,
   payload: null,
 });
 

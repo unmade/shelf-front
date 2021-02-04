@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import * as icons from '../icons';
 import { FileType, TRASH_FOLDER_NAME } from '../constants';
 
+import DeletedFileActions from '../containers/DeletedFileActions';
 import FileActions from '../containers/FileActions';
 
 import Dropdown from './ui/Dropdown';
-import DeletedFileActions from './DeletedFileActions';
 
 function getActionsByType(type, path) {
   if (path !== TRASH_FOLDER_NAME && path.startsWith(TRASH_FOLDER_NAME)) {

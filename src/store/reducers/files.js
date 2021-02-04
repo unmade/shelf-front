@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux';
 
+import { FileType } from '../../constants';
+
 import { types } from '../actions/files';
 import { types as uploadTypes } from '../actions/uploads';
 
@@ -18,6 +20,18 @@ function filesById(state = {}, action) {
       return {
         ...state,
         [folder.id]: folder,
+      };
+    }
+    case types.DELETE_IMMEDIATELY_SUCCESS: {
+      const { file } = action.payload;
+      const { [file.id]: deletedFileId, ...nextState } = state;
+      return nextState;
+    }
+    case types.EMPTY_TRASH_SUCCESS: {
+      const { file } = action.payload;
+      return {
+        ...state,
+        [file.id]: file,
       };
     }
     case types.LIST_FOLDER_SUCCESS: {
@@ -66,6 +80,20 @@ function selectFiles(state = new Set(), action) {
 
 function filesByPath(state = {}, action) {
   switch (action.type) {
+    case types.DELETE_IMMEDIATELY_SUCCESS: {
+      const { file } = action.payload;
+      const parentPath = file.path.substring(0, file.path.lastIndexOf('/'));
+      const { [file.path]: deletedPath, ...nextState } = state;
+      nextState[parentPath] = nextState[parentPath].filter((fileId) => fileId !== file.id);
+      return nextState;
+    }
+    case types.EMPTY_TRASH_SUCCESS: {
+      const { file } = action.payload;
+      return {
+        ...state,
+        [file.path]: [],
+      };
+    }
     case types.LIST_FOLDER_SUCCESS: {
       const { path, items } = action.payload;
       return {

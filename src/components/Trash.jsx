@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { TRASH_FOLDER_NAME } from '../constants';
 import * as icons from '../icons';
 
+import DeleteImmediatelyDialog from '../containers/DeleteImmediatelyDialog';
 import EmptyTrashDialog from '../containers/EmptyTrashDialog';
 import FileTableCell from '../containers/FileTableCell';
 import FileTableView from '../containers/FileTableView';
@@ -48,6 +49,7 @@ function Trash({
       </div>
 
       <EmptyTrashDialog />
+      <DeleteImmediatelyDialog />
     </div>
   );
 }

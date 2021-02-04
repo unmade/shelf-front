@@ -37,6 +37,9 @@ function getBackground(selected) {
 
 function FileTableCell({ className, item, selected, onSelect }) {
   const match = useRouteMatch();
+  // if (item === undefined || item === null) {
+  //   return null;
+  // }
 
   const primaryText = getPrimaryText(selected, item.hidden);
   const secondaryText = getSecondaryText(selected, item.hidden);

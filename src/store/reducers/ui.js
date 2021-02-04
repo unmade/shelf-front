@@ -8,6 +8,7 @@ function fileBrowser(
     emptyTrashDialogVisible: false,
     fileIdToRename: null,
     fileIdToDelete: null,
+    fileIdToDeleteImmediately: null,
     fileIdToMove: null,
   },
   action,
@@ -51,6 +52,19 @@ function fileBrowser(
         fileIdToDelete: null,
       };
     }
+    case types.OPEN_DELETE_IMMEDIATELY_DIALOG: {
+      const { fileId } = action.payload;
+      return {
+        ...state,
+        fileIdToDeleteImmediately: fileId,
+      };
+    }
+    case types.CLOSE_DELETE_IMMEDIATELY_DIALOG: {
+      return {
+        ...state,
+        fileIdToDeleteImmediately: null,
+      };
+    }
     case types.OPEN_MOVE_DIALOG: {
       const { fileId } = action.payload;
       return {
@@ -77,4 +91,5 @@ export const getCreateFolderShown = (state) => state.ui.fileBrowser.createFolder
 export const getEmptyTrashDialogVisible = (state) => state.ui.fileBrowser.emptyTrashDialogVisible;
 export const getFileIdToRename = (state) => state.ui.fileBrowser.fileIdToRename;
 export const getFileIdToDelete = (state) => state.ui.fileBrowser.fileIdToDelete;
+export const getFileIdToDeleteImmediately = (state) => state.ui.fileBrowser.fileIdToDeleteImmediately;
 export const getFileIdToMove = (state) => state.ui.fileBrowser.fileIdToMove;

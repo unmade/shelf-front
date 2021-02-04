@@ -7,7 +7,7 @@ import ActionsMenu from './ActionsMenu';
 function DeletedFileActions({ closeOverlay, fileId, onDeleteImmediately }) {
   const menu = [
     {
-      name: <span className="text-red-600">Permanently Delete</span>,
+      name: <span className="text-red-600">Delete Immediately</span>,
       icon: <icons.TrashOutlined className="text-red-600" />,
       onClick: () => { onDeleteImmediately(fileId); closeOverlay(); },
     },

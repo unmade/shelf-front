@@ -263,6 +263,64 @@ function* moveToTrash({ payload }) {
   }
 }
 
+function* deleteImmediately({ payload }) {
+  const { path } = payload;
+  const accessToken = yield select(getAccessToken);
+  const url = `${API_BASE_URL}/files/delete_immediately`;
+  const options = {
+    method: 'POST',
+    headers: {
+      authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({
+      path,
+    }),
+    mode: 'cors',
+    cache: 'default',
+  };
+
+  yield put(actions.deleteImmediatelyRequest());
+
+  try {
+    const response = yield fetch(url, options);
+    const data = yield response.json();
+    if (response.ok) {
+      yield put(actions.deleteImmediatelySucess(data));
+    } else {
+      yield put(actions.deleteImmediatelyFailure(data));
+    }
+  } catch (e) {
+    yield put(actions.deleteImmediatelyFailure(e));
+  }
+}
+
+function* emptyTrash() {
+  const accessToken = yield select(getAccessToken);
+  const url = `${API_BASE_URL}/files/empty_trash`;
+  const options = {
+    method: 'POST',
+    headers: {
+      authorization: `Bearer ${accessToken}`,
+    },
+    mode: 'cors',
+    cache: 'default',
+  };
+
+  yield put(actions.emptyTrashRequest());
+
+  try {
+    const response = yield fetch(url, options);
+    const data = yield response.json();
+    if (response.ok) {
+      yield put(actions.emptyTrashSuccess(data));
+    } else {
+      yield put(actions.emptyTrashFailure(data));
+    }
+  } catch (e) {
+    yield put(actions.emptyTrashFailure(e));
+  }
+}
+
 function* performDownload({ payload }) {
   const { path } = payload;
   const accessToken = yield select(getAccessToken);
@@ -300,6 +358,8 @@ function* performDownload({ payload }) {
 export default [
   filesWatcher(),
   takeEvery(actions.types.CREATE_FOLDER, createFolder),
+  takeEvery(actions.types.DELETE_IMMEDIATELY, deleteImmediately),
+  takeEvery(actions.types.EMPTY_TRASH, emptyTrash),
   takeEvery(actions.types.LIST_FOLDER, listFolder),
   takeEvery(actions.types.MOVE_FILE, moveFile),
   takeEvery(actions.types.MOVE_TO_TRASH, moveToTrash),
