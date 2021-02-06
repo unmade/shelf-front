@@ -235,7 +235,7 @@ function* moveFile({ payload }) {
 function* moveToTrash({ payload }) {
   const { path } = payload;
   const accessToken = yield select(getAccessToken);
-  const url = `${API_BASE_URL}/files/delete`;
+  const url = `${API_BASE_URL}/files/move_to_trash`;
   const options = {
     method: 'POST',
     headers: {
