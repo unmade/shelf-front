@@ -10,22 +10,22 @@ function FileActions({
   const menu = [
     {
       name: 'Download',
-      icon: <icons.Download />,
+      icon: <icons.Download className="w-4 h-4" />,
       onClick: () => { onDownload(filePath); closeOverlay(); },
     },
     {
       name: 'Rename',
-      icon: <icons.ICursor />,
+      icon: <icons.ICursor className="w-4 h-4" />,
       onClick: () => { onRename(fileId); closeOverlay(); },
     },
     {
       name: 'Move',
-      icon: <icons.FolderMove />,
+      icon: <icons.Move className="w-4 h-4" />,
       onClick: () => { onMove(fileId); closeOverlay(); },
     },
     {
       name: <span className="text-red-600">Delete</span>,
-      icon: <icons.TrashOutlined className="text-red-600" />,
+      icon: <icons.TrashOutlined className="w-4 h-4 text-red-600" />,
       onClick: () => { onDelete(fileId); closeOverlay(); },
     },
   ];

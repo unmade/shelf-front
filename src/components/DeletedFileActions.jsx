@@ -8,7 +8,7 @@ function DeletedFileActions({ closeOverlay, fileId, onDeleteImmediately }) {
   const menu = [
     {
       name: <span className="text-red-600">Delete Immediately</span>,
-      icon: <icons.TrashOutlined className="text-red-600" />,
+      icon: <icons.TrashOutlined className="w-4 h-4 text-red-600" />,
       onClick: () => { onDeleteImmediately(fileId); closeOverlay(); },
     },
   ];

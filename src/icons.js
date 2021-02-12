@@ -1,50 +1,42 @@
 import {
-  FaCheckCircle,
-  FaChevronRight,
-  FaFolder,
-  FaFile,
-  FaFileCode,
-  FaFileImage,
-  FaFileAlt,
-  FaRedo,
-  FaRegFolder,
-  FaTimesCircle,
-  FaFolderPlus,
-} from 'react-icons/fa';
-import {
-  IoIosMore,
-} from 'react-icons/io';
-import {
-  BsCloudUpload,
-  BsCursorText,
-  BsDownload,
-  BsForward,
-  BsPencil,
-  BsTrash,
-  BsX,
   BsLayersFill,
 } from 'react-icons/bs';
+import {
+  HiCheckCircle,
+  HiOutlineCloudUpload,
+  HiFolder,
+  HiFolderAdd,
+  HiOutlineDotsHorizontal,
+  HiOutlineDownload,
+  HiOutlineTrash,
+  HiOutlineX,
+  HiXCircle,
+  HiDocument,
+  HiDocumentText,
+  HiPhotograph,
+  HiOutlineArrowRight,
+  HiOutlinePencil,
+  HiOutlineRefresh,
+} from 'react-icons/hi';
 
 export const AppLogo = BsLayersFill;
-export const CheckCircle = FaCheckCircle;
-export const ChevronRight = FaChevronRight;
-export const CloudUpload = BsCloudUpload;
-export const Close = BsX;
-export const CrossCircle = FaTimesCircle;
-export const Download = BsDownload;
-export const Edit = BsPencil;
-export const File = FaFile;
-export const FileCode = FaFileCode;
-export const FileImage = FaFileImage;
-export const FileText = FaFileAlt;
-export const Folder = FaFolder;
-export const FolderMove = BsForward;
-export const FolderOutlined = FaRegFolder;
-export const ICursor = BsCursorText;
-export const More = IoIosMore;
-export const Redo = FaRedo;
-export const TrashOutlined = BsTrash;
-export const NewFolder = FaFolderPlus;
+export const CheckCircle = HiCheckCircle;
+export const CloudUpload = HiOutlineCloudUpload;
+export const Close = HiOutlineX;
+export const CrossCircle = HiXCircle;
+export const Download = HiOutlineDownload;
+export const Edit = HiOutlinePencil;
+export const File = HiDocument;
+export const FileCode = HiDocumentText;
+export const FileImage = HiPhotograph;
+export const FileText = HiDocumentText;
+export const Folder = HiFolder;
+export const Move = HiOutlineArrowRight;
+export const ICursor = HiOutlinePencil;
+export const More = HiOutlineDotsHorizontal;
+export const Redo = HiOutlineRefresh;
+export const TrashOutlined = HiOutlineTrash;
+export const NewFolder = HiFolderAdd;
 
 const EXT_MAP = {
   '.jpg': FileImage,
@@ -52,10 +44,11 @@ const EXT_MAP = {
   '.jpe': FileImage,
   '.js': FileCode,
   '.json': FileCode,
+  '.py': FileCode,
   '.md': FileText,
   '.png': FileImage,
 };
 
 export function getIconByExt(ext) {
-  return EXT_MAP[ext] || File;
+  return EXT_MAP[ext.toLowerCase()] || File;
 }

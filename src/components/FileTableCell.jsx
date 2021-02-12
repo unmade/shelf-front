@@ -37,9 +37,6 @@ function getBackground(selected) {
 
 function FileTableCell({ className, item, selected, onSelect }) {
   const match = useRouteMatch();
-  // if (item === undefined || item === null) {
-  //   return null;
-  // }
 
   const primaryText = getPrimaryText(selected, item.hidden);
   const secondaryText = getSecondaryText(selected, item.hidden);
@@ -52,7 +49,7 @@ function FileTableCell({ className, item, selected, onSelect }) {
     >
       <div className={`sm:w-3/5 w-2/3 flex flex-row items-center space-x-2 ${primaryText}`}>
         <div className="w-6">
-          <FileIcon item={item} className="w-6 h-6" />
+          <FileIcon item={item} className="w-7 h-7" />
         </div>
         {(item.type === FileType.FOLDER) ? (
           <span className="truncate" onClick={(event) => { event.stopPropagation(); }}>

@@ -6,7 +6,7 @@ import * as icons from '../icons';
 const menu = [
   {
     name: 'New Folder',
-    icon: <icons.NewFolder />,
+    icon: <icons.NewFolder className="w-5 h-5" />,
   },
 ];
 
