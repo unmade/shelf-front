@@ -1,7 +1,5 @@
 import React from 'react';
 
-import * as icons from '../icons';
-
 import CreateFolderDialog from '../containers/CreateFolderDialog';
 import DeleteDialog from '../containers/DeleteDialog';
 import FileBrowserActions from '../containers/FileBrowserActions';
@@ -10,9 +8,7 @@ import FileTableCell from '../containers/FileTableCell';
 import FileTableView from '../containers/FileTableView';
 import MoveDialog from '../containers/MoveDialog';
 import RenameFileDialog from '../containers/RenameFileDialog';
-import Uploader from '../containers/Uploader';
 
-import Dropdown from './ui/Dropdown';
 import Breadcrumbs from './ui/Breadcrumbs';
 
 import BreadcrumbItem from './BreadcrumbItem';
@@ -42,29 +38,14 @@ class FileBrowser extends React.Component {
   }
 
   render() {
-    const { match, hasSelectedFiles, hasUploads } = this.props;
+    const { match, hasSelectedFiles } = this.props;
     const { dirPath } = match.params;
 
     return (
       <div className="flex flex-col h-full">
         <div className="flex flex-row justify-between p-4 border-b-2 border-gray-100">
           <Breadcrumbs path={match.url} itemRender={BreadcrumbItem} />
-
-          <div className="flex flex-row">
-            {(hasUploads) && (
-              <Dropdown overlay={() => (<Uploader />)}>
-                <button type="button" className="mr-4 align-middle text-xl text-gray-700 rounded-full">
-                  <icons.CloudUpload />
-                </button>
-              </Dropdown>
-            )}
-
-            <Dropdown overlay={FileBrowserActions}>
-              <button type="button" className="mr-4 align-middle text-xl text-gray-700 rounded-full">
-                <icons.More />
-              </button>
-            </Dropdown>
-          </div>
+          <FileBrowserActions />
         </div>
 
         <div className="flex-1 flex flex-row">

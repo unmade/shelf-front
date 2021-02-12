@@ -3,20 +3,20 @@ import {
 } from 'react-icons/bs';
 import {
   HiCheckCircle,
-  HiOutlineCloudUpload,
-  HiFolder,
-  HiFolderAdd,
-  HiOutlineDotsHorizontal,
-  HiOutlineDownload,
-  HiOutlineTrash,
-  HiOutlineX,
-  HiXCircle,
   HiDocument,
   HiDocumentText,
-  HiPhotograph,
+  HiFolder,
   HiOutlineArrowRight,
+  HiOutlineCloudUpload,
+  HiOutlineFolderAdd,
+  HiOutlineDotsHorizontal,
+  HiOutlineDownload,
   HiOutlinePencil,
   HiOutlineRefresh,
+  HiOutlineTrash,
+  HiOutlineX,
+  HiPhotograph,
+  HiXCircle,
 } from 'react-icons/hi';
 
 export const AppLogo = BsLayersFill;
@@ -36,7 +36,7 @@ export const ICursor = HiOutlinePencil;
 export const More = HiOutlineDotsHorizontal;
 export const Redo = HiOutlineRefresh;
 export const TrashOutlined = HiOutlineTrash;
-export const NewFolder = HiFolderAdd;
+export const NewFolder = HiOutlineFolderAdd;
 
 const EXT_MAP = {
   '.jpg': FileImage,

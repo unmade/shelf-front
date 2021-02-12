@@ -3,32 +3,38 @@ import PropTypes from 'prop-types';
 
 import * as icons from '../icons';
 
+import Uploader from '../containers/Uploader';
+
+import Dropdown from './ui/Dropdown';
+
 const menu = [
   {
     name: 'New Folder',
-    icon: <icons.NewFolder className="w-5 h-5" />,
+    icon: <icons.NewFolder className="w-6 h-6" />,
   },
 ];
 
-function FileBrowserActions({ closeOverlay, onCreateFolder }) {
+function FileBrowserActions({ hasUploads, onCreateFolder }) {
   return (
-    <div className="w-40 text-sm text-gray-700 p-2 bg-white py-2 rounded-md shadow-lg mt-1">
+    <div className="flex flex-row space-x-3 align-middle text-gray-700">
+      {(hasUploads) && (
+        <Dropdown overlay={() => (<Uploader />)}>
+          <button type="button" title="Uploads" className="p-1 rounded-md hover:bg-gray-100">
+            <icons.CloudUpload className="w-6 h-6" />
+          </button>
+        </Dropdown>
+      )}
       {menu.map((item) => (
         <button
           key={item.name}
           type="button"
-          className="w-full rounded px-4 py-2 hover:bg-gray-100"
+          className="p-1 rounded-md hover:bg-gray-100"
+          title={item.name}
           onClick={() => {
             onCreateFolder();
-            closeOverlay();
           }}
         >
-          <div className="flex flex-row items-center space-x-4">
-            <p className="text-left flex-1">
-              {item.name}
-            </p>
-            {item.icon}
-          </div>
+          {item.icon}
         </button>
       ))}
     </div>
@@ -36,7 +42,7 @@ function FileBrowserActions({ closeOverlay, onCreateFolder }) {
 }
 
 FileBrowserActions.propTypes = {
-  closeOverlay: PropTypes.func.isRequired,
+  hasUploads: PropTypes.bool.isRequired,
   onCreateFolder: PropTypes.func.isRequired,
 };
 

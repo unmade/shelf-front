@@ -1,7 +1,5 @@
 import { combineReducers } from 'redux';
 
-import { FileType } from '../../constants';
-
 import { types } from '../actions/files';
 import { types as uploadTypes } from '../actions/uploads';
 
