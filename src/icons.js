@@ -19,6 +19,8 @@ import {
   HiXCircle,
 } from 'react-icons/hi';
 
+import { MediaType } from './constants';
+
 export const AppLogo = BsLayersFill;
 export const CheckCircle = HiCheckCircle;
 export const CloudUpload = HiOutlineCloudUpload;
@@ -49,6 +51,26 @@ const EXT_MAP = {
   '.png': FileImage,
 };
 
+const PRECISE_MAP = {
+  [MediaType.FOLDER]: Folder,
+};
+
+const FUZZY_MAP = {
+  image: FileImage,
+  text: FileText,
+};
+
 export function getIconByExt(ext) {
   return EXT_MAP[ext.toLowerCase()] || File;
+}
+
+export function getIcon(mediaType) {
+  if (PRECISE_MAP[mediaType]) {
+    return PRECISE_MAP[mediaType];
+  }
+  const type = mediaType.split('/')[0];
+  if (FUZZY_MAP[type]) {
+    return FUZZY_MAP[type];
+  }
+  return File;
 }

@@ -18,8 +18,8 @@ function getActionsByType(path) {
   return FileActions;
 }
 
-function FileTableCellActions({ id, path, isDir }) {
-  const Actions = getActionsByType(path, isDir);
+function FileTableCellActions({ id, path, mediaType }) {
+  const Actions = getActionsByType(path, mediaType);
   if (!Actions) {
     return null;
   }
@@ -38,7 +38,7 @@ function FileTableCellActions({ id, path, isDir }) {
 FileTableCellActions.propTypes = {
   id: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
-  isDir: PropTypes.bool.isRequired,
+  mediaType: PropTypes.string.isRequired,
 };
 
 export default FileTableCellActions;

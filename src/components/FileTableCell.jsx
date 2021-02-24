@@ -4,6 +4,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, useRouteMatch } from 'react-router-dom';
 
+import { MediaType } from '../constants';
+
 import FileSize from './ui/FileSize';
 import TimeAgo from './ui/TimeAgo';
 
@@ -49,7 +51,7 @@ function FileTableCell({ className, item, selected, onSelect }) {
         <div className="w-6">
           <FileIcon item={item} className="w-7 h-7" />
         </div>
-        {(item.is_dir) ? (
+        {(item.mediatype === MediaType.FOLDER) ? (
           <span className="truncate" onClick={(event) => { event.stopPropagation(); }}>
             <Link to={`${match.url}/${item.name}`}>
               {item.name}
@@ -65,7 +67,7 @@ function FileTableCell({ className, item, selected, onSelect }) {
       <div className="sm:w-2/5 w-1/3 flex flex-row items-center justify-end">
         {/* apply classes here, otherwise they end up in closure */}
         <div className={`${secondaryText} hover:${primaryText}`}>
-          <FileTableCellActions id={item.id} isDir={item.is_dir} path={item.path} />
+          <FileTableCellActions id={item.id} mediaType={item.mediatype} path={item.path} />
         </div>
         <div className={`w-24 pr-4 text-right ${secondaryText}`}>
           <FileSize size={item.size} />
@@ -85,7 +87,7 @@ FileTableCell.propTypes = {
     size: PropTypes.number.isRequired,
     mtime: PropTypes.number.isRequired,
     hidden: PropTypes.bool.isRequired,
-    is_dir: PropTypes.bool.isRequired,
+    mediatype: PropTypes.string.isRequired,
   }).isRequired,
   selected: PropTypes.bool,
   onSelect: PropTypes.func.isRequired,

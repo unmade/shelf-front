@@ -5,3 +5,7 @@ export const BREADCRUMBS_ALIASES = {
   files: 'Home',
   trash: 'Trash',
 };
+
+export const MediaType = {
+  FOLDER: 'application/directory',
+};

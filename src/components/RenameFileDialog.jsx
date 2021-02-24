@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { MediaType } from '../constants';
 import * as icons from '../icons';
 
 import Dialog from './ui/Dialog';
@@ -43,7 +44,7 @@ function RenameFileDialog({ file, onRename, onCancel }) {
   if (!visible) {
     return null;
   }
-  const type = (file.is_dir) ? 'Folder' : 'File';
+  const type = (file.mediatype === MediaType.FOLDER) ? 'Folder' : 'File';
   return (
     <Dialog
       title={`Rename ${type}`}
@@ -75,7 +76,7 @@ RenameFileDialog.propTypes = {
   file: PropTypes.shape({
     name: PropTypes.string.isRequired,
     path: PropTypes.string.isRequired,
-    is_dir: PropTypes.bool.isRequired,
+    mediatype: PropTypes.string.isRequired,
   }),
   onRename: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
