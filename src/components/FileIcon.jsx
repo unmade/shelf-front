@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { FileType } from '../constants';
 import * as icons from '../icons';
 
 function FileIcon({ className, item }) {
-  const { type, name, hidden } = item;
+  const { is_dir: isDir, name, hidden } = item;
 
-  if (type === FileType.FOLDER) {
+  if (isDir) {
     const color = (hidden) ? 'text-blue-200' : 'text-blue-400';
     return (
       <icons.Folder className={`${color} ${className}`} />
@@ -25,9 +24,9 @@ function FileIcon({ className, item }) {
 FileIcon.propTypes = {
   className: PropTypes.string,
   item: PropTypes.shape({
-    type: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     hidden: PropTypes.bool.isRequired,
+    is_dir: PropTypes.bool.isRequired,
   }).isRequired,
 };
 

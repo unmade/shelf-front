@@ -65,7 +65,7 @@ function FileTableView({ path, droppable, items, itemRender }) {
 
 FileTableView.propTypes = {
   path: PropTypes.string.isRequired,
-  items: PropTypes.arrayOf(PropTypes.number).isRequired,
+  items: PropTypes.arrayOf(PropTypes.string).isRequired,
   droppable: PropTypes.bool,
   itemRender: PropTypes.oneOfType([
     PropTypes.func,

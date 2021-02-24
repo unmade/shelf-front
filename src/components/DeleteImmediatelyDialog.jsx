@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { FileType } from '../constants';
 import * as icons from '../icons';
 
 import Dialog from './ui/Dialog';
@@ -17,7 +16,7 @@ function DeleteImmediatelyDialog({ file, onDelete, onCancel }) {
   if (!visible) {
     return null;
   }
-  const type = (file.type === FileType.FILE) ? 'File' : 'Folder';
+  const type = (file.is_dir) ? 'File' : 'Folder';
   return (
     <Dialog
       title={`Permanently Delete ${type}`}
@@ -41,9 +40,9 @@ function DeleteImmediatelyDialog({ file, onDelete, onCancel }) {
 
 DeleteImmediatelyDialog.propTypes = {
   file: PropTypes.shape({
-    type: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     path: PropTypes.string.isRequired,
+    is_dir: PropTypes.bool.isRequired,
   }),
   onDelete: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,

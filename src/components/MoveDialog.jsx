@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { FileType } from '../constants';
-
 import FolderPicker from '../containers/FolderPicker';
 
 import Dialog from './ui/Dialog';
@@ -24,7 +22,7 @@ function MoveDialog({ file, onMove, onCancel }) {
     setToPath(path);
   };
 
-  const type = (file.type === FileType.FILE) ? 'File' : 'Folder';
+  const type = (file.is_dir) ? 'File' : 'Folder';
   return (
     <Dialog
       title={`Move ${type}`}
@@ -42,9 +40,9 @@ function MoveDialog({ file, onMove, onCancel }) {
 
 MoveDialog.propTypes = {
   file: PropTypes.shape({
-    type: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     path: PropTypes.string.isRequired,
+    is_dir: PropTypes.bool.isRequired,
   }),
   onMove: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,

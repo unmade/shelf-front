@@ -35,7 +35,7 @@ function FileActions({
 
 FileActions.propTypes = {
   closeOverlay: PropTypes.func.isRequired,
-  fileId: PropTypes.number.isRequired,
+  fileId: PropTypes.string.isRequired,
   filePath: PropTypes.string.isRequired,
   onRename: PropTypes.func.isRequired,
   onMove: PropTypes.func.isRequired,

@@ -9,7 +9,7 @@ import * as actions from '../actions/accounts';
 import { getAccessToken } from '../reducers/auth';
 
 function* retrieveUserSaga() {
-  const url = `${API_BASE_URL}/accounts/me`;
+  const url = `${API_BASE_URL}/auth/me`;
   const accessToken = yield select(getAccessToken);
 
   const options = {

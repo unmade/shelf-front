@@ -2,27 +2,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import * as icons from '../icons';
-import { FileType, TRASH_FOLDER_NAME } from '../constants';
+import { TRASH_FOLDER_NAME } from '../constants';
 
 import DeletedFileActions from '../containers/DeletedFileActions';
 import FileActions from '../containers/FileActions';
 
 import Dropdown from './ui/Dropdown';
 
-function getActionsByType(type, path) {
+function getActionsByType(path) {
+  // this is just a skeleton method
   if (path !== TRASH_FOLDER_NAME && path.startsWith(TRASH_FOLDER_NAME)) {
     return DeletedFileActions;
   }
-  const map = {
-    [FileType.FILE]: FileActions,
-    [FileType.FOLDER]: FileActions,
-  };
 
-  return map[type];
+  return FileActions;
 }
 
-function FileTableCellActions({ id, type, path }) {
-  const Actions = getActionsByType(type, path);
+function FileTableCellActions({ id, path, isDir }) {
+  const Actions = getActionsByType(path, isDir);
   if (!Actions) {
     return null;
   }
@@ -39,9 +36,9 @@ function FileTableCellActions({ id, type, path }) {
 }
 
 FileTableCellActions.propTypes = {
-  id: PropTypes.number.isRequired,
-  type: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
+  isDir: PropTypes.bool.isRequired,
 };
 
 export default FileTableCellActions;

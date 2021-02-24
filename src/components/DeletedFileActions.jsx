@@ -18,7 +18,7 @@ function DeletedFileActions({ closeOverlay, fileId, onDeleteImmediately }) {
 
 DeletedFileActions.propTypes = {
   closeOverlay: PropTypes.func.isRequired,
-  fileId: PropTypes.number.isRequired,
+  fileId: PropTypes.string.isRequired,
   onDeleteImmediately: PropTypes.func.isRequired,
 };
 

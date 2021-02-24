@@ -6,8 +6,6 @@ import {
   race,
 } from 'redux-saga/effects';
 
-import { FileType } from '../../constants';
-
 import API_BASE_URL from '../api-config';
 import * as actions from '../actions/files';
 import * as uploadActions from '../actions/uploads';
@@ -59,10 +57,10 @@ function* findNextIdx(arr, target, cmp) {
 }
 
 function compareFiles(a, b) {
-  if (a.type === b.type) {
+  if (a.is_dir === b.is_dir) {
     return a.path.toLowerCase().localeCompare(b.path.toLowerCase());
   }
-  return (a.type === FileType.FOLDER) ? -1 : 1;
+  return (a.is_dir) ? -1 : 1;
 }
 
 function* handleMoveFile(action) {
