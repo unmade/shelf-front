@@ -40,7 +40,7 @@ function FolderPicker({ path, items, onPathChange }) {
 
 FolderPicker.propTypes = {
   path: PropTypes.string.isRequired,
-  items: PropTypes.arrayOf(PropTypes.number).isRequired,
+  items: PropTypes.arrayOf(PropTypes.string).isRequired,
   onPathChange: PropTypes.func.isRequired,
 };
 

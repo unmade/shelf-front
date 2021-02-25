@@ -48,7 +48,7 @@ function FileTableCell({ className, item, selected, onSelect }) {
       className={`${className} mx-4 h-full flex flex-row items-center text-sm px-4 border rounded-lg ${(background)}`}
     >
       <div className={`sm:w-3/5 w-2/3 flex flex-row items-center space-x-2 ${primaryText}`}>
-        <div className="w-6">
+        <div className="w-7">
           <FileIcon item={item} className="w-7 h-7" />
         </div>
         {(item.mediatype === MediaType.FOLDER) ? (
