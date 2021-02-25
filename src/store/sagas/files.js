@@ -67,10 +67,6 @@ function compareFiles(a, b) {
   }
 
   return a.path.toLowerCase().localeCompare(b.path.toLowerCase());
-  // if (a.mediatype === MediaType.FOLDER && b.mediatype === MediaType.FOLDER) {
-  //   return a.path.toLowerCase().localeCompare(b.path.toLowerCase());
-  // }
-  // return (a.mediatype === MediaType.FOLDER) ? -1 : 1;
 }
 
 function* handleMoveFile(action) {

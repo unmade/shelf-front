@@ -41,6 +41,7 @@ function FileTableCell({ className, item, selected, onSelect }) {
   const primaryText = getPrimaryText(selected, item.hidden);
   const secondaryText = getSecondaryText(selected, item.hidden);
   const background = getBackground(selected);
+  const thumbnail = `${item.thumbnail}`;
 
   return (
     <div
@@ -49,7 +50,14 @@ function FileTableCell({ className, item, selected, onSelect }) {
     >
       <div className={`sm:w-3/5 w-2/3 flex flex-row items-center space-x-2 ${primaryText}`}>
         <div className="w-7">
-          <FileIcon item={item} className="w-7 h-7" />
+          {(item.thumbnail !== null && item.thumbnail !== undefined) ? (
+            <img
+              srcSet={`${thumbnail}}?size=32 1x, ${thumbnail}?size=64 2x`}
+              alt="preview"
+            />
+          ) : (
+            <FileIcon item={item} className="w-7 h-7" />
+          )}
         </div>
         {(item.mediatype === MediaType.FOLDER) ? (
           <span className="truncate" onClick={(event) => { event.stopPropagation(); }}>
@@ -88,6 +96,7 @@ FileTableCell.propTypes = {
     mtime: PropTypes.number.isRequired,
     hidden: PropTypes.bool.isRequired,
     mediatype: PropTypes.string.isRequired,
+    thumbnail: PropTypes.string,
   }).isRequired,
   selected: PropTypes.bool,
   onSelect: PropTypes.func.isRequired,

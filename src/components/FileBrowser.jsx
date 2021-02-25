@@ -3,7 +3,7 @@ import React from 'react';
 import CreateFolderDialog from '../containers/CreateFolderDialog';
 import DeleteDialog from '../containers/DeleteDialog';
 import FileBrowserActions from '../containers/FileBrowserActions';
-import FilePreview from '../containers/FilePreview';
+import FileBrowserPreview from '../containers/FileBrowserPreview';
 import FileTableCell from '../containers/FileTableCell';
 import FileTableView from '../containers/FileTableView';
 import MoveDialog from '../containers/MoveDialog';
@@ -53,8 +53,8 @@ class FileBrowser extends React.Component {
             <FileTableView path={dirPath || '.'} itemRender={FileTableCell} droppable />
           </div>
           {(hasSelectedFiles) && (
-            <div className="w-2/6">
-              <FilePreview />
+            <div className="w-2/6 ml-4">
+              <FileBrowserPreview />
             </div>
           )}
         </div>
