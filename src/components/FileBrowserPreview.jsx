@@ -65,7 +65,7 @@ FileBrowserPreview.propTypes = {
       path: PropTypes.string.isRequired,
       size: PropTypes.number.isRequired,
       mtime: PropTypes.number.isRequired,
-      thumbnail: PropTypes.string.isRequired,
+      thumbnail: PropTypes.string,
     }),
   ).isRequired,
 };

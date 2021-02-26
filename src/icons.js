@@ -6,23 +6,26 @@ import { BsLayersFill } from 'react-icons/bs';
 import { MediaType } from './constants';
 
 export const AppLogo = BsLayersFill;
+export const ArrowLeft = hi.HiArrowNarrowLeft;
+export const ArrowRight = hi.HiArrowNarrowRight;
 export const CheckCircle = hi.HiCheckCircle;
+export const ChevronLeft = hi.HiOutlineChevronLeft;
 export const CloudUpload = hi.HiOutlineCloudUpload;
 export const Close = hi.HiOutlineX;
 export const CrossCircle = hi.HiXCircle;
 export const Download = hi.HiOutlineDownload;
 export const Edit = hi.HiOutlinePencil;
 export const File = hi.HiOutlineDocument;
-export const FileCode = hi.HiCode;
+export const FileCode = hi.HiOutlineCode;
 export const FileImage = hi.HiOutlinePhotograph;
 export const FileText = hi.HiOutlineDocumentText;
 export const Folder = hi.HiFolder;
-export const Move = hi.HiOutlineArrowRight;
 export const ICursor = hi.HiOutlinePencil;
+export const NewFolder = hi.HiOutlineFolderAdd;
 export const More = hi.HiOutlineDotsHorizontal;
+export const Move = hi.HiOutlineArrowRight;
 export const Redo = hi.HiOutlineRefresh;
 export const TrashOutlined = hi.HiOutlineTrash;
-export const NewFolder = hi.HiOutlineFolderAdd;
 
 const PRECISE_MAP = {
   [MediaType.FOLDER]: Folder,

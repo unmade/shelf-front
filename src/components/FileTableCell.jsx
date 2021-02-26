@@ -2,7 +2,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link, useRouteMatch } from 'react-router-dom';
 
 import { MediaType } from '../constants';
 
@@ -11,6 +10,7 @@ import TimeAgo from './ui/TimeAgo';
 
 import FileTableCellActions from './FileTableCellActions';
 import FileIcon from './FileIcon';
+import FileLink from './FileLink';
 
 function getPrimaryText(selected, hidden) {
   return (
@@ -36,12 +36,9 @@ function getBackground(selected) {
 }
 
 function FileTableCell({ className, item, selected, onSelect }) {
-  const match = useRouteMatch();
-
   const primaryText = getPrimaryText(selected, item.hidden);
   const secondaryText = getSecondaryText(selected, item.hidden);
   const background = getBackground(selected);
-  const thumbnail = `${item.thumbnail}`;
 
   return (
     <div
@@ -52,24 +49,18 @@ function FileTableCell({ className, item, selected, onSelect }) {
         <div className="w-7">
           {(item.thumbnail !== null && item.thumbnail !== undefined) ? (
             <img
-              srcSet={`${thumbnail}}?size=32 1x, ${thumbnail}?size=64 2x`}
+              srcSet={`${item.thumbnail}}?size=32 1x, ${item.thumbnail}?size=64 2x`}
               alt="preview"
             />
           ) : (
             <FileIcon item={item} className="w-7 h-7" />
           )}
         </div>
-        {(item.mediatype === MediaType.FOLDER) ? (
-          <span className="truncate" onClick={(event) => { event.stopPropagation(); }}>
-            <Link to={`${match.url}/${item.name}`}>
-              {item.name}
-            </Link>
-          </span>
-        ) : (
-          <button type="button" className="truncate">
+        <span className="truncate" onClick={(event) => { event.stopPropagation(); }}>
+          <FileLink name={item.name} preview={item.mediatype !== MediaType.FOLDER}>
             {item.name}
-          </button>
-        )}
+          </FileLink>
+        </span>
       </div>
 
       <div className="sm:w-2/5 w-1/3 flex flex-row items-center justify-end">

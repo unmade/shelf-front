@@ -12,6 +12,34 @@ import RenameFileDialog from '../containers/RenameFileDialog';
 import Breadcrumbs from './ui/Breadcrumbs';
 
 import BreadcrumbItem from './BreadcrumbItem';
+import FilePreview from '../containers/FilePreview';
+
+const Browser = React.memo(
+  ({ url, dirPath, hasSelectedFiles }) => (
+    <div className="flex flex-col h-full">
+      <div className="flex flex-row justify-between p-4 border-b-2 border-gray-100">
+        <Breadcrumbs path={url} itemRender={BreadcrumbItem} />
+        <FileBrowserActions />
+      </div>
+
+      <div className="flex-1 flex flex-row">
+        <div className="flex-1">
+          <FileTableView path={dirPath || '.'} itemRender={FileTableCell} droppable />
+        </div>
+        {(hasSelectedFiles) && (
+          <div className="w-2/6 ml-4">
+            <FileBrowserPreview />
+          </div>
+        )}
+      </div>
+
+      <CreateFolderDialog />
+      <RenameFileDialog />
+      <MoveDialog />
+      <DeleteDialog />
+    </div>
+  ),
+);
 
 class FileBrowser extends React.Component {
   componentDidMount() {
@@ -38,32 +66,20 @@ class FileBrowser extends React.Component {
   }
 
   render() {
-    const { match, hasSelectedFiles } = this.props;
+    const { match, location, hasSelectedFiles } = this.props;
     const { dirPath } = match.params;
 
+    const { search } = location;
+    const queryParams = new URLSearchParams(search);
+    const preview = queryParams.get('preview');
+
     return (
-      <div className="flex flex-col h-full">
-        <div className="flex flex-row justify-between p-4 border-b-2 border-gray-100">
-          <Breadcrumbs path={match.url} itemRender={BreadcrumbItem} />
-          <FileBrowserActions />
-        </div>
-
-        <div className="flex-1 flex flex-row">
-          <div className="flex-1">
-            <FileTableView path={dirPath || '.'} itemRender={FileTableCell} droppable />
-          </div>
-          {(hasSelectedFiles) && (
-            <div className="w-2/6 ml-4">
-              <FileBrowserPreview />
-            </div>
-          )}
-        </div>
-
-        <CreateFolderDialog />
-        <RenameFileDialog />
-        <MoveDialog />
-        <DeleteDialog />
-      </div>
+      <>
+        <Browser url={match.url} dirPath={dirPath} hasSelectedFiles={hasSelectedFiles} />
+        {(preview) && (
+          <FilePreview path={dirPath || '.'} />
+        )}
+      </>
     );
   }
 }
