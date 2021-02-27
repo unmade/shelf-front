@@ -5,9 +5,7 @@ import * as icons from '../icons';
 
 import { MediaType } from '../constants';
 
-function FileIcon({ className, item }) {
-  const { hidden, mediatype } = item;
-
+function FileIcon({ className, hidden, mediatype }) {
   let color;
   if (mediatype === MediaType.FOLDER) {
     color = (hidden) ? 'text-blue-200' : 'text-blue-400';
@@ -23,14 +21,13 @@ function FileIcon({ className, item }) {
 
 FileIcon.propTypes = {
   className: PropTypes.string,
-  item: PropTypes.shape({
-    hidden: PropTypes.bool.isRequired,
-    mediatype: PropTypes.string.isRequired,
-  }).isRequired,
+  hidden: PropTypes.bool,
+  mediatype: PropTypes.string.isRequired,
 };
 
 FileIcon.defaultProps = {
   className: '',
+  hidden: false,
 };
 
 export default FileIcon;

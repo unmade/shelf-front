@@ -119,7 +119,7 @@ function FilePreview({ files }) {
             <Preview file={file} />
           ) : (
             <div className="flex h-full items-center justify-center">
-              <FileIcon item={file} className="w-32 h-auto drop-shadow" />
+              <FileIcon className="w-32 h-auto drop-shadow" mediatype={file.mediatype} hidden={file.hidden} />
             </div>
           )}
         </div>

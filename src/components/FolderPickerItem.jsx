@@ -17,7 +17,7 @@ function FolderPickerItem({ className, item, onClick }) {
       onClick={() => (isFolder) && onClick(item.path)}
     >
       <div className={`flex flex-row items-center space-x-2 ${primaryText}`}>
-        <FileIcon item={item} className="w-7 h-7" />
+        <FileIcon className="w-7 h-7" mediatype={item.mediatype} hidden={item.hidden} />
         {(isFolder) ? (
           <button type="button">
             {item.name}

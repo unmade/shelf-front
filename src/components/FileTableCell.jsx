@@ -11,6 +11,7 @@ import TimeAgo from './ui/TimeAgo';
 import FileTableCellActions from './FileTableCellActions';
 import FileIcon from './FileIcon';
 import FileLink from './FileLink';
+import Thumbnail from '../containers/Thumbnail';
 
 function getPrimaryText(selected, hidden) {
   return (
@@ -47,13 +48,10 @@ function FileTableCell({ className, item, selected, onSelect }) {
     >
       <div className={`sm:w-3/5 w-2/3 flex flex-row items-center space-x-2 ${primaryText}`}>
         <div className="w-7">
-          {(item.thumbnail !== null && item.thumbnail !== undefined) ? (
-            <img
-              srcSet={`${item.thumbnail}}?size=32 1x, ${item.thumbnail}?size=64 2x`}
-              alt="preview"
-            />
+          {(item.has_thumbnail) ? (
+            <Thumbnail className="w-7 h-7" file={item} />
           ) : (
-            <FileIcon item={item} className="w-7 h-7" />
+            <FileIcon className="w-7 h-7" mediatype={item.mediatype} hidden={item.hidden} />
           )}
         </div>
         <span className="truncate" onClick={(event) => { event.stopPropagation(); }}>
@@ -87,7 +85,7 @@ FileTableCell.propTypes = {
     mtime: PropTypes.number.isRequired,
     hidden: PropTypes.bool.isRequired,
     mediatype: PropTypes.string.isRequired,
-    thumbnail: PropTypes.string,
+    has_thumbnail: PropTypes.bool,
   }).isRequired,
   selected: PropTypes.bool,
   onSelect: PropTypes.func.isRequired,

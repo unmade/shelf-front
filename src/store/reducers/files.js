@@ -121,11 +121,29 @@ function currPath(state = '.', action) {
   }
 }
 
+function thumbnailsById(state = {}, action) {
+  switch (action.type) {
+    case types.FETCH_THUMBNAIL_SUCCESS: {
+      const { id, size, thumb } = action.payload;
+      return {
+        ...state,
+        [id]: {
+          ...state[id],
+          [size]: thumb,
+        },
+      };
+    }
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   byId: filesById,
   byPath: filesByPath,
   selectedIds: selectFiles,
   currPath,
+  thumbnailsById,
 });
 
 export const getFileById = (state, id) => state.files.byId[id];
@@ -133,6 +151,7 @@ export const getFilesByPath = (state, path) => state.files.byPath[path] || [];
 export const getIsFileSelected = (state, id) => state.files.selectedIds.has(id);
 export const getSelectedFiles = (state) => [...state.files.selectedIds].map((id) => getFileById(state, id));
 export const getHasSelectedFiles = (state) => state.files.selectedIds.size !== 0;
+export const getThumbnailById = (state, id) => state.files.thumbnailsById[id];
 
 // I think I should move it to another reducer;
 export const getCurrPath = (state) => state.files.currPath;

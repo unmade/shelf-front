@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import FilePreviewActions from '../containers/FilePreviewActions';
+import Thumbnail from '../containers/Thumbnail';
+
 import FileSize from './ui/FileSize';
 import TimeAgo from './ui/TimeAgo';
 
 import FileIcon from './FileIcon';
-import FilePreviewActions from '../containers/FilePreviewActions';
 
 // offset to match FileTableView
 const styles = {
@@ -16,7 +18,7 @@ function FileBrowserPreview({ files }) {
   // currently preview only the first file
   const [file] = files;
   const {
-    id, name, path, size, mtime, thumbnail,
+    id, name, path, size, mtime, has_thumbnail: hasThumbnail,
   } = file;
 
   return (
@@ -26,14 +28,10 @@ function FileBrowserPreview({ files }) {
 
       <div className="px-4 pb-2 flex flex-col">
         <div className="h-64 w-auto flex items-center justify-center rounded bg-gray-75">
-          {(thumbnail !== null && thumbnail !== undefined) ? (
-            <img
-              className="rounded"
-              srcSet={`${thumbnail}?size=256 1x, ${thumbnail}?size=512 2x`}
-              alt="preview"
-            />
+          {(hasThumbnail) ? (
+            <Thumbnail className="rounded" size="lg" file={file} />
           ) : (
-            <FileIcon item={file} className="w-32 h-auto drop-shadow" />
+            <FileIcon className="w-32 h-auto drop-shadow" mediatype={file.mediatype} hidden={file.hidden} />
           )}
         </div>
 
@@ -65,7 +63,7 @@ FileBrowserPreview.propTypes = {
       path: PropTypes.string.isRequired,
       size: PropTypes.number.isRequired,
       mtime: PropTypes.number.isRequired,
-      thumbnail: PropTypes.string,
+      has_thumbnail: PropTypes.bool,
     }),
   ).isRequired,
 };
