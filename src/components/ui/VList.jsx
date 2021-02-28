@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 
-function List({
+function VList({
   className, heightOffset, items, itemHeight, itemRender: View,
 }) {
   return (
@@ -29,7 +29,7 @@ function List({
   );
 }
 
-List.propTypes = {
+VList.propTypes = {
   className: PropTypes.string,
   heightOffset: PropTypes.number,
   items: PropTypes.arrayOf(PropTypes.any).isRequired,
@@ -40,10 +40,10 @@ List.propTypes = {
   ]).isRequired,
 };
 
-List.defaultProps = {
+VList.defaultProps = {
   className: '',
   heightOffset: 0,
   itemHeight: 64,
 };
 
-export default List;
+export default VList;

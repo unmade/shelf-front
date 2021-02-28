@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import List from './ui/List';
+import VList from './ui/VList';
 
 function UploadList({ uploads, virtual, itemRender }) {
   if (uploads.length < 1) {
@@ -10,7 +10,7 @@ function UploadList({ uploads, virtual, itemRender }) {
 
   if (virtual) {
     return (
-      <List
+      <VList
         items={uploads}
         itemRender={itemRender}
       />

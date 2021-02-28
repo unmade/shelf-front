@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import FolderPickerItem from '../containers/FolderPickerItem';
 
 import Breadcrumbs from './ui/Breadcrumbs';
-import List from './ui/List';
+import VList from './ui/VList';
 
 function FolderPicker({ path, items, onPathChange }) {
   return (
@@ -27,7 +27,7 @@ function FolderPicker({ path, items, onPathChange }) {
           )}
         />
       </div>
-      <List
+      <VList
         className="border rounded"
         items={items}
         itemRender={({ className, item }) => (
