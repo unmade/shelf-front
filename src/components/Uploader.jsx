@@ -9,6 +9,7 @@ const maxHeight = {
 
 const minWidth = {
   minWidth: '18rem',
+  maxWidth: '24rem',
 };
 
 function Uploader({ uploads }) {

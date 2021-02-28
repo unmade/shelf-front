@@ -5,8 +5,11 @@ import { types } from '../actions/uploads';
 function normalize(items) {
   const data = {};
   items.forEach((item) => {
+    const { name, fileEntry } = item;
+    const { fullPath } = fileEntry;
     data[item.id] = {
       ...item,
+      parentPath: fullPath.substring(0, fullPath.length - name.length - 1),
       progress: 0,
       error: null,
     };

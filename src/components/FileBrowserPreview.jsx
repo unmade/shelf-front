@@ -29,7 +29,7 @@ function FileBrowserPreview({ files }) {
       <div className="px-4 pb-2 flex flex-col">
         <div className="h-64 w-auto flex items-center justify-center rounded bg-gray-75">
           {(hasThumbnail) ? (
-            <Thumbnail className="rounded" size="lg" file={file} />
+            <Thumbnail className="w-64 rounded" size="lg" file={file} />
           ) : (
             <FileIcon className="w-32 h-auto drop-shadow" mediatype={file.mediatype} hidden={file.hidden} />
           )}

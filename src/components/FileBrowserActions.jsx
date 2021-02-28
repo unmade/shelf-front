@@ -16,14 +16,14 @@ const menu = [
 
 function FileBrowserActions({ hasUploads, onCreateFolder }) {
   return (
-    <div className="flex flex-row space-x-3 align-middle text-gray-700">
-      {(hasUploads) && (
-        <Dropdown overlay={() => (<Uploader />)}>
-          <button type="button" title="Uploads" className="p-1 rounded-md hover:bg-gray-100">
+    <div className="flex flex-row space-x-4 align-middle text-gray-700">
+      {/* {(hasUploads) && ( */}
+        <Dropdown visible={hasUploads} overlay={() => (<Uploader />)}>
+          <button type="button" title="Uploads" className="animate-pulse p-1 rounded-md hover:bg-gray-100">
             <icons.CloudUpload className="w-6 h-6" />
           </button>
         </Dropdown>
-      )}
+      {/* )} */}
       {menu.map((item) => (
         <button
           key={item.name}

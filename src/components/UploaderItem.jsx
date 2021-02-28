@@ -10,18 +10,26 @@ const styles = {
 };
 
 function UploaderItem({ item }) {
-  const { name, progress, error } = item;
+  const { name, parentPath, progress, error } = item;
   return (
     <div className="flex flex-row items-center space-x-4">
       <div>
         <icons.File className="text-gray-400 w-6 h-6" />
       </div>
 
-      <div className="flex-1">
-        <div className="flex items-center justify-between mb-1">
-          <div className="font-semibold pr-12">
-            {name}
+      <div className="w-full flex flex-col space-y-2 min-w-0">
+
+        <div className="flex flex-row items-center justify-between space-x-4">
+          <div className="flex flex-col min-w-0">
+            <p className="font-semibold truncate">
+              {name}
+            </p>
+
+            <p className="text-gray-600 truncate">
+              {parentPath}
+            </p>
           </div>
+
           <div className="text-right text-sm">
             {(error) ? (
               <icons.CrossCircle className="text-red-500" />
@@ -53,6 +61,7 @@ function UploaderItem({ item }) {
         ) : (
           <ProgressBar progress={progress} />
         )}
+
       </div>
     </div>
   );

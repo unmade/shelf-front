@@ -117,13 +117,13 @@ function* uploadsWatcher() {
     yield fork(handleUpload, queue);
   }
 
-  while (true) {
-    const action = yield take(actions.types.ADD_UPLOAD_FILES);
-    const { uploads } = action.payload;
-    for (let i = 0; i < uploads.length; i++) {
-      yield put(queue, uploads[i]);
-    }
-  }
+  // while (true) {
+  //   const action = yield take(actions.types.ADD_UPLOAD_FILES);
+  //   const { uploads } = action.payload;
+  //   for (let i = 0; i < uploads.length; i++) {
+  //     yield put(queue, uploads[i]);
+  //   }
+  // }
 }
 
 export default [
