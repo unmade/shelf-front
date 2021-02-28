@@ -2,7 +2,7 @@ import React from 'react';
 
 import { v4 as uuidv4 } from 'uuid';
 
-class Upload extends React.Component {
+class UploadButton extends React.Component {
   constructor(props) {
     super(props);
     this.inputRef = React.createRef(null);
@@ -58,4 +58,4 @@ class Upload extends React.Component {
   }
 }
 
-export default Upload;
+export default UploadButton;

@@ -2,10 +2,10 @@ import { connect } from 'react-redux';
 
 import { getUploadById } from '../store/reducers/uploads';
 
-import UploaderItem from '../components/UploaderItem';
+import UploadListItem from '../components/UploadListItem';
 
 export default connect(
   (state, ownProps) => ({
-    item: getUploadById(state, ownProps.uniqueKey),
+    item: getUploadById(state, ownProps.item),
   }),
-)(UploaderItem);
+)(UploadListItem);

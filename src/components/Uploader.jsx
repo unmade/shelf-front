@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 
 import * as icons from '../icons';
 
-import Upload from '../containers/Upload';
-import UploaderItem from '../containers/UploaderItem';
+import UploadButton from '../containers/UploadButton';
+import UploadList from '../containers/UploadList';
+import UploadListItem from '../containers/UploadListItem';
 
 import Pill from './ui/Pill';
 
@@ -12,7 +13,12 @@ const maxHeight = {
   maxHeight: '50vh',
 };
 
-function Uploader({ uploads }) {
+const height = {
+  height: '50vh',
+};
+
+function Uploader({ uploadCount }) {
+  const virtual = uploadCount > 10;
   return (
     <div className="w-96 p-4 bg-white rounded shadow text-gray-700">
 
@@ -27,14 +33,14 @@ function Uploader({ uploads }) {
             <p className="text-sm text-gray-400">
               or
             </p>
-            <Upload className="px-2 py-1 font-semibold bg-blue-500 text-white rounded-md">
+            <UploadButton className="px-2 py-1 font-semibold bg-blue-500 text-white rounded-md">
               <div className="flex flex-row items-center space-x-2">
                 <icons.Upload />
                 <p className="text-sm">
                   Browse
                 </p>
               </div>
-            </Upload>
+            </UploadButton>
           </div>
         </div>
 
@@ -45,13 +51,12 @@ function Uploader({ uploads }) {
           Recent Uploads
         </p>
 
-        {(uploads.length > 0) ? (
-          <div className="text-xs overflow-scroll" style={maxHeight}>
-            {uploads.map((uploadId) => (
-              <div key={uploadId} className="p-4 hover:bg-gray-100 rounded-lg">
-                <UploaderItem uniqueKey={uploadId} />
-              </div>
-            ))}
+        {(uploadCount > 0) ? (
+          <div className="text-xs" style={(virtual) ? height : maxHeight}>
+            <UploadList
+              itemRender={UploadListItem}
+              virtual={virtual}
+            />
           </div>
         ) : (
           <div className="h-20 text-gray-600 flex flex-row items-center justify-center space-x-2">
@@ -90,7 +95,7 @@ function Uploader({ uploads }) {
 }
 
 Uploader.propTypes = {
-  uploads: PropTypes.arrayOf(PropTypes.string).isRequired,
+  uploadCount: PropTypes.number.isRequired,
 };
 
 export default Uploader;

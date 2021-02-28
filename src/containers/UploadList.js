@@ -2,10 +2,10 @@ import { connect } from 'react-redux';
 
 import { getUploads } from '../store/reducers/uploads';
 
-import Uploader from '../components/Uploader';
+import UploadList from '../components/UploadList';
 
 export default connect(
   (state) => ({
-    uploadCount: getUploads(state).length,
+    uploads: getUploads(state),
   }),
-)(Uploader);
+)(UploadList);

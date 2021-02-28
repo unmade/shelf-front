@@ -9,9 +9,8 @@ const styles = {
   fontSize: '0.5rem',
 };
 
-function UploaderItem({ item }) {
-  let { name, parentPath, progress, error } = item;
-  error = true;
+function UploadListItem({ item }) {
+  const { name, parentPath, progress, error } = item;
   return (
     <div className="flex flex-row items-center space-x-4">
       <div>
@@ -68,4 +67,4 @@ function UploaderItem({ item }) {
   );
 }
 
-export default UploaderItem;
+export default UploadListItem;
