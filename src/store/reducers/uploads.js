@@ -5,8 +5,13 @@ import { types } from '../actions/uploads';
 function normalize(items) {
   const data = {};
   items.forEach((item) => {
-    const { name, fileEntry } = item;
-    const { fullPath } = fileEntry;
+    const { name, fileEntry, fileObj } = item;
+    let fullPath;
+    if (fileEntry !== null && fileEntry !== undefined) {
+      fullPath = fileEntry.fullPath;
+    } else {
+      fullPath = fileObj.fullPath;
+    }
     data[item.id] = {
       ...item,
       parentPath: fullPath.substring(0, fullPath.length - name.length - 1),

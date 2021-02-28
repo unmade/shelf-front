@@ -34,6 +34,7 @@ class Upload extends React.Component {
   }
 
   render() {
+    const { className = '', children } = this.props;
     return (
       <form>
         <input
@@ -46,10 +47,11 @@ class Upload extends React.Component {
         />
         <button
           type="button"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className={className}
+          // className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={this.openUpload}
         >
-          Upload
+          {children}
         </button>
       </form>
     );

@@ -16,7 +16,7 @@ import API_BASE_URL from '../api-config';
 import * as actions from '../actions/uploads';
 import { getAccessToken } from '../reducers/auth';
 
-const MAX_PARALLEL_UPLOADS = 3;
+const MAX_PARALLEL_UPLOADS = 1;
 
 // taken from: https://decembersoft.com/posts/file-upload-progress-with-redux-saga/
 function createUploadFileChannel(url, accessToken, fileObj, fullPath) {
@@ -63,7 +63,7 @@ function createUploadFileChannel(url, accessToken, fileObj, fullPath) {
       xhr.onreadystatechange = null;
       xhr.abort();
     };
-  }, buffers.sliding(3));
+  }, buffers.sliding(MAX_PARALLEL_UPLOADS));
 }
 
 function* getFileObj(upload) {

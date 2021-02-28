@@ -10,7 +10,8 @@ const styles = {
 };
 
 function UploaderItem({ item }) {
-  const { name, parentPath, progress, error } = item;
+  let { name, parentPath, progress, error } = item;
+  error = true;
   return (
     <div className="flex flex-row items-center space-x-4">
       <div>
@@ -32,7 +33,14 @@ function UploaderItem({ item }) {
 
           <div className="text-right text-sm">
             {(error) ? (
-              <icons.CrossCircle className="text-red-500" />
+              <button
+                type="button"
+                title="Retry"
+                className="w-4 h-4 bg-red-500 text-red-100 rounded-full"
+                style={styles}
+              >
+                <icons.Redo />
+              </button>
             ) : (
               <div className="font-semibold">
                 {(progress < 100) ? (
@@ -47,16 +55,9 @@ function UploaderItem({ item }) {
 
         {(error) ? (
           <div className="flex flex-row text-red-500 space-x-2">
-            <div>Upload failed</div>
-            <button
-              type="button"
-              title="Retry"
-              className="w-4 h-4 bg-gray-300 text-gray-500 rounded-full"
-              style={styles}
-            >
-              <icons.Redo />
-            </button>
-            <hr />
+            <p>
+              Upload failed
+            </p>
           </div>
         ) : (
           <ProgressBar progress={progress} />

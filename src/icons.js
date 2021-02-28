@@ -10,9 +10,11 @@ export const ArrowLeft = hi.HiArrowNarrowLeft;
 export const ArrowRight = hi.HiArrowNarrowRight;
 export const CheckCircle = hi.HiCheckCircle;
 export const ChevronLeft = hi.HiOutlineChevronLeft;
+export const Clear = hi.HiBan;
 export const CloudUpload = hi.HiCloudUpload;
+export const CloudUploadOutlined = hi.HiOutlineCloudUpload;
 export const Close = hi.HiOutlineX;
-export const CrossCircle = hi.HiXCircle;
+export const Collection = hi.HiOutlineCollection;
 export const Download = hi.HiOutlineDownload;
 export const Edit = hi.HiOutlinePencil;
 export const File = hi.HiOutlineDocument;
@@ -26,6 +28,7 @@ export const More = hi.HiOutlineDotsHorizontal;
 export const Move = hi.HiOutlineDocumentDuplicate;
 export const Redo = hi.HiOutlineRefresh;
 export const TrashOutlined = hi.HiOutlineTrash;
+export const Upload = hi.HiUpload;
 
 const PRECISE_MAP = {
   [MediaType.FOLDER]: Folder,
