@@ -84,7 +84,14 @@ function getFullPath(upload) {
 function* uploadFile(upload) {
   const url = `${API_BASE_URL}/files/upload`;
   const accessToken = yield select(getAccessToken);
-  const fileObj = yield getFileObj(upload);
+  let fileObj;
+  try {
+    fileObj = yield getFileObj(upload);
+  } catch (err) {
+    console.log(err);
+    yield put(actions.uploadFailure(upload, err));
+    return;
+  }
   const fullPath = getFullPath(upload);
   const chan = yield call(createUploadFileChannel, url, accessToken, fileObj, fullPath);
 
@@ -117,13 +124,13 @@ function* uploadsWatcher() {
     yield fork(handleUpload, queue);
   }
 
-  // while (true) {
-  //   const action = yield take(actions.types.ADD_UPLOAD_FILES);
-  //   const { uploads } = action.payload;
-  //   for (let i = 0; i < uploads.length; i++) {
-  //     yield put(queue, uploads[i]);
-  //   }
-  // }
+  while (true) {
+    const action = yield take(actions.types.ADD_UPLOAD_FILES);
+    const { uploads } = action.payload;
+    for (let i = 0; i < uploads.length; i++) {
+      yield put(queue, uploads[i]);
+    }
+  }
 }
 
 export default [
