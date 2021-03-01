@@ -5,26 +5,14 @@ import { types } from '../actions/uploads';
 function normalize(items) {
   const data = {};
   items.forEach((item) => {
-    const { name, fileEntry, fileObj } = item;
-    let fullPath;
-    if (fileEntry !== null && fileEntry !== undefined) {
-      fullPath = fileEntry.fullPath;
-    } else {
-      fullPath = fileObj.fullPath;
-    }
-    data[item.id] = {
-      ...item,
-      parentPath: fullPath.substring(0, fullPath.length - name.length - 1),
-      progress: 0,
-      error: null,
-    };
+    data[item.id] = item;
   });
   return data;
 }
 
 function uploadsById(state = {}, action) {
   switch (action.type) {
-    case types.ADD_UPLOAD_FILES: {
+    case types.UPLOAD_FILES: {
       return {
         ...state,
         ...normalize(action.payload.uploads),
@@ -59,7 +47,7 @@ function uploadsById(state = {}, action) {
 
 function allUploads(state = [], action) {
   switch (action.type) {
-    case types.ADD_UPLOAD_FILES: {
+    case types.UPLOAD_FILES: {
       return [
         ...state,
         ...action.payload.uploads.map((item) => item.id),

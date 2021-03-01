@@ -4,17 +4,22 @@ import * as icons from '../icons';
 
 import ProgressBar from './ui/ProgressBar';
 
+import FileIcon from './FileIcon';
+
 const styles = {
   padding: '0.25rem',
   fontSize: '0.5rem',
 };
 
 function UploadListItem({ item }) {
-  const { name, parentPath, progress, error } = item;
+  const {
+    name, mediatype, parentPath, progress, error,
+  } = item;
   return (
     <div className="flex flex-row items-center space-x-4">
       <div>
-        <icons.File className="text-gray-400 w-6 h-6" />
+        <FileIcon className="text-gray-400 w-6 h-6" mediatype={mediatype} />
+        {/* <icons.File className="text-gray-400 w-6 h-6" /> */}
       </div>
 
       <div className="w-full flex flex-col space-y-2 min-w-0">

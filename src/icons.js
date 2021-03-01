@@ -65,6 +65,9 @@ const FUZZY_MAP = {
 };
 
 export function getIcon(mediaType) {
+  if (mediaType === null || mediaType === undefined) {
+    return File;
+  }
   if (PRECISE_MAP[mediaType]) {
     return PRECISE_MAP[mediaType];
   }

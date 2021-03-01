@@ -48,7 +48,7 @@ function FileTableView({ path, droppable, items, itemRender }) {
   if (droppable) {
     return (
       <FileDrop
-        baseDir={path}
+        uploadTo={path}
         className="h-full"
         render={({ dragging }) => (
           <Table

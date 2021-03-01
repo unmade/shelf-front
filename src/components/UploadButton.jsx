@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { v4 as uuidv4 } from 'uuid';
-
 class UploadButton extends React.Component {
   constructor(props) {
     super(props);
@@ -12,19 +10,9 @@ class UploadButton extends React.Component {
   }
 
   setUploadFiles(event) {
-    const { addUploadFiles } = this.props;
+    const { uploadTo, onUpload } = this.props;
     const { files } = event.target;
-    const uploads = [];
-    for (let i = 0; i < event.target.files.length; i++) {
-      uploads.push({
-        id: uuidv4(),
-        name: files[i].name,
-        baseDir: '.',
-        fileObj: files[i],
-        fileEntry: null,
-      });
-    }
-    addUploadFiles(uploads);
+    onUpload([...files], uploadTo);
     this.inputRef.current.value = '';
   }
 
@@ -48,7 +36,6 @@ class UploadButton extends React.Component {
         <button
           type="button"
           className={className}
-          // className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={this.openUpload}
         >
           {children}

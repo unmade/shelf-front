@@ -1,5 +1,6 @@
 export const types = {
-  ADD_UPLOAD_FILES: 'ADD_UPLOAD_FILES',
+  ADD_FILE_ENTRIES: 'ADD_FILE_ENTRIES',
+  UPLOAD_FILES: 'UPLOAD_FILES',
   UPLOAD_FILE: 'UPLOAD_FILE',
   UPLOAD_REQUEST: 'UPLOAD_REQUEST',
   UPLOAD_PROGRESS: 'UPLOAD_PROGRESS',
@@ -7,8 +8,13 @@ export const types = {
   UPLOAD_FAILURE: 'UPLOAD_FAILURE',
 };
 
-export const addUploadFiles = (uploads) => ({
-  type: types.ADD_UPLOAD_FILES,
+export const addFileEntries = (files, uploadTo) => ({
+  type: types.ADD_FILE_ENTRIES,
+  payload: { files, uploadTo },
+});
+
+export const uploadFiles = (uploads) => ({
+  type: types.UPLOAD_FILES,
   payload: { uploads },
 });
 
