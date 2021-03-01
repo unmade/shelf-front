@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import * as icons from '../icons';
 
+import FileDrop from '../containers/FileDrop';
 import UploadButton from '../containers/UploadButton';
 import UploadList from '../containers/UploadList';
 import UploadListItem from '../containers/UploadListItem';
@@ -17,32 +18,71 @@ const height = {
   height: '50vh',
 };
 
-function Uploader({ uploadCount }) {
+const dropzoneClass = [
+  'p-4',
+  'border-2',
+  'border-dashed',
+  'rounded-md',
+  'flex',
+  'flex-row',
+  'items-center',
+  'justify-center',
+  'space-x-6',
+  'transition',
+  'ease-in',
+  'duration-75',
+].join(' ');
+
+function Dropzone({ dragging }) {
+  let classes;
+  if (dragging) {
+    classes = 'border-blue-400 bg-blue-100';
+  } else {
+    classes = 'bg-gray-100';
+  }
+  return (
+    <div className={`${dropzoneClass} ${classes}`}>
+      <icons.CloudUploadOutlined className="w-12 h-12 text-gray-400" />
+      <div className="flex flex-col text-center">
+        <p className="text-sm font-semibold text-gray-600">
+          Drag files here
+        </p>
+        <p className="text-sm text-gray-400">
+          or
+        </p>
+        <UploadButton className="px-2 py-1 font-semibold bg-blue-500 text-white rounded-md">
+          <div className="flex flex-row items-center space-x-2">
+            <icons.Upload />
+            <p className="text-sm">
+              Browse
+            </p>
+          </div>
+        </UploadButton>
+      </div>
+    </div>
+  );
+}
+
+Dropzone.propTypes = {
+  dragging: PropTypes.bool,
+};
+
+Dropzone.defaultProps = {
+  dragging: false,
+};
+
+function Uploader({ uploadCount, uploadTo }) {
   const virtual = uploadCount > 10;
   return (
     <div className="w-96 p-4 bg-white rounded shadow text-gray-700">
 
       <div className="flex flex-col items-center justify-center">
 
-        <div className="w-full p-4 border-2 border-dashed rounded-md bg-gray-100 flex flex-row items-center justify-center space-x-6">
-          <icons.CloudUploadOutlined className="w-12 h-12 text-gray-400" />
-          <div className="flex flex-col text-center">
-            <p className="text-sm font-semibold text-gray-600">
-              Drag files here
-            </p>
-            <p className="text-sm text-gray-400">
-              or
-            </p>
-            <UploadButton className="px-2 py-1 font-semibold bg-blue-500 text-white rounded-md">
-              <div className="flex flex-row items-center space-x-2">
-                <icons.Upload />
-                <p className="text-sm">
-                  Browse
-                </p>
-              </div>
-            </UploadButton>
-          </div>
-        </div>
+        <FileDrop
+          uploadTo={uploadTo}
+          className="w-full"
+          render={Dropzone}
+        />
 
       </div>
 
@@ -96,6 +136,7 @@ function Uploader({ uploadCount }) {
 
 Uploader.propTypes = {
   uploadCount: PropTypes.number.isRequired,
+  uploadTo: PropTypes.string.isRequired,
 };
 
 export default Uploader;
