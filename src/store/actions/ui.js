@@ -9,6 +9,7 @@ export const types = {
   CLOSE_MOVE_DIALOG: 'CLOSE_MOVE_DIALOG',
   TOGGLE_CREATE_FOLDER_SHOWN: 'TOGGLE_CREATE_FOLDER_SHOWN',
   TOGGLE_EMPTY_TRASH_DIALOG: 'TOGGLE_EMPTY_TRASH_DIALOG',
+  SET_UPLOAD_FILTER: 'SET_UPLOAD_FILTER',
 };
 
 export const toggleCreateFolderShown = () => ({
@@ -59,4 +60,9 @@ export const openMoveDialog = (fileId) => ({
 export const closeMoveDialog = () => ({
   type: types.CLOSE_MOVE_DIALOG,
   payload: null,
+});
+
+export const setUploadFilter = (visibilityFilter) => ({
+  type: types.SET_UPLOAD_FILTER,
+  payload: { visibilityFilter },
 });

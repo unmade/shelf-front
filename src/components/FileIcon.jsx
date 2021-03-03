@@ -22,12 +22,13 @@ function FileIcon({ className, hidden, mediatype }) {
 FileIcon.propTypes = {
   className: PropTypes.string,
   hidden: PropTypes.bool,
-  mediatype: PropTypes.string.isRequired,
+  mediatype: PropTypes.string,
 };
 
 FileIcon.defaultProps = {
   className: '',
   hidden: false,
+  mediatype: null,
 };
 
 export default FileIcon;

@@ -16,57 +16,62 @@ import { getFilesByPath, getCurrPath, getFileById } from '../reducers/files';
 
 /**
    * Return index in an `arr` where `target` should be inserted in order.
-   * This is sort of modified version of binary search
+   * This is sort of modified version of binary search, because array sorted by
+   * two fields - folder come first in abc order, then go files.
    */
 function* findNextIdx(arr, target, cmp) {
   let low = 0;
   let high = arr.length;
-
-  let prevCond = null;
   let prevMid = null;
-  while (low <= high) {
-    const mid = low + Math.ceil((high - low) / 2);
+
+  while (low < high) {
+    // eslint-disable-next-line no-bitwise
+    const mid = low + high >>> 1;
     const file = yield select(getFileById, arr[mid]);
-    const cond = cmp(target, file);
-    if (high - mid <= 1) {
-      if (cond > 0) {
-        return mid + 1;
-      }
-      high = mid - 1;
-    } else if (prevCond !== cond && prevMid !== null) {
-      if (prevCond < cond) {
-        low = mid;
-        high = prevMid;
-      } else {
-        low = prevMid;
-        high = mid;
-      }
-    } else if (cond < 0) {
-      high = mid;
-    } else if (cond > 0) {
+    const result = cmp(target, file);
+    if (result === 1) {
       low = mid + 1;
-    } else {
-      return mid;
+    } else if (result === -1) {
+      high = mid;
+    } else if (result === 2) {
+      low = mid + 1;
+      if (prevMid > high) {
+        high = prevMid;
+      }
+    } else if (result === -2) {
+      high = mid;
+      if (low > prevMid + 1) {
+        low = prevMid + 1;
+      }
     }
-    prevCond = cond;
     prevMid = mid;
   }
-
-  if (low === high || high < 0) {
-    return low;
-  }
-  return arr.length;
+  return low;
 }
 
+/**
+ * This method guarantees to return:
+ *     ' 1' if 'a' occurs after 'b' and they both files
+ *     '-1' if 'b' occurs before 'b' and they both files
+ *     '-2' if 'a' is a folder and b is not
+ *     ' 2  if 'a' is not a folder and b is
+ */
 function compareFiles(a, b) {
   if (a.mediatype === MediaType.FOLDER && b.mediatype !== MediaType.FOLDER) {
-    return -1;
+    return -2;
   }
   if (a.mediatype !== MediaType.FOLDER && b.mediatype === MediaType.FOLDER) {
-    return 1;
+    return 2;
   }
 
-  return a.path.toLowerCase().localeCompare(b.path.toLowerCase());
+  const result = a.path.toLowerCase().localeCompare(b.path.toLowerCase());
+  if (result > 0) {
+    return 1;
+  }
+  if (result < 0) {
+    return -1;
+  }
+  return 0;
 }
 
 function* handleMoveFile(action) {

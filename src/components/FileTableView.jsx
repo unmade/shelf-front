@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import FileDrop from '../containers/FileDrop';
 
-import List from './ui/List';
+import VList from './ui/VList';
 
 const HEADER_HEIGHT = 48;
 
@@ -34,7 +34,7 @@ function Table({ className, items, itemRender }) {
   return (
     <>
       <TableHeader />
-      <List
+      <VList
         items={items}
         itemRender={itemRender}
         heightOffset={HEADER_HEIGHT}
@@ -48,7 +48,7 @@ function FileTableView({ path, droppable, items, itemRender }) {
   if (droppable) {
     return (
       <FileDrop
-        baseDir={path}
+        uploadTo={path}
         className="h-full"
         render={({ dragging }) => (
           <Table

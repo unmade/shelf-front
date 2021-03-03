@@ -5,6 +5,7 @@ import {
   eventChannel,
 } from 'redux-saga';
 import {
+  all,
   call,
   fork,
   put,
@@ -12,11 +13,13 @@ import {
   take,
 } from 'redux-saga/effects';
 
+import { v4 as uuid4 } from 'uuid';
+
 import API_BASE_URL from '../api-config';
 import * as actions from '../actions/uploads';
 import { getAccessToken } from '../reducers/auth';
 
-const MAX_PARALLEL_UPLOADS = 3;
+const MAX_PARALLEL_UPLOADS = 1;
 
 // taken from: https://decembersoft.com/posts/file-upload-progress-with-redux-saga/
 function createUploadFileChannel(url, accessToken, fileObj, fullPath) {
@@ -63,30 +66,15 @@ function createUploadFileChannel(url, accessToken, fileObj, fullPath) {
       xhr.onreadystatechange = null;
       xhr.abort();
     };
-  }, buffers.sliding(3));
-}
-
-function* getFileObj(upload) {
-  if (upload.fileObj) {
-    return upload.fileObj;
-  }
-  const resolveFile = new Promise((resolve, reject) => upload.fileEntry.file(resolve, reject));
-  return yield resolveFile;
-}
-
-function getFullPath(upload) {
-  if (upload.fileObj) {
-    return `${upload.baseDir}${upload.name}`;
-  }
-  return `${upload.baseDir}${upload.fileEntry.fullPath}`;
+  }, buffers.sliding(MAX_PARALLEL_UPLOADS));
 }
 
 function* uploadFile(upload) {
   const url = `${API_BASE_URL}/files/upload`;
   const accessToken = yield select(getAccessToken);
-  const fileObj = yield getFileObj(upload);
-  const fullPath = getFullPath(upload);
-  const chan = yield call(createUploadFileChannel, url, accessToken, fileObj, fullPath);
+
+  const { uploadPath, file } = upload;
+  const chan = yield call(createUploadFileChannel, url, accessToken, file, uploadPath);
 
   yield put(actions.uploadRequest(upload));
   while (true) {
@@ -101,6 +89,35 @@ function* uploadFile(upload) {
     }
     yield put(actions.uploadProgress(upload, progress));
   }
+}
+
+function* normalize(file, uploadTo) {
+  const upload = {
+    id: uuid4(),
+    name: file.name,
+    mediatype: null,
+    uploadPath: `${uploadTo}/${file.name}`,
+    parentPath: '',
+    progress: 0,
+    error: null,
+    file,
+  };
+
+  const { fullPath } = file;
+  if (fullPath !== null && fullPath !== undefined) { // must be FileSystemEntry
+    try {
+      const fileObj = yield new Promise((resolve, reject) => file.file(resolve, reject));
+      upload.mediatype = fileObj.type;
+      upload.uploadPath = `${uploadTo}${fullPath}`;
+      upload.file = fileObj;
+    } catch (e) {
+      upload.error = e;
+    }
+
+    upload.parentPath = fullPath.substring(0, fullPath.length - file.name.length - 1);
+  }
+
+  return upload;
 }
 
 function* handleUpload(queue) {
@@ -118,11 +135,11 @@ function* uploadsWatcher() {
   }
 
   while (true) {
-    const action = yield take(actions.types.ADD_UPLOAD_FILES);
-    const { uploads } = action.payload;
-    for (let i = 0; i < uploads.length; i++) {
-      yield put(queue, uploads[i]);
-    }
+    const action = yield take(actions.types.ADD_FILE_ENTRIES);
+    const { files, uploadTo } = action.payload;
+    const uploads = yield all(files.map((file) => normalize(file, uploadTo)));
+    yield put(actions.uploadFiles(uploads));
+    yield all(uploads.map((upload) => put(queue, upload)));
   }
 }
 

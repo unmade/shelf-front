@@ -5,18 +5,17 @@ import { types } from '../actions/uploads';
 function normalize(items) {
   const data = {};
   items.forEach((item) => {
-    data[item.id] = {
-      ...item,
-      progress: 0,
-      error: null,
-    };
+    data[item.id] = item;
   });
   return data;
 }
 
 function uploadsById(state = {}, action) {
   switch (action.type) {
-    case types.ADD_UPLOAD_FILES: {
+    case types.CLEAR_UPLOADS: {
+      return {};
+    }
+    case types.UPLOAD_FILES: {
       return {
         ...state,
         ...normalize(action.payload.uploads),
@@ -49,13 +48,42 @@ function uploadsById(state = {}, action) {
   }
 }
 
-function allUploads(state = [], action) {
+const VISIBLE_UPLOADS_DEFAULT_STATE = {
+  all: [],
+  failed: [],
+  inProgress: [],
+};
+
+function visibleUploads(state = VISIBLE_UPLOADS_DEFAULT_STATE, action) {
   switch (action.type) {
-    case types.ADD_UPLOAD_FILES: {
-      return [
+    case types.CLEAR_UPLOADS: {
+      return VISIBLE_UPLOADS_DEFAULT_STATE;
+    }
+    case types.UPLOAD_FILES: {
+      const { uploads } = action.payload;
+      const ids = uploads.map((item) => item.id);
+      return {
         ...state,
-        ...action.payload.uploads.map((item) => item.id),
-      ];
+        all: ids,
+        inProgress: ids,
+      };
+    }
+    case types.UPLOAD_FAILURE:
+    case types.UPLOAD_SUCCESS: {
+      const { upload } = action.payload;
+      const nextState = {
+        ...state,
+        inProgress: state.inProgress.filter((uploadId) => uploadId !== upload.id),
+      };
+      // move succeeded upload to the bottom
+      if (action.type === types.UPLOAD_SUCCESS) {
+        const allIds = state.all.filter((uploadId) => uploadId !== upload.id);
+        nextState.all = [...allIds, upload.id];
+      }
+      if (action.type === types.UPLOAD_FAILURE) {
+        nextState.failed = [...nextState.failed, upload.id];
+      }
+      return nextState;
     }
     default:
       return state;
@@ -64,9 +92,8 @@ function allUploads(state = [], action) {
 
 export default combineReducers({
   byId: uploadsById,
-  allIds: allUploads,
+  visible: visibleUploads,
 });
 
 export const getUploadById = (state, id) => state.uploads.byId[id];
-export const getUploads = (state) => state.uploads.allIds;
-export const getHasUploads = (state) => state.uploads.allIds.length > 0;
+export const getVisibleUploads = (state, filter) => state.uploads.visible[filter];

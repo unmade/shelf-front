@@ -10,9 +10,11 @@ export const ArrowLeft = hi.HiArrowNarrowLeft;
 export const ArrowRight = hi.HiArrowNarrowRight;
 export const CheckCircle = hi.HiCheckCircle;
 export const ChevronLeft = hi.HiOutlineChevronLeft;
-export const CloudUpload = hi.HiOutlineCloudUpload;
+export const Clear = hi.HiBan;
+export const CloudUpload = hi.HiCloudUpload;
+export const CloudUploadOutlined = hi.HiOutlineCloudUpload;
 export const Close = hi.HiOutlineX;
-export const CrossCircle = hi.HiXCircle;
+export const Collection = hi.HiOutlineCollection;
 export const Download = hi.HiOutlineDownload;
 export const Edit = hi.HiOutlinePencil;
 export const File = hi.HiOutlineDocument;
@@ -23,9 +25,10 @@ export const Folder = hi.HiFolder;
 export const ICursor = hi.HiOutlinePencil;
 export const NewFolder = hi.HiOutlineFolderAdd;
 export const More = hi.HiOutlineDotsHorizontal;
-export const Move = hi.HiOutlineArrowRight;
+export const Move = hi.HiOutlineDocumentDuplicate;
 export const Redo = hi.HiOutlineRefresh;
 export const TrashOutlined = hi.HiOutlineTrash;
+export const Upload = hi.HiUpload;
 
 const PRECISE_MAP = {
   [MediaType.FOLDER]: Folder,
@@ -62,6 +65,9 @@ const FUZZY_MAP = {
 };
 
 export function getIcon(mediaType) {
+  if (mediaType === null || mediaType === undefined) {
+    return File;
+  }
   if (PRECISE_MAP[mediaType]) {
     return PRECISE_MAP[mediaType];
   }
