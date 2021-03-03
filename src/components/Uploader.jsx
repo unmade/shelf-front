@@ -95,7 +95,9 @@ const PILLS = [
   },
 ];
 
-function Uploader({ uploadCount, uploadTo, visibilityFilter, onSetVisibilityFilter }) {
+function Uploader({
+  uploadCount, uploadTo, visibilityFilter, onClear, onSetVisibilityFilter,
+}) {
   const virtual = uploadCount > 10;
   return (
     <div className="w-96 p-4 bg-white rounded shadow text-gray-700">
@@ -144,6 +146,7 @@ function Uploader({ uploadCount, uploadTo, visibilityFilter, onSetVisibilityFilt
             type="button"
             title="Clear"
             className="p-1 rounded-md hover:bg-gray-100"
+            onClick={onClear}
           >
             <icons.Clear className="w-4 h-4" />
           </button>

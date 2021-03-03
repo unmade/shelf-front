@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 
+import { clearUploads } from '../store/actions/uploads';
 import { setUploadFilter } from '../store/actions/ui';
 
 import { getCurrPath } from '../store/reducers/files';
@@ -15,6 +16,7 @@ export default connect(
     visibilityFilter: getUploadFilter(state),
   }),
   {
+    onClear: clearUploads,
     onSetVisibilityFilter: setUploadFilter,
   },
 )(Uploader);

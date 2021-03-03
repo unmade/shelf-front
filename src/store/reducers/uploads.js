@@ -12,6 +12,9 @@ function normalize(items) {
 
 function uploadsById(state = {}, action) {
   switch (action.type) {
+    case types.CLEAR_UPLOADS: {
+      return {};
+    }
     case types.UPLOAD_FILES: {
       return {
         ...state,
@@ -45,8 +48,17 @@ function uploadsById(state = {}, action) {
   }
 }
 
-function visibleUploads(state = { all: [], failed: [], inProgress: [] }, action) {
+const VISIBLE_UPLOADS_DEFAULT_STATE = {
+  all: [],
+  failed: [],
+  inProgress: [],
+};
+
+function visibleUploads(state = VISIBLE_UPLOADS_DEFAULT_STATE, action) {
   switch (action.type) {
+    case types.CLEAR_UPLOADS: {
+      return VISIBLE_UPLOADS_DEFAULT_STATE;
+    }
     case types.UPLOAD_FILES: {
       const { uploads } = action.payload;
       const ids = uploads.map((item) => item.id);

@@ -1,6 +1,8 @@
 export const types = {
   ADD_FILE_ENTRIES: 'ADD_FILE_ENTRIES',
+  CLEAR_UPLOADS: 'CLEAR_UPLOADS',
   UPLOAD_FILES: 'UPLOAD_FILES',
+  UPLOAD_FILES_CLEAR: 'UPLOAD_FILES_CLEAR',
   UPLOAD_FILE: 'UPLOAD_FILE',
   UPLOAD_REQUEST: 'UPLOAD_REQUEST',
   UPLOAD_PROGRESS: 'UPLOAD_PROGRESS',
@@ -16,6 +18,11 @@ export const addFileEntries = (files, uploadTo) => ({
 export const uploadFiles = (uploads) => ({
   type: types.UPLOAD_FILES,
   payload: { uploads },
+});
+
+export const clearUploads = () => ({
+  type: types.CLEAR_UPLOADS,
+  payload: null,
 });
 
 export const uploadFile = (upload) => ({
