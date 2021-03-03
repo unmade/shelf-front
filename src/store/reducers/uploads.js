@@ -45,13 +45,33 @@ function uploadsById(state = {}, action) {
   }
 }
 
-function allUploads(state = [], action) {
+function visibleUploads(state = { all: [], failed: [], inProgress: [] }, action) {
   switch (action.type) {
     case types.UPLOAD_FILES: {
-      return [
+      const { uploads } = action.payload;
+      const ids = uploads.map((item) => item.id);
+      return {
         ...state,
-        ...action.payload.uploads.map((item) => item.id),
-      ];
+        all: ids,
+        inProgress: ids,
+      };
+    }
+    case types.UPLOAD_FAILURE:
+    case types.UPLOAD_SUCCESS: {
+      const { upload } = action.payload;
+      const nextState = {
+        ...state,
+        inProgress: state.inProgress.filter((uploadId) => uploadId !== upload.id),
+      };
+      // move succeeded upload to the bottom
+      if (action.type === types.UPLOAD_SUCCESS) {
+        const allIds = state.all.filter((uploadId) => uploadId !== upload.id);
+        nextState.all = [...allIds, upload.id];
+      }
+      if (action.type === types.UPLOAD_FAILURE) {
+        nextState.failed = [...nextState.failed, upload.id];
+      }
+      return nextState;
     }
     default:
       return state;
@@ -60,9 +80,8 @@ function allUploads(state = [], action) {
 
 export default combineReducers({
   byId: uploadsById,
-  allIds: allUploads,
+  visible: visibleUploads,
 });
 
 export const getUploadById = (state, id) => state.uploads.byId[id];
-export const getUploads = (state) => state.uploads.allIds;
-export const getHasUploads = (state) => state.uploads.allIds.length > 0;
+export const getVisibleUploads = (state, filter) => state.uploads.visible[filter];

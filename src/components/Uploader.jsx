@@ -71,20 +71,40 @@ Dropzone.defaultProps = {
   dragging: false,
 };
 
-function Uploader({ uploadCount, uploadTo }) {
+const TEXTS = {
+  all: 'No recents',
+  inProgress: 'No in-progress uploads',
+  failed: 'No failed uploads',
+};
+
+const PILLS = [
+  {
+    key: 'all',
+    text: 'All',
+    title: 'Show all uploads',
+  },
+  {
+    key: 'inProgress',
+    text: 'In-Progress',
+    title: 'Show in-progress uploads',
+  },
+  {
+    key: 'failed',
+    text: 'Failed',
+    title: 'Show failed uploads',
+  },
+];
+
+function Uploader({ uploadCount, uploadTo, visibilityFilter, onSetVisibilityFilter }) {
   const virtual = uploadCount > 10;
   return (
     <div className="w-96 p-4 bg-white rounded shadow text-gray-700">
 
-      <div className="flex flex-col items-center justify-center">
-
-        <FileDrop
-          uploadTo={uploadTo}
-          className="w-full"
-          render={Dropzone}
-        />
-
-      </div>
+      <FileDrop
+        uploadTo={uploadTo}
+        className="w-full"
+        render={Dropzone}
+      />
 
       <div className="mt-6 space-y-4">
         <p className="font-semibold">
@@ -102,22 +122,23 @@ function Uploader({ uploadCount, uploadTo }) {
           <div className="h-20 text-gray-600 flex flex-row items-center justify-center space-x-2">
             <icons.Collection className="w-6 h-6 text-gray-500" />
             <p className="text-sm">
-              No recents
+              {TEXTS[visibilityFilter]}
             </p>
           </div>
         )}
 
         <div className="pt-2 text-xs border-t border-solid flex flex-row justify-between">
           <div className="flex flex-row space-x-2">
-            <Pill title="Show all uploads" active>
-              All
-            </Pill>
-            <Pill title="Show all In-Progress uploads">
-              In-Progress
-            </Pill>
-            <Pill title="Show failed uploads">
-              Failed
-            </Pill>
+            {PILLS.map((pill) => (
+              <Pill
+                key={pill.key}
+                title={pill.title}
+                active={visibilityFilter === pill.key}
+                onClick={() => (onSetVisibilityFilter(pill.key))}
+              >
+                {pill.text}
+              </Pill>
+            ))}
           </div>
           <button
             type="button"
@@ -137,6 +158,7 @@ function Uploader({ uploadCount, uploadTo }) {
 Uploader.propTypes = {
   uploadCount: PropTypes.number.isRequired,
   uploadTo: PropTypes.string.isRequired,
+  visibilityFilter: PropTypes.string.isRequired,
 };
 
 export default Uploader;

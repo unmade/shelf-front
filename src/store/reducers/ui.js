@@ -83,8 +83,23 @@ function fileBrowser(
   }
 }
 
+function uploader(state = { visibilityFilter: 'all' }, action) {
+  switch (action.type) {
+    case types.SET_UPLOAD_FILTER: {
+      const { visibilityFilter } = action.payload;
+      return {
+        ...state,
+        visibilityFilter,
+      };
+    }
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   fileBrowser,
+  uploader,
 });
 
 export const getCreateFolderShown = (state) => state.ui.fileBrowser.createFolderShown;
@@ -93,3 +108,5 @@ export const getFileIdToRename = (state) => state.ui.fileBrowser.fileIdToRename;
 export const getFileIdToDelete = (state) => state.ui.fileBrowser.fileIdToDelete;
 export const getFileIdToDeleteImmediately = (state) => state.ui.fileBrowser.fileIdToDeleteImmediately;
 export const getFileIdToMove = (state) => state.ui.fileBrowser.fileIdToMove;
+
+export const getUploadFilter = (state) => state.ui.uploader.visibilityFilter;
