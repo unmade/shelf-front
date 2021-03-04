@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 
 import * as icons from '../../icons';
+import * as routes from '../../routes';
 
 import FileLink from '../FileLink';
 import FileIcon from '../FileIcon';
@@ -64,7 +66,8 @@ Header.propTypes = {
   nextName: PropTypes.string.isRequired,
 };
 
-function FilePreview({ preview, downloads, download }) {
+function FilePreview({ dirPath, preview, downloads, download }) {
+  const history = useHistory();
   const { index, total, files } = preview;
   const [prevFile, file, nextFile] = files;
 
@@ -74,7 +77,28 @@ function FilePreview({ preview, downloads, download }) {
     }
   }, [file, downloads, download]);
 
-  if (!file) {
+  React.useEffect(() => {
+    const onKeyUp = ({ keyCode }) => {
+      switch (keyCode) {
+        case 37: // left arrow;
+          history.push(routes.FILES.preview(prevFile));
+          break;
+        case 39: // right arrow;
+          history.push(routes.FILES.preview(nextFile));
+          break;
+        case 27:
+          history.push(routes.FILES.reverse({ path: dirPath }));
+          break;
+        default:
+      }
+    };
+    window.addEventListener('keyup', onKeyUp);
+    return () => {
+      window.removeEventListener('keyup', onKeyUp);
+    };
+  }, [history, dirPath, prevFile, nextFile]);
+
+  if (file === null || file === undefined) {
     return null;
   }
 
@@ -110,23 +134,23 @@ function FilePreview({ preview, downloads, download }) {
   );
 }
 
-// FilePreview.propTypes = {
-//   preview: PropTypes.shape({
-//     index: PropTypes.number.isRequired,
-//     total: PropTypes.number.isRequired,
-//     files: PropTypes.arrayOf(
-//       PropTypes.shape({
-//         name: PropTypes.string.isRequired,
-//         path: PropTypes.string.isRequired,
-//         mediatype: PropTypes.string.isRequired,
-//         hidden: PropTypes.bool.isRequired,
-//       }),
-//     ).isRequired,
-//   }).isRequired,
-//   downloads: PropTypes.objectOf(
-//     PropTypes.string.isRequired,
-//   ).isRequired,
-//   download: PropTypes.func.isRequired,
-// };
+FilePreview.propTypes = {
+  preview: PropTypes.shape({
+    index: PropTypes.number.isRequired,
+    total: PropTypes.number.isRequired,
+    files: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        path: PropTypes.string.isRequired,
+        mediatype: PropTypes.string.isRequired,
+        hidden: PropTypes.bool.isRequired,
+      }),
+    ).isRequired,
+  }).isRequired,
+  downloads: PropTypes.objectOf(
+    PropTypes.string.isRequired,
+  ).isRequired,
+  download: PropTypes.func.isRequired,
+};
 
 export default FilePreview;

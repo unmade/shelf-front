@@ -1,6 +1,8 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
+import * as routes from './routes';
+
 import SideMenu from './components/SideMenu';
 import FileBrowser from './containers/FileBrowser';
 import Trash from './containers/Trash';
@@ -10,8 +12,8 @@ function App() {
     <div className="flex md:flex-row-reverse flex-wrap h-screen bg-gray-200">
       <div className="w-5/6 my-0 mx-auto bg-white border-l">
         <Switch>
-          <Route path="/files/:dirPath*" component={FileBrowser} />
-          <Route path="/trash/:dirPath*" component={Trash} />
+          <Route path={routes.FILES.route} component={FileBrowser} />
+          <Route path={routes.TRASH.route} component={Trash} />
         </Switch>
       </div>
 

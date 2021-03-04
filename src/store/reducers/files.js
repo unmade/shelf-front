@@ -180,7 +180,7 @@ export const makeGetPreview = () => (
   createSelector(
     [
       (state) => state.files.byId,
-      (state, props) => getFilesByPath(state, props.path),
+      (state, props) => getFilesByPath(state, props.dirPath),
       (state, props) => props.name,
     ],
     (byId, files, name) => {
