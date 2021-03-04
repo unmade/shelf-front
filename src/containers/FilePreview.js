@@ -1,11 +1,16 @@
 import { connect } from 'react-redux';
 
-import { getFileById, getFilesByPath } from '../store/reducers/files';
+import { getDownloads, getPreview } from '../store/reducers/files';
 
 import FilePreview from '../components/FilePreview';
+import { download } from '../store/actions/files';
 
 export default connect(
   (state, ownProps) => ({
-    files: getFilesByPath(state, ownProps.path).map((fileId) => getFileById(state, fileId)),
+    downloads: getDownloads(state),
+    preview: getPreview(state, ownProps.path, ownProps.preview),
   }),
+  {
+    download,
+  },
 )(FilePreview);

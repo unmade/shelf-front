@@ -5,13 +5,18 @@ import AutoSizer from 'react-virtualized-auto-sizer';
 
 import FileIcon from '../FileIcon';
 
-function ImagePreview({ file }) {
+function ImagePreview({ file, original }) {
   return (
     <AutoSizer>
       {({ height, width }) => {
+        const imgHeight = height - 40;
         return (
           <div style={{ height, width }} className="flex items-center justify-center">
-            <FileIcon className="w-48 h-48" mediatype={file.mediatype} hidden={file.hidden} />
+            {(original) ? (
+              <img src={original} style={{ maxHeight: imgHeight }} alt={file.name} />
+            ) : (
+              <FileIcon className="w-48 h-48" mediatype={file.mediatype} hidden={file.hidden} />
+            )}
           </div>
         );
       }}
@@ -21,6 +26,7 @@ function ImagePreview({ file }) {
 
 ImagePreview.propTypes = {
   file: PropTypes.shape({
+    name: PropTypes.string.isRequired,
     hidden: PropTypes.bool.isRequired,
     mediatype: PropTypes.string.isRequired,
   }).isRequired,

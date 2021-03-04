@@ -4,6 +4,11 @@ export const types = {
   CREATE_FOLDER_SUCCESS: 'CREATE_FOLDER_SUCCESS',
   CREATE_FOLDER_FAILURE: 'CREATE_FOLDER_FAILURE',
 
+  DOWNLOAD: 'DOWNLOAD',
+  DOWNLOAD_REQUEST: 'DOWNLOAD_REQUEST',
+  DOWNLOAD_SUCCESS: 'DOWNLOAD_SUCCESS',
+  DOWNLOAD_FAILURE: 'DOWNLOAD_FAILURE',
+
   FETCH_THUMBNAIL: 'FETCH_THUMBNAIL',
   FETCH_THUMBNAIL_REQUEST: 'FETCH_THUMBNAIL_REQUEST',
   FETCH_THUMBNAIL_SUCCESS: 'FETCH_THUMBNAIL_SUCCESS',
@@ -64,6 +69,26 @@ export const createFolderSuccess = (folder) => ({
 export const createFolderFailure = (err) => ({
   type: types.CREATE_FOLDER_FAILURE,
   payload: { err },
+});
+
+export const download = (path) => ({
+  type: types.DOWNLOAD,
+  payload: { path },
+});
+
+export const downloadRequest = () => ({
+  type: types.DOWNLOAD_REQUEST,
+  payload: null,
+});
+
+export const downloadSuccess = (path, file) => ({
+  type: types.DOWNLOAD_SUCCESS,
+  payload: { path, file },
+});
+
+export const downloadFailure = () => ({
+  type: types.DOWNLOAD_FAILURE,
+  payload: null,
 });
 
 export const fetchThumbnail = (id, path, size) => ({

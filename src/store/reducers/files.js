@@ -138,12 +138,27 @@ function thumbnailsById(state = {}, action) {
   }
 }
 
+function downloads(state = {}, action) {
+  switch (action.type) {
+    case types.DOWNLOAD_SUCCESS: {
+      const { path, file } = action.payload;
+      return {
+        ...state,
+        [path]: file,
+      };
+    }
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   byId: filesById,
   byPath: filesByPath,
   selectedIds: selectFiles,
   currPath,
   thumbnailsById,
+  downloads,
 });
 
 export const getFileById = (state, id) => state.files.byId[id];
@@ -153,5 +168,30 @@ export const getSelectedFiles = (state) => [...state.files.selectedIds].map((id)
 export const getHasSelectedFiles = (state) => state.files.selectedIds.size !== 0;
 export const getThumbnailById = (state, id) => state.files.thumbnailsById[id];
 
+export const getDownloads = (state) => state.files.downloads;
+
 // I think I should move it to another reducer;
 export const getCurrPath = (state) => state.files.currPath;
+
+export const getPreview = (state, path, name) => {
+  const files = getFilesByPath(state, path);
+  const index = files.findIndex((fileId) => getFileById(state, fileId).name === name);
+  let prevIndex = index - 1;
+  if (prevIndex < 0) {
+    prevIndex = files.length - 1;
+  }
+
+  let nextIndex = index + 1;
+  if (nextIndex > files.length - 1) {
+    nextIndex = 0;
+  }
+  return {
+    index,
+    total: files.length,
+    files: [
+      getFileById(state, files[prevIndex]),
+      getFileById(state, files[index]),
+      getFileById(state, files[nextIndex]),
+    ],
+  };
+};
