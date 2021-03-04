@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { createSelector } from 'reselect';
 
 import { types } from '../actions/files';
 import { types as uploadTypes } from '../actions/uploads';
@@ -161,8 +162,10 @@ export default combineReducers({
   downloads,
 });
 
+const FILES_EMPTY = [];
+
 export const getFileById = (state, id) => state.files.byId[id];
-export const getFilesByPath = (state, path) => state.files.byPath[path] || [];
+export const getFilesByPath = (state, path) => state.files.byPath[path] || FILES_EMPTY;
 export const getIsFileSelected = (state, id) => state.files.selectedIds.has(id);
 export const getSelectedFiles = (state) => [...state.files.selectedIds].map((id) => getFileById(state, id));
 export const getHasSelectedFiles = (state) => state.files.selectedIds.size !== 0;
@@ -173,25 +176,33 @@ export const getDownloads = (state) => state.files.downloads;
 // I think I should move it to another reducer;
 export const getCurrPath = (state) => state.files.currPath;
 
-export const getPreview = (state, path, name) => {
-  const files = getFilesByPath(state, path);
-  const index = files.findIndex((fileId) => getFileById(state, fileId).name === name);
-  let prevIndex = index - 1;
-  if (prevIndex < 0) {
-    prevIndex = files.length - 1;
-  }
-
-  let nextIndex = index + 1;
-  if (nextIndex > files.length - 1) {
-    nextIndex = 0;
-  }
-  return {
-    index,
-    total: files.length,
-    files: [
-      getFileById(state, files[prevIndex]),
-      getFileById(state, files[index]),
-      getFileById(state, files[nextIndex]),
+export const makeGetPreview = () => (
+  createSelector(
+    [
+      (state) => state.files.byId,
+      (state, props) => getFilesByPath(state, props.path),
+      (state, props) => props.name,
     ],
-  };
-};
+    (byId, files, name) => {
+      const index = files.findIndex((fileId) => byId[fileId].name === name);
+      let prevIndex = index - 1;
+      if (prevIndex < 0) {
+        prevIndex = files.length - 1;
+      }
+
+      let nextIndex = index + 1;
+      if (nextIndex > files.length - 1) {
+        nextIndex = 0;
+      }
+      return {
+        index,
+        total: files.length,
+        files: [
+          byId[files[prevIndex]],
+          byId[files[index]],
+          byId[files[nextIndex]],
+        ],
+      };
+    },
+  )
+);

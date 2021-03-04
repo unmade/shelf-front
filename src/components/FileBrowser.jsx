@@ -77,7 +77,7 @@ class FileBrowser extends React.Component {
       <>
         <Browser url={match.url} dirPath={dirPath} hasSelectedFiles={hasSelectedFiles} />
         {(preview) && (
-          <FilePreview path={dirPath || '.'} preview={preview} />
+          <FilePreview path={dirPath || '.'} name={preview} />
         )}
       </>
     );

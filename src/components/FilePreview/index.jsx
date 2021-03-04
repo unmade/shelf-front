@@ -110,23 +110,23 @@ function FilePreview({ preview, downloads, download }) {
   );
 }
 
-FilePreview.propTypes = {
-  preview: PropTypes.shape({
-    index: PropTypes.number.isRequired,
-    total: PropTypes.number.isRequired,
-    files: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        path: PropTypes.string.isRequired,
-        mediatype: PropTypes.string.isRequired,
-        hidden: PropTypes.bool.isRequired,
-      }),
-    ).isRequired,
-  }).isRequired,
-  downloads: PropTypes.objectOf(
-    PropTypes.string.isRequired,
-  ).isRequired,
-  download: PropTypes.func.isRequired,
-};
+// FilePreview.propTypes = {
+//   preview: PropTypes.shape({
+//     index: PropTypes.number.isRequired,
+//     total: PropTypes.number.isRequired,
+//     files: PropTypes.arrayOf(
+//       PropTypes.shape({
+//         name: PropTypes.string.isRequired,
+//         path: PropTypes.string.isRequired,
+//         mediatype: PropTypes.string.isRequired,
+//         hidden: PropTypes.bool.isRequired,
+//       }),
+//     ).isRequired,
+//   }).isRequired,
+//   downloads: PropTypes.objectOf(
+//     PropTypes.string.isRequired,
+//   ).isRequired,
+//   download: PropTypes.func.isRequired,
+// };
 
 export default FilePreview;

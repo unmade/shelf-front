@@ -1,15 +1,21 @@
 import { connect } from 'react-redux';
 
-import { getDownloads, getPreview } from '../store/reducers/files';
+import { getDownloads, makeGetPreview } from '../store/reducers/files';
 
 import FilePreview from '../components/FilePreview';
 import { download } from '../store/actions/files';
 
-export default connect(
-  (state, ownProps) => ({
+const makeMapStateToProps = () => {
+  const getPreview = makeGetPreview();
+  const mapStateToProps = (state, ownProps) => ({
     downloads: getDownloads(state),
-    preview: getPreview(state, ownProps.path, ownProps.preview),
-  }),
+    preview: getPreview(state, ownProps),
+  });
+  return mapStateToProps;
+};
+
+export default connect(
+  makeMapStateToProps,
   {
     download,
   },
