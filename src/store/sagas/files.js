@@ -211,6 +211,42 @@ function* deleteImmediately({ payload }) {
   }
 }
 
+function* download({ payload }) {
+  const { path } = payload;
+  const accessToken = yield select(getAccessToken);
+  const url = `${API_BASE_URL}/files/download`;
+  const options = {
+    method: 'POST',
+    headers: {
+      authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({ path }),
+    mode: 'cors',
+    cache: 'default',
+  };
+
+  yield put(actions.downloadRequest());
+
+  try {
+    const response = yield fetch(url, options);
+    if (response.ok) {
+      let file;
+      if (response.headers.get('content-type').startsWith('text')) {
+        file = yield response.text();
+      } else {
+        const blob = yield response.blob();
+        file = URL.createObjectURL(blob);
+      }
+      yield put(actions.downloadSuccess(path, file));
+    } else {
+      const e = yield response.json();
+      yield put(actions.downloadFailure(e));
+    }
+  } catch (e) {
+    yield put(actions.downloadFailure(e));
+  }
+}
+
 function* emptyTrash() {
   const accessToken = yield select(getAccessToken);
   const url = `${API_BASE_URL}/files/empty_trash`;
@@ -399,6 +435,7 @@ export default [
   filesWatcher(),
   takeEvery(actions.types.CREATE_FOLDER, createFolder),
   takeEvery(actions.types.DELETE_IMMEDIATELY, deleteImmediately),
+  takeEvery(actions.types.DOWNLOAD, download),
   takeEvery(actions.types.EMPTY_TRASH, emptyTrash),
   takeEvery(actions.types.FETCH_THUMBNAIL, fetchThumbnail),
   takeEvery(actions.types.LIST_FOLDER, listFolder),

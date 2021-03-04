@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { useLocation } from 'react-router-dom';
-
 import * as icons from '../../icons';
 
 import FileLink from '../FileLink';
@@ -13,6 +11,7 @@ import ImagePreview from './ImagePreview';
 const PREVIEW_MAP = {
   'image/jpeg': ImagePreview,
   'image/png': ImagePreview,
+  'image/svg+xml': ImagePreview,
 };
 
 function Header({
@@ -65,61 +64,43 @@ Header.propTypes = {
   nextName: PropTypes.string.isRequired,
 };
 
-function FilePreview({ files }) {
-  const location = useLocation();
+function FilePreview({ preview, downloads, download }) {
+  const { index, total, files } = preview;
+  const [prevFile, file, nextFile] = files;
 
-  const { search } = location;
-  const queryParams = new URLSearchParams(search);
-  const preview = queryParams.get('preview');
-
-  if (preview === null || preview === undefined || preview === '') {
-    return null;
-  }
-
-  let fileIdx = null;
-  const file = files.filter((f, idx) => {
-    if (f.name === preview) {
-      fileIdx = idx;
-      return true;
+  React.useEffect(() => {
+    if (file && PREVIEW_MAP[file.mediatype] && !downloads[file.path]) {
+      download(file.path);
     }
-    return false;
-  })[0];
+  }, [file, downloads, download]);
 
-  if (fileIdx === null || fileIdx === undefined) {
+  if (!file) {
     return null;
   }
 
-  let prevFileIdx = fileIdx - 1;
-  if (prevFileIdx < 0) {
-    prevFileIdx = files.length - 1;
-  }
-
-  let nextFileIdx = fileIdx + 1;
-  if (nextFileIdx > files.length - 1) {
-    nextFileIdx = 0;
-  }
-
-  const { name, mediatype } = file;
+  const { name, path, mediatype, hidden } = file;
   const Preview = PREVIEW_MAP[mediatype];
+
+  const original = downloads[path];
 
   return (
     <div className="z-10 fixed bottom-0 inset-0">
       <div className="h-full flex flex-col bg-white">
 
         <Header
-          idx={fileIdx}
-          total={files.length}
+          idx={index}
+          total={total}
           name={name}
-          prevName={files[prevFileIdx].name}
-          nextName={files[nextFileIdx].name}
+          prevName={prevFile.name}
+          nextName={nextFile.name}
         />
 
         <div className="h-full bg-gray-300">
           {(Preview) ? (
-            <Preview file={file} />
+            <Preview file={file} original={original} />
           ) : (
             <div className="flex h-full items-center justify-center">
-              <FileIcon className="w-32 h-auto drop-shadow" mediatype={file.mediatype} hidden={file.hidden} />
+              <FileIcon className="w-32 h-auto drop-shadow" mediatype={mediatype} hidden={hidden} />
             </div>
           )}
         </div>
@@ -130,12 +111,22 @@ function FilePreview({ files }) {
 }
 
 FilePreview.propTypes = {
-  files: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      mediatype: PropTypes.string.isRequired,
-    }).isRequired,
+  preview: PropTypes.shape({
+    index: PropTypes.number.isRequired,
+    total: PropTypes.number.isRequired,
+    files: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        path: PropTypes.string.isRequired,
+        mediatype: PropTypes.string.isRequired,
+        hidden: PropTypes.bool.isRequired,
+      }),
+    ).isRequired,
+  }).isRequired,
+  downloads: PropTypes.objectOf(
+    PropTypes.string.isRequired,
   ).isRequired,
+  download: PropTypes.func.isRequired,
 };
 
 export default FilePreview;
