@@ -12,6 +12,12 @@ import FileIcon from '../FileIcon';
 import CodePreview from './CodePreview';
 import ImagePreview from './ImagePreview';
 
+const MAX_PREVIEW_SIZE_BY_TYPE = {
+  application: 1048576, // 1 MB
+  text: 1048576, // 1 MB
+  image: 20971520, // 20 MB
+};
+
 function getPreview(mediatype) {
   if (MediaType.isImage(mediatype)) {
     return ImagePreview;
@@ -20,6 +26,11 @@ function getPreview(mediatype) {
     return CodePreview;
   }
   return null;
+}
+
+function hasPreview({ size, mediatype }) {
+  const type = mediatype.split('/')[0];
+  return size < MAX_PREVIEW_SIZE_BY_TYPE[type] && getPreview(mediatype) !== null;
 }
 
 function Header({
@@ -78,7 +89,7 @@ function FilePreview({ dirPath, preview, downloads, download }) {
   const [prevFile, file, nextFile] = files;
 
   React.useEffect(() => {
-    if (file && getPreview(file.mediatype) && !downloads[file.path]) {
+    if (file && hasPreview(file) && !downloads[file.path]) {
       download(file.path);
     }
   }, [file, downloads, download]);
