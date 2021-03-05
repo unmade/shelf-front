@@ -8,4 +8,15 @@ export const BREADCRUMBS_ALIASES = {
 
 export const MediaType = {
   FOLDER: 'application/directory',
+  isImage(mediaType) {
+    const [type, subtype] = mediaType.split('/');
+    return (type === 'image' && ['jpeg', 'png', 'svg+xml'].includes(subtype));
+  },
+  isText(mediaType) {
+    if (mediaType.startsWith('text')) {
+      return true;
+    }
+    const subtype = mediaType.split('/')[1];
+    return ['javascript', 'json', 'sql', 'xml', 'x-sh', 'x-zsh'].includes(subtype);
+  },
 };

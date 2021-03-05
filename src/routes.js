@@ -4,7 +4,7 @@ export const FILES = {
     return `/files/${path}`;
   },
   preview({ name, path }) {
-    const parent = path.slice(0, path.length - name.length - 1);
+    const parent = path.substring(0, path.length - name.length - 1);
     return `/files/${parent}?preview=${name}`;
   },
 };

@@ -52,9 +52,9 @@ function* findNextIdx(arr, target, cmp) {
 /**
  * This method guarantees to return:
  *     ' 1' if 'a' occurs after 'b' and they both files
- *     '-1' if 'b' occurs before 'b' and they both files
- *     '-2' if 'a' is a folder and b is not
- *     ' 2  if 'a' is not a folder and b is
+ *     '-1' if 'a' occurs before 'b' and they both files
+ *     '-2' if 'a' is a folder and 'b' is not
+ *     ' 2  if 'a' is not a folder and 'b' is
  */
 function compareFiles(a, b) {
   if (a.mediatype === MediaType.FOLDER && b.mediatype !== MediaType.FOLDER) {
@@ -231,7 +231,8 @@ function* download({ payload }) {
     const response = yield fetch(url, options);
     if (response.ok) {
       let file;
-      if (response.headers.get('content-type').startsWith('text')) {
+      const contentType = response.headers.get('content-type');
+      if (MediaType.isText(contentType)) {
         file = yield response.text();
       } else {
         const blob = yield response.blob();
