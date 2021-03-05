@@ -2,19 +2,25 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 
+import { MediaType } from '../../constants';
 import * as icons from '../../icons';
 import * as routes from '../../routes';
 
 import FileLink from '../FileLink';
 import FileIcon from '../FileIcon';
 
+import CodePreview from './CodePreview';
 import ImagePreview from './ImagePreview';
 
-const PREVIEW_MAP = {
-  'image/jpeg': ImagePreview,
-  'image/png': ImagePreview,
-  'image/svg+xml': ImagePreview,
-};
+function getPreview(mediatype) {
+  if (MediaType.isImage(mediatype)) {
+    return ImagePreview;
+  }
+  if (MediaType.isText(mediatype)) {
+    return CodePreview;
+  }
+  return null;
+}
 
 function Header({
   idx, total, name, prevName, nextName,
@@ -72,7 +78,7 @@ function FilePreview({ dirPath, preview, downloads, download }) {
   const [prevFile, file, nextFile] = files;
 
   React.useEffect(() => {
-    if (file && PREVIEW_MAP[file.mediatype] && !downloads[file.path]) {
+    if (file && getPreview(file.mediatype) && !downloads[file.path]) {
       download(file.path);
     }
   }, [file, downloads, download]);
@@ -80,13 +86,13 @@ function FilePreview({ dirPath, preview, downloads, download }) {
   React.useEffect(() => {
     const onKeyUp = ({ keyCode }) => {
       switch (keyCode) {
-        case 37: // left arrow;
+        case 37: // left arrow
           history.push(routes.FILES.preview(prevFile));
           break;
-        case 39: // right arrow;
+        case 39: // right arrow
           history.push(routes.FILES.preview(nextFile));
           break;
-        case 27:
+        case 27: // escape
           history.push(routes.FILES.reverse({ path: dirPath }));
           break;
         default:
@@ -103,9 +109,8 @@ function FilePreview({ dirPath, preview, downloads, download }) {
   }
 
   const { name, path, mediatype, hidden } = file;
-  const Preview = PREVIEW_MAP[mediatype];
-
   const original = downloads[path];
+  const Preview = (original !== null && original !== undefined) ? getPreview(file.mediatype) : null;
 
   return (
     <div className="z-10 fixed bottom-0 inset-0">
@@ -119,7 +124,7 @@ function FilePreview({ dirPath, preview, downloads, download }) {
           nextName={nextFile.name}
         />
 
-        <div className="h-full bg-gray-300">
+        <div className="overflow-scroll h-full bg-gray-300">
           {(Preview) ? (
             <Preview file={file} original={original} />
           ) : (
