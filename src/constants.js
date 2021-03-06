@@ -10,13 +10,13 @@ export const MediaType = {
   FOLDER: 'application/directory',
   isImage(mediaType) {
     const [type, subtype] = mediaType.split('/');
-    return (type === 'image' && ['jpeg', 'png', 'svg+xml'].includes(subtype));
+    return (type === 'image' && ['jpeg', 'png', 'svg+xml', 'x-icon'].includes(subtype));
   },
   isText(mediaType) {
     if (mediaType.startsWith('text')) {
       return true;
     }
     const subtype = mediaType.split('/')[1];
-    return ['javascript', 'json', 'sql', 'xml', 'x-sh', 'x-zsh'].includes(subtype);
+    return ['javascript', 'json', 'sql', 'x-sh', 'x-zsh', 'xml'].includes(subtype);
   },
 };

@@ -20,7 +20,7 @@ const LANGS = {
   'x-go': 'go',
   'x-nim': 'nim',
   'x-python': 'python',
-  'x-rst': 'rst',
+  'x-rst': 'asciidoc',
   'x-rust': 'rust',
   'x-sh': 'bash',
   'x-swift': 'swift',
@@ -58,7 +58,15 @@ function CodePreview({ file, original }) {
 }
 
 CodePreview.propTypes = {
-  original: PropTypes.string.isRequired,
+  file: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    mediatype: PropTypes.string.isRequired,
+  }).isRequired,
+  original: PropTypes.string,
+};
+
+CodePreview.defaultProps = {
+  original: null,
 };
 
 export default CodePreview;
