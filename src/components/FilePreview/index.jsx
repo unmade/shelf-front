@@ -6,8 +6,9 @@ import { MediaType } from '../../constants';
 import * as icons from '../../icons';
 import * as routes from '../../routes';
 
+import NoPreview from '../../containers/NoPreview';
+
 import FileLink from '../FileLink';
-import FileIcon from '../FileIcon';
 
 import CodePreview from './CodePreview';
 import ImagePreview from './ImagePreview';
@@ -25,7 +26,7 @@ function getPreview(mediatype) {
   if (MediaType.isText(mediatype)) {
     return CodePreview;
   }
-  return null;
+  return NoPreview;
 }
 
 function hasPreview({ size, mediatype }) {
@@ -38,7 +39,7 @@ function Header({
 }) {
   return (
     <div className="px-4 py-2 flex flex-row items-center justify-between">
-      <div className="w-32 flex flex-row">
+      <div className="w-48 flex flex-row">
         <div className="p-1 rounded-md hover:bg-gray-100">
           <FileLink>
             <icons.ChevronLeft />
@@ -46,13 +47,13 @@ function Header({
         </div>
       </div>
 
-      <div>
-        <p className="text-l font-bold">
+      <div className="min-w-0 px-8">
+        <p className="text-l font-bold truncate">
           {name}
         </p>
       </div>
 
-      <div className="w-32 text-gray-800 flex flex-row items-center space-x-2">
+      <div className="w-48 text-gray-800 flex flex-row items-center justify-end space-x-2">
         <span className="p-1 rounded-md hover:bg-gray-100">
           <FileLink name={prevName} preview>
             <icons.ArrowLeft />
@@ -119,9 +120,9 @@ function FilePreview({ dirPath, preview, downloads, download }) {
     return null;
   }
 
-  const { name, path, mediatype, hidden } = file;
+  const { name, path, mediatype } = file;
   const original = downloads[path];
-  const Preview = (original !== null && original !== undefined) ? getPreview(file.mediatype) : null;
+  const Preview = getPreview(mediatype);
 
   return (
     <div className="z-10 fixed bottom-0 inset-0">
@@ -136,13 +137,7 @@ function FilePreview({ dirPath, preview, downloads, download }) {
         />
 
         <div className="overflow-scroll h-full bg-gray-300">
-          {(Preview) ? (
-            <Preview file={file} original={original} />
-          ) : (
-            <div className="flex h-full items-center justify-center">
-              <FileIcon className="w-32 h-auto drop-shadow" mediatype={mediatype} hidden={hidden} />
-            </div>
-          )}
+          <Preview file={file} original={original} />
         </div>
 
       </div>
