@@ -31,7 +31,7 @@ function getPreview(mediatype) {
 
 function hasPreview({ size, mediatype }) {
   const type = mediatype.split('/')[0];
-  return size < MAX_PREVIEW_SIZE_BY_TYPE[type] && getPreview(mediatype) !== null;
+  return size < MAX_PREVIEW_SIZE_BY_TYPE[type] && getPreview(mediatype) !== NoPreview;
 }
 
 function Header({
@@ -122,6 +122,7 @@ function FilePreview({ dirPath, preview, downloads, download }) {
 
   const { name, path, mediatype } = file;
   const original = downloads[path];
+  const loading = hasPreview(file) && (original === null || original === undefined);
   const Preview = getPreview(mediatype);
 
   return (
@@ -137,7 +138,13 @@ function FilePreview({ dirPath, preview, downloads, download }) {
         />
 
         <div className="overflow-scroll h-full bg-gray-300">
-          <Preview file={file} original={original} />
+          {(loading) ? (
+            <div className="h-full flex items-center justify-center">
+              <icons.Spinner className="w-8 h-8 text-gray-600 animate-spin" />
+            </div>
+          ) : (
+            <Preview file={file} original={original} />
+          )}
         </div>
 
       </div>
@@ -146,6 +153,7 @@ function FilePreview({ dirPath, preview, downloads, download }) {
 }
 
 FilePreview.propTypes = {
+  dirPath: PropTypes.string.isRequired,
   preview: PropTypes.shape({
     index: PropTypes.number.isRequired,
     total: PropTypes.number.isRequired,

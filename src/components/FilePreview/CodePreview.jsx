@@ -7,7 +7,7 @@ import 'highlight.js/styles/github-gist.css';
 
 const LANGS = {
   css: 'css',
-  csv: 'csv',
+  csv: 'nohighlight',
   html: 'html',
   javascript: 'javascript',
   json: 'json',
@@ -34,12 +34,12 @@ const LANGS = {
 function langByMediaType({ name, mediatype }) {
   const suffix = name.split('.').pop();
   if (['cfg', 'ini'].includes(suffix)) {
-    return 'language-ini';
+    return 'ini';
   }
   const subtype = mediatype.split('/')[1];
   const lang = LANGS[subtype];
   if (lang !== null && lang !== undefined) {
-    return `language-${lang}`;
+    return `${lang}`;
   }
   return '';
 }
@@ -62,11 +62,7 @@ CodePreview.propTypes = {
     name: PropTypes.string.isRequired,
     mediatype: PropTypes.string.isRequired,
   }).isRequired,
-  original: PropTypes.string,
-};
-
-CodePreview.defaultProps = {
-  original: null,
+  original: PropTypes.string.isRequired,
 };
 
 export default CodePreview;
