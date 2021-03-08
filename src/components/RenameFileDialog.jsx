@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { MediaType } from '../constants';
 import * as icons from '../icons';
+import * as routes from '../routes';
 
 import Dialog from './ui/Dialog';
 
@@ -34,8 +35,7 @@ function RenameFileDialog({ file, onRename, onCancel }) {
     } else if (name === file.name) {
       onClose();
     } else {
-      const parentPath = file.path.substring(0, file.path.length - file.name.length);
-      const toPath = `${parentPath}${name}`;
+      const toPath = routes.join(routes.parent(file.path), name);
       onRename(file.path, toPath);
       onClose();
     }

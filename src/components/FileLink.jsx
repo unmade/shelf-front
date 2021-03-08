@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import { Link, useRouteMatch } from 'react-router-dom';
 
+import * as routes from '../routes';
+
 function FileLink({ children, name, preview }) {
   const match = useRouteMatch();
 
@@ -10,7 +12,7 @@ function FileLink({ children, name, preview }) {
   if (name === null || name === undefined || name === '') {
     url = match.url;
   } else {
-    url = (!preview) ? `${match.url}/${name}` : `${match.url}?preview=${name}`;
+    url = (!preview) ? routes.join(match.url, name) : `${match.url}?preview=${name}`;
   }
 
   return (

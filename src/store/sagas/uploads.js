@@ -15,6 +15,8 @@ import {
 
 import { v4 as uuid4 } from 'uuid';
 
+import * as routes from '../../routes';
+
 import API_BASE_URL from '../api-config';
 import * as actions from '../actions/uploads';
 import { getAccessToken } from '../reducers/auth';
@@ -114,7 +116,7 @@ function* normalize(file, uploadTo) {
       upload.error = e;
     }
 
-    upload.parentPath = fullPath.substring(0, fullPath.length - file.name.length - 1);
+    upload.parentPath = routes.parent(fullPath);
   }
 
   return upload;

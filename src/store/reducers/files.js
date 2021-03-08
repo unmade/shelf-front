@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
 import { createSelector } from 'reselect';
 
+import * as routes from '../../routes';
+
 import { types } from '../actions/files';
 import { types as uploadTypes } from '../actions/uploads';
 
@@ -81,7 +83,7 @@ function filesByPath(state = {}, action) {
   switch (action.type) {
     case types.DELETE_IMMEDIATELY_SUCCESS: {
       const { file } = action.payload;
-      const parentPath = file.path.substring(0, file.path.lastIndexOf('/'));
+      const parentPath = routes.parent(file.path);
       const { [file.path]: deletedPath, ...nextState } = state;
       nextState[parentPath] = nextState[parentPath].filter((fileId) => fileId !== file.id);
       return nextState;
