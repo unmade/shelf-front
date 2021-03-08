@@ -183,7 +183,7 @@ export const makeGetPreview = () => (
     [
       (state) => state.files.byId,
       (state, props) => getFilesByPath(state, props.dirPath),
-      (state, props) => props.name,
+      (_state, props) => props.name,
     ],
     (byId, files, name) => {
       const index = files.findIndex((fileId) => byId[fileId].name === name);

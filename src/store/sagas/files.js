@@ -11,6 +11,7 @@ import * as routes from '../../routes';
 
 import API_BASE_URL from '../api-config';
 import * as actions from '../actions/files';
+import * as messageActions from '../actions/messages';
 import * as uploadActions from '../actions/uploads';
 import { getAccessToken } from '../reducers/auth';
 import { getFilesByPath, getCurrPath, getFileById } from '../reducers/files';
@@ -321,17 +322,30 @@ function* listFolder({ payload }) {
 
   yield put(actions.listFolderRequest());
 
+  let response;
   try {
-    const response = yield fetch(url, options);
-    const data = yield response.json();
-    if (response.ok) {
-      yield put(actions.listFolderSuccess(data));
-    } else {
-      yield put(actions.listFolderFailure(data));
-    }
+    response = yield fetch(url, options);
   } catch (e) {
-    yield put(actions.listFolderFailure(e));
+    return yield put(actions.listFolderFailure(e));
   }
+  if (!response.ok) {
+    try {
+      const error = yield response.json();
+      yield put(messageActions.createErrorMessage('Error', error.message));
+      return yield put(actions.listFolderFailure(error));
+    } catch (e) {
+      return yield put(actions.listFolderFailure(response));
+    }
+  }
+
+  let data;
+  try {
+    data = yield response.json();
+  } catch (e) {
+    return yield put(actions.listFolderFailure(e));
+  }
+
+  return yield put(actions.listFolderSuccess(data));
 }
 
 function* moveFile({ payload }) {

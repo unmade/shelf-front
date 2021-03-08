@@ -50,13 +50,13 @@ function Dropzone({ dragging }) {
         <p className="text-sm text-gray-400">
           or
         </p>
-        <UploadButton className="px-2 py-1 font-semibold bg-blue-500 text-white rounded-md">
-          <div className="flex flex-row items-center space-x-2">
-            <icons.Upload />
-            <p className="text-sm">
-              Browse
-            </p>
-          </div>
+        <UploadButton
+          className="px-2 py-1 font-semibold bg-blue-500 text-white rounded-md shadow inline-flex items-center space-x-2"
+        >
+          <icons.Upload />
+          <p className="text-sm">
+            Browse
+          </p>
         </UploadButton>
       </div>
     </div>
