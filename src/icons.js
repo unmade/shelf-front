@@ -15,6 +15,7 @@ export const Clear = hi.HiBan;
 export const CloudUpload = hi.HiCloudUpload;
 export const CloudUploadOutlined = hi.HiOutlineCloudUpload;
 export const Close = hi.HiOutlineX;
+export const CloseCirle = hi.HiOutlineXCircle;
 export const Collection = hi.HiOutlineCollection;
 export const Download = hi.HiOutlineDownload;
 export const Edit = hi.HiOutlinePencil;

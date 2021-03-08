@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { MediaType } from '../constants';
+import * as routes from '../routes';
 
 import FolderPicker from '../containers/FolderPicker';
 
@@ -16,7 +17,7 @@ function MoveDialog({ file, onMove, onCancel }) {
 
   const onConfirm = () => {
     // this is certainly not a safe way to concat paths
-    onMove(file.path, `${toPath}/${file.name}`);
+    onMove(file.path, routes.join(toPath, file.name));
     onCancel();
   };
 
