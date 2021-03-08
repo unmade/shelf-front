@@ -7,6 +7,7 @@ import {
 } from 'redux-saga/effects';
 
 import { MediaType } from '../../constants';
+import * as routes from '../../routes';
 
 import API_BASE_URL from '../api-config';
 import * as actions from '../actions/files';
@@ -78,7 +79,7 @@ function* handleMoveFile(action) {
   const { file } = action.payload;
   const currPath = yield select(getCurrPath);
 
-  const parentPath = file.path.substring(0, file.path.length - file.name.length - 1);
+  const parentPath = routes.parent(file.path);
   if (parentPath !== currPath) {
     const ids = yield select(getFilesByPath, currPath);
     yield put(actions.updateFolderByPath(currPath, ids.filter((id) => id !== file.id)));
@@ -159,7 +160,7 @@ function* createFolder({ payload }) {
       authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify({
-      path: `${parentFolderPath}/${name}`,
+      path: routes.join(parentFolderPath, name),
     }),
     mode: 'cors',
     cache: 'default',
@@ -189,9 +190,7 @@ function* deleteImmediately({ payload }) {
     headers: {
       authorization: `Bearer ${accessToken}`,
     },
-    body: JSON.stringify({
-      path,
-    }),
+    body: JSON.stringify({ path }),
     mode: 'cors',
     cache: 'default',
   };
