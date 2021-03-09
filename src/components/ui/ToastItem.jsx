@@ -6,7 +6,7 @@ import * as icons from '../../icons';
 function ToastItem({ id, message, onClose }) {
   const { title, description } = message;
   return (
-    <div className="p-4 bg-white flex flex-row shadow-md rounded-md">
+    <div className="mb-4 p-4 bg-white flex flex-row shadow-md rounded-md">
       <div className="p-1">
         <icons.CloseCirle className="w-5 h-5 text-red-500" />
       </div>

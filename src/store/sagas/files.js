@@ -1,41 +1,29 @@
-import {
-  put,
-  select,
-  takeEvery,
-} from 'redux-saga/effects';
+import { put, select, takeEvery } from 'redux-saga/effects';
 
 import { MediaType } from '../../constants';
 import * as routes from '../../routes';
 
 import * as api from '../api';
 import * as actions from '../actions/files';
-import * as messageActions from '../actions/messages';
 import { getAccessToken } from '../reducers/auth';
+
+import { tryRequest, tryResponse } from './_try';
 
 function* createFolder({ payload }) {
   const accessToken = yield select(getAccessToken);
   const { name, parentFolderPath } = payload;
   const path = routes.join(parentFolderPath, name);
 
-  let response;
-  try {
-    response = yield api.post('/files/create_folder', accessToken, { path });
-  } catch (e) {
-    if (e instanceof api.ServerError || e instanceof api.APIError) {
-      yield put(messageActions.createErrorMessage(e.title, e.description));
-    } else {
-      yield put(messageActions.createErrorMessage('Unknown Error', 'Something went wrong'));
-    }
-    yield put(actions.createFolderFailure(e));
+  const request = api.post('/files/create_folder', accessToken, { path });
+  const [response, err] = yield tryRequest(request);
+  if (err !== null) {
+    yield put(actions.createFolderFailure(err));
     return;
   }
 
-  let data;
-  try {
-    data = yield response.json();
-  } catch (e) {
-    yield put(messageActions.createErrorMessage('Unknown Error', 'Something went wrong'));
-    yield put(actions.createFolderFailure(e));
+  const [data, parseErr] = yield tryResponse(response.json());
+  if (parseErr !== null) {
+    yield put(actions.createFolderFailure(err));
     return;
   }
 
@@ -46,25 +34,16 @@ function* deleteImmediately({ payload }) {
   const accessToken = yield select(getAccessToken);
   const { path } = payload;
 
-  let response;
-  try {
-    response = yield api.post('/files/delete_immediately', accessToken, { path });
-  } catch (e) {
-    if (e instanceof api.ServerError || e instanceof api.APIError) {
-      yield put(messageActions.createErrorMessage(e.title, e.description));
-    } else {
-      yield put(messageActions.createErrorMessage('Unknown Error', 'Something went wrong'));
-    }
-    yield put(actions.deleteImmediatelyFailure(e));
+  const request = api.post('/files/delete_immediately', accessToken, { path });
+  const [response, err] = yield tryRequest(request);
+  if (err !== null) {
+    yield put(actions.deleteImmediatelyFailure(err));
     return;
   }
 
-  let data;
-  try {
-    data = yield response.json();
-  } catch (e) {
-    yield put(messageActions.createErrorMessage('Unknown Error', 'Something went wrong'));
-    yield put(actions.deleteImmediatelyFailure(e));
+  const [data, parseErr] = yield tryResponse(response.json());
+  if (parseErr !== null) {
+    yield put(actions.deleteImmediatelyFailure(err));
     return;
   }
 
@@ -75,60 +54,37 @@ function* download({ payload }) {
   const accessToken = yield select(getAccessToken);
   const { path } = payload;
 
-  let response;
-  try {
-    response = yield api.post('/files/download', accessToken, { path });
-  } catch (e) {
-    if (e instanceof api.ServerError || e instanceof api.APIError) {
-      yield put(messageActions.createErrorMessage(e.title, e.description));
-    } else {
-      yield put(messageActions.createErrorMessage('Unknown Error', 'Something went wrong'));
-    }
-    yield put(actions.downloadFailure(e));
+  const request = api.post('/files/download', accessToken, { path });
+  const [response, err] = yield tryRequest(request);
+  if (err !== null) {
+    yield put(actions.downloadFailure(err));
     return;
   }
 
   const contentType = response.headers.get('content-type');
-
-  let file;
-  try {
-    if (MediaType.isText(contentType)) {
-      file = yield response.text();
-    } else {
-      const blob = yield response.blob();
-      file = URL.createObjectURL(blob);
-    }
-  } catch (e) {
-    yield put(messageActions.createErrorMessage('Unknown Error', 'Something went wrong'));
-    yield put(actions.downloadFailure(e));
+  const parser = (MediaType.isText(contentType)) ? response.text() : response.blob();
+  const [data, parseErr] = yield tryResponse(parser);
+  if (parseErr !== null) {
+    yield put(actions.downloadFailure(parseErr));
     return;
   }
-
+  const file = (MediaType.isText(contentType)) ? data : URL.createObjectURL(data);
   yield put(actions.downloadSuccess(path, file));
 }
 
 function* emptyTrash() {
   const accessToken = yield select(getAccessToken);
 
-  let response;
-  try {
-    response = yield api.post('/files/empty_trash', accessToken);
-  } catch (e) {
-    if (e instanceof api.ServerError || e instanceof api.APIError) {
-      yield put(messageActions.createErrorMessage(e.title, e.description));
-    } else {
-      yield put(messageActions.createErrorMessage('Unknown Error', 'Something went wrong'));
-    }
-    yield put(actions.emptyTrashFailure(e));
+  const request = api.post('/files/empty_trash', accessToken);
+  const [response, err] = yield tryRequest(request);
+  if (err !== null) {
+    yield put(actions.emptyTrashFailure(err));
     return;
   }
 
-  let data;
-  try {
-    data = yield response.json();
-  } catch (e) {
-    yield put(messageActions.createErrorMessage('Unknown Error', 'Something went wrong'));
-    yield put(actions.emptyTrashFailure(e));
+  const [data, parseErr] = yield tryResponse(response.json());
+  if (parseErr !== null) {
+    yield put(actions.emptyTrashFailure(err));
     return;
   }
 
@@ -139,29 +95,20 @@ function* fetchThumbnail({ payload }) {
   const accessToken = yield select(getAccessToken);
   const { id, path, size } = payload;
 
-  let response;
-  try {
-    response = yield api.post(`/files/get_thumbnail?size=${size}`, accessToken, { path });
-  } catch (e) {
-    if (e instanceof api.ServerError || e instanceof api.APIError) {
-      yield put(messageActions.createErrorMessage(e.title, e.description));
-    } else {
-      yield put(messageActions.createErrorMessage('Unknown Error', 'Something went wrong'));
-    }
-    yield put(actions.fetchThumbnailFailure(e));
+  const request = api.post(`/files/get_thumbnail?size=${size}`, accessToken, { path });
+  const [response, err] = yield tryRequest(request);
+  if (err !== null) {
+    yield put(actions.fetchThumbnailFailure(err));
     return;
   }
 
-  let blob;
-  try {
-    blob = yield response.blob();
-  } catch (e) {
-    yield put(messageActions.createErrorMessage('Unknown Error', 'Something went wrong'));
-    yield put(actions.fetchThumbnailFailure(e));
+  const [data, parseErr] = yield tryResponse(response.blob());
+  if (parseErr !== null) {
+    yield put(actions.fetchThumbnailFailure(err));
     return;
   }
 
-  const thumb = URL.createObjectURL(blob);
+  const thumb = URL.createObjectURL(data);
   yield put(actions.fetchThumbnailSuccess(id, size, thumb));
 }
 
@@ -171,25 +118,16 @@ function* listFolder({ payload }) {
 
   yield put(actions.listFolderRequest());
 
-  let response;
-  try {
-    response = yield api.post('/files/list_folder', accessToken, { path });
-  } catch (e) {
-    if (e instanceof api.ServerError || e instanceof api.APIError) {
-      yield put(messageActions.createErrorMessage(e.title, e.description));
-    } else {
-      yield put(messageActions.createErrorMessage('Unknown Error', 'Something went wrong'));
-    }
-    yield put(actions.listFolderFailure(e));
+  const request = api.post('/files/list_folder', accessToken, { path });
+  const [response, err] = yield tryRequest(request);
+  if (err !== null) {
+    yield put(actions.listFolderFailure(err));
     return;
   }
 
-  let data;
-  try {
-    data = yield response.json();
-  } catch (e) {
-    yield put(messageActions.createErrorMessage('Unknown Error', 'Something went wrong'));
-    yield put(actions.listFolderFailure(e));
+  const [data, parseErr] = yield tryResponse(response.json());
+  if (parseErr !== null) {
+    yield put(actions.listFolderFailure(parseErr));
     return;
   }
 
@@ -200,25 +138,16 @@ function* moveFile({ payload }) {
   const accessToken = yield select(getAccessToken);
   const { fromPath, toPath } = payload;
 
-  let response;
-  try {
-    response = yield api.post('/files/move', accessToken, { from_path: fromPath, to_path: toPath });
-  } catch (e) {
-    if (e instanceof api.ServerError || e instanceof api.APIError) {
-      yield put(messageActions.createErrorMessage(e.title, e.description));
-    } else {
-      yield put(messageActions.createErrorMessage('Unknown Error', 'Something went wrong'));
-    }
-    yield put(actions.moveFileFailure(e));
+  const request = api.post('/files/move', accessToken, { from_path: fromPath, to_path: toPath });
+  const [response, err] = yield tryRequest(request);
+  if (err !== null) {
+    yield put(actions.moveFileFailure(err));
     return;
   }
 
-  let data;
-  try {
-    data = yield response.json();
-  } catch (e) {
-    yield put(messageActions.createErrorMessage('Unknown Error', 'Something went wrong'));
-    yield put(actions.moveFileFailure(e));
+  const [data, parseErr] = yield tryResponse(response.json());
+  if (parseErr !== null) {
+    yield put(actions.moveFileFailure(parseErr));
     return;
   }
 
@@ -229,25 +158,16 @@ function* moveToTrash({ payload }) {
   const accessToken = yield select(getAccessToken);
   const { path } = payload;
 
-  let response;
-  try {
-    response = yield api.post('/files/move_to_trash', accessToken, { path });
-  } catch (e) {
-    if (e instanceof api.ServerError || e instanceof api.APIError) {
-      yield put(messageActions.createErrorMessage(e.title, e.description));
-    } else {
-      yield put(messageActions.createErrorMessage('Unknown Error', 'Something went wrong'));
-    }
-    yield put(actions.moveToTrashFailure(e));
+  const request = api.post('/files/move_to_trash', accessToken, { path });
+  const [response, err] = yield tryRequest(request);
+  if (err !== null) {
+    yield put(actions.moveToTrashFailure(err));
     return;
   }
 
-  let data;
-  try {
-    data = yield response.json();
-  } catch (e) {
-    yield put(messageActions.createErrorMessage('Unknown Error', 'Something went wrong'));
-    yield put(actions.moveToTrashFailure(e));
+  const [data, parseErr] = yield tryResponse(response.json());
+  if (parseErr !== null) {
+    yield put(actions.moveToTrashFailure(parseErr));
     return;
   }
 
@@ -258,25 +178,16 @@ function* performDownload({ payload }) {
   const accessToken = yield select(getAccessToken);
   const { path } = payload;
 
-  let response;
-  try {
-    response = yield api.post('/files/get_download_url', accessToken, { path });
-  } catch (e) {
-    if (e instanceof api.ServerError || e instanceof api.APIError) {
-      yield put(messageActions.createErrorMessage(e.title, e.description));
-    } else {
-      yield put(messageActions.createErrorMessage('Unknown Error', 'Something went wrong'));
-    }
-    yield put(actions.retrieveDownloadUrlFailure(e));
+  const request = api.post('/files/move_to_trash', accessToken, { path });
+  const [response, err] = yield tryRequest(request);
+  if (err !== null) {
+    yield put(actions.retrieveDownloadUrlFailure(err));
     return;
   }
 
-  let data;
-  try {
-    data = yield response.json();
-  } catch (e) {
-    yield put(messageActions.createErrorMessage('Unknown Error', 'Something went wrong'));
-    yield put(actions.retrieveDownloadUrlFailure(e));
+  const [data, parseErr] = yield tryResponse(response.json());
+  if (parseErr !== null) {
+    yield put(actions.retrieveDownloadUrlFailure(parseErr));
     return;
   }
 
