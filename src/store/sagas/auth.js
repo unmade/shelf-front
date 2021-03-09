@@ -9,31 +9,23 @@ import {
 
 import * as api from '../api';
 import * as actions from '../actions/auth';
-import * as messageActions from '../actions/messages';
 import { getAccessToken, getIsExpired } from '../reducers/auth';
+
+import { tryRequest, tryResponse } from './_try';
 
 function* refreshToken() {
   const accessToken = yield select(getAccessToken);
 
-  let response;
-  try {
-    response = yield api.put('/auth/tokens', accessToken);
-  } catch (e) {
-    if (e instanceof api.ServerError || e instanceof api.APIError) {
-      yield put(messageActions.createErrorMessage(e.title, e.description));
-    } else {
-      yield put(messageActions.createErrorMessage('Unknown Error', 'Something went wrong'));
-    }
-    yield put(actions.refreshTokenFailure(e));
+  const request = api.put('/auth/tokens', accessToken);
+  const [response, err] = yield tryRequest(request);
+  if (err !== null) {
+    yield put(actions.refreshTokenFailure(err));
     return;
   }
 
-  let data;
-  try {
-    data = yield response.json();
-  } catch (e) {
-    yield put(messageActions.createErrorMessage('Unknown Error', 'Something went wrong'));
-    yield put(actions.refreshTokenFailure(e));
+  const [data, parseErr] = yield tryResponse(response.json());
+  if (parseErr !== null) {
+    yield put(actions.refreshTokenFailure(err));
     return;
   }
 
@@ -84,25 +76,16 @@ function* refreshTokenWatcher() {
 function* retrieveMe() {
   const accessToken = yield select(getAccessToken);
 
-  let response;
-  try {
-    response = yield api.get('/auth/me', accessToken);
-  } catch (e) {
-    if (e instanceof api.ServerError || e instanceof api.APIError) {
-      yield put(messageActions.createErrorMessage(e.title, e.description));
-    } else {
-      yield put(messageActions.createErrorMessage('Unknown Error', 'Something went wrong'));
-    }
-    yield put(actions.retrieveMeFailure(e));
+  const request = api.get('/auth/me', accessToken);
+  const [response, err] = yield tryRequest(request);
+  if (err !== null) {
+    yield put(actions.retrieveMeFailure(err));
     return;
   }
 
-  let data;
-  try {
-    data = yield response.json();
-  } catch (e) {
-    yield put(messageActions.createErrorMessage('Unknown Error', 'Something went wrong'));
-    yield put(actions.retrieveMeFailure(e));
+  const [data, parseErr] = yield tryResponse(response.json());
+  if (parseErr !== null) {
+    yield put(actions.retrieveMeFailure(err));
     return;
   }
 
@@ -116,23 +99,20 @@ function* signIn({ payload }) {
   formData.append('username', username);
   formData.append('password', password);
 
-  let response;
-  try {
-    response = yield api.post('/auth/tokens', null, formData);
-  } catch (e) {
-    yield put(actions.signInFailure(e));
+  const request = api.post('/auth/tokens', null, formData);
+  const [response, err] = yield tryRequest(request);
+  if (err !== null) {
+    yield put(actions.signInFailure(err));
     return;
   }
 
-  let data;
-  try {
-    data = yield response.json();
-  } catch (e) {
-    yield put(actions.signInFailure(e));
+  const [data, parseErr] = yield tryResponse(response.json());
+  if (parseErr !== null) {
+    yield put(actions.signInFailure(err));
     return;
   }
 
-  yield put(actions.signInSuccess(data));
+  yield put(actions.signInSuccess(data))
 }
 
 export default [
