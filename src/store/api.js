@@ -14,19 +14,26 @@ export function APIError(title = 'API Error', description) {
 }
 APIError.prototype.toString = () => `${this.title}: "${this.description}"`;
 
-export function* post(endpoint, accessToken, payload = null) {
+function* request(method, endpoint, accessToken, body = null) {
   const url = `${API_BASE_URL}${endpoint}`;
   const options = {
-    method: 'POST',
-    headers: {
-      authorization: `Bearer ${accessToken}`,
-    },
+    method,
     mode: 'cors',
     cache: 'default',
   };
 
-  if (payload !== null) {
-    options.body = JSON.stringify(payload);
+  if (accessToken !== null) {
+    options.headers = {
+      authorization: `Bearer ${accessToken}`,
+    };
+  }
+
+  if (body !== null) {
+    if (body instanceof FormData) {
+      options.body = body;
+    } else {
+      options.body = JSON.stringify(body);
+    }
   }
 
   let response;
@@ -46,4 +53,16 @@ export function* post(endpoint, accessToken, payload = null) {
   }
 
   return response;
+}
+
+export function* get(endpoint, accessToken) {
+  return yield request('GET', endpoint, accessToken);
+}
+
+export function* post(endpoint, accessToken, body = null) {
+  return yield request('POST', endpoint, accessToken, body);
+}
+
+export function* put(endpoint, accessToken, body = null) {
+  return yield request('PUT', endpoint, accessToken, body);
 }

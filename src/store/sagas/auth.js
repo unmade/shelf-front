@@ -7,70 +7,37 @@ import {
   takeEvery,
 } from 'redux-saga/effects';
 
-import API_BASE_URL from '../api';
+import * as api from '../api';
 import * as actions from '../actions/auth';
+import * as messageActions from '../actions/messages';
 import { getAccessToken, getIsExpired } from '../reducers/auth';
 
-function* signInSaga({ payload }) {
-  const { username, password } = payload;
-  const url = `${API_BASE_URL}/auth/tokens`;
-
-  const formData = new FormData();
-  formData.append('username', username);
-  formData.append('password', password);
-
-  const options = {
-    method: 'POST',
-    body: formData,
-    mode: 'cors',
-    cache: 'default',
-  };
-
-  yield put(actions.signInRequest());
-
-  try {
-    const response = yield fetch(url, options);
-    const data = yield response.json();
-    if (response.ok) {
-      yield put(actions.signInSuccess(data));
-    } else if (response.status < 500 && data.code) {
-      yield put(actions.signInFailure({ errCode: data.code }));
-    } else {
-      // eslint-disable-next-line no-console
-      console.log(response);
-    }
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.log(e);
-  }
-}
-
-function* refreshTokenSaga() {
-  const url = `${API_BASE_URL}/auth/tokens`;
+function* refreshToken() {
   const accessToken = yield select(getAccessToken);
-  const options = {
-    method: 'PUT',
-    headers: {
-      authorization: `Bearer ${accessToken}`,
-    },
-    mode: 'cors',
-    cache: 'default',
-  };
 
-  yield put(actions.refreshTokenRequest());
-
+  let response;
   try {
-    const response = yield fetch(url, options);
-    const data = yield response.json();
-    if (response.ok) {
-      yield put(actions.refreshTokenSuccess(data));
-    } else {
-      yield put(actions.refreshTokenFailure(data));
-    }
+    response = yield api.put('/auth/tokens', accessToken);
   } catch (e) {
-    // eslint-disable-next-line no-console
-    console.log(e);
+    if (e instanceof api.ServerError || e instanceof api.APIError) {
+      yield put(messageActions.createErrorMessage(e.title, e.description));
+    } else {
+      yield put(messageActions.createErrorMessage('Unknown Error', 'Something went wrong'));
+    }
+    yield put(actions.refreshTokenFailure(e));
+    return;
   }
+
+  let data;
+  try {
+    data = yield response.json();
+  } catch (e) {
+    yield put(messageActions.createErrorMessage('Unknown Error', 'Something went wrong'));
+    yield put(actions.refreshTokenFailure(e));
+    return;
+  }
+
+  yield put(actions.refreshTokenSuccess(data));
 }
 
 function* refreshTokenWatcher() {
@@ -114,8 +81,63 @@ function* refreshTokenWatcher() {
   }
 }
 
+function* retrieveMe() {
+  const accessToken = yield select(getAccessToken);
+
+  let response;
+  try {
+    response = yield api.get('/auth/me', accessToken);
+  } catch (e) {
+    if (e instanceof api.ServerError || e instanceof api.APIError) {
+      yield put(messageActions.createErrorMessage(e.title, e.description));
+    } else {
+      yield put(messageActions.createErrorMessage('Unknown Error', 'Something went wrong'));
+    }
+    yield put(actions.retrieveMeFailure(e));
+    return;
+  }
+
+  let data;
+  try {
+    data = yield response.json();
+  } catch (e) {
+    yield put(messageActions.createErrorMessage('Unknown Error', 'Something went wrong'));
+    yield put(actions.retrieveMeFailure(e));
+    return;
+  }
+
+  yield put(actions.retrieveMeSuccess(data));
+}
+
+function* signIn({ payload }) {
+  const { username, password } = payload;
+
+  const formData = new FormData();
+  formData.append('username', username);
+  formData.append('password', password);
+
+  let response;
+  try {
+    response = yield api.post('/auth/tokens', null, formData);
+  } catch (e) {
+    yield put(actions.signInFailure(e));
+    return;
+  }
+
+  let data;
+  try {
+    data = yield response.json();
+  } catch (e) {
+    yield put(actions.signInFailure(e));
+    return;
+  }
+
+  yield put(actions.signInSuccess(data));
+}
+
 export default [
   refreshTokenWatcher(),
-  takeEvery(actions.types.REFRESH_TOKEN, refreshTokenSaga),
-  takeEvery(actions.types.SIGN_IN, signInSaga),
+  takeEvery(actions.types.REFRESH_TOKEN, refreshToken),
+  takeEvery(actions.types.RETRIEVE_ME, retrieveMe),
+  takeEvery(actions.types.SIGN_IN, signIn),
 ];
