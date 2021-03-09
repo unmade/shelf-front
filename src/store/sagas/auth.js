@@ -7,7 +7,7 @@ import {
   takeEvery,
 } from 'redux-saga/effects';
 
-import API_BASE_URL from '../api-config';
+import API_BASE_URL from '../api';
 import * as actions from '../actions/auth';
 import { getAccessToken, getIsExpired } from '../reducers/auth';
 

@@ -17,7 +17,7 @@ import { v4 as uuid4 } from 'uuid';
 
 import * as routes from '../../routes';
 
-import API_BASE_URL from '../api-config';
+import API_BASE_URL from '../api';
 import * as actions from '../actions/uploads';
 import { getAccessToken } from '../reducers/auth';
 
