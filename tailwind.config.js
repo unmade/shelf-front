@@ -1,4 +1,5 @@
 // tailwind.config.js
+const { right } = require('@popperjs/core');
 const plugin = require('tailwindcss/plugin');
 
 module.exports = {
@@ -121,6 +122,17 @@ module.exports = {
         700: '#b83280',
         800: '#97266d',
         900: '#702459',
+      },
+    },
+    extend: {
+      animation: {
+        'toast-in-right': 'toast-in-right .3s',
+      },
+      keyframes: {
+        'toast-in-right': {
+          from: { transform: 'translateX(100%)' },
+          to: { transform: 'translateX(0)' },
+        },
       },
     },
   },

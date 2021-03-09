@@ -1,16 +1,6 @@
 import { combineReducers } from 'redux';
 import { types } from '../actions/auth';
 
-function errorFromCode({ errCode }) {
-  switch (errCode) {
-    case 'USER_NOT_FOUND': {
-      return 'Incorrect username or password.';
-    }
-    default:
-      return 'Unknown error.';
-  }
-}
-
 function me(state = null, action) {
   switch (action.type) {
     case types.RETRIEVE_ME_SUCCESS: {
@@ -26,7 +16,6 @@ function me(state = null, action) {
 
 const INITIAL_STATE = {
   accessToken: null,
-  errorMessage: null,
   expireAt: null,
   loading: false,
 };
@@ -37,7 +26,6 @@ function tokens(state = INITIAL_STATE, action) {
     case types.SIGN_IN_REQUEST: {
       return {
         ...state,
-        errorMessage: null,
         loading: true,
       };
     }
@@ -55,7 +43,6 @@ function tokens(state = INITIAL_STATE, action) {
       return {
         ...state,
         accessToken: null,
-        errorMessage: errorFromCode(action.payload),
         expireAt: null,
         loading: false,
       };
@@ -77,7 +64,6 @@ export const getAccessToken = (state) => getAuth(state).tokens.accessToken;
 export const getExpireAt = (state) => getAuth(state).tokens.expireAt;
 export const getIsExpired = (state) => getExpireAt(state) && getExpireAt(state) < Date.now();
 export const getIsLoading = (state) => getAuth(state).tokens.loading;
-export const getErrorMessage = (state) => getAuth(state).tokens.errorMessage;
 export const getIsAuthenticated = (state) => getAccessToken(state) && !getIsExpired(state);
 
 const KEY = 'state.auth.tokens';

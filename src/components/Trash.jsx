@@ -36,7 +36,7 @@ function Trash({
           <button
             type="button"
             title="Empty Trash"
-            className="mr-4 align-middle text-xl text-red-500 rounded-full"
+            className="mr-4 p-1 align-middle text-xl text-red-500 rounded-md hover:bg-gray-100"
             onClick={onEmptyTrash}
           >
             <icons.TrashOutlined />
