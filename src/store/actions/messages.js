@@ -5,12 +5,13 @@ export const types = {
   REMOVE_MESSAGE: 'REMOVE_MESSAGE',
 };
 
-export const createErrorMessage = (title, description) => ({
+export const createErrorMessage = (title, description, closeAfter = null) => ({
   type: types.CREATE_ERROR_MESSAGE,
   payload: {
     id: uuid4(),
     title,
     description,
+    closeAfter,
   },
 });
 

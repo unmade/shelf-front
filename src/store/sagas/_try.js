@@ -4,6 +4,8 @@ import * as api from '../api';
 
 import * as messageActions from '../actions/messages';
 
+const CLOSE_AFTER = 10;
+
 const unexpectedError = ['Unexpected Error', 'Something went wrong'];
 const parseError = ['Bad response', 'Couldn\'t parse response from server'];
 
@@ -12,9 +14,9 @@ export function* tryRequest(request) {
     return [yield request, null];
   } catch (err) {
     if (err instanceof api.ServerError || err instanceof api.APIError) {
-      yield put(messageActions.createErrorMessage(err.title, err.description));
+      yield put(messageActions.createErrorMessage(err.title, err.description, CLOSE_AFTER));
     } else {
-      yield put(messageActions.createErrorMessage(...unexpectedError));
+      yield put(messageActions.createErrorMessage(...unexpectedError, CLOSE_AFTER));
     }
     return [null, err];
   }
@@ -24,7 +26,7 @@ export function* tryResponse(parser) {
   try {
     return [yield parser, null];
   } catch (err) {
-    yield put(messageActions.createErrorMessage(...parseError));
+    yield put(messageActions.createErrorMessage(...parseError, CLOSE_AFTER));
     return [null, err];
   }
 }

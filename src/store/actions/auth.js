@@ -29,9 +29,9 @@ export const refreshTokenSuccess = ({ access_token: access }) => ({
   payload: { access },
 });
 
-export const refreshTokenFailure = ({ errCode }) => ({
+export const refreshTokenFailure = (err) => ({
   type: types.REFRESH_TOKEN_FAILURE,
-  payload: { errCode },
+  payload: { err },
 });
 
 export const retrieveMe = () => ({
@@ -64,7 +64,7 @@ export const signInSuccess = ({ access_token: access }) => ({
   payload: { access },
 });
 
-export const signInFailure = ({ errCode }) => ({
+export const signInFailure = (err) => ({
   type: types.SIGN_IN_FAILURE,
-  payload: { errCode },
+  payload: { err },
 });
