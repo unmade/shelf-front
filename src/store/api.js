@@ -49,7 +49,7 @@ function* request(method, endpoint, accessToken, body = null) {
     } catch (e) {
       throw new ServerError();
     }
-    throw new APIError('API Error', errorMessage.message);
+    throw new APIError(errorMessage.code_verbose, errorMessage.message);
   }
 
   return response;
