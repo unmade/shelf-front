@@ -13,8 +13,8 @@ const headerStyles = {
   height: `${HEADER_HEIGHT}px`,
 };
 
-const emptyStyles = {
-  marginTop: `${-HEADER_HEIGHT}px`,
+const height = {
+  height: `calc(100% - ${HEADER_HEIGHT}px`,
 };
 
 function TableHeader() {
@@ -49,8 +49,8 @@ function Table({ className, items, itemRender }) {
           className={`${fileDropBorder} ${className}`}
         />
       ) : (
-        <div className={`h-full flex flex-col items-center justify-center ${fileDropBorder} ${className}`}>
-          <div className="text-center" style={emptyStyles}>
+        <div className={`flex flex-col items-center justify-center ${fileDropBorder} ${className}`} style={height}>
+          <div className="text-center">
             <icons.Collection className="w-12 h-12 mx-auto mb-4 text-gray-400" />
             <p className="text-gray-800 text-lg font-semibold">
               Nothing here yet

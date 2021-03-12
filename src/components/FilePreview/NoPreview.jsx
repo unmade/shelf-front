@@ -14,17 +14,18 @@ function NoPreview({ file, onDownload }) {
     name, path, mediatype, hidden, size, mtime,
   } = file;
   return (
-    <div className="flex flex-col h-full items-center justify-center space-x-4 space-y-6">
-      <FileIcon className="w-32 h-auto drop-shadow" mediatype={mediatype} hidden={hidden} />
+    <div className="h-full flex flex-col items-center justify-center space-y-6">
 
-      <div className="text-gray-800">
-        <p className="text-gray-600 text-xs">
+      <div className="w-1/2 text-center space-y-2">
+        <FileIcon className="w-32 h-auto mx-auto drop-shadow" mediatype={mediatype} hidden={hidden} />
+        <p className="text-gray-700">
           {name}
-          <span> &bull; </span>
+        </p>
+        <div className="text-gray-600 text-xs">
           <FileSize size={size} />
           <span> &bull; </span>
           <TimeAgo mtime={mtime * 1000} />
-        </p>
+        </div>
       </div>
 
       <div className="text-center">
