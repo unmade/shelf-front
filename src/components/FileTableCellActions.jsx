@@ -7,6 +7,7 @@ import { TRASH_FOLDER_NAME } from '../constants';
 import DeletedFileActions from '../containers/DeletedFileActions';
 import FileActions from '../containers/FileActions';
 
+import Button from './ui/Button';
 import Dropdown from './ui/Dropdown';
 
 function getActionsByType(path) {
@@ -28,9 +29,7 @@ function FileTableCellActions({ id, path, mediaType }) {
       overlay={Actions}
       overlayProps={{ fileId: id, filePath: path }}
     >
-      <button type="button" className="font-bold p-2 rounded-full">
-        <icons.More />
-      </button>
+      <Button type="text" icon={<icons.More />} />
     </Dropdown>
   );
 }

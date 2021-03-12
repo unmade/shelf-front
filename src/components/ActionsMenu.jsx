@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Button from './ui/Button';
+
 function ActionsMenu({ menu }) {
   const onClickFactory = (onClick) => (event) => {
     event.stopPropagation();
@@ -8,21 +10,19 @@ function ActionsMenu({ menu }) {
   };
 
   return (
-    <div className="flex flex-col text-sm text-gray-700 p-2 bg-white py-2 rounded-md shadow-lg mt-1">
+    <div className="p-2 flex flex-col space-y-1 text-sm text-gray-700 bg-white rounded-md shadow-lg mt-1">
       {menu.map((item) => (
-        <button
+        <Button
           key={item.name}
-          type="button"
-          className="rounded px-4 py-2 hover:bg-gray-100"
+          type="text"
           onClick={onClickFactory(item.onClick)}
+          danger={item.danger}
         >
-          <div className="flex flex-row items-center justify-between space-x-4">
-            <p className="text-left pr-4">
-              {item.name}
-            </p>
-            {item.icon}
+          <div className="w-full flex flex-row items-center justify-between space-x-4">
+            <span>{item.name}</span>
+            <span>{item.icon}</span>
           </div>
-        </button>
+        </Button>
       ))}
     </div>
   );

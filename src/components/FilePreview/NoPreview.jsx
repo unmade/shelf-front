@@ -1,9 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import FileIcon from '../FileIcon';
+import * as icons from '../../icons';
+
+import Button from '../ui/Button';
 import FileSize from '../ui/FileSize';
 import TimeAgo from '../ui/TimeAgo';
+
+import FileIcon from '../FileIcon';
 
 function NoPreview({ file, onDownload }) {
   const {
@@ -24,16 +28,17 @@ function NoPreview({ file, onDownload }) {
       </div>
 
       <div className="text-center">
-        <p className="text-xl font-medium text-gray-700">
+        <p className="text-xl font-medium text-gray-700 mb-2">
           Preview is not available
         </p>
-        <button
-          type="button"
-          className="mt-2 py-1 px-2 font-semibold text-white bg-blue-500 rounded"
+        <Button
+          type="primary"
+          size="md"
+          icon={<icons.Download />}
           onClick={() => onDownload(path)}
         >
           Download
-        </button>
+        </Button>
       </div>
     </div>
   );

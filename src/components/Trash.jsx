@@ -9,6 +9,7 @@ import FileTableCell from '../containers/FileTableCell';
 import FileTableView from '../containers/FileTableView';
 
 import Breadcrumbs from './ui/Breadcrumbs';
+import Button from './ui/Button';
 
 import BreadcrumbItem from './BreadcrumbItem';
 
@@ -33,14 +34,13 @@ function Trash({
         <Breadcrumbs path={match.url} itemRender={BreadcrumbItem} />
 
         <div className="flex flex-row">
-          <button
-            type="button"
+          <Button
+            type="text"
             title="Empty Trash"
-            className="mr-4 p-1 align-middle text-xl text-red-500 rounded-md hover:bg-gray-100"
             onClick={onEmptyTrash}
-          >
-            <icons.TrashOutlined />
-          </button>
+            icon={<icons.TrashOutlined className="w-5 h-5" />}
+            danger
+          />
         </div>
       </div>
 

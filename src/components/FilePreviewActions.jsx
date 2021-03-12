@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import * as icons from '../icons';
 
+import Button from './ui/Button';
+
 function FilePreviewActions({
   fileId, filePath, onDelete, onDownload, onMove, onRename,
 }) {
@@ -10,21 +12,25 @@ function FilePreviewActions({
     {
       name: 'Download',
       icon: <icons.Download className="w-4 h-4" />,
+      danger: false,
       onClick: () => { onDownload(filePath); },
     },
     {
       name: 'Rename',
       icon: <icons.ICursor className="w-4 h-4" />,
+      danger: false,
       onClick: () => { onRename(fileId); },
     },
     {
       name: 'Move',
       icon: <icons.Move className="w-4 h-4" />,
+      danger: false,
       onClick: () => { onMove(fileId); },
     },
     {
-      name: <span className="text-red-600">Delete</span>,
-      icon: <icons.TrashOutlined className="w-4 h-4 text-red-600" />,
+      name: 'Delete',
+      icon: <icons.TrashOutlined className="w-4 h-4" />,
+      danger: true,
       onClick: () => { onDelete(fileId); },
     },
   ];
@@ -32,15 +38,14 @@ function FilePreviewActions({
   return (
     <>
       {menu.map((item) => (
-        <button
+        <Button
           key={item.name}
-          type="button"
-          className="p-1 rounded-md hover:bg-gray-100"
+          type="text"
+          icon={item.icon}
           title={item.name}
+          danger={item.danger}
           onClick={item.onClick}
-        >
-          {item.icon}
-        </button>
+        />
       ))}
     </>
   );

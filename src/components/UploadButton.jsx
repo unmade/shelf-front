@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Button from './ui/Button';
+
 class UploadButton extends React.Component {
   constructor(props) {
     super(props);
@@ -22,7 +24,7 @@ class UploadButton extends React.Component {
   }
 
   render() {
-    const { className = '', children } = this.props;
+    const { children, icon } = this.props;
     return (
       <form>
         <input
@@ -33,13 +35,14 @@ class UploadButton extends React.Component {
           onChange={this.setUploadFiles}
           multiple
         />
-        <button
-          type="button"
-          className={className}
+        <Button
+          type="primary"
+          size="sm"
+          icon={icon}
           onClick={this.openUpload}
         >
           {children}
-        </button>
+        </Button>
       </form>
     );
   }

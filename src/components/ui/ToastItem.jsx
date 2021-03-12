@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import * as icons from '../../icons';
 
+import Button from './Button';
+
 function ToastItem({ id, message, onClose }) {
   const { title, description, closeAfter } = message;
 
@@ -34,14 +36,12 @@ function ToastItem({ id, message, onClose }) {
       </div>
 
       <div>
-        <button
-          type="button"
+        <Button
+          type="text"
+          icon={<icons.Close className="text-gray-600" />}
           title="Close"
-          className="p-1 hover:bg-gray-100 rounded-md"
           onClick={() => onClose(id)}
-        >
-          <icons.Close className="text-gray-600" />
-        </button>
+        />
       </div>
     </div>
   );

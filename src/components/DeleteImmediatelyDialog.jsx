@@ -24,7 +24,7 @@ function DeleteImmediatelyDialog({ file, onDelete, onCancel }) {
       icon={<icons.TrashOutlined className="h-6 w-6 text-red-500" />}
       visible={visible}
       confirmTitle="Delete"
-      confirmColor="red"
+      confirmDanger
       onConfirm={onConfirm}
       onCancel={onCancel}
     >

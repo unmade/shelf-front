@@ -2,14 +2,10 @@ import React from 'react';
 
 import * as icons from '../icons';
 
+import Button from './ui/Button';
 import ProgressBar from './ui/ProgressBar';
 
 import FileIcon from './FileIcon';
-
-const styles = {
-  padding: '0.25rem',
-  fontSize: '0.5rem',
-};
 
 function UploadListItem({ item }) {
   const {
@@ -19,7 +15,6 @@ function UploadListItem({ item }) {
     <div className="flex flex-row items-center space-x-4">
       <div>
         <FileIcon className="text-gray-400 w-6 h-6" mediatype={mediatype} />
-        {/* <icons.File className="text-gray-400 w-6 h-6" /> */}
       </div>
 
       <div className="w-full flex flex-col space-y-2 min-w-0">
@@ -37,14 +32,14 @@ function UploadListItem({ item }) {
 
           <div className="text-right text-sm">
             {(error) ? (
-              <button
-                type="button"
+              <Button
+                type="primary"
+                shape="circle"
+                size="xs"
                 title="Retry"
-                className="w-4 h-4 bg-red-500 text-red-100 rounded-full"
-                style={styles}
-              >
-                <icons.Redo />
-              </button>
+                icon={<icons.Redo />}
+                danger
+              />
             ) : (
               <div className="font-semibold">
                 {(progress < 100) ? (

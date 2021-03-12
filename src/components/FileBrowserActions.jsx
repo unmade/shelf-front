@@ -5,6 +5,7 @@ import * as icons from '../icons';
 
 import Uploader from '../containers/Uploader';
 
+import Button from './ui/Button';
 import Dropdown from './ui/Dropdown';
 
 const menu = [
@@ -18,22 +19,22 @@ function FileBrowserActions({ onCreateFolder }) {
   return (
     <div className="flex flex-row space-x-4 align-middle text-gray-700">
       <Dropdown overlay={() => (<Uploader />)}>
-        <button type="button" title="File Upload" className="p-1 rounded-md hover:bg-gray-100">
-          <icons.CloudUpload className="w-5 h-5" />
-        </button>
+        <Button
+          type="text"
+          title="Uploads"
+          icon={<icons.CloudUpload className="w-5 h-5" />}
+        />
       </Dropdown>
       {menu.map((item) => (
-        <button
+        <Button
           key={item.name}
-          type="button"
-          className="p-1 rounded-md hover:bg-gray-100"
+          type="text"
+          icon={item.icon}
           title={item.name}
           onClick={() => {
             onCreateFolder();
           }}
-        >
-          {item.icon}
-        </button>
+        />
       ))}
     </div>
   );

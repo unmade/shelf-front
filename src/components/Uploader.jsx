@@ -9,6 +9,7 @@ import UploadList from '../containers/UploadList';
 import UploadListItem from '../containers/UploadListItem';
 
 import Pill from './ui/Pill';
+import Button from './ui/Button';
 
 const maxHeight = {
   maxHeight: '50vh',
@@ -50,13 +51,8 @@ function Dropzone({ dragging }) {
         <p className="text-sm text-gray-400">
           or
         </p>
-        <UploadButton
-          className="px-2 py-1 font-semibold bg-blue-500 text-white rounded-md shadow inline-flex items-center space-x-2"
-        >
-          <icons.Upload />
-          <p className="text-sm">
-            Browse
-          </p>
+        <UploadButton icon={<icons.Upload />}>
+          Browse
         </UploadButton>
       </div>
     </div>
@@ -142,14 +138,12 @@ function Uploader({
               </Pill>
             ))}
           </div>
-          <button
-            type="button"
+          <Button
+            type="text"
+            icon={<icons.Clear className="w-4 h-4" />}
             title="Clear"
-            className="p-1 rounded-md hover:bg-gray-100"
             onClick={onClear}
-          >
-            <icons.Clear className="w-4 h-4" />
-          </button>
+          />
         </div>
 
       </div>

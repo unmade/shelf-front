@@ -8,9 +8,10 @@ import * as routes from '../../routes';
 
 import NoPreview from '../../containers/NoPreview';
 
-import FileLink from '../FileLink';
+import Button from '../ui/Button';
 
 import CodePreview from './CodePreview';
+import FileLink from '../FileLink';
 import ImagePreview from './ImagePreview';
 
 const MAX_PREVIEW_SIZE_BY_TYPE = {
@@ -40,11 +41,9 @@ function Header({
   return (
     <div className="px-4 py-2 flex flex-row items-center justify-between">
       <div className="w-48 flex flex-row">
-        <div className="p-1 rounded-md hover:bg-gray-100">
-          <FileLink>
-            <icons.ChevronLeft />
-          </FileLink>
-        </div>
+        <FileLink>
+          <Button type="text" icon={<icons.ChevronLeft />} />
+        </FileLink>
       </div>
 
       <div className="min-w-0 px-8">
@@ -54,11 +53,9 @@ function Header({
       </div>
 
       <div className="w-48 text-gray-800 flex flex-row items-center justify-end space-x-2">
-        <span className="p-1 rounded-md hover:bg-gray-100">
-          <FileLink name={prevName} preview>
-            <icons.ArrowLeft />
-          </FileLink>
-        </span>
+        <FileLink name={prevName} preview>
+          <Button type="text" icon={<icons.ArrowLeft />} />
+        </FileLink>
 
         <div className="text-gray-700 text-sm">
           <span>{idx + 1}</span>
@@ -66,11 +63,9 @@ function Header({
           <span>{total}</span>
         </div>
 
-        <span className="p-1 rounded-md hover:bg-gray-100">
-          <FileLink name={nextName} preview>
-            <icons.ArrowRight />
-          </FileLink>
-        </span>
+        <FileLink name={nextName} preview>
+          <Button type="text" icon={<icons.ArrowRight />} />
+        </FileLink>
       </div>
     </div>
   );

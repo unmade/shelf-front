@@ -11,21 +11,25 @@ function FileActions({
     {
       name: 'Download',
       icon: <icons.Download className="w-4 h-4" />,
+      danger: false,
       onClick: () => { onDownload(filePath); closeOverlay(); },
     },
     {
       name: 'Rename',
       icon: <icons.ICursor className="w-4 h-4" />,
+      danger: false,
       onClick: () => { onRename(fileId); closeOverlay(); },
     },
     {
       name: 'Move',
       icon: <icons.Move className="w-4 h-4" />,
+      danger: false,
       onClick: () => { onMove(fileId); closeOverlay(); },
     },
     {
-      name: <span className="text-red-600">Delete</span>,
-      icon: <icons.TrashOutlined className="w-4 h-4 text-red-600" />,
+      name: 'Delete',
+      icon: <icons.TrashOutlined className="w-4 h-4" />,
+      danger: true,
       onClick: () => { onDelete(fileId); closeOverlay(); },
     },
   ];
