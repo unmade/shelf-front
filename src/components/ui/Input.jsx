@@ -1,10 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+const fontSizes = {
+  sm: {
+    label: 'text-xs',
+    input: 'text-sm',
+  },
+  base: {
+    label: 'text-sm',
+    input: 'text-base',
+  },
+};
+
+const paddings = {
+  sm: 'p-1',
+  base: 'px-3 py-2',
+};
+
 function Input({
-  autoFocus, defaultValue, error, id, label, placeholder, type, onChange,
+  autoFocus, defaultValue, error, id, label, placeholder, size, type, onChange,
 }) {
-  const borderColor = (error) ? 'border-red-500' : 'border-gray-300';
+  const borderColor = (error) ? (
+    'border-red-400 focus:ring-red-200 focus:border-red-400'
+  ) : (
+    'border-gray-300 focus:ring-blue-100 focus:border-blue-300'
+  );
   const inputProps = {};
   if (placeholder !== null && placeholder !== undefined) {
     inputProps.placeholder = placeholder;
@@ -13,18 +33,18 @@ function Input({
     inputProps.defaultValue = defaultValue;
   }
   return (
-    <>
+    <div>
       {(label) && (
         // eslint-disable-next-line jsx-a11y/label-has-associated-control
-        <label htmlFor={id} className="block text-xs font-medium text-gray-700">
+        <label htmlFor={id} className={`mb-1 block font-medium text-gray-700 ${fontSizes[size].label}`}>
           {label}
         </label>
       )}
-      <div className="w-64 mt-1 relative rounded-md shadow-sm">
+      <div className="relative rounded-md shadow-sm">
         <input
           id={id}
           type={type}
-          className={`w-full p-1 text-gray-800 text-sm border ${borderColor} rounded focus:outline-none focus:ring`}
+          className={`w-full ${paddings[size]} text-gray-800 ${fontSizes[size].input} border ${borderColor} rounded focus:outline-none focus:ring`}
           // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus={autoFocus}
           onChange={onChange}
@@ -35,7 +55,7 @@ function Input({
       {error && (
         <p className="text-red-500 text-xs italic mt-3">{error}</p>
       )}
-    </>
+    </div>
   );
 }
 
@@ -46,6 +66,7 @@ Input.propTypes = {
   id: PropTypes.string.isRequired,
   label: PropTypes.string,
   placeholder: PropTypes.string,
+  size: PropTypes.oneOf(['sm', 'base']),
   type: PropTypes.string,
   onChange: PropTypes.func.isRequired,
 };
@@ -56,6 +77,7 @@ Input.defaultProps = {
   error: null,
   label: null,
   placeholder: null,
+  size: 'base',
   type: 'text',
 };
 

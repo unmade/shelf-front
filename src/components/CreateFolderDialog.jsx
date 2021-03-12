@@ -39,11 +39,12 @@ function CreateFolderDialog({ visible, parentFolderPath, onCreate, onCancel }) {
       onConfirm={onConfirm}
       onCancel={onClose}
     >
-      <form onSubmit={(e) => { e.preventDefault(); onConfirm(); }}>
+      <form className="w-64" onSubmit={(e) => { e.preventDefault(); onConfirm(); }}>
         <Input
           id="name"
           label="Name"
           placeholder="Folder name"
+          size="sm"
           error={error}
           onChange={onNameChange}
           autoFocus

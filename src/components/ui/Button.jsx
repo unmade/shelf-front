@@ -22,22 +22,33 @@ const colors = {
   },
 };
 
+const paddings = {
+  sm: {
+    [false]: ['px-3', 'py-1'],
+    [true]: ['p-1'],
+  },
+  base: {
+    [false]: ['px-4', 'py-2'],
+    [true]: ['p-2'],
+  },
+};
+
 const shapes = {
   circle: ['rounded-full'],
   round: ['rounded-md'],
 };
 
 function Button({
-  children, danger, disabled, icon, shape, size, title, type, onClick,
+  children, danger, disabled, full, icon, shape, size, title, type, onClick,
 }) {
   const buttonProps = { disabled };
   const classNames = [`text-${size}`, 'rounded-md', 'focus:outline-none', 'focus:ring', 'transition', 'ease-in-out', 'duration-75'];
 
-  if (children === null || children === undefined) {
-    classNames.push('p-1');
-  } else {
-    classNames.push('px-3', 'py-1');
+  if (full) {
+    classNames.push('w-full');
   }
+
+  classNames.push(...paddings[size][children === null || children === undefined]);
 
   if (title !== null || title !== undefined) {
     buttonProps.title = title;
@@ -78,9 +89,10 @@ Button.propTypes = {
   ]),
   danger: PropTypes.bool,
   disabled: PropTypes.bool,
+  full: PropTypes.bool,
   icon: PropTypes.element,
   shape: PropTypes.oneOf(['circle', 'round']),
-  size: PropTypes.oneOf(['xs', 'sm', 'md', 'lg', 'xs']),
+  size: PropTypes.oneOf(['sm', 'base']),
   title: PropTypes.string,
   type: PropTypes.oneOf(['primary', 'default', 'text']),
   onclick: PropTypes.func,
@@ -90,6 +102,7 @@ Button.defaultProps = {
   children: null,
   disabled: false,
   danger: false,
+  full: false,
   icon: null,
   shape: 'round',
   size: 'sm',

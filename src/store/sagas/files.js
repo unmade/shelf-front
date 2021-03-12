@@ -178,7 +178,7 @@ function* performDownload({ payload }) {
   const accessToken = yield select(getAccessToken);
   const { path } = payload;
 
-  const request = api.post('/files/move_to_trash', accessToken, { path });
+  const request = api.post('/files/get_download_url', accessToken, { path });
   const [response, err] = yield tryRequest(request);
   if (err !== null) {
     yield put(actions.retrieveDownloadUrlFailure(err));

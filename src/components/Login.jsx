@@ -1,6 +1,8 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
 
+import * as icons from '../icons';
+
 import Toast from '../containers/Toast';
 import ToastItem from '../containers/ToastItem';
 
@@ -96,12 +98,18 @@ class Login extends React.Component {
 
     return (
       <>
-        <div className="w-full max-w-xs mx-auto mt-16">
-          <form
-            className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
-            onSubmit={(event) => { event.preventDefault(); this.onSubmit(); }}
-          >
-            <div className="mb-4">
+        <div className="min-h-screen flex items-center justify-center bg-gray-100">
+          <div className="bg-white max-w-md w-full py-12 px-6 rounded-md shadow">
+            <div className="relative w-full inline-flex items-center space-x-4">
+              <icons.AppLogo className="w-10 h-10 text-gray-600" />
+              <h1 className="text-2xl font-bold text-gray-700">
+                Shelf
+              </h1>
+            </div>
+            <form
+              className="mt-5 space-y-4"
+              onSubmit={(event) => { event.preventDefault(); this.onSubmit(); }}
+            >
               <Input
                 id="username"
                 label="Username"
@@ -109,8 +117,6 @@ class Login extends React.Component {
                 error={errors && errors.username}
                 onChange={this.onInputChange('username')}
               />
-            </div>
-            <div className="mb-6">
               <Input
                 id="password"
                 type="password"
@@ -119,21 +125,19 @@ class Login extends React.Component {
                 error={errors && errors.password}
                 onChange={this.onInputChange('password')}
               />
-            </div>
-            <div className="flex items-center justify-between">
-              <Button
-                type="primary"
-                size="md"
-                onClick={this.onSubmit}
-                disabled={loading}
-              >
-                Sign In
-              </Button>
-            </div>
-          </form>
-          <p className="text-center text-gray-500 text-xs">
-            &copy;2021 Shelf. All rights reserved.
-          </p>
+              <div className="w-full pt-5">
+                <Button
+                  type="primary"
+                  size="base"
+                  onClick={this.onSubmit}
+                  disabled={loading}
+                  full
+                >
+                  Sign In
+                </Button>
+              </div>
+            </form>
+          </div>
         </div>
         <Toast itemRender={ToastItem} />
       </>

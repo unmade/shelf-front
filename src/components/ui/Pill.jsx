@@ -11,7 +11,7 @@ function Pill({ children, title, active, onClick }) {
   return (
     <button
       type="button"
-      className={`py-1 px-2 rounded-md ${styles}`}
+      className={`py-1 px-2 rounded-md ${styles} focus:outline-none focus:ring`}
       title={title}
       onClick={onClick}
     >
