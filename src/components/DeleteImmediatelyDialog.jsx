@@ -21,7 +21,7 @@ function DeleteImmediatelyDialog({ file, onDelete, onCancel }) {
   return (
     <Dialog
       title={`Permanently Delete ${type}`}
-      icon={<icons.TrashOutlined className="h-6 w-6 text-red-500" />}
+      icon={<icons.TrashOutlined className="h-6 w-6" />}
       visible={visible}
       confirmTitle="Delete"
       confirmDanger

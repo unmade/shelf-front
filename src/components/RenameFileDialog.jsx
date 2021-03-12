@@ -6,6 +6,7 @@ import * as icons from '../icons';
 import * as routes from '../routes';
 
 import Dialog from './ui/Dialog';
+import Input from './ui/Input';
 
 function RenameFileDialog({ file, onRename, onCancel }) {
   const visible = !!file;
@@ -48,25 +49,22 @@ function RenameFileDialog({ file, onRename, onCancel }) {
   return (
     <Dialog
       title={`Rename ${type}`}
-      icon={<icons.Edit className="h-6 w-6 text-gray-500" />}
+      icon={<icons.Edit className="h-6 w-6" />}
       visible={visible}
       confirmTitle="Rename"
       onConfirm={onConfirm}
       onCancel={onClose}
     >
-      <form className="text-sm mt-4" onSubmit={(e) => { e.preventDefault(); onConfirm(); }}>
-        <input
-          type="input"
-          className={`p-1 border rounded focus:outline-none focus:ring ${error && 'border-red-500'}`}
-          placeholder={`${type} name`}
+      <form onSubmit={(e) => { e.preventDefault(); onConfirm(); }}>
+        <Input
+          id="name"
+          label="Name"
+          placeholder="name"
+          error={error}
           onChange={onNameChange}
           defaultValue={file.name}
-          // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus
         />
-        {error && (
-          <p className="text-red-500 text-xs italic mt-3">{error}</p>
-        )}
       </form>
     </Dialog>
   );

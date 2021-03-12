@@ -16,25 +16,27 @@ function Dialog({
 }) {
   return (
     <Modal visible={visible} onClose={onCancel}>
-      <div className="max-w-md bg-white rounded-lg overflow-hidden z-50">
-        <div className="flex flex-row p-4">
+      <div className="max-w-lg bg-white rounded-lg overflow-hidden z-50">
+        <div className="p-4 inline-flex space-x-4">
           {(icon) && (
-            <div className="w-12 h-12 mr-4 flex items-center justify-center bg-gray-75 rounded-full">
-              {icon}
+            <div>
+              <div className={`p-3 rounded-full ${(confirmDanger) ? 'bg-red-100 text-red-500' : 'bg-gray-100 text-gray-500'}`}>
+                {icon}
+              </div>
             </div>
           )}
 
-          <div className="flex-1">
-            {(title) && (
-              <h3 className="text-lg leading-6 font-medium text-gray-900">
+          {(title) && (
+            <div className="flex flex-col">
+              <h3 className="py-3 text-lg leading-6 font-medium text-gray-900">
                 {title}
               </h3>
-            )}
-            {children}
-          </div>
+              {children}
+            </div>
+          )}
         </div>
 
-        <div className="w-full bg-gray-75 px-4 py-3 space-x-2 text-right">
+        <div className="w-full bg-gray-100 px-4 py-3 space-x-2 text-right">
           {(onCancel) && (
             <Button
               type="default"

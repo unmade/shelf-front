@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const classNamesByType = {
   default: ['font-medium', 'border', 'shadow-sm'],
@@ -27,9 +28,9 @@ const shapes = {
 };
 
 function Button({
-  children, danger, icon, shape, size, title, type, onClick,
+  children, danger, disabled, icon, shape, size, title, type, onClick,
 }) {
-  const buttonProps = {};
+  const buttonProps = { disabled };
   const classNames = [`text-${size}`, 'rounded-md', 'focus:outline-none', 'focus:ring', 'transition', 'ease-in-out', 'duration-75'];
 
   if (children === null || children === undefined) {
@@ -70,10 +71,31 @@ function Button({
   );
 }
 
+Button.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
+  danger: PropTypes.bool,
+  disabled: PropTypes.bool,
+  icon: PropTypes.element,
+  shape: PropTypes.oneOf(['circle', 'round']),
+  size: PropTypes.oneOf(['xs', 'sm', 'md', 'lg', 'xs']),
+  title: PropTypes.string,
+  type: PropTypes.oneOf(['primary', 'default', 'text']),
+  onclick: PropTypes.func,
+};
+
 Button.defaultProps = {
+  children: null,
+  disabled: false,
   danger: false,
+  icon: null,
   shape: 'round',
   size: 'sm',
+  title: null,
+  type: 'default',
+  onclick: null,
 };
 
 export default Button;

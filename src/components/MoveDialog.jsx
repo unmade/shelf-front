@@ -8,6 +8,11 @@ import FolderPicker from '../containers/FolderPicker';
 
 import Dialog from './ui/Dialog';
 
+const styles = {
+  minWidth: '400px',
+  height: '40vh',
+};
+
 function MoveDialog({ file, onMove, onCancel }) {
   const [toPath, setToPath] = React.useState('.');
   const visible = !!file;
@@ -34,7 +39,7 @@ function MoveDialog({ file, onMove, onCancel }) {
       onConfirm={onConfirm}
       onCancel={onCancel}
     >
-      <div className="my-4" style={{ minWidth: '350px', height: '40vh' }}>
+      <div className="container my-4" style={styles}>
         <FolderPicker path={toPath} onPathChange={onPathChange} />
       </div>
     </Dialog>

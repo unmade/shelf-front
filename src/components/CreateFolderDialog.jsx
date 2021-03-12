@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import * as icons from '../icons';
 
 import Dialog from './ui/Dialog';
+import Input from './ui/Input';
 
 function CreateFolderDialog({ visible, parentFolderPath, onCreate, onCancel }) {
   const [folderName, setFolderName] = React.useState(null);
@@ -22,7 +23,7 @@ function CreateFolderDialog({ visible, parentFolderPath, onCreate, onCancel }) {
 
   const onConfirm = () => {
     if (!folderName) {
-      setError('Name cannot be empty.');
+      setError('Name cannot be empty');
     } else {
       onCreate(folderName, parentFolderPath);
       onClose();
@@ -38,19 +39,15 @@ function CreateFolderDialog({ visible, parentFolderPath, onCreate, onCancel }) {
       onConfirm={onConfirm}
       onCancel={onClose}
     >
-      <form className="text-sm mt-4" onSubmit={(e) => { e.preventDefault(); onConfirm(); }}>
-        <input
+      <form onSubmit={(e) => { e.preventDefault(); onConfirm(); }}>
+        <Input
           id="name"
-          type="input"
-          className={`p-1 border rounded focus:outline-none focus:ring ${error && 'border-red-500'}`}
+          label="Name"
           placeholder="Folder name"
-          // eslint-disable-next-line jsx-a11y/no-autofocus
-          autoFocus
+          error={error}
           onChange={onNameChange}
+          autoFocus
         />
-        {error && (
-          <p className="text-red-500 text-xs italic mt-3">{error}</p>
-        )}
       </form>
     </Dialog>
   );

@@ -4,6 +4,9 @@ import React from 'react';
 import Toast from '../containers/Toast';
 import ToastItem from '../containers/ToastItem';
 
+import Button from './ui/Button';
+import Input from './ui/Input';
+
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -99,47 +102,33 @@ class Login extends React.Component {
             onSubmit={(event) => { event.preventDefault(); this.onSubmit(); }}
           >
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
-                Username
-              </label>
-              <input
+              <Input
                 id="username"
-                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring ${errors && errors.username && 'border-red-500'}`}
-                type="text"
+                label="Username"
                 placeholder="Username"
+                error={errors && errors.username}
                 onChange={this.onInputChange('username')}
               />
-              {errors && errors.username && (
-                <p className="text-red-500 text-xs italic mt-3">{errors.username}</p>
-              )}
             </div>
             <div className="mb-6">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
-                Password
-              </label>
-              <input
-                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring ${errors && errors.password && 'border-red-500'}`}
+              <Input
                 id="password"
                 type="password"
-                placeholder="******************"
+                label="Password"
+                placeholder="********"
+                error={errors && errors.password}
                 onChange={this.onInputChange('password')}
               />
-              {errors && errors.username && (
-                <p className="text-red-500 text-xs italic mt-3">{errors.password}</p>
-              )}
             </div>
             <div className="flex items-center justify-between">
-              <button
-                type="button"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring"
+              <Button
+                type="primary"
+                size="md"
                 onClick={this.onSubmit}
                 disabled={loading}
               >
                 Sign In
-              </button>
-              <button type="button" className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
-                Forgot Password?
-              </button>
+              </Button>
             </div>
           </form>
           <p className="text-center text-gray-500 text-xs">
