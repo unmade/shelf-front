@@ -41,10 +41,10 @@ class Modal extends React.Component {
         onClick={this.handleClickOutside}
         onKeyUp={this.handleKeyUp}
       >
-        <div ref={this.modalRef} className="z-50">
+        <div ref={this.modalRef} className="z-40">
           {children}
         </div>
-        <div className="opacity-25 fixed inset-0 z-40 bg-gray-900" />
+        <div className="opacity-25 fixed inset-0 z-30 bg-gray-900" />
       </div>
     );
   }

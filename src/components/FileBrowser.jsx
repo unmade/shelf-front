@@ -9,16 +9,28 @@ import FileTableView from '../containers/FileTableView';
 import MoveDialog from '../containers/MoveDialog';
 import RenameFileDialog from '../containers/RenameFileDialog';
 
-import Breadcrumbs from './ui/Breadcrumbs';
+import Breadcrumb from './ui/Breadcrumb';
 
-import BreadcrumbItem from './BreadcrumbItem';
 import FilePreview from '../containers/FilePreview';
 
 const Browser = React.memo(
   ({ url, dirPath, hasSelectedFiles }) => (
     <div className="flex flex-col h-full">
       <div className="flex flex-row justify-between p-4 border-b-2 border-gray-100">
-        <Breadcrumbs path={url} itemRender={BreadcrumbItem} />
+        <Breadcrumb
+          path={url}
+          itemRender={({ name, path }) => (
+            <Breadcrumb.Item path={path}>
+              {name}
+            </Breadcrumb.Item>
+          )}
+          itemRenderCollapse={({ name, path }) => (
+            <Breadcrumb.ItemCollapsed path={path}>
+              {name}
+            </Breadcrumb.ItemCollapsed>
+          )}
+          collapsed
+        />
         <FileBrowserActions />
       </div>
 
