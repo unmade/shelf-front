@@ -8,10 +8,8 @@ import EmptyTrashDialog from '../containers/EmptyTrashDialog';
 import FileTableCell from '../containers/FileTableCell';
 import FileTableView from '../containers/FileTableView';
 
-import Breadcrumbs from './ui/Breadcrumbs';
+import Breadcrumb from './ui/Breadcrumb';
 import Button from './ui/Button';
-
-import BreadcrumbItem from './BreadcrumbItem';
 
 function Trash({
   match, listFolder, deselectFiles, changePath, onEmptyTrash,
@@ -31,8 +29,20 @@ function Trash({
   return (
     <div className="flex flex-col h-full">
       <div className="flex flex-row justify-between p-4 border-b-2 border-gray-100">
-        <Breadcrumbs path={match.url} itemRender={BreadcrumbItem} />
-
+        <Breadcrumb
+          path={match.url}
+          itemRender={({ name, path }) => (
+            <Breadcrumb.Item path={path}>
+              {name}
+            </Breadcrumb.Item>
+          )}
+          itemRenderCollapse={({ name, path }) => (
+            <Breadcrumb.ItemCollapsed path={path}>
+              {name}
+            </Breadcrumb.ItemCollapsed>
+          )}
+          collapsed
+        />
         <div className="flex flex-row">
           <Button
             type="text"

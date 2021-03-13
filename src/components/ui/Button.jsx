@@ -31,6 +31,10 @@ const paddings = {
     [false]: ['px-4', 'py-2'],
     [true]: ['p-2'],
   },
+  lg: {
+    [false]: ['px-4', 'py-2'],
+    [true]: ['p-2'],
+  },
 };
 
 const shapes = {
@@ -92,7 +96,7 @@ Button.propTypes = {
   full: PropTypes.bool,
   icon: PropTypes.element,
   shape: PropTypes.oneOf(['circle', 'round']),
-  size: PropTypes.oneOf(['sm', 'base']),
+  size: PropTypes.oneOf(['sm', 'base', 'lg']),
   title: PropTypes.string,
   type: PropTypes.oneOf(['primary', 'default', 'text']),
   onclick: PropTypes.func,
