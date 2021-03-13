@@ -17,7 +17,7 @@ const menu = [
 
 function FileBrowserActions({ onCreateFolder }) {
   return (
-    <div className="flex flex-row space-x-4 align-middle text-gray-700">
+    <div className="inline-flex items-center space-x-4">
       <Dropdown overlay={() => (<Uploader />)}>
         <Button
           type="text"

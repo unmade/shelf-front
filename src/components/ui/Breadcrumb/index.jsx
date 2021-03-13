@@ -60,7 +60,7 @@ function Breadcrumb({
       </div>
       <Dropdown
         overlay={() => (
-          <div className="p-2 bg-white flex flex-col rounded shadow space-y-1">
+          <div className="max-w-xs p-2 bg-white flex flex-col rounded shadow space-y-1">
             {(rest.map((item) => (
               <RenderCollapse
                 key={item.path}
