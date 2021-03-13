@@ -31,7 +31,7 @@ function FolderPicker({ path, items, listFolder, onPathChange }) {
           path={(path.startsWith('.')) ? path : `./${path}`} // add './' to build correct breadcrumbs
           itemRender={({ name, path: nextPath }) => (
             <Breadcrumb.Item
-              path="#"
+              path={nextPath}
               onClick={changePath(nextPath, onPathChange)}
               isActive={() => nextPath === path || nextPath === `./${path}`}
             >
@@ -40,8 +40,9 @@ function FolderPicker({ path, items, listFolder, onPathChange }) {
           )}
           itemRenderCollapse={({ name, path: nextPath }) => (
             <Breadcrumb.ItemCollapsed
-              path="#"
+              path={nextPath}
               onClick={changePath(nextPath, onPathChange)}
+              isActive={() => false}
             >
               {name}
             </Breadcrumb.ItemCollapsed>

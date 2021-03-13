@@ -77,10 +77,14 @@ function Button({
       {...buttonProps}
     >
       {(icon) && (
-        <span>{icon}</span>
+        <span>
+          {icon}
+        </span>
       )}
       {(children) && (
-        <span>{children}</span>
+        <span className="truncate">
+          {children}
+        </span>
       )}
     </button>
   );
