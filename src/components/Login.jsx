@@ -127,6 +127,7 @@ class Login extends React.Component {
               />
               <div className="w-full pt-5">
                 <Button
+                  htmlType="submit"
                   type="primary"
                   size="base"
                   onClick={this.onSubmit}

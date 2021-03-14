@@ -43,7 +43,7 @@ const shapes = {
 };
 
 function Button({
-  children, danger, disabled, full, icon, shape, size, title, type, onClick,
+  children, danger, disabled, full, htmlType, icon, shape, size, title, type, onClick,
 }) {
   const buttonProps = { disabled };
   const classNames = [`text-${size}`, 'rounded-md', 'focus:outline-none', 'focus:ring', 'transition', 'ease-in-out', 'duration-75'];
@@ -72,7 +72,8 @@ function Button({
   buttonProps.className = classNames.join(' ');
   return (
     <button
-      type="button"
+      // eslint-disable-next-line react/button-has-type
+      type={htmlType}
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...buttonProps}
     >
@@ -98,6 +99,7 @@ Button.propTypes = {
   danger: PropTypes.bool,
   disabled: PropTypes.bool,
   full: PropTypes.bool,
+  htmlType: PropTypes.oneOf(['button', 'submit']),
   icon: PropTypes.element,
   shape: PropTypes.oneOf(['circle', 'round']),
   size: PropTypes.oneOf(['sm', 'base', 'lg']),
@@ -111,6 +113,7 @@ Button.defaultProps = {
   disabled: false,
   danger: false,
   full: false,
+  htmlType: 'button',
   icon: null,
   shape: 'round',
   size: 'sm',
