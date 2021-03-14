@@ -28,6 +28,7 @@ export const FileText = hi.HiOutlineDocumentText;
 export const Folder = hi.HiFolder;
 export const ICursor = hi.HiOutlinePencil;
 export const NewFolder = hi.HiOutlineFolderAdd;
+export const Menu = hi.HiMenu;
 export const More = hi.HiOutlineDotsHorizontal;
 export const Move = hi.HiOutlineDocumentDuplicate;
 export const Redo = hi.HiOutlineRefresh;

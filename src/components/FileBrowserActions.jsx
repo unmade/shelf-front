@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useMediaQuery } from 'react-responsive';
+
 import * as icons from '../icons';
 
 import Uploader from '../containers/Uploader';
@@ -8,36 +10,86 @@ import Uploader from '../containers/Uploader';
 import Button from './ui/Button';
 import Dropdown from './ui/Dropdown';
 
-const menu = [
-  {
-    name: 'New Folder',
-    icon: <icons.NewFolder className="w-5 h-5" />,
-  },
-];
+function MobileActions({ menu }) {
+  return (
+    <Dropdown
+      overlay={() => (
+        <div className="bg-white p-2 rounded shadow">
+          <Dropdown overlay={() => (<Uploader />)}>
+            <Button
+              type="text"
+              title="Uploads"
+              size="sm"
+              icon={<icons.CloudUpload className="text-lg" />}
+            >
+              Uploads
+            </Button>
+          </Dropdown>
+          {(menu.map((item) => (
+            <Button
+              key={item.name}
+              type="text"
+              size="sm"
+              icon={item.icon}
+              title={item.name}
+              onClick={item.onClick}
+            >
+              {item.name}
+            </Button>
+          )))}
+        </div>
+      )}
+    >
+      <Button
+        type="text"
+        title="Actions"
+        size="lg"
+        icon={<icons.More />}
+      />
+    </Dropdown>
+  );
+}
 
-function FileBrowserActions({ onCreateFolder }) {
+function Actions({ menu }) {
   return (
     <div className="inline-flex items-center space-x-4">
       <Dropdown overlay={() => (<Uploader />)}>
         <Button
           type="text"
           title="Uploads"
-          icon={<icons.CloudUpload className="w-5 h-5" />}
+          size="lg"
+          icon={<icons.CloudUpload />}
         />
       </Dropdown>
       {menu.map((item) => (
         <Button
           key={item.name}
           type="text"
+          size="lg"
           icon={item.icon}
           title={item.name}
-          onClick={() => {
-            onCreateFolder();
-          }}
+          onClick={item.onClick}
         />
       ))}
     </div>
   );
+}
+
+function FileBrowserActions({ onCreateFolder }) {
+  const isMobile = !useMediaQuery({ query: '(min-width: 768px)' });
+
+  const menu = [
+    {
+      name: 'New Folder',
+      icon: <icons.NewFolder className="text-lg" />,
+      onClick: onCreateFolder,
+    },
+  ];
+
+  if (isMobile) {
+    return <MobileActions menu={menu} />;
+  }
+  return <Actions menu={menu} />;
 }
 
 FileBrowserActions.propTypes = {
