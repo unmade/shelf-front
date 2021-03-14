@@ -46,7 +46,7 @@ const Browser = React.memo(
       </div>
 
       <div className="flex-1 flex flex-row">
-        <div className="flex-1">
+        <div className="w-full">
           <FileTableView path={dirPath || '.'} itemRender={FileTableCell} droppable />
         </div>
         {(hasSelectedFiles) && (
