@@ -5,7 +5,7 @@ import { Link, useRouteMatch } from 'react-router-dom';
 
 import * as routes from '../routes';
 
-function FileLink({ children, name, preview }) {
+function FileLink({ children, className, name, preview }) {
   const match = useRouteMatch();
 
   let url;
@@ -16,7 +16,7 @@ function FileLink({ children, name, preview }) {
   }
 
   return (
-    <Link to={url}>
+    <Link to={url} className={className}>
       {children}
     </Link>
   );
@@ -27,11 +27,13 @@ FileLink.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
+  className: PropTypes.string,
   name: PropTypes.string,
   preview: PropTypes.bool,
 };
 
 FileLink.defaultProps = {
+  className: '',
   name: null,
   preview: false,
 };

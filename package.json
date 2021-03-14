@@ -17,6 +17,7 @@
     "react-highlight": "^0.14.0",
     "react-icons": "^4.2.0",
     "react-redux": "^7.2.0",
+    "react-responsive": "^8.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "react-virtualized-auto-sizer": "^1.0.2",

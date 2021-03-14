@@ -46,7 +46,7 @@ function FileTableCell({ className, item, selected, onSelect }) {
       onClick={() => onSelect(item.id)}
       className={`${className} mx-4 h-full flex flex-row items-center text-sm px-4 border rounded-lg ${(background)}`}
     >
-      <div className={`sm:w-3/5 w-2/3 flex flex-row items-center space-x-2 ${primaryText}`}>
+      <div className={`w-1/2 md:w-7/12 flex flex-row items-center space-x-2 ${primaryText}`}>
         <div className="w-7">
           {(item.has_thumbnail) ? (
             <Thumbnail className="w-7 h-7" file={item} />
@@ -54,14 +54,16 @@ function FileTableCell({ className, item, selected, onSelect }) {
             <FileIcon className="w-7 h-7" mediatype={item.mediatype} hidden={item.hidden} />
           )}
         </div>
-        <span className="truncate" onClick={(event) => { event.stopPropagation(); }}>
-          <FileLink name={item.name} preview={item.mediatype !== MediaType.FOLDER}>
-            {item.name}
-          </FileLink>
-        </span>
+        <FileLink
+          className="truncate"
+          name={item.name}
+          preview={item.mediatype !== MediaType.FOLDER}
+        >
+          {item.name}
+        </FileLink>
       </div>
 
-      <div className="sm:w-2/5 w-1/3 flex flex-row items-center justify-end">
+      <div className="w-1/2 md:w-5/12 flex flex-row items-center justify-end">
         {/* apply classes here, otherwise they end up in closure */}
         <div className={`${secondaryText} hover:${primaryText}`}>
           <FileTableCellActions id={item.id} mediaType={item.mediatype} path={item.path} />

@@ -1,22 +1,31 @@
 import React from 'react';
 
+import * as icons from '../icons';
+
 import CreateFolderDialog from '../containers/CreateFolderDialog';
 import DeleteDialog from '../containers/DeleteDialog';
 import FileBrowserActions from '../containers/FileBrowserActions';
 import FileBrowserPreview from '../containers/FileBrowserPreview';
+import FilePreview from '../containers/FilePreview';
 import FileTableCell from '../containers/FileTableCell';
 import FileTableView from '../containers/FileTableView';
 import MoveDialog from '../containers/MoveDialog';
 import RenameFileDialog from '../containers/RenameFileDialog';
 
 import Breadcrumb from './ui/Breadcrumb';
-
-import FilePreview from '../containers/FilePreview';
+import Button from './ui/Button';
 
 const Browser = React.memo(
   ({ url, dirPath, hasSelectedFiles }) => (
     <div className="flex flex-col h-full">
-      <div className="flex flex-row justify-between p-4 border-b-2 border-gray-100">
+      <div className="flex flex-row items-center justify-between text-lg p-4 border-b-2 border-gray-100">
+        <span className="md:hidden">
+          <Button
+            type="text"
+            size="lg"
+            icon={<icons.Menu />}
+          />
+        </span>
         <Breadcrumb
           path={url}
           itemRender={({ name, path }) => (
