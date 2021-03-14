@@ -21,15 +21,15 @@ function TableHeader() {
   return (
     <div
       style={headerStyles}
-      className="flex flex-row items-center text-sm font-bold text-gray-700 px-8"
+      className="w-full flex flex-row items-center text-sm font-bold text-gray-700 px-8"
     >
       <div className="flex-1">
         Name
       </div>
-      <div className="w-32 px-6 text-right">
+      <div className="hidden md:block w-32 px-6 text-right">
         Size
       </div>
-      <div className="w-40 px-4 text-left">
+      <div className="hidden md:block w-40 px-4 text-left">
         Modified
       </div>
     </div>
