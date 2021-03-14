@@ -23,6 +23,10 @@ const colors = {
 };
 
 const paddings = {
+  xs: {
+    [false]: ['p-2'],
+    [true]: ['p-1'],
+  },
   sm: {
     [false]: ['px-3', 'py-1'],
     [true]: ['p-1'],
@@ -102,7 +106,7 @@ Button.propTypes = {
   htmlType: PropTypes.oneOf(['button', 'submit']),
   icon: PropTypes.element,
   shape: PropTypes.oneOf(['circle', 'round']),
-  size: PropTypes.oneOf(['sm', 'base', 'lg']),
+  size: PropTypes.oneOf(['xs', 'sm', 'base', 'lg']),
   title: PropTypes.string,
   type: PropTypes.oneOf(['primary', 'default', 'text']),
   onclick: PropTypes.func,

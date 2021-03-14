@@ -9,7 +9,6 @@ import FolderPicker from '../containers/FolderPicker';
 import Dialog from './ui/Dialog';
 
 const styles = {
-  minWidth: '400px',
   height: '40vh',
 };
 
@@ -39,7 +38,7 @@ function MoveDialog({ file, onMove, onCancel }) {
       onConfirm={onConfirm}
       onCancel={onCancel}
     >
-      <div className="container my-4" style={styles}>
+      <div className="w-96" style={styles}>
         <FolderPicker path={toPath} onPathChange={onPathChange} />
       </div>
     </Dialog>

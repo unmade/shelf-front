@@ -6,10 +6,7 @@ import FolderPickerItem from '../containers/FolderPickerItem';
 import Breadcrumb from './ui/Breadcrumb';
 import VList from './ui/VList';
 
-const HEIGHT = 28;
-const height = {
-  height: HEIGHT,
-};
+const HEIGHT = 24;
 
 const changePath = (path, onPathChange) => (event) => {
   event.preventDefault();
@@ -25,9 +22,9 @@ function FolderPicker({ path, items, listFolder, onPathChange }) {
 
   return (
     <>
-      <div className="pb-1 flex items-center" style={height}>
+      <div className="pb-1">
         <Breadcrumb
-          size="sm"
+          size="xs"
           path={(path.startsWith('.')) ? path : `./${path}`} // add './' to build correct breadcrumbs
           itemRender={({ name, path: nextPath }) => (
             <Breadcrumb.Item
@@ -38,7 +35,7 @@ function FolderPicker({ path, items, listFolder, onPathChange }) {
               {name}
             </Breadcrumb.Item>
           )}
-          itemRenderCollapse={({ name, path: nextPath }) => (
+          itemRenderCollapsed={({ name, path: nextPath }) => (
             <Breadcrumb.ItemCollapsed
               path={nextPath}
               onClick={changePath(nextPath, onPathChange)}
