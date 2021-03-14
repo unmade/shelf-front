@@ -17,7 +17,7 @@ function Dialog({
   return (
     <Modal visible={visible} onClose={onCancel}>
       <div className="max-w-lg bg-white rounded-lg overflow-hidden z-50">
-        <div className="p-4 inline-flex space-x-4">
+        <div className="w-full p-4 inline-flex space-x-4">
           {(icon) && (
             <div>
               <div className={`p-3 rounded-full ${(confirmDanger) ? 'bg-red-100 text-red-500' : 'bg-gray-100 text-gray-500'}`}>
@@ -27,7 +27,7 @@ function Dialog({
           )}
 
           {(title) && (
-            <div className="flex flex-col">
+            <div className="w-full flex flex-col">
               <h3 className="py-3 text-lg leading-6 font-medium text-gray-900">
                 {title}
               </h3>

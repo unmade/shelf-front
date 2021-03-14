@@ -36,7 +36,7 @@ function Trash({
               {name}
             </Breadcrumb.Item>
           )}
-          itemRenderCollapse={({ name, path }) => (
+          itemRenderCollapsed={({ name, path }) => (
             <Breadcrumb.ItemCollapsed path={path}>
               {name}
             </Breadcrumb.ItemCollapsed>

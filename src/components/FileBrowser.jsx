@@ -24,7 +24,7 @@ const Browser = React.memo(
               {name}
             </Breadcrumb.Item>
           )}
-          itemRenderCollapse={({ name, path }) => (
+          itemRenderCollapsed={({ name, path }) => (
             <Breadcrumb.ItemCollapsed path={path}>
               <span className="min-w-0 truncate">
                 {name}

@@ -14,12 +14,23 @@ const styles = {
   height: '48px',
 };
 
+function getFontSize(len) {
+  if (len > 128) {
+    return 'text-sm';
+  }
+  if (len > 64) {
+    return 'text-md';
+  }
+  return 'text-lg';
+}
+
 function FileBrowserPreview({ files }) {
   // currently preview only the first file
   const [file] = files;
   const {
     id, name, path, size, mtime, has_thumbnail: hasThumbnail,
   } = file;
+  const fontSize = getFontSize(name.length);
 
   return (
     <div className="mx-4 mb-4 text-gray-800 bg-white rounded-lg">
@@ -40,7 +51,7 @@ function FileBrowserPreview({ files }) {
         </div>
 
         <div className="p-2 text-gray-800">
-          <p className="text-xl font-semibold truncate">
+          <p className={`${fontSize} font-semibold break-words`}>
             {name}
           </p>
           <p className="text-gray-600 text-xs">

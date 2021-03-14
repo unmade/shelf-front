@@ -34,7 +34,7 @@ function NoPreview({ file, onDownload }) {
         </p>
         <Button
           type="primary"
-          size="md"
+          size="base"
           icon={<icons.Download />}
           onClick={() => onDownload(path)}
         >
