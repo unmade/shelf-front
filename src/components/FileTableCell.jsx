@@ -46,7 +46,7 @@ function FileTableCell({ className, item, selected, onSelect }) {
       onClick={() => onSelect(item.id)}
       className={`${className} mx-4 h-full flex flex-row items-center text-sm px-4 border rounded-lg ${(background)}`}
     >
-      <div className={`w-4/5 md:w-1/2 lg:w-2/3 flex flex-row items-center space-x-2 ${primaryText}`}>
+      <div className={`w-4/5 md:w-1/2 2xl:w-2/3 flex flex-row items-center space-x-2 ${primaryText}`}>
         <div className="w-7">
           {(item.has_thumbnail) ? (
             <Thumbnail className="w-7 h-7" file={item} />
@@ -64,7 +64,7 @@ function FileTableCell({ className, item, selected, onSelect }) {
         </span>
       </div>
 
-      <div className="w-1/5 md:w-1/2 lg:w-1/3 flex flex-row items-center justify-end">
+      <div className="w-1/5 md:w-1/2 2xl:w-1/3 flex flex-row items-center justify-end">
         {/* apply classes here, otherwise they end up in closure */}
         <div className={`${secondaryText} hover:${primaryText}`}>
           <FileTableCellActions id={item.id} mediaType={item.mediatype} path={item.path} />
@@ -72,7 +72,7 @@ function FileTableCell({ className, item, selected, onSelect }) {
         <div className={`hidden md:block w-20 xl:w-24 text-right ${secondaryText}`}>
           <FileSize size={item.size} />
         </div>
-        <div className={`hidden md:block w-24 xl:w-40 ml-6 xl:px-4 text-left ${secondaryText}`}>
+        <div className={`hidden md:block w-24 lg:w-36 xl:w-40 ml-6 lg:px-4 text-left ${secondaryText}`}>
           <TimeAgo mtime={item.mtime * 1000} />
         </div>
       </div>
