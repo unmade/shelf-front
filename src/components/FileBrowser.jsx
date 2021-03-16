@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useMediaQuery } from 'react-responsive';
+
 import * as icons from '../icons';
 
 import CreateFolderDialog from '../containers/CreateFolderDialog';
@@ -16,52 +18,56 @@ import Breadcrumb from './ui/Breadcrumb';
 import Button from './ui/Button';
 
 const Browser = React.memo(
-  ({ url, dirPath, hasSelectedFiles }) => (
-    <div className="flex flex-col h-full">
-      <div className="flex flex-row items-center justify-between text-lg p-4 border-b-2 border-gray-100">
-        <span className="md:hidden">
-          <Button
-            type="text"
-            size="lg"
-            icon={<icons.Menu />}
-          />
-        </span>
-        <Breadcrumb
-          path={url}
-          itemRender={({ name, path }) => (
-            <Breadcrumb.Item path={path}>
-              {name}
-            </Breadcrumb.Item>
-          )}
-          itemRenderCollapsed={({ name, path }) => (
-            <Breadcrumb.ItemCollapsed path={path}>
-              <span className="min-w-0 truncate">
+  ({ url, dirPath, hasSelectedFiles }) => {
+    const isMobile = !useMediaQuery({ query: '(min-width: 768px)' });
+    const previewable = (!isMobile && hasSelectedFiles);
+    return (
+      <div className="flex flex-col h-full">
+        <div className="flex flex-row items-center justify-between text-lg p-4 border-b-2 border-gray-100">
+          <span className="md:hidden">
+            <Button
+              type="text"
+              size="lg"
+              icon={<icons.Menu />}
+            />
+          </span>
+          <Breadcrumb
+            path={url}
+            itemRender={({ name, path }) => (
+              <Breadcrumb.Item path={path}>
                 {name}
-              </span>
-            </Breadcrumb.ItemCollapsed>
-          )}
-          collapsed
-        />
-        <FileBrowserActions />
-      </div>
-
-      <div className="flex-1 flex flex-row">
-        <div className="w-full">
-          <FileTableView path={dirPath || '.'} itemRender={FileTableCell} droppable />
+              </Breadcrumb.Item>
+            )}
+            itemRenderCollapsed={({ name, path }) => (
+              <Breadcrumb.ItemCollapsed path={path}>
+                <span className="min-w-0 truncate">
+                  {name}
+                </span>
+              </Breadcrumb.ItemCollapsed>
+            )}
+            collapsed
+          />
+          <FileBrowserActions />
         </div>
-        {(hasSelectedFiles) && (
-          <div className="w-2/6 ml-4">
-            <FileBrowserPreview />
-          </div>
-        )}
-      </div>
 
-      <CreateFolderDialog />
-      <RenameFileDialog />
-      <MoveDialog />
-      <DeleteDialog />
-    </div>
-  ),
+        <div className="flex-1 flex flex-row">
+          <div className={(previewable) ? 'w-2/3' : 'w-full'}>
+            <FileTableView path={dirPath || '.'} itemRender={FileTableCell} droppable />
+          </div>
+          {(previewable) && (
+            <div className="w-1/3 ml-4">
+              <FileBrowserPreview />
+            </div>
+          )}
+        </div>
+
+        <CreateFolderDialog />
+        <RenameFileDialog />
+        <MoveDialog />
+        <DeleteDialog />
+      </div>
+    );
+  },
 );
 
 class FileBrowser extends React.Component {
