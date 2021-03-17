@@ -33,13 +33,13 @@ function CreateFolderDialog({ visible, parentFolderPath, onCreate, onCancel }) {
   return (
     <Dialog
       title="New Folder"
-      icon={<icons.Folder className="h-6 w-6 text-blue-400" />}
+      icon={<icons.Folder className="w-6 h-6 text-blue-400" />}
       visible={visible}
       confirmTitle="Create"
       onConfirm={onConfirm}
       onCancel={onClose}
     >
-      <form className="w-64" onSubmit={(e) => { e.preventDefault(); onConfirm(); }}>
+      <form className="w-full sm:min-w-1.5xs" onSubmit={(e) => { e.preventDefault(); onConfirm(); }}>
         <Input
           id="name"
           label="Name"
@@ -47,7 +47,7 @@ function CreateFolderDialog({ visible, parentFolderPath, onCreate, onCancel }) {
           size="sm"
           error={error}
           onChange={onNameChange}
-          autoFocus
+          // autoFocus
         />
       </form>
     </Dialog>

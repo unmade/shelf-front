@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 
 const fontSizes = {
   sm: {
-    label: 'text-xs',
-    input: 'text-sm',
+    label: 'text-sm sm:text-xs',
+    input: 'text-base sm:text-sm',
   },
   base: {
-    label: 'text-sm',
-    input: 'text-base',
+    label: 'text-base sm:text-sm',
+    input: 'text-lg sm:text-base',
   },
 };
 

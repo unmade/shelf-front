@@ -22,21 +22,28 @@ const colors = {
   },
 };
 
+const fontSizes = {
+  xs: 'text-sm sm:text-xs',
+  sm: 'text-base sm:text-sm',
+  base: 'text-lg sm:text-base',
+  lg: 'text-xl sm:text-lg',
+};
+
 const paddings = {
   xs: {
-    [false]: ['p-2'],
+    [false]: ['px-2 py-1'],
     [true]: ['p-1'],
   },
   sm: {
-    [false]: ['px-3', 'py-1'],
-    [true]: ['p-1'],
+    [false]: ['px-4 py-2', 'sm:px-3 sm:py-1'],
+    [true]: ['p-2', 'sm:p-1'],
   },
   base: {
-    [false]: ['px-4', 'py-2'],
+    [false]: ['px-4 py-2'],
     [true]: ['p-2'],
   },
   lg: {
-    [false]: ['px-4', 'py-2'],
+    [false]: ['px-4 py-2'],
     [true]: ['p-2'],
   },
 };
@@ -50,7 +57,7 @@ function Button({
   children, danger, disabled, full, htmlType, icon, shape, size, title, type, onClick,
 }) {
   const buttonProps = { disabled };
-  const classNames = [`text-${size}`, 'rounded-md', 'focus:outline-none', 'focus:ring', 'transition', 'ease-in-out', 'duration-75'];
+  const classNames = [fontSizes[size], 'rounded-md', 'focus:outline-none', 'focus:ring', 'transition', 'ease-in-out', 'duration-75'];
 
   if (full) {
     classNames.push('w-full');

@@ -19,14 +19,14 @@ function EmptyTrashDialog({ visible, onEmpty, onCancel }) {
   return (
     <Dialog
       title="Empty Trash"
-      icon={<icons.TrashOutlined className="h-6 w-6 text-red-500" />}
+      icon={<icons.TrashOutlined className="h-6 w-6" />}
       visible={visible}
       confirmTitle="Empty"
       confirmDanger
       onConfirm={onConfirm}
       onCancel={onCancel}
     >
-      <p className="mt-4 text-sm text-gray-600">
+      <p>
         Are you sure you want to delete&nbsp;
         <b className="text-gray-700">all</b>
         &nbsp;files in the Trash?

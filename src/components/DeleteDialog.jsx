@@ -28,7 +28,7 @@ function DeleteDialog({ file, onDelete, onCancel }) {
       onConfirm={onConfirm}
       onCancel={onCancel}
     >
-      <p className="text-sm text-gray-600">
+      <p>
         Are you sure you want to move&nbsp;
         <b className="text-gray-700">{file.name}</b>
         &nbsp;to the trash?

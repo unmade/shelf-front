@@ -28,7 +28,7 @@ function DeleteImmediatelyDialog({ file, onDelete, onCancel }) {
       onConfirm={onConfirm}
       onCancel={onCancel}
     >
-      <p className="mt-4 text-sm text-gray-600">
+      <p>
         Are you sure you want to&nbsp;
         <b>permanently</b>
         &nbsp;delete&nbsp;

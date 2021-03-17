@@ -55,7 +55,7 @@ function RenameFileDialog({ file, onRename, onCancel }) {
       onConfirm={onConfirm}
       onCancel={onClose}
     >
-      <form className="w-64" onSubmit={(e) => { e.preventDefault(); onConfirm(); }}>
+      <form className="w-full sm:min-w-1.5xs" onSubmit={(e) => { e.preventDefault(); onConfirm(); }}>
         <Input
           id="name"
           label="Name"
@@ -64,7 +64,7 @@ function RenameFileDialog({ file, onRename, onCancel }) {
           error={error}
           onChange={onNameChange}
           defaultValue={file.name}
-          autoFocus
+          // autoFocus
         />
       </form>
     </Dialog>
