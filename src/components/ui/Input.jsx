@@ -36,7 +36,7 @@ function Input({
     <div>
       {(label) && (
         // eslint-disable-next-line jsx-a11y/label-has-associated-control
-        <label htmlFor={id} className={`mb-1 block font-medium text-gray-700 ${fontSizes[size].label}`}>
+        <label htmlFor={id} className={`mb-1 block font-medium text-left text-gray-700 ${fontSizes[size].label}`}>
           {label}
         </label>
       )}

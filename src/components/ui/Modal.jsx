@@ -43,7 +43,7 @@ class Modal extends React.Component {
           {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
           <div
             onKeyUp={this.handleKeyUp}
-            className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-auto"
+            className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full sm:w-auto"
             role="dialog"
             aria-modal="true"
             aria-labelledby="modal-headline"
