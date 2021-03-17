@@ -115,7 +115,7 @@ Breadcrumb.propTypes = {
     }).isRequired,
   ).isRequired,
   single: PropTypes.bool,
-  size: PropTypes.oneOf(['sm', 'lg']),
+  size: PropTypes.oneOf(['xs', 'lg']),
   itemRender: PropTypes.func.isRequired,
   itemRenderCollapsed: PropTypes.func.isRequired,
 };
