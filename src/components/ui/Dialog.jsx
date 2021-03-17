@@ -30,7 +30,7 @@ function Dialog({
               <h3 className="text-lg leading-6 font-medium text-gray-900">
                 {title}
               </h3>
-              <div className="mt-2">
+              <div className="mt-2 text-sm text-gray-600">
                 {children}
               </div>
             </div>

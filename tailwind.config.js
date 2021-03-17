@@ -136,6 +136,9 @@ module.exports = {
       maxWidth: {
         '2xs': '10rem',
       },
+      minWidth: {
+        '1.5xs': '15rem',
+      },
     },
   },
 

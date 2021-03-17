@@ -7,8 +7,8 @@ function BreadcrumbDropdown({ children, items, itemRender: Render }) {
   return (
     <Dropdown
       overlay={() => (
-        <div className="w-screen md:w-auto md:max-w-xs">
-          <div className="m-2 md:m-0 p-2 bg-white flex flex-col rounded shadow space-y-1">
+        <div className="max-w-xs">
+          <div className="m-2 sm:m-0 p-2 bg-white flex flex-col rounded shadow space-y-1">
             {(items.map((item) => (
               <Render
                 key={item.path}

@@ -38,7 +38,7 @@ function MoveDialog({ file, onMove, onCancel }) {
       onConfirm={onConfirm}
       onCancel={onCancel}
     >
-      <div className="w-96" style={styles}>
+      <div className="w-full sm:w-96" style={styles}>
         <FolderPicker path={toPath} onPathChange={onPathChange} />
       </div>
     </Dialog>
