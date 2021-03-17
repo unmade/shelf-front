@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { useMediaQuery } from 'react-responsive';
-
 import * as icons from '../icons';
 
 import Uploader from '../containers/Uploader';
@@ -10,7 +8,7 @@ import Uploader from '../containers/Uploader';
 import Button from './ui/Button';
 import Dropdown from './ui/Dropdown';
 
-function MobileActions({ menu }) {
+function ActionsDropdown({ menu }) {
   return (
     <Dropdown
       overlay={() => (
@@ -75,9 +73,7 @@ function Actions({ menu }) {
   );
 }
 
-function FileBrowserActions({ onCreateFolder }) {
-  const isMobile = !useMediaQuery({ query: '(min-width: 768px)' });
-
+function FileBrowserActions({ collapsed, onCreateFolder }) {
   const menu = [
     {
       name: 'New Folder',
@@ -86,14 +82,19 @@ function FileBrowserActions({ onCreateFolder }) {
     },
   ];
 
-  if (isMobile) {
-    return <MobileActions menu={menu} />;
+  if (collapsed) {
+    return <ActionsDropdown menu={menu} />;
   }
   return <Actions menu={menu} />;
 }
 
 FileBrowserActions.propTypes = {
+  collapsed: PropTypes.bool,
   onCreateFolder: PropTypes.func.isRequired,
+};
+
+FileBrowserActions.defaultProps = {
+  collapsed: false,
 };
 
 export default FileBrowserActions;

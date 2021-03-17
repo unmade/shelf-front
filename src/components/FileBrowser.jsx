@@ -3,6 +3,7 @@ import React from 'react';
 import { useMediaQuery } from 'react-responsive';
 
 import * as icons from '../icons';
+import * as routes from '../routes';
 
 import CreateFolderDialog from '../containers/CreateFolderDialog';
 import DeleteDialog from '../containers/DeleteDialog';
@@ -22,8 +23,8 @@ const Browser = React.memo(
     const isMobile = !useMediaQuery({ query: '(min-width: 768px)' });
     const previewable = (!isMobile && hasSelectedFiles);
     return (
-      <div className="flex flex-col h-full">
-        <div className="flex flex-row items-center justify-between text-lg p-4 border-b-2 border-gray-100">
+      <div className="h-full flex flex-col">
+        <div className="flex flex-row items-center justify-between space-x-4 text-lg p-4 border-b-2 border-gray-100">
           <span className="md:hidden">
             <Button
               type="text"
@@ -31,23 +32,28 @@ const Browser = React.memo(
               icon={<icons.Menu />}
             />
           </span>
-          <Breadcrumb
-            path={url}
-            itemRender={({ name, path }) => (
-              <Breadcrumb.Item path={path}>
-                {name}
-              </Breadcrumb.Item>
-            )}
-            itemRenderCollapsed={({ name, path }) => (
-              <Breadcrumb.ItemCollapsed path={path}>
-                <span className="min-w-0 truncate">
-                  {name}
-                </span>
-              </Breadcrumb.ItemCollapsed>
-            )}
-            collapsed
-          />
-          <FileBrowserActions />
+          <div className="min-w-0 flex-1">
+            <Breadcrumb
+              items={routes.breadcrumbs(url)}
+              single={isMobile}
+              collapsed
+              itemRender={({ name, path }) => (
+                <Breadcrumb.Item path={path}>
+                  <span className="block truncate">
+                    {name}
+                  </span>
+                </Breadcrumb.Item>
+              )}
+              itemRenderCollapsed={({ name, path }) => (
+                <Breadcrumb.ItemCollapsed path={path}>
+                  <span className="block truncate">
+                    {name}
+                  </span>
+                </Breadcrumb.ItemCollapsed>
+              )}
+            />
+          </div>
+          <FileBrowserActions collapsed={isMobile} />
         </div>
 
         <div className="flex-1 flex flex-row">

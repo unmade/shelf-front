@@ -15,7 +15,7 @@ function BreadcrumbItem({
   return (
     <NavLink
       to={path}
-      className={`text-gray-600 hover:text-blue-500 ${className}`}
+      className={`block text-gray-600 hover:text-blue-500 ${className}`}
       activeClassName="text-gray-800 pointer-events-none"
       exact
       // eslint-disable-next-line react/jsx-props-no-spreading
