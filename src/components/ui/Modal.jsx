@@ -5,20 +5,13 @@ class Modal extends React.Component {
   constructor(props) {
     super(props);
 
-    this.modalRef = React.createRef();
-
     this.handleClickOutside = this.handleClickOutside.bind(this);
     this.handleKeyUp = this.handleKeyUp.bind(this);
   }
 
-  handleClickOutside(event) {
+  handleClickOutside() {
     const { onClose } = this.props;
-    if (onClose) {
-      const shouldClose = this.modalRef && !this.modalRef.current.contains(event.target);
-      if (shouldClose) {
-        onClose();
-      }
-    }
+    onClose();
   }
 
   handleKeyUp(event) {
@@ -35,16 +28,29 @@ class Modal extends React.Component {
       return null;
     }
     return (
-      // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-      <div
-        className="fixed bottom-0 inset-x-0 px-4 pb-4 sm:inset-0 sm:flex sm:items-center sm:justify-center"
-        onClick={this.handleClickOutside}
-        onKeyUp={this.handleKeyUp}
-      >
-        <div ref={this.modalRef} className="z-40">
-          {children}
+      <div className="fixed z-10 inset-0 overflow-y-auto">
+        <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+          <div
+            className="fixed inset-0 transition-opacity"
+            aria-hidden="true"
+            onClick={this.handleClickOutside}
+          >
+            <div className="absolute inset-0 bg-gray-500 opacity-75 blur" />
+          </div>
+
+          {/* This element is to trick the browser into centering the modal contents. */}
+          <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+          {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
+          <div
+            onKeyUp={this.handleKeyUp}
+            className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-auto"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-headline"
+          >
+            {children}
+          </div>
         </div>
-        <div className="opacity-25 fixed inset-0 z-30 bg-gray-900" />
       </div>
     );
   }

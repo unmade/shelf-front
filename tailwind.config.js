@@ -141,13 +141,22 @@ module.exports = {
 
   plugins: [
     plugin(({ addUtilities }) => {
-      const newUtilities = {
+      const utilities = {
         '.drop-shadow': {
           filter: 'drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1))',
         },
       };
 
-      addUtilities(newUtilities, ['hover']);
+      addUtilities(utilities, ['hover']);
+    }),
+    plugin(({ addUtilities }) => {
+      const utilities = {
+        '.blur': {
+          backdropFilter: 'blur(1px)',
+        },
+      };
+
+      addUtilities(utilities);
     }),
   ],
 };
