@@ -1,5 +1,4 @@
 // tailwind.config.js
-const { right } = require('@popperjs/core');
 const plugin = require('tailwindcss/plugin');
 
 module.exports = {
@@ -133,6 +132,9 @@ module.exports = {
           from: { transform: 'translateX(100%)' },
           to: { transform: 'translateX(0)' },
         },
+      },
+      maxWidth: {
+        '2xs': '10rem',
       },
     },
   },

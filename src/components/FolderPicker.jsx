@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import * as routes from '../routes';
+
 import FolderPickerItem from '../containers/FolderPickerItem';
 
 import Breadcrumb from './ui/Breadcrumb';
@@ -15,6 +17,10 @@ const changePath = (path, onPathChange) => (event) => {
   onPathChange(nextPath);
 };
 
+function norm(path) {
+  return (path.startsWith('.')) ? path : `./${path}`; // add './' to build correct breadcrumbs
+}
+
 function FolderPicker({ path, items, listFolder, onPathChange }) {
   React.useEffect(() => {
     listFolder(path);
@@ -24,15 +30,17 @@ function FolderPicker({ path, items, listFolder, onPathChange }) {
     <>
       <div className="pb-1">
         <Breadcrumb
+          items={routes.breadcrumbs(norm(path))}
           size="xs"
-          path={(path.startsWith('.')) ? path : `./${path}`} // add './' to build correct breadcrumbs
           itemRender={({ name, path: nextPath }) => (
             <Breadcrumb.Item
               path={nextPath}
               onClick={changePath(nextPath, onPathChange)}
               isActive={() => nextPath === path || nextPath === `./${path}`}
             >
-              {name}
+              <span className="block truncate">
+                {name}
+              </span>
             </Breadcrumb.Item>
           )}
           itemRenderCollapsed={({ name, path: nextPath }) => (
@@ -41,7 +49,9 @@ function FolderPicker({ path, items, listFolder, onPathChange }) {
               onClick={changePath(nextPath, onPathChange)}
               isActive={() => false}
             >
-              {name}
+              <span className="block truncate">
+                {name}
+              </span>
             </Breadcrumb.ItemCollapsed>
           )}
           collapsed

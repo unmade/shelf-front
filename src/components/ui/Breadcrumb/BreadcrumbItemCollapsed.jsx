@@ -12,7 +12,7 @@ function BreadcrumbItemCollapsed({ children, className, path, onClick }) {
     <BreadcrumbItem path={path} className={className} onClick={onClick}>
       <Button
         type="text"
-        icon={<icons.Folder className="w-5 h-5 text-blue-400" />}
+        icon={<icons.Folder className="text-lg text-blue-400" />}
         full
       >
         {children}

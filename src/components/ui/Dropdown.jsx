@@ -14,7 +14,7 @@ class Dropdown extends React.Component {
     };
 
     this.popper = null;
-    this.trigger = React.Children.only(props.children);
+    this.trigger = null;
 
     this.triggerRef = React.createRef();
     this.popoverRef = React.createRef();
@@ -76,7 +76,7 @@ class Dropdown extends React.Component {
   }
 
   render() {
-    const { overlay: Overlay, overlayProps } = this.props;
+    const { children, overlay: Overlay, overlayProps } = this.props;
     const { popoverVisible } = this.state;
 
     return (
@@ -85,7 +85,7 @@ class Dropdown extends React.Component {
           ref={this.triggerRef}
           onClick={this.togglePopover}
         >
-          {this.trigger}
+          {children}
         </div>
         <div
           ref={this.popoverRef}

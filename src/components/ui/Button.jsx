@@ -87,7 +87,7 @@ function Button({
         </span>
       )}
       {(children) && (
-        <span className="truncate">
+        <span className="min-w-0">
           {children}
         </span>
       )}
