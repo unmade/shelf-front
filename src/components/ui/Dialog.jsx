@@ -6,11 +6,12 @@ import Modal from './Modal';
 
 function Dialog({
   children,
-  title,
-  icon,
-  visible,
-  confirmTitle,
   confirmDanger,
+  confirmTitle,
+  icon,
+  title,
+  visible,
+  confirmRender: RenderConfirm,
   onConfirm,
   onCancel,
 }) {
@@ -25,30 +26,33 @@ function Dialog({
             </div>
           )}
 
-          {(title) && (
-            <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-              <h3 className="text-lg leading-6 font-medium text-gray-900">
-                {title}
-              </h3>
-              <div className="mt-2 text-sm text-gray-600">
-                {children}
-              </div>
+          <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+            <h3 className="text-lg leading-6 font-medium text-gray-900">
+              {title}
+            </h3>
+            <div className="mt-2 text-sm text-gray-600">
+              {children}
             </div>
-          )}
+          </div>
         </div>
       </div>
 
       <div className="bg-gray-100 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-        {(onConfirm) && (
+        {(onConfirm !== null || RenderConfirm !== null) && (
           <div className="w-full sm:w-auto sm:ml-3">
-            <Button
-              type="primary"
-              onClick={onConfirm}
-              danger={confirmDanger}
-              full
-            >
-              {confirmTitle}
-            </Button>
+            {(onConfirm !== null) && (
+              <Button
+                type="primary"
+                onClick={onConfirm}
+                danger={confirmDanger}
+                full
+              >
+                {confirmTitle}
+              </Button>
+            )}
+            {(RenderConfirm !== null) && (
+              <RenderConfirm />
+            )}
           </div>
         )}
         {(onCancel) && (
@@ -68,21 +72,27 @@ function Dialog({
 }
 
 Dialog.propTypes = {
-  title: PropTypes.string,
-  icon: PropTypes.element,
-  visible: PropTypes.bool,
-  confirmTitle: PropTypes.string,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
   confirmDanger: PropTypes.bool,
+  confirmTitle: PropTypes.string,
+  icon: PropTypes.element,
+  title: PropTypes.string.isRequired,
+  visible: PropTypes.bool,
+  confirmRender: PropTypes.func,
   onConfirm: PropTypes.func,
   onCancel: PropTypes.func,
 };
 
 Dialog.defaultProps = {
-  title: '',
+  children: null,
+  confirmDanger: false,
+  confirmTitle: 'OK',
   icon: null,
   visible: false,
-  confirmTitle: 'OK',
-  confirmDanger: false,
+  confirmRender: null,
   onConfirm: null,
   onCancel: null,
 };

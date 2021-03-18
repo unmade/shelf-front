@@ -7,45 +7,55 @@ import Uploader from '../containers/Uploader';
 
 import Button from './ui/Button';
 import Dropdown from './ui/Dropdown';
+import UploadDialog from './UploadDialog';
 
 function ActionsDropdown({ menu }) {
+  const [uploaderVisible, setUploaderVisible] = React.useState(false);
   return (
-    <Dropdown
-      overlay={({ closeOverlay }) => (
-        <div className="bg-white p-2 rounded shadow">
-          <Dropdown overlay={() => (<Uploader />)}>
+    <>
+      <Dropdown
+        overlay={({ closeOverlay }) => (
+          <div className="flex flex-col bg-white p-2 rounded shadow">
             <Button
               type="text"
               title="Uploads"
               size="sm"
               icon={<icons.CloudUpload className="text-lg" />}
-              full
+              onClick={() => { setUploaderVisible(true); closeOverlay(); }}
             >
               Uploads
             </Button>
-          </Dropdown>
-          {(menu.map((item) => (
-            <Button
-              key={item.name}
-              type="text"
-              size="sm"
-              icon={item.icon}
-              title={item.name}
-              onClick={() => { closeOverlay(); item.onClick(); }}
-            >
-              {item.name}
-            </Button>
-          )))}
-        </div>
+            {(menu.map((item) => (
+              <Button
+                key={item.name}
+                type="text"
+                size="sm"
+                icon={item.icon}
+                title={item.name}
+                onClick={() => { closeOverlay(); item.onClick(); }}
+              >
+                {item.name}
+              </Button>
+            )))}
+          </div>
+        )}
+      >
+        <Button
+          type="text"
+          title="Actions"
+          size="lg"
+          icon={<icons.More />}
+        />
+      </Dropdown>
+      {(uploaderVisible) && (
+        <span>
+          <UploadDialog
+            visible={uploaderVisible}
+            onCancel={() => { setUploaderVisible(false); }}
+          />
+        </span>
       )}
-    >
-      <Button
-        type="text"
-        title="Actions"
-        size="lg"
-        icon={<icons.More />}
-      />
-    </Dropdown>
+    </>
   );
 }
 

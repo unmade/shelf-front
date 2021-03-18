@@ -40,6 +40,7 @@ class UploadButton extends React.Component {
           size="sm"
           icon={icon}
           onClick={this.openUpload}
+          full
         >
           {children}
         </Button>
