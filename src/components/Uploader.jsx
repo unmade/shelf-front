@@ -4,20 +4,8 @@ import PropTypes from 'prop-types';
 import * as icons from '../icons';
 
 import FileDrop from '../containers/FileDrop';
+import RecentUploads from '../containers/RecentUploads';
 import UploadButton from '../containers/UploadButton';
-import UploadList from '../containers/UploadList';
-import UploadListItem from '../containers/UploadListItem';
-
-import Pill from './ui/Pill';
-import Button from './ui/Button';
-
-const maxHeight = {
-  maxHeight: '50vh',
-};
-
-const height = {
-  height: '50vh',
-};
 
 const dropzoneClass = [
   'p-4',
@@ -67,34 +55,7 @@ Dropzone.defaultProps = {
   dragging: false,
 };
 
-const TEXTS = {
-  all: 'No recents',
-  inProgress: 'No in-progress uploads',
-  failed: 'No failed uploads',
-};
-
-const PILLS = [
-  {
-    key: 'all',
-    text: 'All',
-    title: 'Show all uploads',
-  },
-  {
-    key: 'inProgress',
-    text: 'In-Progress',
-    title: 'Show in-progress uploads',
-  },
-  {
-    key: 'failed',
-    text: 'Failed',
-    title: 'Show failed uploads',
-  },
-];
-
-function Uploader({
-  uploadCount, uploadTo, visibilityFilter, onClear, onSetVisibilityFilter,
-}) {
-  const virtual = uploadCount > 10;
+function Uploader({ uploadTo }) {
   return (
     <div className="w-96 p-4 bg-white rounded shadow text-gray-700">
 
@@ -104,58 +65,14 @@ function Uploader({
         render={Dropzone}
       />
 
-      <div className="mt-6 space-y-4">
-        <p className="font-semibold">
-          Recent Uploads
-        </p>
-
-        {(uploadCount > 0) ? (
-          <div className="text-xs" style={(virtual) ? height : maxHeight}>
-            <UploadList
-              itemRender={UploadListItem}
-              virtual={virtual}
-            />
-          </div>
-        ) : (
-          <div className="h-20 text-gray-600 flex flex-row items-center justify-center space-x-2">
-            <icons.Collection className="w-6 h-6 text-gray-500" />
-            <p className="text-sm">
-              {TEXTS[visibilityFilter]}
-            </p>
-          </div>
-        )}
-
-        <div className="pt-2 text-xs border-t border-solid flex flex-row justify-between">
-          <div className="flex flex-row space-x-2">
-            {PILLS.map((pill) => (
-              <Pill
-                key={pill.key}
-                title={pill.title}
-                active={visibilityFilter === pill.key}
-                onClick={() => (onSetVisibilityFilter(pill.key))}
-              >
-                {pill.text}
-              </Pill>
-            ))}
-          </div>
-          <Button
-            type="text"
-            icon={<icons.Clear className="w-4 h-4" />}
-            title="Clear"
-            onClick={onClear}
-          />
-        </div>
-
-      </div>
+      <RecentUploads />
 
     </div>
   );
 }
 
 Uploader.propTypes = {
-  uploadCount: PropTypes.number.isRequired,
   uploadTo: PropTypes.string.isRequired,
-  visibilityFilter: PropTypes.string.isRequired,
 };
 
 export default Uploader;

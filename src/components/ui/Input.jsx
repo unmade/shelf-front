@@ -13,7 +13,7 @@ const fontSizes = {
 };
 
 const paddings = {
-  sm: 'p-1',
+  sm: 'px-3 py-2 sm:p-1',
   base: 'px-3 py-2',
 };
 
