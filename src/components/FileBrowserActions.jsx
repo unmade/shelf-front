@@ -11,7 +11,7 @@ import Dropdown from './ui/Dropdown';
 function ActionsDropdown({ menu }) {
   return (
     <Dropdown
-      overlay={() => (
+      overlay={({ closeOverlay }) => (
         <div className="bg-white p-2 rounded shadow">
           <Dropdown overlay={() => (<Uploader />)}>
             <Button
@@ -19,6 +19,7 @@ function ActionsDropdown({ menu }) {
               title="Uploads"
               size="sm"
               icon={<icons.CloudUpload className="text-lg" />}
+              full
             >
               Uploads
             </Button>
@@ -30,7 +31,7 @@ function ActionsDropdown({ menu }) {
               size="sm"
               icon={item.icon}
               title={item.name}
-              onClick={item.onClick}
+              onClick={() => { closeOverlay(); item.onClick(); }}
             >
               {item.name}
             </Button>
