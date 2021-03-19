@@ -31,6 +31,7 @@ function FolderPicker({ path, items, listFolder, onPathChange }) {
       <div className="pb-1">
         <Breadcrumb
           items={routes.breadcrumbs(norm(path))}
+          fold={Breadcrumb.Fold.collapse}
           size="xs"
           itemRender={({ name, path: nextPath }) => (
             <Breadcrumb.Item
@@ -54,7 +55,6 @@ function FolderPicker({ path, items, listFolder, onPathChange }) {
               </span>
             </Breadcrumb.ItemCollapsed>
           )}
-          collapsed
         />
       </div>
       <VList
