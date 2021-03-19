@@ -20,3 +20,8 @@ export const MediaType = {
     return ['javascript', 'json', 'sql', 'x-sh', 'x-zsh', 'xml'].includes(subtype);
   },
 };
+
+export const MediaQuery = {
+  sm: '(min-width: 640px)',
+  md: '(min-width: 768px)',
+};

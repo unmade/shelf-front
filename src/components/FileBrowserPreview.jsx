@@ -55,7 +55,7 @@ function FileBrowserPreview({ files }) {
         </div>
 
         <div className="p-2 text-gray-800">
-          <p className={`${fontSize} font-semibold`} style={breakAnywhere}>
+          <p className={`${fontSize} font-semibold break-words`} style={breakAnywhere}>
             {name}
           </p>
           <p className="text-gray-600 text-xs">

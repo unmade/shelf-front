@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useMediaQuery } from 'react-responsive';
 
+import { MediaQuery } from '../constants';
 import * as icons from '../icons';
 import * as routes from '../routes';
 
@@ -20,18 +21,18 @@ import Button from './ui/Button';
 
 const Browser = React.memo(
   ({ url, dirPath, hasSelectedFiles }) => {
-    const isMobile = !useMediaQuery({ query: '(min-width: 768px)' });
-    const previewable = (!isMobile && hasSelectedFiles);
+    const isMobile = !useMediaQuery({ query: MediaQuery.sm });
+    const previewAvailable = (!isMobile && hasSelectedFiles);
     return (
       <div className="h-full flex flex-col">
         <div className="flex flex-row items-center justify-between space-x-4 text-lg p-4 border-b-2 border-gray-100">
-          <span className="md:hidden">
+          {(isMobile) && (
             <Button
               type="text"
               size="lg"
               icon={<icons.Menu />}
             />
-          </span>
+          )}
           <div className="min-w-0 flex-1">
             <Breadcrumb
               items={routes.breadcrumbs(url)}
@@ -57,10 +58,10 @@ const Browser = React.memo(
         </div>
 
         <div className="flex-1 flex flex-row">
-          <div className={(previewable) ? 'w-2/3' : 'w-full'}>
+          <div className={(previewAvailable) ? 'w-2/3' : 'w-full'}>
             <FileTableView path={dirPath || '.'} itemRender={FileTableCell} droppable />
           </div>
-          {(previewable) && (
+          {(previewAvailable) && (
             <div className="w-1/3 ml-4">
               <FileBrowserPreview />
             </div>
