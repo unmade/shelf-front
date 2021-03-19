@@ -21,40 +21,48 @@ import Button from './ui/Button';
 
 const Browser = React.memo(
   ({ url, dirPath, hasSelectedFiles }) => {
-    const isMobile = !useMediaQuery({ query: MediaQuery.sm });
-    const previewAvailable = (!isMobile && hasSelectedFiles);
+    const isTablet = useMediaQuery({ query: MediaQuery.sm });
+    const isLaptop = useMediaQuery({ query: MediaQuery.lg });
+    const previewAvailable = (isLaptop && hasSelectedFiles);
+    let fold = Breadcrumb.Fold.collapse;
+    if (!isTablet) {
+      fold = Breadcrumb.Fold.single;
+    } else if (isLaptop) {
+      fold = Breadcrumb.Fold.collapseWide;
+    }
     return (
       <div className="h-full flex flex-col">
         <div className="flex flex-row items-center justify-between space-x-4 text-lg p-4 border-b-2 border-gray-100">
-          {(isMobile) && (
-            <Button
-              type="text"
-              size="lg"
-              icon={<icons.Menu />}
-            />
-          )}
-          <div className="min-w-0 flex-1">
-            <Breadcrumb
-              items={routes.breadcrumbs(url)}
-              single={isMobile}
-              collapsed
-              itemRender={({ name, path }) => (
-                <Breadcrumb.Item path={path}>
-                  <span className="block truncate">
-                    {name}
-                  </span>
-                </Breadcrumb.Item>
-              )}
-              itemRenderCollapsed={({ name, path }) => (
-                <Breadcrumb.ItemCollapsed path={path}>
-                  <span className="block truncate">
-                    {name}
-                  </span>
-                </Breadcrumb.ItemCollapsed>
-              )}
-            />
+          <div className="min-w-0 flex-1 inline-flex items-center space-x-4">
+            {(!isLaptop) && (
+              <Button
+                type="text"
+                size="lg"
+                icon={<icons.Menu />}
+              />
+            )}
+            <span className="min-w-0 w-full">
+              <Breadcrumb
+                items={routes.breadcrumbs(url)}
+                fold={fold}
+                itemRender={({ name, path }) => (
+                  <Breadcrumb.Item path={path}>
+                    <span className="block truncate">
+                      {name}
+                    </span>
+                  </Breadcrumb.Item>
+                )}
+                itemRenderCollapsed={({ name, path }) => (
+                  <Breadcrumb.ItemCollapsed path={path}>
+                    <span className="block truncate">
+                      {name}
+                    </span>
+                  </Breadcrumb.ItemCollapsed>
+                )}
+              />
+            </span>
           </div>
-          <FileBrowserActions collapsed={isMobile} />
+          <FileBrowserActions collapsed={!isTablet} />
         </div>
 
         <div className="flex-1 flex flex-row">
@@ -62,7 +70,7 @@ const Browser = React.memo(
             <FileTableView path={dirPath || '.'} itemRender={FileTableCell} droppable />
           </div>
           {(previewAvailable) && (
-            <div className="w-1/3 ml-4">
+            <div className="w-1/3">
               <FileBrowserPreview />
             </div>
           )}

@@ -28,37 +28,47 @@ function Trash({
     // current directory has changed
     deselectFiles();
   }, [dirPath, changePath, listFolder, deselectFiles]);
-  const isMobile = !useMediaQuery({ query: MediaQuery.sm });
+
+  const isTablet = useMediaQuery({ query: MediaQuery.sm });
+  const isLaptop = useMediaQuery({ query: MediaQuery.lg });
+  let fold = Breadcrumb.Fold.collapse;
+  if (!isTablet) {
+    fold = Breadcrumb.Fold.single;
+  } else if (isLaptop) {
+    fold = Breadcrumb.Fold.collapseWide;
+  }
+
   return (
     <div className="h-full flex flex-col">
       <div className="flex flex-row items-center justify-between space-x-4 text-lg p-4 border-b-2 border-gray-100">
-        {(isMobile) && (
-          <Button
-            type="text"
-            size="lg"
-            icon={<icons.Menu />}
-          />
-        )}
-        <div className="min-w-0 flex-1">
-          <Breadcrumb
-            items={routes.breadcrumbs(match.url)}
-            single={isMobile}
-            collapsed
-            itemRender={({ name, path }) => (
-              <Breadcrumb.Item path={path}>
-                <span className="block truncate">
-                  {name}
-                </span>
-              </Breadcrumb.Item>
-            )}
-            itemRenderCollapsed={({ name, path }) => (
-              <Breadcrumb.ItemCollapsed path={path}>
-                <span className="block truncate">
-                  {name}
-                </span>
-              </Breadcrumb.ItemCollapsed>
-            )}
-          />
+        <div className="min-w-0 flex-1 inline-flex items-center space-x-4">
+          {(!isLaptop) && (
+            <Button
+              type="text"
+              size="lg"
+              icon={<icons.Menu />}
+            />
+          )}
+          <span className="min-w-0 w-full">
+            <Breadcrumb
+              items={routes.breadcrumbs(match.url)}
+              fold={fold}
+              itemRender={({ name, path }) => (
+                <Breadcrumb.Item path={path}>
+                  <span className="block truncate">
+                    {name}
+                  </span>
+                </Breadcrumb.Item>
+              )}
+              itemRenderCollapsed={({ name, path }) => (
+                <Breadcrumb.ItemCollapsed path={path}>
+                  <span className="block truncate">
+                    {name}
+                  </span>
+                </Breadcrumb.ItemCollapsed>
+              )}
+            />
+          </span>
         </div>
         <Button
           type="text"

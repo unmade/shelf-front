@@ -14,15 +14,22 @@ const fonts = {
   lg: 'text-xl space-x-2 font-semibold',
 };
 
+const Fold = {
+  collapse: 'collapse',
+  collapseWide: 'collapse-wide',
+  none: 'none',
+  single: 'single',
+};
+
 const iconSize = {
   xs: 'text-base',
   lg: 'text-lg',
 };
 
 function Breadcrumb({
-  collapsed, items, single, size, itemRender: Render, itemRenderCollapsed: RenderCollapsed,
+  fold, items, size, itemRender: Render, itemRenderCollapsed: RenderCollapsed,
 }) {
-  if (single) {
+  if (fold === Fold.single) {
     const last = items.pop();
     if (items.length < 1) {
       return (
@@ -45,7 +52,7 @@ function Breadcrumb({
     );
   }
 
-  if (!collapsed || items.length < 4) {
+  if ((fold !== Fold.collapse && fold !== Fold.collapseWide) || items.length < 4) {
     return (
       <nav className={`flex flex-row items-center ${fonts[size]} text-gray-600`}>
         {(items.map((item, idx) => (
@@ -65,7 +72,7 @@ function Breadcrumb({
   const [first, ...rest] = items;
   const last = rest.pop();
   let secondToLast = null;
-  if (size !== 'xs') {
+  if (fold === Fold.collapseWide) {
     secondToLast = rest.pop();
   }
   return (
@@ -103,26 +110,25 @@ function Breadcrumb({
   );
 }
 
+Breadcrumb.Fold = Fold;
 Breadcrumb.Item = BreadcrumbItem;
 Breadcrumb.ItemCollapsed = BreadcrumbItemCollapsed;
 
 Breadcrumb.propTypes = {
-  collapsed: PropTypes.bool,
+  fold: PropTypes.oneOf([Fold.collapse, Fold.collapseWide, Fold.none, Fold.single]),
   items: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
       path: PropTypes.string.isRequired,
     }).isRequired,
   ).isRequired,
-  single: PropTypes.bool,
   size: PropTypes.oneOf(['xs', 'lg']),
   itemRender: PropTypes.func.isRequired,
   itemRenderCollapsed: PropTypes.func.isRequired,
 };
 
 Breadcrumb.defaultProps = {
-  collapsed: false,
-  single: false,
+  fold: 'none',
   size: 'lg',
 };
 
