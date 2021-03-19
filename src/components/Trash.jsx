@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import { useMediaQuery } from 'react-responsive';
 
-import { TRASH_FOLDER_NAME } from '../constants';
+import { MediaQuery, TRASH_FOLDER_NAME } from '../constants';
 import * as icons from '../icons';
 import * as routes from '../routes';
 
@@ -28,17 +28,17 @@ function Trash({
     // current directory has changed
     deselectFiles();
   }, [dirPath, changePath, listFolder, deselectFiles]);
-  const isMobile = !useMediaQuery({ query: '(min-width: 768px)' });
+  const isMobile = !useMediaQuery({ query: MediaQuery.sm });
   return (
     <div className="h-full flex flex-col">
       <div className="flex flex-row items-center justify-between space-x-4 text-lg p-4 border-b-2 border-gray-100">
-        <span className="md:hidden">
+        {(isMobile) && (
           <Button
             type="text"
             size="lg"
             icon={<icons.Menu />}
           />
-        </span>
+        )}
         <div className="min-w-0 flex-1">
           <Breadcrumb
             items={routes.breadcrumbs(match.url)}

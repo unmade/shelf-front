@@ -39,20 +39,20 @@ function Header({
   idx, total, name, prevName, nextName,
 }) {
   return (
-    <div className="px-4 py-2 flex flex-row items-center justify-between">
-      <div className="w-48 flex flex-row">
+    <div className="p-4 flex flex-row items-center justify-between">
+      <div className="sm:w-48 flex flex-row">
         <FileLink>
           <Button type="text" icon={<icons.ChevronLeft />} />
         </FileLink>
       </div>
 
-      <div className="min-w-0 px-8">
-        <p className="text-l font-bold truncate">
+      <div className="min-w-0 w-full px-4 sm:px-8">
+        <p className="text-left sm:text-center text-sm sm:text-lg font-bold truncate">
           {name}
         </p>
       </div>
 
-      <div className="w-48 text-gray-800 flex flex-row items-center justify-end space-x-2">
+      <div className="min-w-max sm:w-48 text-gray-800 flex flex-row items-center justify-end space-x-2">
         <FileLink name={prevName} preview>
           <Button type="text" icon={<icons.ArrowLeft />} />
         </FileLink>

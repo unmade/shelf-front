@@ -12,15 +12,15 @@ import Trash from './containers/Trash';
 function App() {
   return (
     <>
-      <div className="flex md:flex-row-reverse flex-wrap h-screen bg-gray-200">
-        <div className="w-full md:w-4/5 lg:w-5/6 my-0 mx-auto bg-white border-l">
+      <div className="flex sm:flex-row-reverse flex-wrap h-screen bg-gray-200">
+        <div className="w-full sm:w-4/5 lg:w-5/6 my-0 mx-auto bg-white border-l">
           <Switch>
             <Route path={routes.FILES.route} component={FileBrowser} />
             <Route path={routes.TRASH.route} component={Trash} />
           </Switch>
         </div>
 
-        <div className="hidden md:block md:w-1/5 lg:w-1/6 p-4 text-gray-700">
+        <div className="hidden sm:block sm:w-1/5 lg:w-1/6 p-4 text-gray-700">
           <SideMenu />
         </div>
       </div>
