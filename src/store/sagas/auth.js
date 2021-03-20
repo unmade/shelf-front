@@ -55,16 +55,17 @@ function* refreshTokenWatcher() {
 
     if (expired) {
       yield put(actions.refreshToken());
-      const { success, failure } = yield race({
+      const { success, failure, signedOut } = yield race({
         success: take(actions.types.REFRESH_TOKEN_SUCCESS),
         failure: take(actions.types.REFRESH_TOKEN_FAILURE),
+        signedOut: take(actions.types.SIGN_OUT),
       });
       if (success) {
         accessToken = yield select(getAccessToken);
         isExpired = yield select(getIsExpired);
         expiresIn = refreshRate;
       }
-      if (failure) {
+      if (failure || signedOut) {
         // if something goes wrong, just stop refreshing
         accessToken = null;
         expiresIn = 30 * 1000; // 30 seconds
@@ -112,7 +113,7 @@ function* signIn({ payload }) {
     return;
   }
 
-  yield put(actions.signInSuccess(data))
+  yield put(actions.signInSuccess(data));
 }
 
 export default [

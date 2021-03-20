@@ -39,7 +39,8 @@ function tokens(state = INITIAL_STATE, action) {
       };
     }
     case types.REFRESH_TOKEN_FAILURE:
-    case types.SIGN_IN_FAILURE: {
+    case types.SIGN_IN_FAILURE:
+    case types.SIGN_OUT: {
       return {
         ...state,
         accessToken: null,

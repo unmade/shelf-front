@@ -5,7 +5,7 @@ import * as icons from '../icons';
 
 import Button from './ui/Button';
 
-function AccountMenu({ me, retrieveMe }) {
+function AccountMenu({ me, onSignOut, retrieveMe }) {
   React.useEffect(() => {
     if (me === null) {
       retrieveMe();
@@ -37,6 +37,7 @@ function AccountMenu({ me, retrieveMe }) {
         type="text"
         title="Sign Out"
         icon={<icons.LogOut />}
+        onClick={onSignOut}
       />
     </div>
   );
@@ -46,6 +47,7 @@ AccountMenu.propTypes = {
   me: PropTypes.shape({
     username: PropTypes.string.isRequired,
   }),
+  onSignOut: PropTypes.func.isRequired,
   retrieveMe: PropTypes.func.isRequired,
 };
 
