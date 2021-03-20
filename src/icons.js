@@ -27,6 +27,7 @@ export const FileImage = hi.HiOutlinePhotograph;
 export const FileText = hi.HiOutlineDocumentText;
 export const Folder = hi.HiFolder;
 export const ICursor = hi.HiOutlinePencil;
+export const LogOut = hi.HiLogout;
 export const NewFolder = hi.HiOutlineFolderAdd;
 export const Menu = hi.HiMenu;
 export const More = hi.HiOutlineDotsHorizontal;

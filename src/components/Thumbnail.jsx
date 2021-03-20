@@ -7,7 +7,7 @@ function Thumbnail({
   className, file, size, thumbs, fetchThumbnail,
 }) {
   const { id, path } = file;
-  const hasThumbnail = (thumbs !== null && thumbs[size] !== null);
+  const hasThumbnail = (thumbs !== null && thumbs[size] !== null && thumbs[size] !== undefined);
   React.useEffect(() => {
     if (!hasThumbnail) {
       fetchThumbnail(id, path, size);

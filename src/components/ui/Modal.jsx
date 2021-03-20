@@ -11,13 +11,15 @@ class Modal extends React.Component {
 
   handleClickOutside() {
     const { onClose } = this.props;
-    onClose();
+    if (onClose !== null) {
+      onClose();
+    }
   }
 
   handleKeyUp(event) {
     const { onClose } = this.props;
     const { keyCode } = event;
-    if (keyCode === 27 && onClose) { // close on ESC
+    if (keyCode === 27 && onClose !== null) { // close on ESC
       onClose();
     }
   }
