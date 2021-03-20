@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { retrieveMe } from '../store/actions/auth';
+import { retrieveMe, signOut } from '../store/actions/auth';
 
 import { getMe } from '../store/reducers/auth';
 
@@ -11,6 +11,7 @@ export default connect(
     me: getMe(state),
   }),
   {
+    onSignOut: signOut,
     retrieveMe,
   },
 )(AccountMenu);

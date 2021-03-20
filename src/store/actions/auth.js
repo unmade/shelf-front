@@ -12,6 +12,8 @@ export const types = {
   SIGN_IN_REQUEST: 'SIGN_IN_REQUEST',
   SIGN_IN_SUCCESS: 'SIGN_IN_SUCCESS',
   SIGN_IN_FAILURE: 'SIGN_IN_FAILURE',
+
+  SIGN_OUT: 'SIGN_OUT',
 };
 
 export const refreshToken = () => ({
@@ -67,4 +69,9 @@ export const signInSuccess = ({ access_token: access }) => ({
 export const signInFailure = (err) => ({
   type: types.SIGN_IN_FAILURE,
   payload: { err },
+});
+
+export const signOut = () => ({
+  type: types.SIGN_OUT,
+  payload: null,
 });
