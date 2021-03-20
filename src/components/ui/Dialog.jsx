@@ -37,36 +37,38 @@ function Dialog({
         </div>
       </div>
 
-      <div className="bg-gray-100 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-        {(onConfirm !== null || RenderConfirm !== null) && (
-          <div className="w-full sm:w-auto sm:ml-3">
-            {(onConfirm !== null) && (
+      {(onCancel !== null || onConfirm !== null || RenderConfirm !== null) && (
+        <div className="bg-gray-100 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+          {(onConfirm !== null || RenderConfirm !== null) && (
+            <div className="w-full sm:w-auto sm:ml-3">
+              {(onConfirm !== null) && (
+                <Button
+                  type="primary"
+                  onClick={onConfirm}
+                  danger={confirmDanger}
+                  full
+                >
+                  {confirmTitle}
+                </Button>
+              )}
+              {(RenderConfirm !== null) && (
+                <RenderConfirm />
+              )}
+            </div>
+          )}
+          {(onCancel) && (
+            <div className="w-full mt-3 sm:w-auto sm:mt-0 sm:ml-3">
               <Button
-                type="primary"
-                onClick={onConfirm}
-                danger={confirmDanger}
+                type="default"
+                onClick={onCancel}
                 full
               >
-                {confirmTitle}
+                Cancel
               </Button>
-            )}
-            {(RenderConfirm !== null) && (
-              <RenderConfirm />
-            )}
-          </div>
-        )}
-        {(onCancel) && (
-          <div className="w-full mt-3 sm:w-auto sm:mt-0 sm:ml-3">
-            <Button
-              type="default"
-              onClick={onCancel}
-              full
-            >
-              Cancel
-            </Button>
-          </div>
-        )}
-      </div>
+            </div>
+          )}
+        </div>
+      )}
     </Modal>
   );
 }

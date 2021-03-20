@@ -3,20 +3,9 @@ import { NavLink } from 'react-router-dom';
 
 import * as icons from '../icons';
 
-import { TRASH_FOLDER_NAME } from '../constants';
+import { MENU } from '../constants';
 
 import AccountMenu from '../containers/AccountMenu';
-
-const menu = [
-  {
-    path: '/files',
-    title: 'All files',
-  },
-  {
-    path: '/trash',
-    title: TRASH_FOLDER_NAME,
-  },
-];
 
 function SideMenu() {
   return (
@@ -25,7 +14,7 @@ function SideMenu() {
 
       <div className="py-2 text-lg text-gray-600 flex-1">
         <ul className="space-y-4">
-          {menu.map((item) => (
+          {MENU.map((item) => (
             <li key={item.path}>
               <NavLink
                 to={item.path}

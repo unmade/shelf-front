@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import * as icons from '../icons';
+
+import Button from './ui/Button';
+
 function AccountMenu({ me, retrieveMe }) {
   React.useEffect(() => {
     if (me === null) {
@@ -21,14 +25,19 @@ function AccountMenu({ me, retrieveMe }) {
       >
         {username.substring(0, 1).toUpperCase()}
       </div>
-      <div className="flex flex-col flex-1">
-        <div className="text-sm font-bold">
+      <div className="text-left flex flex-col flex-1">
+        <div className="text-sm font-semibold text-gray-700">
           {username}
         </div>
         <div className="text-xs text-gray-600">
           {`@${username}`}
         </div>
       </div>
+      <Button
+        type="text"
+        title="Sign Out"
+        icon={<icons.LogOut />}
+      />
     </div>
   );
 }

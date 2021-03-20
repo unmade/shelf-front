@@ -3,7 +3,6 @@ import React from 'react';
 import { useMediaQuery } from 'react-responsive';
 
 import { MediaQuery } from '../constants';
-import * as icons from '../icons';
 import * as routes from '../routes';
 
 import CreateFolderDialog from '../containers/CreateFolderDialog';
@@ -17,7 +16,8 @@ import MoveDialog from '../containers/MoveDialog';
 import RenameFileDialog from '../containers/RenameFileDialog';
 
 import Breadcrumb from './ui/Breadcrumb';
-import Button from './ui/Button';
+
+import AppMenuModal from './AppMenuModal';
 
 const Browser = React.memo(
   ({ url, dirPath, hasSelectedFiles }) => {
@@ -35,11 +35,7 @@ const Browser = React.memo(
         <div className="flex flex-row items-center justify-between space-x-4 text-lg p-4 border-b-2 border-gray-100">
           <div className="min-w-0 flex-1 inline-flex items-center space-x-4">
             {(!isLaptop) && (
-              <Button
-                type="text"
-                size="lg"
-                icon={<icons.Menu />}
-              />
+              <AppMenuModal />
             )}
             <span className="min-w-0 w-full">
               <Breadcrumb

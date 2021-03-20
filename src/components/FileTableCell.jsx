@@ -66,13 +66,13 @@ function FileTableCell({ className, item, selected, onSelect }) {
 
       <div className="w-1/5 md:w-1/2 2xl:w-1/3 flex flex-row items-center justify-end">
         {/* apply classes here, otherwise they end up in closure */}
-        <div className={`${secondaryText} hover:${primaryText}`}>
+        <div className={`${secondaryText} hover:${primaryText} px-2`}>
           <FileTableCellActions id={item.id} mediaType={item.mediatype} path={item.path} />
         </div>
-        <div className={`hidden md:block w-20 xl:w-24 text-right ${secondaryText}`}>
+        <div className={`hidden md:block w-20 lg:w-24 text-right ${secondaryText}`}>
           <FileSize size={item.size} />
         </div>
-        <div className={`hidden md:block w-24 lg:w-36 xl:w-40 ml-6 lg:px-4 text-left ${secondaryText}`}>
+        <div className={`hidden md:block w-24 lg:w-36 xl:w-40 ml-6 xl:px-4 text-left ${secondaryText}`}>
           <TimeAgo mtime={item.mtime * 1000} />
         </div>
       </div>

@@ -3,7 +3,7 @@ export const TRASH_FOLDER_NAME = process.env.REACT_APP_TRASH_FOLDER_NAME || 'Tra
 export const BREADCRUMBS_ALIASES = {
   '.': 'Home',
   files: 'Home',
-  trash: 'Trash',
+  trash: TRASH_FOLDER_NAME,
 };
 
 export const MediaType = {
@@ -26,3 +26,14 @@ export const MediaQuery = {
   md: '(min-width: 768px)',
   lg: '(min-width: 1024px)',
 };
+
+export const MENU = [
+  {
+    path: '/files',
+    title: 'All files',
+  },
+  {
+    path: '/trash',
+    title: TRASH_FOLDER_NAME,
+  },
+];
