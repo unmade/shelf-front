@@ -18,7 +18,7 @@ const paddings = {
 };
 
 function Input({
-  autoFocus, defaultValue, error, id, label, placeholder, size, type, onChange,
+  autoFocus, defaultValue, error, id, label, name, placeholder, size, type, onChange,
 }) {
   const borderColor = (error) ? (
     'border-red-400 focus:ring-red-200 focus:border-red-400'
@@ -31,6 +31,9 @@ function Input({
   }
   if (defaultValue !== null && defaultValue !== undefined) {
     inputProps.defaultValue = defaultValue;
+  }
+  if (name !== null) {
+    inputProps.name = name;
   }
   return (
     <div>
@@ -52,7 +55,7 @@ function Input({
           {...inputProps}
         />
       </div>
-      {error && (
+      {error !== null && error !== undefined && (
         <p className="text-red-500 text-xs italic mt-3">{error}</p>
       )}
     </div>
@@ -65,6 +68,7 @@ Input.propTypes = {
   error: PropTypes.string,
   id: PropTypes.string.isRequired,
   label: PropTypes.string,
+  name: PropTypes.string,
   placeholder: PropTypes.string,
   size: PropTypes.oneOf(['sm', 'base']),
   type: PropTypes.string,
@@ -76,6 +80,7 @@ Input.defaultProps = {
   defaultValue: null,
   error: null,
   label: null,
+  name: null,
   placeholder: null,
   size: 'base',
   type: 'text',

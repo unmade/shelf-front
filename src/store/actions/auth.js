@@ -51,7 +51,7 @@ export const retrieveMeFailure = (err) => ({
   payload: { err },
 });
 
-export const signIn = ({ username, password }) => ({
+export const signIn = (username, password) => ({
   type: types.SIGN_IN,
   payload: { username, password },
 });
