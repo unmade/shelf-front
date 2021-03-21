@@ -7,11 +7,6 @@ import * as icons from '../icons';
 import Dialog from './ui/Dialog';
 
 function EmptyTrashDialog({ visible, onEmpty, onCancel }) {
-  const onConfirm = () => {
-    onEmpty();
-    onCancel();
-  };
-
   if (!visible) {
     return null;
   }
@@ -23,7 +18,7 @@ function EmptyTrashDialog({ visible, onEmpty, onCancel }) {
       visible={visible}
       confirmTitle="Empty"
       confirmDanger
-      onConfirm={onConfirm}
+      onConfirm={onEmpty}
       onCancel={onCancel}
     >
       <p>

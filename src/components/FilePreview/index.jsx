@@ -42,7 +42,7 @@ function Header({
     <div className="p-4 flex flex-row items-center justify-between">
       <div className="sm:w-48 flex flex-row">
         <FileLink>
-          <Button type="text" icon={<icons.ChevronLeft />} />
+          <Button type="text" size="base" icon={<icons.ChevronLeft />} />
         </FileLink>
       </div>
 
@@ -54,7 +54,7 @@ function Header({
 
       <div className="min-w-max sm:w-48 text-gray-800 flex flex-row items-center justify-end space-x-2">
         <FileLink name={prevName} preview>
-          <Button type="text" icon={<icons.ArrowLeft />} />
+          <Button type="text" size="base" icon={<icons.ArrowLeft />} />
         </FileLink>
 
         <div className="text-gray-700 text-sm">
@@ -64,7 +64,7 @@ function Header({
         </div>
 
         <FileLink name={nextName} preview>
-          <Button type="text" icon={<icons.ArrowRight />} />
+          <Button type="text" size="base" icon={<icons.ArrowRight />} />
         </FileLink>
       </div>
     </div>

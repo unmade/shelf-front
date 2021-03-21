@@ -51,9 +51,9 @@ export const types = {
 
 };
 
-export const createFolder = (name, parentFolderPath) => ({
+export const createFolder = (path) => ({
   type: types.CREATE_FOLDER,
-  payload: { name, parentFolderPath },
+  payload: { path },
 });
 
 export const createFolderRequest = () => ({

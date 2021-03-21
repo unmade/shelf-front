@@ -1,7 +1,6 @@
 import { put, select, takeEvery } from 'redux-saga/effects';
 
 import { MediaType } from '../../constants';
-import * as routes from '../../routes';
 
 import * as api from '../api';
 import * as actions from '../actions/files';
@@ -11,8 +10,7 @@ import { tryRequest, tryResponse } from './_try';
 
 function* createFolder({ payload }) {
   const accessToken = yield select(getAccessToken);
-  const { name, parentFolderPath } = payload;
-  const path = routes.join(parentFolderPath, name);
+  const { path } = payload;
 
   const request = api.post('/files/create_folder', accessToken, { path });
   const [response, err] = yield tryRequest(request);

@@ -10,7 +10,7 @@ import Input from './ui/Input';
 
 function RenameFileDialog({ file, onRename, onCancel }) {
   const visible = !!file;
-  const [name, setName] = React.useState(file && file.name);
+  const [name, setName] = React.useState((file && file.name) || null);
   const [error, setError] = React.useState(null);
 
   React.useEffect(() => {
@@ -31,14 +31,13 @@ function RenameFileDialog({ file, onRename, onCancel }) {
   };
 
   const onConfirm = () => {
-    if (!name) {
+    if (name === null || name === undefined || name === '') {
       setError('Name cannot be empty.');
     } else if (name === file.name) {
       onClose();
     } else {
       const toPath = routes.join(routes.parent(file.path), name);
       onRename(file.path, toPath);
-      onClose();
     }
   };
 
@@ -64,7 +63,6 @@ function RenameFileDialog({ file, onRename, onCancel }) {
           error={error}
           onChange={onNameChange}
           defaultValue={file.name}
-          // autoFocus
         />
       </form>
     </Dialog>
