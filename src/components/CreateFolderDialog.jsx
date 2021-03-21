@@ -2,11 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import * as icons from '../icons';
+import * as routes from '../routes';
 
 import Dialog from './ui/Dialog';
 import Input from './ui/Input';
 
-function CreateFolderDialog({ visible, parentFolderPath, onCreate, onCancel }) {
+function CreateFolderDialog({ path, visible, onCreate, onCancel }) {
   const [folderName, setFolderName] = React.useState(null);
   const [error, setError] = React.useState(null);
 
@@ -22,11 +23,10 @@ function CreateFolderDialog({ visible, parentFolderPath, onCreate, onCancel }) {
   };
 
   const onConfirm = () => {
-    if (!folderName) {
+    if (folderName === null || folderName === '') {
       setError('Name cannot be empty');
     } else {
-      onCreate(folderName, parentFolderPath);
-      onClose();
+      onCreate(routes.join(path, folderName));
     }
   };
 
@@ -47,7 +47,6 @@ function CreateFolderDialog({ visible, parentFolderPath, onCreate, onCancel }) {
           size="sm"
           error={error}
           onChange={onNameChange}
-          // autoFocus
         />
       </form>
     </Dialog>
@@ -55,8 +54,8 @@ function CreateFolderDialog({ visible, parentFolderPath, onCreate, onCancel }) {
 }
 
 CreateFolderDialog.propTypes = {
+  path: PropTypes.string.isRequired,
   visible: PropTypes.bool.isRequired,
-  parentFolderPath: PropTypes.string.isRequired,
   onCreate: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
 };

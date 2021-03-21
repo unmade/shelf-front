@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function Toast({ messages, itemRender: Render }) {
+  if (messages.length < 1) {
+    return null;
+  }
   return (
     <div className="m-2 fixed top-2 right-2 z-50">
       {messages.map((messageId) => (

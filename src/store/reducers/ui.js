@@ -1,10 +1,11 @@
 import { combineReducers } from 'redux';
 
 import { types } from '../actions/ui';
+import { types as fileTypes } from '../actions/files';
 
 function fileBrowser(
   state = {
-    createFolderShown: false,
+    createFolderDialogVisible: false,
     emptyTrashDialogVisible: false,
     fileIdToRename: null,
     fileIdToDelete: null,
@@ -14,16 +15,28 @@ function fileBrowser(
   action,
 ) {
   switch (action.type) {
-    case types.TOGGLE_CREATE_FOLDER_SHOWN: {
+    case types.TOGGLE_CREATE_FOLDER_DIALOG_VISIBLE: {
       return {
         ...state,
-        createFolderShown: !state.createFolderShown,
+        createFolderDialogVisible: !state.createFolderDialogVisible,
+      };
+    }
+    case fileTypes.CREATE_FOLDER_SUCCESS: {
+      return {
+        ...state,
+        createFolderDialogVisible: false,
       };
     }
     case types.TOGGLE_EMPTY_TRASH_DIALOG: {
       return {
         ...state,
         emptyTrashDialogVisible: !state.emptyTrashDialogVisible,
+      };
+    }
+    case fileTypes.EMPTY_TRASH_SUCCESS: {
+      return {
+        ...state,
+        emptyTrashDialogVisible: false,
       };
     }
     case types.OPEN_RENAME_FILE_DIALOG: {
@@ -46,6 +59,7 @@ function fileBrowser(
         fileIdToDelete: fileId,
       };
     }
+    case fileTypes.MOVE_TO_TRASH_SUCCESS:
     case types.CLOSE_DELETE_DIALOG: {
       return {
         ...state,
@@ -59,6 +73,7 @@ function fileBrowser(
         fileIdToDeleteImmediately: fileId,
       };
     }
+    case fileTypes.DELETE_IMMEDIATELY_SUCCESS:
     case types.CLOSE_DELETE_IMMEDIATELY_DIALOG: {
       return {
         ...state,
@@ -75,6 +90,13 @@ function fileBrowser(
     case types.CLOSE_MOVE_DIALOG: {
       return {
         ...state,
+        fileIdToMove: null,
+      };
+    }
+    case fileTypes.MOVE_FILE_SUCCESS: {
+      return {
+        ...state,
+        fileIdToRename: null,
         fileIdToMove: null,
       };
     }
@@ -102,7 +124,7 @@ export default combineReducers({
   uploader,
 });
 
-export const getCreateFolderShown = (state) => state.ui.fileBrowser.createFolderShown;
+export const getCreateFolderDialogVisible = (state) => state.ui.fileBrowser.createFolderDialogVisible;
 export const getEmptyTrashDialogVisible = (state) => state.ui.fileBrowser.emptyTrashDialogVisible;
 export const getFileIdToRename = (state) => state.ui.fileBrowser.fileIdToRename;
 export const getFileIdToDelete = (state) => state.ui.fileBrowser.fileIdToDelete;

@@ -14,7 +14,11 @@ function UploadDialog({ visible, onCancel }) {
       title="Uploads"
       icon={<icons.CloudUploadOutlined className="w-6 h-6" />}
       confirmTitle="Browse"
-      confirmRender={() => <UploadButton>Browse</UploadButton>}
+      confirmRender={() => (
+        <UploadButton>
+          Browse
+        </UploadButton>
+      )}
       visible={visible}
       onCancel={onCancel}
     >

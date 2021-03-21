@@ -9,11 +9,6 @@ import Dialog from './ui/Dialog';
 function DeleteDialog({ file, onDelete, onCancel }) {
   const visible = !!file;
 
-  const onConfirm = () => {
-    onDelete(file.path);
-    onCancel();
-  };
-
   if (!visible) {
     return null;
   }
@@ -25,7 +20,7 @@ function DeleteDialog({ file, onDelete, onCancel }) {
       visible={visible}
       confirmTitle="Delete"
       confirmDanger
-      onConfirm={onConfirm}
+      onConfirm={() => onDelete(file.path)}
       onCancel={onCancel}
     >
       <p>

@@ -77,10 +77,13 @@ function* handleMoveFile(action) {
   const currPath = yield select(getCurrPath);
 
   const parentPath = routes.parent(file.path);
-  if (parentPath !== currPath) {
-    const ids = yield select(getFilesByPath, currPath);
-    yield put(actions.updateFolderByPath(currPath, ids.filter((id) => id !== file.id)));
+  const ids = yield select(getFilesByPath, currPath);
+  const nextFiles = [...ids.filter((id) => id !== file.id)];
+  if (parentPath === currPath) {
+    const idx = yield findNextIdx(nextFiles, file, compareFiles);
+    nextFiles.splice(idx, 0, file.id);
   }
+  yield put(actions.updateFolderByPath(currPath, nextFiles));
 }
 
 function* handleCreateFolder(action) {

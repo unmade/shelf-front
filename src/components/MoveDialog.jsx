@@ -19,27 +19,20 @@ function MoveDialog({ file, onMove, onCancel }) {
     return null;
   }
 
-  const onConfirm = () => {
-    // this is certainly not a safe way to concat paths
-    onMove(file.path, routes.join(toPath, file.name));
-    onCancel();
-  };
-
-  const onPathChange = (path) => {
-    setToPath(path);
-  };
-
   const type = (file.mediatype === MediaType.FOLDER) ? 'Folder' : 'File';
   return (
     <Dialog
       title={`Move ${type}`}
       visible={visible}
       confirmTitle="Move"
-      onConfirm={onConfirm}
+      onConfirm={() => onMove(file.path, routes.join(toPath, file.name))}
       onCancel={onCancel}
     >
       <div className="w-full sm:w-96" style={styles}>
-        <FolderPicker path={toPath} onPathChange={onPathChange} />
+        <FolderPicker
+          path={toPath}
+          onPathChange={(path) => setToPath(path)}
+        />
       </div>
     </Dialog>
   );
