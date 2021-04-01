@@ -16,12 +16,24 @@ function loading(state = {}, action) {
       return {
         ...state,
         [scopes.signingIn]: false,
-      }
+      };
     case fileTypes.CREATE_FOLDER_FAILURE:
     case fileTypes.CREATE_FOLDER_SUCCESS:
       return {
         ...state,
         [scopes.creatingFolder]: false,
+      };
+    case fileTypes.DELETE_IMMEDIATELY_FAILURE:
+    case fileTypes.DELETE_IMMEDIATELY_SUCCESS:
+      return {
+        ...state,
+        [scopes.deletingFileImmediately]: false,
+      };
+    case fileTypes.EMPTY_TRASH_FAILURE:
+    case fileTypes.EMPTY_TRASH_SUCCESS:
+      return {
+        ...state,
+        [scopes.emptyingTrash]: false,
       };
     case fileTypes.LIST_FOLDER_FAILURE:
     case fileTypes.LIST_FOLDER_SUCCESS:

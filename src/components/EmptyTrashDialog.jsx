@@ -6,7 +6,7 @@ import * as icons from '../icons';
 
 import Dialog from './ui/Dialog';
 
-function EmptyTrashDialog({ visible, onEmpty, onCancel }) {
+function EmptyTrashDialog({ loading, visible, onEmpty, onCancel }) {
   if (!visible) {
     return null;
   }
@@ -17,6 +17,7 @@ function EmptyTrashDialog({ visible, onEmpty, onCancel }) {
       icon={<icons.TrashOutlined className="h-6 w-6" />}
       visible={visible}
       confirmTitle="Empty"
+      confirmLoading={loading}
       confirmDanger
       onConfirm={onEmpty}
       onCancel={onCancel}
@@ -31,9 +32,14 @@ function EmptyTrashDialog({ visible, onEmpty, onCancel }) {
 }
 
 EmptyTrashDialog.propTypes = {
+  loading: PropTypes.bool,
   visible: PropTypes.bool.isRequired,
   onEmpty: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
+};
+
+EmptyTrashDialog.defaultProps = {
+  loading: false,
 };
 
 export default EmptyTrashDialog;
