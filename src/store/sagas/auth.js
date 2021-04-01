@@ -9,6 +9,7 @@ import {
 
 import * as api from '../api';
 import * as actions from '../actions/auth';
+import { scopes } from '../actions/loading';
 import { getAccessToken, getIsExpired } from '../reducers/auth';
 
 import { tryRequest, tryResponse } from './_try';
@@ -101,7 +102,8 @@ function* signIn({ payload }) {
   formData.append('password', password);
 
   const request = api.post('/auth/tokens', null, formData);
-  const [response, err] = yield tryRequest(request);
+
+  const [response, err] = yield tryRequest(request, scopes.signingIn);
   if (err !== null) {
     yield put(actions.signInFailure(err));
     return;

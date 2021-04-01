@@ -9,7 +9,6 @@ export const types = {
   RETRIEVE_ME_FAILURE: 'RETRIEVE_ME_FAILURE',
 
   SIGN_IN: 'SIGN_IN',
-  SIGN_IN_REQUEST: 'SIGN_IN_REQUEST',
   SIGN_IN_SUCCESS: 'SIGN_IN_SUCCESS',
   SIGN_IN_FAILURE: 'SIGN_IN_FAILURE',
 
@@ -54,11 +53,6 @@ export const retrieveMeFailure = (err) => ({
 export const signIn = (username, password) => ({
   type: types.SIGN_IN,
   payload: { username, password },
-});
-
-export const signInRequest = () => ({
-  type: types.SIGN_IN_REQUEST,
-  payload: null,
 });
 
 export const signInSuccess = ({ access_token: access }) => ({
