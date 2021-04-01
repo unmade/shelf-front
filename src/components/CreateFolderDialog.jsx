@@ -10,17 +10,19 @@ import Input from './ui/Input';
 function CreateFolderDialog({
   loading, path, visible, onCreate, onCancel,
 }) {
-  const [folderName, setFolderName] = React.useState(null);
   const [error, setError] = React.useState(null);
+  const [folderName, setFolderName] = React.useState(null);
 
-  if (visible === false) {
-    if (error !== null && error !== undefined) {
-      setError(null);
+  React.useEffect(() => {
+    if (!visible) {
+      if (error !== null && error !== undefined) {
+        setError(null);
+      }
+      if (folderName !== null && folderName !== undefined) {
+        setFolderName(null);
+      }
     }
-    if (folderName !== null && folderName !== undefined) {
-      setFolderName(null);
-    }
-  }
+  }, [visible, error, folderName, setError, setFolderName]);
 
   const onNameChange = (event) => {
     // todo: validate name properly
@@ -28,10 +30,6 @@ function CreateFolderDialog({
     if (error !== null && error !== undefined) {
       setError(null);
     }
-  };
-
-  const onClose = () => {
-    onCancel();
   };
 
   const onConfirm = () => {
@@ -50,7 +48,7 @@ function CreateFolderDialog({
       confirmTitle="Create"
       confirmLoading={loading}
       onConfirm={onConfirm}
-      onCancel={onClose}
+      onCancel={onCancel}
     >
       <form className="w-full sm:min-w-1.5xs" onSubmit={(e) => { e.preventDefault(); onConfirm(); }}>
         <Input
