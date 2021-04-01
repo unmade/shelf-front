@@ -11,24 +11,26 @@ const unexpectedError = ['Unexpected Error', 'Something went wrong'];
 const parseError = ['Bad response', 'Couldn\'t parse response from server'];
 
 export function* tryRequest(request, scope) {
+  let response = null;
+  let error = null;
   const hasScope = (scope !== null && scope !== undefined);
+  if (hasScope) {
+    yield put(setLoading(scope, true));
+  }
   try {
-    if (hasScope) {
-      yield put(setLoading(scope, true));
-    }
-    const response = yield request;
-    if (hasScope) {
-      yield put(setLoading(scope, false));
-    }
-    return [response, null];
+    response = yield request;
   } catch (err) {
     if (err instanceof api.ServerError || err instanceof api.APIError) {
       yield put(messageActions.createErrorMessage(err.title, err.description, CLOSE_AFTER));
     } else {
       yield put(messageActions.createErrorMessage(...unexpectedError, CLOSE_AFTER));
     }
-    return [null, err];
+    error = err;
   }
+  if (hasScope) {
+    yield put(setLoading(scope, false));
+  }
+  return [response, error];
 }
 
 export function* tryResponse(parser) {

@@ -1,6 +1,5 @@
 export const types = {
   CREATE_FOLDER: 'CREATE_FOLDER',
-  CREATE_FOLDER_REQUEST: 'CREATE_FOLDER_REQUEST',
   CREATE_FOLDER_SUCCESS: 'CREATE_FOLDER_SUCCESS',
   CREATE_FOLDER_FAILURE: 'CREATE_FOLDER_FAILURE',
 
@@ -54,11 +53,6 @@ export const types = {
 export const createFolder = (path) => ({
   type: types.CREATE_FOLDER,
   payload: { path },
-});
-
-export const createFolderRequest = () => ({
-  type: types.CREATE_FOLDER_REQUEST,
-  payload: null,
 });
 
 export const createFolderSuccess = (folder) => ({
