@@ -14,7 +14,6 @@ export const types = {
   FETCH_THUMBNAIL_FAILURE: 'FETCH_THUMBNAIL_FAILURE',
 
   LIST_FOLDER: 'LIST_FILES',
-  LIST_FOLDER_REQUEST: 'LIST_FILES_REQUEST',
   LIST_FOLDER_SUCCESS: 'LIST_FILES_SUCCESS',
   LIST_FOLDER_FAILURE: 'LIST_FILES_FAILURE',
 
@@ -106,11 +105,6 @@ export const fetchThumbnailFailure = (err) => ({
 export const listFolder = (path) => ({
   type: types.LIST_FOLDER,
   payload: { path },
-});
-
-export const listFolderRequest = () => ({
-  type: types.LIST_FOLDER_REQUEST,
-  payload: null,
 });
 
 export const listFolderSuccess = (payload) => ({

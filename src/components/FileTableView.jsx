@@ -36,8 +36,18 @@ function TableHeader() {
   );
 }
 
-function Table({ className, items, itemRender }) {
+function Table({ className, items, loading, itemRender }) {
   const fileDropBorder = 'transition ease-in-out duration-75 border-4 rounded-lg';
+  if (!items.length && loading) {
+    return (
+      <>
+        <TableHeader />
+        <div className={`flex flex-col items-center justify-center ${className}`} style={height}>
+          <icons.Spinner className="w-7 h-7 text-gray-600 animate-spin" />
+        </div>
+      </>
+    );
+  }
   return (
     <>
       <TableHeader />
@@ -65,7 +75,9 @@ function Table({ className, items, itemRender }) {
   );
 }
 
-function FileTableView({ path, droppable, items, itemRender }) {
+function FileTableView({
+  items, loading, path, droppable, itemRender,
+}) {
   if (droppable) {
     return (
       <FileDrop
@@ -74,6 +86,7 @@ function FileTableView({ path, droppable, items, itemRender }) {
         render={({ dragging }) => (
           <Table
             items={items}
+            loading={loading}
             itemRender={itemRender}
             className={(dragging) ? 'border-blue-300' : 'border-transparent'}
           />
@@ -85,8 +98,9 @@ function FileTableView({ path, droppable, items, itemRender }) {
 }
 
 FileTableView.propTypes = {
-  path: PropTypes.string.isRequired,
   items: PropTypes.arrayOf(PropTypes.string).isRequired,
+  loading: PropTypes.bool,
+  path: PropTypes.string.isRequired,
   droppable: PropTypes.bool,
   itemRender: PropTypes.oneOfType([
     PropTypes.func,
@@ -95,6 +109,7 @@ FileTableView.propTypes = {
 };
 
 FileTableView.defaultProps = {
+  loading: false,
   droppable: false,
 };
 
