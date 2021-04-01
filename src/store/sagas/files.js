@@ -4,6 +4,7 @@ import { MediaType } from '../../constants';
 
 import * as api from '../api';
 import * as actions from '../actions/files';
+import { scopes } from '../actions/loading';
 import { getAccessToken } from '../reducers/auth';
 
 import { tryRequest, tryResponse } from './_try';
@@ -13,7 +14,7 @@ function* createFolder({ payload }) {
   const { path } = payload;
 
   const request = api.post('/files/create_folder', accessToken, { path });
-  const [response, err] = yield tryRequest(request);
+  const [response, err] = yield tryRequest(request, scopes.creatingFolder);
   if (err !== null) {
     yield put(actions.createFolderFailure(err));
     return;

@@ -3,6 +3,7 @@ export const types = {
 };
 
 export const scopes = {
+  creatingFolder: 'creatingFolder',
   signingIn: 'signingIn',
 };
 

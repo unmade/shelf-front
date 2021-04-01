@@ -7,18 +7,30 @@ import * as routes from '../routes';
 import Dialog from './ui/Dialog';
 import Input from './ui/Input';
 
-function CreateFolderDialog({ path, visible, onCreate, onCancel }) {
+function CreateFolderDialog({
+  loading, path, visible, onCreate, onCancel,
+}) {
   const [folderName, setFolderName] = React.useState(null);
   const [error, setError] = React.useState(null);
+
+  if (visible === false) {
+    if (error !== null && error !== undefined) {
+      setError(null);
+    }
+    if (folderName !== null && folderName !== undefined) {
+      setFolderName(null);
+    }
+  }
 
   const onNameChange = (event) => {
     // todo: validate name properly
     setFolderName(event.target.value);
+    if (error !== null && error !== undefined) {
+      setError(null);
+    }
   };
 
   const onClose = () => {
-    setError(null);
-    setFolderName(null);
     onCancel();
   };
 
@@ -36,6 +48,7 @@ function CreateFolderDialog({ path, visible, onCreate, onCancel }) {
       icon={<icons.Folder className="w-6 h-6 text-blue-400" />}
       visible={visible}
       confirmTitle="Create"
+      confirmLoading={loading}
       onConfirm={onConfirm}
       onCancel={onClose}
     >
@@ -54,10 +67,15 @@ function CreateFolderDialog({ path, visible, onCreate, onCancel }) {
 }
 
 CreateFolderDialog.propTypes = {
+  loading: PropTypes.bool,
   path: PropTypes.string.isRequired,
   visible: PropTypes.bool.isRequired,
   onCreate: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
+};
+
+CreateFolderDialog.defaultProps = {
+  loading: false,
 };
 
 export default CreateFolderDialog;

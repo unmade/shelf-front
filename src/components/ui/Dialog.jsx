@@ -7,6 +7,7 @@ import Modal from './Modal';
 function Dialog({
   children,
   confirmDanger,
+  confirmLoading,
   confirmTitle,
   icon,
   title,
@@ -44,8 +45,9 @@ function Dialog({
               {(onConfirm !== null) && (
                 <Button
                   type="primary"
-                  onClick={onConfirm}
                   danger={confirmDanger}
+                  loading={confirmLoading}
+                  onClick={onConfirm}
                   full
                 >
                   {confirmTitle}
@@ -79,6 +81,7 @@ Dialog.propTypes = {
     PropTypes.node,
   ]),
   confirmDanger: PropTypes.bool,
+  confirmLoading: PropTypes.bool,
   confirmTitle: PropTypes.string,
   icon: PropTypes.element,
   title: PropTypes.string.isRequired,
@@ -91,6 +94,7 @@ Dialog.propTypes = {
 Dialog.defaultProps = {
   children: null,
   confirmDanger: false,
+  confirmLoading: false,
   confirmTitle: 'OK',
   icon: null,
   visible: false,
