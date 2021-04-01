@@ -4,6 +4,7 @@ export const types = {
 
 export const scopes = {
   creatingFolder: 'creatingFolder',
+  movingToTrash: 'movingToTrash',
   signingIn: 'signingIn',
 };
 

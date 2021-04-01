@@ -24,7 +24,6 @@ export const types = {
   MOVE_FILE_FAILURE: 'MOVE_FILE_FAILURE',
 
   MOVE_TO_TRASH: 'MOVE_TO_TRASH',
-  MOVE_TO_TRASH_REQUEST: 'MOVE_TO_TRASH_REQUEST',
   MOVE_TO_TRASH_SUCCESS: 'MOVE_TO_TRASH_SUCCESS',
   MOVE_TO_TRASH_FAILURE: 'MOVE_TO_TRASH_FAILURE',
 
@@ -148,11 +147,6 @@ export const moveFileFailure = (err) => ({
 export const moveToTrash = (path) => ({
   type: types.MOVE_TO_TRASH,
   payload: { path },
-});
-
-export const moveToTrashRequest = () => ({
-  type: types.MOVE_TO_TRASH_REQUEST,
-  payload: null,
 });
 
 export const moveToTrashSuccess = (file) => ({
