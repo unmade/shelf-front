@@ -158,7 +158,7 @@ function* moveToTrash({ payload }) {
   const { path } = payload;
 
   const request = api.post('/files/move_to_trash', accessToken, { path });
-  const [response, err] = yield tryRequest(request);
+  const [response, err] = yield tryRequest(request, scopes.movingToTrash);
   if (err !== null) {
     yield put(actions.moveToTrashFailure(err));
     return;
