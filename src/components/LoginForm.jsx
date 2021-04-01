@@ -73,7 +73,7 @@ function LoginForm({ loading, onSubmit }) {
           type="primary"
           size="base"
           onClick={submit}
-          disabled={loading}
+          loading={loading}
           full
         >
           Sign In

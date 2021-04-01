@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import * as icons from '../../icons';
+
 const classNamesByType = {
   default: ['font-medium', 'border', 'shadow-sm'],
   primary: ['font-semibold', 'shadow'],
@@ -29,6 +31,13 @@ const fontSizes = {
   lg: 'text-xl sm:text-lg',
 };
 
+const iconSize = {
+  xs: 'w-5 h-5 sm:w-4 sm:h-4',
+  sm: 'w-6 h-6 sm:w-5 sm:h-5',
+  base: 'w-7 h-7 sm:w-6 sm:h-6',
+  lg: 'w-8 h-8 sm:w-7 sm:h-7',
+};
+
 const paddings = {
   xs: {
     [false]: ['px-2 py-1'],
@@ -54,7 +63,7 @@ const shapes = {
 };
 
 function Button({
-  children, danger, disabled, full, htmlType, icon, shape, size, title, type, onClick,
+  children, danger, disabled, full, htmlType, icon, loading, shape, size, title, type, onClick,
 }) {
   const buttonProps = { disabled };
   const classNames = [fontSizes[size], 'rounded-md', 'focus:outline-none', 'focus:ring', 'transition', 'ease-in-out', 'duration-75'];
@@ -81,6 +90,22 @@ function Button({
   classNames.push(...classNamesByType[type]);
   classNames.push(...colors[type][danger]);
   buttonProps.className = classNames.join(' ');
+  if (loading) {
+    buttonProps.disabled = true;
+    buttonProps.className = `${buttonProps.className} opacity-50 cursor-wait`;
+    return (
+      <button
+        // eslint-disable-next-line react/button-has-type
+        type={htmlType}
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        {...buttonProps}
+      >
+        <span>
+          <icons.Spinner className={`${iconSize[size]} mx-auto animate-spin`} />
+        </span>
+      </button>
+    );
+  }
   return (
     <button
       // eslint-disable-next-line react/button-has-type
@@ -93,7 +118,7 @@ function Button({
           {icon}
         </span>
       )}
-      {(children) && (
+      {(!loading && children) && (
         <span className="min-w-0">
           {children}
         </span>
@@ -112,6 +137,7 @@ Button.propTypes = {
   full: PropTypes.bool,
   htmlType: PropTypes.oneOf(['button', 'submit']),
   icon: PropTypes.element,
+  loading: PropTypes.bool,
   shape: PropTypes.oneOf(['circle', 'round']),
   size: PropTypes.oneOf(['xs', 'sm', 'base', 'lg']),
   title: PropTypes.string,
@@ -126,6 +152,7 @@ Button.defaultProps = {
   full: false,
   htmlType: 'button',
   icon: null,
+  loading: false,
   shape: 'round',
   size: 'sm',
   title: null,

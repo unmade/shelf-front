@@ -1,14 +1,15 @@
 import { connect } from 'react-redux';
 
 import { signIn } from '../store/actions/auth';
+import { scopes } from '../store/actions/loading';
 
-import { getIsLoading } from '../store/reducers/auth';
+import { getLoading } from '../store/reducers/loading';
 
 import LoginForm from '../components/LoginForm';
 
 export default connect(
   (state) => ({
-    loading: getIsLoading(state),
+    loading: getLoading(state, scopes.signingIn),
   }),
   {
     onSubmit: signIn,

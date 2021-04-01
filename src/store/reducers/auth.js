@@ -17,25 +17,16 @@ function me(state = null, action) {
 const INITIAL_STATE = {
   accessToken: null,
   expireAt: null,
-  loading: false,
 };
 
 function tokens(state = INITIAL_STATE, action) {
   switch (action.type) {
-    case types.REFRESH_TOKEN_REQUEST:
-    case types.SIGN_IN_REQUEST: {
-      return {
-        ...state,
-        loading: true,
-      };
-    }
     case types.REFRESH_TOKEN_SUCCESS:
     case types.SIGN_IN_SUCCESS: {
       return {
         ...state,
         accessToken: action.payload.access,
         expireAt: Date.now() + 12 * 60 * 1000, // 12 minutes from now
-        loading: false,
       };
     }
     case types.REFRESH_TOKEN_FAILURE:
@@ -45,7 +36,6 @@ function tokens(state = INITIAL_STATE, action) {
         ...state,
         accessToken: null,
         expireAt: null,
-        loading: false,
       };
     }
     default:
@@ -64,7 +54,6 @@ export const getAuth = (state) => state.auth;
 export const getAccessToken = (state) => getAuth(state).tokens.accessToken;
 export const getExpireAt = (state) => getAuth(state).tokens.expireAt;
 export const getIsExpired = (state) => getExpireAt(state) && getExpireAt(state) < Date.now();
-export const getIsLoading = (state) => getAuth(state).tokens.loading;
 export const getIsAuthenticated = (state) => getAccessToken(state) && !getIsExpired(state);
 
 const KEY = 'state.auth.tokens';
