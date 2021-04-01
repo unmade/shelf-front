@@ -3,13 +3,19 @@ export const types = {
   CREATE_FOLDER_SUCCESS: 'CREATE_FOLDER_SUCCESS',
   CREATE_FOLDER_FAILURE: 'CREATE_FOLDER_FAILURE',
 
+  DELETE_IMMEDIATELY: 'DELETE_IMMEDIATELY',
+  DELETE_IMMEDIATELY_SUCCESS: 'DELETE_IMMEDIATELY_SUCCESS',
+  DELETE_IMMEDIATELY_FAILURE: 'DELETE_IMMEDIATELY_FAILURE',
+
   DOWNLOAD: 'DOWNLOAD',
-  DOWNLOAD_REQUEST: 'DOWNLOAD_REQUEST',
   DOWNLOAD_SUCCESS: 'DOWNLOAD_SUCCESS',
   DOWNLOAD_FAILURE: 'DOWNLOAD_FAILURE',
 
+  EMPTY_TRASH: 'EMPTY_TRASH',
+  EMPTY_TRASH_SUCCESS: 'EMPTY_TRASH_SUCCESS',
+  EMPTY_TRASH_FAILURE: 'EMPTY_TRASH_FAILURE',
+
   FETCH_THUMBNAIL: 'FETCH_THUMBNAIL',
-  FETCH_THUMBNAIL_REQUEST: 'FETCH_THUMBNAIL_REQUEST',
   FETCH_THUMBNAIL_SUCCESS: 'FETCH_THUMBNAIL_SUCCESS',
   FETCH_THUMBNAIL_FAILURE: 'FETCH_THUMBNAIL_FAILURE',
 
@@ -26,25 +32,13 @@ export const types = {
   MOVE_TO_TRASH_FAILURE: 'MOVE_TO_TRASH_FAILURE',
 
   PERFORM_DOWNLOAD: 'PERFORM_DOWNLOAD',
-  RETRIEVE_DOWNLOAD_URL_REQUEST: 'RETRIEVE_DOWNLOAD_URL_REQUEST',
   RETRIEVE_DOWNLOAD_URL_SUCCESS: 'RETRIEVE_DOWNLOAD_URL_SUCCESS',
   RETRIEVE_DOWNLOAD_URL_FAILURE: 'RETRIEVE_DOWNLOAD_URL_FAILURE',
-
-  EMPTY_TRASH: 'EMPTY_TRASH',
-  EMPTY_TRASH_REQUEST: 'EMPTY_TRASH_REQUEST',
-  EMPTY_TRASH_SUCCESS: 'EMPTY_TRASH_SUCCESS',
-  EMPTY_TRASH_FAILURE: 'EMPTY_TRASH_FAILURE',
-
-  DELETE_IMMEDIATELY: 'DELETE_IMMEDIATELY',
-  DELETE_IMMEDIATELY_REQUEST: 'DELETE_IMMEDIATELY_REQUEST',
-  DELETE_IMMEDIATELY_SUCCESS: 'DELETE_IMMEDIATELY_SUCCESS',
-  DELETE_IMMEDIATELY_FAILURE: 'DELETE_IMMEDIATELY_FAILURE',
 
   SELECT_FILE: 'SELECT_FILE',
   DESELECT_FILES: 'DESELECT_FILES',
   UPDATE_FOLDER_BY_PATH: 'UPDATE_FOLDER_BY_PATH',
   PATH_CHANGED: 'PATH_CHANGED',
-
 };
 
 export const createFolder = (path) => ({
@@ -62,14 +56,24 @@ export const createFolderFailure = (err) => ({
   payload: { err },
 });
 
-export const download = (path) => ({
-  type: types.DOWNLOAD,
+export const deleteImmediately = (path) => ({
+  type: types.DELETE_IMMEDIATELY,
   payload: { path },
 });
 
-export const downloadRequest = () => ({
-  type: types.DOWNLOAD_REQUEST,
+export const deleteImmediatelySucess = (file) => ({
+  type: types.DELETE_IMMEDIATELY_SUCCESS,
+  payload: { file },
+});
+
+export const deleteImmediatelyFailure = () => ({
+  type: types.DELETE_IMMEDIATELY_FAILURE,
   payload: null,
+});
+
+export const download = (path) => ({
+  type: types.DOWNLOAD,
+  payload: { path },
 });
 
 export const downloadSuccess = (path, file) => ({
@@ -82,14 +86,24 @@ export const downloadFailure = () => ({
   payload: null,
 });
 
+export const emptyTrash = () => ({
+  type: types.EMPTY_TRASH,
+  payload: null,
+});
+
+export const emptyTrashSuccess = (file) => ({
+  type: types.EMPTY_TRASH_SUCCESS,
+  payload: { file },
+});
+
+export const emptyTrashFailure = (err) => ({
+  type: types.EMPTY_TRASH_FAILURE,
+  payload: { err },
+});
+
 export const fetchThumbnail = (id, path, size) => ({
   type: types.FETCH_THUMBNAIL,
   payload: { id, path, size },
-});
-
-export const fetchThumbnailRequest = () => ({
-  type: types.FETCH_THUMBNAIL_REQUEST,
-  payload: null,
 });
 
 export const fetchThumbnailSuccess = (id, size, thumb) => ({
@@ -152,11 +166,6 @@ export const performDownload = (path) => ({
   payload: { path },
 });
 
-export const retrieveDownloadUrlRequest = () => ({
-  type: types.RETRIEVE_DOWNLOAD_URL_REQUEST,
-  payload: null,
-});
-
 export const retrieveDownloadUrlSuccess = () => ({
   type: types.RETRIEVE_DOWNLOAD_URL_SUCCESS,
   payload: null,
@@ -165,46 +174,6 @@ export const retrieveDownloadUrlSuccess = () => ({
 export const retrieveDownloadUrlFailure = (err) => ({
   type: types.RETRIEVE_DOWNLOAD_URL_FAILURE,
   payload: { err },
-});
-
-export const emptyTrash = () => ({
-  type: types.EMPTY_TRASH,
-  payload: null,
-});
-
-export const emptyTrashRequest = () => ({
-  type: types.EMPTY_TRASH_REQUEST,
-  payload: null,
-});
-
-export const emptyTrashSuccess = (file) => ({
-  type: types.EMPTY_TRASH_SUCCESS,
-  payload: { file },
-});
-
-export const emptyTrashFailure = (err) => ({
-  type: types.EMPTY_TRASH_FAILURE,
-  payload: { err },
-});
-
-export const deleteImmediately = (path) => ({
-  type: types.DELETE_IMMEDIATELY,
-  payload: { path },
-});
-
-export const deleteImmediatelyRequest = () => ({
-  type: types.DELETE_IMMEDIATELY_REQUEST,
-  payload: null,
-});
-
-export const deleteImmediatelySucess = (file) => ({
-  type: types.DELETE_IMMEDIATELY_SUCCESS,
-  payload: { file },
-});
-
-export const deleteImmediatelyFailure = () => ({
-  type: types.DELETE_IMMEDIATELY_FAILURE,
-  payload: null,
 });
 
 export const selectFile = (id) => ({

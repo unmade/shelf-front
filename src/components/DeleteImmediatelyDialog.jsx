@@ -6,7 +6,7 @@ import * as icons from '../icons';
 
 import Dialog from './ui/Dialog';
 
-function DeleteImmediatelyDialog({ file, onDelete, onCancel }) {
+function DeleteImmediatelyDialog({ file, loading, onDelete, onCancel }) {
   const visible = !!file;
 
   if (!visible) {
@@ -19,6 +19,7 @@ function DeleteImmediatelyDialog({ file, onDelete, onCancel }) {
       icon={<icons.TrashOutlined className="h-6 w-6" />}
       visible={visible}
       confirmTitle="Delete"
+      confirmLoading={loading}
       confirmDanger
       onConfirm={() => onDelete(file.path)}
       onCancel={onCancel}
@@ -40,12 +41,14 @@ DeleteImmediatelyDialog.propTypes = {
     path: PropTypes.string.isRequired,
     mediatype: PropTypes.string.isRequired,
   }),
+  loading: PropTypes.bool,
   onDelete: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
 };
 
 DeleteImmediatelyDialog.defaultProps = {
   file: null,
+  loading: false,
 };
 
 export default DeleteImmediatelyDialog;

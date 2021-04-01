@@ -4,6 +4,8 @@ export const types = {
 
 export const scopes = {
   creatingFolder: 'creatingFolder',
+  deletingFileImmediately: 'deletingFileImmediately',
+  emptyingTrash: 'emptyingTrash',
   listingFolder: 'listingFolder',
   movingFile: 'movingFile',
   movingToTrash: 'movingToTrash',

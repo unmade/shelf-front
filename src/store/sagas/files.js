@@ -75,7 +75,7 @@ function* emptyTrash() {
   const accessToken = yield select(getAccessToken);
 
   const request = api.post('/files/empty_trash', accessToken);
-  const [response, err] = yield tryRequest(request);
+  const [response, err] = yield tryRequest(request, scopes.emptyingTrash);
   if (err !== null) {
     yield put(actions.emptyTrashFailure(err));
     return;
