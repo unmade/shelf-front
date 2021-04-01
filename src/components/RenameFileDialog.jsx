@@ -8,33 +8,35 @@ import * as routes from '../routes';
 import Dialog from './ui/Dialog';
 import Input from './ui/Input';
 
-function RenameFileDialog({ file, onRename, onCancel }) {
+function RenameFileDialog({ file, loading, onRename, onCancel }) {
   const visible = !!file;
   const [name, setName] = React.useState((file && file.name) || null);
   const [error, setError] = React.useState(null);
 
   React.useEffect(() => {
-    if (file) {
+    if (file !== null) {
       setName(file.name);
     }
   }, [file]);
 
-  const onNameChange = (event) => {
-    // todo: validate name properly
-    setName(event.target.value || event.target.defaultValue);
-  };
+  React.useEffect(() => {
+    if (!visible && error !== null && error !== undefined) {
+      setError(null);
+    }
+  }, [visible, error, setError]);
 
-  const onClose = () => {
-    setError(null);
-    setName(null);
-    onCancel();
+  const onNameChange = (event) => {
+    setName(event.target.value);
+    if (error !== null && error !== undefined) {
+      setError(null);
+    }
   };
 
   const onConfirm = () => {
     if (name === null || name === undefined || name === '') {
       setError('Name cannot be empty.');
     } else if (name === file.name) {
-      onClose();
+      setError('Name is the same.');
     } else {
       const toPath = routes.join(routes.parent(file.path), name);
       onRename(file.path, toPath);
@@ -51,8 +53,9 @@ function RenameFileDialog({ file, onRename, onCancel }) {
       icon={<icons.Edit className="h-6 w-6" />}
       visible={visible}
       confirmTitle="Rename"
+      confirmLoading={loading}
       onConfirm={onConfirm}
-      onCancel={onClose}
+      onCancel={onCancel}
     >
       <form className="w-full sm:min-w-1.5xs" onSubmit={(e) => { e.preventDefault(); onConfirm(); }}>
         <Input
@@ -75,12 +78,14 @@ RenameFileDialog.propTypes = {
     path: PropTypes.string.isRequired,
     mediatype: PropTypes.string.isRequired,
   }),
+  loading: PropTypes.bool,
   onRename: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
 };
 
 RenameFileDialog.defaultProps = {
   file: null,
+  loading: false,
 };
 
 export default RenameFileDialog;
