@@ -138,7 +138,7 @@ function* moveFile({ payload }) {
   const { fromPath, toPath } = payload;
 
   const request = api.post('/files/move', accessToken, { from_path: fromPath, to_path: toPath });
-  const [response, err] = yield tryRequest(request);
+  const [response, err] = yield tryRequest(request, scopes.movingFile);
   if (err !== null) {
     yield put(actions.moveFileFailure(err));
     return;
