@@ -19,7 +19,6 @@ export const types = {
   LIST_FOLDER_FAILURE: 'LIST_FILES_FAILURE',
 
   MOVE_FILE: 'MOVE_FILE',
-  MOVE_FILE_REQUEST: 'MOVE_FILE_REQUEST',
   MOVE_FILE_SUCCESS: 'MOVE_FILE_SUCCESS',
   MOVE_FILE_FAILURE: 'MOVE_FILE_FAILURE',
 
@@ -127,11 +126,6 @@ export const listFolderFailure = (payload) => ({
 export const moveFile = (fromPath, toPath) => ({
   type: types.MOVE_FILE,
   payload: { fromPath, toPath },
-});
-
-export const moveFileRequest = () => ({
-  type: types.MOVE_FILE_REQUEST,
-  payload: null,
 });
 
 export const moveFileSuccess = (file, prevPath) => ({

@@ -12,7 +12,7 @@ const styles = {
   height: '40vh',
 };
 
-function MoveDialog({ file, onMove, onCancel }) {
+function MoveDialog({ file, loading, onMove, onCancel }) {
   const [toPath, setToPath] = React.useState('.');
   const visible = !!file;
   if (!visible) {
@@ -25,6 +25,7 @@ function MoveDialog({ file, onMove, onCancel }) {
       title={`Move ${type}`}
       visible={visible}
       confirmTitle="Move"
+      confirmLoading={loading}
       onConfirm={() => onMove(file.path, routes.join(toPath, file.name))}
       onCancel={onCancel}
     >
@@ -44,12 +45,14 @@ MoveDialog.propTypes = {
     path: PropTypes.string.isRequired,
     mediatype: PropTypes.string.isRequired,
   }),
+  loading: PropTypes.bool,
   onMove: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
 };
 
 MoveDialog.defaultProps = {
   file: null,
+  loading: false,
 };
 
 export default MoveDialog;
