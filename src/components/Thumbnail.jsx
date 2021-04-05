@@ -4,15 +4,15 @@ import PropTypes from 'prop-types';
 import FileIcon from './FileIcon';
 
 function Thumbnail({
-  className, file, size, thumbs, fetchThumbnail,
+  className, deferred, file, size, thumbs, fetchThumbnail,
 }) {
   const { id, path } = file;
   const hasThumbnail = (thumbs !== null && thumbs[size] !== null && thumbs[size] !== undefined);
   React.useEffect(() => {
-    if (!hasThumbnail) {
+    if (!hasThumbnail && !deferred) {
       fetchThumbnail(id, path, size);
     }
-  }, [id, path, size, hasThumbnail, fetchThumbnail]);
+  }, [id, path, size, deferred, hasThumbnail, fetchThumbnail]);
 
   if (!hasThumbnail) {
     return <FileIcon className={className} mediatype={file.mediatype} hidden={file.hidden} />;
@@ -22,6 +22,7 @@ function Thumbnail({
 
 Thumbnail.propTypes = {
   className: PropTypes.string,
+  deferred: PropTypes.bool,
   file: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
@@ -41,6 +42,7 @@ Thumbnail.propTypes = {
 
 Thumbnail.defaultProps = {
   className: '',
+  deferred: false,
   size: 'xs',
   thumbs: null,
 };

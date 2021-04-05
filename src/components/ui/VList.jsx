@@ -5,7 +5,7 @@ import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 
 function VList({
-  className, heightOffset, items, itemHeight, itemRender: View,
+  className, heightOffset, itemHeight, items, trackScrolling, itemRender: View,
 }) {
   return (
     <AutoSizer>
@@ -17,10 +17,15 @@ function VList({
           itemSize={itemHeight}
           width={width}
           className={className}
+          useIsScrolling={trackScrolling}
         >
-          {({ data, index, style }) => (
+          {({ data, index, isScrolling, style }) => (
             <div style={style}>
-              <View item={data[index]} className={(index % 2) ? 'bg-white' : 'bg-gray-75'} />
+              <View
+                className={(index % 2) ? 'bg-white' : 'bg-gray-75'}
+                item={data[index]}
+                scrolling={isScrolling}
+              />
             </div>
           )}
         </FixedSizeList>
@@ -32,8 +37,9 @@ function VList({
 VList.propTypes = {
   className: PropTypes.string,
   heightOffset: PropTypes.number,
-  items: PropTypes.arrayOf(PropTypes.any).isRequired,
   itemHeight: PropTypes.number,
+  items: PropTypes.arrayOf(PropTypes.any).isRequired,
+  trackScrolling: PropTypes.bool,
   itemRender: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.object,
@@ -44,6 +50,7 @@ VList.defaultProps = {
   className: '',
   heightOffset: 0,
   itemHeight: 64,
+  trackScrolling: false,
 };
 
 export default VList;

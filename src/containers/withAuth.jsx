@@ -17,12 +17,14 @@ export default (Component) => {
     checkAuth() {
       const { authenticated, location, history } = this.props;
       if (!authenticated) {
-        history.push(`/signin?next=${location.pathname}`);
+        const nextLocation = (location.pathname !== '/') ? location.pathname : '/files';
+        history.push(`/signin?next=${nextLocation}`);
       }
     }
 
     render() {
       return (
+        // eslint-disable-next-line react/jsx-props-no-spreading
         <Component {...this.props}/>
       );
     }
