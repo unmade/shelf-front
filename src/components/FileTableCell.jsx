@@ -36,7 +36,9 @@ function getBackground(selected) {
   );
 }
 
-function FileTableCell({ className, item, selected, onSelect }) {
+function FileTableCell({
+  className, item, scrolling, selected, onSelect,
+}) {
   const primaryText = getPrimaryText(selected, item.hidden);
   const secondaryText = getSecondaryText(selected, item.hidden);
   const background = getBackground(selected);
@@ -49,7 +51,7 @@ function FileTableCell({ className, item, selected, onSelect }) {
       <div className={`w-4/5 md:w-1/2 2xl:w-2/3 flex flex-row items-center space-x-2 ${primaryText}`}>
         <div className="w-7">
           {(item.has_thumbnail) ? (
-            <Thumbnail className="w-7 h-7" file={item} />
+            <Thumbnail className="w-7 h-7" file={item} deferred={scrolling} />
           ) : (
             <FileIcon className="w-7 h-7" mediatype={item.mediatype} hidden={item.hidden} />
           )}
@@ -91,6 +93,7 @@ FileTableCell.propTypes = {
     has_thumbnail: PropTypes.bool,
   }).isRequired,
   selected: PropTypes.bool,
+  scrolling: PropTypes.bool.isRequired,
   onSelect: PropTypes.func.isRequired,
 };
 

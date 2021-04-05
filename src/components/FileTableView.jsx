@@ -57,6 +57,7 @@ function Table({ className, items, loading, itemRender }) {
           itemRender={itemRender}
           heightOffset={HEADER_HEIGHT}
           className={`${fileDropBorder} ${className}`}
+          trackScrolling
         />
       ) : (
         <div className={`flex flex-col items-center justify-center ${fileDropBorder} ${className}`} style={height}>
