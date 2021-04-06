@@ -29,6 +29,7 @@ function MoveDialog({ file, loading, onMove, onCancel }) {
         <FolderPicker
           path={toPath}
           onPathChange={(path) => setToPath(path)}
+          excludeId={file && file.id}
         />
       </div>
     </Dialog>
@@ -37,6 +38,7 @@ function MoveDialog({ file, loading, onMove, onCancel }) {
 
 MoveDialog.propTypes = {
   file: PropTypes.shape({
+    id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     path: PropTypes.string.isRequired,
     mediatype: PropTypes.string.isRequired,
