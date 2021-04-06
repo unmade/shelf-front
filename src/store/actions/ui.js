@@ -9,6 +9,7 @@ export const types = {
   CLOSE_MOVE_DIALOG: 'CLOSE_MOVE_DIALOG',
   TOGGLE_CREATE_FOLDER_DIALOG_VISIBLE: 'TOGGLE_CREATE_FOLDER_DIALOG_VISIBLE',
   TOGGLE_EMPTY_TRASH_DIALOG: 'TOGGLE_EMPTY_TRASH_DIALOG',
+  SET_SCROLL_OFFSET: 'SET_SCROLL_OFFSET',
   SET_UPLOAD_FILTER: 'SET_UPLOAD_FILTER',
 };
 
@@ -60,6 +61,11 @@ export const openMoveDialog = (fileId) => ({
 export const closeMoveDialog = () => ({
   type: types.CLOSE_MOVE_DIALOG,
   payload: null,
+});
+
+export const setScrollOffset = (key, offset) => ({
+  type: types.SET_SCROLL_OFFSET,
+  payload: { key, offset },
 });
 
 export const setUploadFilter = (visibilityFilter) => ({
