@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 import * as icons from '../icons';
 
 import FileDrop from '../containers/FileDrop';
-
-import VList from './ui/VList';
+import VList from '../containers/VList';
 
 const HEADER_HEIGHT = 48;
 
@@ -36,7 +35,9 @@ function TableHeader() {
   );
 }
 
-function Table({ className, items, loading, itemRender }) {
+function Table({
+  className, items, loading, scrollKey, itemRender,
+}) {
   const fileDropBorder = 'transition ease-in-out duration-75 border-4 rounded-lg';
   if (!items.length && loading) {
     return (
@@ -58,6 +59,7 @@ function Table({ className, items, loading, itemRender }) {
           heightOffset={HEADER_HEIGHT}
           className={`${fileDropBorder} ${className}`}
           trackScrolling
+          scrollKey={scrollKey}
         />
       ) : (
         <div className={`flex flex-col items-center justify-center ${fileDropBorder} ${className}`} style={height}>
@@ -77,7 +79,7 @@ function Table({ className, items, loading, itemRender }) {
 }
 
 function FileTableView({
-  items, loading, path, droppable, itemRender,
+  droppable, items, loading, path, itemRender,
 }) {
   if (droppable) {
     return (
@@ -86,23 +88,31 @@ function FileTableView({
         className="h-full"
         render={({ dragging }) => (
           <Table
-            items={items}
-            loading={loading}
-            itemRender={itemRender}
             className={(dragging) ? 'border-blue-300' : 'border-transparent'}
+            loading={loading}
+            items={items}
+            itemRender={itemRender}
+            scrollKey={path}
           />
         )}
       />
     );
   }
-  return <Table items={items} itemRender={itemRender} className="border-transparent" />;
+  return (
+    <Table
+      className="border-transparent"
+      items={items}
+      itemRender={itemRender}
+      scrollKey={path}
+    />
+  );
 }
 
 FileTableView.propTypes = {
+  droppable: PropTypes.bool,
   items: PropTypes.arrayOf(PropTypes.string).isRequired,
   loading: PropTypes.bool,
   path: PropTypes.string.isRequired,
-  droppable: PropTypes.bool,
   itemRender: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.object,
@@ -110,8 +120,8 @@ FileTableView.propTypes = {
 };
 
 FileTableView.defaultProps = {
-  loading: false,
   droppable: false,
+  loading: false,
 };
 
 export default FileTableView;

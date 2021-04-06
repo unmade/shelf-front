@@ -105,6 +105,20 @@ function fileBrowser(
   }
 }
 
+function scrollOffset(state = {}, action) {
+  switch (action.type) {
+    case types.SET_SCROLL_OFFSET: {
+      const { key, offset } = action.payload;
+      return {
+        ...state,
+        [key]: offset,
+      };
+    }
+    default:
+      return state;
+  }
+}
+
 function uploader(state = { visibilityFilter: 'all' }, action) {
   switch (action.type) {
     case types.SET_UPLOAD_FILTER: {
@@ -121,6 +135,7 @@ function uploader(state = { visibilityFilter: 'all' }, action) {
 
 export default combineReducers({
   fileBrowser,
+  scrollOffset,
   uploader,
 });
 
@@ -130,5 +145,7 @@ export const getFileIdToRename = (state) => state.ui.fileBrowser.fileIdToRename;
 export const getFileIdToDelete = (state) => state.ui.fileBrowser.fileIdToDelete;
 export const getFileIdToDeleteImmediately = (state) => state.ui.fileBrowser.fileIdToDeleteImmediately;
 export const getFileIdToMove = (state) => state.ui.fileBrowser.fileIdToMove;
+
+export const getScrollOffset = (state, key) => state.ui.scrollOffset[key] || 0;
 
 export const getUploadFilter = (state) => state.ui.uploader.visibilityFilter;
