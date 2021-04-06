@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import * as icons from '../icons';
 import * as routes from '../routes';
 
 import FolderPickerItem from '../containers/FolderPickerItem';
@@ -9,6 +10,10 @@ import Breadcrumb from './ui/Breadcrumb';
 import VList from './ui/VList';
 
 const HEIGHT = 24;
+
+const height = {
+  height: `calc(100% - ${HEIGHT}px`,
+};
 
 const changePath = (path, onPathChange) => (event) => {
   event.preventDefault();
@@ -21,7 +26,9 @@ function norm(path) {
   return (path.startsWith('.')) ? path : `./${path}`; // add './' to build correct breadcrumbs
 }
 
-function FolderPicker({ path, items, listFolder, onPathChange }) {
+function FolderPicker({
+  loading, items, path, listFolder, onPathChange,
+}) {
   React.useEffect(() => {
     listFolder(path);
   }, [path, listFolder]);
@@ -57,22 +64,43 @@ function FolderPicker({ path, items, listFolder, onPathChange }) {
           )}
         />
       </div>
-      <VList
-        className="border rounded"
-        heightOffset={HEIGHT}
-        items={items}
-        itemRender={({ className, item }) => (
-          <FolderPickerItem className={className} item={item} onClick={onPathChange} />
-        )}
-      />
+      {(items.length || loading) ? (
+        <VList
+          className="border rounded"
+          heightOffset={HEIGHT}
+          items={items}
+          loading={!items.length && loading}
+          itemRender={({ className, item }) => (
+            <FolderPickerItem className={className} item={item} onClick={onPathChange} />
+          )}
+        />
+      ) : (
+        <div className="flex flex-col items-center justify-center border rounded" style={height}>
+          <div className="text-center">
+            <icons.Collection className="w-12 h-12 mx-auto mb-4 text-gray-400" />
+            <p className="text-gray-800 text-lg font-semibold">
+              Nothing here yet
+            </p>
+            <p className="text-sm text-gray-600">
+              Move file here
+            </p>
+          </div>
+        </div>
+      )}
+
     </>
   );
 }
 
 FolderPicker.propTypes = {
-  path: PropTypes.string.isRequired,
+  loading: PropTypes.bool,
   items: PropTypes.arrayOf(PropTypes.string).isRequired,
+  path: PropTypes.string.isRequired,
   onPathChange: PropTypes.func.isRequired,
+};
+
+FolderPicker.defaultProps = {
+  loading: true,
 };
 
 export default FolderPicker;

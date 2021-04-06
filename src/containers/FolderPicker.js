@@ -1,9 +1,12 @@
 import { connect } from 'react-redux';
 
+import { listFolder } from '../store/actions/files';
+import { scopes } from '../store/actions/loading';
+
 import { getFilesByPath } from '../store/reducers/files';
+import { getLoading } from '../store/reducers/loading';
 
 import FolderPicker from '../components/FolderPicker';
-import { listFolder } from '../store/actions/files';
 
 function getFilesByPathExclude(state, props) {
   const { path, excludeId } = props;
@@ -21,6 +24,7 @@ function getFilesByPathExclude(state, props) {
 export default connect(
   (state, ownProps) => ({
     items: getFilesByPathExclude(state, ownProps),
+    loading: getLoading(state, scopes.listingFolder) || true, // show loading indicator immediately
   }),
   {
     listFolder,

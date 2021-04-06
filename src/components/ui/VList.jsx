@@ -4,12 +4,15 @@ import PropTypes from 'prop-types';
 import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 
+import * as icons from '../../icons';
+
 function VList({
   className,
   heightOffset,
   initialScrollOffset,
   itemHeight,
   items,
+  loading,
   scrollKey,
   trackScrolling,
   itemRender: View,
@@ -17,36 +20,45 @@ function VList({
 }) {
   return (
     <AutoSizer>
-      {({ height, width }) => (
-        <FixedSizeList
-          initialScrollOffset={itemHeight * initialScrollOffset}
-          height={height - heightOffset}
-          itemCount={items.length}
-          itemData={items}
-          itemSize={itemHeight}
-          width={width}
-          className={className}
-          useIsScrolling={trackScrolling}
-          onItemsRendered={({ visibleStartIndex }) => {
-            if (
-              scrollKey !== null && scrollKey !== undefined
-              && setScrollOffset !== null && setScrollOffset !== undefined
-            ) {
-              setScrollOffset(scrollKey, visibleStartIndex);
-            }
-          }}
-        >
-          {({ data, index, isScrolling, style }) => (
-            <div style={style}>
-              <View
-                className={(index % 2) ? 'bg-white' : 'bg-gray-75'}
-                item={data[index]}
-                scrolling={isScrolling}
-              />
+      {({ height, width }) => {
+        if (loading) {
+          return (
+            <div className={`flex flex-col items-center justify-center ${className}`} style={{ height, width }}>
+              <icons.Spinner className="w-7 h-7 text-gray-600 animate-spin" />
             </div>
-          )}
-        </FixedSizeList>
-      )}
+          );
+        }
+        return (
+          <FixedSizeList
+            initialScrollOffset={itemHeight * initialScrollOffset}
+            height={height - heightOffset}
+            itemCount={items.length}
+            itemData={items}
+            itemSize={itemHeight}
+            width={width}
+            className={className}
+            useIsScrolling={trackScrolling}
+            onItemsRendered={({ visibleStartIndex }) => {
+              if (
+                scrollKey !== null && scrollKey !== undefined
+                && setScrollOffset !== null && setScrollOffset !== undefined
+              ) {
+                setScrollOffset(scrollKey, visibleStartIndex);
+              }
+            }}
+          >
+            {({ data, index, isScrolling, style }) => (
+              <div style={style}>
+                <View
+                  className={(index % 2) ? 'bg-white' : 'bg-gray-75'}
+                  item={data[index]}
+                  scrolling={isScrolling}
+                />
+              </div>
+            )}
+          </FixedSizeList>
+        );
+      }}
     </AutoSizer>
   );
 }
@@ -57,6 +69,7 @@ VList.propTypes = {
   initialScrollOffset: PropTypes.number,
   itemHeight: PropTypes.number,
   items: PropTypes.arrayOf(PropTypes.any).isRequired,
+  loading: PropTypes.bool,
   trackScrolling: PropTypes.bool,
   scrollKey: PropTypes.string,
   itemRender: PropTypes.oneOfType([
@@ -71,6 +84,7 @@ VList.defaultProps = {
   heightOffset: 0,
   initialScrollOffset: 0,
   itemHeight: 64,
+  loading: false,
   scrollKey: null,
   trackScrolling: false,
   setScrollOffset: null,
