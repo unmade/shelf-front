@@ -39,20 +39,10 @@ function Table({
   className, items, loading, scrollKey, itemRender,
 }) {
   const fileDropBorder = 'transition ease-in-out duration-75 border-4 rounded-lg';
-  if (!items.length && loading) {
-    return (
-      <>
-        <TableHeader />
-        <div className={`flex flex-col items-center justify-center ${className}`} style={height}>
-          <icons.Spinner className="w-7 h-7 text-gray-600 animate-spin" />
-        </div>
-      </>
-    );
-  }
   return (
     <>
       <TableHeader />
-      {(items.length) ? (
+      {(items.length || loading) ? (
         <VList
           items={items}
           itemRender={itemRender}
@@ -60,6 +50,7 @@ function Table({
           className={`${fileDropBorder} ${className}`}
           trackScrolling
           scrollKey={scrollKey}
+          loading={!items.length && loading}
         />
       ) : (
         <div className={`flex flex-col items-center justify-center ${fileDropBorder} ${className}`} style={height}>
@@ -121,7 +112,7 @@ FileTableView.propTypes = {
 
 FileTableView.defaultProps = {
   droppable: false,
-  loading: false,
+  loading: true,
 };
 
 export default FileTableView;
