@@ -7,10 +7,6 @@ import * as icons from '../icons';
 import Dialog from './ui/Dialog';
 
 function EmptyTrashDialog({ loading, visible, onEmpty, onCancel }) {
-  if (!visible) {
-    return null;
-  }
-
   return (
     <Dialog
       title="Empty Trash"

@@ -8,11 +8,8 @@ import Dialog from './ui/Dialog';
 
 function DeleteImmediatelyDialog({ file, loading, onDelete, onCancel }) {
   const visible = !!file;
-
-  if (!visible) {
-    return null;
-  }
-  const type = (file.mediatype === MediaType.FOLDER) ? 'Folder' : 'File';
+  const { mediatype, name } = file || {};
+  const type = (mediatype === MediaType.FOLDER) ? 'Folder' : 'File';
   return (
     <Dialog
       title={`Permanently Delete ${type}`}
@@ -28,7 +25,7 @@ function DeleteImmediatelyDialog({ file, loading, onDelete, onCancel }) {
         Are you sure you want to&nbsp;
         <b>permanently</b>
         &nbsp;delete&nbsp;
-        <b className="text-gray-700">{file.name}</b>
+        <b className="text-gray-700">{name}</b>
         ?
       </p>
     </Dialog>

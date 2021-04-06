@@ -43,10 +43,9 @@ function RenameFileDialog({ file, loading, onRename, onCancel }) {
     }
   };
 
-  if (!visible) {
-    return null;
-  }
-  const type = (file.mediatype === MediaType.FOLDER) ? 'Folder' : 'File';
+  const { mediatype } = file || {};
+  const type = (mediatype === MediaType.FOLDER) ? 'Folder' : 'File';
+
   return (
     <Dialog
       title={`Rename ${type}`}
@@ -65,7 +64,7 @@ function RenameFileDialog({ file, loading, onRename, onCancel }) {
           size="sm"
           error={error}
           onChange={onNameChange}
-          defaultValue={file.name}
+          defaultValue={name}
         />
       </form>
     </Dialog>

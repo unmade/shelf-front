@@ -15,11 +15,7 @@ const styles = {
 function MoveDialog({ file, loading, onMove, onCancel }) {
   const [toPath, setToPath] = React.useState('.');
   const visible = !!file;
-  if (!visible) {
-    return null;
-  }
-
-  const type = (file.mediatype === MediaType.FOLDER) ? 'Folder' : 'File';
+  const type = (file && file.mediatype === MediaType.FOLDER) ? 'Folder' : 'File';
   return (
     <Dialog
       title={`Move ${type}`}
