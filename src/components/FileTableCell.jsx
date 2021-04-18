@@ -5,10 +5,11 @@ import PropTypes from 'prop-types';
 
 import { MediaType } from '../constants';
 
+import FileTableCellActions from '../containers/FileTableCellActions';
+
 import FileSize from './ui/FileSize';
 import TimeAgo from './ui/TimeAgo';
 
-import FileTableCellActions from './FileTableCellActions';
 import FileIcon from './FileIcon';
 import FileLink from './FileLink';
 import Thumbnail from '../containers/Thumbnail';

@@ -7,37 +7,33 @@ import Uploader from '../containers/Uploader';
 
 import Button from './ui/Button';
 import Dropdown from './ui/Dropdown';
+import Menu from './ui/Menu';
 import UploadDialog from './UploadDialog';
 
 function ActionsDropdown({ menu }) {
   const [uploaderVisible, setUploaderVisible] = React.useState(false);
+  const items = [
+    {
+      name: 'Uploads',
+      icon: <icons.CloudUpload className="text-lg" />,
+      onClick: () => { setUploaderVisible(true); },
+    },
+    ...menu,
+  ];
   return (
     <>
-      <Dropdown
-        overlay={() => (
-          <div className="flex flex-col bg-white p-2 rounded shadow">
-            <Button
-              type="text"
-              title="Uploads"
-              size="sm"
-              icon={<icons.CloudUpload className="text-lg" />}
-              onClick={() => { setUploaderVisible(true); }}
-            >
-              Uploads
-            </Button>
-            {(menu.map((item) => (
-              <Button
-                key={item.name}
-                type="text"
-                size="sm"
-                icon={item.icon}
-                title={item.name}
-                onClick={() => { item.onClick(); }}
-              >
-                {item.name}
-              </Button>
-            )))}
-          </div>
+      <Menu
+        items={items}
+        itemRender={({ item }) => (
+          <Button
+            type="text"
+            size="sm"
+            icon={item.icon}
+            title={item.name}
+            onClick={item.onClick}
+          >
+            {item.name}
+          </Button>
         )}
       >
         <Button
@@ -47,7 +43,7 @@ function ActionsDropdown({ menu }) {
           size="lg"
           icon={<icons.More />}
         />
-      </Dropdown>
+      </Menu>
       {(uploaderVisible) && (
         <span>
           <UploadDialog
@@ -63,7 +59,7 @@ function ActionsDropdown({ menu }) {
 function Actions({ menu }) {
   return (
     <div className="inline-flex items-center space-x-4">
-      <Dropdown overlay={() => (<Uploader />)}>
+      <Dropdown overlay={Uploader}>
         <Button
           as="div"
           type="text"
