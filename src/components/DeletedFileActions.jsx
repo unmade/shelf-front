@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import * as icons from '../icons';
 import ActionsMenu from './ActionsMenu';
 
-function DeletedFileActions({ closeOverlay, fileId, onDeleteImmediately }) {
+function DeletedFileActions({ fileId, onDeleteImmediately }) {
   const menu = [
     {
       name: 'Delete Immediately',
@@ -12,7 +12,6 @@ function DeletedFileActions({ closeOverlay, fileId, onDeleteImmediately }) {
       danger: true,
       onClick: () => {
         onDeleteImmediately(fileId);
-        closeOverlay();
       },
     },
   ];
@@ -21,7 +20,6 @@ function DeletedFileActions({ closeOverlay, fileId, onDeleteImmediately }) {
 }
 
 DeletedFileActions.propTypes = {
-  closeOverlay: PropTypes.func.isRequired,
   fileId: PropTypes.string.isRequired,
   onDeleteImmediately: PropTypes.func.isRequired,
 };

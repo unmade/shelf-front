@@ -63,7 +63,19 @@ const shapes = {
 };
 
 function Button({
-  children, danger, disabled, full, htmlType, icon, loading, shape, size, title, type, onClick,
+  as: RenderAs,
+  children,
+  danger,
+  disabled,
+  full,
+  htmlType,
+  icon,
+  loading,
+  shape,
+  size,
+  title,
+  type,
+  onClick,
 }) {
   const buttonProps = { disabled };
   const classNames = [fontSizes[size], 'rounded-md', 'focus:outline-none', 'focus:ring', 'transition', 'ease-in-out', 'duration-75'];
@@ -107,7 +119,7 @@ function Button({
     );
   }
   return (
-    <button
+    <RenderAs
       // eslint-disable-next-line react/button-has-type
       type={htmlType}
       // eslint-disable-next-line react/jsx-props-no-spreading
@@ -123,11 +135,15 @@ function Button({
           {children}
         </span>
       )}
-    </button>
+    </RenderAs>
   );
 }
 
 Button.propTypes = {
+  as: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+  ]),
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
@@ -146,6 +162,7 @@ Button.propTypes = {
 };
 
 Button.defaultProps = {
+  as: 'button',
   children: null,
   disabled: false,
   danger: false,

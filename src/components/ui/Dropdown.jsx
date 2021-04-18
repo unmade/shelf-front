@@ -1,115 +1,59 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Transition } from '@headlessui/react';
-import { createPopper } from '@popperjs/core';
+import { Popover, Transition } from '@headlessui/react';
+import { usePopper } from 'react-popper';
 
-class Dropdown extends React.Component {
-  constructor(props) {
-    super(props);
+function Dropdown({ children, overlay: Overlay }) {
+  const [referenceElement, setReferenceElement] = React.useState();
+  const [popperElement, setPopperElement] = React.useState();
+  const { styles, attributes } = usePopper(referenceElement, popperElement, {
+    placement: 'bottom-end',
+    modifiers: [
+      {
+        name: 'offset',
+        options: {
+          offset: [0, 5],
+        },
+      },
+    ],
+  });
 
-    this.state = {
-      popoverVisible: false,
-    };
-
-    this.popper = null;
-    this.trigger = null;
-
-    this.triggerRef = React.createRef();
-    this.popoverRef = React.createRef();
-
-    this.openPopover = this.openPopover.bind(this);
-    this.closePopover = this.closePopover.bind(this);
-    this.togglePopover = this.togglePopover.bind(this);
-    this.handleClickOutside = this.handleClickOutside.bind(this);
-  }
-
-  componentWillUnmount() {
-    if (this.popper) {
-      this.popper.destroy();
-    }
-    document.removeEventListener('mouseup', this.handleClickOutside);
-  }
-
-  handleClickOutside(event) {
-    const shouldClose = (
-      this.triggerRef && !this.triggerRef.current.contains(event.target)
-      && this.popoverRef && !this.popoverRef.current.contains(event.target)
-    );
-    if (shouldClose) {
-      this.closePopover();
-    }
-  }
-
-  setPopoverVisible(value) {
-    this.setState({ popoverVisible: value });
-  }
-
-  openPopover() {
-    this.setPopoverVisible(true);
-  }
-
-  closePopover() {
-    this.setPopoverVisible(false);
-    document.removeEventListener('mouseup', this.handleClickOutside);
-  }
-
-  togglePopover(event) {
-    event.stopPropagation();
-    const { popoverVisible } = this.state;
-    if (popoverVisible) {
-      this.closePopover();
-    } else {
-      this.openPopover();
-    }
-  }
-
-  render() {
-    const { children, overlay: Overlay, overlayProps } = this.props;
-    const { popoverVisible } = this.state;
-
-    return (
-      <>
-        <div
-          ref={this.triggerRef}
-          onClick={this.togglePopover}
-        >
-          {children}
-        </div>
-        <div
-          ref={this.popoverRef}
-          className="absolute z-50"
-        >
-          <Transition
-            show={popoverVisible}
-            enter="transition ease-out duration-100"
-            enterFrom="transform opacity-0 scale-95"
-            enterTo="transform opacity-100 scale-100"
-            leave="transition ease-in duration-75"
-            leaveFrom="transform opacity-100 scale-100"
-            leaveTo="transform opacity-0 scale-95"
-            afterEnter={() => {
-              if (this.popper === null || this.popper === undefined) {
-                createPopper(
-                  this.triggerRef.current,
-                  this.popoverRef.current,
-                  {
-                    placement: 'bottom-start',
-                  },
-                );
-                document.addEventListener('mouseup', this.handleClickOutside);
-              }
-            }}
+  return (
+    <Popover className="flex items-center">
+      {({ open }) => (
+        <>
+          <Popover.Button
+            ref={setReferenceElement}
+            className="w-full rounded-md focus:outline-none focus:ring"
           >
-            {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-            <Overlay closeOverlay={this.closePopover} {...overlayProps} />
+            {children}
+          </Popover.Button>
+
+          <Transition
+            show={open}
+            className="z-10"
+            enter="transition ease-out duration-200"
+            enterFrom="opacity-0 translate-y-1"
+            enterTo="opacity-100 translate-y-0"
+            leave="transition ease-in duration-150"
+            leaveFrom="opacity-100 translate-y-0"
+            leaveTo="opacity-0 translate-y-1"
+          >
+            <Popover.Panel
+              static
+              ref={setPopperElement}
+              style={styles.popper}
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              {...attributes.popper}
+            >
+              <Overlay />
+            </Popover.Panel>
           </Transition>
-        </div>
-      </>
-    );
-  }
+        </>
+      )}
+    </Popover>
+  );
 }
 
 Dropdown.propTypes = {
@@ -118,11 +62,6 @@ Dropdown.propTypes = {
     PropTypes.func,
     PropTypes.object,
   ]).isRequired,
-  overlayProps: PropTypes.objectOf(PropTypes.any),
-};
-
-Dropdown.defaultProps = {
-  overlayProps: {},
 };
 
 export default Dropdown;

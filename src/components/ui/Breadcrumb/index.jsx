@@ -45,7 +45,7 @@ function Breadcrumb({
     }
     return (
       <BreadcrumbDropdown items={items} itemRender={RenderCollapsed}>
-        <Button type="text" size={size} full>
+        <Button as="div" type="text" size={size} full>
           <Render name={last.name} path={last.path} />
         </Button>
       </BreadcrumbDropdown>
@@ -85,6 +85,7 @@ function Breadcrumb({
       </div>
       <BreadcrumbDropdown items={rest} itemRender={RenderCollapsed}>
         <Button
+          as="div"
           type="text"
           size={size}
           icon={<icons.DotsHorizontal className={iconSize[size]} />}
