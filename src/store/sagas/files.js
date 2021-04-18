@@ -115,7 +115,6 @@ function* listFolder({ payload }) {
   const accessToken = yield select(getAccessToken);
   const { path = '.' } = payload;
 
-  // yield put(setLoading(scopes.listingFolder, true));
   const request = api.post('/files/list_folder', accessToken, { path });
   const [response, err] = yield tryRequest(request, scopes.listingFolder);
   if (err !== null) {
@@ -130,7 +129,6 @@ function* listFolder({ payload }) {
   }
 
   yield put(actions.listFolderSuccess(data));
-  // yield put(setLoading(scopes.listingFolder, false));
 }
 
 function* moveFile({ payload }) {

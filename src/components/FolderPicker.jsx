@@ -26,9 +26,9 @@ function norm(path) {
   return (path.startsWith('.')) ? path : `./${path}`; // add './' to build correct breadcrumbs
 }
 
-function FolderPicker({
-  loading, items, path, listFolder, onPathChange,
-}) {
+const FolderPicker = React.memo(({
+  items, loading, path, listFolder, onPathChange,
+}) => {
   React.useEffect(() => {
     listFolder(path);
   }, [path, listFolder]);
@@ -69,7 +69,7 @@ function FolderPicker({
           className="border rounded"
           heightOffset={HEIGHT}
           items={items}
-          loading={!items.length && loading}
+          loading={items.length === 0 && loading}
           itemRender={({ className, item }) => (
             <FolderPickerItem className={className} item={item} onClick={onPathChange} />
           )}
@@ -90,11 +90,11 @@ function FolderPicker({
 
     </>
   );
-}
+});
 
 FolderPicker.propTypes = {
-  loading: PropTypes.bool,
   items: PropTypes.arrayOf(PropTypes.string).isRequired,
+  loading: PropTypes.bool,
   path: PropTypes.string.isRequired,
   onPathChange: PropTypes.func.isRequired,
 };

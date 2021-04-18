@@ -23,7 +23,10 @@ function VList({
       {({ height, width }) => {
         if (loading) {
           return (
-            <div className={`flex flex-col items-center justify-center ${className}`} style={{ height, width }}>
+            <div
+              className={`flex flex-col items-center justify-center ${className}`}
+              style={{ height: height - heightOffset, width }}
+            >
               <icons.Spinner className="w-7 h-7 text-gray-600 animate-spin" />
             </div>
           );
