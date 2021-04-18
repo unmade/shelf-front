@@ -21,15 +21,13 @@ function getActionsByType(path) {
 
 function FileTableCellActions({ id, path, mediaType }) {
   const Actions = getActionsByType(path, mediaType);
-  if (!Actions) {
-    return null;
-  }
   return (
     <Dropdown
-      overlay={Actions}
-      overlayProps={{ fileId: id, filePath: path }}
+      overlay={() => (
+        <Actions fileId={id} filePath={path} />
+      )}
     >
-      <Button type="text" icon={<icons.More />} />
+      <Button as="div" type="text" icon={<icons.More />} />
     </Dropdown>
   );
 }

@@ -50,7 +50,7 @@ function Table({
           className={`${fileDropBorder} ${className}`}
           trackScrolling
           scrollKey={scrollKey}
-          loading={!items.length && loading}
+          loading={items.length === 0 && loading}
         />
       ) : (
         <div className={`flex flex-col items-center justify-center ${fileDropBorder} ${className}`} style={height}>

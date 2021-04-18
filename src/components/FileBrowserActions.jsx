@@ -14,14 +14,14 @@ function ActionsDropdown({ menu }) {
   return (
     <>
       <Dropdown
-        overlay={({ closeOverlay }) => (
+        overlay={() => (
           <div className="flex flex-col bg-white p-2 rounded shadow">
             <Button
               type="text"
               title="Uploads"
               size="sm"
               icon={<icons.CloudUpload className="text-lg" />}
-              onClick={() => { setUploaderVisible(true); closeOverlay(); }}
+              onClick={() => { setUploaderVisible(true); }}
             >
               Uploads
             </Button>
@@ -32,7 +32,7 @@ function ActionsDropdown({ menu }) {
                 size="sm"
                 icon={item.icon}
                 title={item.name}
-                onClick={() => { closeOverlay(); item.onClick(); }}
+                onClick={() => { item.onClick(); }}
               >
                 {item.name}
               </Button>
@@ -41,6 +41,7 @@ function ActionsDropdown({ menu }) {
         )}
       >
         <Button
+          as="div"
           type="text"
           title="Actions"
           size="lg"
@@ -64,6 +65,7 @@ function Actions({ menu }) {
     <div className="inline-flex items-center space-x-4">
       <Dropdown overlay={() => (<Uploader />)}>
         <Button
+          as="div"
           type="text"
           title="Uploads"
           size="lg"
