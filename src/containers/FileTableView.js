@@ -10,6 +10,6 @@ import FileTableView from '../components/FileTableView';
 export default connect(
   (state, ownProps) => ({
     items: getFilesByPath(state, ownProps.path),
-    loading: getLoading(state, scopes.listingFolder) || true, // show loading indicator immediately
+    loading: getLoading(state, scopes.listingFolder),
   }),
 )(FileTableView);

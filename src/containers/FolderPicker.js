@@ -24,7 +24,7 @@ function getFilesByPathExclude(state, props) {
 export default connect(
   (state, ownProps) => ({
     items: getFilesByPathExclude(state, ownProps),
-    loading: getLoading(state, scopes.listingFolder) || true, // show loading indicator immediately
+    loading: getLoading(state, scopes.listingFolder),
   }),
   {
     listFolder,
