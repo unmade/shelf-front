@@ -6,8 +6,9 @@ import * as icons from '../icons';
 
 import Dialog from './ui/Dialog';
 
-function DeleteImmediatelyDialog({ file, loading, onDelete, onCancel }) {
-  const visible = !!file;
+function DeleteImmediatelyDialog({
+  file, loading, uid, visible, onDelete, onCancel,
+}) {
   const { mediatype, name } = file || {};
   const type = (mediatype === MediaType.FOLDER) ? 'Folder' : 'File';
   return (
@@ -19,7 +20,7 @@ function DeleteImmediatelyDialog({ file, loading, onDelete, onCancel }) {
       confirmLoading={loading}
       confirmDanger
       onConfirm={() => onDelete(file.path)}
-      onCancel={onCancel}
+      onCancel={() => onCancel(uid)}
     >
       <p>
         Are you sure you want to&nbsp;
@@ -39,6 +40,8 @@ DeleteImmediatelyDialog.propTypes = {
     mediatype: PropTypes.string.isRequired,
   }),
   loading: PropTypes.bool,
+  uid: PropTypes.string.isRequired,
+  visible: PropTypes.bool,
   onDelete: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
 };
@@ -46,6 +49,7 @@ DeleteImmediatelyDialog.propTypes = {
 DeleteImmediatelyDialog.defaultProps = {
   file: null,
   loading: false,
+  visible: false,
 };
 
 export default DeleteImmediatelyDialog;

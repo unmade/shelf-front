@@ -12,9 +12,10 @@ const styles = {
   height: '40vh',
 };
 
-function MoveDialog({ file, loading, onMove, onCancel }) {
+function MoveDialog({
+  file, loading, uid, visible, onMove, onCancel,
+}) {
   const [toPath, setToPath] = React.useState('.');
-  const visible = !!file;
   const type = (file && file.mediatype === MediaType.FOLDER) ? 'Folder' : 'File';
   return (
     <Dialog
@@ -23,7 +24,7 @@ function MoveDialog({ file, loading, onMove, onCancel }) {
       confirmTitle="Move"
       confirmLoading={loading}
       onConfirm={() => onMove(file.path, routes.join(toPath, file.name))}
-      onCancel={onCancel}
+      onCancel={() => onCancel(uid)}
     >
       <div className="w-full sm:w-96" style={styles}>
         <FolderPicker
@@ -44,6 +45,8 @@ MoveDialog.propTypes = {
     mediatype: PropTypes.string.isRequired,
   }),
   loading: PropTypes.bool,
+  uid: PropTypes.string.isRequired,
+  visible: PropTypes.bool,
   onMove: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
 };
@@ -51,6 +54,7 @@ MoveDialog.propTypes = {
 MoveDialog.defaultProps = {
   file: null,
   loading: false,
+  visible: false,
 };
 
 export default MoveDialog;

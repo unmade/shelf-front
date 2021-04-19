@@ -1,21 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { TRASH_FOLDER_NAME, Dialogs } from '../constants';
 import * as icons from '../icons';
-import { TRASH_FOLDER_NAME } from '../constants';
 
 import Button from './ui/Button';
 import Menu from './ui/Menu';
 
-function FileTableCellActions({
-  id,
-  path,
-  onDelete,
-  onDeleteImmediately,
-  onDownload,
-  onMove,
-  onRename,
-}) {
+function FileTableCellActions({ id, path, onDownload, openDialog }) {
   let menu;
   if (path.toLowerCase().startsWith(TRASH_FOLDER_NAME.toLowerCase())) {
     menu = [
@@ -23,7 +15,7 @@ function FileTableCellActions({
         name: 'Delete Immediately',
         icon: <icons.TrashOutlined className="w-4 h-4" />,
         danger: true,
-        onClick: () => { onDeleteImmediately(id); },
+        onClick: () => { openDialog(Dialogs.deleteImmediately, { fileId: id }); },
       },
     ];
   } else {
@@ -38,19 +30,19 @@ function FileTableCellActions({
         name: 'Rename',
         icon: <icons.ICursor className="w-4 h-4" />,
         danger: false,
-        onClick: () => { onRename(id); },
+        onClick: () => { openDialog(Dialogs.rename, { fileId: id }); },
       },
       {
         name: 'Move',
         icon: <icons.Move className="w-4 h-4" />,
         danger: false,
-        onClick: () => { onMove(id); },
+        onClick: () => { openDialog(Dialogs.move, { fileId: id }); },
       },
       {
         name: 'Delete',
         icon: <icons.TrashOutlined className="w-4 h-4" />,
         danger: true,
-        onClick: () => { onDelete(id); },
+        onClick: () => { openDialog(Dialogs.delete, { fileId: id }); },
       },
     ];
   }
@@ -80,6 +72,8 @@ function FileTableCellActions({
 FileTableCellActions.propTypes = {
   id: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
+  onDownload: PropTypes.func.isRequired,
+  openDialog: PropTypes.func.isRequired,
 };
 
 export default FileTableCellActions;

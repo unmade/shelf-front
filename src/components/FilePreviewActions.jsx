@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Dialogs } from '../constants';
 import * as icons from '../icons';
 
 import Button from './ui/Button';
 
-function FilePreviewActions({
-  fileId, filePath, onDelete, onDownload, onMove, onRename,
-}) {
+function FilePreviewActions({ fileId, filePath, onDownload, openDialog }) {
   const menu = [
     {
       name: 'Download',
@@ -19,19 +18,19 @@ function FilePreviewActions({
       name: 'Rename',
       icon: <icons.ICursor className="w-4 h-4" />,
       danger: false,
-      onClick: () => { onRename(fileId); },
+      onClick: () => { openDialog(Dialogs.rename, { fileId }); },
     },
     {
       name: 'Move',
       icon: <icons.Move className="w-4 h-4" />,
       danger: false,
-      onClick: () => { onMove(fileId); },
+      onClick: () => { openDialog(Dialogs.move, { fileId }); },
     },
     {
       name: 'Delete',
       icon: <icons.TrashOutlined className="w-4 h-4" />,
       danger: true,
-      onClick: () => { onDelete(fileId); },
+      onClick: () => { openDialog(Dialogs.delete, { fileId }); },
     },
   ];
 
@@ -54,10 +53,8 @@ function FilePreviewActions({
 FilePreviewActions.propTypes = {
   fileId: PropTypes.string.isRequired,
   filePath: PropTypes.string.isRequired,
-  onDelete: PropTypes.func.isRequired,
   onDownload: PropTypes.func.isRequired,
-  onMove: PropTypes.func.isRequired,
-  onRename: PropTypes.func.isRequired,
+  openDialog: PropTypes.func.isRequired,
 };
 
 export default FilePreviewActions;

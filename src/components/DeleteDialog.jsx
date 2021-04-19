@@ -6,8 +6,9 @@ import * as icons from '../icons';
 
 import Dialog from './ui/Dialog';
 
-function DeleteDialog({ file, loading, onDelete, onCancel }) {
-  const visible = !!file;
+function DeleteDialog({
+  file, loading, uid, visible, onDelete, onCancel,
+}) {
   const { mediatype, name } = file || {};
   const type = (mediatype === MediaType.FOLDER) ? 'Folder' : 'File';
   return (
@@ -19,7 +20,7 @@ function DeleteDialog({ file, loading, onDelete, onCancel }) {
       confirmLoading={loading}
       confirmDanger
       onConfirm={() => onDelete(file.path)}
-      onCancel={onCancel}
+      onCancel={() => onCancel(uid)}
     >
       <p>
         Are you sure you want to move&nbsp;
@@ -37,6 +38,8 @@ DeleteDialog.propTypes = {
     mediatype: PropTypes.string.isRequired,
   }),
   loading: PropTypes.bool,
+  uid: PropTypes.string.isRequired,
+  visible: PropTypes.bool,
   onDelete: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
 };
@@ -44,6 +47,7 @@ DeleteDialog.propTypes = {
 DeleteDialog.defaultProps = {
   file: null,
   loading: false,
+  visible: false,
 };
 
 export default DeleteDialog;

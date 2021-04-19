@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useMediaQuery } from 'react-responsive';
 
-import { MediaQuery } from '../constants';
+import { Dialogs, MediaQuery } from '../constants';
 import * as routes from '../routes';
 
 import CreateFolderDialog from '../containers/CreateFolderDialog';
@@ -73,9 +73,9 @@ const Browser = React.memo(
         </div>
 
         <CreateFolderDialog />
-        <RenameFileDialog />
-        <MoveDialog />
-        <DeleteDialog />
+        <RenameFileDialog uid={Dialogs.rename} />
+        <MoveDialog uid={Dialogs.move} />
+        <DeleteDialog uid={Dialogs.delete} />
       </div>
     );
   },
