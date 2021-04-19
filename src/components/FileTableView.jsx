@@ -25,10 +25,10 @@ function TableHeader() {
       <div className="flex-1">
         Name
       </div>
-      <div className="hidden md:block w-32 px-6 text-right">
+      <div className="hidden md:block w-20 lg:w-24 text-right">
         Size
       </div>
-      <div className="hidden md:block w-40 px-4 text-left">
+      <div className="hidden md:block w-24 lg:w-36 xl:w-40 ml-6 xl:px-4 text-left">
         Modified
       </div>
     </div>

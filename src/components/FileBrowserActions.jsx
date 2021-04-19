@@ -23,6 +23,7 @@ function ActionsDropdown({ menu }) {
   return (
     <>
       <Menu
+        panelClassName="min-w-max"
         items={items}
         itemRender={({ item }) => (
           <Button

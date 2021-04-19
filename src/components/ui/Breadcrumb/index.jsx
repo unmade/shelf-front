@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import * as icons from '../../../icons';
 
 import Button from '../Button';
+import Menu from '../Menu';
 
-import BreadcrumbDropdown from './BreadcrumbDropdown';
 import BreadcrumbItem from './BreadcrumbItem';
 import BreadcrumbItemCollapsed from './BreadcrumbItemCollapsed';
 
@@ -44,11 +44,18 @@ function Breadcrumb({
       );
     }
     return (
-      <BreadcrumbDropdown items={items} itemRender={RenderCollapsed}>
+      <Menu
+        buttonClassName="w-full"
+        panelClassName="max-w-xs"
+        items={items}
+        itemRender={({ item }) => (
+          <RenderCollapsed name={item.name} path={item.path} />
+        )}
+      >
         <Button as="div" type="text" size={size} full>
           <Render name={last.name} path={last.path} />
         </Button>
-      </BreadcrumbDropdown>
+      </Menu>
     );
   }
 
@@ -83,14 +90,20 @@ function Breadcrumb({
       <div>
         <icons.ChevronRight />
       </div>
-      <BreadcrumbDropdown items={rest} itemRender={RenderCollapsed}>
+      <Menu
+        panelClassName="max-w-xs"
+        items={rest}
+        itemRender={({ item }) => (
+          <RenderCollapsed name={item.name} path={item.path} />
+        )}
+      >
         <Button
           as="div"
           type="text"
           size={size}
           icon={<icons.DotsHorizontal className={iconSize[size]} />}
         />
-      </BreadcrumbDropdown>
+      </Menu>
       {(secondToLast !== null) && (
         <>
           <div>

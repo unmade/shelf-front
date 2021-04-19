@@ -42,12 +42,12 @@ function Trash({
 
   return (
     <div className="h-full flex flex-col">
-      <div className="flex flex-row items-center justify-between space-x-4 text-lg p-4 border-b-2 border-gray-100">
-        <div className="min-w-0 flex-1 inline-flex items-center space-x-4">
+      <div className="flex flex-row items-center justify-between text-lg p-4 border-b-2 border-gray-100">
+        <div className="min-w-0 flex-1 inline-flex items-center">
           {(!isLaptop) && (
             <AppMenuModal />
           )}
-          <span className="min-w-0 w-full">
+          <span className="min-w-0 w-full mx-4">
             <Breadcrumb
               items={routes.breadcrumbs(match.url)}
               fold={fold}

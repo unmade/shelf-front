@@ -37,7 +37,7 @@ const Browser = React.memo(
             {(!isLaptop) && (
               <AppMenuModal />
             )}
-            <span className="min-w-0 w-full">
+            <span className="min-w-0 w-full mx-4">
               <Breadcrumb
                 items={routes.breadcrumbs(url)}
                 fold={fold}

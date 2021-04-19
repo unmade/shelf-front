@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 import { Menu as UIMenu, Transition } from '@headlessui/react';
 import { usePopper } from 'react-popper';
 
-function Menu({ children, items, itemRender: Render }) {
+function Menu({
+  buttonClassName, children, items, panelClassName, itemRender: Render,
+}) {
   const [referenceElement, setReferenceElement] = React.useState();
   const [popperElement, setPopperElement] = React.useState();
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
@@ -24,7 +26,7 @@ function Menu({ children, items, itemRender: Render }) {
         <>
           <UIMenu.Button
             ref={setReferenceElement}
-            className="rounded-md focus:outline-none focus:ring"
+            className={`${buttonClassName} rounded-md focus:outline-none focus:ring`}
           >
             {children}
           </UIMenu.Button>
@@ -41,14 +43,14 @@ function Menu({ children, items, itemRender: Render }) {
           >
             <UIMenu.Items
               static
-              className="flex flex-col bg-white p-2 rounded shadow focus:outline-none"
+              className={`${panelClassName} flex flex-col bg-white p-2 rounded shadow focus:outline-none`}
               ref={setPopperElement}
               style={styles.popper}
               // eslint-disable-next-line react/jsx-props-no-spreading
               {...attributes.popper}
             >
               {(items.map((item) => (
-                <UIMenu.Item key={item.name}>
+                <UIMenu.Item key={item.path || item.name}>
                   {({ active }) => (
                     <Render active={active} item={item} />
                   )}
@@ -63,11 +65,18 @@ function Menu({ children, items, itemRender: Render }) {
 }
 
 Menu.propTypes = {
+  buttonClassName: PropTypes.string,
   children: PropTypes.element.isRequired,
   items: PropTypes.arrayOf(
     PropTypes.object,
   ).isRequired,
+  panelClassName: PropTypes.string,
   itemRender: PropTypes.func.isRequired,
+};
+
+Menu.defaultProps = {
+  buttonClassName: '',
+  panelClassName: '',
 };
 
 export default Menu;
