@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Dialogs } from '../constants';
 import * as icons from '../icons';
 
 import Uploader from '../containers/Uploader';
@@ -88,7 +89,7 @@ function FileBrowserActions({ collapsed, onCreateFolder }) {
     {
       name: 'New Folder',
       icon: <icons.NewFolder className="text-lg" />,
-      onClick: onCreateFolder,
+      onClick: () => onCreateFolder(Dialogs.createFolder),
     },
   ];
 
