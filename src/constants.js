@@ -6,6 +6,13 @@ export const BREADCRUMBS_ALIASES = {
   trash: TRASH_FOLDER_NAME,
 };
 
+export const Dialogs = {
+  delete: 'delete',
+  deleteImmediately: 'deleteImmediately',
+  move: 'move',
+  rename: 'rename',
+};
+
 export const MediaType = {
   FOLDER: 'application/directory',
   isImage(mediaType) {

@@ -7,10 +7,6 @@ function fileBrowser(
   state = {
     createFolderDialogVisible: false,
     emptyTrashDialogVisible: false,
-    fileIdToRename: null,
-    fileIdToDelete: null,
-    fileIdToDeleteImmediately: null,
-    fileIdToMove: null,
   },
   action,
 ) {
@@ -39,65 +35,31 @@ function fileBrowser(
         emptyTrashDialogVisible: false,
       };
     }
-    case types.OPEN_RENAME_FILE_DIALOG: {
-      const { fileId } = action.payload;
+    default:
+      return state;
+  }
+}
+
+function fileDialog(state = {}, action) {
+  switch (action.type) {
+    case types.OPEN_DIALOG: {
+      const { key, props } = action.payload;
       return {
         ...state,
-        fileIdToRename: fileId,
+        [key]: {
+          visible: true,
+          props,
+        },
       };
     }
-    case types.CLOSE_RENAME_FILE_DIALOG: {
+    case types.CLOSE_DIALOG: {
+      const { key } = action.payload;
       return {
         ...state,
-        fileIdToRename: null,
-      };
-    }
-    case types.OPEN_DELETE_DIALOG: {
-      const { fileId } = action.payload;
-      return {
-        ...state,
-        fileIdToDelete: fileId,
-      };
-    }
-    case fileTypes.MOVE_TO_TRASH_SUCCESS:
-    case types.CLOSE_DELETE_DIALOG: {
-      return {
-        ...state,
-        fileIdToDelete: null,
-      };
-    }
-    case types.OPEN_DELETE_IMMEDIATELY_DIALOG: {
-      const { fileId } = action.payload;
-      return {
-        ...state,
-        fileIdToDeleteImmediately: fileId,
-      };
-    }
-    case fileTypes.DELETE_IMMEDIATELY_SUCCESS:
-    case types.CLOSE_DELETE_IMMEDIATELY_DIALOG: {
-      return {
-        ...state,
-        fileIdToDeleteImmediately: null,
-      };
-    }
-    case types.OPEN_MOVE_DIALOG: {
-      const { fileId } = action.payload;
-      return {
-        ...state,
-        fileIdToMove: fileId,
-      };
-    }
-    case types.CLOSE_MOVE_DIALOG: {
-      return {
-        ...state,
-        fileIdToMove: null,
-      };
-    }
-    case fileTypes.MOVE_FILE_SUCCESS: {
-      return {
-        ...state,
-        fileIdToRename: null,
-        fileIdToMove: null,
+        [key]: {
+          ...state[key],
+          visible: false,
+        },
       };
     }
     default:
@@ -135,16 +97,34 @@ function uploader(state = { visibilityFilter: 'all' }, action) {
 
 export default combineReducers({
   fileBrowser,
+  fileDialog,
   scrollOffset,
   uploader,
 });
 
-export const getCreateFolderDialogVisible = (state) => state.ui.fileBrowser.createFolderDialogVisible;
+export const getFileDialogVisible = (state, props) => {
+  const { uid: key } = props;
+  const dialog = state.ui.fileDialog[key];
+  if (dialog !== null && dialog !== undefined) {
+    return dialog.visible;
+  }
+  return false;
+};
+
+export const getFileDialogProps = (state, props) => {
+  const { uid: key } = props;
+  const dialog = state.ui.fileDialog[key];
+  if (dialog !== null && dialog !== undefined) {
+    return dialog.props;
+  }
+  return false;
+};
+
+export const getCreateFolderDialogVisible = (state) => (
+  state.ui.fileBrowser.createFolderDialogVisible
+);
+
 export const getEmptyTrashDialogVisible = (state) => state.ui.fileBrowser.emptyTrashDialogVisible;
-export const getFileIdToRename = (state) => state.ui.fileBrowser.fileIdToRename;
-export const getFileIdToDelete = (state) => state.ui.fileBrowser.fileIdToDelete;
-export const getFileIdToDeleteImmediately = (state) => state.ui.fileBrowser.fileIdToDeleteImmediately;
-export const getFileIdToMove = (state) => state.ui.fileBrowser.fileIdToMove;
 
 export const getScrollOffset = (state, key) => state.ui.scrollOffset[key] || 0;
 

@@ -8,8 +8,9 @@ import * as routes from '../routes';
 import Dialog from './ui/Dialog';
 import Input from './ui/Input';
 
-function RenameFileDialog({ file, loading, onRename, onCancel }) {
-  const visible = !!file;
+function RenameFileDialog({
+  file, loading, uid, visible, onRename, onCancel,
+}) {
   const [name, setName] = React.useState((file && file.name) || null);
   const [error, setError] = React.useState(null);
 
@@ -54,7 +55,7 @@ function RenameFileDialog({ file, loading, onRename, onCancel }) {
       confirmTitle="Rename"
       confirmLoading={loading}
       onConfirm={onConfirm}
-      onCancel={onCancel}
+      onCancel={() => { onCancel(uid); }}
     >
       <form className="w-full sm:min-w-1.5xs" onSubmit={(e) => { e.preventDefault(); onConfirm(); }}>
         <Input
@@ -78,6 +79,8 @@ RenameFileDialog.propTypes = {
     mediatype: PropTypes.string.isRequired,
   }),
   loading: PropTypes.bool,
+  uid: PropTypes.string.isRequired,
+  visible: PropTypes.bool,
   onRename: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
 };
@@ -85,6 +88,7 @@ RenameFileDialog.propTypes = {
 RenameFileDialog.defaultProps = {
   file: null,
   loading: false,
+  visible: false,
 };
 
 export default RenameFileDialog;
