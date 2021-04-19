@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Dialog as UIDialog, Transition } from '@headlessui/react';
+
 import Button from './Button';
-import Modal from './Modal';
 
 function Dialog({
   children,
@@ -18,60 +19,98 @@ function Dialog({
 }) {
   const iconColors = (confirmDanger) ? 'bg-red-100 text-red-500' : 'bg-gray-100 text-gray-500';
   return (
-    <Modal visible={visible} onClose={onCancel}>
-      <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-        <div className="sm:flex sm:items-start">
-          {(icon) && (
-            <div className={`mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full ${iconColors} sm:mx-0 sm:h-10 sm:w-10`}>
-              {icon}
-            </div>
-          )}
+    <Transition show={visible} as={React.Fragment}>
+      <UIDialog
+        as="div"
+        id="modal"
+        className="fixed inset-0 z-10 overflow-y-auto"
+        static
+        open={visible}
+        onClose={onCancel}
+      >
+        <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+          <Transition.Child
+            as={React.Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <UIDialog.Overlay className="fixed inset-0 blur" style={{ background: 'rgba(160, 174, 192, .75)' }} />
+          </Transition.Child>
 
-          <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">
-              {title}
-            </h3>
-            <div className="mt-2 text-sm text-gray-600">
-              {children}
-            </div>
-          </div>
-        </div>
-      </div>
+          {/* This element is to trick the browser into centering the modal contents. */}
+          <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
-      {(onCancel !== null || onConfirm !== null || RenderConfirm !== null) && (
-        <div className="bg-gray-100 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-          {(onConfirm !== null || RenderConfirm !== null) && (
-            <div className="w-full sm:w-auto sm:ml-3">
-              {(onConfirm !== null) && (
-                <Button
-                  type="primary"
-                  danger={confirmDanger}
-                  loading={confirmLoading}
-                  onClick={onConfirm}
-                  full
-                >
-                  {confirmTitle}
-                </Button>
-              )}
-              {(RenderConfirm !== null) && (
-                <RenderConfirm />
+          <Transition.Child
+            as={React.Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0 scale-95"
+            enterTo="opacity-100 scale-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100 scale-100"
+            leaveTo="opacity-0 scale-95"
+          >
+            <div className="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full sm:w-auto">
+              <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 sm:flex sm:items-start">
+                {(icon) && (
+                  <div className={`mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full ${iconColors} sm:mx-0 sm:h-10 sm:w-10`}>
+                    {icon}
+                  </div>
+                )}
+                <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                  <UIDialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-900"
+                  >
+                    {title}
+                  </UIDialog.Title>
+                  <div className="mt-2 text-sm text-gray-500">
+                    {children}
+                  </div>
+                </div>
+              </div>
+
+              {(onCancel !== null || onConfirm !== null || RenderConfirm !== null) && (
+                <div className="bg-gray-100 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                  {(onConfirm !== null || RenderConfirm !== null) && (
+                    <div className="w-full sm:w-auto sm:ml-3">
+                      {(onConfirm !== null) && (
+                        <Button
+                          type="primary"
+                          danger={confirmDanger}
+                          loading={confirmLoading}
+                          onClick={onConfirm}
+                          full
+                        >
+                          {confirmTitle}
+                        </Button>
+                      )}
+                      {(RenderConfirm !== null) && (
+                        <RenderConfirm />
+                      )}
+                    </div>
+                  )}
+                  {(onCancel) && (
+                    <div className="w-full mt-3 sm:w-auto sm:mt-0 sm:ml-3">
+                      <Button
+                        type="default"
+                        onClick={onCancel}
+                        full
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                  )}
+                </div>
               )}
             </div>
-          )}
-          {(onCancel) && (
-            <div className="w-full mt-3 sm:w-auto sm:mt-0 sm:ml-3">
-              <Button
-                type="default"
-                onClick={onCancel}
-                full
-              >
-                Cancel
-              </Button>
-            </div>
-          )}
+          </Transition.Child>
         </div>
-      )}
-    </Modal>
+      </UIDialog>
+    </Transition>
   );
 }
 
