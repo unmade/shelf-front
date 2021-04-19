@@ -7,6 +7,8 @@ export const BREADCRUMBS_ALIASES = {
 };
 
 export const Dialogs = {
+  createFolder: 'createFolder',
+  emptyTrash: 'emptyTrash',
   delete: 'delete',
   deleteImmediately: 'deleteImmediately',
   move: 'move',

@@ -1,10 +1,12 @@
 import { put, select, takeEvery } from 'redux-saga/effects';
 
-import { MediaType } from '../../constants';
+import { Dialogs, MediaType } from '../../constants';
 
 import * as api from '../api';
 import * as actions from '../actions/files';
 import { scopes } from '../actions/loading';
+import * as uiActions from '../actions/ui';
+
 import { getAccessToken } from '../reducers/auth';
 
 import { tryRequest, tryResponse } from './_try';
@@ -27,6 +29,7 @@ function* createFolder({ payload }) {
   }
 
   yield put(actions.createFolderSuccess(data));
+  yield put(uiActions.closeDialog(Dialogs.createFolder));
 }
 
 function* deleteImmediately({ payload }) {
@@ -47,6 +50,7 @@ function* deleteImmediately({ payload }) {
   }
 
   yield put(actions.deleteImmediatelySucess(data));
+  yield put(uiActions.closeDialog(Dialogs.deleteImmediately));
 }
 
 function* download({ payload }) {
@@ -88,6 +92,7 @@ function* emptyTrash() {
   }
 
   yield put(actions.emptyTrashSuccess(data));
+  yield put(uiActions.closeDialog(Dialogs.emptyTrash));
 }
 
 function* fetchThumbnail({ payload }) {
@@ -149,6 +154,8 @@ function* moveFile({ payload }) {
   }
 
   yield put(actions.moveFileSuccess(data));
+  yield put(uiActions.closeDialog(Dialogs.rename));
+  yield put(uiActions.closeDialog(Dialogs.move));
 }
 
 function* moveToTrash({ payload }) {
@@ -169,6 +176,7 @@ function* moveToTrash({ payload }) {
   }
 
   yield put(actions.moveToTrashSuccess(data));
+  yield put(uiActions.closeDialog(Dialogs.delete));
 }
 
 function* performDownload({ payload }) {

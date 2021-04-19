@@ -8,7 +8,7 @@ import Dialog from './ui/Dialog';
 import Input from './ui/Input';
 
 function CreateFolderDialog({
-  loading, path, visible, onCreate, onCancel,
+  loading, path, uid, visible, onCreate, onCancel,
 }) {
   const [error, setError] = React.useState(null);
   const [folderName, setFolderName] = React.useState(null);
@@ -48,7 +48,7 @@ function CreateFolderDialog({
       confirmTitle="Create"
       confirmLoading={loading}
       onConfirm={onConfirm}
-      onCancel={onCancel}
+      onCancel={() => { onCancel(uid); }}
     >
       <form className="w-full sm:min-w-1.5xs" onSubmit={(e) => { e.preventDefault(); onConfirm(); }}>
         <Input
@@ -67,6 +67,7 @@ function CreateFolderDialog({
 CreateFolderDialog.propTypes = {
   loading: PropTypes.bool,
   path: PropTypes.string.isRequired,
+  uid: PropTypes.string.isRequired,
   visible: PropTypes.bool.isRequired,
   onCreate: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,

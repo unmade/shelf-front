@@ -72,7 +72,7 @@ const Browser = React.memo(
           )}
         </div>
 
-        <CreateFolderDialog />
+        <CreateFolderDialog uid={Dialogs.createFolder} />
         <RenameFileDialog uid={Dialogs.rename} />
         <MoveDialog uid={Dialogs.move} />
         <DeleteDialog uid={Dialogs.delete} />

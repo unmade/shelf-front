@@ -6,7 +6,9 @@ import * as icons from '../icons';
 
 import Dialog from './ui/Dialog';
 
-function EmptyTrashDialog({ loading, visible, onEmpty, onCancel }) {
+function EmptyTrashDialog({
+  loading, uid, visible, onEmpty, onCancel,
+}) {
   return (
     <Dialog
       title="Empty Trash"
@@ -16,7 +18,7 @@ function EmptyTrashDialog({ loading, visible, onEmpty, onCancel }) {
       confirmLoading={loading}
       confirmDanger
       onConfirm={onEmpty}
-      onCancel={onCancel}
+      onCancel={() => { onCancel(uid); }}
     >
       <p>
         Are you sure you want to delete&nbsp;
@@ -29,6 +31,7 @@ function EmptyTrashDialog({ loading, visible, onEmpty, onCancel }) {
 
 EmptyTrashDialog.propTypes = {
   loading: PropTypes.bool,
+  uid: PropTypes.string.isRequired,
   visible: PropTypes.bool.isRequired,
   onEmpty: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,

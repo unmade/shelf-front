@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import { useMediaQuery } from 'react-responsive';
 
-import { MediaQuery, TRASH_FOLDER_NAME } from '../constants';
+import { Dialogs, MediaQuery, TRASH_FOLDER_NAME } from '../constants';
 import * as icons from '../icons';
 import * as routes from '../routes';
 
@@ -72,7 +72,7 @@ function Trash({
           type="text"
           title="Empty Trash"
           size="base"
-          onClick={onEmptyTrash}
+          onClick={() => { onEmptyTrash(Dialogs.emptyTrash); }}
           icon={<icons.TrashOutlined className="w-5 h-5" />}
           danger
         />
@@ -81,8 +81,8 @@ function Trash({
         <FileTableView path={dirPath} itemRender={FileTableCell} />
       </div>
 
-      <EmptyTrashDialog />
-      <DeleteImmediatelyDialog />
+      <EmptyTrashDialog uid={Dialogs.emptyTrash} />
+      <DeleteImmediatelyDialog uid={Dialogs.deleteImmediately} />
     </div>
   );
 }
