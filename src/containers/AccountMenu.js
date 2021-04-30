@@ -1,17 +1,18 @@
 import { connect } from 'react-redux';
 
-import { retrieveMe, signOut } from '../store/actions/auth';
+import { retrieveCurrentAccount } from '../store/actions/accounts';
+import { signOut } from '../store/actions/auth';
 
-import { getMe } from '../store/reducers/auth';
+import { getCurrentAccount } from '../store/reducers/accounts';
 
 import AccountMenu from '../components/AccountMenu';
 
 export default connect(
   (state) => ({
-    me: getMe(state),
+    account: getCurrentAccount(state),
   }),
   {
     onSignOut: signOut,
-    retrieveMe,
+    retrieveCurrentAccount,
   },
 )(AccountMenu);

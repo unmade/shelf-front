@@ -1,18 +1,6 @@
 import { combineReducers } from 'redux';
-import { types } from '../actions/auth';
 
-function me(state = null, action) {
-  switch (action.type) {
-    case types.RETRIEVE_ME_SUCCESS: {
-      return action.payload.me;
-    }
-    case types.RETRIEVE_ME_FAILURE: {
-      return null;
-    }
-    default:
-      return state;
-  }
-}
+import { types } from '../actions/auth';
 
 const INITIAL_STATE = {
   accessToken: null,
@@ -44,11 +32,8 @@ function tokens(state = INITIAL_STATE, action) {
 }
 
 export default combineReducers({
-  me,
   tokens,
 });
-
-export const getMe = (state) => state.auth.me;
 
 export const getAuth = (state) => state.auth;
 export const getAccessToken = (state) => getAuth(state).tokens.accessToken;

@@ -75,25 +75,6 @@ function* refreshTokenWatcher() {
   }
 }
 
-function* retrieveMe() {
-  const accessToken = yield select(getAccessToken);
-
-  const request = api.get('/auth/me', accessToken);
-  const [response, err] = yield tryRequest(request);
-  if (err !== null) {
-    yield put(actions.retrieveMeFailure(err));
-    return;
-  }
-
-  const [data, parseErr] = yield tryResponse(response.json());
-  if (parseErr !== null) {
-    yield put(actions.retrieveMeFailure(err));
-    return;
-  }
-
-  yield put(actions.retrieveMeSuccess(data));
-}
-
 function* signIn({ payload }) {
   const { username, password } = payload;
 
@@ -121,6 +102,5 @@ function* signIn({ payload }) {
 export default [
   refreshTokenWatcher(),
   takeEvery(actions.types.REFRESH_TOKEN, refreshToken),
-  takeEvery(actions.types.RETRIEVE_ME, retrieveMe),
   takeEvery(actions.types.SIGN_IN, signIn),
 ];

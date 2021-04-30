@@ -5,18 +5,18 @@ import * as icons from '../icons';
 
 import Button from './ui/Button';
 
-function AccountMenu({ me, onSignOut, retrieveMe }) {
+function AccountMenu({ account, onSignOut, retrieveCurrentAccount }) {
   React.useEffect(() => {
-    if (me === null) {
-      retrieveMe();
+    if (account === null) {
+      retrieveCurrentAccount();
     }
-  }, [me, retrieveMe]);
+  }, [account, retrieveCurrentAccount]);
 
-  if (me === null) {
+  if (account === null) {
     return null;
   }
 
-  const { username } = me;
+  const { username } = account;
 
   return (
     <div className="flex flex-row space-x-2 items-center">
@@ -44,15 +44,15 @@ function AccountMenu({ me, onSignOut, retrieveMe }) {
 }
 
 AccountMenu.propTypes = {
-  me: PropTypes.shape({
+  account: PropTypes.shape({
     username: PropTypes.string.isRequired,
   }),
   onSignOut: PropTypes.func.isRequired,
-  retrieveMe: PropTypes.func.isRequired,
+  retrieveCurrentAccount: PropTypes.func.isRequired,
 };
 
 AccountMenu.defaultProps = {
-  me: null,
+  account: null,
 };
 
 export default AccountMenu;
