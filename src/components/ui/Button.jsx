@@ -120,8 +120,6 @@ function Button({
   }
   return (
     <RenderAs
-      // eslint-disable-next-line react/button-has-type
-      type={htmlType}
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...buttonProps}
     >
