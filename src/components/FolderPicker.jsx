@@ -38,8 +38,6 @@ const FolderPicker = React.memo(({
       <div className="pb-1">
         <Breadcrumb
           items={routes.breadcrumbs(norm(path))}
-          fold={Breadcrumb.Fold.collapse}
-          size="xs"
           itemRender={({ name, path: nextPath }) => (
             <Breadcrumb.Item
               path={nextPath}

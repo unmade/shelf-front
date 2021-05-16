@@ -25,86 +25,72 @@ const Browser = React.memo(
     const isTablet = useMediaQuery({ query: MediaQuery.sm });
     const isLaptop = useMediaQuery({ query: MediaQuery.lg });
     const previewAvailable = (isLaptop && hasSelectedFiles);
-    let fold = Breadcrumb.Fold.collapse;
-    if (!isTablet) {
-      fold = Breadcrumb.Fold.single;
-    } else if (isLaptop) {
-      fold = Breadcrumb.Fold.collapseWide;
+    const breadcrumbs = routes.breadcrumbs(url);
+    let currentFolder;
+    if (breadcrumbs.length === 1) {
+      currentFolder = breadcrumbs[breadcrumbs.length - 1];
+    } else {
+      currentFolder = breadcrumbs.pop();
     }
     return (
       <div className="h-full flex flex-col">
-        <div className="flex flex-row items-center justify-between text-3xl p-4 border-b-2 border-gray-100">
+        <div className="flex flex-row items-center justify-between text-xl sm:text-3xl px-4 pt-4 border-gray-100">
           <div className="px-4">
-            <h2 className="text-gray-900 truncate font-medium">
-              Home
+            <h2 className="text-gray-900 truncate font-medium max-w-xs lg:max-w-md">
+              {currentFolder.name}
             </h2>
-            <nav className="flex items-center text-gray-500 text-sm font-medium sm:space-x-1 whitespace-nowrap">
-              <a href="/components#product-application-ui" className="hidden sm:block hover:text-gray-900">
-                Application UI
-              </a>
-              <svg width="24" height="24" fill="none" className="hidden sm:block flex-none text-gray-300">
-                <path d="M10.75 8.75l3.5 3.25-3.5 3.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-              </svg>
-              <a href="/components#product-application-ui-elements" className="hidden sm:block hover:text-gray-900">
-                Elements
-              </a>
-              <svg width="24" height="24" fill="none" className="hidden sm:block flex-none text-gray-300">
-                <path d="M10.75 8.75l3.5 3.25-3.5 3.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-              </svg>
-              <a href="/components/application-ui/elements/dropdowns" className="truncate hover:text-gray-900">
-                Dropdowns
-              </a>
-            </nav>
+
           </div>
-          <div className="px-4 flex text-2xl items-center space-x-8">
-            <button type="button" className="group leading-6 font-medium flex items-center space-x-3 sm:space-x-4 text-gray-500 hover:text-gray-600 transition-colors duration-200 w-full py-2">
-              <icons.SearchOutlined className="text-gray-400 group-hover:text-gray-500 transition-colors duration-200" />
-              <span className="text-xl">
-                Quick search
-              </span>
-              <span className="hidden sm:block text-gray-400 text-sm leading-5 py-0.5 px-1.5 border border-gray-300 rounded-md" style={{ opacity: 1 }}>
-                <kbd className="font-sans">
-                  <abbr title="Command" className="no-underline">⌘</abbr>
-                </kbd>
-                <kbd className="font-sans">K</kbd>
-              </span>
-            </button>
-            <button type="button" className="p-2 bg-gradient-to-br from-blue-400 to-indigo-400 hover:from-blue-300 hover:to-indigo-400 rounded-xl shadow text-gray-100 hover:bg-gray-500 hover:text-white transition-colors duration-150">
-              <icons.CloudUploadOutlined />
-            </button>
-            <button type="button" className="text-gray-800">
-              <icons.More />
-            </button>
-          </div>
+          {(isLaptop) && (
+            <div className="px-4 flex text-2xl items-center space-x-8">
+              <button type="button" className="group leading-6 font-medium flex items-center space-x-3 sm:space-x-4 text-gray-500 hover:text-gray-600 transition-colors duration-200 w-full py-2">
+                <icons.SearchOutlined className="w-5 h-5 text-gray-400 group-hover:text-gray-500 transition-colors duration-200" />
+                <span className="text-lg">
+                  Quick search
+                </span>
+                <span className="hidden sm:block text-gray-400 text-sm leading-5 py-0.5 px-1.5 border border-gray-300 rounded-md" style={{ opacity: 1 }}>
+                  <kbd className="font-sans">
+                    <abbr title="Command" className="no-underline">⌘</abbr>
+                  </kbd>
+                  <kbd className="font-sans">K</kbd>
+                </span>
+              </button>
+              <button type="button" className="p-2 bg-gradient-to-br from-blue-400 to-indigo-400 hover:from-blue-300 hover:to-indigo-400 rounded-xl shadow text-indigo-50 hover:bg-gray-500 hover:text-white transition-all duration-150">
+                <icons.CloudUploadOutlined className="w-5 h-5" />
+              </button>
+              <button type="button" className="text-gray-800">
+                <icons.More />
+              </button>
+            </div>
+          )}
+
+
 
           {/* <div className="min-w-0 flex-1 inline-flex items-center"> */}
             {/* {(!isLaptop) && (
               <AppMenuModal />
             )}
-            <span className="min-w-0 w-full mx-4">
-              <Breadcrumb
-                items={routes.breadcrumbs(url)}
-                fold={fold}
-                itemRender={({ name, path }) => (
-                  <Breadcrumb.Item path={path}>
-                    <span className="block truncate">
-                      {name}
-                    </span>
-                  </Breadcrumb.Item>
-                )}
-                itemRenderCollapsed={({ name, path }) => (
-                  <Breadcrumb.ItemCollapsed path={path}>
-                    <span className="block truncate">
-                      {name}
-                    </span>
-                  </Breadcrumb.ItemCollapsed>
-                )}
-              />
-            </span> */}
           {/* </div> */}
           {/* <FileBrowserActions collapsed={!isTablet} /> */}
         </div>
-
+        <Breadcrumb
+              className="px-8 pt-2 pb-4"
+              items={breadcrumbs}
+              itemRender={({ name, path }) => (
+                <Breadcrumb.Item path={path}>
+                  <span className="block truncate">
+                    {name}
+                  </span>
+                </Breadcrumb.Item>
+              )}
+              itemRenderCollapsed={({ name, path }) => (
+                <Breadcrumb.ItemCollapsed path={path}>
+                  <span className="block truncate">
+                    {name}
+                  </span>
+                </Breadcrumb.ItemCollapsed>
+              )}
+            />
         <div className="flex-1 flex flex-row pt-0">
           <div className={(previewAvailable) ? 'w-2/3' : 'w-full'}>
             <FileTableView path={dirPath || '.'} itemRender={FileTableCell} droppable />

@@ -9,81 +9,37 @@ import Menu from '../Menu';
 import BreadcrumbItem from './BreadcrumbItem';
 import BreadcrumbItemCollapsed from './BreadcrumbItemCollapsed';
 
-const fonts = {
-  xs: 'text-xs space-x-1',
-  lg: 'text-xl space-x-2 font-semibold',
-};
-
-const Fold = {
-  collapse: 'collapse',
-  collapseWide: 'collapse-wide',
-  none: 'none',
-  single: 'single',
-};
-
-const iconSize = {
-  xs: 'text-base',
-  lg: 'text-lg',
-};
-
 function Breadcrumb({
-  fold, items, size, itemRender: Render, itemRenderCollapsed: RenderCollapsed,
+  className, items, itemRender: Render, itemRenderCollapsed: RenderCollapsed,
 }) {
-  if (fold === Fold.single) {
-    const last = items.pop();
-    if (items.length < 1) {
-      return (
-        <Button
-          type="text"
-          size={size}
-          full
-          disabled
-        >
-          <Render name={last.name} path={last.path} />
-        </Button>
-      );
-    }
+  if (items.length < 4) {
     return (
-      <Menu
-        buttonClassName="w-full"
-        panelClassName="max-w-xs"
-        items={items}
-        itemRender={({ item }) => (
-          <RenderCollapsed name={item.name} path={item.path} />
-        )}
-      >
-        <Button as="div" type="text" size={size} full>
-          <Render name={last.name} path={last.path} />
-        </Button>
-      </Menu>
-    );
-  }
-
-  if ((fold !== Fold.collapse && fold !== Fold.collapseWide) || items.length < 4) {
-    return (
-      <nav className={`flex flex-row items-center ${fonts[size]} text-gray-600`}>
-        {(items.map((item, idx) => (
+      <nav className={`${className} flex items-center text-gray-500 text-sm font-medium space-x-1 sm:space-x-2 whitespace-nowrap`}>
+        {items.map((item, idx) => (
           <React.Fragment key={item.path}>
             {(idx !== 0) && (
-              <icons.ChevronRight />
+              <icons.ChevronRight className="w-4 h-4 sm:block flex-none text-gray-300" />
             )}
-            <span className="py-1 max-w-xs truncate">
+            {(idx === 0) && (
+              <div className="py-2 sm:py-1">
+                <icons.Home className="w-4 h-4 sm:block flex-none text-gray-300" />
+              </div>
+            )}
+            <span className="max-w-xs truncate">
               <Render name={item.name} path={item.path} />
             </span>
           </React.Fragment>
-        )))}
+        ))}
       </nav>
     );
   }
 
   const [first, ...rest] = items;
   const last = rest.pop();
-  let secondToLast = null;
-  if (fold === Fold.collapseWide) {
-    secondToLast = rest.pop();
-  }
+
   return (
-    <nav className={`flex flex-row items-center ${fonts[size]} text-gray-600`}>
+    <nav className={`${className} flex items-center text-gray-500 text-sm font-medium space-x-1 sm:space-x-2 whitespace-nowrap`}>
+      <icons.Home className="w-4 h-4 sm:block flex-none text-gray-300" />
       <span className="max-w-xs">
         <Render name={first.name} path={first.path} />
       </span>
@@ -100,50 +56,37 @@ function Breadcrumb({
         <Button
           as="div"
           type="text"
-          size={size}
-          icon={<icons.DotsHorizontal className={iconSize[size]} />}
+          size="sm"
+          icon={<icons.DotsHorizontal className="w-4 h-4" />}
         />
       </Menu>
-      {(secondToLast !== null) && (
-        <>
-          <div>
-            <icons.ChevronRight />
-          </div>
-          <span className="max-w-2xs">
-            <Render name={secondToLast.name} path={secondToLast.path} />
-          </span>
-        </>
-      )}
       <div>
         <icons.ChevronRight />
       </div>
-      <span className="min-w-0 max-w-md pr-8">
+      <span className="max-w-2xs">
         <Render name={last.name} path={last.path} />
       </span>
     </nav>
   );
 }
 
-Breadcrumb.Fold = Fold;
 Breadcrumb.Item = BreadcrumbItem;
 Breadcrumb.ItemCollapsed = BreadcrumbItemCollapsed;
 
 Breadcrumb.propTypes = {
-  fold: PropTypes.oneOf([Fold.collapse, Fold.collapseWide, Fold.none, Fold.single]),
+  className: PropTypes.string,
   items: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
       path: PropTypes.string.isRequired,
     }).isRequired,
   ).isRequired,
-  size: PropTypes.oneOf(['xs', 'lg']),
   itemRender: PropTypes.func.isRequired,
   itemRenderCollapsed: PropTypes.func.isRequired,
 };
 
 Breadcrumb.defaultProps = {
-  fold: 'none',
-  size: 'lg',
+  className: '',
 };
 
 export default Breadcrumb;
