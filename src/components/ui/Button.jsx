@@ -15,12 +15,12 @@ const colors = {
     [true]: ['bg-white', 'text-red-700', 'border-red-300'],
   },
   primary: {
-    [false]: ['bg-blue-500', 'text-white'],
-    [true]: ['bg-red-600', 'text-red-100', 'hover:bg-red-500'],
+    [false]: ['bg-blue-400', 'text-white'],
+    [true]: ['bg-red-500', 'text-red-50', 'hover:bg-red-400'],
   },
   text: {
-    [false]: ['text-gray-700', 'hover:bg-gray-100'],
-    [true]: ['text-red-600', 'hover:bg-red-100'],
+    [false]: ['text-gray-700', 'hover:bg-gray-50'],
+    [true]: ['text-red-600', 'hover:bg-red-50'],
   },
 };
 

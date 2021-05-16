@@ -53,7 +53,7 @@ function VList({
             {({ data, index, isScrolling, style }) => (
               <div style={style}>
                 <View
-                  className={(index % 2) ? 'bg-white' : 'bg-gray-75'}
+                  className={(index % 2) ? 'bg-white' : 'bg-gray-50'}
                   item={data[index]}
                   scrolling={isScrolling}
                 />

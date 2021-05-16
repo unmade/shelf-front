@@ -21,7 +21,7 @@ function AccountMenu({ account, onSignOut, retrieveCurrentAccount }) {
   return (
     <div className="flex flex-row space-x-2 items-center">
       <div
-        className="rounded-full h-10 w-10 bg-orange-100 flex items-center justify-center border border-red-200 text-orange-600"
+        className="rounded-full h-10 w-10 bg-orange-50 flex items-center justify-center border border-orange-200 text-orange-600"
       >
         {username.substring(0, 1).toUpperCase()}
       </div>

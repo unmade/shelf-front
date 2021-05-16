@@ -17,7 +17,7 @@ function Dialog({
   onConfirm,
   onCancel,
 }) {
-  const iconColors = (confirmDanger) ? 'bg-red-100 text-red-500' : 'bg-gray-100 text-gray-500';
+  const iconColors = (confirmDanger) ? 'bg-red-50 text-red-500' : 'bg-gray-50 text-gray-500';
   return (
     <Transition show={visible} as={React.Fragment}>
       <UIDialog

@@ -25,14 +25,14 @@ function getPrimaryText(selected, hidden) {
 function getSecondaryText(selected, hidden) {
   return (
     (selected && 'text-orange-800')
-    || (hidden && 'text-gray-500')
-    || 'text-gray-600'
+    || (hidden && 'text-gray-400')
+    || 'text-gray-500'
   );
 }
 
 function getBackground(selected) {
   return (
-    (selected && 'bg-orange-100 border-orange-200')
+    (selected && 'bg-orange-50 border-orange-200')
     || 'border-transparent'
   );
 }

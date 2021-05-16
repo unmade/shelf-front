@@ -38,7 +38,7 @@ function FileBrowserPreview({ files }) {
       <div style={styles} />
 
       <div className="px-4 pb-2 flex flex-col">
-        <div className="h-64 w-auto flex items-center justify-center rounded bg-gray-75">
+        <div className="h-64 w-auto flex items-center justify-center rounded bg-gray-50">
           {(hasThumbnail) ? (
             <Thumbnail className="w-64 h-64 rounded" size="lg" file={file} />
           ) : (
