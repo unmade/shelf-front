@@ -2,11 +2,11 @@ import * as cg from 'react-icons/cg';
 import * as di from 'react-icons/di';
 import * as hi from 'react-icons/hi';
 import * as si from 'react-icons/si';
-import { BsLayersFill } from 'react-icons/bs';
 
 import { MediaType } from './constants';
+import { ReactComponent as AppLogoIcon } from './logo.svg';
 
-export const AppLogo = BsLayersFill;
+export const AppLogo = AppLogoIcon;
 export const ArrowLeft = hi.HiArrowNarrowLeft;
 export const ArrowRight = hi.HiArrowNarrowRight;
 export const CheckCircle = hi.HiCheckCircle;

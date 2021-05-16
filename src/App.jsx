@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 
 import * as routes from './routes';
 
-import SideMenu from './components/SideMenu';
+import SideBar from './components/SideBar';
 import FileBrowser from './containers/FileBrowser';
 import Toast from './containers/Toast';
 import ToastItem from './containers/ToastItem';
@@ -12,16 +12,15 @@ import Trash from './containers/Trash';
 function App() {
   return (
     <>
-      <div className="flex sm:flex-row-reverse flex-wrap h-screen bg-gray-200">
-        <div className="w-full lg:w-4/5 xl:w-5/6 my-0 mx-auto bg-white border-l">
+      <div className="flex h-screen bg-gray-100">
+        <div className="w-64 hidden lg:block py-4 text-gray-700">
+          <SideBar />
+        </div>
+        <div className="my-0 bg-white flex-1">
           <Switch>
             <Route path={routes.FILES.route} component={FileBrowser} />
             <Route path={routes.TRASH.route} component={Trash} />
           </Switch>
-        </div>
-
-        <div className="hidden lg:block lg:w-1/5 xl:w-1/6 p-4 text-gray-700">
-          <SideMenu />
         </div>
       </div>
 
