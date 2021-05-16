@@ -21,7 +21,7 @@ export const menu = [
 function SideBar() {
   return (
     <div className="px-3 flex flex-col h-full">
-      <div className="px-2 pt-2 pb-6 flex items-center font-bold font-mono text-2xl text-gray-900">
+      <div className="px-2 pt-2 pb-10 flex items-center font-bold font-mono text-2xl text-gray-900">
         <div className="mr-3 p-2 bg-white flex items-center rounded-xl shadow-sm">
           <icons.AppLogo className="flex-shrink-0 w-7 h-7 text-gray-600" />
         </div>
