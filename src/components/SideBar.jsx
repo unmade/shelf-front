@@ -21,20 +21,20 @@ export const menu = [
 function SideBar() {
   return (
     <div className="px-3 flex flex-col h-full">
-      <div className="p-2 flex items-center font-bold font-mono text-2xl text-gray-900">
+      <div className="px-2 pt-2 pb-6 flex items-center font-bold font-mono text-2xl text-gray-900">
         <div className="mr-3 p-2 bg-white flex items-center rounded-xl shadow-sm">
           <icons.AppLogo className="flex-shrink-0 w-7 h-7 text-gray-600" />
         </div>
         shelf
       </div>
 
-      <div className="pt-10 pb-4 text-lg text-gray-600 flex-1">
+      <div className="pt-2 pb-4 text-lg text-gray-500 flex-1">
         <nav className="space-y-2">
           {menu.map((item) => (
             <NavLink
               to={item.path}
               className="whitespace-nowrap flex items-center lg:text-sm font-medium transition-colors duration-200 rounded-md py-2 px-3"
-              activeClassName="bg-gray-300 text-gray-700"
+              activeClassName="bg-gray-200 text-gray-700"
             >
               {item.icon}
               {item.title}

@@ -132,7 +132,7 @@ function FilePreview({ dirPath, preview, downloads, download }) {
           nextName={nextFile.name}
         />
 
-        <div className="overflow-scroll h-full bg-gray-300">
+        <div className="overflow-scroll h-full bg-gray-200">
           {(loading) ? (
             <div className="h-full flex items-center justify-center">
               <icons.Spinner className="w-8 h-8 text-gray-600 animate-spin" />
