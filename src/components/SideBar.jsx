@@ -21,8 +21,10 @@ export const menu = [
 function SideBar() {
   return (
     <div className="px-3 flex flex-col h-full">
-      <div className="py-2 px-2 flex items-center font-bold font-mono text-2xl text-gray-900">
-        <icons.AppLogo className="mr-2 flex-shrink-0 w-7 h-7 text-gray-600" />
+      <div className="p-2 flex items-center font-bold font-mono text-2xl text-gray-900">
+        <div className="mr-3 p-2 bg-white flex items-center rounded-xl shadow-sm">
+          <icons.AppLogo className="flex-shrink-0 w-7 h-7 text-gray-600" />
+        </div>
         shelf
       </div>
 
@@ -32,7 +34,7 @@ function SideBar() {
             <NavLink
               to={item.path}
               className="whitespace-nowrap flex items-center lg:text-sm font-medium transition-colors duration-200 rounded-md py-2 px-3"
-              activeClassName="bg-gray-300 text-gray-800"
+              activeClassName="bg-gray-300 text-gray-700"
             >
               {item.icon}
               {item.title}

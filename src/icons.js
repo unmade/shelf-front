@@ -33,6 +33,7 @@ export const Menu = hi.HiMenu;
 export const More = hi.HiOutlineDotsHorizontal;
 export const Move = hi.HiOutlineDocumentDuplicate;
 export const Redo = hi.HiOutlineRefresh;
+export const SearchOutlined = hi.HiOutlineSearch;
 export const Spinner = cg.CgSpinner;
 export const TrashOutlined = hi.HiOutlineTrash;
 export const Upload = hi.HiUpload;

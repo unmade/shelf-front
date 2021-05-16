@@ -16,7 +16,7 @@ function App() {
         <div className="w-64 hidden lg:block py-4 text-gray-700">
           <SideBar />
         </div>
-        <div className="my-0 bg-white flex-1">
+        <div className="my-0 bg-white flex-1 shadow-sm">
           <Switch>
             <Route path={routes.FILES.route} component={FileBrowser} />
             <Route path={routes.TRASH.route} component={Trash} />
