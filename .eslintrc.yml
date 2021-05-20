@@ -1,4 +1,6 @@
 extends: airbnb
+parserOptions:
+  ecmaVersion: 2020
 env:
   browser: true
 rules:
@@ -21,7 +23,7 @@ rules:
       minProperties: 4
       multiline: true
       consistent: true
-  no-plusplus: 
+  no-plusplus:
     - error
-    - allowForLoopAfterthoughts: 
+    - allowForLoopAfterthoughts:
         true

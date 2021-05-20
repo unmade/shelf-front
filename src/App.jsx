@@ -3,8 +3,9 @@ import { Switch, Route } from 'react-router-dom';
 
 import * as routes from './routes';
 
-import SideBar from './components/SideBar';
 import FileBrowser from './containers/FileBrowser';
+import SideBar from './containers/SideBar';
+
 import Toast from './containers/Toast';
 import ToastItem from './containers/ToastItem';
 import Trash from './containers/Trash';
