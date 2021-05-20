@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import VList from './ui/VList';
+import VList from '../ui/VList';
 
 function UploadList({ uploads, virtual, itemRender }) {
   if (uploads.length < 1) {

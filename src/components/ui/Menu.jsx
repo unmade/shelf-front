@@ -43,7 +43,7 @@ function Menu({
           >
             <UIMenu.Items
               static
-              className={`${panelClassName} flex flex-col bg-white p-2 rounded shadow focus:outline-none`}
+              className={`${panelClassName} flex flex-col bg-white p-2 rounded-xl shadow focus:outline-none`}
               ref={setPopperElement}
               style={styles.popper}
               // eslint-disable-next-line react/jsx-props-no-spreading

@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import * as icons from '../icons';
+import * as icons from '../../icons';
 
-import RecentUploads from '../containers/RecentUploads';
-import UploadButton from '../containers/UploadButton';
+import RecentUploads from '../../containers/Uploader/RecentUploads';
+import UploadButton from '../../containers/Uploader/UploadButton';
 
-import Dialog from './ui/Dialog';
+import Dialog from '../ui/Dialog';
 
 function UploadDialog({ visible, onCancel }) {
   return (

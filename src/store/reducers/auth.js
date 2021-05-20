@@ -60,7 +60,6 @@ export const loadAuthState = () => {
         ...INITIAL_STATE,
         ...tokensState,
       },
-      me: null,
     },
   };
 };
