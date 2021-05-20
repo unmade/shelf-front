@@ -25,7 +25,7 @@ function Dropdown({ children, overlay: Overlay }) {
         <>
           <Popover.Button
             ref={setReferenceElement}
-            className="w-full rounded-md focus:outline-none focus:ring"
+            className="w-full rounded-xl focus:outline-none focus:ring ring-offset-2"
           >
             {children}
           </Popover.Button>

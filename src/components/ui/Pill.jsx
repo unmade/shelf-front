@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 function Pill({ children, title, active, onClick }) {
   let styles;
   if (active) {
-    styles = 'text-white font-semibold bg-blue-500 hover:bg-blue-500';
+    styles = 'text-blue-500 font-semibold bg-blue-100 hover:bg-blue-200';
   } else {
-    styles = 'hover:bg-blue-100 hover:text-blue-800';
+    styles = 'hover:bg-blue-200 hover:text-blue-600';
   }
   return (
     <button
       type="button"
-      className={`py-1 px-2 rounded-md ${styles} focus:outline-none focus:ring`}
+      className={`py-1 px-2 rounded-xl ${styles} focus:outline-none focus:ring`}
       title={title}
       onClick={onClick}
     >

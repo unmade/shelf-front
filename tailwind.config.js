@@ -10,12 +10,16 @@ module.exports = {
       current: 'currentColor',
       black: colors.black,
       blue: colors.blue,
-      white: colors.white,
+      emerald: colors.emerald,
       gray: colors.gray,
+      green: colors.green,
       indigo: colors.indigo,
-      red: colors.red,
-      yellow: colors.amber,
       orange: colors.orange,
+      red: colors.red,
+      rose: colors.rose,
+      teal: colors.teal,
+      white: colors.white,
+      yellow: colors.amber,
     },
     extend: {
       animation: {
@@ -29,6 +33,8 @@ module.exports = {
       },
       maxWidth: {
         '2xs': '10rem',
+        '1.5xs': '15rem',
+        '3xs': '6rem',
       },
       minWidth: {
         '1.5xs': '15rem',

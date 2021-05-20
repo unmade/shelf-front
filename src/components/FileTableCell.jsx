@@ -30,24 +30,25 @@ function getSecondaryText(selected, hidden) {
   );
 }
 
-function getBackground(selected) {
+function getBackground(even, selected) {
   return (
     (selected && 'bg-orange-50 border-orange-200')
-    || 'border-transparent'
+    || (even && 'bg-white border-transparent')
+    || ('bg-gray-50 border-transparent')
   );
 }
 
 function FileTableCell({
-  className, item, scrolling, selected, onSelect,
+  className, even, item, scrolling, selected, onSelect,
 }) {
   const primaryText = getPrimaryText(selected, item.hidden);
   const secondaryText = getSecondaryText(selected, item.hidden);
-  const background = getBackground(selected);
+  const background = getBackground(even, selected);
 
   return (
     <div
       onClick={() => onSelect(item.id)}
-      className={`${className} mx-4 h-full flex flex-row items-center text-sm px-4 border rounded-lg ${(background)}`}
+      className={`${className} ${background} mx-4 h-full flex flex-row items-center text-sm px-4 border rounded-lg`}
     >
       <div className={`w-4/5 md:w-1/2 2xl:w-2/3 flex flex-row items-center space-x-2 ${primaryText}`}>
         <div className="w-7">

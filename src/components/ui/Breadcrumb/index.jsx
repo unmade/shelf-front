@@ -10,7 +10,7 @@ import BreadcrumbItem from './BreadcrumbItem';
 import BreadcrumbItemCollapsed from './BreadcrumbItemCollapsed';
 
 function Breadcrumb({
-  className, items, itemRender: Render, itemRenderCollapsed: RenderCollapsed,
+  className, items, itemRender: Render, itemRenderCollapsed: RenderCollapsed, onCreateFolder,
 }) {
   if (items.length < 4) {
     return (
@@ -30,6 +30,14 @@ function Breadcrumb({
             </span>
           </React.Fragment>
         ))}
+        <icons.ChevronRight className="w-4 h-4 sm:block flex-none text-gray-300" />
+        <button
+          type="button"
+          className="p-2 sm:p-1 text-gray-400 hover:bg-teal-50 hover:text-blue-400 rounded-lg focus:outline-none focus:ring-2 ring-offset-2 ring-teal-200"
+          onClick={onCreateFolder}
+        >
+          <icons.NewFolder className="w-4 h-4" />
+        </button>
       </nav>
     );
   }
@@ -44,7 +52,7 @@ function Breadcrumb({
         <Render name={first.name} path={first.path} />
       </span>
       <div>
-        <icons.ChevronRight />
+        <icons.ChevronRight className="w-4 h-4 sm:block flex-none text-gray-300" />
       </div>
       <Menu
         panelClassName="max-w-xs"
@@ -61,11 +69,19 @@ function Breadcrumb({
         />
       </Menu>
       <div>
-        <icons.ChevronRight />
+        <icons.ChevronRight className="w-4 h-4 sm:block flex-none text-gray-300" />
       </div>
-      <span className="max-w-2xs">
+      <span className="max-w-2xs sm:max-w-2xs">
         <Render name={last.name} path={last.path} />
       </span>
+      <icons.ChevronRight className="w-4 h-4 sm:block flex-none text-gray-300" />
+      <button
+        type="button"
+        className="p-2 sm:p-1 text-gray-400 hover:bg-teal-50 hover:text-blue-400 rounded-lg focus:outline-none focus:ring-2 ring-offset-2 ring-teal-200"
+        onClick={onCreateFolder}
+      >
+        <icons.NewFolder className="w-4 h-4" />
+      </button>
     </nav>
   );
 }
@@ -83,6 +99,7 @@ Breadcrumb.propTypes = {
   ).isRequired,
   itemRender: PropTypes.func.isRequired,
   itemRenderCollapsed: PropTypes.func.isRequired,
+  onCreateFolder: PropTypes.func.isRequired,
 };
 
 Breadcrumb.defaultProps = {

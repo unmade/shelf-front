@@ -1,11 +1,11 @@
 import React from 'react';
 
-import * as icons from '../icons';
+import * as icons from '../../icons';
 
-import Button from './ui/Button';
-import ProgressBar from './ui/ProgressBar';
+import Button from '../ui/Button';
+import ProgressBar from '../ui/ProgressBar';
 
-import FileIcon from './FileIcon';
+import FileIcon from '../FileIcon';
 
 function UploadListItem({ item }) {
   const {

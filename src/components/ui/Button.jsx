@@ -15,8 +15,8 @@ const colors = {
     [true]: ['bg-white', 'text-red-700', 'border-red-300'],
   },
   primary: {
-    [false]: ['bg-blue-400', 'text-white'],
-    [true]: ['bg-red-500', 'text-red-50', 'hover:bg-red-400'],
+    [false]: ['bg-gradient-to-br from-blue-400 to-indigo-400', 'text-white', 'hover:from-blue-300 hover:to-indigo-400', 'shadow'],
+    [true]: ['bg-gradient-to-br', 'from-red-400 hover:from-red-300', 'to-rose-400', 'text-red-50 hover:text-white', 'shadow', 'ring-rose-300'],
   },
   text: {
     [false]: ['text-gray-700', 'hover:bg-gray-50'],
@@ -59,7 +59,7 @@ const paddings = {
 
 const shapes = {
   circle: ['rounded-full'],
-  round: ['rounded-md'],
+  round: ['rounded-xl'],
 };
 
 function Button({
@@ -78,7 +78,7 @@ function Button({
   onClick,
 }) {
   const buttonProps = { disabled };
-  const classNames = [fontSizes[size], 'rounded-md', 'focus:outline-none', 'focus:ring', 'transition', 'ease-in-out', 'duration-75'];
+  const classNames = [fontSizes[size], 'rounded-xl', 'focus:outline-none', 'focus:ring', 'ring-offset-2', 'transition-all', 'ease-in-out'];
 
   if (full) {
     classNames.push('w-full');

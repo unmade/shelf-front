@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import * as icons from '../icons';
+import * as icons from '../../icons';
 
-import UploadList from '../containers/UploadList';
-import UploadListItem from '../containers/UploadListItem';
+import UploadList from '../../containers/Uploader/UploadList';
+import UploadListItem from '../../containers/Uploader/UploadListItem';
 
-import Button from './ui/Button';
-import Pill from './ui/Pill';
+import Button from '../ui/Button';
+import Pill from '../ui/Pill';
 
 const height = {
   minHeight: '20vh',

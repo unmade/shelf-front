@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import * as icons from '../icons';
+import * as icons from '../../icons';
 
-import FileDrop from '../containers/FileDrop';
-import RecentUploads from '../containers/RecentUploads';
-import UploadButton from '../containers/UploadButton';
+import FileDrop from '../../containers/FileDrop';
+
+import RecentUploads from '../../containers/Uploader/RecentUploads';
+import UploadButton from '../../containers/Uploader/UploadButton';
 
 const dropzoneClass = [
   'p-4',
@@ -55,7 +56,7 @@ Dropzone.defaultProps = {
   dragging: false,
 };
 
-function Uploader({ uploadTo }) {
+function Overlay({ uploadTo }) {
   return (
     <div className="w-96 p-4 bg-white rounded shadow text-gray-700">
 
@@ -71,8 +72,8 @@ function Uploader({ uploadTo }) {
   );
 }
 
-Uploader.propTypes = {
+Overlay.propTypes = {
   uploadTo: PropTypes.string.isRequired,
 };
 
-export default Uploader;
+export default Overlay;
