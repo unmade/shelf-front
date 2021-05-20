@@ -40,6 +40,7 @@ export const SearchOutlined = hi.HiOutlineSearch;
 export const Spinner = cg.CgSpinner;
 export const TrashOutlined = hi.HiOutlineTrash;
 export const Upload = hi.HiUpload;
+export const UsersOutline = hi.HiOutlineUsers;
 
 const PRECISE_MAP = {
   [MediaType.FOLDER]: Folder,
