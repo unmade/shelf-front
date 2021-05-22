@@ -30,7 +30,7 @@
     "uuid": "^8.2.0"
   },
   "scripts": {
-    "build:tailwind": "npx tailwindcss-cli build src/tailwind.css -o src/tailwind.generated.css",
+    "build:tailwind": "npx tailwindcss build src/tailwind.css -o src/tailwind.generated.css",
     "prestart": "npm run build:tailwind",
     "start": "react-scripts start",
     "prebuild": "npm run build:tailwind",

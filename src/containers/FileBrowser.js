@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import { deselectFiles, listFolder, changePath } from '../store/actions/files';
-import { openDialog } from '../store/actions/ui';
 
 import { getHasSelectedFiles } from '../store/reducers/files';
 
@@ -19,7 +18,6 @@ export default compose(
       deselectFiles,
       listFolder,
       changePath,
-      onCreateFolder: openDialog,
     },
   ),
 )(FileBrowser);

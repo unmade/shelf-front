@@ -36,7 +36,7 @@ function Uploader() {
         as="div"
         type="primary"
         title="Uploads"
-        size="lg"
+        size="sm"
         icon={<icons.CloudUploadOutlined className="w-5 h-5" />}
         onClick={() => { setUploaderVisible(true); }}
       />
