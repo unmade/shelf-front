@@ -13,8 +13,8 @@ import Trash from './containers/Trash';
 function App() {
   return (
     <>
-      <div className="flex h-screen bg-gray-100">
-        <div className="w-64 hidden lg:block py-4 text-gray-700">
+      <div className="flex h-screen bg-gray-100 overflow-hidden">
+        <div className="hidden sm:block w-64">
           <SideBar />
         </div>
         <div className="my-0 bg-white flex-1 shadow-sm">

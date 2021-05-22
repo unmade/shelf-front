@@ -37,6 +37,7 @@ export const Move = hi.HiOutlineDocumentDuplicate;
 export const Plus = hi.HiPlus;
 export const Redo = hi.HiOutlineRefresh;
 export const SearchOutlined = hi.HiOutlineSearch;
+export const SelectorOutlined = hi.HiOutlineSelector;
 export const Spinner = cg.CgSpinner;
 export const TrashOutlined = hi.HiOutlineTrash;
 export const Upload = hi.HiUpload;

@@ -6,6 +6,7 @@ import { Dialogs, MediaQuery } from '../constants';
 import * as icons from '../icons';
 import * as routes from '../routes';
 
+import Breadcrumb from '../containers/Breadcrumb';
 import CreateFolderDialog from '../containers/CreateFolderDialog';
 import DeleteDialog from '../containers/DeleteDialog';
 import FileBrowserPreview from '../containers/FileBrowserPreview';
@@ -15,8 +16,9 @@ import FileTableView from '../containers/FileTableView';
 import MoveDialog from '../containers/MoveDialog';
 import RenameFileDialog from '../containers/RenameFileDialog';
 
-import Breadcrumb from '../containers/Breadcrumb';
+import Button from './ui/Button';
 
+import SideBarModal from './SideBarModal';
 import Uploader from './Uploader';
 
 const Browser = React.memo(
@@ -32,10 +34,21 @@ const Browser = React.memo(
     }
     return (
       <div className="h-full flex flex-col">
-        <div className="flex flex-row items-center justify-between text-xl sm:text-3xl px-8 pt-4 border-gray-100">
-          <h2 className="text-gray-900 truncate font-medium max-w-1.5xs sm:max-w-xs lg:max-w-md">
-            {currentFolder.name}
-          </h2>
+        <div className="flex flex-row items-center justify-between text-2xl sm:text-3xl px-8 pt-4 border-gray-100">
+          <span className="sm:hidden">
+            <SideBarModal />
+          </span>
+          <div className="flex items-center">
+            <h2 className="ml-3 sm:ml-0 text-gray-900 truncate font-medium max-w-1.5xs sm:max-w-xs lg:max-w-md">
+              {currentFolder.name}
+            </h2>
+            <span className="sm:hidden">
+              <Button
+                type="text"
+                icon={<icons.SelectorOutlined className="w-5 h-5" />}
+              />
+            </span>
+          </div>
           <div className="flex text-2xl items-center space-x-8">
             {(isLaptop) && (
               <button type="button" className="group leading-6 font-medium flex items-center space-x-3 sm:space-x-4 text-gray-500 hover:text-gray-600 transition-colors duration-200 w-full focus:outline-none focus:ring ring-offset-2 rounded-xl">
@@ -55,7 +68,7 @@ const Browser = React.memo(
           </div>
         </div>
         <Breadcrumb
-          className="px-8 pt-2 pb-4"
+          className="hidden sm:flex px-8 pt-2 pb-4"
           items={breadcrumbs}
           itemRender={({ name, path }) => (
             <Breadcrumb.Item path={path}>
@@ -117,7 +130,7 @@ class FileBrowser extends React.Component {
   }
 
   render() {
-    const { match, location, hasSelectedFiles, onCreateFolder } = this.props;
+    const { match, location, hasSelectedFiles } = this.props;
     const { dirPath } = match.params;
 
     const { search } = location;
@@ -126,7 +139,7 @@ class FileBrowser extends React.Component {
 
     return (
       <>
-        <Browser url={match.url} dirPath={dirPath} hasSelectedFiles={hasSelectedFiles} onCreateFolder={onCreateFolder} />
+        <Browser url={match.url} dirPath={dirPath} hasSelectedFiles={hasSelectedFiles} />
         {(preview) && (
           <FilePreview dirPath={dirPath || '.'} name={preview} />
         )}

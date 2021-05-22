@@ -3,6 +3,7 @@ const colors = require('tailwindcss/colors');
 const plugin = require('tailwindcss/plugin');
 
 module.exports = {
+  mode: 'jit',
   purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
   theme: {
     colors: {
@@ -23,11 +24,11 @@ module.exports = {
     },
     extend: {
       animation: {
-        'toast-in-right': 'toast-in-right .3s',
+        'toast-in-right': 'toast-in-right .3s ease-in-out',
       },
       keyframes: {
         'toast-in-right': {
-          from: { transform: 'translateX(100%)' },
+          from: { transform: 'translateX(-100%)' },
           to: { transform: 'translateX(0)' },
         },
       },
