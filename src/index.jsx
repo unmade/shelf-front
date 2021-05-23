@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './index.css';
 import './tailwind.generated.css';
 import App from './App';
-import Login from './containers/Login';
+import Login from './pages/Login';
 import withAuth from './containers/withAuth';
 import * as serviceWorker from './serviceWorker';
 
