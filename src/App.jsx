@@ -3,12 +3,13 @@ import { Switch, Route } from 'react-router-dom';
 
 import * as routes from './routes';
 
-import FileBrowser from './containers/FileBrowser';
+import Files from './pages/Files';
+import Trash from './pages/Trash';
+
 import SideBar from './containers/SideBar';
 
 import Toast from './containers/Toast';
 import ToastItem from './containers/ToastItem';
-import Trash from './containers/Trash';
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
         </div>
         <div className="min-w-0 my-0 bg-white flex-1 shadow-sm">
           <Switch>
-            <Route path={routes.FILES.route} component={FileBrowser} />
+            <Route path={routes.FILES.route} component={Files} />
             <Route path={routes.TRASH.route} component={Trash} />
           </Switch>
         </div>

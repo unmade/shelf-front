@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { useMediaQuery } from 'react-responsive';
 import { useRouteMatch } from 'react-router-dom';
@@ -11,9 +12,8 @@ import BreadcrumbDropdown from '../BreadcrumbDropdown';
 
 import SearchButton from '../SearchButton';
 import SideBarModal from '../SideBarModal';
-import Uploader from '../Uploader';
 
-function Header() {
+function Header({ actionButton: ActionButton }) {
   const match = useRouteMatch();
   const isLaptop = useMediaQuery({ query: MediaQuery.lg });
   const breadcrumbs = routes.breadcrumbs(match.url);
@@ -41,7 +41,7 @@ function Header() {
         )}
         <div className="flex text-2xl items-center space-x-8">
           <SearchButton />
-          <Uploader />
+          <ActionButton />
         </div>
       </div>
       {(isLaptop) && (
@@ -70,4 +70,6 @@ function Header() {
 
 export default Header;
 
-Header.propTypes = {};
+Header.propTypes = {
+  actionButton: PropTypes.func.isRequired,
+};
