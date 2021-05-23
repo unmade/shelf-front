@@ -14,7 +14,7 @@ function SideBarModal() {
     <>
       <Button
         type="text"
-        icon={<icons.Menu className="w-5 h-5" />}
+        icon={<icons.Menu className="flex-shrink-0 w-5 h-5" />}
         onClick={() => setVisible(true)}
       />
       <Transition
@@ -44,7 +44,7 @@ function SideBarModal() {
             leaveTo="opacity-0 -translate-x-full"
           >
             <div className="absolute inset-0 z-40 flex pointer-events-none">
-              <div className="flex-1 max-w-sm min-w-0 bg-opacity-75 border-r border-gray-200 pointer-events-auto border-opacity-10 bg-gray-100 backdrop-filter backdrop-blur firefox:bg-opacity-90">
+              <div className="flex-1 max-w-sm min-w-0 bg-opacity-75 border-r border-gray-400 pointer-events-auto border-opacity-10 bg-gray-100 backdrop-filter backdrop-blur firefox:bg-opacity-90">
                 <SideBar />
               </div>
               <div className="w-24 pointer-events-none" aria-hidden="true" />
@@ -59,5 +59,3 @@ function SideBarModal() {
 export default SideBarModal;
 
 SideBarModal.propTypes = {};
-
-SideBarModal.defaultProps = {};

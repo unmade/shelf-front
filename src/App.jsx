@@ -13,11 +13,11 @@ import Trash from './containers/Trash';
 function App() {
   return (
     <>
-      <div className="flex h-screen bg-gray-100 overflow-hidden">
-        <div className="hidden sm:block w-64">
+      <div className="flex h-screen bg-gray-100">
+        <div className="hidden lg:block w-64">
           <SideBar />
         </div>
-        <div className="my-0 bg-white flex-1 shadow-sm">
+        <div className="min-w-0 my-0 bg-white flex-1 shadow-sm">
           <Switch>
             <Route path={routes.FILES.route} component={FileBrowser} />
             <Route path={routes.TRASH.route} component={Trash} />
