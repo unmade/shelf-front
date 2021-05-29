@@ -15,7 +15,7 @@ import BreadcrumbItem from './BreadcrumbItem';
 import BreadcrumbItemCollapsed from './BreadcrumbItemCollapsed';
 
 function Breadcrumb({
-  className, items, itemRender: Render, itemRenderCollapsed: RenderCollapsed,
+  className, items, withCreateFolder, itemRender: Render, itemRenderCollapsed: RenderCollapsed,
 }) {
   const dispatch = useDispatch();
   const onCreateFolder = () => dispatch(openDialog(Dialogs.createFolder));
@@ -37,14 +37,18 @@ function Breadcrumb({
             </span>
           </React.Fragment>
         ))}
-        <icons.ChevronRight className="w-4 h-4 sm:block flex-none text-gray-300" />
-        <button
-          type="button"
-          className="p-2 sm:p-1 text-gray-400 hover:bg-teal-50 hover:text-blue-400 rounded-lg focus:outline-none focus:ring-2 ring-offset-2 ring-teal-200"
-          onClick={onCreateFolder}
-        >
-          <icons.NewFolder className="w-4 h-4" />
-        </button>
+        {(withCreateFolder) && (
+          <>
+            <icons.ChevronRight className="w-4 h-4 sm:block flex-none text-gray-300" />
+            <button
+              type="button"
+              className="p-2 sm:p-1 text-gray-400 hover:bg-teal-50 hover:text-blue-400 rounded-lg focus:outline-none focus:ring-2 ring-offset-2 ring-teal-200"
+              onClick={onCreateFolder}
+            >
+              <icons.NewFolder className="w-4 h-4" />
+            </button>
+          </>
+        )}
       </nav>
     );
   }
@@ -81,14 +85,18 @@ function Breadcrumb({
       <span className="max-w-2xs sm:max-w-2xs">
         <Render name={last.name} path={last.path} />
       </span>
-      <icons.ChevronRight className="w-4 h-4 sm:block flex-none text-gray-300" />
-      <button
-        type="button"
-        className="p-2 sm:p-1 text-gray-400 hover:bg-teal-50 hover:text-blue-400 rounded-lg focus:outline-none focus:ring-2 ring-offset-2 ring-teal-200"
-        onClick={onCreateFolder}
-      >
-        <icons.NewFolder className="w-4 h-4" />
-      </button>
+      {(withCreateFolder) && (
+        <>
+          <icons.ChevronRight className="w-4 h-4 sm:block flex-none text-gray-300" />
+          <button
+            type="button"
+            className="p-2 sm:p-1 text-gray-400 hover:bg-teal-50 hover:text-blue-400 rounded-lg focus:outline-none focus:ring-2 ring-offset-2 ring-teal-200"
+            onClick={onCreateFolder}
+          >
+            <icons.NewFolder className="w-4 h-4" />
+          </button>
+        </>
+      )}
     </nav>
   );
 }

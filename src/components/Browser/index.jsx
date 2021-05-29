@@ -12,15 +12,15 @@ import FileTableView from '../../containers/FileTableView';
 import BrowserHeader from './Header';
 
 const Browser = React.memo(
-  ({ actionButton, dirPath, hasSelectedFiles }) => {
+  ({ actionButton, dirPath, hasSelectedFiles, withCreateFolder }) => {
     const isLaptop = useMediaQuery({ query: MediaQuery.lg });
     const previewAvailable = (isLaptop && hasSelectedFiles);
     return (
       <div className="h-full flex flex-col">
-        <BrowserHeader actionButton={actionButton} />
+        <BrowserHeader actionButton={actionButton} withCreateFolder={withCreateFolder} />
         <div className="flex-1 flex flex-row pt-0">
           <div className={(previewAvailable) ? 'w-2/3' : 'w-full'}>
-            <FileTableView path={dirPath || '.'} itemRender={FileTableCell} droppable />
+            <FileTableView path={dirPath ?? '.'} itemRender={FileTableCell} droppable />
           </div>
           {(previewAvailable) && (
             <div className="w-1/3">
@@ -37,4 +37,11 @@ export default Browser;
 
 Browser.propTypes = {
   actionButton: PropTypes.func.isRequired,
+  dirPath: PropTypes.string,
+  hasSelectedFiles: PropTypes.bool.isRequired,
+  withCreateFolder: PropTypes.bool.isRequired,
+};
+
+Browser.defaultProps = {
+  dirPath: null,
 };

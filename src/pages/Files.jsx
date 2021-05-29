@@ -45,6 +45,7 @@ function Files() {
         actionButton={() => <Uploader />}
         dirPath={dirPath}
         hasSelectedFiles={hasSelectedFiles}
+        withCreateFolder
       />
       {(preview) && (
         <FilePreview dirPath={dirPath || '.'} name={preview} />
