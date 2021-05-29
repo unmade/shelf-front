@@ -57,9 +57,9 @@ function FileTableCellActions({ id, path, onDownload, openDialog }) {
           onClick={(event) => { event.stopPropagation(); item.onClick(); }}
           danger={item.danger}
         >
-          <div className="w-full flex flex-row items-center justify-between my-1">
-            <span>{item.name}</span>
-            <span className="ml-6">{item.icon}</span>
+          <div className="whitespace-nowrap w-full flex flex-row items-center justify-between my-1">
+            <div>{item.name}</div>
+            <div className="ml-6">{item.icon}</div>
           </div>
         </Button>
       )}
