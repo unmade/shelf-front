@@ -55,6 +55,7 @@ function Trash() {
         )}
         dirPath={dirPath}
         hasSelectedFiles={hasSelectedFiles}
+        withCreateFolder={false}
       />
       {(preview) && (
         <FilePreview dirPath={dirPath || '.'} name={preview} />

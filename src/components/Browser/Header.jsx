@@ -13,7 +13,7 @@ import BreadcrumbDropdown from '../BreadcrumbDropdown';
 import SearchButton from '../SearchButton';
 import SideBarModal from '../SideBarModal';
 
-function Header({ actionButton: ActionButton }) {
+function Header({ withCreateFolder, actionButton: ActionButton }) {
   const match = useRouteMatch();
   const isLaptop = useMediaQuery({ query: MediaQuery.lg });
   const breadcrumbs = routes.breadcrumbs(match.url);
@@ -35,11 +35,11 @@ function Header({ actionButton: ActionButton }) {
           </>
         )}
         {(isLaptop) && (
-          <h2 className="text-gray-900 truncate text-xl sm:text-3xl font-medium">
+          <h2 className="flex-1 text-gray-900 truncate text-xl sm:text-3xl font-medium">
             {currentFolder.name}
           </h2>
         )}
-        <div className="flex text-2xl items-center space-x-8">
+        <div className="ml-6 flex text-2xl items-center space-x-8">
           <SearchButton />
           <ActionButton />
         </div>
@@ -62,6 +62,7 @@ function Header({ actionButton: ActionButton }) {
               </span>
             </Breadcrumb.ItemCollapsed>
           )}
+          withCreateFolder={withCreateFolder}
         />
       )}
     </>
@@ -71,5 +72,10 @@ function Header({ actionButton: ActionButton }) {
 export default Header;
 
 Header.propTypes = {
+  withCreateFolder: PropTypes.bool,
   actionButton: PropTypes.func.isRequired,
+};
+
+Header.defaultProps = {
+  withCreateFolder: false,
 };
