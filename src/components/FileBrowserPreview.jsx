@@ -47,7 +47,7 @@ function FileBrowserPreview({ files }) {
         </div>
 
         <div className="p-4 flex flex-row justify-center space-x-8">
-          <FilePreviewActions fileId={id} filePath={path} />
+          <FilePreviewActions id={id} path={path} />
         </div>
 
         <div className="p-2 text-gray-800">
