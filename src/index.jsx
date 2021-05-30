@@ -1,15 +1,20 @@
 import React from 'react';
+
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import './index.css';
-import './tailwind.generated.css';
-import App from './App';
-import Login from './pages/Login';
-import withAuth from './containers/withAuth';
-import * as serviceWorker from './serviceWorker';
 
 import store from './store/store';
+
+import withAuth from './hoc/withAuth';
+
+import Login from './pages/Login';
+
+import * as serviceWorker from './serviceWorker';
+import App from './App';
+
+import './index.css';
+import './tailwind.generated.css';
 
 ReactDOM.render(
   <React.StrictMode>

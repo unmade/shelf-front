@@ -3,13 +3,15 @@ import { Switch, Route } from 'react-router-dom';
 
 import * as routes from './routes';
 
-import Files from './pages/Files';
-import Trash from './pages/Trash';
+import withAdmin from './hoc/withAdmin';
 
 import SideBar from './containers/SideBar';
-
 import Toast from './containers/Toast';
 import ToastItem from './containers/ToastItem';
+
+import Files from './pages/Files';
+import Trash from './pages/Trash';
+import UserManagement from './pages/admin/UserManagement';
 
 function App() {
   return (
@@ -22,6 +24,7 @@ function App() {
           <Switch>
             <Route path={routes.FILES.route} component={Files} />
             <Route path={routes.TRASH.route} component={Trash} />
+            <Route path={routes.USER_MANAGEMENT.route} component={withAdmin(UserManagement)} />
           </Switch>
         </div>
       </div>
