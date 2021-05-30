@@ -56,4 +56,14 @@ export const FILES = {
 
 export const TRASH = {
   route: '/trash/:dirPath*',
+  reverse({ path }) {
+    return join('/trash', path);
+  },
+};
+
+export const USER_MANAGEMENT = {
+  route: '/admin/user-management',
+  reverse() {
+    return this.route;
+  },
 };

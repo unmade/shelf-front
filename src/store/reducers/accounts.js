@@ -20,3 +20,4 @@ export default combineReducers({
 });
 
 export const getCurrentAccount = (state) => state.accounts.currentAccount;
+export const isAdmin = (state) => getCurrentAccount(state)?.superuser ?? false;

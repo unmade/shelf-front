@@ -3,17 +3,18 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
 import * as icons from '../icons';
+import * as routes from '../routes';
 
 import AccountMenu from '../containers/AccountMenu';
 
 export const menu = [
   {
-    path: '/files',
+    path: routes.FILES.reverse({ path: '.' }),
     title: 'Files',
     icon: <icons.File className="flex-shrink-0 w-5 h-5 mr-3" />,
   },
   {
-    path: '/trash',
+    path: routes.TRASH.reverse({ path: '.' }),
     title: 'Trash',
     icon: <icons.TrashOutlined className="flex-shrink-0 w-5 h-5 mr-3" />,
   },
@@ -21,7 +22,7 @@ export const menu = [
 
 const adminMenu = [
   {
-    path: '/admin/users',
+    path: routes.USER_MANAGEMENT.reverse(),
     title: 'User management',
     icon: <icons.UsersOutline className="flex-shrink-0 w-5 h-5 mr-3" />,
   },
