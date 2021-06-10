@@ -46,7 +46,7 @@ function Header({ withCreateFolder, actionButton: ActionButton }) {
       </div>
       {(isLaptop) && (
         <Breadcrumb
-          className="px-8 pt-2 pb-4"
+          className="px-8 py-4"
           items={breadcrumbs}
           itemRender={({ name, path }) => (
             <Breadcrumb.Item path={path}>

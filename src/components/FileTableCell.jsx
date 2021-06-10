@@ -18,7 +18,7 @@ function getPrimaryText(selected, hidden) {
   return (
     (selected && 'text-orange-900 font-medium')
     || (hidden && 'text-gray-500')
-    || 'text-gray-800'
+    || 'text-gray-900'
   );
 }
 
@@ -48,14 +48,14 @@ function FileTableCell({
   return (
     <div
       onClick={() => onSelect(item.id)}
-      className={`${className} ${background} mx-4 h-full flex flex-row items-center text-sm px-4 border rounded-lg`}
+      className={`${className} ${background} mx-4 h-full flex flex-row items-center text-sm px-4 border rounded-xl`}
     >
       <div className={`w-4/5 md:w-1/2 2xl:w-2/3 flex flex-row items-center space-x-2 ${primaryText}`}>
         <div className="w-7">
           {(item.has_thumbnail) ? (
-            <Thumbnail className="w-7 h-7" file={item} deferred={scrolling} />
+            <Thumbnail className="flex-shrink-0 w-7 h-7" file={item} deferred={scrolling} />
           ) : (
-            <FileIcon className="w-7 h-7" mediatype={item.mediatype} hidden={item.hidden} />
+            <FileIcon className="flex-shrink-0 w-7 h-7" mediatype={item.mediatype} hidden={item.hidden} />
           )}
         </div>
         <span className="truncate" onClick={(event) => { event.stopPropagation(); }}>

@@ -21,7 +21,7 @@ function Breadcrumb({
   const onCreateFolder = () => dispatch(openDialog(Dialogs.createFolder));
   if (items.length < 4) {
     return (
-      <nav className={`${className} flex items-center text-gray-500 text-sm font-medium space-x-1 sm:space-x-2 whitespace-nowrap`}>
+      <nav className={`${className} flex items-center text-gray-500 text-sm font-medium space-x-1 sm:space-x-4 whitespace-nowrap`}>
         {items.map((item, idx) => (
           <React.Fragment key={item.path}>
             {(idx !== 0) && (

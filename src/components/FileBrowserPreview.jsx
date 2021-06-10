@@ -9,11 +9,6 @@ import TimeAgo from './ui/TimeAgo';
 
 import FileIcon from './FileIcon';
 
-// offset to match FileTableView
-const styles = {
-  height: '48px',
-};
-
 function getFontSize(len) {
   if (len > 128) {
     return 'text-sm';
@@ -33,16 +28,19 @@ function FileBrowserPreview({ files }) {
   const fontSize = getFontSize(name.length);
 
   return (
-    <div className="mr-4 mb-4 text-gray-800 bg-white rounded-lg">
+    <div className="mr-4 mb-4 text-gray-800 bg-white rounded-lg border-4 border-transparent">
 
-      <div style={styles} />
+      {/* tweak to match table header (offset to table body) */}
+      <div className="text-xs px-8 py-2 mb-1">
+        &#8203;
+      </div>
 
       <div className="px-4 pb-2 flex flex-col">
         <div className="h-64 w-auto flex items-center justify-center rounded bg-gray-50">
           {(hasThumbnail) ? (
-            <Thumbnail className="w-64 h-64 rounded" size="lg" file={file} />
+            <Thumbnail className="w-64 h-64 flex-shrink-0 rounded" size="lg" file={file} />
           ) : (
-            <FileIcon className="w-32 h-auto drop-shadow" mediatype={file.mediatype} hidden={file.hidden} />
+            <FileIcon className="w-32 h-auto flex-shrink-0 drop-shadow" mediatype={file.mediatype} hidden={file.hidden} />
           )}
         </div>
 
