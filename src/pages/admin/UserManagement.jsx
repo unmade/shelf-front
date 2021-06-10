@@ -23,7 +23,7 @@ function UserManagement() {
   }, [ids, page, dispatch]);
   return (
     <div>
-      <div className="px-8 pt-4 flex items-center justify-between">
+      <div className="px-8 py-7 flex items-center justify-between">
         <h2 className="text-gray-900 truncate text-xl sm:text-3xl font-medium">
           User Management
         </h2>
@@ -38,12 +38,12 @@ function UserManagement() {
         </div>
       </div>
 
-      <div className="flex flex-col px-8 pt-8">
-        <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-            <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+      <div className="flex flex-col px-4 pt-4">
+        <div className="overflow-x-auto">
+          <div className="align-middle">
+            <div className="overflow-hidden border-gray-200">
+              <table className="min-w-full">
+                <thead>
                   <tr>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Username
@@ -59,9 +59,9 @@ function UserManagement() {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="bg-white">
                   {ids?.map((id) => (
-                    <AccountTableCell key={id} id={id} />
+                    <AccountTableCell key={id} id={id} className="odd:bg-gray-50" />
                   ))}
                 </tbody>
               </table>

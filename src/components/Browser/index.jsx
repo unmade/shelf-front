@@ -19,7 +19,7 @@ const Browser = React.memo(
     return (
       <div className="h-full flex flex-col">
         <BrowserHeader actionButton={actionButton} withCreateFolder={withCreateFolder} />
-        <div className="flex flex-row flex-1">
+        <div className="pt-4 flex flex-row flex-1">
           <div className={(previewAvailable) ? 'w-2/3' : 'w-full'}>
             <FileTableView path={dirPath ?? '.'} itemRender={FileTableCell} droppable />
           </div>
