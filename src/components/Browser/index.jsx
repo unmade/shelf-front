@@ -10,6 +10,7 @@ import FileTableCell from '../../containers/FileTableCell';
 import FileTableView from '../../containers/FileTableView';
 
 import BrowserHeader from './Header';
+import StatusBar from './StatusBar';
 
 const Browser = React.memo(
   ({ actionButton, dirPath, hasSelectedFiles, withCreateFolder }) => {
@@ -18,7 +19,7 @@ const Browser = React.memo(
     return (
       <div className="h-full flex flex-col">
         <BrowserHeader actionButton={actionButton} withCreateFolder={withCreateFolder} />
-        <div className="flex-1 flex flex-row pt-0">
+        <div className="flex flex-row flex-1">
           <div className={(previewAvailable) ? 'w-2/3' : 'w-full'}>
             <FileTableView path={dirPath ?? '.'} itemRender={FileTableCell} droppable />
           </div>
@@ -28,6 +29,7 @@ const Browser = React.memo(
             </div>
           )}
         </div>
+        <StatusBar path={dirPath ?? '.'} />
       </div>
     );
   },

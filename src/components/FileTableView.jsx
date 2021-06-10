@@ -6,21 +6,10 @@ import * as icons from '../icons';
 import FileDrop from '../containers/FileDrop';
 import VList from '../containers/VList';
 
-const HEADER_HEIGHT = 48;
-
-const headerStyles = {
-  height: `${HEADER_HEIGHT}px`,
-};
-
-const height = {
-  height: `calc(100% - ${HEADER_HEIGHT}px`,
-};
-
 function TableHeader() {
   return (
     <div
-      style={headerStyles}
-      className="w-full flex flex-row items-center text-sm font-bold text-gray-700 px-8"
+      className="w-full px-8 py-4 flex flex-row items-center text-sm font-bold text-gray-700"
     >
       <div className="flex-1">
         Name
@@ -40,21 +29,20 @@ function Table({
 }) {
   const fileDropBorder = 'transition ease-in-out duration-75 border-4 rounded-lg';
   return (
-    <>
+    <div className="h-full flex flex-col">
       <TableHeader />
-      {(items.length || loading) ? (
-        <VList
-          items={items}
-          itemRender={itemRender}
-          heightOffset={HEADER_HEIGHT}
-          className={`${fileDropBorder} ${className}`}
-          trackScrolling
-          scrollKey={scrollKey}
-          loading={items.length === 0 && loading}
-        />
-      ) : (
-        <div className={`flex flex-col items-center justify-center ${fileDropBorder} ${className}`} style={height}>
-          <div className="text-center">
+      <div className="flex-1">
+        {(items.length || loading) ? (
+          <VList
+            items={items}
+            itemRender={itemRender}
+            className={`${fileDropBorder} ${className}`}
+            trackScrolling
+            scrollKey={scrollKey}
+            loading={items.length === 0 && loading}
+          />
+        ) : (
+          <div className={`h-full flex flex-col items-center justify-center ${fileDropBorder} ${className}`}>
             <icons.Collection className="w-12 h-12 mx-auto mb-4 text-gray-400" />
             <p className="text-gray-800 text-lg font-semibold">
               Nothing here yet
@@ -63,9 +51,9 @@ function Table({
               Drag and drop files to upload
             </p>
           </div>
-        </div>
-      )}
-    </>
+        )}
+      </div>
+    </div>
   );
 }
 
