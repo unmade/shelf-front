@@ -27,7 +27,7 @@ function Header({ withCreateFolder, actionButton: ActionButton }) {
 
   return (
     <>
-      <div className="flex flex-row items-center justify-between px-8 pt-4 border-gray-100">
+      <div className="flex flex-row items-center justify-between px-8 py-7">
         {(!isLaptop) && (
           <>
             <SideBarModal />
@@ -44,7 +44,7 @@ function Header({ withCreateFolder, actionButton: ActionButton }) {
           <ActionButton />
         </div>
       </div>
-      {(isLaptop) && (
+      {/* {(isLaptop) && (
         <Breadcrumb
           className="px-8 py-4"
           items={breadcrumbs}
@@ -64,7 +64,7 @@ function Header({ withCreateFolder, actionButton: ActionButton }) {
           )}
           withCreateFolder={withCreateFolder}
         />
-      )}
+      )} */}
     </>
   );
 }

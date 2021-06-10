@@ -63,4 +63,10 @@ module.exports = {
       addUtilities(utilities);
     }),
   ],
+
+  variants: {
+    extend: {
+      backgroundColor: ['odd'],
+    },
+  },
 };

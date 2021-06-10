@@ -5,12 +5,12 @@ import { useSelector } from 'react-redux';
 
 import { getAccountById } from '../store/reducers/accounts';
 
-function AccountTableCell({ id }) {
+function AccountTableCell({ className, id }) {
   const account = useSelector((state) => getAccountById(state, { id }));
   const fullName = [account.first_name, account.last_name].join(' ').trim() || '-';
   return (
-    <tr>
-      <td className="px-6 py-4 whitespace-nowrap">
+    <tr className={className}>
+      <td className="px-6 py-4 rounded-tl-xl rounded-bl-xl whitespace-nowrap">
         <div className="flex items-center">
           <div className="flex-shrink-0 h-10 w-10 flex items-center justify-center border rounded-full bg-gray-50 border-gray-200 text-gray-600">
             {account.username.substring(0, 1).toUpperCase()}
@@ -35,7 +35,7 @@ function AccountTableCell({ id }) {
           Active
         </span>
       </td>
-      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+      <td className="px-6 py-4 rounded-tr-xl rounded-br-xl whitespace-nowrap text-sm text-gray-500">
         {(account.superuser) ? 'Superuser' : 'Member'}
       </td>
     </tr>
@@ -45,5 +45,10 @@ function AccountTableCell({ id }) {
 export default AccountTableCell;
 
 AccountTableCell.propTypes = {
+  className: PropTypes.string,
   id: PropTypes.string.isRequired,
+};
+
+AccountTableCell.defaultProps = {
+  className: '',
 };
