@@ -21,25 +21,25 @@ function Breadcrumb({
   const onCreateFolder = () => dispatch(openDialog(Dialogs.createFolder));
   if (items.length < 4) {
     return (
-      <nav className={`${className} flex items-center text-gray-500 text-sm font-medium space-x-1 sm:space-x-4 whitespace-nowrap`}>
+      <nav className={`${className} flex items-center text-gray-500 font-medium space-x-1 sm:space-x-4 whitespace-nowrap`}>
         {items.map((item, idx) => (
           <React.Fragment key={item.path}>
             {(idx !== 0) && (
-              <icons.ChevronRight className="w-4 h-4 sm:block flex-none text-gray-300" />
+              <icons.ChevronRight className="w-4 h-4 flex-shrink-0 text-gray-300" />
             )}
-            {(idx === 0) && (
-              <div className="py-2 sm:py-1">
-                <icons.Home className="w-4 h-4 sm:block flex-none text-gray-300" />
-              </div>
-            )}
-            <span className="max-w-xs truncate">
+            <span className="max-w-xs truncate flex items-center">
+              {(idx === 0) && (
+                <span className="py-2 sm:py-1">
+                  <icons.Home className="w-4 h-4 mr-2 flex-shrink-0 text-gray-300" />
+                </span>
+              )}
               <Render name={item.name} path={item.path} />
             </span>
           </React.Fragment>
         ))}
         {(withCreateFolder) && (
           <>
-            <icons.ChevronRight className="w-4 h-4 sm:block flex-none text-gray-300" />
+            <icons.ChevronRight className="w-4 h-4 flex-shrink-0 text-gray-300" />
             <button
               type="button"
               className="p-2 sm:p-1 text-gray-400 hover:bg-teal-50 hover:text-blue-400 rounded-lg focus:outline-none focus:ring-2 ring-offset-2 ring-teal-200"
@@ -57,13 +57,13 @@ function Breadcrumb({
   const last = rest.pop();
 
   return (
-    <nav className={`${className} flex items-center text-gray-500 text-sm font-medium space-x-1 sm:space-x-2 whitespace-nowrap`}>
-      <icons.Home className="w-4 h-4 sm:block flex-none text-gray-300" />
-      <span className="max-w-xs">
+    <nav className={`${className} flex items-center text-gray-500 font-medium space-x-1 sm:space-x-4 whitespace-nowrap`}>
+      <span className="max-w-xs flex items-center">
+        <icons.Home className="w-4 h-4 mr-2 flex-shrink-0 text-gray-300" />
         <Render name={first.name} path={first.path} />
       </span>
       <div>
-        <icons.ChevronRight className="w-4 h-4 sm:block flex-none text-gray-300" />
+        <icons.ChevronRight className="w-4 h-4 flex-shrink-0 text-gray-300" />
       </div>
       <Menu
         panelClassName="max-w-xs"
@@ -80,20 +80,20 @@ function Breadcrumb({
         />
       </Menu>
       <div>
-        <icons.ChevronRight className="w-4 h-4 sm:block flex-none text-gray-300" />
+        <icons.ChevronRight className="w-4 h-4 flex-shrink-0 text-gray-300" />
       </div>
       <span className="max-w-2xs sm:max-w-2xs">
         <Render name={last.name} path={last.path} />
       </span>
       {(withCreateFolder) && (
         <>
-          <icons.ChevronRight className="w-4 h-4 sm:block flex-none text-gray-300" />
+          <icons.ChevronRight className="w-4 h-4 flex-shrink-0 text-gray-300" />
           <button
             type="button"
             className="p-2 sm:p-1 text-gray-400 hover:bg-teal-50 hover:text-blue-400 rounded-lg focus:outline-none focus:ring-2 ring-offset-2 ring-teal-200"
             onClick={onCreateFolder}
           >
-            <icons.NewFolder className="w-4 h-4" />
+            <icons.NewFolder className="w-4 h-4 flex-shrink-0" />
           </button>
         </>
       )}

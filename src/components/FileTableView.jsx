@@ -9,7 +9,7 @@ import VList from '../containers/VList';
 function TableHeader() {
   return (
     <div
-      className="w-full px-8 py-2 mb-1 flex flex-row items-center bg-white text-xs font-medium text-gray-700 uppercase tracking-wider"
+      className="w-full px-8 py-2 mb-1 flex flex-row items-center bg-white text-xs font-medium text-gray-500 uppercase tracking-wider"
     >
       <div className="flex-1">
         Name

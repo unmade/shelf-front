@@ -7,17 +7,15 @@ import { useRouteMatch } from 'react-router-dom';
 import { MediaQuery } from '../../constants';
 import * as routes from '../../routes';
 
-import Breadcrumb from '../ui/Breadcrumb';
 import BreadcrumbDropdown from '../BreadcrumbDropdown';
 
 import SearchButton from '../SearchButton';
 import SideBarModal from '../SideBarModal';
 
-function Header({ withCreateFolder, actionButton: ActionButton }) {
+function Header({ actionButton: ActionButton }) {
   const match = useRouteMatch();
   const isLaptop = useMediaQuery({ query: MediaQuery.lg });
   const breadcrumbs = routes.breadcrumbs(match.url);
-
   let currentFolder;
   if (breadcrumbs.length === 1) {
     currentFolder = breadcrumbs[breadcrumbs.length - 1];
@@ -28,13 +26,12 @@ function Header({ withCreateFolder, actionButton: ActionButton }) {
   return (
     <>
       <div className="flex flex-row items-center justify-between px-8 py-7">
-        {(!isLaptop) && (
+        {(!isLaptop) ? (
           <>
             <SideBarModal />
             <BreadcrumbDropdown />
           </>
-        )}
-        {(isLaptop) && (
+        ) : (
           <h2 className="flex-1 text-gray-900 truncate text-xl sm:text-3xl font-medium">
             {currentFolder.name}
           </h2>
@@ -44,27 +41,6 @@ function Header({ withCreateFolder, actionButton: ActionButton }) {
           <ActionButton />
         </div>
       </div>
-      {/* {(isLaptop) && (
-        <Breadcrumb
-          className="px-8 py-4"
-          items={breadcrumbs}
-          itemRender={({ name, path }) => (
-            <Breadcrumb.Item path={path}>
-              <span className="block truncate">
-                {name}
-              </span>
-            </Breadcrumb.Item>
-          )}
-          itemRenderCollapsed={({ name, path }) => (
-            <Breadcrumb.ItemCollapsed path={path}>
-              <span className="block truncate">
-                {name}
-              </span>
-            </Breadcrumb.ItemCollapsed>
-          )}
-          withCreateFolder={withCreateFolder}
-        />
-      )} */}
     </>
   );
 }
@@ -72,10 +48,5 @@ function Header({ withCreateFolder, actionButton: ActionButton }) {
 export default Header;
 
 Header.propTypes = {
-  withCreateFolder: PropTypes.bool,
   actionButton: PropTypes.func.isRequired,
-};
-
-Header.defaultProps = {
-  withCreateFolder: false,
 };
