@@ -18,7 +18,7 @@ const Browser = React.memo(
     const previewAvailable = (isLaptop && hasSelectedFiles);
     return (
       <div className="h-full flex flex-col">
-        <BrowserHeader actionButton={actionButton} withCreateFolder={withCreateFolder} />
+        <BrowserHeader actionButton={actionButton} />
         <div className="pt-4 flex flex-row flex-1">
           <div className={(previewAvailable) ? 'w-2/3' : 'w-full'}>
             <FileTableView path={dirPath ?? '.'} itemRender={FileTableCell} droppable />
@@ -29,7 +29,7 @@ const Browser = React.memo(
             </div>
           )}
         </div>
-        <StatusBar path={dirPath ?? '.'} />
+        <StatusBar dirPath={dirPath ?? '.'} withCreateFolder={withCreateFolder} />
       </div>
     );
   },
