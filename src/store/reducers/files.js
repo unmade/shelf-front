@@ -176,9 +176,6 @@ export const getThumbnailById = (state, id) => state.files.thumbnailsById[id];
 
 export const getDownloads = (state) => state.files.downloads;
 
-// I think I should move it to another reducer;
-export const getCurrPath = (state) => state.files.currPath;
-
 export const makeGetPreview = () => (
   createSelector(
     [

@@ -2,13 +2,13 @@ import { connect } from 'react-redux';
 
 import { addFileEntries } from '../../store/actions/uploads';
 
-import { getCurrPath } from '../../store/reducers/files';
+import { getCurrentPath } from '../../store/reducers/ui';
 
 import UploadButton from '../../components/Uploader/UploadButton';
 
 export default connect(
   (state) => ({
-    uploadTo: getCurrPath(state),
+    uploadTo: getCurrentPath(state),
   }),
   {
     onUpload: addFileEntries,

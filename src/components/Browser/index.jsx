@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { useMediaQuery } from 'react-responsive';
 
 import { MediaQuery } from '../../constants';
+import * as routes from '../../routes';
 
 import FileBrowserPreview from '../../containers/FileBrowserPreview';
 import FileTableCell from '../../containers/FileTableCell';
@@ -18,7 +19,7 @@ const Browser = React.memo(
     const previewAvailable = (isLaptop && hasSelectedFiles);
     return (
       <div className="h-full flex flex-col">
-        <BrowserHeader actionButton={actionButton} />
+        <BrowserHeader isLaptop={isLaptop} actionButton={actionButton} />
         <div className="pt-4 flex flex-row flex-1">
           <div className={(previewAvailable) ? 'w-2/3' : 'w-full'}>
             <FileTableView path={dirPath ?? '.'} itemRender={FileTableCell} droppable />
@@ -29,7 +30,12 @@ const Browser = React.memo(
             </div>
           )}
         </div>
-        <StatusBar dirPath={dirPath ?? '.'} withCreateFolder={withCreateFolder} />
+        <StatusBar
+          breadcrumbs={routes.breadcrumbs(dirPath ?? '.')}
+          dirPath={dirPath ?? '.'}
+          isLaptop={isLaptop}
+          withCreateFolder={withCreateFolder}
+        />
       </div>
     );
   },

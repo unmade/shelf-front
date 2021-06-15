@@ -10,7 +10,9 @@ import * as routes from '../../routes';
 
 import * as actions from '../actions/files';
 import * as uploadActions from '../actions/uploads';
-import { getFilesByPath, getCurrPath, getFileById } from '../reducers/files';
+
+import { getFilesByPath, getFileById } from '../reducers/files';
+import { getCurrentPath } from '../reducers/ui';
 
 /**
    * Return index in an `arr` where `target` should be inserted in order.
@@ -74,7 +76,7 @@ function compareFiles(a, b) {
 
 function* handleMoveFile(action) {
   const { file } = action.payload;
-  const currPath = yield select(getCurrPath);
+  const currPath = yield select(getCurrentPath);
 
   const parentPath = routes.parent(file.path);
   const ids = yield select(getFilesByPath, currPath);
@@ -88,7 +90,7 @@ function* handleMoveFile(action) {
 
 function* handleCreateFolder(action) {
   const { folder } = action.payload;
-  const currPath = yield select(getCurrPath);
+  const currPath = yield select(getCurrentPath);
 
   const ids = new Set(yield select(getFilesByPath, currPath));
   if (!ids.has(folder.id)) {
@@ -101,7 +103,7 @@ function* handleCreateFolder(action) {
 
 function* handleUpload(action) {
   const { file, updates } = action.payload;
-  const currPath = yield select(getCurrPath);
+  const currPath = yield select(getCurrentPath);
 
   const path = file.path.substring(0, file.path.length - file.name.length - 1);
 

@@ -8,8 +8,8 @@ import * as icons from '../icons';
 
 import { getHasSelectedFiles } from '../store/reducers/files';
 
-import { deselectFiles, listFolder, changePath } from '../store/actions/files';
-import { openDialog } from '../store/actions/ui';
+import { deselectFiles, listFolder } from '../store/actions/files';
+import { openDialog, setCurrentPath } from '../store/actions/ui';
 
 import DeleteImmediatelyDialog from '../containers/DeleteImmediatelyDialog';
 import EmptyTrashDialog from '../containers/EmptyTrashDialog';
@@ -32,7 +32,7 @@ function Trash() {
   dirPath = (dirPath) ? `${TRASH_FOLDER_NAME}/${dirPath}` : TRASH_FOLDER_NAME;
 
   React.useEffect(() => {
-    dispatch(changePath(dirPath));
+    dispatch(setCurrentPath(dirPath));
     dispatch(listFolder(dirPath));
 
     // we want to deselect all files when

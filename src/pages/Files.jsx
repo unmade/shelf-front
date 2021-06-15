@@ -5,7 +5,8 @@ import { useLocation, useParams } from 'react-router-dom';
 
 import { getHasSelectedFiles } from '../store/reducers/files';
 
-import { deselectFiles, listFolder, changePath } from '../store/actions/files';
+import { deselectFiles, listFolder } from '../store/actions/files';
+import { setCurrentPath } from '../store/actions/ui';
 
 import { Dialogs } from '../constants';
 
@@ -31,7 +32,7 @@ function Files() {
   const { dirPath } = params;
 
   React.useEffect(() => {
-    dispatch(changePath(dirPath));
+    dispatch(setCurrentPath(dirPath));
     dispatch(listFolder(dirPath));
 
     // we want to deselect all files when

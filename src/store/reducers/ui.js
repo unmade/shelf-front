@@ -2,6 +2,20 @@ import { combineReducers } from 'redux';
 
 import { types } from '../actions/ui';
 
+function fileBrowser(state = {}, action) {
+  switch (action.type) {
+    case types.SET_CURRENT_PATH: {
+      const { path } = action.payload;
+      return {
+        ...state,
+        path,
+      };
+    }
+    default:
+      return state;
+  }
+}
+
 function fileDialog(state = {}, action) {
   switch (action.type) {
     case types.OPEN_DIALOG: {
@@ -19,7 +33,7 @@ function fileDialog(state = {}, action) {
       return {
         ...state,
         [key]: {
-          ...(state[key] || {}),
+          ...(state[key] ?? {}),
           visible: false,
         },
       };
@@ -58,18 +72,25 @@ function uploader(state = { visibilityFilter: 'all' }, action) {
 }
 
 export default combineReducers({
+  fileBrowser,
   fileDialog,
   scrollOffset,
   uploader,
 });
 
+export const getCurrentPath = (state) => state.ui.fileBrowser.path ?? '.';
+export const getCurrentFolderName = (state) => {
+  const path = getCurrentPath(state);
+  if (path === '.') {
+    return 'Home';
+  }
+  return path.split('/').pop();
+};
+
 export const getFileDialogVisible = (state, props) => {
   const { uid: key } = props;
   const dialog = state.ui.fileDialog[key];
-  if (dialog !== null && dialog !== undefined) {
-    return dialog.visible;
-  }
-  return false;
+  return dialog?.visible ?? false;
 };
 
 const EMPTY_PROPS = {};
@@ -77,12 +98,9 @@ const EMPTY_PROPS = {};
 export const getFileDialogProps = (state, props) => {
   const { uid: key } = props;
   const dialog = state.ui.fileDialog[key];
-  if (dialog !== null && dialog !== undefined) {
-    return dialog.props || EMPTY_PROPS;
-  }
-  return EMPTY_PROPS;
+  return dialog?.props ?? EMPTY_PROPS;
 };
 
-export const getScrollOffset = (state, key) => state.ui.scrollOffset[key] || 0;
+export const getScrollOffset = (state, key) => state.ui.scrollOffset[key] ?? 0;
 
 export const getUploadFilter = (state) => state.ui.uploader.visibilityFilter;

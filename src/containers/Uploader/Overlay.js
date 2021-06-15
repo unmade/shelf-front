@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 
-import { getCurrPath } from '../../store/reducers/files';
+import { getCurrentPath } from '../../store/reducers/ui';
 
 import Overlay from '../../components/Uploader/Overlay';
 
 export default connect(
   (state) => ({
-    uploadTo: getCurrPath(state),
+    uploadTo: getCurrentPath(state),
   }),
 )(Overlay);

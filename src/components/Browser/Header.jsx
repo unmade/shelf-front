@@ -1,28 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { useMediaQuery } from 'react-responsive';
-import { useRouteMatch } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-import { MediaQuery } from '../../constants';
-import * as routes from '../../routes';
+import { getCurrentFolderName } from '../../store/reducers/ui';
 
 import BreadcrumbDropdown from '../BreadcrumbDropdown';
 
 import SearchButton from '../SearchButton';
 import SideBarModal from '../SideBarModal';
 
-function Header({ actionButton: ActionButton }) {
-  const match = useRouteMatch();
-  const isLaptop = useMediaQuery({ query: MediaQuery.lg });
-  const breadcrumbs = routes.breadcrumbs(match.url);
-  let currentFolder;
-  if (breadcrumbs.length === 1) {
-    currentFolder = breadcrumbs[breadcrumbs.length - 1];
-  } else {
-    currentFolder = breadcrumbs.pop();
-  }
-
+function Header({ isLaptop, actionButton: ActionButton }) {
+  const currentFolderName = useSelector(getCurrentFolderName);
   return (
     <>
       <div className="flex flex-row items-center justify-between px-8 py-7">
@@ -33,7 +22,7 @@ function Header({ actionButton: ActionButton }) {
           </>
         ) : (
           <h2 className="flex-1 text-gray-900 truncate text-xl sm:text-3xl font-medium">
-            {currentFolder.name}
+            {currentFolderName}
           </h2>
         )}
         <div className="ml-6 flex text-2xl items-center space-x-8">
@@ -48,5 +37,10 @@ function Header({ actionButton: ActionButton }) {
 export default Header;
 
 Header.propTypes = {
+  isLaptop: PropTypes.bool,
   actionButton: PropTypes.func.isRequired,
+};
+
+Header.defaultProps = {
+  isLaptop: false,
 };
