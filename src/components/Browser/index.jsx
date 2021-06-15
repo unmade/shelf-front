@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { useMediaQuery } from 'react-responsive';
 
 import { MediaQuery } from '../../constants';
-import * as routes from '../../routes';
 
 import FileBrowserPreview from '../../containers/FileBrowserPreview';
 import FileTableCell from '../../containers/FileTableCell';
@@ -31,7 +30,6 @@ const Browser = React.memo(
           )}
         </div>
         <StatusBar
-          breadcrumbs={routes.breadcrumbs(dirPath ?? '.')}
           dirPath={dirPath ?? '.'}
           isLaptop={isLaptop}
           withCreateFolder={withCreateFolder}

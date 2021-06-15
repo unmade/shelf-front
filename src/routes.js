@@ -1,8 +1,15 @@
 import { BREADCRUMBS_ALIASES } from './constants';
 
+function norm(path) {
+  if (path !== '.' && !path.startsWith('./')) {
+    return `./${path}`;
+  }
+  return path;
+}
+
 export function breadcrumbs(path, aliases = BREADCRUMBS_ALIASES) {
   const items = [];
-  const parts = path.split('/').filter((e) => e !== '');
+  const parts = norm(path).split('/').filter((e) => e !== '');
   let prefix = '';
   parts.forEach((part) => {
     prefix = (part !== '.') ? `${prefix}/${part}` : part;

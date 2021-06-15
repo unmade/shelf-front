@@ -7,13 +7,13 @@ import { getFilesCountByPath } from '../../store/reducers/files';
 
 import Breadcrumb from '../ui/Breadcrumb';
 
-function StatusBar({ breadcrumbs, dirPath, isLaptop, withCreateFolder }) {
+function StatusBar({ dirPath, isLaptop, withCreateFolder }) {
   const count = useSelector((state) => getFilesCountByPath(state, dirPath));
   return (
     <div className="bottom-0 w-full pl-6 pr-8 py-1 flex items-center justify-center lg:justify-between border-t bg-gray-50 text-xs text-center text-gray-400">
       {(isLaptop) && (
         <Breadcrumb
-          items={breadcrumbs}
+          path={dirPath}
           itemRender={({ name, path }) => (
             <Breadcrumb.Item path={path}>
               <span className="block truncate">
@@ -43,12 +43,6 @@ function StatusBar({ breadcrumbs, dirPath, isLaptop, withCreateFolder }) {
 export default StatusBar;
 
 StatusBar.propTypes = {
-  breadcrumbs: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      path: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
   dirPath: PropTypes.string,
   isLaptop: PropTypes.bool,
   withCreateFolder: PropTypes.bool,

@@ -7,6 +7,7 @@ import { openDialog } from '../../../store/actions/ui';
 
 import { Dialogs } from '../../../constants';
 import * as icons from '../../../icons';
+import * as routes from '../../../routes';
 
 import Button from '../Button';
 import Menu from '../Menu';
@@ -15,9 +16,10 @@ import BreadcrumbItem from './BreadcrumbItem';
 import BreadcrumbItemCollapsed from './BreadcrumbItemCollapsed';
 
 function Breadcrumb({
-  className, items, withCreateFolder, itemRender: Render, itemRenderCollapsed: RenderCollapsed,
+  className, path, withCreateFolder, itemRender: Render, itemRenderCollapsed: RenderCollapsed,
 }) {
   const dispatch = useDispatch();
+  const items = routes.breadcrumbs(path);
   const onCreateFolder = () => dispatch(openDialog(Dialogs.createFolder));
   if (items.length < 4) {
     return (
@@ -106,12 +108,7 @@ Breadcrumb.ItemCollapsed = BreadcrumbItemCollapsed;
 
 Breadcrumb.propTypes = {
   className: PropTypes.string,
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      path: PropTypes.string.isRequired,
-    }).isRequired,
-  ).isRequired,
+  path: PropTypes.string.isRequired,
   itemRender: PropTypes.func.isRequired,
   itemRenderCollapsed: PropTypes.func.isRequired,
 };

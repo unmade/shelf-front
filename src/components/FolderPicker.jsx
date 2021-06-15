@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import * as icons from '../icons';
-import * as routes from '../routes';
 
 import FolderPickerItem from '../containers/FolderPickerItem';
 
@@ -22,10 +21,6 @@ const changePath = (path, onPathChange) => (event) => {
   onPathChange(nextPath);
 };
 
-function norm(path) {
-  return (path.startsWith('.')) ? path : `./${path}`; // add './' to build correct breadcrumbs
-}
-
 const FolderPicker = React.memo(({
   items, loading, path, listFolder, onPathChange,
 }) => {
@@ -37,7 +32,7 @@ const FolderPicker = React.memo(({
     <>
       <div className="pb-1">
         <Breadcrumb
-          items={routes.breadcrumbs(norm(path))}
+          path={path}
           itemRender={({ name, path: nextPath }) => (
             <Breadcrumb.Item
               path={nextPath}
