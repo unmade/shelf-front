@@ -1,17 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useSelector } from 'react-redux';
+
+import { getHasSelectedFiles } from '../store/reducers/files';
+
 import * as icons from '../icons';
 
 import FileDrop from '../containers/FileDrop';
 import VList from '../containers/VList';
 
 function TableHeader() {
+  const hasSelected = useSelector(getHasSelectedFiles);
   return (
     <div
-      className="w-full px-8 py-2 mb-1 flex flex-row items-center bg-white text-xs font-medium text-gray-500 uppercase tracking-wider"
+      className="w-full px-9 py-2 mb-1 flex flex-row items-center bg-white text-xs font-medium text-gray-500 uppercase tracking-wider border border-transparent"
     >
-      <div className="flex-1">
+      <input
+        // eslint-disable-next-line no-return-assign
+        ref={(el) => el && (el.indeterminate = true)}
+        type="checkbox"
+        defaultChecked
+        className={`form-checkbox border-gray-300 text-blue-500 rounded-md ${(hasSelected) ? '' : 'invisible'}`}
+      />
+      <div className="ml-3 flex-1">
         Name
       </div>
       <div className="hidden md:block w-20 lg:w-24 text-right">

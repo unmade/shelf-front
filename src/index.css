@@ -11,3 +11,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.file-table-cell .file-table-cell-checkbox {
+    visibility: hidden;
+}
+
+.file-table-cell:hover .file-table-cell-checkbox {
+    visibility: visible;
+}
