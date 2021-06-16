@@ -6,8 +6,9 @@ import { useMediaQuery } from 'react-responsive';
 import { MediaQuery } from '../../constants';
 
 import FileBrowserPreview from '../../containers/FileBrowserPreview';
-import FileTableCell from '../../containers/FileTableCell';
 import FileTableView from '../../containers/FileTableView';
+
+import FileTableCell from '../FileTableCell';
 
 import BrowserHeader from './Header';
 import StatusBar from './StatusBar';

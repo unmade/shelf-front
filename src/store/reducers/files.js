@@ -66,10 +66,13 @@ function selectFiles(state = new Set(), action) {
   switch (action.type) {
     case types.SELECT_FILE: {
       const { id } = action.payload;
-      if (!state.has(id)) {
-        return new Set([id]);
+      const nextState = new Set(state);
+      if (state.has(id)) {
+        nextState.delete(id);
+        return nextState;
       }
-      return state;
+      nextState.add(id);
+      return nextState;
     }
     case types.DESELECT_FILES: {
       return new Set();

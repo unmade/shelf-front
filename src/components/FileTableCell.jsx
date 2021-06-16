@@ -3,6 +3,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useSelector, useDispatch } from 'react-redux';
+
+import { selectFile } from '../store/actions/files';
+
+import { getFileById, getHasSelectedFiles, getIsFileSelected } from '../store/reducers/files';
+
 import { MediaType } from '../constants';
 
 import FileTableCellActions from '../containers/FileTableCellActions';
@@ -39,23 +45,33 @@ function getBackground(even, selected) {
 }
 
 function FileTableCell({
-  className, even, item, scrolling, selected, onSelect,
+  className, even, item: itemId, scrolling,
 }) {
+  const dispatch = useDispatch();
+  const item = useSelector((state) => getFileById(state, itemId));
+  const selected = useSelector((state) => getIsFileSelected(state, itemId));
+  const hasSelected = useSelector(getHasSelectedFiles);
+
   const primaryText = getPrimaryText(selected, item.hidden);
   const secondaryText = getSecondaryText(selected, item.hidden);
   const background = getBackground(even, selected);
 
+  const onSelect = () => dispatch(selectFile(itemId));
+
+  const checkboxClass = (selected || hasSelected) ? '' : 'file-table-cell-checkbox';
+
   return (
     <div
-      onClick={() => onSelect(item.id)}
-      className={`${className} ${background} mx-4 h-full flex flex-row items-center text-sm px-4 border rounded-xl`}
+      onClick={onSelect}
+      className={`file-table-cell ${className} ${background} mx-4 h-full flex flex-row items-center text-sm px-4 border rounded-xl`}
     >
-      <div className={`w-4/5 md:w-1/2 2xl:w-2/3 flex flex-row items-center space-x-2 ${primaryText}`}>
-        <div className="w-7">
+      <div className={`w-4/5 md:w-1/2 2xl:w-2/3 flex flex-row items-center space-x-3 ${primaryText}`}>
+        <input type="checkbox" className={`form-checkbox border-gray-300 text-blue-500 rounded-md ${checkboxClass}`} defaultChecked={selected} />
+        <div className="w-9">
           {(item.has_thumbnail) ? (
-            <Thumbnail className="flex-shrink-0 w-7 h-7" file={item} deferred={scrolling} />
+            <Thumbnail className="flex-shrink-0 w-9 h-9" file={item} deferred={scrolling} />
           ) : (
-            <FileIcon className="flex-shrink-0 w-7 h-7" mediatype={item.mediatype} hidden={item.hidden} />
+            <FileIcon className="flex-shrink-0 w-9 h-9" mediatype={item.mediatype} hidden={item.hidden} />
           )}
         </div>
         <span className="truncate" onClick={(event) => { event.stopPropagation(); }}>
@@ -86,22 +102,12 @@ function FileTableCell({
 
 FileTableCell.propTypes = {
   className: PropTypes.string,
-  item: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    size: PropTypes.number.isRequired,
-    mtime: PropTypes.number.isRequired,
-    hidden: PropTypes.bool.isRequired,
-    mediatype: PropTypes.string.isRequired,
-    has_thumbnail: PropTypes.bool,
-  }).isRequired,
-  selected: PropTypes.bool,
+  item: PropTypes.string.isRequired,
   scrolling: PropTypes.bool.isRequired,
-  onSelect: PropTypes.func.isRequired,
 };
 
 FileTableCell.defaultProps = {
   className: '',
-  selected: false,
 };
 
 export default FileTableCell;
