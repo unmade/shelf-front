@@ -11,3 +11,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.show-on-hover-trigger .show-on-hover-target {
+    visibility: hidden;
+}
+
+.show-on-hover-trigger:hover .show-on-hover-target {
+    visibility: visible;
+}

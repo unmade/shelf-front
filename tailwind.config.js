@@ -44,6 +44,7 @@ module.exports = {
   },
 
   plugins: [
+    require('@tailwindcss/forms'),
     plugin(({ addUtilities }) => {
       const utilities = {
         '.drop-shadow': {
