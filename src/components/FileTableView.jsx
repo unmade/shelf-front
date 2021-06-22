@@ -1,27 +1,44 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { getHasSelectedFiles } from '../store/reducers/files';
+import { getCountSelectedFiles, getHasSelectedFiles } from '../store/reducers/files';
 
 import * as icons from '../icons';
 
 import FileDrop from '../containers/FileDrop';
 import VList from '../containers/VList';
+import { bulkSelectFiles, deselectFiles } from '../store/actions/files';
 
-function TableHeader() {
+function TableHeader({ items }) {
+  const dispatch = useDispatch();
   const hasSelected = useSelector(getHasSelectedFiles);
+  const selectedCount = useSelector(getCountSelectedFiles);
+
+  const onSelect = () => {
+    if (hasSelected) {
+      dispatch(deselectFiles());
+    } else {
+      dispatch(bulkSelectFiles(items));
+    }
+  };
+
+  const checkboxClass = (hasSelected) ? '' : 'show-on-hover-target';
+
   return (
     <div
-      className="w-full px-9 py-2 mb-1 flex flex-row items-center bg-white text-xs font-medium text-gray-500 uppercase tracking-wider border border-transparent"
+      className="w-full px-9 py-2 mb-1 flex flex-row items-center bg-white text-xs font-medium text-gray-500 uppercase tracking-wider border-l border-r border-transparent show-on-hover-trigger"
     >
       <input
-        // eslint-disable-next-line no-return-assign
-        ref={(el) => el && (el.indeterminate = true)}
+        // hack: set partial status for checkbox
+        // eslint-disable-next-line no-return-assign,no-param-reassign
+        ref={(el) => el && (el.indeterminate = hasSelected && selectedCount !== items.length)}
+        className={`form-checkbox border-gray-300 text-blue-500 rounded-md ${checkboxClass}`}
+        onClick={onSelect}
         type="checkbox"
-        defaultChecked
-        className={`form-checkbox border-gray-300 text-blue-500 rounded-md ${(hasSelected) ? '' : 'invisible'}`}
+        checked={hasSelected}
+        readOnly
       />
       <div className="ml-3 flex-1">
         Name
@@ -42,7 +59,7 @@ function Table({
   const fileDropBorder = 'transition ease-in-out duration-75 border-4 rounded-lg';
   return (
     <div className="h-full flex flex-col">
-      <TableHeader />
+      <TableHeader items={items} />
       <div className="flex-1">
         {(items.length || loading) ? (
           <VList
