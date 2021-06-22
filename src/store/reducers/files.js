@@ -62,9 +62,16 @@ function filesById(state = {}, action) {
   }
 }
 
-function selectFiles(state = new Set(), action) {
+function selectedIds(state = new Set(), action) {
   switch (action.type) {
+    case types.DESELECT_FILES: {
+      return new Set();
+    }
     case types.SELECT_FILE: {
+      const { id } = action.payload;
+      return new Set([id]);
+    }
+    case types.SELECT_FILE_ADD: {
       const { id } = action.payload;
       const nextState = new Set(state);
       if (state.has(id)) {
@@ -74,8 +81,9 @@ function selectFiles(state = new Set(), action) {
       nextState.add(id);
       return nextState;
     }
-    case types.DESELECT_FILES: {
-      return new Set();
+    case types.SELECT_FILE_BULK: {
+      const { ids } = action.payload;
+      return new Set(ids);
     }
     default:
       return state;
@@ -117,16 +125,6 @@ function filesByPath(state = {}, action) {
   }
 }
 
-function currPath(state = '.', action) {
-  switch (action.type) {
-    case types.PATH_CHANGED: {
-      return action.payload.path || '.';
-    }
-    default:
-      return state;
-  }
-}
-
 function thumbnailsById(state = {}, action) {
   switch (action.type) {
     case types.FETCH_THUMBNAIL_SUCCESS: {
@@ -161,8 +159,7 @@ function downloads(state = {}, action) {
 export default combineReducers({
   byId: filesById,
   byPath: filesByPath,
-  selectedIds: selectFiles,
-  currPath,
+  selectedIds,
   thumbnailsById,
   downloads,
 });
@@ -175,6 +172,7 @@ export const getFilesCountByPath = (state, path) => getFilesByPath(state, path).
 export const getIsFileSelected = (state, id) => state.files.selectedIds.has(id);
 export const getSelectedFiles = (state) => [...state.files.selectedIds].map((id) => getFileById(state, id));
 export const getHasSelectedFiles = (state) => state.files.selectedIds.size !== 0;
+export const getCountSelectedFiles = (state) => state.files.selectedIds.size;
 export const getThumbnailById = (state, id) => state.files.thumbnailsById[id];
 
 export const getDownloads = (state) => state.files.downloads;

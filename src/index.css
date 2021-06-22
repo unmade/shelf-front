@@ -12,10 +12,10 @@ code {
     monospace;
 }
 
-.file-table-cell .file-table-cell-checkbox {
+.show-on-hover-trigger .show-on-hover-target {
     visibility: hidden;
 }
 
-.file-table-cell:hover .file-table-cell-checkbox {
+.show-on-hover-trigger:hover .show-on-hover-target {
     visibility: visible;
 }

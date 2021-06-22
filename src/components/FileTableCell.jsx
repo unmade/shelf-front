@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import { selectFile } from '../store/actions/files';
+import { addToSelection, selectFile } from '../store/actions/files';
 
 import { getFileById, getHasSelectedFiles, getIsFileSelected } from '../store/reducers/files';
 
@@ -56,17 +56,24 @@ function FileTableCell({
   const secondaryText = getSecondaryText(selected, item.hidden);
   const background = getBackground(even, selected);
 
-  const onSelect = () => dispatch(selectFile(itemId));
+  const onCellClick = () => dispatch(selectFile(itemId));
+  const onCheckboxClick = (event) => { event.stopPropagation(); dispatch(addToSelection(itemId)); };
 
-  const checkboxClass = (selected || hasSelected) ? '' : 'file-table-cell-checkbox';
+  const checkboxClass = (selected || hasSelected) ? '' : 'show-on-hover-target';
 
   return (
     <div
-      onClick={onSelect}
-      className={`file-table-cell ${className} ${background} mx-4 h-full flex flex-row items-center text-sm px-4 border rounded-xl`}
+      onClick={onCellClick}
+      className={`show-on-hover-trigger ${className} ${background} mx-4 h-full flex flex-row items-center text-sm px-4 border rounded-xl`}
     >
       <div className={`w-4/5 md:w-1/2 2xl:w-2/3 flex flex-row items-center space-x-3 ${primaryText}`}>
-        <input type="checkbox" className={`form-checkbox border-gray-300 text-blue-500 rounded-md ${checkboxClass}`} defaultChecked={selected} />
+        <input
+          onClick={onCheckboxClick}
+          type="checkbox"
+          className={`form-checkbox border-gray-300 text-blue-500 rounded-md ${checkboxClass}`}
+          checked={selected}
+          readOnly
+        />
         <div className="w-9">
           {(item.has_thumbnail) ? (
             <Thumbnail className="flex-shrink-0 w-9 h-9" file={item} deferred={scrolling} />
