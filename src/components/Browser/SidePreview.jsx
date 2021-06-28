@@ -1,21 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { MediaType } from '../constants';
+import { useSelector } from 'react-redux';
 
-import FilePreviewActions from '../containers/FilePreviewActions';
-import Thumbnail from '../containers/Thumbnail';
+import { getSelectedFiles } from '../../store/reducers/files';
 
-import FileSize from './ui/FileSize';
-import TimeAgo from './ui/TimeAgo';
+import { MediaType } from '../../constants';
 
-import FileIcon from './FileIcon';
+import FilePreviewActions from '../../containers/FilePreviewActions';
+import Thumbnail from '../../containers/Thumbnail';
 
-function getFontSize(len) {
-  if (len > 128) {
+import FileSize from '../ui/FileSize';
+import TimeAgo from '../ui/TimeAgo';
+
+import FileIcon from '../FileIcon';
+
+function getFontSizeFromText(text) {
+  if (text.length > 128) {
     return 'text-sm';
   }
-  if (len > 64) {
+  if (text.length > 64) {
     return 'text-md';
   }
   return 'text-lg';
@@ -39,16 +43,13 @@ function countByTypeText(totalCount, folderCount) {
 }
 
 function SingleFilePreview({ file }) {
-  const {
-    id, name, path, size, mtime, has_thumbnail: hasThumbnail,
-  } = file;
-  const fontSize = getFontSize(name.length);
+  const fontSize = getFontSizeFromText(file.name);
 
   return (
     <>
       <div className="px-4 pb-2 flex flex-col">
         <div className="h-64 w-auto flex items-center justify-center rounded-xl bg-gray-50">
-          {(hasThumbnail) ? (
+          {(file.has_thumbnail) ? (
             <Thumbnail className="w-64 h-64 flex-shrink-0" size="lg" file={file} />
           ) : (
             <FileIcon className="w-56 h-56 flex-shrink-0 filter drop-shadow" mediatype={file.mediatype} hidden={file.hidden} />
@@ -56,23 +57,38 @@ function SingleFilePreview({ file }) {
         </div>
 
         <div className="p-4 flex flex-row justify-center space-x-8">
-          <FilePreviewActions id={id} path={path} />
+          <FilePreviewActions id={file.id} path={file.path} />
         </div>
 
         <div className="p-2 text-gray-800">
           <p className={`${fontSize} font-semibold break-words`}>
-            {name}
+            {file.name}
           </p>
           <p className="text-gray-600 text-xs">
-            <FileSize size={size} />
+            <FileSize size={file.size} />
             <span className="px-1">&bull;</span>
-            <TimeAgo mtime={mtime * 1000} />
+            <TimeAgo mtime={file.mtime * 1000} />
           </p>
         </div>
       </div>
     </>
   );
 }
+
+function Preview({ className, file }) {
+  if (file.has_thumbnail) {
+    return <Thumbnail className={className} size="lg" file={file} />;
+  }
+  return <FileIcon className={className} mediatype={file.mediatype} hidden={file.hidden} />;
+}
+
+Preview.propTypes = {
+  className: PropTypes.string,
+};
+
+Preview.defaultProps = {
+  className: '',
+};
 
 function MultiFilePreview({ files }) {
   const size = files.reduce((acc, item) => acc + item.size, 0);
@@ -90,11 +106,11 @@ function MultiFilePreview({ files }) {
       <div className="px-4 pb-2 flex flex-col">
         <div className="h-64 w-auto flex items-center justify-center rounded-xl bg-gray-50">
           {previews.map((file, i) => (
-            (file.has_thumbnail) ? (
-              <Thumbnail key={file.path} className={`absolute w-56 h-56 flex-shrink-0 transform ${((previews.length - 1 - i) % 2 === 0) ? '-' : ''}rotate-${(previews.length - 1 - i) * 6} filter drop-shadow-xl`} size="lg" file={file} />
-            ) : (
-              <FileIcon key={file.path} className={`absolute w-56 h-56 flex-shrink-0 transform ${((previews.length - 1 - i) % 2 === 0) ? '-' : ''}rotate-${(previews.length - 1 - i) * 6} filter drop-shadow-xl`} mediatype={file.mediatype} hidden={file.hidden} />
-            )
+            <Preview
+              key={file.id}
+              className={`absolute w-56 h-56 filter drop-shadow-xl transform ${((previews.length - 1 - i) % 2 === 0) ? '-' : ''}rotate-${(previews.length - 1 - i) * 6}`}
+              file={file}
+            />
           ))}
         </div>
 
@@ -121,7 +137,8 @@ function MultiFilePreview({ files }) {
   );
 }
 
-function FileBrowserPreview({ files }) {
+function SidePreview() {
+  const files = useSelector(getSelectedFiles);
   return (
     <div className="mr-4 mb-4 text-gray-800 bg-white rounded-lg border-4 border-transparent">
 
@@ -140,17 +157,6 @@ function FileBrowserPreview({ files }) {
   );
 }
 
-FileBrowserPreview.propTypes = {
-  files: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      path: PropTypes.string.isRequired,
-      size: PropTypes.number.isRequired,
-      mtime: PropTypes.number.isRequired,
-      has_thumbnail: PropTypes.bool,
-    }),
-  ).isRequired,
-};
+SidePreview.propTypes = {};
 
-export default FileBrowserPreview;
+export default SidePreview;

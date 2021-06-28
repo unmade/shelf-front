@@ -5,12 +5,12 @@ import { useMediaQuery } from 'react-responsive';
 
 import { MediaQuery } from '../../constants';
 
-import FileBrowserPreview from '../../containers/FileBrowserPreview';
 import FileTableView from '../../containers/FileTableView';
 
 import FileTableCell from '../FileTableCell';
 
 import BrowserHeader from './Header';
+import SidePreview from './SidePreview';
 import StatusBar from './StatusBar';
 
 const Browser = React.memo(
@@ -26,7 +26,7 @@ const Browser = React.memo(
           </div>
           {(previewAvailable) && (
             <div className="w-1/3">
-              <FileBrowserPreview />
+              <SidePreview />
             </div>
           )}
         </div>
