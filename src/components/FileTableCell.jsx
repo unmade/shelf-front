@@ -74,11 +74,11 @@ function FileTableCell({
           checked={selected}
           readOnly
         />
-        <div className="w-9">
+        <div className="flex-shrink-0">
           {(item.has_thumbnail) ? (
-            <Thumbnail className="flex-shrink-0 w-9 h-9" file={item} deferred={scrolling} />
+            <Thumbnail className="w-9 h-9" file={item} deferred={scrolling} />
           ) : (
-            <FileIcon className="flex-shrink-0 w-9 h-9" mediatype={item.mediatype} hidden={item.hidden} />
+            <FileIcon className="w-9 h-9" mediatype={item.mediatype} hidden={item.hidden} />
           )}
         </div>
         <span className="truncate" onClick={(event) => { event.stopPropagation(); }}>
