@@ -8,12 +8,11 @@ import { getSelectedFiles } from '../../store/reducers/files';
 import { MediaType } from '../../constants';
 
 import FilePreviewActions from '../../containers/FilePreviewActions';
-import Thumbnail from '../../containers/Thumbnail';
 
 import FileSize from '../ui/FileSize';
 import TimeAgo from '../ui/TimeAgo';
 
-import FileIcon from '../FileIcon';
+import Thumbnail from '../Thumbnail';
 
 function getFontSizeFromText(text) {
   if (text.length > 128) {
@@ -49,11 +48,7 @@ function SingleFilePreview({ file }) {
     <>
       <div className="px-4 pb-2 flex flex-col">
         <div className="h-64 w-auto flex items-center justify-center rounded-xl bg-gray-50">
-          {(file.has_thumbnail) ? (
-            <Thumbnail className="w-64 h-64 flex-shrink-0" size="lg" file={file} />
-          ) : (
-            <FileIcon className="w-56 h-56 flex-shrink-0 filter drop-shadow" mediatype={file.mediatype} hidden={file.hidden} />
-          )}
+          <Thumbnail className="w-64 h-64 flex-shrink-0" size="lg" fileId={file.id} />
         </div>
 
         <div className="p-4 flex flex-row justify-center space-x-8">
@@ -75,19 +70,14 @@ function SingleFilePreview({ file }) {
   );
 }
 
-function Preview({ className, file }) {
-  if (file.has_thumbnail) {
-    return <Thumbnail className={className} size="lg" file={file} />;
-  }
-  return <FileIcon className={className} mediatype={file.mediatype} hidden={file.hidden} />;
-}
-
-Preview.propTypes = {
-  className: PropTypes.string,
-};
-
-Preview.defaultProps = {
-  className: '',
+SingleFilePreview.propTypes = {
+  file: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    mtime: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    path: PropTypes.string.isRequired,
+    size: PropTypes.number.isRequired,
+  }).isRequired,
 };
 
 function MultiFilePreview({ files }) {
@@ -106,11 +96,16 @@ function MultiFilePreview({ files }) {
       <div className="px-4 pb-2 flex flex-col">
         <div className="h-64 w-auto flex items-center justify-center rounded-xl bg-gray-50">
           {previews.map((file, i) => (
-            <Preview
+            <span
               key={file.id}
-              className={`absolute w-56 h-56 filter drop-shadow-xl transform ${((previews.length - 1 - i) % 2 === 0) ? '-' : ''}rotate-${(previews.length - 1 - i) * 6}`}
-              file={file}
-            />
+              className={`absolute filter drop-shadow-xl transform ${((previews.length - 1 - i) % 2 === 0) ? '-' : ''}rotate-${(previews.length - 1 - i) * 6}`}
+            >
+              <Thumbnail
+                className="w-56 h-56"
+                size="lg"
+                fileId={file.id}
+              />
+            </span>
           ))}
         </div>
 
@@ -136,6 +131,15 @@ function MultiFilePreview({ files }) {
     </>
   );
 }
+
+MultiFilePreview.propTypes = {
+  files: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      mediatype: PropTypes.string.isRequired,
+    }).isRequired,
+  ).isRequired,
+};
 
 function SidePreview() {
   const files = useSelector(getSelectedFiles);

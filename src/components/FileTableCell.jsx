@@ -16,9 +16,8 @@ import FileTableCellActions from '../containers/FileTableCellActions';
 import FileSize from './ui/FileSize';
 import TimeAgo from './ui/TimeAgo';
 
-import FileIcon from './FileIcon';
 import FileLink from './FileLink';
-import Thumbnail from '../containers/Thumbnail';
+import Thumbnail from './Thumbnail';
 
 function getPrimaryText(selected, hidden) {
   return (
@@ -75,11 +74,7 @@ function FileTableCell({
           readOnly
         />
         <div className="flex-shrink-0">
-          {(item.has_thumbnail) ? (
-            <Thumbnail className="w-9 h-9" file={item} deferred={scrolling} />
-          ) : (
-            <FileIcon className="w-9 h-9" mediatype={item.mediatype} hidden={item.hidden} />
-          )}
+          <Thumbnail className="w-9 h-9" fileId={item.id} deferred={scrolling} />
         </div>
         <span className="truncate" onClick={(event) => { event.stopPropagation(); }}>
           <FileLink
