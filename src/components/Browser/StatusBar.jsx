@@ -3,12 +3,20 @@ import PropTypes from 'prop-types';
 
 import { useSelector } from 'react-redux';
 
-import { getFilesCountByPath } from '../../store/reducers/files';
+import { getCountSelectedFiles, getFilesCountByPath } from '../../store/reducers/files';
 
 import Breadcrumb from '../ui/Breadcrumb';
 
+function TotalFiles({ dirPath }) {
+  const totalCount = useSelector((state) => getFilesCountByPath(state, dirPath));
+  const selectedCount = useSelector(getCountSelectedFiles);
+  if (selectedCount === 0) {
+    return `${totalCount} items`;
+  }
+  return `${selectedCount} of ${totalCount} selected`;
+}
+
 function StatusBar({ dirPath, isLaptop, withCreateFolder }) {
-  const count = useSelector((state) => getFilesCountByPath(state, dirPath));
   return (
     <div className="bottom-0 w-full pl-6 pr-8 py-1 flex items-center justify-center lg:justify-between border-t bg-gray-50 text-xs text-center text-gray-400">
       {(isLaptop) && (
@@ -32,9 +40,7 @@ function StatusBar({ dirPath, isLaptop, withCreateFolder }) {
         />
       )}
       <div>
-        {count}
-        &nbsp;
-        items
+        <TotalFiles dirPath={dirPath} />
       </div>
     </div>
   );
