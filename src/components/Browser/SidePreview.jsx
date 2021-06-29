@@ -7,12 +7,12 @@ import { getSelectedFiles } from '../../store/reducers/files';
 
 import { MediaType } from '../../constants';
 
-import FilePreviewActions from '../../containers/FilePreviewActions';
-
 import FileSize from '../ui/FileSize';
 import TimeAgo from '../ui/TimeAgo';
 
 import Thumbnail from '../Thumbnail';
+
+import SidePreviewActions from './SidePreviewActions';
 
 function getFontSizeFromText(text) {
   if (text.length > 128) {
@@ -47,12 +47,12 @@ function SingleFilePreview({ file }) {
   return (
     <>
       <div className="px-4 pb-2 flex flex-col">
-        <div className="h-64 w-auto flex items-center justify-center rounded-xl bg-gray-50">
+        <div className="h-72 w-auto flex items-center justify-center rounded-xl bg-gray-50">
           <Thumbnail className="w-64 h-64 flex-shrink-0" size="lg" fileId={file.id} />
         </div>
 
         <div className="p-4 flex flex-row justify-center space-x-8">
-          <FilePreviewActions id={file.id} path={file.path} />
+          <SidePreviewActions files={[file]} />
         </div>
 
         <div className="p-2 text-gray-800">
@@ -94,7 +94,7 @@ function MultiFilePreview({ files }) {
   return (
     <>
       <div className="px-4 pb-2 flex flex-col">
-        <div className="h-64 w-auto flex items-center justify-center rounded-xl bg-gray-50">
+        <div className="h-72 w-auto flex items-center justify-center rounded-xl bg-gray-50">
           {previews.map((file, i) => (
             <span
               key={file.id}
@@ -110,7 +110,7 @@ function MultiFilePreview({ files }) {
         </div>
 
         <div className="p-4 flex flex-row justify-center space-x-8">
-          <FilePreviewActions id="123" path="123" />
+          <SidePreviewActions files={files} />
         </div>
 
         <div className="p-2 text-gray-800">
