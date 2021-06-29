@@ -167,6 +167,7 @@ export default combineReducers({
 const FILES_EMPTY = [];
 
 export const getFileById = (state, id) => state.files.byId[id];
+export const getFilesByIds = (state, ids) => ids.map((id) => getFileById(state, id));
 export const getFilesByPath = (state, path) => state.files.byPath[path] || FILES_EMPTY;
 export const getFilesCountByPath = (state, path) => getFilesByPath(state, path).length;
 export const getIsFileSelected = (state, id) => state.files.selectedIds.has(id);

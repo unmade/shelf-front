@@ -11,12 +11,13 @@ import { getHasSelectedFiles } from '../store/reducers/files';
 import { deselectFiles, listFolder } from '../store/actions/files';
 import { openDialog, setCurrentPath } from '../store/actions/ui';
 
-import DeleteImmediatelyDialog from '../containers/DeleteImmediatelyDialog';
 import EmptyTrashDialog from '../containers/EmptyTrashDialog';
 import FilePreview from '../containers/FilePreview';
 
-import Browser from '../components/Browser';
 import Button from '../components/ui/Button';
+
+import Browser from '../components/Browser';
+import DeleteImmediatelyDialog from '../components/DeleteImmediatelyDialog';
 
 function Trash() {
   const dispatch = useDispatch();

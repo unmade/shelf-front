@@ -11,12 +11,12 @@ import { setCurrentPath } from '../store/actions/ui';
 import { Dialogs } from '../constants';
 
 import CreateFolderDialog from '../containers/CreateFolderDialog';
-import DeleteDialog from '../containers/DeleteDialog';
 import FilePreview from '../containers/FilePreview';
-import MoveDialog from '../containers/MoveDialog';
 import RenameFileDialog from '../containers/RenameFileDialog';
 
 import Browser from '../components/Browser';
+import DeleteDialog from '../components/DeleteDialog';
+import MoveDialog from '../components/MoveDialog';
 import Uploader from '../components/Uploader';
 
 function Files() {

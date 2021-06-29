@@ -9,12 +9,13 @@ import { getLoading } from '../store/reducers/loading';
 import FolderPicker from '../components/FolderPicker';
 
 function getFilesByPathExclude(state, props) {
-  const { path, excludeId } = props;
+  const { path } = props;
+  const excludeIds = new Set(props.excludeIds);
   const files = getFilesByPath(state, path);
-  if (excludeId === null || excludeId === undefined) {
+  if (excludeIds == null) {
     return files;
   }
-  const nextFiles = files.filter((fileId) => fileId !== excludeId);
+  const nextFiles = files.filter((fileId) => !excludeIds.has(fileId));
   if (files.length === nextFiles.length) {
     return files; // return object from state to prevent re-renders
   }
