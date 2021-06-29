@@ -1,53 +1,70 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { MediaType } from '../constants';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { moveToTrash, moveToTrashBatch } from '../store/actions/files';
+import { scopes } from '../store/actions/loading';
+import { closeDialog } from '../store/actions/ui';
+
+import { getFilesByIds } from '../store/reducers/files';
+import { getLoading } from '../store/reducers/loading';
+import { getFileDialogProps, getFileDialogVisible } from '../store/reducers/ui';
+
 import * as icons from '../icons';
+import pluralize from '../pluralize';
 
 import Dialog from './ui/Dialog';
 
-function DeleteDialog({
-  file, loading, uid, visible, onDelete, onCancel,
-}) {
-  const { mediatype, name } = file || {};
-  const type = (mediatype === MediaType.FOLDER) ? 'Folder' : 'File';
+function name(files) {
+  if (files.length === 1) {
+    return files[0].name;
+  }
+  return `${files.length} ${pluralize('item', files.length)}`;
+}
+
+function DeleteDialog({ uid }) {
+  const dispatch = useDispatch();
+
+  const visible = useSelector((state) => getFileDialogVisible(state, { uid }));
+  const dialogProps = useSelector((state) => getFileDialogProps(state, { uid }));
+  const loading = useSelector((state) => getLoading(state, scopes.movingToTrash));
+
+  const fileIds = dialogProps.fileIds ?? [];
+  const files = useSelector((state) => getFilesByIds(state, fileIds));
+
+  const onDelete = () => {
+    if (files.length === 1) {
+      const [file] = files;
+      dispatch(moveToTrash(file.path));
+    }
+    if (files.length > 1) {
+      dispatch(moveToTrashBatch(files.map((file) => file.path)));
+    }
+  };
+
   return (
     <Dialog
-      title={`Delete ${type}`}
+      title={`Delete ${files.length} ${pluralize('item', files.length)}`}
       icon={<icons.TrashOutlined className="h-6 w-6" />}
       visible={visible}
       confirmTitle="Delete"
       confirmLoading={loading}
       confirmDanger
-      onConfirm={() => onDelete(file.path)}
-      onCancel={() => onCancel(uid)}
+      onConfirm={onDelete}
+      onCancel={() => dispatch(closeDialog(uid))}
     >
       <p>
         Are you sure you want to move&nbsp;
-        <b className="text-gray-700">{name}</b>
-        &nbsp;to the trash?
+        <b className="text-gray-700">{name(files)}</b>
+        &nbsp;to trash?
       </p>
     </Dialog>
   );
 }
 
 DeleteDialog.propTypes = {
-  file: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    path: PropTypes.string.isRequired,
-    mediatype: PropTypes.string.isRequired,
-  }),
-  loading: PropTypes.bool,
   uid: PropTypes.string.isRequired,
-  visible: PropTypes.bool,
-  onDelete: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
-};
-
-DeleteDialog.defaultProps = {
-  file: null,
-  loading: false,
-  visible: false,
 };
 
 export default DeleteDialog;

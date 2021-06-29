@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { getSelectedFiles } from '../../store/reducers/files';
 
 import { MediaType } from '../../constants';
+import pluralize from '../../pluralize';
 
 import FileSize from '../ui/FileSize';
 import TimeAgo from '../ui/TimeAgo';
@@ -22,10 +23,6 @@ function getFontSizeFromText(text) {
     return 'text-md';
   }
   return 'text-lg';
-}
-
-function pluralize(noun, count, suffix = 's') {
-  return `${noun}${count !== 1 ? suffix : ''}`;
 }
 
 function countByTypeText(totalCount, folderCount) {

@@ -19,7 +19,7 @@ function singleFileActions({ id, path, trashed, dispatch }) {
         name: 'Delete Immediately',
         icon: <icons.TrashOutlined className="w-4 h-4" />,
         danger: true,
-        onClick: () => { dispatch(openDialog(Dialogs.deleteImmediately, { fileId: id })); },
+        onClick: () => { dispatch(openDialog(Dialogs.deleteImmediately, { fileIds: [id] })); },
       },
     ];
   }
@@ -41,7 +41,7 @@ function singleFileActions({ id, path, trashed, dispatch }) {
       name: 'Move',
       icon: <icons.Move className="w-4 h-4" />,
       danger: false,
-      onClick: () => { dispatch(openDialog(Dialogs.move, { fileId: id })); },
+      onClick: () => { dispatch(openDialog(Dialogs.move, { fileIds: [id] })); },
     },
     {
       name: 'Delete',
@@ -52,14 +52,14 @@ function singleFileActions({ id, path, trashed, dispatch }) {
   ];
 }
 
-function multiFileActions({ trashed }) {
+function multiFileActions({ fileIds, trashed, dispatch }) {
   if (trashed) {
     return [
       {
         name: 'Delete Immediately',
         icon: <icons.TrashOutlined className="w-4 h-4" />,
         danger: true,
-        onClick: () => {},
+        onClick: () => { dispatch(openDialog(Dialogs.deleteImmediately, { fileIds })); },
       },
     ];
   }
@@ -69,13 +69,13 @@ function multiFileActions({ trashed }) {
       name: 'Move',
       icon: <icons.Move className="w-4 h-4" />,
       danger: false,
-      onClick: () => {},
+      onClick: () => { dispatch(openDialog(Dialogs.move, { fileIds })); },
     },
     {
       name: 'Delete',
       icon: <icons.TrashOutlined className="w-4 h-4" />,
       danger: true,
-      onClick: () => {},
+      onClick: () => { dispatch(openDialog(Dialogs.delete, { fileIds })); },
     },
   ];
 }
@@ -90,7 +90,7 @@ function SidePreviewActions({ files }) {
     const [file] = files;
     menu = singleFileActions({ id: file.id, path: file.path, trashed, dispatch });
   } else {
-    menu = multiFileActions({ trashed });
+    menu = multiFileActions({ fileIds: files.map((file) => file.id), trashed, dispatch });
   }
 
   return (

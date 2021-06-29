@@ -15,7 +15,7 @@ function FileTableCellActions({ id, path, onDownload, openDialog }) {
         name: 'Delete Immediately',
         icon: <icons.TrashOutlined className="w-4 h-4" />,
         danger: true,
-        onClick: () => { openDialog(Dialogs.deleteImmediately, { fileId: id }); },
+        onClick: () => { openDialog(Dialogs.deleteImmediately, { fileIds: [id] }); },
       },
     ];
   } else {
@@ -36,13 +36,13 @@ function FileTableCellActions({ id, path, onDownload, openDialog }) {
         name: 'Move',
         icon: <icons.Move className="w-4 h-4" />,
         danger: false,
-        onClick: () => { openDialog(Dialogs.move, { fileId: id }); },
+        onClick: () => { openDialog(Dialogs.move, { fileIds: [id] }); },
       },
       {
         name: 'Delete',
         icon: <icons.TrashOutlined className="w-4 h-4" />,
         danger: true,
-        onClick: () => { openDialog(Dialogs.delete, { fileId: id }); },
+        onClick: () => { openDialog(Dialogs.delete, { fileIds: [id] }); },
       },
     ];
   }

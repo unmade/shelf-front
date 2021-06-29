@@ -7,6 +7,8 @@ export const types = {
   DELETE_IMMEDIATELY_SUCCESS: 'DELETE_IMMEDIATELY_SUCCESS',
   DELETE_IMMEDIATELY_FAILURE: 'DELETE_IMMEDIATELY_FAILURE',
 
+  DELETE_IMMEDIATELY_BATCH: 'DELETE_IMMEDIATELY_BATCH',
+
   DOWNLOAD: 'DOWNLOAD',
   DOWNLOAD_SUCCESS: 'DOWNLOAD_SUCCESS',
   DOWNLOAD_FAILURE: 'DOWNLOAD_FAILURE',
@@ -27,9 +29,13 @@ export const types = {
   MOVE_FILE_SUCCESS: 'MOVE_FILE_SUCCESS',
   MOVE_FILE_FAILURE: 'MOVE_FILE_FAILURE',
 
+  MOVE_FILE_BATCH: 'MOVE_FILE_BATCH',
+
   MOVE_TO_TRASH: 'MOVE_TO_TRASH',
   MOVE_TO_TRASH_SUCCESS: 'MOVE_TO_TRASH_SUCCESS',
   MOVE_TO_TRASH_FAILURE: 'MOVE_TO_TRASH_FAILURE',
+
+  MOVE_TO_TRASH_BATCH: 'MOVE_TO_TRASH_BATCH',
 
   PERFORM_DOWNLOAD: 'PERFORM_DOWNLOAD',
   RETRIEVE_DOWNLOAD_URL_SUCCESS: 'RETRIEVE_DOWNLOAD_URL_SUCCESS',
@@ -72,6 +78,11 @@ export const deleteImmediatelySucess = (file) => ({
 export const deleteImmediatelyFailure = () => ({
   type: types.DELETE_IMMEDIATELY_FAILURE,
   payload: null,
+});
+
+export const deleteImmediatelyBatch = (paths) => ({
+  type: types.DELETE_IMMEDIATELY_BATCH,
+  payload: { paths },
 });
 
 export const download = (path) => ({
@@ -139,6 +150,11 @@ export const moveFile = (fromPath, toPath) => ({
   payload: { fromPath, toPath },
 });
 
+export const moveFileBatch = (items) => ({
+  type: types.MOVE_FILE_BATCH,
+  payload: { items },
+});
+
 export const moveFileSuccess = (file, prevPath) => ({
   type: types.MOVE_FILE_SUCCESS,
   payload: { file, prevPath },
@@ -162,6 +178,11 @@ export const moveToTrashSuccess = (file) => ({
 export const moveToTrashFailure = (err) => ({
   type: types.MOVE_TO_TRASH_FAILURE,
   payload: { err },
+});
+
+export const moveToTrashBatch = (paths) => ({
+  type: types.MOVE_TO_TRASH_BATCH,
+  payload: { paths },
 });
 
 export const performDownload = (path) => ({
