@@ -14,22 +14,33 @@ export function APIError(title = 'API Error', description) {
 }
 APIError.prototype.toString = () => `${this.title}: "${this.description}"`;
 
+function guessContentType(body) {
+  if (body instanceof URLSearchParams) {
+    return 'application/x-www-form-urlencoded; charset=UTF-8';
+  }
+  if (body instanceof FormData) {
+    return 'multipart/form-data';
+  }
+  return 'application/json';
+}
+
 function* request(method, endpoint, accessToken, body = null) {
   const url = `${API_BASE_URL}${endpoint}`;
   const options = {
     method,
     mode: 'cors',
     cache: 'default',
+    headers: {
+      'Content-Type': guessContentType(body),
+    },
   };
 
   if (accessToken !== null) {
-    options.headers = {
-      authorization: `Bearer ${accessToken}`,
-    };
+    options.headers.authorization = `Bearer ${accessToken}`;
   }
 
   if (body !== null) {
-    if (body instanceof FormData) {
+    if (body instanceof FormData || body instanceof URLSearchParams) {
       options.body = body;
     } else {
       options.body = JSON.stringify(body);

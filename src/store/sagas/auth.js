@@ -78,11 +78,12 @@ function* refreshTokenWatcher() {
 function* signIn({ payload }) {
   const { username, password } = payload;
 
-  const formData = new FormData();
-  formData.append('username', username);
-  formData.append('password', password);
+  const body = new URLSearchParams({
+    username,
+    password,
+  });
 
-  const request = api.post('/auth/tokens', null, formData);
+  const request = api.post('/auth/tokens', null, body);
 
   const [response, err] = yield tryRequest(request, scopes.signingIn);
   if (err !== null) {
