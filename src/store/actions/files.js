@@ -30,6 +30,8 @@ export const types = {
   MOVE_FILE_FAILURE: 'MOVE_FILE_FAILURE',
 
   MOVE_FILE_BATCH: 'MOVE_FILE_BATCH',
+  MOVE_FILE_BATCH_SUCCESS: 'MOVE_FILE_BATCH_SUCCESS',
+  MOVE_FILE_BATCH_FAILURE: 'MOVE_FILE_BATCH_FAILURE',
 
   MOVE_TO_TRASH: 'MOVE_TO_TRASH',
   MOVE_TO_TRASH_SUCCESS: 'MOVE_TO_TRASH_SUCCESS',
@@ -150,17 +152,27 @@ export const moveFile = (fromPath, toPath) => ({
   payload: { fromPath, toPath },
 });
 
-export const moveFileBatch = (items) => ({
-  type: types.MOVE_FILE_BATCH,
-  payload: { items },
-});
-
 export const moveFileSuccess = (file, prevPath) => ({
   type: types.MOVE_FILE_SUCCESS,
   payload: { file, prevPath },
 });
 
 export const moveFileFailure = (err) => ({
+  type: types.MOVE_FILE_FAILURE,
+  payload: { err },
+});
+
+export const moveFileBatch = (relocations) => ({
+  type: types.MOVE_FILE_BATCH,
+  payload: { relocations },
+});
+
+export const moveFileBatchSuccess = ({ async_task_id: taskId }) => ({
+  type: types.MOVE_FILE_BATCH_SUCCESS,
+  payload: { taskId },
+});
+
+export const moveFileBatchFailure = (err) => ({
   type: types.MOVE_FILE_FAILURE,
   payload: { err },
 });

@@ -1,18 +1,23 @@
 import {
+  delay,
   put,
   select,
-  take,
   race,
+  take,
 } from 'redux-saga/effects';
 
 import { MediaType } from '../../constants';
 import * as routes from '../../routes';
 
+import * as api from '../api';
 import * as actions from '../actions/files';
 import * as uploadActions from '../actions/uploads';
 
+import { getAccessToken } from '../reducers/auth';
 import { getFilesByPath, getFileById } from '../reducers/files';
 import { getCurrentPath } from '../reducers/ui';
+
+import { tryRequest, tryResponse } from './_try';
 
 /**
    * Return index in an `arr` where `target` should be inserted in order.
@@ -74,6 +79,19 @@ function compareFiles(a, b) {
   return 0;
 }
 
+function* handleCreateFolder(action) {
+  const { folder } = action.payload;
+  const currPath = yield select(getCurrentPath);
+
+  const ids = new Set(yield select(getFilesByPath, currPath));
+  if (!ids.has(folder.id)) {
+    const nextFiles = [...ids];
+    const idx = yield findNextIdx(nextFiles, folder, compareFiles);
+    nextFiles.splice(idx, 0, folder.id);
+    yield put(actions.updateFolderByPath(currPath, nextFiles));
+  }
+}
+
 function* handleMoveFile(action) {
   const { file } = action.payload;
   const currPath = yield select(getCurrentPath);
@@ -88,16 +106,35 @@ function* handleMoveFile(action) {
   yield put(actions.updateFolderByPath(currPath, nextFiles));
 }
 
-function* handleCreateFolder(action) {
-  const { folder } = action.payload;
-  const currPath = yield select(getCurrentPath);
+function* handleMoveFileBatch({ payload }) {
+  const refreshRate = 5 * 1000; // 5 seconds
+  const refreshRateOnErr = 10 * 1000; // 30 seconds
 
-  const ids = new Set(yield select(getFilesByPath, currPath));
-  if (!ids.has(folder.id)) {
-    const nextFiles = [...ids];
-    const idx = yield findNextIdx(nextFiles, folder, compareFiles);
-    nextFiles.splice(idx, 0, folder.id);
-    yield put(actions.updateFolderByPath(currPath, nextFiles));
+  yield delay(1.5 * 1000); // wait for 1.5 seconds before first check
+  while (true) {
+    const accessToken = yield select(getAccessToken);
+    const request = api.post('/files/move_batch/check', accessToken, { async_task_id: payload.taskId });
+    const [response, err] = yield tryRequest(request);
+    if (err !== null) {
+      yield delay(refreshRateOnErr);
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+
+    const [data, parseErr] = yield tryResponse(response.json());
+    if (parseErr !== null) {
+      yield delay(refreshRateOnErr);
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+
+    const currPath = yield select(getCurrentPath);
+    yield put(actions.listFolder(currPath));
+
+    if (data?.status === 'completed') {
+      break;
+    }
+    yield delay(refreshRate);
   }
 }
 
@@ -131,9 +168,10 @@ function* handleUpload(action) {
 
 const watchers = {
   [actions.types.CREATE_FOLDER_SUCCESS]: handleCreateFolder,
-  [uploadActions.types.UPLOAD_SUCCESS]: handleUpload,
   [actions.types.MOVE_FILE_SUCCESS]: handleMoveFile,
+  [actions.types.MOVE_FILE_BATCH_SUCCESS]: handleMoveFileBatch,
   [actions.types.MOVE_TO_TRASH_SUCCESS]: handleMoveFile,
+  [uploadActions.types.UPLOAD_SUCCESS]: handleUpload,
 };
 
 function* filesWatcher() {

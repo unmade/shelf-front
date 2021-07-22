@@ -158,6 +158,35 @@ function* moveFile({ payload }) {
   yield put(uiActions.closeDialog(Dialogs.move));
 }
 
+function* moveFileBatch({ payload }) {
+  const accessToken = yield select(getAccessToken);
+  const { relocations } = payload;
+
+  const body = {
+    items: relocations.map((relocation) => ({
+      from_path: relocation.fromPath,
+      to_path: relocation.toPath,
+    })),
+  };
+
+  const request = api.post('/files/move_batch', accessToken, body);
+  const [response, err] = yield tryRequest(request, scopes.movingFile);
+  if (err !== null) {
+    yield put(actions.moveFileBatchFailure(err));
+    return;
+  }
+
+  const [data, parseErr] = yield tryResponse(response.json());
+  if (parseErr !== null) {
+    yield put(actions.moveFileBatchFailure(parseErr));
+    return;
+  }
+
+  yield put(actions.moveFileBatchSuccess(data));
+  yield put(uiActions.closeDialog(Dialogs.rename));
+  yield put(uiActions.closeDialog(Dialogs.move));
+}
+
 function* moveToTrash({ payload }) {
   const accessToken = yield select(getAccessToken);
   const { path } = payload;
@@ -210,6 +239,7 @@ export default [
   takeEvery(actions.types.FETCH_THUMBNAIL, fetchThumbnail),
   takeEvery(actions.types.LIST_FOLDER, listFolder),
   takeEvery(actions.types.MOVE_FILE, moveFile),
+  takeEvery(actions.types.MOVE_FILE_BATCH, moveFileBatch),
   takeEvery(actions.types.MOVE_TO_TRASH, moveToTrash),
   takeEvery(actions.types.PERFORM_DOWNLOAD, performDownload),
 ];
