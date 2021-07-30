@@ -11,6 +11,7 @@ import * as routes from '../../routes';
 
 import * as api from '../api';
 import * as actions from '../actions/files';
+import * as messageActions from '../actions/messages';
 import * as uploadActions from '../actions/uploads';
 
 import { getAccessToken } from '../reducers/auth';
@@ -132,7 +133,10 @@ function* handleMoveFileBatch({ payload }) {
     yield put(actions.listFolder(currPath));
 
     if (data?.status === 'completed') {
-      break;
+      const failed = data.results.filter((result) => result.err_code !== null);
+      if (failed.length > 0) {
+        yield put(messageActions.createErrorMessage('Failed to move files', '', 10));
+      }
     }
     yield delay(refreshRate);
   }
