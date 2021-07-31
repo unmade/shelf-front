@@ -4,7 +4,7 @@ import {
   race,
   select,
   take,
-  takeEvery,
+  takeLatest,
 } from 'redux-saga/effects';
 
 import * as api from '../api';
@@ -102,6 +102,6 @@ function* signIn({ payload }) {
 
 export default [
   refreshTokenWatcher(),
-  takeEvery(actions.types.REFRESH_TOKEN, refreshToken),
-  takeEvery(actions.types.SIGN_IN, signIn),
+  takeLatest(actions.types.REFRESH_TOKEN, refreshToken),
+  takeLatest(actions.types.SIGN_IN, signIn),
 ];
