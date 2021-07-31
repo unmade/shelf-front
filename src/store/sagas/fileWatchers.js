@@ -1,20 +1,21 @@
 import {
   delay,
   put,
-  select,
   race,
+  select,
   take,
   takeLeading,
 } from 'redux-saga/effects';
 
 import { MediaType } from '../../constants';
 import * as routes from '../../routes';
+import { difference } from '../../set';
 
 import * as fileActions from '../actions/files';
 import * as taskActions from '../actions/tasks';
 import * as uploadActions from '../actions/uploads';
 
-import { getFilesByPath, getFileById } from '../reducers/files';
+import { getFileById, getFilesByPath, getSelectedFileIds } from '../reducers/files';
 import { getCurrentPath } from '../reducers/ui';
 
 /**
@@ -90,6 +91,18 @@ function* handleCreateFolder(action) {
   }
 }
 
+function* handleListFolder({ payload }) {
+  const currentPath = yield select(getCurrentPath);
+  const { path, items } = payload;
+
+  if (path === currentPath) {
+    const fileIds = new Set(items.map((item) => item.id));
+    const selectedFiles = new Set(yield select(getSelectedFileIds));
+    const fileIdsToDeselect = difference(selectedFiles, fileIds);
+    yield put(fileActions.bulkDeselectFiles(fileIdsToDeselect));
+  }
+}
+
 function* handleMoveFile(action) {
   const { file } = action.payload;
   const currPath = yield select(getCurrentPath);
@@ -134,6 +147,7 @@ function* handleUpload(action) {
 
 const watchers = {
   [fileActions.types.CREATE_FOLDER_SUCCESS]: handleCreateFolder,
+  [fileActions.types.LIST_FOLDER_SUCCESS]: handleListFolder,
   [fileActions.types.MOVE_FILE_SUCCESS]: handleMoveFile,
   [fileActions.types.MOVE_TO_TRASH_SUCCESS]: handleMoveFile,
   [uploadActions.types.UPLOAD_SUCCESS]: handleUpload,
@@ -148,6 +162,8 @@ function* filesWatcher() {
 }
 
 function* refreshCurrentFolder({ payload }) {
+  const refreshRate = 2.5 * 1000; // 2.5 seconds
+
   const { scope } = payload;
   if (scope !== taskActions.scopes.movingBatch) {
     return;
@@ -156,11 +172,11 @@ function* refreshCurrentFolder({ payload }) {
   while (true) {
     const { completed } = yield race({
       completed: take(taskActions.types.TASK_COMPLETED),
-      expired: delay(2.5 * 1000), // wait for 2.5 seconds
+      expired: delay(refreshRate), // wait for 2.5 seconds
     });
 
-    const currPath = yield select(getCurrentPath);
-    yield put(fileActions.listFolder(currPath));
+    const path = yield select(getCurrentPath);
+    yield put(fileActions.listFolder(path));
 
     if (completed) {
       break;
