@@ -6,6 +6,7 @@ import * as api from '../api';
 import * as actions from '../actions/files';
 import { scopes } from '../actions/loading';
 import * as uiActions from '../actions/ui';
+import * as taskActions from '../actions/tasks';
 
 import { getAccessToken } from '../reducers/auth';
 
@@ -183,6 +184,7 @@ function* moveFileBatch({ payload }) {
   }
 
   yield put(actions.moveFileBatchSuccess(data));
+  yield put(taskActions.taskStarted(taskActions.scopes.movingBatch, data.async_task_id, body));
   yield put(uiActions.closeDialog(Dialogs.rename));
   yield put(uiActions.closeDialog(Dialogs.move));
 }

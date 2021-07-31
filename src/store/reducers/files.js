@@ -171,7 +171,9 @@ export const getFilesByIds = (state, ids) => ids.map((id) => getFileById(state, 
 export const getFilesByPath = (state, path) => state.files.byPath[path] || FILES_EMPTY;
 export const getFilesCountByPath = (state, path) => getFilesByPath(state, path).length;
 export const getIsFileSelected = (state, id) => state.files.selectedIds.has(id);
-export const getSelectedFiles = (state) => [...state.files.selectedIds].map((id) => getFileById(state, id));
+export const getSelectedFiles = (state) => (
+  [...state.files.selectedIds].map((id) => getFileById(state, id))
+);
 export const getHasSelectedFiles = (state) => state.files.selectedIds.size !== 0;
 export const getCountSelectedFiles = (state) => state.files.selectedIds.size;
 export const getThumbnailById = (state, id) => state.files.thumbnailsById[id];

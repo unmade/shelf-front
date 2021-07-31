@@ -1,5 +1,4 @@
 import {
-  delay,
   put,
   select,
   race,
@@ -9,16 +8,11 @@ import {
 import { MediaType } from '../../constants';
 import * as routes from '../../routes';
 
-import * as api from '../api';
-import * as actions from '../actions/files';
-import * as messageActions from '../actions/messages';
+import * as fileActions from '../actions/files';
 import * as uploadActions from '../actions/uploads';
 
-import { getAccessToken } from '../reducers/auth';
 import { getFilesByPath, getFileById } from '../reducers/files';
 import { getCurrentPath } from '../reducers/ui';
-
-import { tryRequest, tryResponse } from './_try';
 
 /**
    * Return index in an `arr` where `target` should be inserted in order.
@@ -89,7 +83,7 @@ function* handleCreateFolder(action) {
     const nextFiles = [...ids];
     const idx = yield findNextIdx(nextFiles, folder, compareFiles);
     nextFiles.splice(idx, 0, folder.id);
-    yield put(actions.updateFolderByPath(currPath, nextFiles));
+    yield put(fileActions.updateFolderByPath(currPath, nextFiles));
   }
 }
 
@@ -104,42 +98,7 @@ function* handleMoveFile(action) {
     const idx = yield findNextIdx(nextFiles, file, compareFiles);
     nextFiles.splice(idx, 0, file.id);
   }
-  yield put(actions.updateFolderByPath(currPath, nextFiles));
-}
-
-function* handleMoveFileBatch({ payload }) {
-  const refreshRate = 5 * 1000; // 5 seconds
-  const refreshRateOnErr = 10 * 1000; // 30 seconds
-
-  yield delay(1.5 * 1000); // wait for 1.5 seconds before first check
-  while (true) {
-    const accessToken = yield select(getAccessToken);
-    const request = api.post('/files/move_batch/check', accessToken, { async_task_id: payload.taskId });
-    const [response, err] = yield tryRequest(request);
-    if (err !== null) {
-      yield delay(refreshRateOnErr);
-      // eslint-disable-next-line no-continue
-      continue;
-    }
-
-    const [data, parseErr] = yield tryResponse(response.json());
-    if (parseErr !== null) {
-      yield delay(refreshRateOnErr);
-      // eslint-disable-next-line no-continue
-      continue;
-    }
-
-    const currPath = yield select(getCurrentPath);
-    yield put(actions.listFolder(currPath));
-
-    if (data?.status === 'completed') {
-      const failed = data.results.filter((result) => result.err_code !== null);
-      if (failed.length > 0) {
-        yield put(messageActions.createErrorMessage('Failed to move files', '', 10));
-      }
-    }
-    yield delay(refreshRate);
-  }
+  yield put(fileActions.updateFolderByPath(currPath, nextFiles));
 }
 
 function* handleUpload(action) {
@@ -165,16 +124,15 @@ function* handleUpload(action) {
       const nextFiles = [...ids];
       const idx = yield findNextIdx(nextFiles, target, compareFiles);
       nextFiles.splice(idx, 0, target.id);
-      yield put(actions.updateFolderByPath(currPath, nextFiles));
+      yield put(fileActions.updateFolderByPath(currPath, nextFiles));
     }
   }
 }
 
 const watchers = {
-  [actions.types.CREATE_FOLDER_SUCCESS]: handleCreateFolder,
-  [actions.types.MOVE_FILE_SUCCESS]: handleMoveFile,
-  [actions.types.MOVE_FILE_BATCH_SUCCESS]: handleMoveFileBatch,
-  [actions.types.MOVE_TO_TRASH_SUCCESS]: handleMoveFile,
+  [fileActions.types.CREATE_FOLDER_SUCCESS]: handleCreateFolder,
+  [fileActions.types.MOVE_FILE_SUCCESS]: handleMoveFile,
+  [fileActions.types.MOVE_TO_TRASH_SUCCESS]: handleMoveFile,
   [uploadActions.types.UPLOAD_SUCCESS]: handleUpload,
 };
 
