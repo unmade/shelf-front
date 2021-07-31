@@ -1,14 +1,17 @@
 import {
+  delay,
   put,
   select,
   race,
   take,
+  takeLeading,
 } from 'redux-saga/effects';
 
 import { MediaType } from '../../constants';
 import * as routes from '../../routes';
 
 import * as fileActions from '../actions/files';
+import * as taskActions from '../actions/tasks';
 import * as uploadActions from '../actions/uploads';
 
 import { getFilesByPath, getFileById } from '../reducers/files';
@@ -139,11 +142,33 @@ const watchers = {
 function* filesWatcher() {
   while (true) {
     const result = yield race(Object.keys(watchers).map((key) => take(key)));
-    const idx = result.findIndex((e) => e !== null && e !== undefined);
+    const idx = result.findIndex((e) => e != null);
     yield Object.values(watchers)[idx](result[idx]);
+  }
+}
+
+function* refreshCurrentFolder({ payload }) {
+  const { scope } = payload;
+  if (scope !== taskActions.scopes.movingBatch) {
+    return;
+  }
+
+  while (true) {
+    const { completed } = yield race({
+      completed: take(taskActions.types.TASK_COMPLETED),
+      expired: delay(2.5 * 1000), // wait for 2.5 seconds
+    });
+
+    const currPath = yield select(getCurrentPath);
+    yield put(fileActions.listFolder(currPath));
+
+    if (completed) {
+      break;
+    }
   }
 }
 
 export default [
   filesWatcher(),
+  takeLeading(taskActions.types.TASK_STARTED, refreshCurrentFolder),
 ];
