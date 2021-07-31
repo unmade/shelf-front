@@ -18,6 +18,10 @@ export default function (Component) {
       }
     }, [authenticated, location.pathname, history]);
 
+    if (!authenticated) {
+      return null;
+    }
+
     return (
       // eslint-disable-next-line react/jsx-props-no-spreading
       <Component {...props} />
