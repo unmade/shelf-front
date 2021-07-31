@@ -47,6 +47,7 @@ export const types = {
   SELECT_FILE_BULK: 'SELECT_FILE_BULK',
   SELECT_FILE: 'SELECT_FILE',
   DESELECT_FILES: 'DESELECT_FILES',
+  DESELECT_FILES_BULK: 'DESELECT_FILES_BULK',
 
   UPDATE_FOLDER_BY_PATH: 'UPDATE_FOLDER_BY_PATH',
   PATH_CHANGED: 'PATH_CHANGED',
@@ -230,6 +231,11 @@ export const addToSelection = (id) => ({
 export const deselectFiles = () => ({
   type: types.DESELECT_FILES,
   payload: null,
+});
+
+export const bulkDeselectFiles = (ids) => ({
+  type: types.DESELECT_FILES_BULK,
+  payload: { ids },
 });
 
 export const updateFolderByPath = (path, ids) => ({

@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import { createSelector } from 'reselect';
 
 import * as routes from '../../routes';
+import { difference } from '../../set';
 
 import { types } from '../actions/files';
 import { types as uploadTypes } from '../actions/uploads';
@@ -67,6 +68,10 @@ function selectedIds(state = new Set(), action) {
     case types.DESELECT_FILES: {
       return new Set();
     }
+    case types.DESELECT_FILES_BULK: {
+      const { ids } = action.payload;
+      return difference(state, ids);
+    }
     case types.SELECT_FILE: {
       const { id } = action.payload;
       return new Set([id]);
@@ -76,9 +81,9 @@ function selectedIds(state = new Set(), action) {
       const nextState = new Set(state);
       if (state.has(id)) {
         nextState.delete(id);
-        return nextState;
+      } else {
+        nextState.add(id);
       }
-      nextState.add(id);
       return nextState;
     }
     case types.SELECT_FILE_BULK: {
@@ -171,8 +176,9 @@ export const getFilesByIds = (state, ids) => ids.map((id) => getFileById(state, 
 export const getFilesByPath = (state, path) => state.files.byPath[path] || FILES_EMPTY;
 export const getFilesCountByPath = (state, path) => getFilesByPath(state, path).length;
 export const getIsFileSelected = (state, id) => state.files.selectedIds.has(id);
+export const getSelectedFileIds = (state) => [...state.files.selectedIds];
 export const getSelectedFiles = (state) => (
-  [...state.files.selectedIds].map((id) => getFileById(state, id))
+  getSelectedFileIds(state).map((id) => getFileById(state, id))
 );
 export const getHasSelectedFiles = (state) => state.files.selectedIds.size !== 0;
 export const getCountSelectedFiles = (state) => state.files.selectedIds.size;

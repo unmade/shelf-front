@@ -43,6 +43,8 @@ function loading(state = {}, action) {
       };
     case fileTypes.MOVE_FILE_FAILURE:
     case fileTypes.MOVE_FILE_SUCCESS:
+    case fileTypes.MOVE_FILE_BATCH_FAILURE:
+    case fileTypes.MOVE_FILE_BATCH_SUCCESS:
       return {
         ...state,
         [scopes.movingFile]: false,
