@@ -4,17 +4,71 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
 import { getCountSelectedFiles, getFilesCountByPath } from '../../store/reducers/files';
+import { getDeletingFilesCounter, getMovingFilesCounter } from '../../store/reducers/tasks';
+
+import * as icons from '../../icons';
+import pluralize from '../../pluralize';
 
 import Breadcrumb from '../ui/Breadcrumb';
 
-function TotalFiles({ dirPath }) {
+function BackgroundTask({ className }) {
+  const deletingFilesCounter = useSelector(getDeletingFilesCounter);
+  const movingFilesCounter = useSelector(getMovingFilesCounter);
+
+  const text = [];
+  if (deletingFilesCounter > 0) {
+    text.push(`Deleting ${deletingFilesCounter} ${pluralize('file', deletingFilesCounter)}`);
+  }
+  if (movingFilesCounter > 0) {
+    text.push(`Moving ${movingFilesCounter} ${pluralize('file', movingFilesCounter)}`);
+  }
+
+  if (text.length < 1) {
+    return null;
+  }
+
+  return (
+    <div className={className}>
+      <div className="flex">
+        <icons.Spinner className="mr-1 w-4 h-4 text-gray-600 animate-spin" />
+        {text.join(' / ')}
+      </div>
+    </div>
+  );
+}
+
+BackgroundTask.propTypes = {
+  className: PropTypes.string,
+};
+
+BackgroundTask.defaultProps = {
+  className: '',
+};
+
+function TotalFiles({ className, dirPath }) {
   const totalCount = useSelector((state) => getFilesCountByPath(state, dirPath));
   const selectedCount = useSelector(getCountSelectedFiles);
-  if (selectedCount === 0) {
-    return `${totalCount} items`;
-  }
-  return `${selectedCount} of ${totalCount} selected`;
+  const text = (selectedCount === 0) ? (
+    `${totalCount} ${pluralize('item', totalCount)}`
+  ) : (
+    `${selectedCount} of ${totalCount} selected`
+  );
+
+  return (
+    <div className={className}>
+      {text}
+    </div>
+  );
 }
+
+TotalFiles.propTypes = {
+  className: PropTypes.string,
+  dirPath: PropTypes.string.isRequired,
+};
+
+TotalFiles.defaultProps = {
+  className: '',
+};
 
 function StatusBar({ dirPath, isLaptop, withCreateFolder }) {
   return (
@@ -39,8 +93,9 @@ function StatusBar({ dirPath, isLaptop, withCreateFolder }) {
           withCreateFolder={withCreateFolder}
         />
       )}
-      <div>
-        <TotalFiles dirPath={dirPath} />
+      <div className="flex">
+        <BackgroundTask />
+        <TotalFiles className="ml-6" dirPath={dirPath} />
       </div>
     </div>
   );

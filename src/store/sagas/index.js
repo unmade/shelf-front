@@ -4,6 +4,7 @@ import accountSagas from './accounts';
 import authSagas from './auth';
 import fileSagas from './files';
 import fileWatchers from './fileWatchers';
+import taskSagas from './tasks';
 import uploadSagas from './uploads';
 
 export default function* rootSaga() {
@@ -12,6 +13,7 @@ export default function* rootSaga() {
     ...authSagas,
     ...fileSagas,
     ...fileWatchers,
+    ...taskSagas,
     ...uploadSagas,
   ]);
 }
