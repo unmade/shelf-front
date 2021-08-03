@@ -165,7 +165,7 @@ function* refreshCurrentFolder({ payload }) {
   const refreshRate = 2.5 * 1000; // 2.5 seconds
 
   const { scope } = payload;
-  if (scope !== taskActions.scopes.movingBatch) {
+  if (scope !== taskActions.scopes.movingBatch && scope !== taskActions.scopes.movingToTrash) {
     return;
   }
 

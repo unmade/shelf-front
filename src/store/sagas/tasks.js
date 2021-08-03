@@ -11,6 +11,7 @@ import { tryRequest, tryResponse } from './_try';
 
 const endpointsByScope = {
   [actions.scopes.movingBatch]: '/files/move_batch/check',
+  [actions.scopes.movingToTrash]: '/files/move_batch/check',
 };
 
 function* checkTask({ payload }) {
