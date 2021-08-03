@@ -38,6 +38,8 @@ export const types = {
   MOVE_TO_TRASH_FAILURE: 'MOVE_TO_TRASH_FAILURE',
 
   MOVE_TO_TRASH_BATCH: 'MOVE_TO_TRASH_BATCH',
+  MOVE_TO_TRASH_BATCH_SUCCESS: 'MOVE_TO_TRASH_BATCH_SUCCESS',
+  MOVE_TO_TRASH_BATCH_FAILURE: 'MOVE_TO_TRASH_BATCH_FAILURE',
 
   PERFORM_DOWNLOAD: 'PERFORM_DOWNLOAD',
   RETRIEVE_DOWNLOAD_URL_SUCCESS: 'RETRIEVE_DOWNLOAD_URL_SUCCESS',
@@ -196,6 +198,16 @@ export const moveToTrashFailure = (err) => ({
 export const moveToTrashBatch = (paths) => ({
   type: types.MOVE_TO_TRASH_BATCH,
   payload: { paths },
+});
+
+export const moveToTrashBatchSuccess = ({ async_task_id: taskId }) => ({
+  type: types.MOVE_TO_TRASH_BATCH_SUCCESS,
+  payload: { taskId },
+});
+
+export const moveToTrashBatchFailure = (err) => ({
+  type: types.MOVE_TO_TRASH_BATCH_FAILURE,
+  payload: { err },
 });
 
 export const performDownload = (path) => ({

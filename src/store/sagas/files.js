@@ -184,9 +184,9 @@ function* moveFileBatch({ payload }) {
   }
 
   yield put(actions.moveFileBatchSuccess(data));
-  yield put(taskActions.taskStarted(taskActions.scopes.movingBatch, data.async_task_id, body));
   yield put(uiActions.closeDialog(Dialogs.rename));
   yield put(uiActions.closeDialog(Dialogs.move));
+  yield put(taskActions.taskStarted(taskActions.scopes.movingBatch, data.async_task_id, body));
 }
 
 function* moveToTrash({ payload }) {
@@ -208,6 +208,32 @@ function* moveToTrash({ payload }) {
 
   yield put(actions.moveToTrashSuccess(data));
   yield put(uiActions.closeDialog(Dialogs.delete));
+}
+
+function* moveToTrashBatch({ payload }) {
+  const accessToken = yield select(getAccessToken);
+  const { paths } = payload;
+
+  const body = {
+    items: paths.map((path) => ({ path })),
+  };
+
+  const request = api.post('/files/move_to_trash_batch', accessToken, body);
+  const [response, err] = yield tryRequest(request, scopes.movingFile);
+  if (err !== null) {
+    yield put(actions.moveFileBatchFailure(err));
+    return;
+  }
+
+  const [data, parseErr] = yield tryResponse(response.json());
+  if (parseErr !== null) {
+    yield put(actions.moveFileBatchFailure(parseErr));
+    return;
+  }
+
+  yield put(actions.moveFileBatchSuccess(data));
+  yield put(uiActions.closeDialog(Dialogs.delete));
+  yield put(taskActions.taskStarted(taskActions.scopes.movingToTrash, data.async_task_id, body));
 }
 
 function* performDownload({ payload }) {
@@ -243,5 +269,6 @@ export default [
   takeEvery(actions.types.MOVE_FILE, moveFile),
   takeEvery(actions.types.MOVE_FILE_BATCH, moveFileBatch),
   takeEvery(actions.types.MOVE_TO_TRASH, moveToTrash),
+  takeEvery(actions.types.MOVE_TO_TRASH_BATCH, moveToTrashBatch),
   takeEvery(actions.types.PERFORM_DOWNLOAD, performDownload),
 ];
