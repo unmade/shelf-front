@@ -7,8 +7,9 @@ import { MediaType } from './constants';
 import { ReactComponent as AppLogoIcon } from './logo.svg';
 
 export const AppLogo = AppLogoIcon;
-export const ArrowLeft = hi.HiArrowNarrowLeft;
-export const ArrowRight = hi.HiArrowNarrowRight;
+export const ArrowLeft = hi.HiArrowLeft;
+export const ArrowNarrowLeft = hi.HiArrowNarrowLeft;
+export const ArrowNarrowRight = hi.HiArrowNarrowRight;
 export const CheckCircle = hi.HiCheckCircle;
 export const ChevronLeft = hi.HiChevronLeft;
 export const ChevronRight = hi.HiChevronRight;

@@ -18,7 +18,7 @@ function Forbidden() {
         <Button
           type="text"
           size="lg"
-          icon={<icons.ArrowLeft />}
+          icon={<icons.ArrowNarrowLeft />}
           title="Go back"
           onClick={() => history.push('/')}
         >

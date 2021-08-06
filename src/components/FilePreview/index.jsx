@@ -36,12 +36,12 @@ function hasPreview({ size, mediatype }) {
 }
 
 function Header({
-  idx, total, name, prevName, nextName,
+  idx, total, name, prevPath, nextPath,
 }) {
   return (
     <div className="p-4 flex flex-row items-center justify-between">
       <div className="sm:w-48 flex flex-row">
-        <FileLink>
+        <FileLink path={routes.parent(prevPath)}>
           <Button type="text" size="base" icon={<icons.ChevronLeft />} />
         </FileLink>
       </div>
@@ -53,8 +53,8 @@ function Header({
       </div>
 
       <div className="min-w-max sm:w-48 text-gray-800 flex flex-row items-center justify-end space-x-2">
-        <FileLink name={prevName} preview>
-          <Button type="text" size="base" icon={<icons.ArrowLeft />} />
+        <FileLink path={prevPath} preview>
+          <Button type="text" size="base" icon={<icons.ArrowNarrowLeft />} />
         </FileLink>
 
         <div className="text-gray-700 text-sm">
@@ -63,8 +63,8 @@ function Header({
           <span>{total}</span>
         </div>
 
-        <FileLink name={nextName} preview>
-          <Button type="text" size="base" icon={<icons.ArrowRight />} />
+        <FileLink path={nextPath} preview>
+          <Button type="text" size="base" icon={<icons.ArrowNarrowRight />} />
         </FileLink>
       </div>
     </div>
@@ -75,8 +75,8 @@ Header.propTypes = {
   idx: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  prevName: PropTypes.string.isRequired,
-  nextName: PropTypes.string.isRequired,
+  prevPath: PropTypes.string.isRequired,
+  nextPath: PropTypes.string.isRequired,
 };
 
 function FilePreview({ dirPath, preview, downloads, download }) {
@@ -94,13 +94,13 @@ function FilePreview({ dirPath, preview, downloads, download }) {
     const onKeyUp = ({ keyCode }) => {
       switch (keyCode) {
         case 37: // left arrow
-          history.push(routes.FILES.preview(prevFile));
+          history.push(routes.makeFileRoute({ path: prevFile.path, asPreview: true }));
           break;
         case 39: // right arrow
-          history.push(routes.FILES.preview(nextFile));
+          history.push(routes.makeFileRoute({ path: nextFile.path, asPreview: true }));
           break;
         case 27: // escape
-          history.push(routes.FILES.reverse({ path: dirPath }));
+          history.push(routes.makeFileRoute({ path: dirPath }));
           break;
         default:
       }
@@ -117,7 +117,7 @@ function FilePreview({ dirPath, preview, downloads, download }) {
 
   const { name, path, mediatype } = file;
   const original = downloads[path];
-  const loading = hasPreview(file) && (original === null || original === undefined);
+  const loading = hasPreview(file) && (original == null);
   const Preview = getPreview(mediatype);
 
   return (
@@ -128,8 +128,8 @@ function FilePreview({ dirPath, preview, downloads, download }) {
           idx={index}
           total={total}
           name={name}
-          prevName={prevFile.name}
-          nextName={nextFile.name}
+          prevPath={prevFile.path}
+          nextPath={nextFile.path}
         />
 
         <div className="overflow-scroll h-full bg-gray-200">
