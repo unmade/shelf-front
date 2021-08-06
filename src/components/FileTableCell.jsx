@@ -78,7 +78,7 @@ function FileTableCell({
         </div>
         <span className="truncate" onClick={(event) => { event.stopPropagation(); }}>
           <FileLink
-            name={item.name}
+            path={item.path}
             preview={item.mediatype !== MediaType.FOLDER}
           >
             {item.name}

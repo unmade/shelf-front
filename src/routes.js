@@ -1,5 +1,19 @@
 import { BREADCRUMBS_ALIASES } from './constants';
 
+export const FILES = {
+  prefix: '/files',
+  route: '/files/:dirPath*',
+};
+
+export const TRASH = {
+  prefix: 'trash',
+  route: '/trash/:dirPath*',
+};
+
+export const USER_MANAGEMENT = {
+  prefix: '/admin/user-management',
+};
+
 function norm(path) {
   if (path !== '.' && !path.startsWith('./')) {
     return `./${path}`;
@@ -31,7 +45,7 @@ export function join(pathA, pathB) {
   }
 
   let a = pathA;
-  if (a[a.length] === '/') {
+  if (a[a.length - 1] === '/') {
     a = a.substring(0, a.length - 1);
   }
 
@@ -48,29 +62,26 @@ export function parent(path) {
   if (end < 0) {
     return '.';
   }
-  return path.substring(0, path.lastIndexOf('/'));
+  return path.substring(0, end);
 }
 
-export const FILES = {
-  route: '/files/:dirPath*',
-  reverse({ path }) {
-    return join('/files', path);
-  },
-  preview({ name, path }) {
-    return `${join('/files', parent(path))}?preview=${name}`;
-  },
-};
+function basename(path) {
+  const end = path.lastIndexOf('/');
+  if (end < 0) {
+    return path;
+  }
+  return path.substring(end + 1);
+}
 
-export const TRASH = {
-  route: '/trash/:dirPath*',
-  reverse({ path }) {
-    return join('/trash', path);
-  },
-};
-
-export const USER_MANAGEMENT = {
-  route: '/admin/user-management',
-  reverse() {
-    return this.route;
-  },
-};
+export function makeFileRoute({ path, asPreview }) {
+  let { prefix } = FILES;
+  if (path.toLowerCase().startsWith('trash')) {
+    prefix = '/';
+    // eslint-disable-next-line no-param-reassign
+    path = `${path.charAt(0).toLowerCase()}${path.slice(1)}`;
+  }
+  if (asPreview) {
+    return `${join(prefix, parent(path))}?preview=${basename(path)}`;
+  }
+  return join(prefix, path);
+}

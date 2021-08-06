@@ -9,12 +9,12 @@ import AccountMenu from '../containers/AccountMenu';
 
 export const menu = [
   {
-    path: routes.FILES.reverse({ path: '.' }),
+    path: routes.FILES.prefix,
     title: 'Files',
     icon: <icons.File className="flex-shrink-0 w-5 h-5 mr-3" />,
   },
   {
-    path: routes.TRASH.reverse({ path: '.' }),
+    path: routes.TRASH.prefix,
     title: 'Trash',
     icon: <icons.TrashOutlined className="flex-shrink-0 w-5 h-5 mr-3" />,
   },
@@ -22,7 +22,7 @@ export const menu = [
 
 const adminMenu = [
   {
-    path: routes.USER_MANAGEMENT.reverse(),
+    path: routes.USER_MANAGEMENT.prefix,
     title: 'User management',
     icon: <icons.UsersOutline className="flex-shrink-0 w-5 h-5 mr-3" />,
   },
