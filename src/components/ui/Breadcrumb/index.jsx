@@ -15,27 +15,58 @@ import Menu from '../Menu';
 import BreadcrumbItem from './BreadcrumbItem';
 import BreadcrumbItemCollapsed from './BreadcrumbItemCollapsed';
 
+const BREADCRUMBS_ALIASES = {
+  files: {
+    Icon: icons.Home,
+    name: 'Home',
+    url: routes.FILES.prefix,
+  },
+  trash: {
+    Icon: icons.Trash,
+    name: 'Trash',
+    url: routes.TRASH.prefix,
+  },
+};
+
+export function breadcrumbs(path) {
+  const parts = routes.makeUrlFromPath({ path }).split('/').slice(1);
+  const items = [
+    BREADCRUMBS_ALIASES[parts[0]],
+  ];
+  let prefix = items[0].url;
+  parts.slice(1).forEach((part) => {
+    prefix = `${prefix}/${part}`;
+    items.push({
+      Icon: icons.Folder,
+      name: part,
+      url: prefix,
+    });
+  });
+
+  return items;
+}
+
 function Breadcrumb({
   className, path, withCreateFolder, itemRender: Render, itemRenderCollapsed: RenderCollapsed,
 }) {
   const dispatch = useDispatch();
-  const items = routes.breadcrumbs(path);
+  const items = breadcrumbs(path);
   const onCreateFolder = () => dispatch(openDialog(Dialogs.createFolder));
   if (items.length < 4) {
     return (
       <nav className={`${className} flex items-center text-gray-500 font-medium space-x-1 sm:space-x-4 whitespace-nowrap`}>
         {items.map((item, idx) => (
-          <React.Fragment key={item.path}>
+          <React.Fragment key={item.url}>
             {(idx !== 0) && (
               <icons.ChevronRight className="w-4 h-4 flex-shrink-0 text-gray-300" />
             )}
             <span className="max-w-xs truncate flex items-center">
               {(idx === 0) && (
                 <span className="py-2 sm:py-1">
-                  <icons.Home className="w-4 h-4 mr-2 flex-shrink-0 text-gray-300" />
+                  <item.Icon className="w-4 h-4 mr-2 flex-shrink-0 text-gray-300" />
                 </span>
               )}
-              <Render name={item.name} path={item.path} />
+              <Render name={item.name} url={item.url} />
             </span>
           </React.Fragment>
         ))}
@@ -61,8 +92,8 @@ function Breadcrumb({
   return (
     <nav className={`${className} flex items-center text-gray-500 font-medium space-x-1 sm:space-x-4 whitespace-nowrap`}>
       <span className="max-w-xs flex items-center">
-        <icons.Home className="w-4 h-4 mr-2 flex-shrink-0 text-gray-300" />
-        <Render name={first.name} path={first.path} />
+        <first.Icon className="w-4 h-4 mr-2 flex-shrink-0 text-gray-300" />
+        <Render name={first.name} url={first.url} />
       </span>
       <div>
         <icons.ChevronRight className="w-4 h-4 flex-shrink-0 text-gray-300" />
@@ -71,7 +102,7 @@ function Breadcrumb({
         panelClassName="max-w-xs"
         items={rest}
         itemRender={({ item }) => (
-          <RenderCollapsed name={item.name} path={item.path} />
+          <RenderCollapsed name={item.name} url={item.url} />
         )}
       >
         <Button
@@ -85,7 +116,7 @@ function Breadcrumb({
         <icons.ChevronRight className="w-4 h-4 flex-shrink-0 text-gray-300" />
       </div>
       <span className="max-w-2xs sm:max-w-2xs">
-        <Render name={last.name} path={last.path} />
+        <Render name={last.name} url={last.url} />
       </span>
       {(withCreateFolder) && (
         <>

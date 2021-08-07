@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import * as routes from '../routes';
 
 function FileLink({ children, className, path, preview }) {
-  const url = routes.makeFileRoute({ path, asPreview: preview });
+  const url = routes.makeUrlFromPath({ path, asPreview: preview });
 
   return (
     <Link to={url} className={className}>

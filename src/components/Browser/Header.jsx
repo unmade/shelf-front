@@ -39,7 +39,7 @@ function Header({ isLaptop, actionButton: ActionButton }) {
   const currentFolderName = useSelector(getCurrentFolderName);
   return (
     <>
-      <div className="flex flex-row items-center justify-between pl-5 pr-8 py-7">
+      <div className="flex flex-row items-center justify-between px-6 sm:pl-5 sm:pr-8 py-7">
         {(!isLaptop) ? (
           <>
             <SideBarModal />
@@ -53,7 +53,7 @@ function Header({ isLaptop, actionButton: ActionButton }) {
             </h2>
           </div>
         )}
-        <div className="ml-6 flex text-2xl items-center space-x-8">
+        <div className="sm:ml-6 flex text-2xl items-center sm:space-x-8">
           <SearchButton />
           <ActionButton />
         </div>

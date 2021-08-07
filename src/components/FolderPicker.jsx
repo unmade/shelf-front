@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import * as icons from '../icons';
+import * as routes from '../routes';
 
 import FolderPickerItem from '../containers/FolderPickerItem';
 
@@ -14,11 +15,10 @@ const height = {
   height: `calc(100% - ${HEIGHT}px`,
 };
 
-const changePath = (path, onPathChange) => (event) => {
+const changePath = (route, onPathChange) => (event) => {
   event.preventDefault();
   event.stopPropagation();
-  const nextPath = (path === '.') ? path : path.substring(2, path.length);
-  onPathChange(nextPath);
+  onPathChange(routes.makePathFromUrl(route));
 };
 
 const FolderPicker = React.memo(({
@@ -33,21 +33,21 @@ const FolderPicker = React.memo(({
       <div className="pb-1">
         <Breadcrumb
           path={path}
-          itemRender={({ name, path: nextPath }) => (
+          itemRender={({ name, url }) => (
             <Breadcrumb.Item
-              path={nextPath}
-              onClick={changePath(nextPath, onPathChange)}
-              isActive={() => nextPath === path || nextPath === `./${path}`}
+              to={url}
+              onClick={changePath(url, onPathChange)}
+              isActive={() => url === routes.makeUrlFromPath({ path })}
             >
               <span className="block truncate">
                 {name}
               </span>
             </Breadcrumb.Item>
           )}
-          itemRenderCollapsed={({ name, path: nextPath }) => (
+          itemRenderCollapsed={({ name, url }) => (
             <Breadcrumb.ItemCollapsed
-              path={nextPath}
-              onClick={changePath(nextPath, onPathChange)}
+              to={url}
+              onClick={changePath(url, onPathChange)}
               isActive={() => false}
             >
               <span className="block truncate">
