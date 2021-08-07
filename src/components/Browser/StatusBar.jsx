@@ -76,15 +76,15 @@ function StatusBar({ dirPath, isLaptop, withCreateFolder }) {
       {(isLaptop) && (
         <Breadcrumb
           path={dirPath}
-          itemRender={({ name, path }) => (
-            <Breadcrumb.Item path={path}>
+          itemRender={({ name, url }) => (
+            <Breadcrumb.Item to={url}>
               <span className="block truncate">
                 {name}
               </span>
             </Breadcrumb.Item>
           )}
-          itemRenderCollapsed={({ name, path }) => (
-            <Breadcrumb.ItemCollapsed path={path}>
+          itemRenderCollapsed={({ name, url }) => (
+            <Breadcrumb.ItemCollapsed to={url}>
               <span className="block truncate">
                 {name}
               </span>

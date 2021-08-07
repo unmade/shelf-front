@@ -1,12 +1,10 @@
-import { BREADCRUMBS_ALIASES } from './constants';
-
 export const FILES = {
   prefix: '/files',
   route: '/files/:dirPath*',
 };
 
 export const TRASH = {
-  prefix: 'trash',
+  prefix: '/trash',
   route: '/trash/:dirPath*',
 };
 
@@ -14,26 +12,12 @@ export const USER_MANAGEMENT = {
   prefix: '/admin/user-management',
 };
 
-function norm(path) {
-  if (path !== '.' && !path.startsWith('./')) {
-    return `./${path}`;
+function basename(path) {
+  const end = path.lastIndexOf('/');
+  if (end < 0) {
+    return path;
   }
-  return path;
-}
-
-export function breadcrumbs(path, aliases = BREADCRUMBS_ALIASES) {
-  const items = [];
-  const parts = norm(path).split('/').filter((e) => e !== '');
-  let prefix = '';
-  parts.forEach((part) => {
-    prefix = (part !== '.') ? `${prefix}/${part}` : part;
-    items.push({
-      path: prefix,
-      name: (aliases && aliases[part]) || part,
-    });
-  });
-
-  return items;
+  return path.substring(end + 1);
 }
 
 export function join(pathA, pathB) {
@@ -65,15 +49,7 @@ export function parent(path) {
   return path.substring(0, end);
 }
 
-function basename(path) {
-  const end = path.lastIndexOf('/');
-  if (end < 0) {
-    return path;
-  }
-  return path.substring(end + 1);
-}
-
-export function makeFileRoute({ path, asPreview }) {
+export function makeUrlFromPath({ path, asPreview }) {
   let { prefix } = FILES;
   if (path.toLowerCase().startsWith('trash')) {
     prefix = '/';
@@ -84,4 +60,12 @@ export function makeFileRoute({ path, asPreview }) {
     return `${join(prefix, parent(path))}?preview=${basename(path)}`;
   }
   return join(prefix, path);
+}
+
+export function makePathFromUrl(url) {
+  const start = url.slice(1).indexOf('/');
+  if (start < 0) {
+    return '.';
+  }
+  return url.substring(start + 2);
 }

@@ -94,13 +94,13 @@ function FilePreview({ dirPath, preview, downloads, download }) {
     const onKeyUp = ({ keyCode }) => {
       switch (keyCode) {
         case 37: // left arrow
-          history.push(routes.makeFileRoute({ path: prevFile.path, asPreview: true }));
+          history.push(routes.makeUrlFromPath({ path: prevFile.path, asPreview: true }));
           break;
         case 39: // right arrow
-          history.push(routes.makeFileRoute({ path: nextFile.path, asPreview: true }));
+          history.push(routes.makeUrlFromPath({ path: nextFile.path, asPreview: true }));
           break;
         case 27: // escape
-          history.push(routes.makeFileRoute({ path: dirPath }));
+          history.push(routes.makeUrlFromPath({ path: dirPath }));
           break;
         default:
       }

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
 function BreadcrumbItem({
-  children, className, path, isActive, onClick,
+  children, className, to, isActive, onClick,
 }) {
   const linkProps = {};
   if (isActive !== null) {
@@ -14,7 +14,7 @@ function BreadcrumbItem({
   }
   return (
     <NavLink
-      to={path}
+      to={to}
       className={`block text-gray-500 hover:text-gray-900 transition-colors duration-150 ${className}`}
       activeClassName="text-gray-900 pointer-events-none"
       exact
@@ -32,7 +32,7 @@ BreadcrumbItem.propTypes = {
     PropTypes.node,
   ]).isRequired,
   className: PropTypes.string,
-  path: PropTypes.string.isRequired,
+  to: PropTypes.string.isRequired,
   isActive: PropTypes.func,
   onClick: PropTypes.func,
 };

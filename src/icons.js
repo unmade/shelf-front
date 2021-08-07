@@ -40,6 +40,7 @@ export const Redo = hi.HiOutlineRefresh;
 export const SearchOutlined = hi.HiOutlineSearch;
 export const SelectorOutlined = hi.HiOutlineSelector;
 export const Spinner = cg.CgSpinner;
+export const Trash = hi.HiTrash;
 export const TrashOutlined = hi.HiOutlineTrash;
 export const Upload = hi.HiUpload;
 export const UsersOutline = hi.HiOutlineUsers;

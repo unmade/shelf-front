@@ -1,27 +1,29 @@
 import React from 'react';
 
-import { useDispatch } from 'react-redux';
-import { NavLink, useRouteMatch } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import { Menu, Transition } from '@headlessui/react';
 
 import { openDialog } from '../store/actions/ui';
+import { getCurrentPath } from '../store/reducers/ui';
 import { Dialogs } from '../constants';
 
 import * as icons from '../icons';
-import * as routes from '../routes';
+
+import { breadcrumbs } from './ui/Breadcrumb';
 
 function BreadcrumbDropdown() {
-  const match = useRouteMatch();
+  const currentPath = useSelector(getCurrentPath);
   const dispatch = useDispatch();
-  const breadcrumbs = routes.breadcrumbs(match.url);
+  const crumbs = breadcrumbs(currentPath);
 
   let currentFolder;
   let hasBreadcrumbs;
-  if (breadcrumbs.length === 1) {
-    currentFolder = breadcrumbs[breadcrumbs.length - 1];
+  if (crumbs.length === 1) {
+    currentFolder = crumbs[crumbs.length - 1];
     hasBreadcrumbs = false;
   } else {
-    currentFolder = breadcrumbs.pop();
+    currentFolder = crumbs.pop();
     hasBreadcrumbs = true;
   }
 
@@ -44,9 +46,9 @@ function BreadcrumbDropdown() {
       >
         <Menu.Items className="z-10 absolute w-full max-w-xs right-0 origin-top-right py-1 mt-2 overflow-auto text-base bg-white rounded-xl shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
           <div className={`${(hasBreadcrumbs) ? 'border-b' : 'hidden'} max-h-60 overflow-scroll`}>
-            {breadcrumbs.slice().reverse().map((item) => (
-              <Menu.Item key={item.path}>
-                <NavLink to={item.path} className="flex items-center px-4 py-2">
+            {crumbs.slice().reverse().map((item) => (
+              <Menu.Item key={item.url}>
+                <NavLink to={item.url} className="flex items-center px-4 py-2">
                   <icons.Folder className="flex-shrink-0 text-blue-400 w-5 h-5" />
                   <div className="ml-3 truncate">
                     {item.name}
