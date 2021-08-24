@@ -12,6 +12,12 @@ function FileTableCellActions({ id, path, onDownload, openDialog }) {
   if (path.toLowerCase().startsWith(TRASH_FOLDER_NAME.toLowerCase())) {
     menu = [
       {
+        name: 'Move',
+        icon: <icons.Move className="w-4 h-4" />,
+        danger: false,
+        onClick: () => { openDialog(Dialogs.move, { fileIds: [id] }); },
+      },
+      {
         name: 'Delete Immediately',
         icon: <icons.TrashOutlined className="w-4 h-4" />,
         danger: true,

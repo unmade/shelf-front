@@ -6,15 +6,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { performDownload } from '../../store/actions/files';
 import { openDialog } from '../../store/actions/ui';
 
+import { getCurrentPath } from '../../store/reducers/ui';
+
 import { Dialogs, TRASH_FOLDER_NAME } from '../../constants';
 import * as icons from '../../icons';
 
 import Button from '../ui/Button';
-import { getCurrentPath } from '../../store/reducers/ui';
 
 function singleFileActions({ id, path, trashed, dispatch }) {
   if (trashed) {
     return [
+      {
+        name: 'Move',
+        icon: <icons.Move className="w-4 h-4" />,
+        danger: false,
+        onClick: () => { dispatch(openDialog(Dialogs.move, { fileIds: [id] })); },
+      },
       {
         name: 'Delete Immediately',
         icon: <icons.TrashOutlined className="w-4 h-4" />,
@@ -47,7 +54,7 @@ function singleFileActions({ id, path, trashed, dispatch }) {
       name: 'Delete',
       icon: <icons.TrashOutlined className="w-4 h-4" />,
       danger: true,
-      onClick: () => { dispatch(openDialog(Dialogs.delete, { fileId: id })); },
+      onClick: () => { dispatch(openDialog(Dialogs.delete, { fileIds: [id] })); },
     },
   ];
 }
@@ -55,6 +62,12 @@ function singleFileActions({ id, path, trashed, dispatch }) {
 function multiFileActions({ fileIds, trashed, dispatch }) {
   if (trashed) {
     return [
+      {
+        name: 'Move',
+        icon: <icons.Move className="w-4 h-4" />,
+        danger: false,
+        onClick: () => { dispatch(openDialog(Dialogs.move, { fileIds })); },
+      },
       {
         name: 'Delete Immediately',
         icon: <icons.TrashOutlined className="w-4 h-4" />,

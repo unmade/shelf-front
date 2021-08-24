@@ -18,6 +18,7 @@ import Button from '../components/ui/Button';
 
 import Browser from '../components/Browser';
 import DeleteImmediatelyDialog from '../components/DeleteImmediatelyDialog';
+import MoveDialog from '../components/MoveDialog';
 
 function Trash() {
   const dispatch = useDispatch();
@@ -61,6 +62,7 @@ function Trash() {
       {(preview) && (
         <FilePreview dirPath={dirPath || '.'} name={preview} />
       )}
+      <MoveDialog uid={Dialogs.move} />
       <EmptyTrashDialog uid={Dialogs.emptyTrash} />
       <DeleteImmediatelyDialog uid={Dialogs.deleteImmediately} />
     </>
