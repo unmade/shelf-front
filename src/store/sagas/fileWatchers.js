@@ -161,11 +161,19 @@ function* filesWatcher() {
   }
 }
 
+const refreshFolderScopes = new Set([
+  taskActions.scopes.deletingImmediatelyBatch,
+  taskActions.scopes.emptyingTrash,
+  taskActions.scopes.movingBatch,
+  taskActions.scopes.movingToTrash,
+]);
+
 function* refreshCurrentFolder({ payload }) {
   const refreshRate = 2.5 * 1000; // 2.5 seconds
 
   const { scope } = payload;
-  if (scope !== taskActions.scopes.movingBatch && scope !== taskActions.scopes.movingToTrash) {
+
+  if (!refreshFolderScopes.has(scope)) {
     return;
   }
 

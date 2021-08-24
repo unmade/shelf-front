@@ -10,6 +10,8 @@ import { getAccessToken } from '../reducers/auth';
 import { tryRequest, tryResponse } from './_try';
 
 const endpointsByScope = {
+  [actions.scopes.deletingImmediatelyBatch]: '/files/delete_immediately_batch/check',
+  [actions.scopes.emptyingTrash]: '/files/empty_trash/check',
   [actions.scopes.movingBatch]: '/files/move_batch/check',
   [actions.scopes.movingToTrash]: '/files/move_batch/check',
 };
