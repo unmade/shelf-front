@@ -54,6 +54,32 @@ function* deleteImmediately({ payload }) {
   yield put(uiActions.closeDialog(Dialogs.deleteImmediately));
 }
 
+function* deleteImmediatelyBatch({ payload }) {
+  const accessToken = yield select(getAccessToken);
+  const { paths } = payload;
+  const body = {
+    items: paths.map((path) => ({ path })),
+  };
+
+  const request = api.post('/files/delete_immediately_batch', accessToken, body);
+  const [response, err] = yield tryRequest(request);
+  if (err !== null) {
+    yield put(actions.deleteImmediatelyBatchFailure(err));
+    return;
+  }
+
+  const [data, parseErr] = yield tryResponse(response.json());
+  if (parseErr !== null) {
+    yield put(actions.deleteImmediatelyBatchFailure(err));
+    return;
+  }
+
+  const { async_task_id: taskId } = data;
+  yield put(actions.deleteImmediatelyBatchSucess(data));
+  yield put(uiActions.closeDialog(Dialogs.deleteImmediately));
+  yield put(taskActions.taskStarted(taskActions.scopes.deletingImmediatelyBatch, taskId, body));
+}
+
 function* download({ payload }) {
   const accessToken = yield select(getAccessToken);
   const { path } = payload;
@@ -94,6 +120,7 @@ function* emptyTrash() {
 
   yield put(actions.emptyTrashSuccess(data));
   yield put(uiActions.closeDialog(Dialogs.emptyTrash));
+  yield put(taskActions.taskStarted(taskActions.scopes.emptyingTrash, data.async_task_id));
 }
 
 function* fetchThumbnail({ payload }) {
@@ -262,6 +289,7 @@ function* performDownload({ payload }) {
 export default [
   takeEvery(actions.types.CREATE_FOLDER, createFolder),
   takeEvery(actions.types.DELETE_IMMEDIATELY, deleteImmediately),
+  takeEvery(actions.types.DELETE_IMMEDIATELY_BATCH, deleteImmediatelyBatch),
   takeEvery(actions.types.DOWNLOAD, download),
   takeEvery(actions.types.EMPTY_TRASH, emptyTrash),
   takeEvery(actions.types.FETCH_THUMBNAIL, fetchThumbnail),

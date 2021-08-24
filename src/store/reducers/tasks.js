@@ -66,7 +66,10 @@ const getTaskById = (state, taskId) => state.tasks.byId[taskId];
 const getActiveTaskIdsByScope = (state, scope) => state.tasks.activeByScope[scope];
 
 export const getDeletingFilesCounter = (state) => {
-  const ids = getActiveTaskIdsByScope(state, scopes.movingToTrash);
+  const ids = [
+    ...getActiveTaskIdsByScope(state, scopes.deletingImmediatelyBatch),
+    ...getActiveTaskIdsByScope(state, scopes.movingToTrash),
+  ];
   const tasks = ids.map((taskId) => getTaskById(state, taskId));
   return tasks.reduce((acc, task) => acc + task.payload.items.length, 0);
 };

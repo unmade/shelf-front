@@ -8,6 +8,8 @@ export const types = {
   DELETE_IMMEDIATELY_FAILURE: 'DELETE_IMMEDIATELY_FAILURE',
 
   DELETE_IMMEDIATELY_BATCH: 'DELETE_IMMEDIATELY_BATCH',
+  DELETE_IMMEDIATELY_BATCH_SUCCESS: 'DELETE_IMMEDIATELY_BATCH_SUCCESS',
+  DELETE_IMMEDIATELY_BATCH_FAILURE: 'DELETE_IMMEDIATELY_BATCH_FAILURE',
 
   DOWNLOAD: 'DOWNLOAD',
   DOWNLOAD_SUCCESS: 'DOWNLOAD_SUCCESS',
@@ -88,6 +90,16 @@ export const deleteImmediatelyFailure = () => ({
 export const deleteImmediatelyBatch = (paths) => ({
   type: types.DELETE_IMMEDIATELY_BATCH,
   payload: { paths },
+});
+
+export const deleteImmediatelyBatchSucess = ({ async_task_id: taskId }) => ({
+  type: types.DELETE_IMMEDIATELY_BATCH_SUCCESS,
+  payload: { taskId },
+});
+
+export const deleteImmediatelyBatchFailure = (err) => ({
+  type: types.DELETE_IMMEDIATELY_FAILURE,
+  payload: { err },
 });
 
 export const download = (path) => ({

@@ -4,7 +4,7 @@ export const types = {
 };
 
 export const scopes = {
-  deletingImmediately: 'deletingImmediately',
+  deletingImmediatelyBatch: 'deletingImmediatelyBatch',
   moving: 'moving',
   movingBatch: 'movingBatch',
   movingToTrash: 'movingToTrash',
@@ -15,7 +15,7 @@ export const taskStarted = (scope, taskId, payload) => ({
   payload: { scope, taskId, payload },
 });
 
-export const taskCompleted = (scope, taskId, results) => ({
+export const taskCompleted = (scope, taskId, result) => ({
   type: types.TASK_COMPLETED,
-  payload: { scope, taskId, results },
+  payload: { scope, taskId, result },
 });
