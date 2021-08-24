@@ -79,3 +79,8 @@ export const getMovingFilesCounter = (state) => {
   const tasks = ids.map((taskId) => getTaskById(state, taskId));
   return tasks.reduce((acc, task) => acc + task.payload.items.length, 0);
 };
+
+export const getIsEmptyingTrash = (state) => {
+  const ids = getActiveTaskIdsByScope(state, scopes.emptyingTrash);
+  return ids.length > 0;
+};
