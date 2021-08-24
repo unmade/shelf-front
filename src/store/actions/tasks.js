@@ -5,6 +5,7 @@ export const types = {
 
 export const scopes = {
   deletingImmediatelyBatch: 'deletingImmediatelyBatch',
+  emptyingTrash: 'emptyingTrash',
   moving: 'moving',
   movingBatch: 'movingBatch',
   movingToTrash: 'movingToTrash',

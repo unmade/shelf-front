@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
 import { getCountSelectedFiles, getFilesCountByPath } from '../../store/reducers/files';
-import { getDeletingFilesCounter, getMovingFilesCounter } from '../../store/reducers/tasks';
+import { getDeletingFilesCounter, getMovingFilesCounter, getIsEmptyingTrash } from '../../store/reducers/tasks';
 
 import * as icons from '../../icons';
 import pluralize from '../../pluralize';
@@ -14,13 +14,17 @@ import Breadcrumb from '../ui/Breadcrumb';
 function BackgroundTask({ className }) {
   const deletingFilesCounter = useSelector(getDeletingFilesCounter);
   const movingFilesCounter = useSelector(getMovingFilesCounter);
+  const isEmptyingTrash = useSelector(getIsEmptyingTrash);
 
-  const text = [];
-  if (deletingFilesCounter > 0) {
-    text.push(`Deleting ${deletingFilesCounter} ${pluralize('file', deletingFilesCounter)}`);
+  const text = ['Emptying the Trash'];
+  if (isEmptyingTrash) {
+    text.push('Emptying the Trash');
   }
   if (movingFilesCounter > 0) {
     text.push(`Moving ${movingFilesCounter} ${pluralize('file', movingFilesCounter)}`);
+  }
+  if (deletingFilesCounter > 0) {
+    text.push(`Deleting ${deletingFilesCounter} ${pluralize('file', deletingFilesCounter)}`);
   }
 
   if (text.length < 1) {
