@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { moveFile, moveFileBatch } from '../store/actions/files';
+import { moveFileBatch } from '../store/actions/files';
 import { scopes } from '../store/actions/loading';
 import { closeDialog } from '../store/actions/ui';
 
@@ -35,16 +35,10 @@ function MoveDialog({ uid }) {
   const files = useSelector((state) => getFilesByIds(state, fileIds));
 
   const onMove = () => {
-    if (files.length === 1) {
-      const [file] = files;
-      dispatch(moveFile(file.path, routes.join(toPath, file.name)));
-    }
-    if (files.length > 1) {
-      dispatch(moveFileBatch(files.map((file) => ({
-        fromPath: file.path,
-        toPath: routes.join(toPath, file.name),
-      }))));
-    }
+    dispatch(moveFileBatch(files.map((file) => ({
+      fromPath: file.path,
+      toPath: routes.join(toPath, file.name),
+    }))));
   };
 
   const onClose = () => {

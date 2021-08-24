@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { moveToTrash, moveToTrashBatch } from '../store/actions/files';
+import { moveToTrashBatch } from '../store/actions/files';
 import { scopes } from '../store/actions/loading';
 import { closeDialog } from '../store/actions/ui';
 
@@ -34,13 +34,7 @@ function DeleteDialog({ uid }) {
   const files = useSelector((state) => getFilesByIds(state, fileIds));
 
   const onDelete = () => {
-    if (files.length === 1) {
-      const [file] = files;
-      dispatch(moveToTrash(file.path));
-    }
-    if (files.length > 1) {
-      dispatch(moveToTrashBatch(files.map((file) => file.path)));
-    }
+    dispatch(moveToTrashBatch(files.map((file) => file.path)));
   };
 
   return (
