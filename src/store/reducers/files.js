@@ -172,7 +172,6 @@ export default combineReducers({
 const FILES_EMPTY = [];
 
 export const getFileById = (state, id) => state.files.byId[id];
-export const getFilesByIds = (state, ids) => ids.map((id) => getFileById(state, id));
 export const getFilesByPath = (state, path) => state.files.byPath[path] || FILES_EMPTY;
 export const getFilesCountByPath = (state, path) => getFilesByPath(state, path).length;
 export const getIsFileSelected = (state, id) => state.files.selectedIds.has(id);
@@ -185,6 +184,18 @@ export const getCountSelectedFiles = (state) => state.files.selectedIds.size;
 export const getThumbnailById = (state, id) => state.files.thumbnailsById[id];
 
 export const getDownloads = (state) => state.files.downloads;
+
+export const makeGetFilesByIds = () => (
+  createSelector(
+    [
+      (state) => state.files.byId,
+      (_state, props) => props.ids,
+    ],
+    (byId, ids) => (
+      ids.map((id) => byId[id])
+    ),
+  )
+);
 
 export const makeGetPreview = () => (
   createSelector(
