@@ -63,8 +63,10 @@ const FolderPicker = React.memo(({
           heightOffset={HEIGHT}
           items={items}
           loading={items.length === 0 && loading}
-          itemRender={({ className, item }) => (
-            <FolderPickerItem className={className} item={item} onClick={onPathChange} />
+          itemRender={({ data, index, style }) => (
+            <div style={style}>
+              <FolderPickerItem item={data[index]} onClick={onPathChange} />
+            </div>
           )}
         />
       ) : (
