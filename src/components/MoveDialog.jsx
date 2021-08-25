@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import { moveFileBatch } from '../store/actions/files';
 import { scopes } from '../store/actions/loading';
 import { closeDialog } from '../store/actions/ui';
 
-import { getFilesByIds } from '../store/reducers/files';
+import { makeGetFilesByIds } from '../store/reducers/files';
 import { getLoading } from '../store/reducers/loading';
 import { getFileDialogProps, getFileDialogVisible } from '../store/reducers/ui';
 
@@ -32,7 +32,8 @@ function MoveDialog({ uid }) {
   const loading = useSelector((state) => getLoading(state, scopes.movingFile));
 
   const fileIds = dialogProps.fileIds ?? [];
-  const files = useSelector((state) => getFilesByIds(state, fileIds));
+  const getFilesByIds = makeGetFilesByIds();
+  const files = useSelector((state) => getFilesByIds(state, { ids: fileIds }), shallowEqual);
 
   const onMove = () => {
     dispatch(moveFileBatch(files.map((file) => ({
@@ -46,6 +47,11 @@ function MoveDialog({ uid }) {
     dispatch(closeDialog(uid));
   };
 
+  const onPathChange = useCallback(
+    (path) => setToPath(path),
+    [setToPath],
+  );
+
   return (
     <Dialog
       title={`Move ${files.length} ${pluralize('item', files.length)} to...`}
@@ -58,7 +64,7 @@ function MoveDialog({ uid }) {
       <div className="w-full sm:w-96" style={styles}>
         <FolderPicker
           path={toPath}
-          onPathChange={(path) => setToPath(path)}
+          onPathChange={onPathChange}
           excludeIds={fileIds}
         />
       </div>
