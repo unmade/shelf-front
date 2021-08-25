@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux';
 
+import * as authActions from '../actions/auth';
+
 import AccountsReducer from './accounts';
 import AuthReducer from './auth';
 import FilesReducer from './files';
@@ -9,7 +11,7 @@ import TaskReducer from './tasks';
 import UIReducer from './ui';
 import UploadsReducer from './uploads';
 
-export default combineReducers({
+const rootReducer = combineReducers({
   accounts: AccountsReducer,
   auth: AuthReducer,
   files: FilesReducer,
@@ -19,3 +21,10 @@ export default combineReducers({
   ui: UIReducer,
   uploads: UploadsReducer,
 });
+
+export default function (state, action) {
+  if (action.type === authActions.types.SIGN_OUT) {
+    return rootReducer(undefined, action);
+  }
+  return rootReducer(state, action);
+}
