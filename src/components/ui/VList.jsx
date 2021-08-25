@@ -42,10 +42,7 @@ function VList({
             className={className}
             useIsScrolling={trackScrolling}
             onItemsRendered={({ visibleStartIndex }) => {
-              if (
-                scrollKey !== null && scrollKey !== undefined
-                && setScrollOffset !== null && setScrollOffset !== undefined
-              ) {
+              if (scrollKey != null && setScrollOffset != null) {
                 setScrollOffset(scrollKey, visibleStartIndex);
               }
             }}
@@ -53,7 +50,7 @@ function VList({
             {({ data, index, isScrolling, style }) => (
               <div style={style}>
                 <View
-                  even={(index % 2)}
+                  even={(index % 2 === 0)}
                   item={data[index]}
                   scrolling={isScrolling}
                 />
