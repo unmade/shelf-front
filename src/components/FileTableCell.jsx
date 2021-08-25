@@ -7,7 +7,9 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { addToSelection, selectFile } from '../store/actions/files';
 
-import { getFileById, getHasSelectedFiles, getIsFileSelected } from '../store/reducers/files';
+import {
+  getFileById, getHasSelectedFiles, getIsFileSelected, getThumbnailById,
+} from '../store/reducers/files';
 
 import { MediaType } from '../constants';
 
@@ -44,19 +46,18 @@ function getBackground(even, selected) {
 }
 
 function FileTableCell({
-  className, even, item: itemId, scrolling,
+  className, even, item, defferThumbnail, selected, hasSelected,
 }) {
   const dispatch = useDispatch();
-  const item = useSelector((state) => getFileById(state, itemId));
-  const selected = useSelector((state) => getIsFileSelected(state, itemId));
-  const hasSelected = useSelector(getHasSelectedFiles);
 
   const primaryText = getPrimaryText(selected, item.hidden);
   const secondaryText = getSecondaryText(selected, item.hidden);
   const background = getBackground(even, selected);
 
-  const onCellClick = () => dispatch(selectFile(itemId));
-  const onCheckboxClick = (event) => { event.stopPropagation(); dispatch(addToSelection(itemId)); };
+  const onCellClick = () => dispatch(selectFile(item.id));
+  const onCheckboxClick = (event) => {
+    event.stopPropagation(); dispatch(addToSelection(item.id));
+  };
 
   const checkboxClass = (selected || hasSelected) ? '' : 'show-on-hover-target';
 
@@ -74,7 +75,7 @@ function FileTableCell({
           readOnly
         />
         <div className="flex-shrink-0">
-          <Thumbnail className="w-9 h-9" fileId={item.id} deferred={scrolling} />
+          <Thumbnail className="w-9 h-9" fileId={item.id} deferred={defferThumbnail} />
         </div>
         <span className="truncate" onClick={(event) => { event.stopPropagation(); }}>
           <FileLink
@@ -104,12 +105,56 @@ function FileTableCell({
 
 FileTableCell.propTypes = {
   className: PropTypes.string,
-  item: PropTypes.string.isRequired,
-  scrolling: PropTypes.bool.isRequired,
+  even: PropTypes.bool.isRequired,
+  defferThumbnail: PropTypes.bool.isRequired,
+  item: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    path: PropTypes.string.isRequired,
+    size: PropTypes.number.isRequired,
+    mtime: PropTypes.number.isRequired,
+    hidden: PropTypes.bool.isRequired,
+  }).isRequired,
+  selected: PropTypes.bool.isRequired,
+  hasSelected: PropTypes.bool.isRequired,
 };
 
 FileTableCell.defaultProps = {
   className: '',
 };
 
-export default FileTableCell;
+const MemoizedFileTableCell = React.memo(FileTableCell);
+
+function FileTableCellContainer({ className, even, item: itemId, scrolling }) {
+  const item = useSelector((state) => getFileById(state, itemId));
+  const selected = useSelector((state) => getIsFileSelected(state, itemId));
+  const hasSelected = useSelector(getHasSelectedFiles);
+
+  const thumbs = useSelector((state) => getThumbnailById(state, itemId));
+  const thumbnailLoaded = (thumbs != null && thumbs.xs != null);
+
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  return (
+    <MemoizedFileTableCell
+      className={className}
+      even={even}
+      defferThumbnail={item.has_thumbnail && scrolling && !thumbnailLoaded}
+      item={item}
+      selected={selected}
+      hasSelected={hasSelected}
+    />
+  );
+}
+
+FileTableCellContainer.propTypes = {
+  className: PropTypes.string,
+  even: PropTypes.bool.isRequired,
+  item: PropTypes.string.isRequired,
+  scrolling: PropTypes.bool.isRequired,
+};
+
+FileTableCellContainer.defaultProps = {
+  className: '',
+};
+
+export default FileTableCellContainer;
