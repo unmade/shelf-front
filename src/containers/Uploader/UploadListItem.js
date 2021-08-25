@@ -6,6 +6,6 @@ import UploadListItem from '../../components/Uploader/UploadListItem';
 
 export default connect(
   (state, ownProps) => ({
-    item: getUploadById(state, ownProps.item),
+    item: getUploadById(state, ownProps.data[ownProps.index]),
   }),
 )(UploadListItem);

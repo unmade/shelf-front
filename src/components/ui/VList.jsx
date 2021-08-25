@@ -47,15 +47,7 @@ function VList({
               }
             }}
           >
-            {({ data, index, isScrolling, style }) => (
-              <div style={style}>
-                <View
-                  even={(index % 2 === 0)}
-                  item={data[index]}
-                  scrolling={isScrolling}
-                />
-              </div>
-            )}
+            {View}
           </FixedSizeList>
         );
       }}

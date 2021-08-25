@@ -20,9 +20,9 @@ function UploadList({ uploads, virtual, itemRender }) {
   const ItemRender = itemRender;
   return (
     <>
-      {uploads.map((uploadId) => (
+      {uploads.map((uploadId, idx) => (
         <div key={uploadId} className="p-4 hover:bg-gray-100 rounded-lg">
-          <ItemRender item={uploadId} />
+          <ItemRender data={uploads} index={idx} />
         </div>
       ))}
     </>

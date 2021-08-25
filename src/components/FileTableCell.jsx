@@ -125,7 +125,9 @@ FileTableCell.defaultProps = {
 
 const MemoizedFileTableCell = React.memo(FileTableCell);
 
-function FileTableCellContainer({ className, even, item: itemId, scrolling }) {
+function FileTableCellContainer({ data, index, isScrolling, style }) {
+  const itemId = data[index];
+  const even = index % 2 === 0;
   const item = useSelector((state) => getFileById(state, itemId));
   const selected = useSelector((state) => getIsFileSelected(state, itemId));
   const hasSelected = useSelector(getHasSelectedFiles);
@@ -133,28 +135,25 @@ function FileTableCellContainer({ className, even, item: itemId, scrolling }) {
   const thumbs = useSelector((state) => getThumbnailById(state, itemId));
   const thumbnailLoaded = (thumbs != null && thumbs.xs != null);
 
-  // eslint-disable-next-line react/jsx-props-no-spreading
   return (
-    <MemoizedFileTableCell
-      className={className}
-      even={even}
-      defferThumbnail={item.has_thumbnail && scrolling && !thumbnailLoaded}
-      item={item}
-      selected={selected}
-      hasSelected={hasSelected}
-    />
+    <div style={style}>
+      <MemoizedFileTableCell
+        even={even}
+        defferThumbnail={item.has_thumbnail && isScrolling && !thumbnailLoaded}
+        item={item}
+        selected={selected}
+        hasSelected={hasSelected}
+      />
+    </div>
   );
 }
 
 FileTableCellContainer.propTypes = {
-  className: PropTypes.string,
-  even: PropTypes.bool.isRequired,
-  item: PropTypes.string.isRequired,
-  scrolling: PropTypes.bool.isRequired,
+  data: PropTypes.arrayOf(
+    PropTypes.string.isRequired,
+  ).isRequired,
+  index: PropTypes.number.isRequired,
+  isScrolling: PropTypes.bool.isRequired,
 };
 
-FileTableCellContainer.defaultProps = {
-  className: '',
-};
-
-export default FileTableCellContainer;
+export default React.memo(FileTableCellContainer);
