@@ -1,6 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useSelector } from 'react-redux';
+
+import { listFolder } from '../store/actions/files';
+import { scopes } from '../store/actions/loading';
+import { getFolderIdsByPath } from '../store/reducers/files';
+import { getLoading } from '../store/reducers/loading';
+
 import * as icons from '../icons';
 import * as routes from '../routes';
 
@@ -21,12 +28,16 @@ const changePath = (route, onPathChange) => (event) => {
   onPathChange(routes.makePathFromUrl(route));
 };
 
-const FolderPicker = React.memo(({
-  items, loading, path, listFolder, onPathChange,
-}) => {
+const FolderPicker = ({ excludeIds, path, onPathChange }) => {
+  let items = useSelector((state) => getFolderIdsByPath(state, { path }));
+  const loading = useSelector((state) => getLoading(state, scopes.listingFolder));
+
   React.useEffect(() => {
     listFolder(path);
-  }, [path, listFolder]);
+  }, [path]);
+
+  const idsToExclude = new Set(excludeIds);
+  items = items.filter((id) => !idsToExclude.has(id));
 
   return (
     <>
@@ -85,17 +96,14 @@ const FolderPicker = React.memo(({
 
     </>
   );
-});
-
-FolderPicker.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.string).isRequired,
-  loading: PropTypes.bool,
-  path: PropTypes.string.isRequired,
-  onPathChange: PropTypes.func.isRequired,
 };
 
-FolderPicker.defaultProps = {
-  loading: true,
+FolderPicker.propTypes = {
+  excludeIds: PropTypes.arrayOf(
+    PropTypes.string.isRequired,
+  ).isRequired,
+  path: PropTypes.string.isRequired,
+  onPathChange: PropTypes.func.isRequired,
 };
 
 export default FolderPicker;
