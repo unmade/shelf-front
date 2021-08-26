@@ -63,7 +63,8 @@ function Table({
       <div className="flex-1">
         {(items.length || loading) ? (
           <VList
-            items={items}
+            itemCount={items.length}
+            itemData={items}
             itemRender={itemRender}
             itemHeight={72}
             className={`${fileDropBorder} ${className}`}

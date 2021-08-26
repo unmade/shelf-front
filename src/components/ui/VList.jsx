@@ -10,8 +10,9 @@ function VList({
   className,
   heightOffset,
   initialScrollOffset,
+  itemCount,
+  itemData,
   itemHeight,
-  items,
   loading,
   scrollKey,
   trackScrolling,
@@ -35,8 +36,8 @@ function VList({
           <FixedSizeList
             initialScrollOffset={itemHeight * initialScrollOffset}
             height={height - heightOffset}
-            itemCount={items.length}
-            itemData={items}
+            itemCount={itemCount}
+            itemData={itemData}
             itemSize={itemHeight}
             width={width}
             className={className}
@@ -59,8 +60,12 @@ VList.propTypes = {
   className: PropTypes.string,
   heightOffset: PropTypes.number,
   initialScrollOffset: PropTypes.number,
+  itemCount: PropTypes.number.isRequired,
+  itemData: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.arrayOf(PropTypes.any),
+  ]).isRequired,
   itemHeight: PropTypes.number,
-  items: PropTypes.arrayOf(PropTypes.any).isRequired,
   loading: PropTypes.bool,
   trackScrolling: PropTypes.bool,
   scrollKey: PropTypes.string,

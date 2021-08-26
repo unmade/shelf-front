@@ -11,7 +11,8 @@ function UploadList({ uploads, virtual, itemRender }) {
   if (virtual) {
     return (
       <VList
-        items={uploads}
+        itemCount={uploads.length}
+        itemData={uploads}
         itemRender={itemRender}
       />
     );

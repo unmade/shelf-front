@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { listFolder } from '../store/actions/files';
 import { scopes } from '../store/actions/loading';
@@ -11,10 +11,10 @@ import { getLoading } from '../store/reducers/loading';
 import * as icons from '../icons';
 import * as routes from '../routes';
 
-import FolderPickerItem from '../containers/FolderPickerItem';
-
 import Breadcrumb from './ui/Breadcrumb';
 import VList from './ui/VList';
+
+import FolderPickerItem from './FolderPickerItem';
 
 const HEIGHT = 24;
 
@@ -29,15 +29,24 @@ const changePath = (route, onPathChange) => (event) => {
 };
 
 const FolderPicker = ({ excludeIds, path, onPathChange }) => {
+  const dispatch = useDispatch();
+
   let items = useSelector((state) => getFolderIdsByPath(state, { path }));
   const loading = useSelector((state) => getLoading(state, scopes.listingFolder));
 
   React.useEffect(() => {
-    listFolder(path);
-  }, [path]);
+    if (items.length === 0) {
+      dispatch(listFolder(path));
+    }
+  }, [items.length, path, dispatch]);
 
   const idsToExclude = new Set(excludeIds);
   items = items.filter((id) => !idsToExclude.has(id));
+
+  const data = {
+    items,
+    onClick: onPathChange,
+  };
 
   return (
     <>
@@ -72,13 +81,10 @@ const FolderPicker = ({ excludeIds, path, onPathChange }) => {
         <VList
           className="border rounded"
           heightOffset={HEIGHT}
-          items={items}
+          itemCount={items.length}
+          itemData={data}
           loading={items.length === 0 && loading}
-          itemRender={({ data, index, style }) => (
-            <div style={style}>
-              <FolderPickerItem item={data[index]} onClick={onPathChange} />
-            </div>
-          )}
+          itemRender={FolderPickerItem}
         />
       ) : (
         <div className="flex flex-col items-center justify-center border rounded" style={height}>

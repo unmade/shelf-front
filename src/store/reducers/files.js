@@ -1,3 +1,4 @@
+import { shallowEqual } from 'react-redux';
 import { combineReducers } from 'redux';
 import { createSelector } from 'reselect';
 
@@ -38,10 +39,21 @@ function filesById(state = {}, action) {
       };
     }
     case types.LIST_FOLDER_SUCCESS: {
-      return {
-        ...state,
-        ...normalize(action.payload.items),
-      };
+      if (action.payload.items.length === 0) {
+        return state;
+      }
+      const items = normalize(action.payload.items);
+      const nextState = { ...state };
+      Object.keys(items).forEach((key) => {
+        if (nextState[key] == null) {
+          nextState[key] = items[key];
+        }
+        if (!shallowEqual(nextState[key], items[key])) {
+          nextState[key] = items[key];
+        }
+      });
+
+      return nextState;
     }
     case types.MOVE_TO_TRASH_SUCCESS:
     case types.MOVE_FILE_SUCCESS: {
@@ -114,10 +126,17 @@ function filesByPath(state = {}, action) {
     }
     case types.LIST_FOLDER_SUCCESS: {
       const { path, items } = action.payload;
-      return {
-        ...state,
-        [path]: items.map((file) => file.id),
-      };
+      if (items.length === 0) {
+        return state;
+      }
+      const ids = items.map((file) => file.id);
+      if (!shallowEqual(ids, state[path])) {
+        return {
+          ...state,
+          [path]: ids,
+        };
+      }
+      return state;
     }
     case types.UPDATE_FOLDER_BY_PATH: {
       const { path, ids } = action.payload;
@@ -173,7 +192,7 @@ export default combineReducers({
 const FILES_EMPTY = [];
 
 export const getFileById = (state, id) => state.files.byId[id];
-export const getFileIdsByPath = (state, path) => state.files.byPath[path] || FILES_EMPTY;
+export const getFileIdsByPath = (state, path) => state.files.byPath[path] ?? FILES_EMPTY;
 export const getFilesCountByPath = (state, path) => getFileIdsByPath(state, path).length;
 export const getIsFileSelected = (state, id) => state.files.selectedIds.has(id);
 export const getSelectedFileIds = (state) => [...state.files.selectedIds];
@@ -199,18 +218,20 @@ export const getFolderIdsByPath = createSelector(
     getPathProp,
   ],
   (byId, byPath, path) => (
-    (byPath[path] || FILES_EMPTY)
+    (byPath[path] ?? FILES_EMPTY)
       .map((id) => byId[id])
       .filter((item) => item.mediatype === MediaType.FOLDER)
       .map((item) => item.id)
   ),
 );
 
-export const makeGetFilesByIds = () => (
+const getIdsProps = createPropsSelector((props) => props.ids);
+
+export const getFilesByIds = (
   createSelector(
     [
       (state) => state.files.byId,
-      (_state, props) => props.ids,
+      getIdsProps,
     ],
     (byId, ids) => (
       ids.map((id) => byId[id])
