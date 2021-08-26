@@ -195,9 +195,19 @@ export const getFileById = (state, id) => state.files.byId[id];
 export const getFileIdsByPath = (state, path) => state.files.byPath[path] ?? FILES_EMPTY;
 export const getFilesCountByPath = (state, path) => getFileIdsByPath(state, path).length;
 export const getIsFileSelected = (state, id) => state.files.selectedIds.has(id);
-export const getSelectedFileIds = (state) => [...state.files.selectedIds];
-export const getSelectedFiles = (state) => (
-  getSelectedFileIds(state).map((id) => getFileById(state, id))
+export const getSelectedFileIds = (state) => state.files.selectedIds;
+export const getSelectedFiles = createSelector(
+  [
+    (state) => state.files.byId,
+    getSelectedFileIds,
+  ],
+  (byId, fileIds) => {
+    const files = [];
+    fileIds.forEach((id) => {
+      files.push(byId[id]);
+    });
+    return files;
+  },
 );
 export const getHasSelectedFiles = (state) => state.files.selectedIds.size !== 0;
 export const getCountSelectedFiles = (state) => state.files.selectedIds.size;
