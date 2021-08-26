@@ -14,9 +14,9 @@ import { getFileDialogProps, getFileDialogVisible } from '../store/reducers/ui';
 import pluralize from '../pluralize';
 import * as routes from '../routes';
 
-import FolderPicker from '../containers/FolderPicker';
-
 import Dialog from './ui/Dialog';
+
+import FolderPicker from './FolderPicker';
 
 const styles = {
   height: '40vh',

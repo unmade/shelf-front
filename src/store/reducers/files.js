@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { createSelector } from 'reselect';
 
+import { MediaType } from '../../constants';
 import * as routes from '../../routes';
 import { difference } from '../../set';
 
@@ -172,8 +173,8 @@ export default combineReducers({
 const FILES_EMPTY = [];
 
 export const getFileById = (state, id) => state.files.byId[id];
-export const getFilesByPath = (state, path) => state.files.byPath[path] || FILES_EMPTY;
-export const getFilesCountByPath = (state, path) => getFilesByPath(state, path).length;
+export const getFileIdsByPath = (state, path) => state.files.byPath[path] || FILES_EMPTY;
+export const getFilesCountByPath = (state, path) => getFileIdsByPath(state, path).length;
 export const getIsFileSelected = (state, id) => state.files.selectedIds.has(id);
 export const getSelectedFileIds = (state) => [...state.files.selectedIds];
 export const getSelectedFiles = (state) => (
@@ -184,6 +185,26 @@ export const getCountSelectedFiles = (state) => state.files.selectedIds.size;
 export const getThumbnailById = (state, id) => state.files.thumbnailsById[id];
 
 export const getDownloads = (state) => state.files.downloads;
+
+function createPropsSelector(selector) {
+  return (_, props) => selector(props);
+}
+
+const getPathProp = createPropsSelector((props) => props.path);
+
+export const getFolderIdsByPath = createSelector(
+  [
+    (state) => state.files.byId,
+    (state) => state.files.byPath,
+    getPathProp,
+  ],
+  (byId, byPath, path) => (
+    (byPath[path] || FILES_EMPTY)
+      .map((id) => byId[id])
+      .filter((item) => item.mediatype === MediaType.FOLDER)
+      .map((item) => item.id)
+  ),
+);
 
 export const makeGetFilesByIds = () => (
   createSelector(
@@ -201,7 +222,7 @@ export const makeGetPreview = () => (
   createSelector(
     [
       (state) => state.files.byId,
-      (state, props) => getFilesByPath(state, props.dirPath),
+      (state, props) => getFileIdsByPath(state, props.dirPath),
       (_state, props) => props.name,
     ],
     (byId, files, name) => {
