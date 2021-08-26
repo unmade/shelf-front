@@ -7,7 +7,7 @@ import { deleteImmediatelyBatch } from '../store/actions/files';
 import { scopes } from '../store/actions/loading';
 import { closeDialog } from '../store/actions/ui';
 
-import { makeGetFilesByIds } from '../store/reducers/files';
+import { getFilesByIds } from '../store/reducers/files';
 import { getLoading } from '../store/reducers/loading';
 import { getFileDialogProps, getFileDialogVisible } from '../store/reducers/ui';
 
@@ -31,7 +31,6 @@ function DeleteDialog({ uid }) {
   const loading = useSelector((state) => getLoading(state, scopes.deletingFileImmediately));
 
   const fileIds = dialogProps.fileIds ?? [];
-  const getFilesByIds = makeGetFilesByIds();
   const files = useSelector((state) => getFilesByIds(state, { ids: fileIds }), shallowEqual);
 
   const onDelete = () => {
