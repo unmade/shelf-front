@@ -20,6 +20,10 @@ function basename(path) {
   return path.substring(end + 1);
 }
 
+export function encodePath(path) {
+  return path.split('/').map((item) => encodeURIComponent(item)).join('/');
+}
+
 export function join(pathA, pathB) {
   if (pathA === '.') {
     return pathB;
@@ -57,9 +61,9 @@ export function makeUrlFromPath({ path, asPreview }) {
     path = `${path.charAt(0).toLowerCase()}${path.slice(1)}`;
   }
   if (asPreview) {
-    return `${join(prefix, parent(path))}?preview=${basename(path)}`;
+    return `${join(prefix, encodePath(parent(path)))}?preview=${encodePath(basename(path))}`;
   }
-  return join(prefix, path);
+  return join(prefix, encodePath(path));
 }
 
 export function makePathFromUrl(url) {
@@ -67,5 +71,5 @@ export function makePathFromUrl(url) {
   if (start < 0) {
     return '.';
   }
-  return url.substring(start + 2);
+  return decodeURIComponent(url.substring(start + 2));
 }

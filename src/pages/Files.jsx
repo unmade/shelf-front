@@ -29,7 +29,7 @@ function Files() {
   const queryParams = new URLSearchParams(search);
   const preview = queryParams.get('preview');
 
-  const { dirPath } = params;
+  const dirPath = decodeURIComponent(params.dirPath ?? '.');
 
   React.useEffect(() => {
     dispatch(setCurrentPath(dirPath));
