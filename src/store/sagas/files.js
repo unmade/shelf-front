@@ -1,4 +1,6 @@
-import { put, select, takeEvery } from 'redux-saga/effects';
+import {
+  actionChannel, call, put, select, take, takeEvery,
+} from 'redux-saga/effects';
 
 import { Dialogs, MediaType } from '../../constants';
 
@@ -286,17 +288,26 @@ function* performDownload({ payload }) {
   link.click();
 }
 
+function* watchFetchThumbnail() {
+  const thumbnailChan = yield actionChannel([actions.types.FETCH_THUMBNAIL]);
+
+  while (true) {
+    const action = yield take(thumbnailChan);
+    yield call(fetchThumbnail, action);
+  }
+}
+
 export default [
   takeEvery(actions.types.CREATE_FOLDER, createFolder),
   takeEvery(actions.types.DELETE_IMMEDIATELY, deleteImmediately),
   takeEvery(actions.types.DELETE_IMMEDIATELY_BATCH, deleteImmediatelyBatch),
   takeEvery(actions.types.DOWNLOAD, download),
   takeEvery(actions.types.EMPTY_TRASH, emptyTrash),
-  takeEvery(actions.types.FETCH_THUMBNAIL, fetchThumbnail),
   takeEvery(actions.types.LIST_FOLDER, listFolder),
   takeEvery(actions.types.MOVE_FILE, moveFile),
   takeEvery(actions.types.MOVE_FILE_BATCH, moveFileBatch),
   takeEvery(actions.types.MOVE_TO_TRASH, moveToTrash),
   takeEvery(actions.types.MOVE_TO_TRASH_BATCH, moveToTrashBatch),
   takeEvery(actions.types.PERFORM_DOWNLOAD, performDownload),
+  watchFetchThumbnail(),
 ];
