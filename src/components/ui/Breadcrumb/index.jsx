@@ -38,7 +38,7 @@ export function breadcrumbs(path) {
     prefix = `${prefix}/${part}`;
     items.push({
       Icon: icons.Folder,
-      name: part,
+      name: decodeURIComponent(part),
       url: prefix,
     });
   });

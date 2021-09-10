@@ -31,7 +31,7 @@ function Trash() {
   const preview = queryParams.get('preview');
 
   let { dirPath } = params;
-  dirPath = (dirPath) ? `${TRASH_FOLDER_NAME}/${dirPath}` : TRASH_FOLDER_NAME;
+  dirPath = (dirPath) ? `${TRASH_FOLDER_NAME}/${decodeURIComponent(dirPath)}` : TRASH_FOLDER_NAME;
 
   React.useEffect(() => {
     dispatch(setCurrentPath(dirPath));
