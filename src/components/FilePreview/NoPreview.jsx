@@ -17,7 +17,7 @@ function NoPreview({ file, onDownload }) {
     <div className="h-full flex flex-col items-center justify-center space-y-6">
 
       <div className="w-1/2 text-center space-y-2">
-        <FileIcon className="w-32 h-auto mx-auto drop-shadow" mediatype={mediatype} hidden={hidden} />
+        <FileIcon className="w-32 h-auto mx-auto drop-shadow-lg" mediatype={mediatype} hidden={hidden} />
         <p className="text-gray-700">
           {name}
         </p>

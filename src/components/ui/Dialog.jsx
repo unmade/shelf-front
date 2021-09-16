@@ -38,7 +38,7 @@ function Dialog({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <UIDialog.Overlay className="fixed inset-0 blur" style={{ background: 'rgba(160, 174, 192, .75)' }} />
+            <UIDialog.Overlay className="fixed inset-0 backdrop-filter backdrop-blur-sm" style={{ background: 'rgba(160, 174, 192, .75)' }} />
           </Transition.Child>
 
           {/* This element is to trick the browser into centering the modal contents. */}

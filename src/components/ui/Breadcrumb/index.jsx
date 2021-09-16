@@ -115,7 +115,7 @@ function Breadcrumb({
       <div>
         <icons.ChevronRight className="w-4 h-4 flex-shrink-0 text-gray-300" />
       </div>
-      <span className="max-w-2xs sm:max-w-2xs">
+      <span className="max-w-2xs">
         <Render name={last.name} url={last.url} />
       </span>
       {(withCreateFolder) && (
