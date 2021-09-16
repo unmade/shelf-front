@@ -95,7 +95,7 @@ function MultiFilePreview({ files }) {
           {previews.map((file, i) => (
             <span
               key={file.id}
-              className={`absolute filter drop-shadow-xl transform ${((previews.length - 1 - i) % 2 === 0) ? '-' : ''}rotate-${(previews.length - 1 - i) * 6}`}
+              className={`absolute drop-shadow-xl transform ${((previews.length - 1 - i) % 2 === 0) ? '-' : ''}rotate-${(previews.length - 1 - i) * 6}`}
             >
               <Thumbnail
                 className="w-56 h-56"

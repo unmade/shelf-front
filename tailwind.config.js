@@ -1,9 +1,8 @@
 // tailwind.config.js
 const colors = require('tailwindcss/colors');
-const plugin = require('tailwindcss/plugin');
 
 module.exports = {
-  // mode: 'jit',
+  mode: 'jit',
   purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
   theme: {
     colors: {
@@ -34,8 +33,6 @@ module.exports = {
       },
       maxWidth: {
         '2xs': '10rem',
-        '1.5xs': '15rem',
-        '3xs': '6rem',
       },
       minWidth: {
         '1.5xs': '15rem',
@@ -45,24 +42,6 @@ module.exports = {
 
   plugins: [
     require('@tailwindcss/forms'),
-    plugin(({ addUtilities }) => {
-      const utilities = {
-        '.drop-shadow': {
-          filter: 'drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1))',
-        },
-      };
-
-      addUtilities(utilities, ['hover']);
-    }),
-    plugin(({ addUtilities }) => {
-      const utilities = {
-        '.blur': {
-          backdropFilter: 'blur(1px)',
-        },
-      };
-
-      addUtilities(utilities);
-    }),
   ],
 
   variants: {
