@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Highlight from 'react-highlight';
+import Highlight from '../ui/Highlight';
 
 import 'highlight.js/styles/github.css';
 
@@ -49,7 +49,7 @@ function CodePreview({ file, original }) {
   return (
     <div className="mt-6 bg-white">
       <div className="container mx-auto p-4">
-        <Highlight className={`${lang} whitespace-pre-wrap`}>
+        <Highlight language={lang} className={`whitespace-pre-wrap`}>
           {original}
         </Highlight>
       </div>
