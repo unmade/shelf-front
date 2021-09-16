@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Highlight from 'react-highlight';
 
-import 'highlight.js/styles/github-gist.css';
+import 'highlight.js/styles/github.css';
 
 const LANGS = {
   css: 'css',

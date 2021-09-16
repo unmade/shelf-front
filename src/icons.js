@@ -4,7 +4,7 @@ import * as hi from 'react-icons/hi';
 import * as si from 'react-icons/si';
 
 import { MediaType } from './constants';
-import { ReactComponent as AppLogoIcon } from './logo.svg';
+import AppLogoIcon from './logo.svg.jsx';
 
 export const AppLogo = AppLogoIcon;
 export const ArrowLeft = hi.HiArrowLeft;
