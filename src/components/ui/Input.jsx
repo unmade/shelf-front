@@ -47,7 +47,7 @@ function Input({
         <input
           id={id}
           type={type}
-          className={`w-full ${paddings[size]} text-gray-800 ${fontSizes[size].input} border ${borderColor} rounded focus:outline-none focus:ring`}
+          className={`w-full ${paddings[size]} text-gray-800 ${fontSizes[size].input} border ${borderColor} rounded-xl focus:outline-none focus:ring`}
           // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus={autoFocus}
           onChange={onChange}
