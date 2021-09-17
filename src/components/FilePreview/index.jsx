@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import { MediaType } from '../../constants';
 import * as icons from '../../icons';
@@ -53,7 +53,7 @@ function Header({
       </div>
 
       <div className="min-w-max sm:w-48 text-gray-800 flex flex-row items-center justify-end space-x-2">
-        <FileLink path={prevPath} preview>
+        <FileLink path={prevPath} preview replace>
           <Button type="text" size="base" icon={<icons.ArrowNarrowLeft />} />
         </FileLink>
 
@@ -63,7 +63,7 @@ function Header({
           <span>{total}</span>
         </div>
 
-        <FileLink path={nextPath} preview>
+        <FileLink path={nextPath} preview replace>
           <Button type="text" size="base" icon={<icons.ArrowNarrowRight />} />
         </FileLink>
       </div>
@@ -81,6 +81,7 @@ Header.propTypes = {
 
 function FilePreview({ dirPath, preview, downloads, download }) {
   const history = useHistory();
+  const location = useLocation();
   const { index, total, files } = preview;
   const [prevFile, file, nextFile] = files;
 
@@ -90,17 +91,28 @@ function FilePreview({ dirPath, preview, downloads, download }) {
     }
   }, [file, downloads, download]);
 
+  React.useEffect(() => (
+    () => {
+      if (history.action === 'POP') {
+        const { pathname, search } = history.location;
+        if (pathname !== location.pathname && search !== location.search) {
+          history.goBack();
+        }
+      }
+    }
+  ));
+
   React.useEffect(() => {
     const onKeyUp = ({ keyCode }) => {
       switch (keyCode) {
         case 37: // left arrow
-          history.push(routes.makeUrlFromPath({ path: prevFile.path, asPreview: true }));
+          history.replace(routes.makeUrlFromPath({ path: prevFile.path, asPreview: true }));
           break;
         case 39: // right arrow
-          history.push(routes.makeUrlFromPath({ path: nextFile.path, asPreview: true }));
+          history.replace(routes.makeUrlFromPath({ path: nextFile.path, asPreview: true }));
           break;
         case 27: // escape
-          history.push(routes.makeUrlFromPath({ path: dirPath }));
+          history.goBack();
           break;
         default:
       }
