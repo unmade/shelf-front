@@ -22,7 +22,7 @@ const rootReducer = combineReducers({
   uploads: UploadsReducer,
 });
 
-export default function (state, action) {
+export default function reducer(state, action) {
   if (action.type === authActions.types.SIGN_OUT) {
     return rootReducer(undefined, action);
   }

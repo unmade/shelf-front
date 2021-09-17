@@ -127,7 +127,7 @@ function* handleUpload(action) {
   if (path === currPath || (path === '' && currPath === '.')) {
     target = file;
   } else {
-    for (let i = 0; i < updates.length; i++) {
+    for (let i = 0; i < updates.length; i += 1) {
       if (updates[i].path === currPath) {
         target = updates[i + 1];
         break;
