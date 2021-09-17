@@ -1,6 +1,6 @@
 import React from 'react';
 
-function AppLogo({ props }) {
+function AppLogo(props) {
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
     <svg viewBox="0 0 18 18" {...props}>
