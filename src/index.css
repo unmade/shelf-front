@@ -13,9 +13,13 @@ code {
 }
 
 .show-on-hover-trigger .show-on-hover-target {
-    visibility: hidden;
+  visibility: hidden;
+  display: none;
 }
 
-.show-on-hover-trigger:hover .show-on-hover-target {
-    visibility: visible;
+@media (pointer: fine) {
+  .show-on-hover-trigger:hover .show-on-hover-target {
+      visibility: visible;
+      display: revert;
+  }
 }
