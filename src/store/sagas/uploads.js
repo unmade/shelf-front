@@ -132,7 +132,7 @@ function* handleUpload(queue) {
 function* uploadsWatcher() {
   const queue = yield call(channel);
 
-  for (let i = 0; i < MAX_PARALLEL_UPLOADS; i++) {
+  for (let i = 0; i < MAX_PARALLEL_UPLOADS; i += 1) {
     yield fork(handleUpload, queue);
   }
 

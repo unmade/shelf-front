@@ -9,7 +9,9 @@ async function readEntries(directoryReader) {
       directoryReader.readEntries(resolve, reject);
     });
   } catch (err) {
-    console.log(err);
+    // eslint-disable-next-line no-console
+    console.error(err, err.stack);
+    return [];
   }
 }
 
@@ -32,7 +34,7 @@ async function getFileEntries(dataTransferItemList) {
   // Use BFS to traverse entire directory/file structure
   const queue = [];
   // Unfortunately dataTransferItemList is not iterable i.e. no forEach
-  for (let i = 0; i < dataTransferItemList.length; i++) {
+  for (let i = 0; i < dataTransferItemList.length; i += 1) {
     queue.push(dataTransferItemList[i].webkitGetAsEntry());
   }
   while (queue.length > 0) {

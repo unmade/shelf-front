@@ -67,6 +67,8 @@ export default combineReducers({
 
 export const getAccountById = (state, props) => state.accounts.byId[props.id];
 export const getCurrentAccountId = (state) => state.accounts.currentAccountId;
-export const getCurrentAccount = (state) => getAccountById(state, { id: [getCurrentAccountId(state)] });
+export const getCurrentAccount = (state) => (
+  getAccountById(state, { id: [getCurrentAccountId(state)] })
+);
 export const getAccountsIdsByPage = (state, props) => state.accounts.byPage[props.page];
 export const isAdmin = (state) => getCurrentAccount(state)?.superuser ?? false;

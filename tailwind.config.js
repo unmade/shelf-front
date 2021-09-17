@@ -1,5 +1,6 @@
 // tailwind.config.js
 const colors = require('tailwindcss/colors');
+const forms = require('@tailwindcss/forms');
 
 module.exports = {
   mode: 'jit',
@@ -41,7 +42,7 @@ module.exports = {
   },
 
   plugins: [
-    require('@tailwindcss/forms'),
+    forms,
   ],
 
   variants: {
