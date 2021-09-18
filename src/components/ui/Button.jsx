@@ -65,6 +65,7 @@ const shapes = {
 function Button({
   as: RenderAs,
   children,
+  className,
   danger,
   disabled,
   full,
@@ -78,23 +79,32 @@ function Button({
   onClick,
 }) {
   const buttonProps = { disabled };
-  const classNames = [fontSizes[size], 'rounded-xl', 'focus:outline-none', 'focus:ring', 'ring-offset-2', 'transition-all', 'ease-in-out'];
+  const classNames = [
+    className,
+    fontSizes[size],
+    'rounded-xl',
+    'focus:outline-none',
+    'focus:ring',
+    'ring-offset-2',
+    'transition-all',
+    'ease-in-out',
+  ];
 
   if (full) {
     classNames.push('w-full');
   }
 
-  classNames.push(...paddings[size][children === null || children === undefined]);
+  classNames.push(...paddings[size][children == null]);
 
-  if (title !== null || title !== undefined) {
+  if (title != null) {
     buttonProps.title = title;
   }
 
-  if (onClick !== null || onClick !== undefined) {
+  if (onClick != null) {
     buttonProps.onClick = onClick;
   }
 
-  if (children !== null && children !== undefined && icon !== null && icon !== undefined) {
+  if (children != null && icon != null) {
     classNames.push('inline-flex', 'items-center', 'space-x-2');
   }
 
@@ -146,6 +156,7 @@ Button.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
+  className: PropTypes.string,
   danger: PropTypes.bool,
   disabled: PropTypes.bool,
   full: PropTypes.bool,
@@ -162,6 +173,7 @@ Button.propTypes = {
 Button.defaultProps = {
   as: 'button',
   children: null,
+  className: '',
   disabled: false,
   danger: false,
   full: false,

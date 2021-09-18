@@ -35,14 +35,22 @@ function hasPreview({ size, mediatype }) {
   return size < MAX_PREVIEW_SIZE_BY_TYPE[type] && getPreview(mediatype) !== NoPreview;
 }
 
+function replace(history, path) {
+  history.replace(routes.makeUrlFromPath({ path, asPreview: true }));
+}
+
 function Header({
   idx, total, name, prevPath, nextPath,
 }) {
   return (
-    <div className="p-4 flex flex-row items-center justify-between">
+    <div className="px-4 py-3 flex flex-row items-center justify-between">
       <div className="sm:w-48 flex flex-row">
-        <FileLink path={routes.parent(prevPath)}>
-          <Button type="text" size="base" icon={<icons.ChevronLeft />} />
+        <FileLink className="flex items-center" path={routes.parent(prevPath)}>
+          <Button
+            type="text"
+            size="base"
+            icon={<icons.ChevronLeftOutlined className="w-5 h-5" />}
+          />
         </FileLink>
       </div>
 
@@ -54,7 +62,7 @@ function Header({
 
       <div className="min-w-max sm:w-48 text-gray-800 flex flex-row items-center justify-end space-x-2">
         <FileLink path={prevPath} preview replace>
-          <Button type="text" size="base" icon={<icons.ArrowNarrowLeft />} />
+          <Button type="text" size="base" icon={<icons.ArrowNarrowLeftOutlined className="w-5 h-5" />} />
         </FileLink>
 
         <div className="text-gray-700 text-sm">
@@ -64,7 +72,7 @@ function Header({
         </div>
 
         <FileLink path={nextPath} preview replace>
-          <Button type="text" size="base" icon={<icons.ArrowNarrowRight />} />
+          <Button type="text" size="base" icon={<icons.ArrowNarrowRightOutlined className="w-5 h-5" />} />
         </FileLink>
       </div>
     </div>
@@ -79,9 +87,10 @@ Header.propTypes = {
   nextPath: PropTypes.string.isRequired,
 };
 
-function FilePreview({ dirPath, preview, downloads, download }) {
+function FilePreview({ preview, downloads, download }) {
   const history = useHistory();
   const location = useLocation();
+
   const { index, total, files } = preview;
   const [prevFile, file, nextFile] = files;
 
@@ -104,12 +113,15 @@ function FilePreview({ dirPath, preview, downloads, download }) {
 
   React.useEffect(() => {
     const onKeyUp = ({ keyCode }) => {
+      if (prevFile == null || nextFile == null) {
+        return;
+      }
       switch (keyCode) {
         case 37: // left arrow
-          history.replace(routes.makeUrlFromPath({ path: prevFile.path, asPreview: true }));
+          replace(history, prevFile.path);
           break;
         case 39: // right arrow
-          history.replace(routes.makeUrlFromPath({ path: nextFile.path, asPreview: true }));
+          replace(history, nextFile.path);
           break;
         case 27: // escape
           history.goBack();
@@ -121,9 +133,9 @@ function FilePreview({ dirPath, preview, downloads, download }) {
     return () => {
       window.removeEventListener('keyup', onKeyUp);
     };
-  }, [history, dirPath, prevFile, nextFile]);
+  }, [history, prevFile, nextFile]);
 
-  if (file === null || file === undefined) {
+  if (file == null) {
     return null;
   }
 
@@ -131,6 +143,13 @@ function FilePreview({ dirPath, preview, downloads, download }) {
   const original = downloads[path];
   const loading = hasPreview(file) && (original == null);
   const Preview = getPreview(mediatype);
+
+  const onClickLeft = () => {
+    replace(history, prevFile.path);
+  };
+  const onClickRight = () => {
+    replace(history, nextFile.path);
+  };
 
   return (
     <div className="z-10 fixed bottom-0 inset-0">
@@ -150,7 +169,19 @@ function FilePreview({ dirPath, preview, downloads, download }) {
               <icons.Spinner className="w-8 h-8 text-gray-600 animate-spin" />
             </div>
           ) : (
-            <Preview file={file} original={original} />
+            <>
+              <div
+                className="hidden pointer-coarse:block absolute top-0 left-0 bg-gray-10 w-1/4 h-full"
+                onClick={onClickLeft}
+                aria-hidden
+              />
+              <Preview file={file} original={original} />
+              <div
+                className="hidden pointer-coarse:block absolute top-0 right-0 bg-gray-10 w-1/4 h-full"
+                onClick={onClickRight}
+                aria-hidden
+              />
+            </>
           )}
         </div>
 
@@ -160,7 +191,6 @@ function FilePreview({ dirPath, preview, downloads, download }) {
 }
 
 FilePreview.propTypes = {
-  dirPath: PropTypes.string.isRequired,
   preview: PropTypes.shape({
     index: PropTypes.number.isRequired,
     total: PropTypes.number.isRequired,
