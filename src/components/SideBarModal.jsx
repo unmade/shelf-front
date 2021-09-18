@@ -4,9 +4,9 @@ import { Dialog as UIDialog, Transition } from '@headlessui/react';
 
 import * as icons from '../icons';
 
-import SideBar from '../containers/SideBar';
-
 import Button from './ui/Button';
+
+import SideBar from './SideBar';
 
 function SideBarModal() {
   const [visible, setVisible] = React.useState(false);

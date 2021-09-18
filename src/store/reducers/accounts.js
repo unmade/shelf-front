@@ -70,5 +70,6 @@ export const getCurrentAccountId = (state) => state.accounts.currentAccountId;
 export const getCurrentAccount = (state) => (
   getAccountById(state, { id: [getCurrentAccountId(state)] })
 );
+export const getIsCurrentAccountSuperuser = (state) => getCurrentAccount(state)?.superuser ?? false;
 export const getAccountsIdsByPage = (state, props) => state.accounts.byPage[props.page];
 export const isAdmin = (state) => getCurrentAccount(state)?.superuser ?? false;
