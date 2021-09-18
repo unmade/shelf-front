@@ -5,7 +5,8 @@ import * as routes from './routes';
 
 import withAdmin from './hoc/withAdmin';
 
-import SideBar from './containers/SideBar';
+import SideBar from './components/SideBar';
+
 import Toast from './containers/Toast';
 import ToastItem from './containers/ToastItem';
 
@@ -30,7 +31,7 @@ function App() {
   return (
     <>
       <div className="flex shelf-h-screen bg-gray-100">
-        <div className="hidden lg:block w-64">
+        <div className="hidden lg:block xl:w-64">
           <SideBar />
         </div>
         <div className="min-w-0 my-0 bg-white flex-1 shadow-sm">
