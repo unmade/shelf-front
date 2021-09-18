@@ -13,10 +13,23 @@ import Files from './pages/Files';
 import Trash from './pages/Trash';
 import UserManagement from './pages/admin/UserManagement';
 
+function updateVh() {
+  const vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+
 function App() {
+  React.useEffect(() => {
+    updateVh();
+    window.addEventListener('resize', updateVh);
+    return () => {
+      window.removeEventListener('resize', updateVh);
+    };
+  }, []);
+
   return (
     <>
-      <div className="flex h-screen bg-gray-100">
+      <div className="flex shelf-h-screen bg-gray-100">
         <div className="hidden lg:block w-64">
           <SideBar />
         </div>
