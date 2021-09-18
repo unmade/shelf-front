@@ -1,6 +1,7 @@
-// tailwind.config.js
 const colors = require('tailwindcss/colors');
 const forms = require('@tailwindcss/forms');
+const plugin = require('tailwindcss/plugin');
+const postcss = require('postcss');
 
 module.exports = {
   mode: 'jit',
@@ -43,6 +44,26 @@ module.exports = {
 
   plugins: [
     forms,
+    plugin(({ addVariant, e }) => {
+      addVariant('pointer-coarse', ({ container, separator }) => {
+        const pointerFine = postcss.atRule({ name: 'media', params: '(pointer: coarse)' });
+        pointerFine.append(container.nodes);
+        container.append(pointerFine);
+        pointerFine.walkRules((rule) => {
+          // eslint-disable-next-line no-param-reassign
+          rule.selector = `.${e(`pointer-coarse${separator}${rule.selector.slice(1)}`)}`;
+        });
+      });
+      addVariant('pointer-fine', ({ container, separator }) => {
+        const pointerFine = postcss.atRule({ name: 'media', params: '(pointer: fine)' });
+        pointerFine.append(container.nodes);
+        container.append(pointerFine);
+        pointerFine.walkRules((rule) => {
+          // eslint-disable-next-line no-param-reassign
+          rule.selector = `.${e(`pointer-fine${separator}${rule.selector.slice(1)}`)}`;
+        });
+      });
+    }),
   ],
 
   variants: {
