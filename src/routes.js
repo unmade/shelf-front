@@ -1,3 +1,8 @@
+export const BOOKMARKS = {
+  prefix: '/bookmarks',
+  route: '/bookmarks',
+};
+
 export const FILES = {
   prefix: '/files',
   route: '/files/:dirPath*',
@@ -10,6 +15,7 @@ export const TRASH = {
 
 export const USER_MANAGEMENT = {
   prefix: '/admin/user-management',
+  route: '/admin/user-management',
 };
 
 function basename(path) {
