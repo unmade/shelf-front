@@ -112,6 +112,7 @@ function SidePreviewActions({ files }) {
         <Button
           key={item.name}
           type="text"
+          size="lg"
           icon={item.icon}
           title={item.name}
           danger={item.danger}

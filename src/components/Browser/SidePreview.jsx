@@ -8,9 +8,12 @@ import { getSelectedFiles } from '../../store/reducers/files';
 import { MediaType } from '../../constants';
 import pluralize from '../../pluralize';
 
+import Button from '../ui/Button';
 import FileSize from '../ui/FileSize';
 import TimeAgo from '../ui/TimeAgo';
 
+import BookmarkButton from '../BookmarkButton';
+import FileLink from '../FileLink';
 import Thumbnail from '../Thumbnail';
 
 import SidePreviewActions from './SidePreviewActions';
@@ -48,19 +51,73 @@ function SingleFilePreview({ file }) {
           <Thumbnail className="w-64 h-64 flex-shrink-0" size="lg" fileId={file.id} />
         </div>
 
-        <div className="p-4 flex flex-row justify-center space-x-8">
-          <SidePreviewActions files={[file]} />
+        <div className="pl-2 py-2 flex items-center justify-between">
+          <div className="min-w-0 text-gray-800">
+            <p className={`${fontSize} font-semibold break-words`}>
+              {file.name}
+            </p>
+            <p className="text-gray-600 text-xs">
+              <FileSize size={file.size} />
+              <span className="px-1">&bull;</span>
+              <TimeAgo mtime={file.mtime * 1000} />
+            </p>
+          </div>
+          <BookmarkButton
+            fileId={file.id}
+            className="hover:bg-orange-50"
+            size="lg"
+          />
         </div>
 
-        <div className="p-2 text-gray-800">
-          <p className={`${fontSize} font-semibold break-words`}>
-            {file.name}
-          </p>
-          <p className="text-gray-600 text-xs">
-            <FileSize size={file.size} />
-            <span className="px-1">&bull;</span>
-            <TimeAgo mtime={file.mtime * 1000} />
-          </p>
+        <div className="pl-2 pr-1 py-2 flex items-center justify-between">
+          <div>
+            <Button
+              type="primary"
+              size="xs"
+            >
+              <FileLink
+                path={file.path}
+                preview={file.mediatype !== MediaType.FOLDER}
+              >
+                Open
+              </FileLink>
+            </Button>
+          </div>
+          <div className="flex flex-row justify-center space-x-4">
+            <SidePreviewActions files={[file]} />
+          </div>
+        </div>
+
+        <div className="mt-2 p-2">
+          <h3 className="font-semibold text-base">
+            Information
+          </h3>
+          <div className="text-xs font-medium divide-y">
+            <div className="py-2 flex justify-between">
+              <p className="text-gray-500">
+                Size
+              </p>
+              <p>
+                <FileSize size={file.size} />
+              </p>
+            </div>
+            <div className="py-2 flex justify-between">
+              <p className="text-gray-500">
+                Created
+              </p>
+              <p>
+                <TimeAgo mtime={file.mtime * 1000} format="LLL" />
+              </p>
+            </div>
+            <div className="py-2 flex justify-between">
+              <p className="text-gray-500">
+                Modified
+              </p>
+              <p>
+                <TimeAgo mtime={file.mtime * 1000} format="LLL" />
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </>
@@ -77,6 +134,11 @@ SingleFilePreview.propTypes = {
   }).isRequired,
 };
 
+const rotations = {
+  0: 'rotate-6',
+  1: '-rotate-6',
+};
+
 function MultiFilePreview({ files }) {
   const size = files.reduce((acc, item) => acc + item.size, 0);
   const previews = files.slice(-3);
@@ -88,6 +150,13 @@ function MultiFilePreview({ files }) {
     }
   });
 
+  const minMtime = files.reduce((prev, curr) => (
+    prev.mtime < curr.mtime ? prev : curr
+  ), 0);
+  const maxMtime = files.reduce((prev, curr) => (
+    prev.mtime > curr.mtime ? prev : curr
+  ), 0);
+
   return (
     <>
       <div className="px-4 pb-2 flex flex-col">
@@ -95,7 +164,7 @@ function MultiFilePreview({ files }) {
           {previews.map((file, i) => (
             <span
               key={file.id}
-              className={`absolute drop-shadow-xl transform ${((previews.length - 1 - i) % 2 === 0) ? '-' : ''}rotate-${(previews.length - 1 - i) * 6}`}
+              className={`absolute drop-shadow-xl transform ${(i === previews.length - 1) ? 'rotate-0' : rotations[i]}`}
             >
               <Thumbnail
                 className="w-56 h-56"
@@ -104,10 +173,6 @@ function MultiFilePreview({ files }) {
               />
             </span>
           ))}
-        </div>
-
-        <div className="p-4 flex flex-row justify-center space-x-8">
-          <SidePreviewActions files={files} />
         </div>
 
         <div className="p-2 text-gray-800">
@@ -124,6 +189,57 @@ function MultiFilePreview({ files }) {
             <FileSize size={size} />
           </p>
         </div>
+
+        <div className="pl-2 pr-1 py-2 flex items-center justify-between">
+          <div>
+            <Button
+              type="primary"
+              size="xs"
+            >
+              Download
+            </Button>
+          </div>
+          <div className="flex flex-row justify-center space-x-4">
+            <SidePreviewActions files={files} />
+          </div>
+        </div>
+
+        <div className="mt-2 p-2">
+          <h3 className="font-semibold text-base">
+            Information
+          </h3>
+          <div className="text-xs font-medium divide-y">
+            <div className="py-2 flex justify-between">
+              <p className="text-gray-500">
+                Size
+              </p>
+              <p>
+                <FileSize size={size} />
+              </p>
+            </div>
+            <div className="py-2 flex justify-between">
+              <p className="text-gray-500">
+                Created
+              </p>
+              <p>
+                <TimeAgo mtime={minMtime.mtime * 1000} format="ll" />
+                &nbsp;-&nbsp;
+                <TimeAgo mtime={maxMtime.mtime * 1000} format="ll" />
+              </p>
+            </div>
+            <div className="py-2 flex justify-between">
+              <p className="text-gray-500">
+                Modified
+              </p>
+              <p>
+                <TimeAgo mtime={minMtime.mtime * 1000} format="ll" />
+                &nbsp;-&nbsp;
+                <TimeAgo mtime={maxMtime.mtime * 1000} format="ll" />
+              </p>
+            </div>
+          </div>
+        </div>
+
       </div>
     </>
   );

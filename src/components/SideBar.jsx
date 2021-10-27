@@ -13,8 +13,13 @@ import AccountMenu from './AccountMenu';
 export const menu = [
   {
     path: routes.FILES.prefix,
-    title: 'Files',
-    icon: <icons.File className="flex-shrink-0 w-5 h-5 mr-3 lg:mx-auto xl:mr-3" />,
+    title: 'Home',
+    icon: <icons.HomeOutlined className="flex-shrink-0 w-5 h-5 mr-3 lg:mx-auto xl:mr-3" />,
+  },
+  {
+    path: routes.BOOKMARKS.prefix,
+    title: 'Saved',
+    icon: <icons.BookmarkOutlined className="flex-shrink-0 w-5 h-5 mr-3 lg:mx-auto xl:mr-3" />,
   },
   {
     path: routes.TRASH.prefix,

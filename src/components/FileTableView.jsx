@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 
 import { useDispatch, useSelector } from 'react-redux';
 
+import { bulkSelectFiles, deselectFiles } from '../store/actions/files';
 import { getCountSelectedFiles, getHasSelectedFiles } from '../store/reducers/files';
 
 import * as icons from '../icons';
 
 import FileDrop from '../containers/FileDrop';
 import VList from '../containers/VList';
-import { bulkSelectFiles, deselectFiles } from '../store/actions/files';
 
 function TableHeader({ items }) {
   const dispatch = useDispatch();
@@ -28,27 +28,33 @@ function TableHeader({ items }) {
 
   return (
     <div
-      className="w-full px-9 py-2 mb-1 flex flex-row items-center bg-white text-xs font-medium text-gray-500 uppercase tracking-wider border-l border-r border-transparent show-on-hover-trigger"
+      className="px-9 py-2 mb-1 flex flex-row items-center bg-white text-xs font-medium text-gray-500 uppercase tracking-wider border-l border-r border-transparent show-on-hover-trigger"
     >
-      <input
-        // hack: set partial status for checkbox
-        // eslint-disable-next-line no-return-assign,no-param-reassign
-        ref={(el) => el && (el.indeterminate = hasSelected && selectedCount !== items.length)}
-        className={`form-checkbox border-gray-300 text-blue-500 rounded-md ${checkboxClass}`}
-        onClick={onSelect}
-        type="checkbox"
-        checked={hasSelected}
-        readOnly
-      />
-      <div className="ml-3 flex-1">
-        Name
+      <div className={`${(!hasSelected) ? 'w-4/5 md:w-2/3' : 'w-full'} flex`}>
+        <input
+          // hack: set partial status for checkbox
+          // eslint-disable-next-line no-return-assign,no-param-reassign
+          ref={(el) => el && (el.indeterminate = hasSelected && selectedCount !== items.length)}
+          className={`form-checkbox border-gray-300 text-blue-500 rounded-md ${checkboxClass}`}
+          onClick={onSelect}
+          type="checkbox"
+          checked={hasSelected}
+          readOnly
+        />
+        <div className="ml-3">
+          Name
+        </div>
       </div>
-      <div className="hidden md:block w-20 lg:w-24 text-right">
-        Size
-      </div>
-      <div className="hidden md:block w-24 lg:w-36 xl:w-40 ml-6 xl:px-4 text-left">
-        Modified
-      </div>
+      {(!hasSelected) && (
+        <div className="w-1/5 md:w-1/3 flex justify-evenly space-x-4">
+          <div className="hidden md:block w-28 text-left">
+            Modified
+          </div>
+          <div className="hidden md:block w-28 text-right">
+            Size
+          </div>
+        </div>
+      )}
     </div>
   );
 }

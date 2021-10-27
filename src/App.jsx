@@ -10,6 +10,7 @@ import SideBar from './components/SideBar';
 import Toast from './containers/Toast';
 import ToastItem from './containers/ToastItem';
 
+import Bookmarks from './pages/Bookmarks';
 import Files from './pages/Files';
 import Trash from './pages/Trash';
 import UserManagement from './pages/admin/UserManagement';
@@ -37,6 +38,7 @@ function App() {
         <div className="min-w-0 my-0 bg-white flex-1 shadow-sm">
           <Switch>
             <Route path={routes.FILES.route} component={Files} />
+            <Route path={routes.BOOKMARKS.route} component={Bookmarks} />
             <Route path={routes.TRASH.route} component={Trash} />
             <Route path={routes.USER_MANAGEMENT.route} component={withAdmin(UserManagement)} />
           </Switch>

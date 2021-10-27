@@ -18,6 +18,7 @@ import FileTableCellActions from '../containers/FileTableCellActions';
 import FileSize from './ui/FileSize';
 import TimeAgo from './ui/TimeAgo';
 
+import BookmarkButton from './BookmarkButton';
 import FileLink from './FileLink';
 import Thumbnail from './Thumbnail';
 
@@ -66,39 +67,48 @@ function FileTableCell({
       onClick={onCellClick}
       className={`show-on-hover-trigger ${className} ${background} mx-4 h-full flex flex-row items-center text-sm px-4 border rounded-xl`}
     >
-      <div className={`w-4/5 md:w-1/2 2xl:w-2/3 flex flex-row items-center space-x-3 ${primaryText}`}>
-        <input
-          onClick={onCheckboxClick}
-          type="checkbox"
-          className={`form-checkbox border-gray-300 text-blue-500 rounded-md ${checkboxClass}`}
-          checked={selected}
-          readOnly
-        />
-        <div className="flex-shrink-0">
-          <Thumbnail className="w-9 h-9" fileId={item.id} deferred={defferThumbnail} />
+      <div className={`${(!hasSelected) ? 'w-4/5 md:w-2/3' : 'w-full'} flex ${primaryText}`}>
+        <div className="min-w-0 w-full flex items-center space-x-3">
+          <input
+            onClick={onCheckboxClick}
+            type="checkbox"
+            className={`form-checkbox border-gray-300 text-blue-500 rounded-md ${checkboxClass}`}
+            checked={selected}
+            readOnly
+          />
+          <div className="flex-shrink-0">
+            <Thumbnail className="w-9 h-9" fileId={item.id} deferred={defferThumbnail} />
+          </div>
+          <span className="truncate" onClick={(event) => { event.stopPropagation(); }}>
+            <FileLink
+              path={item.path}
+              preview={item.mediatype !== MediaType.FOLDER}
+            >
+              {item.name}
+            </FileLink>
+          </span>
         </div>
-        <span className="truncate" onClick={(event) => { event.stopPropagation(); }}>
-          <FileLink
-            path={item.path}
-            preview={item.mediatype !== MediaType.FOLDER}
-          >
-            {item.name}
-          </FileLink>
-        </span>
+        <div className="ml-2 flex items-center space-x-4">
+          <BookmarkButton
+            fileId={item.id}
+            className={(selected) ? 'hover:bg-orange-100' : 'hover:bg-orange-50'}
+          />
+          <div className={`${secondaryText} hover:${primaryText}`}>
+            <FileTableCellActions id={item.id} mediaType={item.mediatype} path={item.path} />
+          </div>
+        </div>
       </div>
 
-      <div className="w-1/5 md:w-1/2 2xl:w-1/3 flex flex-row items-center justify-end">
-        {/* apply classes here, otherwise they end up in closure */}
-        <div className={`${secondaryText} hover:${primaryText} px-2`}>
-          <FileTableCellActions id={item.id} mediaType={item.mediatype} path={item.path} />
+      {(!hasSelected) && (
+        <div className="w-1/5 md:w-1/3 flex flex-row items-center justify-evenly space-x-4">
+          <div className={`hidden md:block w-28 text-left ${secondaryText}`}>
+            <TimeAgo mtime={item.mtime * 1000} />
+          </div>
+          <div className={`hidden md:block w-28 text-right ${secondaryText}`}>
+            <FileSize size={item.size} />
+          </div>
         </div>
-        <div className={`hidden md:block w-20 lg:w-24 text-right ${secondaryText}`}>
-          <FileSize size={item.size} />
-        </div>
-        <div className={`hidden md:block w-24 lg:w-36 xl:w-40 ml-6 xl:px-4 text-left ${secondaryText}`}>
-          <TimeAgo mtime={item.mtime * 1000} />
-        </div>
-      </div>
+      )}
     </div>
   );
 }

@@ -21,11 +21,11 @@ const Browser = React.memo(
       <div className="h-full flex flex-col">
         <BrowserHeader isLaptop={isLaptop} actionButton={actionButton} />
         <div className="pt-4 flex flex-row flex-1">
-          <div className={(previewAvailable) ? 'w-2/3' : 'w-full'}>
+          <div className={(previewAvailable) ? 'w-7/12' : 'w-full'}>
             <FileTableView path={dirPath ?? '.'} itemRender={FileTableCell} droppable />
           </div>
           {(previewAvailable) && (
-            <div className="w-1/3">
+            <div className="w-5/12">
               <SidePreview />
             </div>
           )}

@@ -1,4 +1,8 @@
 export const types = {
+  BOOKMARK_UPDATE: 'BOOKMARK_UPDATE',
+  BOOKMARK_UPDATE_SUCCESS: 'BOOKMARK_UPDATE_SUCCESS',
+  BOOKMARK_UPDATE_FAILURE: 'BOOKMARK_UPDATE_FAILURE',
+
   CREATE_FOLDER: 'CREATE_FOLDER',
   CREATE_FOLDER_SUCCESS: 'CREATE_FOLDER_SUCCESS',
   CREATE_FOLDER_FAILURE: 'CREATE_FOLDER_FAILURE',
@@ -56,6 +60,11 @@ export const types = {
   UPDATE_FOLDER_BY_PATH: 'UPDATE_FOLDER_BY_PATH',
   PATH_CHANGED: 'PATH_CHANGED',
 };
+
+export const bookmarkUpdate = (path, marked) => ({
+  type: types.BOOKMARK_UPDATE,
+  payload: { path, marked },
+});
 
 export const createFolder = (path) => ({
   type: types.CREATE_FOLDER,

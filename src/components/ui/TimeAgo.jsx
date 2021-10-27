@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 
 import moment from 'moment';
 
-function TimeAgo({ mtime }) {
+function TimeAgo({ mtime, format = null }) {
+  const dt = (format != null) ? moment(mtime).format(format) : moment(mtime).fromNow();
   return (
     <>
-      {moment(mtime).fromNow()}
+      {dt}
     </>
   );
 }
