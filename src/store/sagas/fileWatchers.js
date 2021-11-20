@@ -13,10 +13,11 @@ import { difference } from '../../set';
 
 import * as fileActions from '../actions/files';
 import * as taskActions from '../actions/tasks';
+import * as uiActions from '../actions/ui';
 import * as uploadActions from '../actions/uploads';
 
-import { getFileById, getFileIdsByPath, getSelectedFileIds } from '../reducers/files';
-import { getCurrentPath } from '../reducers/ui';
+import { getFileById, getFileIdsByPath } from '../reducers/files';
+import { getCurrentPath, getSelectedFileIds } from '../reducers/ui';
 
 /**
    * Return index in an `arr` where `target` should be inserted in order.
@@ -99,7 +100,7 @@ function* handleListFolder({ payload }) {
     const fileIds = new Set(items.map((item) => item.id));
     const selectedFiles = yield select(getSelectedFileIds);
     const fileIdsToDeselect = difference(selectedFiles, fileIds);
-    yield put(fileActions.bulkDeselectFiles(fileIdsToDeselect));
+    yield put(uiActions.bulkDeselectFiles(fileIdsToDeselect));
   }
 }
 

@@ -5,11 +5,9 @@ import PropTypes from 'prop-types';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import { addToSelection, selectFile } from '../store/actions/files';
-
-import {
-  getFileById, getHasSelectedFiles, getIsFileSelected, getThumbnailById,
-} from '../store/reducers/files';
+import { addToSelection, selectFile } from '../store/actions/ui';
+import { getFileById, getThumbnailById } from '../store/reducers/files';
+import { getHasSelectedFiles, getIsFileSelected } from '../store/reducers/ui';
 
 import { MediaType } from '../constants';
 

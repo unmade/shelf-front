@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { useSelector } from 'react-redux';
+import { shallowEqual, useSelector } from 'react-redux';
 
-import { getSelectedFiles } from '../../store/reducers/files';
+import { getFilesByIds } from '../../store/reducers/files';
+import { getSelectedFileIds } from '../../store/reducers/ui';
 
 import { MediaType } from '../../constants';
 import pluralize from '../../pluralize';
@@ -255,7 +256,8 @@ MultiFilePreview.propTypes = {
 };
 
 function SidePreview() {
-  const files = useSelector(getSelectedFiles);
+  const selectedIds = useSelector(getSelectedFileIds);
+  const files = useSelector((state) => getFilesByIds(state, { ids: selectedIds }), shallowEqual);
   return (
     <div className="mr-4 mb-4 text-gray-800 bg-white rounded-lg border-4 border-transparent">
 

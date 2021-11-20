@@ -3,8 +3,11 @@ import PropTypes from 'prop-types';
 
 import { useSelector } from 'react-redux';
 
-import { getCountSelectedFiles, getFilesCountByPath } from '../../store/reducers/files';
-import { getDeletingFilesCounter, getMovingFilesCounter, getIsEmptyingTrash } from '../../store/reducers/tasks';
+import { getFilesCountByPath } from '../../store/reducers/files';
+import {
+  getDeletingFilesCounter, getMovingFilesCounter, getIsEmptyingTrash,
+} from '../../store/reducers/tasks';
+import { getCountSelectedFiles } from '../../store/reducers/ui';
 
 import * as icons from '../../icons';
 import pluralize from '../../pluralize';

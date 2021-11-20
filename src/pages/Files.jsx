@@ -3,10 +3,9 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 
-import { getHasSelectedFiles } from '../store/reducers/files';
-
-import { deselectFiles, listFolder } from '../store/actions/files';
-import { setCurrentPath } from '../store/actions/ui';
+import { listFolder } from '../store/actions/files';
+import { deselectFiles, setCurrentPath } from '../store/actions/ui';
+import { getHasSelectedFiles } from '../store/reducers/ui';
 
 import { Dialogs } from '../constants';
 

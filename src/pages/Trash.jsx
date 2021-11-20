@@ -6,10 +6,9 @@ import { useLocation, useParams } from 'react-router-dom';
 import { Dialogs, TRASH_FOLDER_NAME } from '../constants';
 import * as icons from '../icons';
 
-import { getHasSelectedFiles } from '../store/reducers/files';
-
-import { deselectFiles, listFolder } from '../store/actions/files';
-import { openDialog, setCurrentPath } from '../store/actions/ui';
+import { listFolder } from '../store/actions/files';
+import { deselectFiles, openDialog, setCurrentPath } from '../store/actions/ui';
+import { getHasSelectedFiles } from '../store/reducers/ui';
 
 import EmptyTrashDialog from '../containers/EmptyTrashDialog';
 import FilePreview from '../containers/FilePreview';

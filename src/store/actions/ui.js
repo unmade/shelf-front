@@ -4,7 +4,38 @@ export const types = {
   SET_CURRENT_PATH: 'SET_CURRENT_PATH',
   SET_SCROLL_OFFSET: 'SET_SCROLL_OFFSET',
   SET_UPLOAD_FILTER: 'SET_UPLOAD_FILTER',
+
+  SELECT_FILE_ADD: 'SELECT_FILE_ADD',
+  SELECT_FILE_BULK: 'SELECT_FILE_BULK',
+  SELECT_FILE: 'SELECT_FILE',
+  DESELECT_FILES: 'DESELECT_FILES',
+  DESELECT_FILES_BULK: 'DESELECT_FILES_BULK',
 };
+
+export const bulkSelectFiles = (ids) => ({
+  type: types.SELECT_FILE_BULK,
+  payload: { ids },
+});
+
+export const selectFile = (id) => ({
+  type: types.SELECT_FILE,
+  payload: { id },
+});
+
+export const addToSelection = (id) => ({
+  type: types.SELECT_FILE_ADD,
+  payload: { id },
+});
+
+export const deselectFiles = () => ({
+  type: types.DESELECT_FILES,
+  payload: null,
+});
+
+export const bulkDeselectFiles = (ids) => ({
+  type: types.DESELECT_FILES_BULK,
+  payload: { ids },
+});
 
 export const closeDialog = (key) => ({
   type: types.CLOSE_DIALOG,

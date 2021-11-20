@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { bulkSelectFiles, deselectFiles } from '../store/actions/files';
-import { getCountSelectedFiles, getHasSelectedFiles } from '../store/reducers/files';
+import { bulkSelectFiles, deselectFiles } from '../store/actions/ui';
+import { getCountSelectedFiles, getHasSelectedFiles } from '../store/reducers/ui';
 
 import * as icons from '../icons';
 
