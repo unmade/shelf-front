@@ -19,6 +19,15 @@ function normalize(files) {
 
 function filesById(state = {}, action) {
   switch (action.type) {
+    case types.EMPTY_TRASH_SUCCESS:
+    case types.MOVE_FILE_SUCCESS:
+    case types.MOVE_TO_TRASH_SUCCESS: {
+      const { file } = action.payload;
+      return {
+        ...state,
+        [file.id]: file,
+      };
+    }
     case types.CREATE_FOLDER_SUCCESS: {
       const { folder } = action.payload;
       return {
@@ -30,13 +39,6 @@ function filesById(state = {}, action) {
       const { file } = action.payload;
       const { [file.id]: deletedFileId, ...nextState } = state;
       return nextState;
-    }
-    case types.EMPTY_TRASH_SUCCESS: {
-      const { file } = action.payload;
-      return {
-        ...state,
-        [file.id]: file,
-      };
     }
     case types.LIST_FOLDER_SUCCESS: {
       if (action.payload.items.length === 0) {
@@ -54,14 +56,6 @@ function filesById(state = {}, action) {
       });
 
       return nextState;
-    }
-    case types.MOVE_TO_TRASH_SUCCESS:
-    case types.MOVE_FILE_SUCCESS: {
-      const { file } = action.payload;
-      return {
-        ...state,
-        [file.id]: file,
-      };
     }
     case uploadTypes.UPLOAD_SUCCESS: {
       const { file, updates } = action.payload;
