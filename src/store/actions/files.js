@@ -48,14 +48,7 @@ export const types = {
   RETRIEVE_DOWNLOAD_URL_SUCCESS: 'RETRIEVE_DOWNLOAD_URL_SUCCESS',
   RETRIEVE_DOWNLOAD_URL_FAILURE: 'RETRIEVE_DOWNLOAD_URL_FAILURE',
 
-  SELECT_FILE_ADD: 'SELECT_FILE_ADD',
-  SELECT_FILE_BULK: 'SELECT_FILE_BULK',
-  SELECT_FILE: 'SELECT_FILE',
-  DESELECT_FILES: 'DESELECT_FILES',
-  DESELECT_FILES_BULK: 'DESELECT_FILES_BULK',
-
   UPDATE_FOLDER_BY_PATH: 'UPDATE_FOLDER_BY_PATH',
-  PATH_CHANGED: 'PATH_CHANGED',
 };
 
 export const createFolder = (path) => ({
@@ -236,31 +229,6 @@ export const retrieveDownloadUrlSuccess = () => ({
 export const retrieveDownloadUrlFailure = (err) => ({
   type: types.RETRIEVE_DOWNLOAD_URL_FAILURE,
   payload: { err },
-});
-
-export const bulkSelectFiles = (ids) => ({
-  type: types.SELECT_FILE_BULK,
-  payload: { ids },
-});
-
-export const selectFile = (id) => ({
-  type: types.SELECT_FILE,
-  payload: { id },
-});
-
-export const addToSelection = (id) => ({
-  type: types.SELECT_FILE_ADD,
-  payload: { id },
-});
-
-export const deselectFiles = () => ({
-  type: types.DESELECT_FILES,
-  payload: null,
-});
-
-export const bulkDeselectFiles = (ids) => ({
-  type: types.DESELECT_FILES_BULK,
-  payload: { ids },
 });
 
 export const updateFolderByPath = (path, ids) => ({

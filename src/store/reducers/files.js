@@ -4,7 +4,6 @@ import { createSelector } from 'reselect';
 
 import { MediaType } from '../../constants';
 import * as routes from '../../routes';
-import { difference } from '../../set';
 
 import { types } from '../actions/files';
 import { types as uploadTypes } from '../actions/uploads';
@@ -64,38 +63,6 @@ function filesById(state = {}, action) {
         ...normalize(updates),
         [file.id]: file,
       };
-    }
-    default:
-      return state;
-  }
-}
-
-function selectedIds(state = new Set(), action) {
-  switch (action.type) {
-    case types.DESELECT_FILES: {
-      return new Set();
-    }
-    case types.DESELECT_FILES_BULK: {
-      const { ids } = action.payload;
-      return difference(state, ids);
-    }
-    case types.SELECT_FILE: {
-      const { id } = action.payload;
-      return new Set([id]);
-    }
-    case types.SELECT_FILE_ADD: {
-      const { id } = action.payload;
-      const nextState = new Set(state);
-      if (state.has(id)) {
-        nextState.delete(id);
-      } else {
-        nextState.add(id);
-      }
-      return nextState;
-    }
-    case types.SELECT_FILE_BULK: {
-      const { ids } = action.payload;
-      return new Set(ids);
     }
     default:
       return state;
@@ -178,7 +145,6 @@ function downloads(state = {}, action) {
 export default combineReducers({
   byId: filesById,
   byPath: filesByPath,
-  selectedIds,
   thumbnailsById,
   downloads,
 });
@@ -188,23 +154,6 @@ const FILES_EMPTY = [];
 export const getFileById = (state, id) => state.files.byId[id];
 export const getFileIdsByPath = (state, path) => state.files.byPath[path] ?? FILES_EMPTY;
 export const getFilesCountByPath = (state, path) => getFileIdsByPath(state, path).length;
-export const getIsFileSelected = (state, id) => state.files.selectedIds.has(id);
-export const getSelectedFileIds = (state) => state.files.selectedIds;
-export const getSelectedFiles = createSelector(
-  [
-    (state) => state.files.byId,
-    getSelectedFileIds,
-  ],
-  (byId, fileIds) => {
-    const files = [];
-    fileIds.forEach((id) => {
-      files.push(byId[id]);
-    });
-    return files;
-  },
-);
-export const getHasSelectedFiles = (state) => state.files.selectedIds.size !== 0;
-export const getCountSelectedFiles = (state) => state.files.selectedIds.size;
 export const getThumbnailById = (state, id) => state.files.thumbnailsById[id];
 
 export const getDownloads = (state) => state.files.downloads;
@@ -237,9 +186,15 @@ export const getFilesByIds = (
       (state) => state.files.byId,
       getIdsProps,
     ],
-    (byId, ids) => (
-      ids.map((id) => byId[id])
-    ),
+    (byId, ids) => {
+      // 'ids' param can be a Set, which doesn't support '.map()',
+      // so instead use a '.forEach()'
+      const files = [];
+      ids.forEach((id) => {
+        files.push(byId[id]);
+      });
+      return files;
+    },
   )
 );
 
