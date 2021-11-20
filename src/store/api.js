@@ -6,13 +6,13 @@ export function ServerError(title = 'Server Error', description = 'Something wen
   this.title = title;
   this.description = description;
 }
-ServerError.prototype.toString = () => `${this.title}: "${this.description}"`;
+ServerError.prototype.toString = () => `${this.title}: ${this.description}`;
 
 export function APIError(title = 'API Error', description) {
   this.title = title;
   this.description = description;
 }
-APIError.prototype.toString = () => `${this.title}: "${this.description}"`;
+APIError.prototype.toString = () => `${this.title}: ${this.description}`;
 
 function guessContentType(body) {
   if (body instanceof URLSearchParams) {
@@ -60,7 +60,7 @@ function* request(method, endpoint, accessToken, body = null) {
     } catch (e) {
       throw new ServerError();
     }
-    throw new APIError(errorMessage.code_verbose, errorMessage.message);
+    throw new APIError(errorMessage.code_verbose, errorMessage.message ?? 'Something went wrong');
   }
 
   return response;

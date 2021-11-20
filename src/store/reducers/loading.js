@@ -1,5 +1,6 @@
 import { types as authTypes } from '../actions/auth';
 import { types as fileTypes } from '../actions/files';
+import { types as userTypes } from '../actions/users';
 import { scopes, types } from '../actions/loading';
 
 function loading(state = {}, action) {
@@ -16,6 +17,14 @@ function loading(state = {}, action) {
       return {
         ...state,
         [scopes.signingIn]: false,
+      };
+    case userTypes.ADD_BOOKMARK_FAILURE:
+    case userTypes.ADD_BOOKMARK_SUCCESS:
+    case userTypes.REMOVE_BOOKMARK_FAILURE:
+    case userTypes.REMOVE_BOOKMARK_SUCCESS:
+      return {
+        ...state,
+        [scopes.bookmarking]: false,
       };
     case fileTypes.CREATE_FOLDER_FAILURE:
     case fileTypes.CREATE_FOLDER_SUCCESS:

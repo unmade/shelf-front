@@ -69,7 +69,7 @@ function SingleFilePreview({ file }) {
           />
         </div>
 
-        <div className="pl-2 pr-1 py-2 flex items-center justify-between">
+        <div className="pl-2 pr-0.5 py-2 flex items-center justify-between">
           <div>
             <Button
               type="primary"

@@ -3,6 +3,7 @@ export const types = {
 };
 
 export const scopes = {
+  bookmarking: 'bookmarking',
   creatingFolder: 'creatingFolder',
   deletingFileImmediately: 'deletingFileImmediately',
   emptyingTrash: 'emptyingTrash',

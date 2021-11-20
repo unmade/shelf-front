@@ -6,6 +6,7 @@ import fileSagas from './files';
 import fileWatchers from './fileWatchers';
 import taskSagas from './tasks';
 import uploadSagas from './uploads';
+import userSagas from './users';
 
 export default function* rootSaga() {
   yield all([
@@ -15,5 +16,6 @@ export default function* rootSaga() {
     ...fileWatchers,
     ...taskSagas,
     ...uploadSagas,
+    ...userSagas,
   ]);
 }
