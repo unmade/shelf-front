@@ -3,6 +3,10 @@ export const types = {
   ADD_BOOKMARK_SUCCESS: 'ADD_BOOKMARK_SUCCESS',
   ADD_BOOKMARK_FAILURE: 'ADD_BOOKMARK_FAILURE',
 
+  LIST_BOOKMARKS: 'LIST_BOOKMARKS',
+  LIST_BOOKMARKS_SUCCESS: 'LIST_BOOKMARKS_SUCCESS',
+  LIST_BOOKMARKS_FAILURE: 'LIST_BOOKMARKS_FAILURE',
+
   REMOVE_BOOKMARK: 'REMOVE_BOOKMARK',
   REMOVE_BOOKMARK_SUCCESS: 'UREMOVE_BOOKMARK_SUCCESS',
   REMOVE_BOOKMARK_FAILURE: 'REMOVE_BOOKMARK_FAILURE',
@@ -20,6 +24,21 @@ export const addBookmarkSuccess = (path) => ({
 
 export const addBookmarkFailure = (err) => ({
   type: types.ADD_BOOKMARK_FAILURE,
+  payload: { err },
+});
+
+export const listBookmarks = () => ({
+  type: types.LIST_BOOKMARKS,
+  payload: null,
+});
+
+export const listBookmarksSuccess = (data) => ({
+  type: types.LIST_BOOKMARKS_SUCCESS,
+  payload: { data },
+});
+
+export const listBookmarksFailure = (err) => ({
+  type: types.LIST_BOOKMARKS_FAILURE,
   payload: { err },
 });
 

@@ -4,6 +4,7 @@ import {
 
 import * as api from '../api';
 import { scopes } from '../actions/loading';
+import * as authActions from '../actions/auth';
 import * as actions from '../actions/users';
 
 import { getAccessToken } from '../reducers/auth';
@@ -30,6 +31,28 @@ function* addBookmark({ payload }) {
   yield put(actions.addBookmarkSuccess(data));
 }
 
+function* listBookmarks() {
+  const accessToken = yield select(getAccessToken);
+  if (accessToken == null) {
+    return;
+  }
+
+  const request = api.get('/users/bookmarks/list', accessToken);
+  const [response, err] = yield tryRequest(request, scopes.bookmarking);
+  if (err !== null) {
+    yield put(actions.listBookmarksFailure(err));
+    return;
+  }
+
+  const [data, parseErr] = yield tryResponse(response.json());
+  if (parseErr !== null) {
+    yield put(actions.listBookmarksFailure(err));
+    return;
+  }
+
+  yield put(actions.listBookmarksSuccess(data));
+}
+
 function* removeBookmark({ payload }) {
   const accessToken = yield select(getAccessToken);
   const { fileId } = payload;
@@ -52,5 +75,7 @@ function* removeBookmark({ payload }) {
 
 export default [
   takeEvery(actions.types.ADD_BOOKMARK, addBookmark),
+  takeEvery(actions.types.LIST_BOOKMARKS, listBookmarks),
   takeEvery(actions.types.REMOVE_BOOKMARK, removeBookmark),
+  takeEvery(authActions.types.SIGN_IN_SUCCESS, listBookmarks),
 ];
