@@ -18,13 +18,13 @@ function* addBookmark({ payload }) {
   const request = api.post('/users/bookmarks/add', accessToken, { id: fileId });
   const [response, err] = yield tryRequest(request, scopes.bookmarking);
   if (err !== null) {
-    yield put(actions.addBookmarkFailure(err));
+    yield put(actions.addBookmarkFailure(err, fileId));
     return;
   }
 
   const [data, parseErr] = yield tryResponse(response.json());
   if (parseErr !== null) {
-    yield put(actions.addBookmarkFailure(err));
+    yield put(actions.addBookmarkFailure(err, fileId));
     return;
   }
 
@@ -38,7 +38,7 @@ function* listBookmarks() {
   }
 
   const request = api.get('/users/bookmarks/list', accessToken);
-  const [response, err] = yield tryRequest(request, scopes.bookmarking);
+  const [response, err] = yield tryRequest(request);
   if (err !== null) {
     yield put(actions.listBookmarksFailure(err));
     return;
@@ -60,13 +60,13 @@ function* removeBookmark({ payload }) {
   const request = api.post('/users/bookmarks/remove', accessToken, { id: fileId });
   const [response, err] = yield tryRequest(request, scopes.bookmarking);
   if (err !== null) {
-    yield put(actions.removeBookmarkFailure(err));
+    yield put(actions.removeBookmarkFailure(err, fileId));
     return;
   }
 
   const [data, parseErr] = yield tryResponse(response.json());
   if (parseErr !== null) {
-    yield put(actions.removeBookmarkFailure(err));
+    yield put(actions.removeBookmarkFailure(err, fileId));
     return;
   }
 

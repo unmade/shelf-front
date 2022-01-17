@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { scopes } from '../store/actions/loading';
 import { addBookmark, removeBookmark } from '../store/actions/users';
-import { getFileById } from '../store/reducers/files';
 import { getLoading } from '../store/reducers/loading';
+import { getIsBookmarked } from '../store/reducers/users';
 
 import * as icons from '../icons';
 
@@ -20,26 +20,32 @@ const ringSizes = {
   lg: 'focus:ring',
 };
 
+const bookmarkClasses = {
+  [true]: 'fill-current text-orange-600',
+  [false]: 'show-on-hover-target text-gray-300 hover:text-orange-600',
+};
+
 function BookmarkButton({ className, fileId, size }) {
   const dispatch = useDispatch();
-  const file = useSelector((state) => getFileById(state, fileId));
+  const bookmarked = useSelector((state) => getIsBookmarked(state, fileId));
   const loading = useSelector((state) => getLoading(state, scopes.bookmarking));
 
-  const iconClasses = `${(file.starred) ? 'fill-current' : ''} ${iconSizes[size]}`;
+  const iconClasses = `${(bookmarked) ? 'fill-current' : ''} ${iconSizes[size]}`;
+  const title = (bookmarked) ? 'Remove from Saved' : 'Add to Saved';
 
   const onClick = () => {
-    if (file.starred) {
-      dispatch(removeBookmark(file.id));
+    if (bookmarked) {
+      dispatch(removeBookmark(fileId));
     } else {
-      dispatch(addBookmark(file.id));
+      dispatch(addBookmark(fileId));
     }
   };
 
   return (
     <button
       type="button"
-      title="Add to Saved"
-      className={`p-2 show-on-hover-target text-gray-300 hover:text-orange-600 transition-colors rounded-xl focus:outline-none ${ringSizes[size]} ring-offset-2 ring-orange-300 ${className}`}
+      title={title}
+      className={`p-2 ${bookmarkClasses[bookmarked]} transition-colors rounded-xl focus:outline-none ${ringSizes[size]} ring-offset-2 ring-orange-300 ${className}`}
       onClick={onClick}
       disabled={loading}
     >

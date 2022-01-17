@@ -11,7 +11,7 @@ const unexpectedError = ['Unexpected Error', 'Something went wrong'];
 const parseError = ['Bad response', 'Couldn\'t parse response from server'];
 
 export function* tryRequest(request, scope) {
-  if (scope !== null && scope !== undefined) {
+  if (scope != null) {
     yield put(setLoading(scope, true));
   }
   try {
