@@ -17,14 +17,14 @@ export const addBookmark = (fileId) => ({
   payload: { fileId },
 });
 
-export const addBookmarkSuccess = (path) => ({
+export const addBookmarkSuccess = () => ({
   type: types.ADD_BOOKMARK_SUCCESS,
-  payload: { path },
+  payload: null,
 });
 
-export const addBookmarkFailure = (err) => ({
+export const addBookmarkFailure = (err, fileId) => ({
   type: types.ADD_BOOKMARK_FAILURE,
-  payload: { err },
+  payload: { err, fileId },
 });
 
 export const listBookmarks = () => ({
@@ -42,17 +42,17 @@ export const listBookmarksFailure = (err) => ({
   payload: { err },
 });
 
-export const removeBookmark = (path) => ({
+export const removeBookmark = (fileId) => ({
   type: types.REMOVE_BOOKMARK,
-  payload: { path },
+  payload: { fileId },
 });
 
-export const removeBookmarkSuccess = (file) => ({
+export const removeBookmarkSuccess = () => ({
   type: types.REMOVE_BOOKMARK_SUCCESS,
-  payload: { file },
+  payload: null,
 });
 
-export const removeBookmarkFailure = (err) => ({
+export const removeBookmarkFailure = (err, fileId) => ({
   type: types.REMOVE_BOOKMARK_FAILURE,
-  payload: { err },
+  payload: { err, fileId },
 });

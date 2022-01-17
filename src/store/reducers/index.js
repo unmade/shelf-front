@@ -2,24 +2,26 @@ import { combineReducers } from 'redux';
 
 import * as authActions from '../actions/auth';
 
-import AccountsReducer from './accounts';
-import AuthReducer from './auth';
-import FilesReducer from './files';
-import LoadingReducer from './loading';
-import MessageReducer from './messages';
-import TaskReducer from './tasks';
-import UIReducer from './ui';
-import UploadsReducer from './uploads';
+import accounts from './accounts';
+import auth from './auth';
+import files from './files';
+import loading from './loading';
+import messages from './messages';
+import tasks from './tasks';
+import ui from './ui';
+import uploads from './uploads';
+import users from './users';
 
 const rootReducer = combineReducers({
-  accounts: AccountsReducer,
-  auth: AuthReducer,
-  files: FilesReducer,
-  loading: LoadingReducer,
-  messages: MessageReducer,
-  tasks: TaskReducer,
-  ui: UIReducer,
-  uploads: UploadsReducer,
+  accounts,
+  auth,
+  files,
+  loading,
+  messages,
+  tasks,
+  ui,
+  uploads,
+  users,
 });
 
 export default function reducer(state, action) {
