@@ -23,6 +23,10 @@ export const types = {
   FETCH_THUMBNAIL_SUCCESS: 'FETCH_THUMBNAIL_SUCCESS',
   FETCH_THUMBNAIL_FAILURE: 'FETCH_THUMBNAIL_FAILURE',
 
+  GET_BATCH: 'GET_BATCH',
+  GET_BATCH_SUCCESS: 'GET_BATCH_SUCCESS',
+  GET_BATCH_FAILURE: 'GET_BATCH_FAILURE',
+
   LIST_FOLDER: 'LIST_FILES',
   LIST_FOLDER_SUCCESS: 'LIST_FILES_SUCCESS',
   LIST_FOLDER_FAILURE: 'LIST_FILES_FAILURE',
@@ -138,6 +142,21 @@ export const fetchThumbnailSuccess = (id, size, thumb) => ({
 
 export const fetchThumbnailFailure = (err) => ({
   type: types.FETCH_THUMBNAIL_FAILURE,
+  payload: { err },
+});
+
+export const getBatch = (fileIds) => ({
+  type: types.GET_BATCH,
+  payload: { fileIds },
+});
+
+export const getBatchSuccess = (data) => ({
+  type: types.GET_BATCH_SUCCESS,
+  payload: { data },
+});
+
+export const getBatchFailure = (err) => ({
+  type: types.GET_BATCH_FAILURE,
   payload: { err },
 });
 
