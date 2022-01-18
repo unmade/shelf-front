@@ -39,6 +39,7 @@ function filesById(state = {}, action) {
       const { [file.id]: deletedFileId, ...nextState } = state;
       return nextState;
     }
+    case types.GET_BATCH_SUCCESS:
     case types.LIST_FOLDER_SUCCESS: {
       if (action.payload.items.length === 0) {
         return state;

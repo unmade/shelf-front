@@ -1,12 +1,24 @@
 import React from 'react';
 
+import { useSelector, useDispatch } from 'react-redux';
+
+import { getBatch } from '../store/actions/files';
+import { getBookmarks } from '../store/reducers/users';
+
 import * as icons from '../icons';
 
 import FileTableView from '../containers/FileTableView';
 import FileTableCell from '../components/FileTableCell';
 
 function Bookmarks() {
+  const dispatch = useDispatch();
+  const bookmarks = useSelector(getBookmarks);
   const dirPath = '.';
+
+  React.useEffect(() => {
+    dispatch(getBatch([...bookmarks]));
+  }, [bookmarks, dispatch]);
+
   return (
     <div className="h-full flex flex-col">
       {/* header */}

@@ -146,6 +146,26 @@ function* fetchThumbnail({ payload }) {
   yield put(actions.fetchThumbnailSuccess(id, size, thumb));
 }
 
+function* getBatch({ payload }) {
+  const accessToken = yield select(getAccessToken);
+  const { fileIds } = payload;
+
+  const request = api.post('/files/get_batch', accessToken, { ids: fileIds });
+  const [response, err] = yield tryRequest(request);
+  if (err !== null) {
+    yield put(actions.getBatchFailure(err));
+    return;
+  }
+
+  const [data, parseErr] = yield tryResponse(response.json());
+  if (parseErr !== null) {
+    yield put(actions.getBatchFailure(parseErr));
+    return;
+  }
+
+  yield put(actions.getBatchSuccess(data));
+}
+
 function* listFolder({ payload }) {
   const accessToken = yield select(getAccessToken);
   const { path = '.' } = payload;
@@ -303,6 +323,7 @@ export default [
   takeEvery(actions.types.DELETE_IMMEDIATELY_BATCH, deleteImmediatelyBatch),
   takeEvery(actions.types.DOWNLOAD, download),
   takeEvery(actions.types.EMPTY_TRASH, emptyTrash),
+  takeEvery(actions.types.GET_BATCH, getBatch),
   takeEvery(actions.types.LIST_FOLDER, listFolder),
   takeEvery(actions.types.MOVE_FILE, moveFile),
   takeEvery(actions.types.MOVE_FILE_BATCH, moveFileBatch),
