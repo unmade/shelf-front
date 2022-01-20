@@ -150,9 +150,9 @@ export const getBatch = (fileIds) => ({
   payload: { fileIds },
 });
 
-export const getBatchSuccess = (data) => ({
+export const getBatchSuccess = (payload) => ({
   type: types.GET_BATCH_SUCCESS,
-  payload: { data },
+  payload,
 });
 
 export const getBatchFailure = (err) => ({

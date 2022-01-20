@@ -8,6 +8,7 @@ export const scopes = {
   deletingFileImmediately: 'deletingFileImmediately',
   emptyingTrash: 'emptyingTrash',
   listingFolder: 'listingFolder',
+  listingBookmarks: 'listingBookmarks',
   movingFile: 'movingFile',
   movingToTrash: 'movingToTrash',
   signingIn: 'signingIn',

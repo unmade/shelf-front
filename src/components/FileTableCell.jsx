@@ -55,7 +55,8 @@ function FileTableCell({
 
   const onCellClick = () => dispatch(selectFile(item.id));
   const onCheckboxClick = (event) => {
-    event.stopPropagation(); dispatch(addToSelection(item.id));
+    event.stopPropagation();
+    dispatch(addToSelection(item.id));
   };
 
   const checkboxClass = (selected || hasSelected) ? '' : 'show-on-hover-target';
@@ -142,6 +143,10 @@ function FileTableCellContainer({ data, index, isScrolling, style }) {
 
   const thumbs = useSelector((state) => getThumbnailById(state, itemId));
   const thumbnailLoaded = (thumbs != null && thumbs.xs != null);
+
+  if (item == null) {
+    return null;
+  }
 
   return (
     <div style={style}>

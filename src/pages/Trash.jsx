@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 
 import { Dialogs, TRASH_FOLDER_NAME } from '../constants';
@@ -8,7 +8,6 @@ import * as icons from '../icons';
 
 import { listFolder } from '../store/actions/files';
 import { deselectFiles, openDialog, setCurrentPath } from '../store/actions/ui';
-import { getHasSelectedFiles } from '../store/reducers/ui';
 
 import EmptyTrashDialog from '../containers/EmptyTrashDialog';
 import FilePreview from '../containers/FilePreview';
@@ -23,7 +22,6 @@ function Trash() {
   const dispatch = useDispatch();
   const location = useLocation();
   const params = useParams();
-  const hasSelectedFiles = useSelector(getHasSelectedFiles);
 
   const { search } = location;
   const queryParams = new URLSearchParams(search);
@@ -55,8 +53,6 @@ function Trash() {
           />
         )}
         dirPath={dirPath}
-        hasSelectedFiles={hasSelectedFiles}
-        withCreateFolder={false}
       />
       {(preview) && (
         <FilePreview dirPath={dirPath || '.'} name={preview} />

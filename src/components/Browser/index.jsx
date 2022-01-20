@@ -5,6 +5,7 @@ import { useMediaQuery } from 'react-responsive';
 
 import { MediaQuery } from '../../constants';
 
+import FileDrop from '../../containers/FileDrop';
 import FileTableView from '../../containers/FileTableView';
 
 import FileTableCell from '../FileTableCell';
@@ -12,28 +13,52 @@ import FileTableCell from '../FileTableCell';
 import BrowserHeader from './Header';
 import SidePreview from './SidePreview';
 import StatusBar from './StatusBar';
+import useSidePreview from '../../hooks/preview-available';
 
 const Browser = React.memo(
-  ({ actionButton, dirPath, hasSelectedFiles, withCreateFolder }) => {
+  ({ actionButton, dirPath, droppable }) => {
     const isLaptop = useMediaQuery({ query: MediaQuery.lg });
-    const previewAvailable = (isLaptop && hasSelectedFiles);
+    const withSidePreview = useSidePreview();
+    const path = dirPath ?? '.';
+
+    const tableView = (droppable) ? (
+      <FileDrop
+        className="h-full"
+        uploadTo={path}
+        render={({ dragging }) => (
+          <FileTableView
+            className={(dragging) ? 'border-blue-300' : 'border-transparent'}
+            path={path}
+            scrollKey={path}
+            itemRender={FileTableCell}
+          />
+        )}
+      />
+    ) : (
+      <FileTableView
+        className="border-transparent"
+        path={path}
+        scrollKey={path}
+        itemRender={FileTableCell}
+      />
+    );
+
     return (
       <div className="h-full flex flex-col">
         <BrowserHeader isLaptop={isLaptop} actionButton={actionButton} />
         <div className="pt-4 flex flex-row flex-1">
-          <div className={(previewAvailable) ? 'w-7/12' : 'w-full'}>
-            <FileTableView path={dirPath ?? '.'} itemRender={FileTableCell} droppable />
+          <div className={(withSidePreview) ? 'w-7/12' : 'w-full'}>
+            {tableView}
           </div>
-          {(previewAvailable) && (
+          {(withSidePreview) && (
             <div className="w-5/12">
               <SidePreview />
             </div>
           )}
         </div>
         <StatusBar
-          dirPath={dirPath ?? '.'}
+          dirPath={path}
           isLaptop={isLaptop}
-          withCreateFolder={withCreateFolder}
         />
       </div>
     );
@@ -45,10 +70,10 @@ export default Browser;
 Browser.propTypes = {
   actionButton: PropTypes.func.isRequired,
   dirPath: PropTypes.string,
-  hasSelectedFiles: PropTypes.bool.isRequired,
-  withCreateFolder: PropTypes.bool.isRequired,
+  droppable: PropTypes.bool,
 };
 
 Browser.defaultProps = {
   dirPath: null,
+  droppable: false,
 };

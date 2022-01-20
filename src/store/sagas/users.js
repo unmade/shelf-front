@@ -38,7 +38,7 @@ function* listBookmarks() {
   }
 
   const request = api.get('/users/bookmarks/list', accessToken);
-  const [response, err] = yield tryRequest(request);
+  const [response, err] = yield tryRequest(request, scopes.listingBookmarks);
   if (err !== null) {
     yield put(actions.listBookmarksFailure(err));
     return;
