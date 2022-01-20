@@ -9,6 +9,7 @@ import {
 } from '../../store/reducers/tasks';
 import { getCountSelectedFiles } from '../../store/reducers/ui';
 
+import { TRASH_FOLDER_NAME } from '../../constants';
 import * as icons from '../../icons';
 import pluralize from '../../pluralize';
 
@@ -77,7 +78,7 @@ TotalFiles.defaultProps = {
   className: '',
 };
 
-function StatusBar({ dirPath, isLaptop, withCreateFolder }) {
+function StatusBar({ dirPath, isLaptop }) {
   return (
     <div className="bottom-0 w-full pl-6 pr-8 py-1 flex items-center justify-center lg:justify-between border-t bg-gray-50 text-xs text-center text-gray-400">
       {(isLaptop) && (
@@ -97,7 +98,7 @@ function StatusBar({ dirPath, isLaptop, withCreateFolder }) {
               </span>
             </Breadcrumb.ItemCollapsed>
           )}
-          withCreateFolder={withCreateFolder}
+          withCreateFolder={dirPath !== TRASH_FOLDER_NAME}
         />
       )}
       <div className="flex">
@@ -113,11 +114,9 @@ export default StatusBar;
 StatusBar.propTypes = {
   dirPath: PropTypes.string,
   isLaptop: PropTypes.bool,
-  withCreateFolder: PropTypes.bool,
 };
 
 StatusBar.defaultProps = {
   dirPath: '.',
   isLaptop: false,
-  withCreateFolder: false,
 };

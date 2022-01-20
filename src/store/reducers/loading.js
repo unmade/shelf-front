@@ -64,6 +64,12 @@ function loading(state = {}, action) {
         ...state,
         [scopes.movingToTrash]: false,
       };
+    case userTypes.LIST_BOOKMARKS_FAILURE:
+    case userTypes.LIST_BOOKMARKS_SUCCESS:
+      return {
+        ...state,
+        [scopes.listingBookmarks]: false,
+      };
     default:
       return state;
   }

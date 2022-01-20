@@ -1,11 +1,10 @@
 import React from 'react';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 
 import { listFolder } from '../store/actions/files';
 import { deselectFiles, setCurrentPath } from '../store/actions/ui';
-import { getHasSelectedFiles } from '../store/reducers/ui';
 
 import { Dialogs } from '../constants';
 
@@ -22,7 +21,6 @@ function Files() {
   const dispatch = useDispatch();
   const location = useLocation();
   const params = useParams();
-  const hasSelectedFiles = useSelector(getHasSelectedFiles);
 
   const { search } = location;
   const queryParams = new URLSearchParams(search);
@@ -44,8 +42,7 @@ function Files() {
       <Browser
         actionButton={() => <Uploader />}
         dirPath={dirPath}
-        hasSelectedFiles={hasSelectedFiles}
-        withCreateFolder
+        droppable
       />
       {(preview) && (
         <FilePreview dirPath={dirPath || '.'} name={preview} />

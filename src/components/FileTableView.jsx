@@ -8,7 +8,6 @@ import { getCountSelectedFiles, getHasSelectedFiles } from '../store/reducers/ui
 
 import * as icons from '../icons';
 
-import FileDrop from '../containers/FileDrop';
 import VList from '../containers/VList';
 
 function TableHeader({ items }) {
@@ -59,7 +58,7 @@ function TableHeader({ items }) {
   );
 }
 
-function Table({
+function FileTableView({
   className, items, loading, scrollKey, itemRender,
 }) {
   const fileDropBorder = 'transition ease-in-out duration-75 border-4 rounded-lg';
@@ -94,41 +93,11 @@ function Table({
   );
 }
 
-function FileTableView({
-  droppable, items, loading, path, itemRender,
-}) {
-  if (droppable) {
-    return (
-      <FileDrop
-        uploadTo={path}
-        className="h-full"
-        render={({ dragging }) => (
-          <Table
-            className={(dragging) ? 'border-blue-300' : 'border-transparent'}
-            loading={loading}
-            items={items}
-            itemRender={itemRender}
-            scrollKey={path}
-          />
-        )}
-      />
-    );
-  }
-  return (
-    <Table
-      className="border-transparent"
-      items={items}
-      itemRender={itemRender}
-      scrollKey={path}
-    />
-  );
-}
-
 FileTableView.propTypes = {
-  droppable: PropTypes.bool,
+  className: PropTypes.string,
   items: PropTypes.arrayOf(PropTypes.string).isRequired,
   loading: PropTypes.bool,
-  path: PropTypes.string.isRequired,
+  scrollKey: PropTypes.string.isRequired,
   itemRender: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.object,
@@ -136,7 +105,7 @@ FileTableView.propTypes = {
 };
 
 FileTableView.defaultProps = {
-  droppable: false,
+  className: '',
   loading: true,
 };
 
