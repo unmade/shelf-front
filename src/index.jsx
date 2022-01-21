@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
+import './i18n';
+
 import store from './store/store';
 
 import withAuth from './hoc/withAuth';
