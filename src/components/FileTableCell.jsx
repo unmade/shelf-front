@@ -100,10 +100,10 @@ function FileTableCell({
 
       {(!hasSelected) && (
         <div className="w-1/5 md:w-1/3 flex flex-row items-center justify-evenly space-x-4">
-          <div className={`hidden md:block w-28 text-left ${secondaryText}`}>
+          <div className={`hidden md:block w-32 text-left ${secondaryText}`}>
             <TimeAgo mtime={item.mtime * 1000} />
           </div>
-          <div className={`hidden md:block w-28 text-right ${secondaryText}`}>
+          <div className={`hidden md:block w-24 text-right ${secondaryText}`}>
             <FileSize size={item.size} />
           </div>
         </div>

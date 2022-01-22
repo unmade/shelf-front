@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { scopes } from '../store/actions/loading';
@@ -26,12 +27,14 @@ const bookmarkClasses = {
 };
 
 function BookmarkButton({ className, fileId, size }) {
+  const { t } = useTranslation();
+
   const dispatch = useDispatch();
   const bookmarked = useSelector((state) => getIsBookmarked(state, fileId));
   const loading = useSelector((state) => getLoading(state, scopes.bookmarking));
 
   const iconClasses = `${(bookmarked) ? 'fill-current' : ''} ${iconSizes[size]}`;
-  const title = (bookmarked) ? 'Remove from Saved' : 'Add to Saved';
+  const title = (bookmarked) ? t('Remove from Saved') : t('Add to Saved');
 
   const onClick = () => {
     if (bookmarked) {

@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useTranslation } from 'react-i18next';
+
 import { MediaType } from '../constants';
 import * as icons from '../icons';
 import * as routes from '../routes';
@@ -11,6 +13,8 @@ import Input from './ui/Input';
 function RenameFileDialog({
   file, loading, uid, visible, onRename, onCancel,
 }) {
+  const { t } = useTranslation();
+
   const [name, setName] = React.useState((file && file.name) || null);
   const [error, setError] = React.useState(null);
 
@@ -35,9 +39,9 @@ function RenameFileDialog({
 
   const onConfirm = () => {
     if (name === null || name === undefined || name === '') {
-      setError('Name cannot be empty.');
+      setError(t('Name cannot be empty.'));
     } else if (name === file.name) {
-      setError('Name is the same.');
+      setError(t('Name is the same.'));
     } else {
       const toPath = routes.join(routes.parent(file.path), name);
       onRename(file.path, toPath);
@@ -45,14 +49,14 @@ function RenameFileDialog({
   };
 
   const { mediatype } = file || {};
-  const type = (mediatype === MediaType.FOLDER) ? 'Folder' : 'File';
+  const title = (mediatype === MediaType.FOLDER) ? t('Rename Folder') : t('Rename File');
 
   return (
     <Dialog
-      title={`Rename ${type}`}
+      title={title}
       icon={<icons.Edit className="h-6 w-6" />}
       visible={visible}
-      confirmTitle="Rename"
+      confirmTitle={t('Rename')}
       confirmLoading={loading}
       onConfirm={onConfirm}
       onCancel={() => { onCancel(uid); }}
@@ -60,8 +64,8 @@ function RenameFileDialog({
       <form className="w-full sm:min-w-1.5xs" onSubmit={(e) => { e.preventDefault(); onConfirm(); }}>
         <Input
           id="name"
-          label="Name"
-          placeholder="name"
+          label={t('Name')}
+          placeholder={t('New name')}
           size="sm"
           error={error}
           onChange={onNameChange}

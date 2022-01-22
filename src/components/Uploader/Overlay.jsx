@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useTranslation } from 'react-i18next';
+
 import * as icons from '../../icons';
 
 import FileDrop from '../../containers/FileDrop';
@@ -24,6 +26,8 @@ const dropzoneClass = [
 ].join(' ');
 
 function Dropzone({ dragging }) {
+  const { t } = useTranslation();
+
   let classes;
   if (dragging) {
     classes = 'border-blue-400 bg-blue-100';
@@ -35,13 +39,13 @@ function Dropzone({ dragging }) {
       <icons.CloudUploadOutlined className="w-12 h-12 text-gray-400" />
       <div className="flex flex-col text-center">
         <p className="text-sm font-semibold text-gray-600">
-          Drag files here
+          {t('Drag files here')}
         </p>
         <p className="text-sm text-gray-400">
-          or
+          {t('or')}
         </p>
         <UploadButton icon={<icons.Upload />}>
-          Browse
+          {t('Browse')}
         </UploadButton>
       </div>
     </div>

@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useTranslation } from 'react-i18next';
 import { shallowEqual, useSelector } from 'react-redux';
 
 import { getFilesByIds } from '../../store/reducers/files';
 import { getSelectedFileIds } from '../../store/reducers/ui';
 
 import { MediaType } from '../../constants';
-import pluralize from '../../pluralize';
 
 import Button from '../ui/Button';
 import FileSize from '../ui/FileSize';
@@ -29,10 +29,8 @@ function getFontSizeFromText(text) {
   return 'text-lg';
 }
 
-function countByTypeText(totalCount, folderCount) {
-  const documentCount = totalCount - folderCount;
-  const documentText = `${documentCount} ${pluralize('document', documentCount)}`;
-  const folderText = `${folderCount} ${pluralize('folder', folderCount)}`;
+function countByTypeText(folderText, documentText, folderCount, documentCount) {
+  console.log(folderText, documentText, folderCount, documentCount);
   if (documentCount > 0 && folderCount === 0) {
     return documentText;
   }
@@ -43,6 +41,7 @@ function countByTypeText(totalCount, folderCount) {
 }
 
 function SingleFilePreview({ file }) {
+  const { t } = useTranslation();
   const fontSize = getFontSizeFromText(file.name);
 
   return (
@@ -80,7 +79,7 @@ function SingleFilePreview({ file }) {
                 path={file.path}
                 preview={file.mediatype !== MediaType.FOLDER}
               >
-                Open
+                {t('Open')}
               </FileLink>
             </Button>
           </div>
@@ -91,12 +90,12 @@ function SingleFilePreview({ file }) {
 
         <div className="mt-2 p-2">
           <h3 className="font-semibold text-base">
-            Information
+            {t('Information')}
           </h3>
           <div className="text-xs font-medium divide-y">
             <div className="py-2 flex justify-between">
               <p className="text-gray-500">
-                Size
+                {t('Size')}
               </p>
               <p>
                 <FileSize size={file.size} />
@@ -104,7 +103,7 @@ function SingleFilePreview({ file }) {
             </div>
             <div className="py-2 flex justify-between">
               <p className="text-gray-500">
-                Created
+                {t('Created')}
               </p>
               <p>
                 <TimeAgo mtime={file.mtime * 1000} format="LLL" />
@@ -112,7 +111,7 @@ function SingleFilePreview({ file }) {
             </div>
             <div className="py-2 flex justify-between">
               <p className="text-gray-500">
-                Modified
+                {t('Modified')}
               </p>
               <p>
                 <TimeAgo mtime={file.mtime * 1000} format="LLL" />
@@ -141,6 +140,8 @@ const rotations = {
 };
 
 function MultiFilePreview({ files }) {
+  const { t } = useTranslation();
+
   const size = files.reduce((acc, item) => acc + item.size, 0);
   const previews = files.slice(-3);
 
@@ -178,13 +179,16 @@ function MultiFilePreview({ files }) {
 
         <div className="p-2 text-gray-800">
           <p className="text-lg font-semibold break-words">
-            {files.length}
-            &nbsp;
-            items
+            {t('items_count', { count: files.length })}
           </p>
           <p className="text-gray-600 text-xs">
             <span>
-              {countByTypeText(files.length, folderCount)}
+              {countByTypeText(
+                t('folders_count', { count: folderCount }),
+                t('documents_count', { count: files.length - folderCount }),
+                folderCount,
+                files.length - folderCount,
+              )}
             </span>
             <span className="px-1">&bull;</span>
             <FileSize size={size} />
@@ -197,7 +201,7 @@ function MultiFilePreview({ files }) {
               type="primary"
               size="xs"
             >
-              Download
+              {t('Download')}
             </Button>
           </div>
           <div className="flex flex-row justify-center space-x-4">
@@ -207,12 +211,12 @@ function MultiFilePreview({ files }) {
 
         <div className="mt-2 p-2">
           <h3 className="font-semibold text-base">
-            Information
+            {t('Information')}
           </h3>
           <div className="text-xs font-medium divide-y">
             <div className="py-2 flex justify-between">
               <p className="text-gray-500">
-                Size
+                {t('Size')}
               </p>
               <p>
                 <FileSize size={size} />
@@ -220,7 +224,7 @@ function MultiFilePreview({ files }) {
             </div>
             <div className="py-2 flex justify-between">
               <p className="text-gray-500">
-                Created
+                {t('Created')}
               </p>
               <p>
                 <TimeAgo mtime={minMtime.mtime * 1000} format="ll" />
@@ -230,7 +234,7 @@ function MultiFilePreview({ files }) {
             </div>
             <div className="py-2 flex justify-between">
               <p className="text-gray-500">
-                Modified
+                {t('Modified')}
               </p>
               <p>
                 <TimeAgo mtime={minMtime.mtime * 1000} format="ll" />

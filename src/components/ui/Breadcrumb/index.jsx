@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
+
+import i18n from '../../../i18n';
 
 import { openDialog } from '../../../store/actions/ui';
 
@@ -18,15 +21,20 @@ import BreadcrumbItemCollapsed from './BreadcrumbItemCollapsed';
 const BREADCRUMBS_ALIASES = {
   files: {
     Icon: icons.Home,
-    name: 'Home',
+    name: i18n.t('Home'),
     url: routes.FILES.prefix,
   },
   trash: {
     Icon: icons.Trash,
-    name: 'Trash',
+    name: i18n.t('Trash'),
     url: routes.TRASH.prefix,
   },
 };
+
+i18n.on('languageChanged init', () => {
+  BREADCRUMBS_ALIASES.files.name = i18n.t('Home');
+  BREADCRUMBS_ALIASES.trash.name = i18n.t('Trash');
+});
 
 export function breadcrumbs(path) {
   const parts = routes.makeUrlFromPath({ path }).split('/').slice(1);
@@ -49,6 +57,7 @@ export function breadcrumbs(path) {
 function Breadcrumb({
   className, path, withCreateFolder, itemRender: Render, itemRenderCollapsed: RenderCollapsed,
 }) {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const items = breadcrumbs(path);
   const onCreateFolder = () => dispatch(openDialog(Dialogs.createFolder));
@@ -75,6 +84,7 @@ function Breadcrumb({
             <icons.ChevronRight className="w-4 h-4 flex-shrink-0 text-gray-300" />
             <button
               type="button"
+              title={t('button_create_folder_title')}
               className="p-2 sm:p-1 text-gray-400 hover:bg-teal-50 hover:text-blue-400 rounded-lg focus:outline-none focus:ring-2 ring-offset-2 ring-teal-200"
               onClick={onCreateFolder}
             >

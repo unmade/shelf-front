@@ -17,3 +17,9 @@ Run development server:
 ```bash
 yarn start
 ```
+
+To generate translation file:
+
+```bash
+./node_modules/i18next-parser/bin/cli.js "src/**/*.{js,jsx}" -c i18next-parser.config.js
+```

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import { getFilesCountByPath } from '../../store/reducers/files';
@@ -11,24 +12,24 @@ import { getCountSelectedFiles } from '../../store/reducers/ui';
 
 import { TRASH_FOLDER_NAME } from '../../constants';
 import * as icons from '../../icons';
-import pluralize from '../../pluralize';
 
 import Breadcrumb from '../ui/Breadcrumb';
 
 function BackgroundTask({ className }) {
+  const { t } = useTranslation();
   const deletingFilesCounter = useSelector(getDeletingFilesCounter);
   const movingFilesCounter = useSelector(getMovingFilesCounter);
   const isEmptyingTrash = useSelector(getIsEmptyingTrash);
 
   const text = [];
   if (isEmptyingTrash) {
-    text.push('Emptying the Trash');
+    text.push(t('status_bar_emptying_trash_task'));
   }
   if (movingFilesCounter > 0) {
-    text.push(`Moving ${movingFilesCounter} ${pluralize('file', movingFilesCounter)}`);
+    text.push(t('status_bar_moving_task', { count: movingFilesCounter }));
   }
   if (deletingFilesCounter > 0) {
-    text.push(`Deleting ${deletingFilesCounter} ${pluralize('file', deletingFilesCounter)}`);
+    text.push(t('status_bar_deleting_task', { count: deletingFilesCounter }));
   }
 
   if (text.length < 1) {
@@ -54,12 +55,14 @@ BackgroundTask.defaultProps = {
 };
 
 function TotalFiles({ className, dirPath }) {
+  const { t } = useTranslation();
+
   const totalCount = useSelector((state) => getFilesCountByPath(state, dirPath));
   const selectedCount = useSelector(getCountSelectedFiles);
   const text = (selectedCount === 0) ? (
-    `${totalCount} ${pluralize('item', totalCount)}`
+    t('items_count', { count: totalCount })
   ) : (
-    `${selectedCount} of ${totalCount} selected`
+    t('status_bar_select_count', { count: selectedCount, totalCount })
   );
 
   return (

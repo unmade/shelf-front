@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useTranslation } from 'react-i18next';
+
 import * as icons from '../icons';
 import * as routes from '../routes';
 
@@ -10,6 +12,8 @@ import Input from './ui/Input';
 function CreateFolderDialog({
   loading, path, uid, visible, onCreate, onCancel,
 }) {
+  const { t } = useTranslation();
+
   const [error, setError] = React.useState(null);
   const [folderName, setFolderName] = React.useState(null);
 
@@ -34,7 +38,7 @@ function CreateFolderDialog({
 
   const onConfirm = () => {
     if (folderName === null || folderName === '') {
-      setError('Name cannot be empty');
+      setError(t('Name cannot be empty.'));
     } else {
       onCreate(routes.join(path, folderName));
     }
@@ -42,10 +46,10 @@ function CreateFolderDialog({
 
   return (
     <Dialog
-      title="New Folder"
+      title={t('New Folder')}
       icon={<icons.Folder className="w-6 h-6 text-blue-400" />}
       visible={visible}
-      confirmTitle="Create"
+      confirmTitle={t('Create')}
       confirmLoading={loading}
       onConfirm={onConfirm}
       onCancel={() => { onCancel(uid); }}
@@ -53,8 +57,8 @@ function CreateFolderDialog({
       <form className="w-full sm:min-w-1.5xs" onSubmit={(e) => { e.preventDefault(); onConfirm(); }}>
         <Input
           id="name"
-          label="Name"
-          placeholder="Folder name"
+          label={t('Name')}
+          placeholder={t('Folder name')}
           size="sm"
           error={error}
           onChange={onNameChange}

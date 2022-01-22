@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
+import { useTranslation } from 'react-i18next';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import { moveFileBatch } from '../store/actions/files';
@@ -11,7 +12,6 @@ import { getFilesByIds } from '../store/reducers/files';
 import { getLoading } from '../store/reducers/loading';
 import { getFileDialogProps, getFileDialogVisible } from '../store/reducers/ui';
 
-import pluralize from '../pluralize';
 import * as routes from '../routes';
 
 import Dialog from './ui/Dialog';
@@ -23,6 +23,8 @@ const styles = {
 };
 
 function MoveDialog({ uid }) {
+  const { t } = useTranslation();
+
   const [toPath, setToPath] = React.useState('.');
 
   const dispatch = useDispatch();
@@ -53,9 +55,9 @@ function MoveDialog({ uid }) {
 
   return (
     <Dialog
-      title={`Move ${files.length} ${pluralize('item', files.length)} to...`}
+      title={t('move_dialog_title', { count: files.length })}
       visible={visible}
-      confirmTitle="Move"
+      confirmTitle={t('Move')}
       confirmLoading={loading}
       onConfirm={onMove}
       onCancel={onClose}

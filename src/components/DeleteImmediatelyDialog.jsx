@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Trans, useTranslation } from 'react-i18next';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import { deleteImmediatelyBatch } from '../store/actions/files';
@@ -12,18 +13,12 @@ import { getLoading } from '../store/reducers/loading';
 import { getFileDialogProps, getFileDialogVisible } from '../store/reducers/ui';
 
 import * as icons from '../icons';
-import pluralize from '../pluralize';
 
 import Dialog from './ui/Dialog';
 
-function name(files) {
-  if (files.length === 1) {
-    return files[0].name;
-  }
-  return `${files.length} ${pluralize('item', files.length)}`;
-}
-
 function DeleteDialog({ uid }) {
+  const { t } = useTranslation();
+
   const dispatch = useDispatch();
 
   const visible = useSelector((state) => getFileDialogVisible(state, { uid }));
@@ -37,23 +32,39 @@ function DeleteDialog({ uid }) {
     dispatch(deleteImmediatelyBatch(files.map((file) => file.path)));
   };
 
+  const count = files.length;
+  const fileName = files[0]?.name;
+  const dialogText = (files.length === 1) ? (
+    <Trans i18nKey="delete_immediately_dialog_text" t={t} fileName={fileName}>
+      Are you sure you want to
+      <b>permanently</b>
+      delete
+      <b className="text-gray-700">{{ fileName }}</b>
+      ?
+    </Trans>
+  ) : (
+    <Trans i18nKey="delete_immediately_dialog_batch_text" t={t} count={count}>
+      Are you sure you want to
+      <b>permanently</b>
+      delete
+      <b className="text-gray-700">{{ count }}</b>
+      ?
+    </Trans>
+  );
+
   return (
     <Dialog
-      title={`Delete ${files.length} ${pluralize('item', files.length)}`}
+      title={t('delete_immediately_dialog_title', { count: files.length })}
       icon={<icons.TrashOutlined className="h-6 w-6" />}
       visible={visible}
-      confirmTitle="Delete"
+      confirmTitle={t('Delete')}
       confirmLoading={loading}
       confirmDanger
       onConfirm={onDelete}
       onCancel={() => dispatch(closeDialog(uid))}
     >
       <p>
-        Are you sure you want to&nbsp;
-        <b>permanently</b>
-        &nbsp;delete&nbsp;
-        <b className="text-gray-700">{name(files)}</b>
-        ?
+        {dialogText}
       </p>
     </Dialog>
   );

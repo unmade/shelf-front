@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { performDownload } from '../../store/actions/files';
@@ -14,16 +15,18 @@ import * as icons from '../../icons';
 import Button from '../ui/Button';
 
 function singleFileActions({ id, path, trashed, dispatch }) {
+  const { t } = useTranslation();
+
   if (trashed) {
     return [
       {
-        name: 'Move',
+        name: t('Move'),
         icon: <icons.Move className="w-4 h-4" />,
         danger: false,
         onClick: () => { dispatch(openDialog(Dialogs.move, { fileIds: [id] })); },
       },
       {
-        name: 'Delete Immediately',
+        name: t('Delete Immediately'),
         icon: <icons.TrashOutlined className="w-4 h-4" />,
         danger: true,
         onClick: () => { dispatch(openDialog(Dialogs.deleteImmediately, { fileIds: [id] })); },
@@ -33,25 +36,25 @@ function singleFileActions({ id, path, trashed, dispatch }) {
 
   return [
     {
-      name: 'Download',
+      name: t('Download'),
       icon: <icons.Download className="w-4 h-4" />,
       danger: false,
       onClick: () => { dispatch(performDownload(path)); },
     },
     {
-      name: 'Rename',
+      name: t('Rename'),
       icon: <icons.ICursor className="w-4 h-4" />,
       danger: false,
       onClick: () => { dispatch(openDialog(Dialogs.rename, { fileId: id })); },
     },
     {
-      name: 'Move',
+      name: t('Move'),
       icon: <icons.Move className="w-4 h-4" />,
       danger: false,
       onClick: () => { dispatch(openDialog(Dialogs.move, { fileIds: [id] })); },
     },
     {
-      name: 'Delete',
+      name: t('Delete'),
       icon: <icons.TrashOutlined className="w-4 h-4" />,
       danger: true,
       onClick: () => { dispatch(openDialog(Dialogs.delete, { fileIds: [id] })); },
@@ -60,16 +63,18 @@ function singleFileActions({ id, path, trashed, dispatch }) {
 }
 
 function multiFileActions({ fileIds, trashed, dispatch }) {
+  const { t } = useTranslation();
+
   if (trashed) {
     return [
       {
-        name: 'Move',
+        name: t('Move'),
         icon: <icons.Move className="w-4 h-4" />,
         danger: false,
         onClick: () => { dispatch(openDialog(Dialogs.move, { fileIds })); },
       },
       {
-        name: 'Delete Immediately',
+        name: t('Delete Immediately'),
         icon: <icons.TrashOutlined className="w-4 h-4" />,
         danger: true,
         onClick: () => { dispatch(openDialog(Dialogs.deleteImmediately, { fileIds })); },
@@ -79,13 +84,13 @@ function multiFileActions({ fileIds, trashed, dispatch }) {
 
   return [
     {
-      name: 'Move',
+      name: t('Move'),
       icon: <icons.Move className="w-4 h-4" />,
       danger: false,
       onClick: () => { dispatch(openDialog(Dialogs.move, { fileIds })); },
     },
     {
-      name: 'Delete',
+      name: t('Delete'),
       icon: <icons.TrashOutlined className="w-4 h-4" />,
       danger: true,
       onClick: () => { dispatch(openDialog(Dialogs.delete, { fileIds })); },

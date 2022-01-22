@@ -114,13 +114,6 @@ export default combineReducers({
 });
 
 export const getCurrentPath = (state) => state.ui.fileBrowser.path ?? '.';
-export const getCurrentFolderName = (state) => {
-  const path = getCurrentPath(state);
-  if (path === '.') {
-    return 'Home';
-  }
-  return path.split('/').pop();
-};
 
 export const getFileDialogVisible = (state, props) => {
   const { uid: key } = props;

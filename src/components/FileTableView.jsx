@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { bulkSelectFiles, deselectFiles } from '../store/actions/ui';
@@ -11,6 +12,7 @@ import * as icons from '../icons';
 import VList from '../containers/VList';
 
 function TableHeader({ items }) {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const hasSelected = useSelector(getHasSelectedFiles);
   const selectedCount = useSelector(getCountSelectedFiles);
@@ -41,16 +43,16 @@ function TableHeader({ items }) {
           readOnly
         />
         <div className="ml-3">
-          Name
+          {t('Name')}
         </div>
       </div>
       {(!hasSelected) && (
-        <div className="w-1/5 md:w-1/3 flex justify-evenly space-x-4">
-          <div className="hidden md:block w-28 text-left">
-            Modified
+        <div className="w-1/5 md:w-1/3 flex justify-evenly items-center space-x-4">
+          <div className="hidden md:block w-32 text-left">
+            {t('Modified')}
           </div>
-          <div className="hidden md:block w-28 text-right">
-            Size
+          <div className="hidden md:block w-24 text-right">
+            {t('Size')}
           </div>
         </div>
       )}
@@ -61,6 +63,7 @@ function TableHeader({ items }) {
 function FileTableView({
   className, items, loading, scrollKey, itemRender,
 }) {
+  const { t } = useTranslation();
   const fileDropBorder = 'transition ease-in-out duration-75 border-4 rounded-lg';
   return (
     <div className="h-full flex flex-col">
@@ -81,10 +84,10 @@ function FileTableView({
           <div className={`h-full flex flex-col items-center justify-center ${fileDropBorder} ${className}`}>
             <icons.Collection className="w-12 h-12 mx-auto mb-4 text-gray-400" />
             <p className="text-gray-800 text-lg font-semibold">
-              Nothing here yet
+              {t('Nothing here yet')}
             </p>
             <p className="text-sm text-gray-600">
-              Drag and drop files to upload
+              {t('Drag and drop files to upload')}
             </p>
           </div>
         )}
