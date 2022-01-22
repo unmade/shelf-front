@@ -2,7 +2,7 @@
 
 This is frontend for a shelf project - a self-hosted file storage.
 
-<img src="https://i.imgur.com/WjFbOmB.png" alt="shelf-main" width="1379">
+<img src="https://i.imgur.com/h1QQIFp.png" alt="shelf-main" width="1379" alt="App Preview">
 
 ## Development
 
