@@ -1,11 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useTranslation } from 'react-i18next';
+
 import Button from './ui/Button';
 import Input from './ui/Input';
 
 function LoginForm({ loading, onSubmit }) {
-  const [inputs, setInputs] = React.useState({});
+  const { t } = useTranslation();
+  const [inputs, setInputs] = React.useState({
+    username: null,
+    password: null,
+  });
   const [errors, setErrors] = React.useState({});
 
   const onInputChange = (event) => {
@@ -25,10 +31,10 @@ function LoginForm({ loading, onSubmit }) {
     let hasError = false;
 
     Object.entries(inputs).forEach(([field, value]) => {
-      if (value === null || value === undefined || value === '') {
+      if (value == null || value === '') {
         setErrors({
           ...errors,
-          [field]: 'This field is required',
+          [field]: t('This field is required'),
         });
         hasError = true;
       }
@@ -52,8 +58,8 @@ function LoginForm({ loading, onSubmit }) {
       <Input
         id="username"
         name="username"
-        label="Username"
-        placeholder="Username"
+        label={t('Username')}
+        placeholder={t('Username')}
         error={errors && errors.username}
         onChange={onInputChange}
       />
@@ -61,7 +67,7 @@ function LoginForm({ loading, onSubmit }) {
         id="password"
         name="password"
         type="password"
-        label="Password"
+        label={t('Password')}
         placeholder="********"
         error={errors && errors.password}
         onChange={onInputChange}
@@ -69,14 +75,14 @@ function LoginForm({ loading, onSubmit }) {
       <div className="w-full pt-5">
         <Button
           htmlType="submit"
-          title="Sign In"
+          title={t('Sign In')}
           type="primary"
           size="base"
           onClick={submit}
           loading={loading}
           full
         >
-          Sign In
+          {t('Sign In')}
         </Button>
       </div>
     </form>

@@ -51,6 +51,13 @@ export function join(pathA, pathB) {
   return `${a}/${b}`;
 }
 
+export function folderName(path) {
+  if (path === '.') {
+    return 'Home';
+  }
+  return path.split('/').pop();
+}
+
 export function parent(path) {
   const end = path.lastIndexOf('/');
   if (end < 0) {
@@ -78,4 +85,8 @@ export function makePathFromUrl(url) {
     return '.';
   }
   return decodeURIComponent(url.substring(start + 2));
+}
+
+export function isRoot(path) {
+  return (path === '.' || path.toLowerCase() === 'trash');
 }

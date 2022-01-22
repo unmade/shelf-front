@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useTranslation } from 'react-i18next';
+
+import i18n from '../../i18n';
+
 import * as icons from '../../icons';
 
 import UploadList from '../../containers/Uploader/UploadList';
@@ -21,35 +25,50 @@ const fixedHeight = {
 const PILLS = [
   {
     key: 'all',
-    text: 'All',
-    title: 'Show all uploads',
+    text: null,
+    title: null,
   },
   {
     key: 'inProgress',
-    text: 'In-Progress',
-    title: 'Show in-progress uploads',
+    text: null,
+    title: null,
   },
   {
     key: 'failed',
-    text: 'Failed',
-    title: 'Show failed uploads',
+    text: null,
+    title: null,
   },
 ];
 
 const TEXTS = {
-  all: 'No recents',
-  inProgress: 'No in-progress uploads',
-  failed: 'No failed uploads',
+  all: null,
+  inProgress: null,
+  failed: null,
 };
+
+i18n.on('languageChanged init', () => {
+  PILLS[0].text = i18n.t('All');
+  PILLS[0].title = i18n.t('Show all uploads');
+  PILLS[1].text = i18n.t('In-Progress');
+  PILLS[1].title = i18n.t('Show in-progress uploads');
+  PILLS[2].text = i18n.t('Failed');
+  PILLS[2].title = i18n.t('Show failed uploads');
+
+  TEXTS.all = i18n.t('No recents');
+  TEXTS.inProgress = i18n.t('No in-progress uploads');
+  TEXTS.failed = i18n.t('No failed uploads');
+});
 
 function RecentUploads({
   uploadCount, visibilityFilter, onClear, onSetVisibilityFilter,
 }) {
+  const { t } = useTranslation();
+
   const virtual = uploadCount > 10;
   return (
     <div className="mt-6">
       <p className="font-semibold">
-        Recent Uploads
+        {t('Recent Uploads')}
       </p>
 
       <div className="sm:flex sm:flex-col-reverse">
@@ -69,7 +88,7 @@ function RecentUploads({
           <Button
             type="text"
             icon={<icons.Clear className="w-4 h-4" />}
-            title="Clear"
+            title={t('Clear')}
             onClick={onClear}
           />
         </div>

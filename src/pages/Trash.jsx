@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 
@@ -19,6 +20,7 @@ import DeleteImmediatelyDialog from '../components/DeleteImmediatelyDialog';
 import MoveDialog from '../components/MoveDialog';
 
 function Trash() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const location = useLocation();
   const params = useParams();
@@ -45,7 +47,7 @@ function Trash() {
         actionButton={() => (
           <Button
             type="primary"
-            title="Empty Trash"
+            title={t('Empty Trash')}
             size="base"
             onClick={() => dispatch(openDialog(Dialogs.emptyTrash))}
             icon={<icons.TrashOutlined className="flex-shrink-0 w-5 h-5" />}

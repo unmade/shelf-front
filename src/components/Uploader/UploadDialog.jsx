@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useTranslation } from 'react-i18next';
+
 import * as icons from '../../icons';
 
 import RecentUploads from '../../containers/Uploader/RecentUploads';
@@ -9,14 +11,16 @@ import UploadButton from '../../containers/Uploader/UploadButton';
 import Dialog from '../ui/Dialog';
 
 function UploadDialog({ visible, onCancel }) {
+  const { t } = useTranslation();
+
   return (
     <Dialog
-      title="Uploads"
+      title={t('Uploads')}
       icon={<icons.CloudUploadOutlined className="w-6 h-6" />}
-      confirmTitle="Browse"
+      confirmTitle={t('Browse')}
       confirmRender={() => (
         <UploadButton>
-          Browse
+          {t('Browse')}
         </UploadButton>
       )}
       visible={visible}

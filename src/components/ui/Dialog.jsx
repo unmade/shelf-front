@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useTranslation } from 'react-i18next';
+
 import { Dialog as UIDialog, Transition } from '@headlessui/react';
 
 import Button from './Button';
@@ -17,6 +19,8 @@ function Dialog({
   onConfirm,
   onCancel,
 }) {
+  const { t } = useTranslation();
+
   const iconColors = (confirmDanger) ? 'bg-red-50 text-red-500' : 'bg-gray-50 text-gray-500';
   return (
     <Transition show={visible} as={React.Fragment}>
@@ -100,7 +104,7 @@ function Dialog({
                         onClick={onCancel}
                         full
                       >
-                        Cancel
+                        {t('Cancel')}
                       </Button>
                     </div>
                   )}

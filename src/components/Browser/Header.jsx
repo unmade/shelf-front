@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { getCurrentFolderName, getCurrentPath } from '../../store/reducers/ui';
+import { getCurrentPath } from '../../store/reducers/ui';
 
 import * as icons from '../../icons';
 import * as routes from '../../routes';
@@ -15,9 +16,26 @@ import FileLink from '../FileLink';
 import SearchButton from '../SearchButton';
 import SideBarModal from '../SideBarModal';
 
+function useCurrentFolderName() {
+  const { t } = useTranslation();
+
+  const currentPath = useSelector(getCurrentPath);
+  const folderName = routes.folderName(currentPath);
+
+  if (routes.isRoot(currentPath)) {
+    if (folderName.toLowerCase() === 'home') {
+      return t('Home');
+    }
+    if (folderName.toLowerCase() === 'trash') {
+      return t('Trash');
+    }
+  }
+  return folderName;
+}
+
 function GoBack() {
   const currentPath = useSelector(getCurrentPath);
-  const isRoot = (currentPath === '.' || currentPath.toLowerCase() === 'trash');
+  const isRoot = routes.isRoot(currentPath);
   const button = (
     <Button
       disabled={isRoot}
@@ -36,7 +54,7 @@ function GoBack() {
 }
 
 function Header({ isLaptop, actionButton: ActionButton }) {
-  const currentFolderName = useSelector(getCurrentFolderName);
+  const currentFolderName = useCurrentFolderName();
   return (
     <>
       <div className="flex flex-row items-center justify-between px-6 sm:pl-5 sm:pr-8 py-7">

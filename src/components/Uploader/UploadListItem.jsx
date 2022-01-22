@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useTranslation } from 'react-i18next';
+
 import * as icons from '../../icons';
 
 import Button from '../ui/Button';
@@ -11,6 +13,8 @@ function UploadListItem({ item, style }) {
   const {
     name, mediatype, parentPath, progress, error,
   } = item;
+  const { t } = useTranslation();
+
   return (
     <div style={style}>
       <div className="flex flex-row items-center space-x-4">
@@ -56,7 +60,7 @@ function UploadListItem({ item, style }) {
           {(error) ? (
             <div className="flex flex-row text-red-500 space-x-2">
               <p>
-                Upload failed
+                {t('Upload failed')}
               </p>
             </div>
           ) : (

@@ -1,4 +1,6 @@
 import React from 'react';
+
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { retrieveCurrentAccount } from '../store/actions/accounts';
@@ -10,6 +12,7 @@ import * as icons from '../icons';
 import Button from './ui/Button';
 
 function AccountMenu() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const account = useSelector(getCurrentAccount);
 
@@ -37,10 +40,10 @@ function AccountMenu() {
       </div>
       <button
         type="button"
-        className="hidden lg:block xl:hidden text-sm font-medium pt-1 text-gray-500"
+        className="hidden w-full lg:block xl:hidden text-sm font-medium pt-1 text-gray-500"
         onClick={onSignOut}
       >
-        Sign out
+        {t('Sign Out')}
       </button>
       <div className="ml-2 text-left flex flex-col lg:hidden xl:flex flex-1">
         <div className="text-sm font-semibold text-gray-700">
@@ -53,7 +56,7 @@ function AccountMenu() {
       <div className="block lg:hidden xl:block">
         <Button
           type="text"
-          title="Sign Out"
+          title={t('Sign Out')}
           icon={<icons.LogOut />}
           onClick={onSignOut}
         />

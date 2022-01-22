@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
 
@@ -23,13 +24,14 @@ import SideBarModal from '../components/SideBarModal';
 import SidePreview from '../components/Browser/SidePreview';
 
 function Bookmarks() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const bookmarks = useSelector(getBookmarks);
   const loading = useSelector(getLoading);
   const withSidePreview = useSidePreview();
   const isLaptop = useMediaQuery({ query: MediaQuery.lg });
 
-  const title = 'Bookmarks';
+  const title = t('Bookmarks');
 
   React.useEffect(() => {
     dispatch(getBatch([...bookmarks]));
