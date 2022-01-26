@@ -14,7 +14,7 @@ function SideBarModal() {
     <>
       <Button
         type="text"
-        icon={<icons.Menu className="flex-shrink-0 w-5 h-5" />}
+        icon={<icons.Menu className="shrink-0 w-5 h-5" />}
         onClick={() => setVisible(true)}
       />
       <Transition

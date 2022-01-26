@@ -67,12 +67,12 @@ function Breadcrumb({
         {items.map((item, idx) => (
           <React.Fragment key={item.url}>
             {(idx !== 0) && (
-              <icons.ChevronRight className="w-4 h-4 flex-shrink-0 text-gray-300" />
+              <icons.ChevronRight className="w-4 h-4 shrink-0 text-gray-300" />
             )}
             <span className="max-w-xs truncate flex items-center">
               {(idx === 0) && (
                 <span className="py-2 sm:py-1">
-                  <item.Icon className="w-4 h-4 mr-2 flex-shrink-0 text-gray-300" />
+                  <item.Icon className="w-4 h-4 mr-2 shrink-0 text-gray-300" />
                 </span>
               )}
               <Render name={item.name} url={item.url} />
@@ -81,7 +81,7 @@ function Breadcrumb({
         ))}
         {(withCreateFolder) && (
           <>
-            <icons.ChevronRight className="w-4 h-4 flex-shrink-0 text-gray-300" />
+            <icons.ChevronRight className="w-4 h-4 shrink-0 text-gray-300" />
             <button
               type="button"
               title={t('button_create_folder_title')}
@@ -102,11 +102,11 @@ function Breadcrumb({
   return (
     <nav className={`${className} flex items-center text-gray-500 font-medium space-x-1 sm:space-x-4 whitespace-nowrap`}>
       <span className="max-w-xs flex items-center">
-        <first.Icon className="w-4 h-4 mr-2 flex-shrink-0 text-gray-300" />
+        <first.Icon className="w-4 h-4 mr-2 shrink-0 text-gray-300" />
         <Render name={first.name} url={first.url} />
       </span>
       <div>
-        <icons.ChevronRight className="w-4 h-4 flex-shrink-0 text-gray-300" />
+        <icons.ChevronRight className="w-4 h-4 shrink-0 text-gray-300" />
       </div>
       <Menu
         panelClassName="max-w-xs"
@@ -123,20 +123,20 @@ function Breadcrumb({
         />
       </Menu>
       <div>
-        <icons.ChevronRight className="w-4 h-4 flex-shrink-0 text-gray-300" />
+        <icons.ChevronRight className="w-4 h-4 shrink-0 text-gray-300" />
       </div>
       <span className="max-w-2xs">
         <Render name={last.name} url={last.url} />
       </span>
       {(withCreateFolder) && (
         <>
-          <icons.ChevronRight className="w-4 h-4 flex-shrink-0 text-gray-300" />
+          <icons.ChevronRight className="w-4 h-4 shrink-0 text-gray-300" />
           <button
             type="button"
             className="p-2 sm:p-1 text-gray-400 hover:bg-teal-50 hover:text-blue-400 rounded-lg focus:outline-none focus:ring-2 ring-offset-2 ring-teal-200"
             onClick={onCreateFolder}
           >
-            <icons.NewFolder className="w-4 h-4 flex-shrink-0" />
+            <icons.NewFolder className="w-4 h-4 shrink-0" />
           </button>
         </>
       )}

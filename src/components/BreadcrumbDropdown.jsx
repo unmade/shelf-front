@@ -36,7 +36,7 @@ function BreadcrumbDropdown() {
         <h2 className="text-gray-900 truncate text-xl sm:text-3xl font-medium">
           {currentFolder.name}
         </h2>
-        <icons.SelectorOutlined className="flex-shrink-0 ml-3 w-5 h-5" />
+        <icons.SelectorOutlined className="shrink-0 ml-3 w-5 h-5" />
       </Menu.Button>
       <Transition
         as={React.Fragment}
@@ -52,7 +52,7 @@ function BreadcrumbDropdown() {
             {crumbs.slice().reverse().map((item) => (
               <Menu.Item key={item.url}>
                 <NavLink to={item.url} className="flex items-center px-4 py-2">
-                  <icons.Folder className="flex-shrink-0 text-blue-400 w-5 h-5" />
+                  <icons.Folder className="shrink-0 text-blue-400 w-5 h-5" />
                   <div className="ml-3 truncate">
                     {item.name}
                   </div>
@@ -71,7 +71,7 @@ function BreadcrumbDropdown() {
                 <div className="font-medium">
                   {t('New Folder')}
                 </div>
-                <icons.NewFolder className="text-gray-400 flex-shrink-0 w-5 h-5" />
+                <icons.NewFolder className="text-gray-400 shrink-0 w-5 h-5" />
               </div>
             </button>
           </Menu.Item>

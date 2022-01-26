@@ -4,8 +4,7 @@ const plugin = require('tailwindcss/plugin');
 const postcss = require('postcss');
 
 module.exports = {
-  mode: 'jit',
-  purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
+  content: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
   theme: {
     colors: {
       transparent: 'transparent',
@@ -66,9 +65,4 @@ module.exports = {
     }),
   ],
 
-  variants: {
-    extend: {
-      backgroundColor: ['odd'],
-    },
-  },
 };

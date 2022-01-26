@@ -75,7 +75,7 @@ function FileTableCell({
             checked={selected}
             readOnly
           />
-          <div className="flex-shrink-0">
+          <div className="shrink-0">
             <Thumbnail className="w-9 h-9" fileId={item.id} deferred={defferThumbnail} />
           </div>
           <span className="truncate" onClick={(event) => { event.stopPropagation(); }}>

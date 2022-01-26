@@ -50,7 +50,7 @@ function UploadListItem({ item, style }) {
                   {(progress < 100) ? (
                     `${progress}%`
                   ) : (
-                    <icons.CheckCircle className="text-green-500" />
+                    <icons.CheckCircle className="text-emerald-500" />
                   )}
                 </div>
               )}
