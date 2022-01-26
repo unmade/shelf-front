@@ -21,15 +21,19 @@ function singleFileActions({ id, path, trashed, dispatch }) {
     return [
       {
         name: t('Move'),
-        icon: <icons.Move className="w-4 h-4" />,
+        icon: <icons.Move className="h-4 w-4" />,
         danger: false,
-        onClick: () => { dispatch(openDialog(Dialogs.move, { fileIds: [id] })); },
+        onClick: () => {
+          dispatch(openDialog(Dialogs.move, { fileIds: [id] }));
+        },
       },
       {
         name: t('Delete Immediately'),
-        icon: <icons.TrashOutlined className="w-4 h-4" />,
+        icon: <icons.TrashOutlined className="h-4 w-4" />,
         danger: true,
-        onClick: () => { dispatch(openDialog(Dialogs.deleteImmediately, { fileIds: [id] })); },
+        onClick: () => {
+          dispatch(openDialog(Dialogs.deleteImmediately, { fileIds: [id] }));
+        },
       },
     ];
   }
@@ -37,27 +41,35 @@ function singleFileActions({ id, path, trashed, dispatch }) {
   return [
     {
       name: t('Download'),
-      icon: <icons.Download className="w-4 h-4" />,
+      icon: <icons.Download className="h-4 w-4" />,
       danger: false,
-      onClick: () => { dispatch(performDownload(path)); },
+      onClick: () => {
+        dispatch(performDownload(path));
+      },
     },
     {
       name: t('Rename'),
-      icon: <icons.ICursor className="w-4 h-4" />,
+      icon: <icons.ICursor className="h-4 w-4" />,
       danger: false,
-      onClick: () => { dispatch(openDialog(Dialogs.rename, { fileId: id })); },
+      onClick: () => {
+        dispatch(openDialog(Dialogs.rename, { fileId: id }));
+      },
     },
     {
       name: t('Move'),
-      icon: <icons.Move className="w-4 h-4" />,
+      icon: <icons.Move className="h-4 w-4" />,
       danger: false,
-      onClick: () => { dispatch(openDialog(Dialogs.move, { fileIds: [id] })); },
+      onClick: () => {
+        dispatch(openDialog(Dialogs.move, { fileIds: [id] }));
+      },
     },
     {
       name: t('Delete'),
-      icon: <icons.TrashOutlined className="w-4 h-4" />,
+      icon: <icons.TrashOutlined className="h-4 w-4" />,
       danger: true,
-      onClick: () => { dispatch(openDialog(Dialogs.delete, { fileIds: [id] })); },
+      onClick: () => {
+        dispatch(openDialog(Dialogs.delete, { fileIds: [id] }));
+      },
     },
   ];
 }
@@ -69,15 +81,19 @@ function multiFileActions({ fileIds, trashed, dispatch }) {
     return [
       {
         name: t('Move'),
-        icon: <icons.Move className="w-4 h-4" />,
+        icon: <icons.Move className="h-4 w-4" />,
         danger: false,
-        onClick: () => { dispatch(openDialog(Dialogs.move, { fileIds })); },
+        onClick: () => {
+          dispatch(openDialog(Dialogs.move, { fileIds }));
+        },
       },
       {
         name: t('Delete Immediately'),
-        icon: <icons.TrashOutlined className="w-4 h-4" />,
+        icon: <icons.TrashOutlined className="h-4 w-4" />,
         danger: true,
-        onClick: () => { dispatch(openDialog(Dialogs.deleteImmediately, { fileIds })); },
+        onClick: () => {
+          dispatch(openDialog(Dialogs.deleteImmediately, { fileIds }));
+        },
       },
     ];
   }
@@ -85,15 +101,19 @@ function multiFileActions({ fileIds, trashed, dispatch }) {
   return [
     {
       name: t('Move'),
-      icon: <icons.Move className="w-4 h-4" />,
+      icon: <icons.Move className="h-4 w-4" />,
       danger: false,
-      onClick: () => { dispatch(openDialog(Dialogs.move, { fileIds })); },
+      onClick: () => {
+        dispatch(openDialog(Dialogs.move, { fileIds }));
+      },
     },
     {
       name: t('Delete'),
-      icon: <icons.TrashOutlined className="w-4 h-4" />,
+      icon: <icons.TrashOutlined className="h-4 w-4" />,
       danger: true,
-      onClick: () => { dispatch(openDialog(Dialogs.delete, { fileIds })); },
+      onClick: () => {
+        dispatch(openDialog(Dialogs.delete, { fileIds }));
+      },
     },
   ];
 }
@@ -101,14 +121,23 @@ function multiFileActions({ fileIds, trashed, dispatch }) {
 function SidePreviewActions({ files }) {
   const dispatch = useDispatch();
   const currentPath = useSelector(getCurrentPath);
-  const trashed = (currentPath.toLowerCase().startsWith(TRASH_FOLDER_NAME.toLowerCase()));
+  const trashed = currentPath.toLowerCase().startsWith(TRASH_FOLDER_NAME.toLowerCase());
 
   let menu;
   if (files.length === 1) {
     const [file] = files;
-    menu = singleFileActions({ id: file.id, path: file.path, trashed, dispatch });
+    menu = singleFileActions({
+      id: file.id,
+      path: file.path,
+      trashed,
+      dispatch,
+    });
   } else {
-    menu = multiFileActions({ fileIds: files.map((file) => file.id), trashed, dispatch });
+    menu = multiFileActions({
+      fileIds: files.map((file) => file.id),
+      trashed,
+      dispatch,
+    });
   }
 
   return (
@@ -133,7 +162,7 @@ SidePreviewActions.propTypes = {
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       path: PropTypes.string.isRequired,
-    }).isRequired,
+    }).isRequired
   ).isRequired,
 };
 

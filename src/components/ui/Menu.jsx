@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 import { Menu as UIMenu, Transition } from '@headlessui/react';
 import { usePopper } from 'react-popper';
 
-function Menu({
-  buttonClassName, children, items, panelClassName, itemRender: Render,
-}) {
+function Menu({ buttonClassName, children, items, panelClassName, itemRender: Render }) {
   const [referenceElement, setReferenceElement] = React.useState();
   const [popperElement, setPopperElement] = React.useState();
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
@@ -33,7 +31,7 @@ function Menu({
 
           <Transition
             show={open}
-            className="z-10 absolute"
+            className="absolute z-10"
             enter="transition ease-out duration-200"
             enterFrom="opacity-0 translate-y-1"
             enterTo="opacity-100 translate-y-0"
@@ -43,19 +41,17 @@ function Menu({
           >
             <UIMenu.Items
               static
-              className={`${panelClassName} flex flex-col bg-white p-2 rounded-xl shadow focus:outline-none`}
+              className={`${panelClassName} flex flex-col rounded-xl bg-white p-2 shadow focus:outline-none`}
               ref={setPopperElement}
               style={styles.popper}
               // eslint-disable-next-line react/jsx-props-no-spreading
               {...attributes.popper}
             >
-              {(items.map((item) => (
+              {items.map((item) => (
                 <UIMenu.Item key={item.path || item.name}>
-                  {({ active }) => (
-                    <Render active={active} item={item} />
-                  )}
+                  {({ active }) => <Render active={active} item={item} />}
                 </UIMenu.Item>
-              )))}
+              ))}
             </UIMenu.Items>
           </Transition>
         </>
@@ -67,9 +63,7 @@ function Menu({
 Menu.propTypes = {
   buttonClassName: PropTypes.string,
   children: PropTypes.element.isRequired,
-  items: PropTypes.arrayOf(
-    PropTypes.object,
-  ).isRequired,
+  items: PropTypes.arrayOf(PropTypes.object).isRequired,
   panelClassName: PropTypes.string,
   itemRender: PropTypes.func.isRequired,
 };

@@ -5,9 +5,7 @@ import { Link } from 'react-router-dom';
 
 import * as routes from '../routes';
 
-function FileLink({
-  children, className, path, preview, replace,
-}) {
+function FileLink({ children, className, path, preview, replace }) {
   const url = routes.makeUrlFromPath({ path, asPreview: preview });
 
   return (
@@ -18,10 +16,7 @@ function FileLink({
 }
 
 FileLink.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]).isRequired,
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
   className: PropTypes.string,
   path: PropTypes.string.isRequired,
   preview: PropTypes.bool,

@@ -6,6 +6,7 @@ import { isAdmin } from '../store/reducers/accounts';
 
 import Forbidden from '../pages/Forbidden';
 
+// eslint-disable-next-line func-names
 export default function (Component) {
   return function AdminComponent(props) {
     const admin = useSelector(isAdmin);

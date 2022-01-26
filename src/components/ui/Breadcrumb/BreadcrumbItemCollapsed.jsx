@@ -10,11 +10,7 @@ import BreadcrumbItem from './BreadcrumbItem';
 function BreadcrumbItemCollapsed({ children, className, to, onClick }) {
   return (
     <BreadcrumbItem to={to} className={className} onClick={onClick}>
-      <Button
-        type="text"
-        icon={<icons.Folder className="text-lg text-blue-400" />}
-        full
-      >
+      <Button type="text" icon={<icons.Folder className="text-lg text-blue-400" />} full>
         {children}
       </Button>
     </BreadcrumbItem>
@@ -22,10 +18,7 @@ function BreadcrumbItemCollapsed({ children, className, to, onClick }) {
 }
 
 BreadcrumbItemCollapsed.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]).isRequired,
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
   className: PropTypes.string,
   to: PropTypes.string.isRequired,
   onClick: PropTypes.func,

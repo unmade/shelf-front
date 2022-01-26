@@ -1,17 +1,5 @@
-import {
-  END,
-  buffers,
-  channel,
-  eventChannel,
-} from 'redux-saga';
-import {
-  all,
-  call,
-  fork,
-  put,
-  select,
-  take,
-} from 'redux-saga/effects';
+import { END, buffers, channel, eventChannel } from 'redux-saga';
+import { all, call, fork, put, select, take } from 'redux-saga/effects';
 
 import { v4 as uuid4 } from 'uuid';
 
@@ -106,7 +94,8 @@ function* normalize(file, uploadTo) {
   };
 
   const { fullPath } = file;
-  if (fullPath !== null && fullPath !== undefined) { // must be FileSystemEntry
+  if (fullPath !== null && fullPath !== undefined) {
+    // must be FileSystemEntry
     try {
       const fileObj = yield new Promise((resolve, reject) => file.file(resolve, reject));
       upload.mediatype = fileObj.type;
@@ -145,6 +134,4 @@ function* uploadsWatcher() {
   }
 }
 
-export default [
-  uploadsWatcher(),
-];
+export default [uploadsWatcher()];

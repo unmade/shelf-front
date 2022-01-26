@@ -34,23 +34,22 @@ function DeleteDialog({ uid }) {
 
   const count = files.length;
   const fileName = files[0]?.name;
-  const dialogText = (files.length === 1) ? (
-    <Trans i18nKey="delete_immediately_dialog_text" t={t} fileName={fileName}>
-      Are you sure you want to
-      <b>permanently</b>
-      delete
-      <b className="text-gray-700">{{ fileName }}</b>
-      ?
-    </Trans>
-  ) : (
-    <Trans i18nKey="delete_immediately_dialog_batch_text" t={t} count={count}>
-      Are you sure you want to
-      <b>permanently</b>
-      delete
-      <b className="text-gray-700">{{ count }}</b>
-      ?
-    </Trans>
-  );
+  const dialogText =
+    files.length === 1 ? (
+      <Trans i18nKey="delete_immediately_dialog_text" t={t} fileName={fileName}>
+        Are you sure you want to
+        <b>permanently</b>
+        delete
+        <b className="text-gray-700">{{ fileName }}</b>?
+      </Trans>
+    ) : (
+      <Trans i18nKey="delete_immediately_dialog_batch_text" t={t} count={count}>
+        Are you sure you want to
+        <b>permanently</b>
+        delete
+        <b className="text-gray-700">{{ count }}</b>?
+      </Trans>
+    );
 
   return (
     <Dialog
@@ -63,9 +62,7 @@ function DeleteDialog({ uid }) {
       onConfirm={onDelete}
       onCancel={() => dispatch(closeDialog(uid))}
     >
-      <p>
-        {dialogText}
-      </p>
+      <p>{dialogText}</p>
     </Dialog>
   );
 }

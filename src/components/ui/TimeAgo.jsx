@@ -8,16 +8,11 @@ import moment from 'moment/min/moment-with-locales';
 function TimeAgo({ mtime, format = null }) {
   const { i18n } = useTranslation();
   const lang = i18n.language;
-  const dt = (format != null) ? (
-    moment(mtime).locale(lang).format(format)
-  ) : (
-    moment(mtime).locale(lang).fromNow()
-  );
-  return (
-    <>
-      {dt}
-    </>
-  );
+  const dt =
+    format != null
+      ? moment(mtime).locale(lang).format(format)
+      : moment(mtime).locale(lang).fromNow();
+  return <>{dt}</>;
 }
 
 TimeAgo.propTypes = {

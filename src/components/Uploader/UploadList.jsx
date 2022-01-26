@@ -9,20 +9,14 @@ function UploadList({ uploads, virtual, itemRender }) {
   }
 
   if (virtual) {
-    return (
-      <VList
-        itemCount={uploads.length}
-        itemData={uploads}
-        itemRender={itemRender}
-      />
-    );
+    return <VList itemCount={uploads.length} itemData={uploads} itemRender={itemRender} />;
   }
 
   const ItemRender = itemRender;
   return (
     <>
       {uploads.map((uploadId, idx) => (
-        <div key={uploadId} className="p-4 hover:bg-gray-100 rounded-lg">
+        <div key={uploadId} className="rounded-lg p-4 hover:bg-gray-100">
           <ItemRender data={uploads} index={idx} />
         </div>
       ))}
@@ -31,14 +25,9 @@ function UploadList({ uploads, virtual, itemRender }) {
 }
 
 UploadList.propTypes = {
-  uploads: PropTypes.arrayOf(
-    PropTypes.string,
-  ).isRequired,
+  uploads: PropTypes.arrayOf(PropTypes.string).isRequired,
   virtual: PropTypes.bool,
-  itemRender: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.object,
-  ]).isRequired,
+  itemRender: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
 };
 
 UploadList.defaultProps = {

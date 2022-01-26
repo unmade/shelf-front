@@ -37,10 +37,14 @@ function MoveDialog({ uid }) {
   const files = useSelector((state) => getFilesByIds(state, { ids: fileIds }), shallowEqual);
 
   const onMove = () => {
-    dispatch(moveFileBatch(files.map((file) => ({
-      fromPath: file.path,
-      toPath: routes.join(toPath, file.name),
-    }))));
+    dispatch(
+      moveFileBatch(
+        files.map((file) => ({
+          fromPath: file.path,
+          toPath: routes.join(toPath, file.name),
+        }))
+      )
+    );
   };
 
   const onClose = () => {
@@ -48,10 +52,7 @@ function MoveDialog({ uid }) {
     dispatch(closeDialog(uid));
   };
 
-  const onPathChange = useCallback(
-    (path) => setToPath(path),
-    [setToPath],
-  );
+  const onPathChange = useCallback((path) => setToPath(path), [setToPath]);
 
   return (
     <Dialog
@@ -63,11 +64,7 @@ function MoveDialog({ uid }) {
       onCancel={onClose}
     >
       <div className="w-full sm:w-96" style={styles}>
-        <FolderPicker
-          path={toPath}
-          onPathChange={onPathChange}
-          excludeIds={fileIds}
-        />
+        <FolderPicker path={toPath} onPathChange={onPathChange} excludeIds={fileIds} />
       </div>
     </Dialog>
   );

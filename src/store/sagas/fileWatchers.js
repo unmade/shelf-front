@@ -1,11 +1,4 @@
-import {
-  delay,
-  put,
-  race,
-  select,
-  take,
-  takeLeading,
-} from 'redux-saga/effects';
+import { delay, put, race, select, take, takeLeading } from 'redux-saga/effects';
 
 import { MediaType } from '../../constants';
 import * as routes from '../../routes';
@@ -20,10 +13,10 @@ import { getFileById, getFileIdsByPath } from '../reducers/files';
 import { getCurrentPath, getSelectedFileIds } from '../reducers/ui';
 
 /**
-   * Return index in an `arr` where `target` should be inserted in order.
-   * This is sort of modified version of binary search, because array sorted by
-   * two fields - folder come first in abc order, then go files.
-   */
+ * Return index in an `arr` where `target` should be inserted in order.
+ * This is sort of modified version of binary search, because array sorted by
+ * two fields - folder come first in abc order, then go files.
+ */
 function* findNextIdx(arr, target, cmp) {
   let low = 0;
   let high = arr.length;
@@ -31,7 +24,7 @@ function* findNextIdx(arr, target, cmp) {
 
   while (low < high) {
     // eslint-disable-next-line no-bitwise
-    const mid = low + high >>> 1;
+    const mid = (low + high) >>> 1;
     const file = yield select(getFileById, arr[mid]);
     const result = cmp(target, file);
     if (result === 1) {
@@ -193,7 +186,4 @@ function* refreshCurrentFolder({ payload }) {
   }
 }
 
-export default [
-  filesWatcher(),
-  takeLeading(taskActions.types.TASK_STARTED, refreshCurrentFolder),
-];
+export default [filesWatcher(), takeLeading(taskActions.types.TASK_STARTED, refreshCurrentFolder)];

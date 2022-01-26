@@ -31,11 +31,11 @@ function App() {
 
   return (
     <>
-      <div className="flex shelf-h-screen bg-gray-100">
+      <div className="shelf-h-screen flex bg-gray-100">
         <div className="hidden lg:block xl:w-64">
           <SideBar />
         </div>
-        <div className="min-w-0 my-0 bg-white flex-1 shadow-sm">
+        <div className="my-0 min-w-0 flex-1 bg-white shadow-sm">
           <Switch>
             <Route path={routes.FILES.route} component={Files} />
             <Route path={routes.BOOKMARKS.route} component={Bookmarks} />

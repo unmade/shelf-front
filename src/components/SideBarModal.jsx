@@ -14,14 +14,16 @@ function SideBarModal() {
     <>
       <Button
         type="text"
-        icon={<icons.Menu className="shrink-0 w-5 h-5" />}
+        icon={<icons.Menu className="h-5 w-5 shrink-0" />}
         onClick={() => setVisible(true)}
       />
-      <Transition
-        show={visible}
-        as={React.Fragment}
-      >
-        <UIDialog static open={visible} onClose={() => setVisible(false)} className="fixed inset-0 z-40 overflow-hidden lg:hidden">
+      <Transition show={visible} as={React.Fragment}>
+        <UIDialog
+          static
+          open={visible}
+          onClose={() => setVisible(false)}
+          className="fixed inset-0 z-40 overflow-hidden lg:hidden"
+        >
           <Transition.Child
             as={React.Fragment}
             enter="ease-out duration-300"
@@ -31,7 +33,7 @@ function SideBarModal() {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <UIDialog.Overlay className="bg-white absolute inset-0 backdrop-filter backdrop-blur bg-opacity-50" />
+            <UIDialog.Overlay className="absolute inset-0 bg-white bg-opacity-50 backdrop-blur backdrop-filter" />
           </Transition.Child>
 
           <Transition.Child
@@ -43,11 +45,11 @@ function SideBarModal() {
             leaveFrom="opacity-100 translate-x-0"
             leaveTo="opacity-0 -translate-x-full"
           >
-            <div className="absolute inset-0 z-40 flex pointer-events-none">
-              <div className="flex-1 max-w-sm min-w-0 bg-opacity-75 border-r border-gray-400 pointer-events-auto border-opacity-10 bg-gray-100 backdrop-filter backdrop-blur firefox:bg-opacity-90">
+            <div className="pointer-events-none absolute inset-0 z-40 flex">
+              <div className="firefox:bg-opacity-90 pointer-events-auto min-w-0 max-w-sm flex-1 border-r border-gray-400 border-opacity-10 bg-gray-100 bg-opacity-75 backdrop-blur backdrop-filter">
                 <SideBar />
               </div>
-              <div className="w-24 pointer-events-none" aria-hidden="true" />
+              <div className="pointer-events-none w-24" aria-hidden="true" />
             </div>
           </Transition.Child>
         </UIDialog>

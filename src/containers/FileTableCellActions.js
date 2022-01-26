@@ -5,10 +5,7 @@ import { openDialog } from '../store/actions/ui';
 
 import FileTableCellActions from '../components/FileTableCellActions';
 
-export default connect(
-  null,
-  {
-    onDownload: performDownload,
-    openDialog,
-  },
-)(FileTableCellActions);
+export default connect(null, {
+  onDownload: performDownload,
+  openDialog,
+})(FileTableCellActions);

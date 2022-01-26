@@ -39,10 +39,7 @@ function activeByScope(state = INITIAL_STATE, action) {
       const { scope, taskId } = action.payload;
       return {
         ...state,
-        [scope]: [
-          ...state[scope],
-          taskId,
-        ],
+        [scope]: [...state[scope], taskId],
       };
     }
     case types.TASK_COMPLETED: {

@@ -32,34 +32,23 @@ function AccountMenu() {
   };
 
   return (
-    <div className="flex flex-row lg:block xl:flex items-center">
-      <div
-        className="mx-0 lg:mx-auto xl:mx-0 rounded-full h-10 w-10 bg-orange-50 flex items-center justify-center border border-orange-200 text-orange-600"
-      >
+    <div className="flex flex-row items-center lg:block xl:flex">
+      <div className="mx-0 flex h-10 w-10 items-center justify-center rounded-full border border-orange-200 bg-orange-50 text-orange-600 lg:mx-auto xl:mx-0">
         {username.substring(0, 1).toUpperCase()}
       </div>
       <button
         type="button"
-        className="hidden w-full lg:block xl:hidden text-sm font-medium pt-1 text-gray-500"
+        className="hidden w-full pt-1 text-sm font-medium text-gray-500 lg:block xl:hidden"
         onClick={onSignOut}
       >
         {t('Sign Out')}
       </button>
-      <div className="ml-2 text-left flex flex-col lg:hidden xl:flex flex-1">
-        <div className="text-sm font-semibold text-gray-700">
-          {username}
-        </div>
-        <div className="text-xs text-gray-600">
-          {`@${username}`}
-        </div>
+      <div className="ml-2 flex flex-1 flex-col text-left lg:hidden xl:flex">
+        <div className="text-sm font-semibold text-gray-700">{username}</div>
+        <div className="text-xs text-gray-600">{`@${username}`}</div>
       </div>
       <div className="block lg:hidden xl:block">
-        <Button
-          type="text"
-          title={t('Sign Out')}
-          icon={<icons.LogOut />}
-          onClick={onSignOut}
-        />
+        <Button type="text" title={t('Sign Out')} icon={<icons.LogOut />} onClick={onSignOut} />
       </div>
     </div>
   );

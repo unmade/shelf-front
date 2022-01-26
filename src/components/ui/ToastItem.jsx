@@ -21,18 +21,14 @@ function ToastItem({ id, message, onClose }) {
   }, [id, closeAfter, onClose]);
 
   return (
-    <div className="mb-4 p-4 bg-white flex flex-row shadow-md rounded-md animate-toast-in-right">
+    <div className="mb-4 flex animate-toast-in-right flex-row rounded-md bg-white p-4 shadow-md">
       <div className="p-1">
-        <icons.CloseCirle className="w-5 h-5 text-red-500" />
+        <icons.CloseCirle className="h-5 w-5 text-red-500" />
       </div>
 
-      <div className="p-1 w-64 px-3 text-sm">
-        <p className="text-gray-800 font-semibold">
-          {title}
-        </p>
-        <p className="pt-1 text-gray-600">
-          {description}
-        </p>
+      <div className="w-64 p-1 px-3 text-sm">
+        <p className="font-semibold text-gray-800">{title}</p>
+        <p className="pt-1 text-gray-600">{description}</p>
       </div>
 
       <div>

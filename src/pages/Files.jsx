@@ -39,14 +39,8 @@ function Files() {
 
   return (
     <>
-      <Browser
-        actionButton={() => <Uploader />}
-        dirPath={dirPath}
-        droppable
-      />
-      {(preview) && (
-        <FilePreview dirPath={dirPath || '.'} name={preview} />
-      )}
+      <Browser actionButton={() => <Uploader />} dirPath={dirPath} droppable />
+      {preview && <FilePreview dirPath={dirPath || '.'} name={preview} />}
       <CreateFolderDialog uid={Dialogs.createFolder} />
       <RenameFileDialog uid={Dialogs.rename} />
       <MoveDialog uid={Dialogs.move} />

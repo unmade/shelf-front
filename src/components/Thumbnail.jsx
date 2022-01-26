@@ -15,8 +15,8 @@ function Thumbnail({ className, deferred, fileId, size }) {
   const file = useSelector((state) => getFileById(state, fileId));
   const thumbs = useSelector((state) => getThumbnailById(state, file.id));
 
-  const loaded = (thumbs != null && thumbs[size] != null);
-  const shouldLoad = (file.has_thumbnail && !loaded && !deferred);
+  const loaded = thumbs != null && thumbs[size] != null;
+  const shouldLoad = file.has_thumbnail && !loaded && !deferred;
 
   const { id, path } = file;
 

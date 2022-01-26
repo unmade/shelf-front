@@ -17,42 +17,54 @@ function FileTableCellActions({ id, path, onDownload, openDialog }) {
     menu = [
       {
         name: t('Move'),
-        icon: <icons.Move className="w-4 h-4" />,
+        icon: <icons.Move className="h-4 w-4" />,
         danger: false,
-        onClick: () => { openDialog(Dialogs.move, { fileIds: [id] }); },
+        onClick: () => {
+          openDialog(Dialogs.move, { fileIds: [id] });
+        },
       },
       {
         name: t('Delete Immediately'),
-        icon: <icons.TrashOutlined className="w-4 h-4" />,
+        icon: <icons.TrashOutlined className="h-4 w-4" />,
         danger: true,
-        onClick: () => { openDialog(Dialogs.deleteImmediately, { fileIds: [id] }); },
+        onClick: () => {
+          openDialog(Dialogs.deleteImmediately, { fileIds: [id] });
+        },
       },
     ];
   } else {
     menu = [
       {
         name: t('Download'),
-        icon: <icons.Download className="w-4 h-4" />,
+        icon: <icons.Download className="h-4 w-4" />,
         danger: false,
-        onClick: () => { onDownload(path); },
+        onClick: () => {
+          onDownload(path);
+        },
       },
       {
         name: t('Rename'),
-        icon: <icons.ICursor className="w-4 h-4" />,
+        icon: <icons.ICursor className="h-4 w-4" />,
         danger: false,
-        onClick: () => { openDialog(Dialogs.rename, { fileId: id }); },
+        onClick: () => {
+          openDialog(Dialogs.rename, { fileId: id });
+        },
       },
       {
         name: t('Move'),
-        icon: <icons.Move className="w-4 h-4" />,
+        icon: <icons.Move className="h-4 w-4" />,
         danger: false,
-        onClick: () => { openDialog(Dialogs.move, { fileIds: [id] }); },
+        onClick: () => {
+          openDialog(Dialogs.move, { fileIds: [id] });
+        },
       },
       {
         name: t('Delete'),
-        icon: <icons.TrashOutlined className="w-4 h-4" />,
+        icon: <icons.TrashOutlined className="h-4 w-4" />,
         danger: true,
-        onClick: () => { openDialog(Dialogs.delete, { fileIds: [id] }); },
+        onClick: () => {
+          openDialog(Dialogs.delete, { fileIds: [id] });
+        },
       },
     ];
   }
@@ -64,10 +76,13 @@ function FileTableCellActions({ id, path, onDownload, openDialog }) {
         <Button
           key={item.name}
           type="text"
-          onClick={(event) => { event.stopPropagation(); item.onClick(); }}
+          onClick={(event) => {
+            event.stopPropagation();
+            item.onClick();
+          }}
           danger={item.danger}
         >
-          <div className="whitespace-nowrap w-full flex flex-row items-center justify-between my-1">
+          <div className="my-1 flex w-full flex-row items-center justify-between whitespace-nowrap">
             <div>{item.name}</div>
             <div className="ml-6">{item.icon}</div>
           </div>

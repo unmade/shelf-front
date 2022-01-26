@@ -25,10 +25,7 @@ function all(state = [], action) {
   switch (action.type) {
     case types.CREATE_ERROR_MESSAGE: {
       const message = action.payload;
-      return [
-        ...state,
-        message.id,
-      ];
+      return [...state, message.id];
     }
     case types.REMOVE_MESSAGE: {
       const { id } = action.payload;

@@ -9,9 +9,7 @@ import * as routes from '../routes';
 import Dialog from './ui/Dialog';
 import Input from './ui/Input';
 
-function CreateFolderDialog({
-  loading, path, uid, visible, onCreate, onCancel,
-}) {
+function CreateFolderDialog({ loading, path, uid, visible, onCreate, onCancel }) {
   const { t } = useTranslation();
 
   const [error, setError] = React.useState(null);
@@ -47,14 +45,22 @@ function CreateFolderDialog({
   return (
     <Dialog
       title={t('New Folder')}
-      icon={<icons.Folder className="w-6 h-6 text-blue-400" />}
+      icon={<icons.Folder className="h-6 w-6 text-blue-400" />}
       visible={visible}
       confirmTitle={t('Create')}
       confirmLoading={loading}
       onConfirm={onConfirm}
-      onCancel={() => { onCancel(uid); }}
+      onCancel={() => {
+        onCancel(uid);
+      }}
     >
-      <form className="w-full sm:min-w-1.5xs" onSubmit={(e) => { e.preventDefault(); onConfirm(); }}>
+      <form
+        className="w-full sm:min-w-1.5xs"
+        onSubmit={(e) => {
+          e.preventDefault();
+          onConfirm();
+        }}
+      >
         <Input
           id="name"
           label={t('Name')}

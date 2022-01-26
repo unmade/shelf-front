@@ -10,9 +10,7 @@ import * as routes from '../routes';
 import Dialog from './ui/Dialog';
 import Input from './ui/Input';
 
-function RenameFileDialog({
-  file, loading, uid, visible, onRename, onCancel,
-}) {
+function RenameFileDialog({ file, loading, uid, visible, onRename, onCancel }) {
   const { t } = useTranslation();
 
   const [name, setName] = React.useState((file && file.name) || null);
@@ -49,7 +47,7 @@ function RenameFileDialog({
   };
 
   const { mediatype } = file || {};
-  const title = (mediatype === MediaType.FOLDER) ? t('Rename Folder') : t('Rename File');
+  const title = mediatype === MediaType.FOLDER ? t('Rename Folder') : t('Rename File');
 
   return (
     <Dialog
@@ -59,9 +57,17 @@ function RenameFileDialog({
       confirmTitle={t('Rename')}
       confirmLoading={loading}
       onConfirm={onConfirm}
-      onCancel={() => { onCancel(uid); }}
+      onCancel={() => {
+        onCancel(uid);
+      }}
     >
-      <form className="w-full sm:min-w-1.5xs" onSubmit={(e) => { e.preventDefault(); onConfirm(); }}>
+      <form
+        className="w-full sm:min-w-1.5xs"
+        onSubmit={(e) => {
+          e.preventDefault();
+          onConfirm();
+        }}
+      >
         <Input
           id="name"
           label={t('Name')}

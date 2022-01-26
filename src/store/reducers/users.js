@@ -14,7 +14,9 @@ function bookmarks(state = INITIAL_STATE, action) {
       return nextState;
     }
     case types.LIST_BOOKMARKS_SUCCESS: {
-      const { data: { items } } = action.payload;
+      const {
+        data: { items },
+      } = action.payload;
       return new Set(items);
     }
     case types.REMOVE_BOOKMARK:

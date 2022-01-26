@@ -6,25 +6,17 @@ function Toast({ messages, itemRender: Render }) {
     return null;
   }
   return (
-    <div className="m-2 fixed top-2 right-2 z-50">
+    <div className="fixed top-2 right-2 z-50 m-2">
       {messages.map((messageId) => (
-        <Render
-          key={messageId}
-          id={messageId}
-        />
+        <Render key={messageId} id={messageId} />
       ))}
     </div>
   );
 }
 
 Toast.propTypes = {
-  messages: PropTypes.arrayOf(
-    PropTypes.string.isRequired,
-  ).isRequired,
-  itemRender: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.object,
-  ]).isRequired,
+  messages: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  itemRender: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
 };
 
 export default Toast;

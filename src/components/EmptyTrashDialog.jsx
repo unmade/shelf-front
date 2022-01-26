@@ -7,9 +7,7 @@ import * as icons from '../icons';
 
 import Dialog from './ui/Dialog';
 
-function EmptyTrashDialog({
-  loading, uid, visible, onEmpty, onCancel,
-}) {
+function EmptyTrashDialog({ loading, uid, visible, onEmpty, onCancel }) {
   const { t } = useTranslation();
 
   return (
@@ -21,7 +19,9 @@ function EmptyTrashDialog({
       confirmLoading={loading}
       confirmDanger
       onConfirm={onEmpty}
-      onCancel={() => { onCancel(uid); }}
+      onCancel={() => {
+        onCancel(uid);
+      }}
     >
       <p>
         <Trans i18nKey="empty_trash_dialog_text_styled" t={t}>

@@ -4,11 +4,7 @@ import PropTypes from 'prop-types';
 import getHumanSize from '../../filesize';
 
 function FileSize({ size }) {
-  return (
-    <>
-      {getHumanSize(size)}
-    </>
-  );
+  return <>{getHumanSize(size)}</>;
 }
 
 FileSize.propTypes = {

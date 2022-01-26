@@ -11,7 +11,7 @@ function Pill({ children, title, active, onClick }) {
   return (
     <button
       type="button"
-      className={`py-1 px-2 rounded-xl ${styles} focus:outline-none focus:ring`}
+      className={`rounded-xl py-1 px-2 ${styles} focus:outline-none focus:ring`}
       title={title}
       onClick={onClick}
     >
@@ -21,10 +21,7 @@ function Pill({ children, title, active, onClick }) {
 }
 
 Pill.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]).isRequired,
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
   title: PropTypes.string,
   active: PropTypes.bool,
   onClick: PropTypes.func,

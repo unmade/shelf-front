@@ -16,5 +16,5 @@ export default connect(
   {
     onClear: clearUploads,
     onSetVisibilityFilter: setUploadFilter,
-  },
+  }
 )(RecentUploads);

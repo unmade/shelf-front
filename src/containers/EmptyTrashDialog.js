@@ -17,5 +17,5 @@ export default connect(
   {
     onEmpty: emptyTrash,
     onCancel: closeDialog,
-  },
+  }
 )(EmptyTrashDialog);

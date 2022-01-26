@@ -16,13 +16,6 @@ class Dropzone extends React.Component {
     this.handleDrop = this.handleDrop.bind(this);
   }
 
-  setDragging(value) {
-    const { dragging } = this.state;
-    if (dragging !== value) {
-      this.setState({ dragging: value });
-    }
-  }
-
   handleDragOver(event) {
     event.preventDefault();
     event.stopPropagation();
@@ -40,13 +33,18 @@ class Dropzone extends React.Component {
 
     const { uploadTo, onDrop } = this.props;
     const { items } = event.dataTransfer;
-    getFileEntries(items).then(
-      (files) => {
-        if (onDrop) {
-          onDrop(files, uploadTo);
-        }
-      },
-    );
+    getFileEntries(items).then((files) => {
+      if (onDrop) {
+        onDrop(files, uploadTo);
+      }
+    });
+  }
+
+  setDragging(value) {
+    const { dragging } = this.state;
+    if (dragging !== value) {
+      this.setState({ dragging: value });
+    }
   }
 
   render() {

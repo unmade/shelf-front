@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
-function BreadcrumbItem({
-  children, className, to, isActive, onClick,
-}) {
+function BreadcrumbItem({ children, className, to, isActive, onClick }) {
   const linkProps = {};
   if (isActive !== null) {
     linkProps.isActive = isActive;
@@ -15,7 +13,7 @@ function BreadcrumbItem({
   return (
     <NavLink
       to={to}
-      className={`block text-gray-500 hover:text-gray-900 transition-colors duration-150 ${className}`}
+      className={`block text-gray-500 transition-colors duration-150 hover:text-gray-900 ${className}`}
       activeClassName="text-gray-900 pointer-events-none"
       exact
       // eslint-disable-next-line react/jsx-props-no-spreading
@@ -27,10 +25,7 @@ function BreadcrumbItem({
 }
 
 BreadcrumbItem.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]).isRequired,
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
   className: PropTypes.string,
   to: PropTypes.string.isRequired,
   isActive: PropTypes.func,

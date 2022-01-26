@@ -15,8 +15,20 @@ const colors = {
     [true]: ['bg-white', 'text-red-700', 'border-red-300'],
   },
   primary: {
-    [false]: ['bg-gradient-to-br from-blue-400 to-indigo-400', 'text-white', 'hover:from-blue-300 hover:to-indigo-400', 'shadow'],
-    [true]: ['bg-gradient-to-br', 'from-red-400 hover:from-red-300', 'to-rose-400', 'text-red-50 hover:text-white', 'shadow', 'ring-rose-300'],
+    [false]: [
+      'bg-gradient-to-br from-blue-400 to-indigo-400',
+      'text-white',
+      'hover:from-blue-300 hover:to-indigo-400',
+      'shadow',
+    ],
+    [true]: [
+      'bg-gradient-to-br',
+      'from-red-400 hover:from-red-300',
+      'to-rose-400',
+      'text-red-50 hover:text-white',
+      'shadow',
+      'ring-rose-300',
+    ],
   },
   text: {
     [false]: ['text-gray-700', 'hover:bg-gray-50'],
@@ -133,29 +145,15 @@ function Button({
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...buttonProps}
     >
-      {(icon) && (
-        <span>
-          {icon}
-        </span>
-      )}
-      {(!loading && children) && (
-        <span className="min-w-0">
-          {children}
-        </span>
-      )}
+      {icon && <span>{icon}</span>}
+      {!loading && children && <span className="min-w-0">{children}</span>}
     </RenderAs>
   );
 }
 
 Button.propTypes = {
-  as: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element,
-  ]),
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
+  as: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   className: PropTypes.string,
   danger: PropTypes.bool,
   disabled: PropTypes.bool,

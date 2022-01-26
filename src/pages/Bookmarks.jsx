@@ -39,35 +39,33 @@ function Bookmarks() {
 
   return (
     <>
-      <div className="h-full flex flex-col">
+      <div className="flex h-full flex-col">
         {/* header */}
-        <div className="flex flex-row items-center justify-between px-6 sm:pl-5 sm:pr-8 py-7">
-          {(!isLaptop) ? (
+        <div className="flex flex-row items-center justify-between px-6 py-7 sm:pl-5 sm:pr-8">
+          {!isLaptop ? (
             <>
               <SideBarModal />
-              <h2 className="ml-2 text-gray-900 truncate text-xl sm:text-3xl font-medium">
+              <h2 className="ml-2 truncate text-xl font-medium text-gray-900 sm:text-3xl">
                 {title}
               </h2>
             </>
           ) : (
-            <div className="min-w-0 flex-1 flex items-center ">
-              <icons.BookmarkOutlined className="w-7 h-7 text-gray-400 ml-2" />
-              <h2 className="ml-2 text-gray-900 truncate text-xl sm:text-3xl font-medium">
+            <div className="flex min-w-0 flex-1 items-center ">
+              <icons.BookmarkOutlined className="ml-2 h-7 w-7 text-gray-400" />
+              <h2 className="ml-2 truncate text-xl font-medium text-gray-900 sm:text-3xl">
                 {title}
               </h2>
             </div>
           )}
-          <div className="sm:ml-6 flex text-2xl items-center sm:space-x-8">
+          <div className="flex items-center text-2xl sm:ml-6 sm:space-x-8">
             {/* hack: this is to center text like on other pages */}
-            <div className="w-9 h-9">
-              &nbsp;
-            </div>
+            <div className="h-9 w-9">&nbsp;</div>
           </div>
         </div>
 
         {/* bookmark list */}
-        <div className="pt-4 flex flex-row flex-1">
-          <div className={(withSidePreview) ? 'w-7/12' : 'w-full'}>
+        <div className="flex flex-1 flex-row pt-4">
+          <div className={withSidePreview ? 'w-7/12' : 'w-full'}>
             <FileTableView
               className="border-transparent"
               items={[...bookmarks]}
@@ -76,7 +74,7 @@ function Bookmarks() {
               loading={loading}
             />
           </div>
-          {(withSidePreview) && (
+          {withSidePreview && (
             <div className="w-5/12">
               <SidePreview />
             </div>

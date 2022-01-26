@@ -40,38 +40,34 @@ function GoBack() {
     <Button
       disabled={isRoot}
       type="text"
-      icon={<icons.ArrowLeft className={`w-7 h-7 ${(isRoot) ? 'text-gray-400' : ''}`} />}
+      icon={<icons.ArrowLeft className={`h-7 w-7 ${isRoot ? 'text-gray-400' : ''}`} />}
     />
   );
   if (isRoot) {
     return button;
   }
-  return (
-    <FileLink path={routes.parent(currentPath)}>
-      {button}
-    </FileLink>
-  );
+  return <FileLink path={routes.parent(currentPath)}>{button}</FileLink>;
 }
 
 function Header({ isLaptop, actionButton: ActionButton }) {
   const currentFolderName = useCurrentFolderName();
   return (
     <>
-      <div className="flex flex-row items-center justify-between px-6 sm:pl-5 sm:pr-8 py-7">
-        {(!isLaptop) ? (
+      <div className="flex flex-row items-center justify-between px-6 py-7 sm:pl-5 sm:pr-8">
+        {!isLaptop ? (
           <>
             <SideBarModal />
             <BreadcrumbDropdown />
           </>
         ) : (
-          <div className="min-w-0 flex-1 flex items-center ">
+          <div className="flex min-w-0 flex-1 items-center ">
             <GoBack />
-            <h2 className="ml-2 text-gray-900 truncate text-xl sm:text-3xl font-medium">
+            <h2 className="ml-2 truncate text-xl font-medium text-gray-900 sm:text-3xl">
               {currentFolderName}
             </h2>
           </div>
         )}
-        <div className="sm:ml-6 flex text-2xl items-center sm:space-x-8">
+        <div className="flex items-center text-2xl sm:ml-6 sm:space-x-8">
           <SearchButton />
           <ActionButton />
         </div>

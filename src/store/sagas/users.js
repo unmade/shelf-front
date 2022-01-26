@@ -1,6 +1,4 @@
-import {
-  put, select, takeEvery,
-} from 'redux-saga/effects';
+import { put, select, takeEvery } from 'redux-saga/effects';
 
 import * as api from '../api';
 import { scopes } from '../actions/loading';
