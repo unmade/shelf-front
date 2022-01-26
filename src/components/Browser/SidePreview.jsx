@@ -47,7 +47,7 @@ function SingleFilePreview({ file }) {
     <>
       <div className="px-4 pb-2 flex flex-col">
         <div className="h-72 w-auto flex items-center justify-center rounded-xl bg-gray-50">
-          <Thumbnail className="w-80 xl:w-96 h-64 flex-shrink-0" size="xl" fileId={file.id} />
+          <Thumbnail className="w-80 xl:w-96 h-64 shrink-0" size="xl" fileId={file.id} />
         </div>
 
         <div className="pl-2 py-2 flex items-center justify-between">

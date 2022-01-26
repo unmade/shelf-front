@@ -60,7 +60,7 @@ function Dialog({
             <div className="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full sm:w-auto">
               <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 sm:flex sm:items-start">
                 {(icon) && (
-                  <div className={`mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full ${iconColors} sm:mx-0 sm:h-10 sm:w-10`}>
+                  <div className={`mx-auto shrink-0 flex items-center justify-center h-12 w-12 rounded-full ${iconColors} sm:mx-0 sm:h-10 sm:w-10`}>
                     {icon}
                   </div>
                 )}

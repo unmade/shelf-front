@@ -12,7 +12,7 @@ function AccountTableCell({ className, id }) {
     <tr className={className}>
       <td className="px-6 py-4 rounded-tl-xl rounded-bl-xl whitespace-nowrap">
         <div className="flex items-center">
-          <div className="flex-shrink-0 h-10 w-10 flex items-center justify-center border rounded-full bg-gray-50 border-gray-200 text-gray-600">
+          <div className="shrink-0 h-10 w-10 flex items-center justify-center border rounded-full bg-gray-50 border-gray-200 text-gray-600">
             {account.username.substring(0, 1).toUpperCase()}
           </div>
           <div className="ml-4">
@@ -31,7 +31,7 @@ function AccountTableCell({ className, id }) {
         </div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
-        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-emerald-100 text-emerald-800">
           Active
         </span>
       </td>

@@ -33,7 +33,7 @@ function UserManagement() {
             type="primary"
             title="Uploads"
             size="lg"
-            icon={<icons.Plus className="flex-shrink-0 w-5 h-5" />}
+            icon={<icons.Plus className="shrink-0 w-5 h-5" />}
           />
         </div>
       </div>

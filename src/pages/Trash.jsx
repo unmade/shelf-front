@@ -50,7 +50,7 @@ function Trash() {
             title={t('Empty Trash')}
             size="base"
             onClick={() => dispatch(openDialog(Dialogs.emptyTrash))}
-            icon={<icons.TrashOutlined className="flex-shrink-0 w-5 h-5" />}
+            icon={<icons.TrashOutlined className="shrink-0 w-5 h-5" />}
             danger
           />
         )}
