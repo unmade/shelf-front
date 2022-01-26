@@ -49,7 +49,7 @@ function CodePreview({ file, original }) {
   return (
     <div className="mt-6 bg-white">
       <div className="container mx-auto p-4">
-        <Highlight language={lang} className={`whitespace-pre-wrap`}>
+        <Highlight language={lang} className="whitespace-pre-wrap">
           {original}
         </Highlight>
       </div>

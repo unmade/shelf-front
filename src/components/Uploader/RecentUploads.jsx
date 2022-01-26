@@ -59,27 +59,23 @@ i18n.on('languageChanged init', () => {
   TEXTS.failed = i18n.t('No failed uploads');
 });
 
-function RecentUploads({
-  uploadCount, visibilityFilter, onClear, onSetVisibilityFilter,
-}) {
+function RecentUploads({ uploadCount, visibilityFilter, onClear, onSetVisibilityFilter }) {
   const { t } = useTranslation();
 
   const virtual = uploadCount > 10;
   return (
     <div className="mt-6">
-      <p className="font-semibold">
-        {t('Recent Uploads')}
-      </p>
+      <p className="font-semibold">{t('Recent Uploads')}</p>
 
       <div className="sm:flex sm:flex-col-reverse">
-        <div className="pt-4 pb-2 sm:pb-0 sm:pt-2 text-xs border-b sm:border-b-0 sm:border-t border-solid flex flex-row justify-between">
+        <div className="flex flex-row justify-between border-b border-solid pt-4 pb-2 text-xs sm:border-b-0 sm:border-t sm:pb-0 sm:pt-2">
           <div className="flex flex-row space-x-2">
             {PILLS.map((pill) => (
               <Pill
                 key={pill.key}
                 title={pill.title}
                 active={visibilityFilter === pill.key}
-                onClick={() => (onSetVisibilityFilter(pill.key))}
+                onClick={() => onSetVisibilityFilter(pill.key)}
               >
                 {pill.text}
               </Pill>
@@ -87,28 +83,23 @@ function RecentUploads({
           </div>
           <Button
             type="text"
-            icon={<icons.Clear className="w-4 h-4" />}
+            icon={<icons.Clear className="h-4 w-4" />}
             title={t('Clear')}
             onClick={onClear}
           />
         </div>
 
-        {(uploadCount > 0) ? (
-          <div className="text-xs" style={(virtual) ? fixedHeight : height}>
-            <UploadList
-              itemRender={UploadListItem}
-              virtual={virtual}
-            />
+        {uploadCount > 0 ? (
+          <div className="text-xs" style={virtual ? fixedHeight : height}>
+            <UploadList itemRender={UploadListItem} virtual={virtual} />
           </div>
         ) : (
           <div
-            className="h-20 text-gray-600 flex flex-row items-center justify-center space-x-2"
+            className="flex h-20 flex-row items-center justify-center space-x-2 text-gray-600"
             style={height}
           >
-            <icons.Collection className="w-6 h-6 text-gray-500" />
-            <p className="text-sm">
-              {TEXTS[visibilityFilter]}
-            </p>
+            <icons.Collection className="h-6 w-6 text-gray-500" />
+            <p className="text-sm">{TEXTS[visibilityFilter]}</p>
           </div>
         )}
       </div>

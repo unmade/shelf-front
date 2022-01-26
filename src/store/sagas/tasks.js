@@ -1,6 +1,4 @@
-import {
-  delay, put, select, takeEvery,
-} from 'redux-saga/effects';
+import { delay, put, select, takeEvery } from 'redux-saga/effects';
 
 import * as api from '../api';
 import * as actions from '../actions/tasks';
@@ -50,6 +48,4 @@ function* checkTask({ payload }) {
   }
 }
 
-export default [
-  takeEvery(actions.types.TASK_STARTED, checkTask),
-];
+export default [takeEvery(actions.types.TASK_STARTED, checkTask)];

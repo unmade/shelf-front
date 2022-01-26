@@ -10,18 +10,17 @@ import TimeAgo from '../ui/TimeAgo';
 import FileIcon from '../FileIcon';
 
 function NoPreview({ file, onDownload }) {
-  const {
-    name, path, mediatype, hidden, size, mtime,
-  } = file;
+  const { name, path, mediatype, hidden, size, mtime } = file;
   return (
-    <div className="h-full flex flex-col items-center justify-center space-y-6">
-
-      <div className="w-1/2 text-center space-y-2">
-        <FileIcon className="w-32 h-auto mx-auto drop-shadow-lg" mediatype={mediatype} hidden={hidden} />
-        <p className="text-gray-700">
-          {name}
-        </p>
-        <div className="text-gray-600 text-xs">
+    <div className="flex h-full flex-col items-center justify-center space-y-6">
+      <div className="w-1/2 space-y-2 text-center">
+        <FileIcon
+          className="mx-auto h-auto w-32 drop-shadow-lg"
+          mediatype={mediatype}
+          hidden={hidden}
+        />
+        <p className="text-gray-700">{name}</p>
+        <div className="text-xs text-gray-600">
           <FileSize size={size} />
           <span> &bull; </span>
           <TimeAgo mtime={mtime * 1000} />
@@ -29,9 +28,7 @@ function NoPreview({ file, onDownload }) {
       </div>
 
       <div className="text-center">
-        <p className="text-xl font-medium text-gray-700 mb-2">
-          Preview is not available
-        </p>
+        <p className="mb-2 text-xl font-medium text-gray-700">Preview is not available</p>
         <Button
           type="primary"
           size="base"

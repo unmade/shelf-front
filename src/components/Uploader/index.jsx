@@ -24,7 +24,7 @@ function Uploader() {
           type="primary"
           title="Uploads"
           size="lg"
-          icon={<icons.CloudUploadOutlined className="shrink-0 w-5 h-5" />}
+          icon={<icons.CloudUploadOutlined className="h-5 w-5 shrink-0" />}
         />
       </Dropdown>
     );
@@ -37,12 +37,16 @@ function Uploader() {
         type="primary"
         title="Uploads"
         size="sm"
-        icon={<icons.CloudUploadOutlined className="shrink-0 w-5 h-5" />}
-        onClick={() => { setUploaderVisible(true); }}
+        icon={<icons.CloudUploadOutlined className="h-5 w-5 shrink-0" />}
+        onClick={() => {
+          setUploaderVisible(true);
+        }}
       />
       <UploadDialog
         visible={uploaderVisible}
-        onCancel={() => { setUploaderVisible(false); }}
+        onCancel={() => {
+          setUploaderVisible(false);
+        }}
       />
     </>
   );

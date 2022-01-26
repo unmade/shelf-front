@@ -25,7 +25,7 @@ function Dropdown({ children, overlay: Overlay }) {
         <>
           <Popover.Button
             ref={setReferenceElement}
-            className="w-full rounded-xl focus:outline-none focus:ring ring-offset-2"
+            className="w-full rounded-xl ring-offset-2 focus:outline-none focus:ring"
           >
             {children}
           </Popover.Button>
@@ -58,10 +58,7 @@ function Dropdown({ children, overlay: Overlay }) {
 
 Dropdown.propTypes = {
   children: PropTypes.element.isRequired,
-  overlay: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.object,
-  ]).isRequired,
+  overlay: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
 };
 
 export default Dropdown;

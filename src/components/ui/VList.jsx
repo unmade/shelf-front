@@ -28,7 +28,7 @@ function VList({
               className={`flex flex-col items-center justify-center ${className}`}
               style={{ height: height - heightOffset, width }}
             >
-              <icons.Spinner className="w-7 h-7 text-gray-600 animate-spin" />
+              <icons.Spinner className="h-7 w-7 animate-spin text-gray-600" />
             </div>
           );
         }
@@ -61,18 +61,12 @@ VList.propTypes = {
   heightOffset: PropTypes.number,
   initialScrollOffset: PropTypes.number,
   itemCount: PropTypes.number.isRequired,
-  itemData: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.arrayOf(PropTypes.any),
-  ]).isRequired,
+  itemData: PropTypes.oneOfType([PropTypes.object, PropTypes.arrayOf(PropTypes.any)]).isRequired,
   itemHeight: PropTypes.number,
   loading: PropTypes.bool,
   trackScrolling: PropTypes.bool,
   scrollKey: PropTypes.string,
-  itemRender: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.object,
-  ]).isRequired,
+  itemRender: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
   setScrollOffset: PropTypes.func,
 };
 

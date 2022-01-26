@@ -6,6 +6,4 @@ function* launchSaga() {
   yield put(listBookmarks());
 }
 
-export default [
-  fork(launchSaga),
-];
+export default [fork(launchSaga)];

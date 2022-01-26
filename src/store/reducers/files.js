@@ -166,40 +166,30 @@ function createPropsSelector(selector) {
 const getPathProp = createPropsSelector((props) => props.path);
 
 export const getFolderIdsByPath = createSelector(
-  [
-    (state) => state.files.byId,
-    (state) => state.files.byPath,
-    getPathProp,
-  ],
-  (byId, byPath, path) => (
+  [(state) => state.files.byId, (state) => state.files.byPath, getPathProp],
+  (byId, byPath, path) =>
     (byPath[path] ?? FILES_EMPTY)
       .map((id) => byId[id])
       .filter((item) => item.mediatype === MediaType.FOLDER)
       .map((item) => item.id)
-  ),
 );
 
 const getIdsProps = createPropsSelector((props) => props.ids);
 
-export const getFilesByIds = (
-  createSelector(
-    [
-      (state) => state.files.byId,
-      getIdsProps,
-    ],
-    (byId, ids) => {
-      // 'ids' param can be a Set, which doesn't support '.map()',
-      // so instead use a '.forEach()'
-      const files = [];
-      ids.forEach((id) => {
-        files.push(byId[id]);
-      });
-      return files;
-    },
-  )
+export const getFilesByIds = createSelector(
+  [(state) => state.files.byId, getIdsProps],
+  (byId, ids) => {
+    // 'ids' param can be a Set, which doesn't support '.map()',
+    // so instead use a '.forEach()'
+    const files = [];
+    ids.forEach((id) => {
+      files.push(byId[id]);
+    });
+    return files;
+  }
 );
 
-export const makeGetPreview = () => (
+export const makeGetPreview = () =>
   createSelector(
     [
       (state) => state.files.byId,
@@ -220,12 +210,7 @@ export const makeGetPreview = () => (
       return {
         index,
         total: files.length,
-        files: [
-          byId[files[prevIndex]],
-          byId[files[index]],
-          byId[files[nextIndex]],
-        ],
+        files: [byId[files[prevIndex]], byId[files[index]], byId[files[nextIndex]]],
       };
-    },
-  )
-);
+    }
+  );

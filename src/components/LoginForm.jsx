@@ -53,7 +53,10 @@ function LoginForm({ loading, onSubmit }) {
   return (
     <form
       className="mt-5 space-y-4"
-      onSubmit={(event) => { event.preventDefault(); submit(); }}
+      onSubmit={(event) => {
+        event.preventDefault();
+        submit();
+      }}
     >
       <Input
         id="username"

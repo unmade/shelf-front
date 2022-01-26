@@ -3,10 +3,7 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: [
-    'plugin:react/recommended',
-    'airbnb',
-  ],
+  extends: ['plugin:react/recommended', 'airbnb', 'prettier'],
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -14,38 +11,10 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: [
-    'react',
-  ],
-  ignorePatterns: [
-    'build/**/*',
-  ],
+  plugins: ['react', 'prettier'],
+  ignorePatterns: ['build/**/*'],
   rules: {
+    'prettier/prettier': 'error',
     'react/prop-types': 0,
-    'object-curly-newline': [
-      'error',
-      {
-        ObjectExpression: {
-          minProperties: 5,
-          multiline: true,
-          consistent: true,
-        },
-        ObjectPattern: {
-          minProperties: 5,
-          multiline: true,
-          consistent: true,
-        },
-        ImportDeclaration: {
-          minProperties: 4,
-          multiline: true,
-          consistent: true,
-        },
-        ExportDeclaration: {
-          minProperties: 4,
-          multiline: true,
-          consistent: true,
-        },
-      },
-    ],
   },
 };

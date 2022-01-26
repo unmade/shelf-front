@@ -27,7 +27,10 @@ function basename(path) {
 }
 
 export function encodePath(path) {
-  return path.split('/').map((item) => encodeURIComponent(item)).join('/');
+  return path
+    .split('/')
+    .map((item) => encodeURIComponent(item))
+    .join('/');
 }
 
 export function join(pathA, pathB) {
@@ -88,5 +91,5 @@ export function makePathFromUrl(url) {
 }
 
 export function isRoot(path) {
-  return (path === '.' || path.toLowerCase() === 'trash');
+  return path === '.' || path.toLowerCase() === 'trash';
 }

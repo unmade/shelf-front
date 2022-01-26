@@ -33,8 +33,8 @@ function BookmarkButton({ className, fileId, size }) {
   const bookmarked = useSelector((state) => getIsBookmarked(state, fileId));
   const loading = useSelector((state) => getLoading(state, scopes.bookmarking));
 
-  const iconClasses = `${(bookmarked) ? 'fill-current' : ''} ${iconSizes[size]}`;
-  const title = (bookmarked) ? t('Remove from Saved') : t('Add to Saved');
+  const iconClasses = `${bookmarked ? 'fill-current' : ''} ${iconSizes[size]}`;
+  const title = bookmarked ? t('Remove from Saved') : t('Add to Saved');
 
   const onClick = () => {
     if (bookmarked) {
@@ -48,7 +48,7 @@ function BookmarkButton({ className, fileId, size }) {
     <button
       type="button"
       title={title}
-      className={`p-2 ${bookmarkClasses[bookmarked]} transition-colors rounded-xl focus:outline-none ${ringSizes[size]} ring-offset-2 ring-orange-300 ${className}`}
+      className={`p-2 ${bookmarkClasses[bookmarked]} rounded-xl transition-colors focus:outline-none ${ringSizes[size]} ring-orange-300 ring-offset-2 ${className}`}
       onClick={onClick}
       disabled={loading}
     >

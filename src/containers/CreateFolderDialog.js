@@ -18,5 +18,5 @@ export default connect(
   {
     onCreate: createFolder,
     onCancel: closeDialog,
-  },
+  }
 )(CreateFolderDialog);

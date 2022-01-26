@@ -14,19 +14,19 @@ export default function getHumanSize(size) {
 
   if (size >= EXABYTE) {
     suffix = 'EB';
-    readable = (size >> 50);
+    readable = size >> 50;
   } else if (size >= PETABYTE) {
     suffix = 'PB';
-    readable = (size >> 40);
+    readable = size >> 40;
   } else if (size >= TERABYTE) {
     suffix = 'TB';
-    readable = (size >> 30);
+    readable = size >> 30;
   } else if (size >= GIGABYTE) {
     suffix = 'GB';
-    readable = (size >> 20);
+    readable = size >> 20;
   } else if (size >= MEGABYTE) {
     suffix = 'MB';
-    readable = (size >> 10);
+    readable = size >> 10;
   } else if (size >= KILOBYTE) {
     suffix = 'KB';
     readable = size;

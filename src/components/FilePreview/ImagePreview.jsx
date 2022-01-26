@@ -12,10 +12,10 @@ function ImagePreview({ file, original }) {
         const imgHeight = height - 40;
         return (
           <div style={{ height, width }} className="flex items-center justify-center">
-            {(original) ? (
+            {original ? (
               <img src={original} style={{ maxHeight: imgHeight }} alt={file.name} />
             ) : (
-              <FileIcon className="w-48 h-48" mediatype={file.mediatype} hidden={file.hidden} />
+              <FileIcon className="h-48 w-48" mediatype={file.mediatype} hidden={file.hidden} />
             )}
           </div>
         );

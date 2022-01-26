@@ -18,17 +18,17 @@ const menu = [
   {
     path: routes.FILES.prefix,
     title: i18n.t('Home'),
-    icon: <icons.HomeOutlined className="shrink-0 w-5 h-5 mr-3 lg:mx-auto xl:mr-3" />,
+    icon: <icons.HomeOutlined className="mr-3 h-5 w-5 shrink-0 lg:mx-auto xl:mr-3" />,
   },
   {
     path: routes.BOOKMARKS.prefix,
     title: i18n.t('Saved'),
-    icon: <icons.BookmarkOutlined className="shrink-0 w-5 h-5 mr-3 lg:mx-auto xl:mr-3" />,
+    icon: <icons.BookmarkOutlined className="mr-3 h-5 w-5 shrink-0 lg:mx-auto xl:mr-3" />,
   },
   {
     path: routes.TRASH.prefix,
     title: i18n.t('Trash'),
-    icon: <icons.TrashOutlined className="shrink-0 w-5 h-5 mr-3 lg:mx-auto xl:mr-3" />,
+    icon: <icons.TrashOutlined className="mr-3 h-5 w-5 shrink-0 lg:mx-auto xl:mr-3" />,
   },
 ];
 
@@ -36,7 +36,7 @@ const adminMenu = [
   {
     path: routes.USER_MANAGEMENT.prefix,
     title: i18n.t('Users'),
-    icon: <icons.UsersOutline className="shrink-0 w-5 h-5 mr-3 lg:mx-auto xl:mr-3" />,
+    icon: <icons.UsersOutline className="mr-3 h-5 w-5 shrink-0 lg:mx-auto xl:mr-3" />,
   },
 ];
 
@@ -48,25 +48,19 @@ i18n.on('languageChanged init', () => {
 });
 
 function MenuGroup({ items }) {
-  return (
-    items.map((item) => (
-      <NavLink
-        key={item.path}
-        to={item.path}
-        className="whitespace-nowrap flex items-center font-medium transition-colors duration-200 rounded-xl py-2 px-3"
-        activeClassName="bg-gray-200 text-gray-700"
-      >
-        <div className="flex lg:block xl:flex xl:items-center mx-0 lg:mx-auto xl:mx-0 px-2">
-          <div>
-            {item.icon}
-          </div>
-          <div className="lg:pt-1 xl:pt-0">
-            {item.title}
-          </div>
-        </div>
-      </NavLink>
-    ))
-  );
+  return items.map((item) => (
+    <NavLink
+      key={item.path}
+      to={item.path}
+      className="flex items-center whitespace-nowrap rounded-xl py-2 px-3 font-medium transition-colors duration-200"
+      activeClassName="bg-gray-200 text-gray-700"
+    >
+      <div className="mx-0 flex px-2 lg:mx-auto lg:block xl:mx-0 xl:flex xl:items-center">
+        <div>{item.icon}</div>
+        <div className="lg:pt-1 xl:pt-0">{item.title}</div>
+      </div>
+    </NavLink>
+  ));
 }
 
 MenuGroup.propTypes = {
@@ -75,7 +69,7 @@ MenuGroup.propTypes = {
       title: PropTypes.string.isRequired,
       path: PropTypes.string.isRequired,
       icon: PropTypes.element.isRequired,
-    }).isRequired,
+    }).isRequired
   ),
 };
 
@@ -84,22 +78,20 @@ function SideBar() {
   const isSuperuser = useSelector(getIsCurrentAccountSuperuser);
 
   return (
-    <div className="px-3 py-4 flex flex-col h-full">
-      <div className="mx-0 lg:mx-auto xl:mx-0 px-2 pt-2 pb-8 flex items-center font-bold font-mono text-2xl text-gray-900">
-        <div className="mr-3 lg:mr-0 xl:mr-3 p-2 bg-white flex items-center rounded-xl shadow-sm">
-          <icons.AppLogo className="shrink-0 w-7 h-7 text-gray-600" />
+    <div className="flex h-full flex-col px-3 py-4">
+      <div className="mx-0 flex items-center px-2 pt-2 pb-8 font-mono text-2xl font-bold text-gray-900 lg:mx-auto xl:mx-0">
+        <div className="mr-3 flex items-center rounded-xl bg-white p-2 shadow-sm lg:mr-0 xl:mr-3">
+          <icons.AppLogo className="h-7 w-7 shrink-0 text-gray-600" />
         </div>
-        <span className="inline-block lg:hidden xl:inline-block">
-          shelf
-        </span>
+        <span className="inline-block lg:hidden xl:inline-block">shelf</span>
       </div>
 
-      <div className="pt-2 pb-4 text-sm text-gray-500 flex-1">
+      <div className="flex-1 pt-2 pb-4 text-sm text-gray-500">
         <nav className="space-y-2">
           <MenuGroup items={menu} />
-          {(isSuperuser) && (
+          {isSuperuser && (
             <>
-              <div className="lg:mx-auto xl:mx-0 px-3 pt-4 font-semibold text-gray-400 lg:text-center xl:text-left">
+              <div className="px-3 pt-4 font-semibold text-gray-400 lg:mx-auto lg:text-center xl:mx-0 xl:text-left">
                 {t('ADMIN')}
               </div>
               <MenuGroup items={adminMenu} />

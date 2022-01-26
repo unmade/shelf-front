@@ -59,9 +59,7 @@ const FolderPicker = ({ excludeIds, path, onPathChange }) => {
               onClick={changePath(url, onPathChange)}
               isActive={() => url === routes.makeUrlFromPath({ path })}
             >
-              <span className="block truncate">
-                {name}
-              </span>
+              <span className="block truncate">{name}</span>
             </Breadcrumb.Item>
           )}
           itemRenderCollapsed={({ name, url }) => (
@@ -70,16 +68,14 @@ const FolderPicker = ({ excludeIds, path, onPathChange }) => {
               onClick={changePath(url, onPathChange)}
               isActive={() => false}
             >
-              <span className="block truncate">
-                {name}
-              </span>
+              <span className="block truncate">{name}</span>
             </Breadcrumb.ItemCollapsed>
           )}
         />
       </div>
-      {(items.length || loading) ? (
+      {items.length || loading ? (
         <VList
-          className="border rounded"
+          className="rounded border"
           heightOffset={HEIGHT}
           itemCount={items.length}
           itemData={data}
@@ -87,27 +83,20 @@ const FolderPicker = ({ excludeIds, path, onPathChange }) => {
           itemRender={FolderPickerItem}
         />
       ) : (
-        <div className="flex flex-col items-center justify-center border rounded" style={height}>
+        <div className="flex flex-col items-center justify-center rounded border" style={height}>
           <div className="text-center">
-            <icons.Collection className="w-12 h-12 mx-auto mb-4 text-gray-400" />
-            <p className="text-gray-800 text-lg font-semibold">
-              Nothing here yet
-            </p>
-            <p className="text-sm text-gray-600">
-              Move file here
-            </p>
+            <icons.Collection className="mx-auto mb-4 h-12 w-12 text-gray-400" />
+            <p className="text-lg font-semibold text-gray-800">Nothing here yet</p>
+            <p className="text-sm text-gray-600">Move file here</p>
           </div>
         </div>
       )}
-
     </>
   );
 };
 
 FolderPicker.propTypes = {
-  excludeIds: PropTypes.arrayOf(
-    PropTypes.string.isRequired,
-  ).isRequired,
+  excludeIds: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   path: PropTypes.string.isRequired,
   onPathChange: PropTypes.func.isRequired,
 };

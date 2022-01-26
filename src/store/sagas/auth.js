@@ -1,11 +1,4 @@
-import {
-  delay,
-  put,
-  race,
-  select,
-  take,
-  takeLatest,
-} from 'redux-saga/effects';
+import { delay, put, race, select, take, takeLatest } from 'redux-saga/effects';
 
 import * as api from '../api';
 import * as actions from '../actions/auth';

@@ -12,5 +12,5 @@ export default connect(
   }),
   {
     setScrollOffset,
-  },
+  }
 )(VList);

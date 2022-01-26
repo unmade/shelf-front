@@ -14,9 +14,6 @@ const makeMapStateToProps = () => {
   return mapStateToProps;
 };
 
-export default connect(
-  makeMapStateToProps,
-  {
-    download,
-  },
-)(FilePreview);
+export default connect(makeMapStateToProps, {
+  download,
+})(FilePreview);

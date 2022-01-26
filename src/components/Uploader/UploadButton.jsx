@@ -35,12 +35,7 @@ class UploadButton extends React.Component {
           onChange={this.setUploadFiles}
           multiple
         />
-        <Button
-          type="primary"
-          size="sm"
-          icon={icon}
-          onClick={this.openUpload}
-        >
+        <Button type="primary" size="sm" icon={icon} onClick={this.openUpload}>
           {children}
         </Button>
       </form>

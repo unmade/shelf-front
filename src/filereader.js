@@ -43,7 +43,7 @@ async function getFileEntries(dataTransferItemList) {
       fileEntries.push(entry);
     } else if (entry.isDirectory) {
       // eslint-disable-next-line no-await-in-loop
-      queue.push(...await readDirectoryEntries(entry.createReader()));
+      queue.push(...(await readDirectoryEntries(entry.createReader())));
     }
   }
   return fileEntries;

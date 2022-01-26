@@ -64,14 +64,8 @@ function visibleUploads(state = VISIBLE_UPLOADS_DEFAULT_STATE, action) {
       const ids = uploads.map((item) => item.id);
       return {
         ...state,
-        all: [
-          ...state.all,
-          ...ids,
-        ],
-        inProgress: [
-          ...state.inProgress,
-          ...ids,
-        ],
+        all: [...state.all, ...ids],
+        inProgress: [...state.inProgress, ...ids],
       };
     }
     case types.UPLOAD_FAILURE:

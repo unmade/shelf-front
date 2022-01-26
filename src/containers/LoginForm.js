@@ -13,5 +13,5 @@ export default connect(
   }),
   {
     onSubmit: signIn,
-  },
+  }
 )(LoginForm);

@@ -23,17 +23,15 @@ function UserManagement() {
   }, [ids, page, dispatch]);
   return (
     <div>
-      <div className="px-8 py-7 flex items-center justify-between">
-        <h2 className="text-gray-900 truncate text-xl sm:text-3xl font-medium">
-          User Management
-        </h2>
-        <div className="ml-6 flex text-2xl items-center space-x-8">
+      <div className="flex items-center justify-between px-8 py-7">
+        <h2 className="truncate text-xl font-medium text-gray-900 sm:text-3xl">User Management</h2>
+        <div className="ml-6 flex items-center space-x-8 text-2xl">
           <Button
             as="div"
             type="primary"
             title="Uploads"
             size="lg"
-            icon={<icons.Plus className="shrink-0 w-5 h-5" />}
+            icon={<icons.Plus className="h-5 w-5 shrink-0" />}
           />
         </div>
       </div>
@@ -45,16 +43,28 @@ function UserManagement() {
               <table className="min-w-full">
                 <thead>
                   <tr>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
+                    >
                       Username
                     </th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
+                    >
                       Name
                     </th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
+                    >
                       Status
                     </th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
+                    >
                       Role
                     </th>
                   </tr>

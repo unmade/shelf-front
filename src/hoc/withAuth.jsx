@@ -5,6 +5,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 import { getIsAuthenticated } from '../store/reducers/auth';
 
+// eslint-disable-next-line func-names
 export default function (Component) {
   return function AuthenticatedComponent(props) {
     const history = useHistory();
@@ -13,7 +14,7 @@ export default function (Component) {
 
     React.useEffect(() => {
       if (!authenticated) {
-        const nextLocation = (location.pathname !== '/') ? location.pathname : '/files';
+        const nextLocation = location.pathname !== '/' ? location.pathname : '/files';
         history.push(`/signin?next=${nextLocation}`);
       }
     }, [authenticated, location.pathname, history]);

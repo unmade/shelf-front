@@ -13,12 +13,13 @@ import RenameFileDialog from '../components/RenameFileDialog';
 export default connect(
   (state, ownProps) => ({
     visible: getFileDialogVisible(state, ownProps),
-    file: getFileDialogProps(state, ownProps).fileId
-      && getFileById(state, getFileDialogProps(state, ownProps).fileId),
+    file:
+      getFileDialogProps(state, ownProps).fileId &&
+      getFileById(state, getFileDialogProps(state, ownProps).fileId),
     loading: getLoading(state, scopes.movingFile),
   }),
   {
     onRename: moveFile,
     onCancel: closeDialog,
-  },
+  }
 )(RenameFileDialog);

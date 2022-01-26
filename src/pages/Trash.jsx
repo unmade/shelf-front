@@ -30,7 +30,7 @@ function Trash() {
   const preview = queryParams.get('preview');
 
   let { dirPath } = params;
-  dirPath = (dirPath) ? `${TRASH_FOLDER_NAME}/${decodeURIComponent(dirPath)}` : TRASH_FOLDER_NAME;
+  dirPath = dirPath ? `${TRASH_FOLDER_NAME}/${decodeURIComponent(dirPath)}` : TRASH_FOLDER_NAME;
 
   React.useEffect(() => {
     dispatch(setCurrentPath(dirPath));
@@ -50,15 +50,13 @@ function Trash() {
             title={t('Empty Trash')}
             size="base"
             onClick={() => dispatch(openDialog(Dialogs.emptyTrash))}
-            icon={<icons.TrashOutlined className="shrink-0 w-5 h-5" />}
+            icon={<icons.TrashOutlined className="h-5 w-5 shrink-0" />}
             danger
           />
         )}
         dirPath={dirPath}
       />
-      {(preview) && (
-        <FilePreview dirPath={dirPath || '.'} name={preview} />
-      )}
+      {preview && <FilePreview dirPath={dirPath || '.'} name={preview} />}
       <MoveDialog uid={Dialogs.move} />
       <EmptyTrashDialog uid={Dialogs.emptyTrash} />
       <DeleteImmediatelyDialog uid={Dialogs.deleteImmediately} />

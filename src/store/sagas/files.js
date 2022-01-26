@@ -1,6 +1,4 @@
-import {
-  actionChannel, call, put, select, take, takeEvery,
-} from 'redux-saga/effects';
+import { actionChannel, call, put, select, take, takeEvery } from 'redux-saga/effects';
 
 import { Dialogs, MediaType } from '../../constants';
 
@@ -94,13 +92,13 @@ function* download({ payload }) {
   }
 
   const contentType = response.headers.get('content-type');
-  const parser = (MediaType.isText(contentType)) ? response.text() : response.blob();
+  const parser = MediaType.isText(contentType) ? response.text() : response.blob();
   const [data, parseErr] = yield tryResponse(parser);
   if (parseErr !== null) {
     yield put(actions.downloadFailure(parseErr));
     return;
   }
-  const file = (MediaType.isText(contentType)) ? data : URL.createObjectURL(data);
+  const file = MediaType.isText(contentType) ? data : URL.createObjectURL(data);
   yield put(actions.downloadSuccess(path, file));
 }
 

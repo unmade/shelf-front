@@ -7,11 +7,8 @@ import rootSaga from './sagas';
 
 const sagaMiddleware = createSagaMiddleware();
 
-const store = (() => createStore(
-  rootReducer,
-  { ...loadAuthState() },
-  applyMiddleware(sagaMiddleware),
-))();
+const store = (() =>
+  createStore(rootReducer, { ...loadAuthState() }, applyMiddleware(sagaMiddleware)))();
 
 store.subscribe(() => {
   saveAuthState(store.getState());

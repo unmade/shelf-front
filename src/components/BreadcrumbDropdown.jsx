@@ -31,12 +31,12 @@ function BreadcrumbDropdown() {
   }
 
   return (
-    <Menu as="div" className="relative flex-1 min-w-0 px-3">
-      <Menu.Button className="w-full mx-auto sm:w-auto sm:max-w-xs lg:max-w-md flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500">
-        <h2 className="text-gray-900 truncate text-xl sm:text-3xl font-medium">
+    <Menu as="div" className="relative min-w-0 flex-1 px-3">
+      <Menu.Button className="mx-auto flex w-full items-center justify-center focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:w-auto sm:max-w-xs lg:max-w-md">
+        <h2 className="truncate text-xl font-medium text-gray-900 sm:text-3xl">
           {currentFolder.name}
         </h2>
-        <icons.SelectorOutlined className="shrink-0 ml-3 w-5 h-5" />
+        <icons.SelectorOutlined className="ml-3 h-5 w-5 shrink-0" />
       </Menu.Button>
       <Transition
         as={React.Fragment}
@@ -47,18 +47,19 @@ function BreadcrumbDropdown() {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="z-10 absolute w-full max-w-xs right-0 origin-top-right py-1 mt-2 overflow-auto text-base bg-white rounded-xl shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-          <div className={`${(hasBreadcrumbs) ? 'border-b' : 'hidden'} max-h-60 overflow-scroll`}>
-            {crumbs.slice().reverse().map((item) => (
-              <Menu.Item key={item.url}>
-                <NavLink to={item.url} className="flex items-center px-4 py-2">
-                  <icons.Folder className="shrink-0 text-blue-400 w-5 h-5" />
-                  <div className="ml-3 truncate">
-                    {item.name}
-                  </div>
-                </NavLink>
-              </Menu.Item>
-            ))}
+        <Menu.Items className="absolute right-0 z-10 mt-2 w-full max-w-xs origin-top-right overflow-auto rounded-xl bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+          <div className={`${hasBreadcrumbs ? 'border-b' : 'hidden'} max-h-60 overflow-scroll`}>
+            {crumbs
+              .slice()
+              .reverse()
+              .map((item) => (
+                <Menu.Item key={item.url}>
+                  <NavLink to={item.url} className="flex items-center px-4 py-2">
+                    <icons.Folder className="h-5 w-5 shrink-0 text-blue-400" />
+                    <div className="ml-3 truncate">{item.name}</div>
+                  </NavLink>
+                </Menu.Item>
+              ))}
           </div>
           <Menu.Item>
             <button
@@ -68,10 +69,8 @@ function BreadcrumbDropdown() {
               onClick={() => dispatch(openDialog(Dialogs.createFolder))}
             >
               <div className="flex items-center justify-between px-4 py-2">
-                <div className="font-medium">
-                  {t('New Folder')}
-                </div>
-                <icons.NewFolder className="text-gray-400 shrink-0 w-5 h-5" />
+                <div className="font-medium">{t('New Folder')}</div>
+                <icons.NewFolder className="h-5 w-5 shrink-0 text-gray-400" />
               </div>
             </button>
           </Menu.Item>

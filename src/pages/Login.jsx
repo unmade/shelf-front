@@ -30,13 +30,11 @@ function Login() {
 
   return (
     <>
-      <div className="min-h-screen flex items-end pb-20 sm:p-0 sm:items-center justify-center bg-gray-100">
-        <div className="m-4 sm:m-0 bg-white max-w-md w-full py-12 px-6 rounded-2xl shadow">
-          <div className="relative w-full inline-flex items-center space-x-4">
-            <icons.AppLogo className="w-10 h-10 text-gray-600" />
-            <h1 className="text-2xl font-bold text-gray-700">
-              Shelf
-            </h1>
+      <div className="flex min-h-screen items-end justify-center bg-gray-100 pb-20 sm:items-center sm:p-0">
+        <div className="m-4 w-full max-w-md rounded-2xl bg-white py-12 px-6 shadow sm:m-0">
+          <div className="relative inline-flex w-full items-center space-x-4">
+            <icons.AppLogo className="h-10 w-10 text-gray-600" />
+            <h1 className="text-2xl font-bold text-gray-700">Shelf</h1>
           </div>
           <LoginForm />
         </div>

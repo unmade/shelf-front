@@ -6,13 +6,13 @@ function ProgressBar({ progress }) {
     width: `${progress}%`,
     transition: 'width 0.3s ease-in-out',
   };
-  const fillerColor = (progress < 100) ? 'bg-indigo-500' : 'bg-emerald-500';
+  const fillerColor = progress < 100 ? 'bg-indigo-500' : 'bg-emerald-500';
 
   return (
-    <div className="h-2 text-xs flex bg-gray-200 overflow-hidden rounded">
+    <div className="flex h-2 overflow-hidden rounded bg-gray-200 text-xs">
       <div
         style={fillerStyles}
-        className={`shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center ${fillerColor}`}
+        className={`flex flex-col justify-center whitespace-nowrap text-center text-white shadow-none ${fillerColor}`}
       />
     </div>
   );

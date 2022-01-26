@@ -18,13 +18,20 @@ const paddings = {
 };
 
 function Input({
-  autoFocus, defaultValue, error, id, label, name, placeholder, size, type, onChange,
+  autoFocus,
+  defaultValue,
+  error,
+  id,
+  label,
+  name,
+  placeholder,
+  size,
+  type,
+  onChange,
 }) {
-  const borderColor = (error) ? (
-    'border-red-400 focus:ring-red-200 focus:border-red-400'
-  ) : (
-    'border-gray-300 focus:ring-blue-100 focus:border-blue-300'
-  );
+  const borderColor = error
+    ? 'border-red-400 focus:ring-red-200 focus:border-red-400'
+    : 'border-gray-300 focus:ring-blue-100 focus:border-blue-300';
   const inputProps = {};
   if (placeholder !== null && placeholder !== undefined) {
     inputProps.placeholder = placeholder;
@@ -37,9 +44,12 @@ function Input({
   }
   return (
     <div>
-      {(label) && (
+      {label && (
         // eslint-disable-next-line jsx-a11y/label-has-associated-control
-        <label htmlFor={id} className={`mb-1 block font-medium text-left text-gray-700 ${fontSizes[size].label}`}>
+        <label
+          htmlFor={id}
+          className={`mb-1 block text-left font-medium text-gray-700 ${fontSizes[size].label}`}
+        >
           {label}
         </label>
       )}
@@ -56,7 +66,7 @@ function Input({
         />
       </div>
       {error !== null && error !== undefined && (
-        <p className="text-red-500 text-xs italic mt-3">{error}</p>
+        <p className="mt-3 text-xs italic text-red-500">{error}</p>
       )}
     </div>
   );

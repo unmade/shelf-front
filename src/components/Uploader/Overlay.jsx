@@ -36,17 +36,11 @@ function Dropzone({ dragging }) {
   }
   return (
     <div className={`${dropzoneClass} ${classes}`}>
-      <icons.CloudUploadOutlined className="w-12 h-12 text-gray-400" />
+      <icons.CloudUploadOutlined className="h-12 w-12 text-gray-400" />
       <div className="flex flex-col text-center">
-        <p className="text-sm font-semibold text-gray-600">
-          {t('Drag files here')}
-        </p>
-        <p className="text-sm text-gray-400">
-          {t('or')}
-        </p>
-        <UploadButton icon={<icons.Upload />}>
-          {t('Browse')}
-        </UploadButton>
+        <p className="text-sm font-semibold text-gray-600">{t('Drag files here')}</p>
+        <p className="text-sm text-gray-400">{t('or')}</p>
+        <UploadButton icon={<icons.Upload />}>{t('Browse')}</UploadButton>
       </div>
     </div>
   );
@@ -62,16 +56,10 @@ Dropzone.defaultProps = {
 
 function Overlay({ uploadTo }) {
   return (
-    <div className="w-96 p-4 bg-white rounded shadow text-gray-700">
-
-      <FileDrop
-        uploadTo={uploadTo}
-        className="w-full"
-        render={Dropzone}
-      />
+    <div className="w-96 rounded bg-white p-4 text-gray-700 shadow">
+      <FileDrop uploadTo={uploadTo} className="w-full" render={Dropzone} />
 
       <RecentUploads />
-
     </div>
   );
 }

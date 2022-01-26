@@ -10,33 +10,26 @@ import ProgressBar from '../ui/ProgressBar';
 import FileIcon from '../FileIcon';
 
 function UploadListItem({ item, style }) {
-  const {
-    name, mediatype, parentPath, progress, error,
-  } = item;
+  const { name, mediatype, parentPath, progress, error } = item;
   const { t } = useTranslation();
 
   return (
     <div style={style}>
       <div className="flex flex-row items-center space-x-4">
         <div>
-          <FileIcon className="text-gray-400 w-6 h-6" mediatype={mediatype} />
+          <FileIcon className="h-6 w-6 text-gray-400" mediatype={mediatype} />
         </div>
 
-        <div className="w-full flex flex-col space-y-2 min-w-0">
-
+        <div className="flex w-full min-w-0 flex-col space-y-2">
           <div className="flex flex-row items-center justify-between space-x-4">
-            <div className="flex flex-col min-w-0">
-              <p className="font-semibold truncate">
-                {name}
-              </p>
+            <div className="flex min-w-0 flex-col">
+              <p className="truncate font-semibold">{name}</p>
 
-              <p className="text-gray-600 truncate">
-                {parentPath}
-              </p>
+              <p className="truncate text-gray-600">{parentPath}</p>
             </div>
 
             <div className="text-right text-sm">
-              {(error) ? (
+              {error ? (
                 <Button
                   type="primary"
                   shape="circle"
@@ -47,7 +40,7 @@ function UploadListItem({ item, style }) {
                 />
               ) : (
                 <div className="font-semibold">
-                  {(progress < 100) ? (
+                  {progress < 100 ? (
                     `${progress}%`
                   ) : (
                     <icons.CheckCircle className="text-emerald-500" />
@@ -57,16 +50,13 @@ function UploadListItem({ item, style }) {
             </div>
           </div>
 
-          {(error) ? (
-            <div className="flex flex-row text-red-500 space-x-2">
-              <p>
-                {t('Upload failed')}
-              </p>
+          {error ? (
+            <div className="flex flex-row space-x-2 text-red-500">
+              <p>{t('Upload failed')}</p>
             </div>
           ) : (
             <ProgressBar progress={progress} />
           )}
-
         </div>
       </div>
     </div>

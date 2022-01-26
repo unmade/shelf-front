@@ -15,55 +15,48 @@ import SidePreview from './SidePreview';
 import StatusBar from './StatusBar';
 import useSidePreview from '../../hooks/preview-available';
 
-const Browser = React.memo(
-  ({ actionButton, dirPath, droppable }) => {
-    const isLaptop = useMediaQuery({ query: MediaQuery.lg });
-    const withSidePreview = useSidePreview();
-    const path = dirPath ?? '.';
+const Browser = React.memo(({ actionButton, dirPath, droppable }) => {
+  const isLaptop = useMediaQuery({ query: MediaQuery.lg });
+  const withSidePreview = useSidePreview();
+  const path = dirPath ?? '.';
 
-    const tableView = (droppable) ? (
-      <FileDrop
-        className="h-full"
-        uploadTo={path}
-        render={({ dragging }) => (
-          <FileTableView
-            className={(dragging) ? 'border-blue-300' : 'border-transparent'}
-            path={path}
-            scrollKey={path}
-            itemRender={FileTableCell}
-          />
-        )}
-      />
-    ) : (
-      <FileTableView
-        className="border-transparent"
-        path={path}
-        scrollKey={path}
-        itemRender={FileTableCell}
-      />
-    );
-
-    return (
-      <div className="h-full flex flex-col">
-        <BrowserHeader isLaptop={isLaptop} actionButton={actionButton} />
-        <div className="pt-4 flex flex-row flex-1">
-          <div className={(withSidePreview) ? 'w-7/12' : 'w-full'}>
-            {tableView}
-          </div>
-          {(withSidePreview) && (
-            <div className="w-5/12">
-              <SidePreview />
-            </div>
-          )}
-        </div>
-        <StatusBar
-          dirPath={path}
-          isLaptop={isLaptop}
+  const tableView = droppable ? (
+    <FileDrop
+      className="h-full"
+      uploadTo={path}
+      render={({ dragging }) => (
+        <FileTableView
+          className={dragging ? 'border-blue-300' : 'border-transparent'}
+          path={path}
+          scrollKey={path}
+          itemRender={FileTableCell}
         />
+      )}
+    />
+  ) : (
+    <FileTableView
+      className="border-transparent"
+      path={path}
+      scrollKey={path}
+      itemRender={FileTableCell}
+    />
+  );
+
+  return (
+    <div className="flex h-full flex-col">
+      <BrowserHeader isLaptop={isLaptop} actionButton={actionButton} />
+      <div className="flex flex-1 flex-row pt-4">
+        <div className={withSidePreview ? 'w-7/12' : 'w-full'}>{tableView}</div>
+        {withSidePreview && (
+          <div className="w-5/12">
+            <SidePreview />
+          </div>
+        )}
       </div>
-    );
-  },
-);
+      <StatusBar dirPath={path} isLaptop={isLaptop} />
+    </div>
+  );
+});
 
 export default Browser;
 
