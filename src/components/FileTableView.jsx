@@ -29,7 +29,7 @@ function TableHeader({ items }) {
 
   return (
     <div className="show-on-hover-trigger mb-1 flex flex-row items-center border-l border-r border-transparent bg-white px-9 py-2 text-xs font-medium uppercase tracking-wider text-gray-500">
-      <div className={`${!hasSelected ? 'w-4/5 md:w-2/3' : 'w-full'} flex`}>
+      <div className={`flex w-full ${!hasSelected ? 'md:w-3/5 lg:w-2/3' : ''}`}>
         <input
           // hack: set partial status for checkbox
           // eslint-disable-next-line no-return-assign,no-param-reassign
@@ -43,9 +43,9 @@ function TableHeader({ items }) {
         <div className="ml-3">{t('Name')}</div>
       </div>
       {!hasSelected && (
-        <div className="flex w-1/5 items-center justify-evenly space-x-4 md:w-1/3">
-          <div className="hidden w-32 text-left md:block">{t('Modified')}</div>
-          <div className="hidden w-24 text-right md:block">{t('Size')}</div>
+        <div className="hidden items-center justify-evenly space-x-4 md:flex md:w-2/5 lg:w-1/3">
+          <div className="w-32 text-left md:block">{t('Modified')}</div>
+          <div className="w-24 text-right md:block">{t('Size')}</div>
         </div>
       )}
     </div>
