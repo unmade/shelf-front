@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Button from '../ui/Button';
 
@@ -24,7 +25,7 @@ class UploadButton extends React.Component {
   }
 
   render() {
-    const { children, icon } = this.props;
+    const { children, icon, full } = this.props;
     return (
       <form>
         <input
@@ -35,7 +36,7 @@ class UploadButton extends React.Component {
           onChange={this.setUploadFiles}
           multiple
         />
-        <Button type="primary" size="sm" icon={icon} onClick={this.openUpload}>
+        <Button type="primary" size="sm" icon={icon} onClick={this.openUpload} full={full}>
           {children}
         </Button>
       </form>
@@ -44,3 +45,15 @@ class UploadButton extends React.Component {
 }
 
 export default UploadButton;
+
+UploadButton.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+  full: PropTypes.bool,
+  icon: PropTypes.element,
+};
+
+UploadButton.defaultProps = {
+  children: null,
+  icon: null,
+  full: false,
+};

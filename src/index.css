@@ -30,3 +30,14 @@ code {
     visibility: visible;
   }
 }
+
+@media (pointer: coarse) {
+  .show-on-hover-trigger .show-on-hover-target {
+    visibility: visible;
+    display: revert;
+  }
+
+  .show-on-hover-trigger:hover .show-on-hover-target {
+    visibility: visible;
+  }
+}
