@@ -38,7 +38,13 @@ export default combineReducers({
 export const getAuth = (state) => state.auth;
 export const getAccessToken = (state) => getAuth(state).tokens.accessToken;
 export const getExpireAt = (state) => getAuth(state).tokens.expireAt;
-export const getIsExpired = (state) => getExpireAt(state) && getExpireAt(state) < Date.now();
+export const getIsExpired = (state) => {
+  const expireAt = getExpireAt(state);
+  if (expireAt == null) {
+    return true;
+  }
+  return expireAt < Date.now();
+};
 export const getIsAuthenticated = (state) => getAccessToken(state) && !getIsExpired(state);
 
 const KEY = 'state.auth.tokens';

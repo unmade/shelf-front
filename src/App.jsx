@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Redirect, Route } from 'react-router-dom';
 
 import * as routes from './routes';
 
@@ -41,6 +41,7 @@ function App() {
             <Route path={routes.BOOKMARKS.route} component={Bookmarks} />
             <Route path={routes.TRASH.route} component={Trash} />
             <Route path={routes.USER_MANAGEMENT.route} component={withAdmin(UserManagement)} />
+            <Route exact path="/" render={() => <Redirect to={routes.FILES.prefix} />} />
           </Switch>
         </div>
       </div>
