@@ -34,37 +34,25 @@ function* refreshTokenWatcher() {
   // all next refreshes happen within this interval
   const refreshRate = 10 * 60 * 1000; // 10 minutes
 
-  let accessToken = yield select(getAccessToken);
-  let isExpired = yield select(getIsExpired);
+  let accessToken;
+  let isExpired;
 
   while (true) {
+    accessToken = yield select(getAccessToken);
+    isExpired = yield select(getIsExpired);
     if (!accessToken || isExpired) {
       yield take(actions.types.SIGN_IN_SUCCESS);
-      accessToken = yield select(getAccessToken);
     }
 
-    const { expired } = yield race({
-      expired: delay(expiresIn),
+    yield delay(expiresIn);
+
+    yield put(actions.refreshToken());
+    yield race({
+      success: take(actions.types.REFRESH_TOKEN_SUCCESS),
+      failure: take(actions.types.REFRESH_TOKEN_FAILURE),
+      signedOut: take(actions.types.SIGN_OUT),
     });
-
-    if (expired) {
-      yield put(actions.refreshToken());
-      const { success, failure, signedOut } = yield race({
-        success: take(actions.types.REFRESH_TOKEN_SUCCESS),
-        failure: take(actions.types.REFRESH_TOKEN_FAILURE),
-        signedOut: take(actions.types.SIGN_OUT),
-      });
-      if (success) {
-        accessToken = yield select(getAccessToken);
-        isExpired = yield select(getIsExpired);
-        expiresIn = refreshRate;
-      }
-      if (failure || signedOut) {
-        // if something goes wrong, just stop refreshing
-        accessToken = null;
-        expiresIn = 30 * 1000; // 30 seconds
-      }
-    }
+    expiresIn = refreshRate;
   }
 }
 

@@ -88,9 +88,6 @@ function filesByPath(state = {}, action) {
     }
     case types.LIST_FOLDER_SUCCESS: {
       const { path, items } = action.payload;
-      if (items.length === 0) {
-        return state;
-      }
       const ids = items.map((file) => file.id);
       if (!shallowEqual(ids, state[path])) {
         return {
