@@ -44,6 +44,12 @@ function loading(state = {}, action) {
         ...state,
         [scopes.emptyingTrash]: false,
       };
+    case fileTypes.FIND_DUPLICATES_FAILURE:
+    case fileTypes.FIND_DUPLICATES_SUCCESS:
+      return {
+        ...state,
+        [scopes.searchingDuplicates]: false,
+      };
     case fileTypes.LIST_FOLDER_FAILURE:
     case fileTypes.LIST_FOLDER_SUCCESS:
       return {

@@ -144,6 +144,27 @@ function* fetchThumbnail({ payload }) {
   yield put(actions.fetchThumbnailSuccess(id, size, thumb));
 }
 
+function* findDuplicates({ payload }) {
+  const accessToken = yield select(getAccessToken);
+  const { path, maxDistance } = payload;
+
+  const body = { path, max_distance: maxDistance };
+  const request = api.post('/files/find_duplicates', accessToken, body);
+  const [response, err] = yield tryRequest(request, scopes.searchingDuplicates);
+  if (err !== null) {
+    yield put(actions.findDuplicatesFailure(err));
+    return;
+  }
+
+  const [data, parseErr] = yield tryResponse(response.json());
+  if (parseErr !== null) {
+    yield put(actions.findDuplicatesFailure(err));
+    return;
+  }
+
+  yield put(actions.findDuplicatesSuccess(data));
+}
+
 function* getBatch({ payload }) {
   const accessToken = yield select(getAccessToken);
   const { fileIds } = payload;
@@ -321,6 +342,7 @@ export default [
   takeEvery(actions.types.DELETE_IMMEDIATELY_BATCH, deleteImmediatelyBatch),
   takeEvery(actions.types.DOWNLOAD, download),
   takeEvery(actions.types.EMPTY_TRASH, emptyTrash),
+  takeEvery(actions.types.FIND_DUPLICATES, findDuplicates),
   takeEvery(actions.types.GET_BATCH, getBatch),
   takeEvery(actions.types.LIST_FOLDER, listFolder),
   takeEvery(actions.types.MOVE_FILE, moveFile),
