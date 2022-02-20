@@ -26,6 +26,11 @@ const menu = [
     icon: <icons.BookmarkOutlined className="mr-3 h-5 w-5 shrink-0 lg:mx-auto xl:mr-3" />,
   },
   {
+    path: '/duplicates',
+    title: i18n.t('Duplicates'),
+    icon: <icons.DocumentSearchOutlined className="mr-3 h-5 w-5 shrink-0 lg:mx-auto xl:mr-3" />,
+  },
+  {
     path: routes.TRASH.prefix,
     title: i18n.t('Trash'),
     icon: <icons.TrashOutlined className="mr-3 h-5 w-5 shrink-0 lg:mx-auto xl:mr-3" />,
@@ -43,7 +48,8 @@ const adminMenu = [
 i18n.on('languageChanged init', () => {
   menu[0].title = i18n.t('Home');
   menu[1].title = i18n.t('Saved');
-  menu[2].title = i18n.t('Trash');
+  menu[2].title = i18n.t('Duplicates');
+  menu[3].title = i18n.t('Trash');
   adminMenu[0].title = i18n.t('Users');
 });
 

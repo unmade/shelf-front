@@ -36,6 +36,7 @@
     "format": "prettier --write .",
     "lint": "eslint ./",
     "test": "web-test-runner \"src/**/*.test.jsx\"",
+    "makelocales": "i18next \"src/**/*.{js,jsx}\" -c i18next-parser.config.js",
     "prepare": "husky install"
   },
   "devDependencies": {

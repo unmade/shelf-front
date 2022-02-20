@@ -3,6 +3,11 @@ export const BOOKMARKS = {
   route: '/bookmarks',
 };
 
+export const DUPLICATES = {
+  prefix: '/duplicates',
+  route: '/duplicates',
+};
+
 export const FILES = {
   prefix: '/files',
   route: '/files/:dirPath*',

@@ -21,7 +21,7 @@ yarn start
 To generate translation file:
 
 ```bash
-./node_modules/i18next-parser/bin/cli.js "src/**/*.{js,jsx}" -c i18next-parser.config.js
+yarn makelocales
 ```
 
 ### Building a Docker image
