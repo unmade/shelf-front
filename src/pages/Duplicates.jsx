@@ -1,11 +1,19 @@
 import React from 'react';
 
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { findDuplicates } from '../store/actions/files';
 
 function Duplicates() {
+  const dispatch = useDispatch();
   const { t } = useTranslation();
 
   const title = t('Duplicates');
+
+  React.useEffect(() => {
+    const maxDistance = 5;
+    dispatch(findDuplicates('Джонни', maxDistance));
+  }, [dispatch]);
 
   return (
     <div className="flex h-full">

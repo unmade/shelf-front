@@ -23,6 +23,10 @@ export const types = {
   FETCH_THUMBNAIL_SUCCESS: 'FETCH_THUMBNAIL_SUCCESS',
   FETCH_THUMBNAIL_FAILURE: 'FETCH_THUMBNAIL_FAILURE',
 
+  FIND_DUPLICATES: 'FIND_DUPLICATES',
+  FIND_DUPLICATES_SUCCESS: 'FIND_DUPLICATES_SUCCESS',
+  FIND_DUPLICATES_FAILURE: 'FIND_DUPLICATES_FAILURE',
+
   GET_BATCH: 'GET_BATCH',
   GET_BATCH_SUCCESS: 'GET_BATCH_SUCCESS',
   GET_BATCH_FAILURE: 'GET_BATCH_FAILURE',
@@ -142,6 +146,21 @@ export const fetchThumbnailSuccess = (id, size, thumb) => ({
 
 export const fetchThumbnailFailure = (err) => ({
   type: types.FETCH_THUMBNAIL_FAILURE,
+  payload: { err },
+});
+
+export const findDuplicates = (path, maxDistance) => ({
+  type: types.FIND_DUPLICATES,
+  payload: { path, maxDistance },
+});
+
+export const findDuplicatesSuccess = (payload) => ({
+  type: types.FIND_DUPLICATES_SUCCESS,
+  payload,
+});
+
+export const findDuplicatesFailure = (err) => ({
+  type: types.FIND_DUPLICATES_FAILURE,
   payload: { err },
 });
 

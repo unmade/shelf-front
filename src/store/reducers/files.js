@@ -16,6 +16,20 @@ function normalize(files) {
   return data;
 }
 
+function duplicatesByPath(state = {}, action) {
+  switch (action.type) {
+    case types.FIND_DUPLICATES_SUCCESS: {
+      const { path, items } = action.payload;
+      return {
+        ...state,
+        [path]: items.map((group) => group.map((file) => file.id)),
+      };
+    }
+    default:
+      return state;
+  }
+}
+
 function filesById(state = {}, action) {
   switch (action.type) {
     case types.EMPTY_TRASH_SUCCESS:
@@ -39,6 +53,19 @@ function filesById(state = {}, action) {
       const { [file.id]: deletedFileId, ...nextState } = state;
       return nextState;
     }
+    case types.FIND_DUPLICATES_SUCCESS: {
+      const { items } = action.payload;
+      const nextState = { ...state };
+      items.forEach((group) =>
+        group.forEach((file) => {
+          nextState[file.id] = file;
+        })
+      );
+      if (!shallowEqual(nextState, state)) {
+        return nextState;
+      }
+      return state;
+    }
     case types.GET_BATCH_SUCCESS:
     case types.LIST_FOLDER_SUCCESS: {
       if (action.payload.items.length === 0) {
@@ -47,15 +74,12 @@ function filesById(state = {}, action) {
       const items = normalize(action.payload.items);
       const nextState = { ...state };
       Object.keys(items).forEach((key) => {
-        if (nextState[key] == null) {
-          nextState[key] = items[key];
-        }
-        if (!shallowEqual(nextState[key], items[key])) {
-          nextState[key] = items[key];
-        }
+        nextState[key] = items[key];
       });
-
-      return nextState;
+      if (!shallowEqual(nextState, state)) {
+        return nextState;
+      }
+      return state;
     }
     case uploadTypes.UPLOAD_SUCCESS: {
       const { file, updates } = action.payload;
@@ -143,12 +167,14 @@ function downloads(state = {}, action) {
 export default combineReducers({
   byId: filesById,
   byPath: filesByPath,
+  duplicatesByPath,
   thumbnailsById,
   downloads,
 });
 
 const FILES_EMPTY = [];
 
+export const getDuplicatesByPath = (state, path) => state.files.duplicatesByPath[path] ?? null;
 export const getFileById = (state, id) => state.files.byId[id];
 export const getFileIdsByPath = (state, path) => state.files.byPath[path] ?? FILES_EMPTY;
 export const getFilesCountByPath = (state, path) => getFileIdsByPath(state, path).length;
