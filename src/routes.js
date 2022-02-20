@@ -5,7 +5,7 @@ export const BOOKMARKS = {
 
 export const DUPLICATES = {
   prefix: '/duplicates',
-  route: '/duplicates',
+  route: '/duplicates/:dirPath*',
 };
 
 export const FILES = {
