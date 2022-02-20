@@ -25,6 +25,7 @@ export const CloudUploadOutlined = hi.HiOutlineCloudUpload;
 export const Close = hi.HiOutlineX;
 export const CloseCirle = hi.HiOutlineXCircle;
 export const Collection = hi.HiOutlineCollection;
+export const DocumentSearchOutlined = hi.HiOutlineDocumentSearch;
 export const DotsHorizontal = hi.HiOutlineDotsHorizontal;
 export const DotsVerticalOutlined = hi.HiOutlineDotsVertical;
 export const Download = hi.HiOutlineDownload;

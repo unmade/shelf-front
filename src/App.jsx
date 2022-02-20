@@ -11,6 +11,7 @@ import Toast from './containers/Toast';
 import ToastItem from './containers/ToastItem';
 
 import Bookmarks from './pages/Bookmarks';
+import Duplicates from './pages/Duplicates';
 import Files from './pages/Files';
 import Trash from './pages/Trash';
 import UserManagement from './pages/admin/UserManagement';
@@ -37,8 +38,9 @@ function App() {
         </div>
         <div className="my-0 min-w-0 flex-1 bg-white shadow-sm">
           <Switch>
-            <Route path={routes.FILES.route} component={Files} />
             <Route path={routes.BOOKMARKS.route} component={Bookmarks} />
+            <Route path={routes.DUPLICATES.route} component={Duplicates} />
+            <Route path={routes.FILES.route} component={Files} />
             <Route path={routes.TRASH.route} component={Trash} />
             <Route path={routes.USER_MANAGEMENT.route} component={withAdmin(UserManagement)} />
             <Route exact path="/" render={() => <Redirect to={routes.FILES.prefix} />} />
