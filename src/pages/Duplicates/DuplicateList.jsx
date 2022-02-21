@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { VariableSizeList } from 'react-window';
 
-import { getDuplicatesByPath } from '../store/reducers/files';
+import { getDuplicatesByPath } from '../../store/reducers/files';
 
 function DuplicateList({ dirPath, itemRenderer }) {
   const duplicates = useSelector((state) => getDuplicatesByPath(state, dirPath));

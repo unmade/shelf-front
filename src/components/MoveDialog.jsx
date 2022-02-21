@@ -64,7 +64,13 @@ function MoveDialog({ uid }) {
       onCancel={onClose}
     >
       <div className="w-full sm:w-96" style={styles}>
-        <FolderPicker path={toPath} onPathChange={onPathChange} excludeIds={fileIds} />
+        <FolderPicker
+          emptyTitle={t('Nothing here yet')}
+          emptyDescription={t('Press "Move" button to move file here')}
+          excludeIds={fileIds}
+          onPathChange={onPathChange}
+          onlyFolders
+        />
       </div>
     </Dialog>
   );

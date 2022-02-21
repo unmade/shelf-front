@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 import { useSelector } from 'react-redux';
 
-import { getFileById } from '../store/reducers/files';
+import { getFileById } from '../../store/reducers/files';
 
-import * as routes from '../routes';
+import * as routes from '../../routes';
 
-import Thumbnail from './Thumbnail';
+import Thumbnail from '../../components/Thumbnail';
 
 function DuplicateListItem({ neighbourSelected, index, selected, type, value, onItemClick }) {
   const borderColor = selected || neighbourSelected ? 'border-orange-200' : '';
@@ -31,9 +31,11 @@ function DuplicateListItem({ neighbourSelected, index, selected, type, value, on
       <div className="shrink-0">
         <Thumbnail className="h-10 w-10" fileId={file.id} />
       </div>
-      <div>
-        <div className={selected ? 'font-medium text-orange-900' : 'font-medium'}>{file.name}</div>
-        <div className={selected ? 'text-orange-800' : 'text-gray-500'}>
+      <div className="min-w-0">
+        <div className={`truncate ${selected ? 'font-medium text-orange-900' : 'font-medium'}`}>
+          {file.name}
+        </div>
+        <div className={`truncate ${selected ? 'text-orange-800' : 'text-gray-500'}`}>
           {routes.parent(file.path)}
         </div>
       </div>

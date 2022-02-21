@@ -8,6 +8,6 @@ import { getLoading } from '../store/reducers/loading';
 import FileTableView from '../components/FileTableView';
 
 export default connect((state, ownProps) => ({
-  items: getFileIdsByPath(state, ownProps.path),
+  items: getFileIdsByPath(state, ownProps),
   loading: getLoading(state, scopes.listingFolder),
 }))(FileTableView);

@@ -73,10 +73,14 @@ function filesById(state = {}, action) {
       }
       const items = normalize(action.payload.items);
       const nextState = { ...state };
+      let changed = false;
       Object.keys(items).forEach((key) => {
-        nextState[key] = items[key];
+        if (!shallowEqual(items[key], nextState[key])) {
+          nextState[key] = items[key];
+          changed = true;
+        }
       });
-      if (!shallowEqual(nextState, state)) {
+      if (changed) {
         return nextState;
       }
       return state;
@@ -176,8 +180,8 @@ const FILES_EMPTY = [];
 
 export const getDuplicatesByPath = (state, path) => state.files.duplicatesByPath[path] ?? null;
 export const getFileById = (state, id) => state.files.byId[id];
-export const getFileIdsByPath = (state, path) => state.files.byPath[path] ?? FILES_EMPTY;
-export const getFilesCountByPath = (state, path) => getFileIdsByPath(state, path).length;
+export const getFileIdsByPath = (state, { path }) => state.files.byPath[path] ?? FILES_EMPTY;
+export const getFilesCountByPath = (state, path) => getFileIdsByPath(state, { path }).length;
 export const getThumbnailById = (state, id) => state.files.thumbnailsById[id];
 
 export const getDownloads = (state) => state.files.downloads;
@@ -216,7 +220,7 @@ export const makeGetPreview = () =>
   createSelector(
     [
       (state) => state.files.byId,
-      (state, props) => getFileIdsByPath(state, props.dirPath),
+      (state, props) => getFileIdsByPath(state, { path: props.dirPath }),
       (_state, props) => props.name,
     ],
     (byId, files, name) => {

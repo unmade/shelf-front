@@ -76,7 +76,7 @@ function* handleCreateFolder(action) {
   const { folder } = action.payload;
   const currPath = yield select(getCurrentPath);
 
-  const ids = new Set(yield select(getFileIdsByPath, currPath));
+  const ids = new Set(yield select(getFileIdsByPath, { path: currPath }));
   if (!ids.has(folder.id)) {
     const nextFiles = [...ids];
     const idx = yield findNextIdx(nextFiles, folder, compareFiles);
@@ -102,7 +102,7 @@ function* handleMoveFile(action) {
   const currPath = yield select(getCurrentPath);
 
   const parentPath = routes.parent(file.path);
-  const ids = yield select(getFileIdsByPath, currPath);
+  const ids = yield select(getFileIdsByPath, { path: currPath });
   const nextFiles = [...ids.filter((id) => id !== file.id)];
   if (parentPath === currPath) {
     const idx = yield findNextIdx(nextFiles, file, compareFiles);
@@ -129,7 +129,7 @@ function* handleUpload(action) {
     }
   }
   if (target) {
-    const ids = new Set(yield select(getFileIdsByPath, currPath));
+    const ids = new Set(yield select(getFileIdsByPath, { path: currPath }));
     if (!ids.has(target.id)) {
       const nextFiles = [...ids];
       const idx = yield findNextIdx(nextFiles, target, compareFiles);

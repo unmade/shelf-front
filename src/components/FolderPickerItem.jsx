@@ -18,7 +18,7 @@ function FolderPickerItem({ data, index, style }) {
       <button
         type="button"
         className="h-full w-full rounded-lg px-4 focus:outline-none"
-        onClick={() => data.onClick(item.path)}
+        onClick={data.onClick(item.path)}
       >
         <div className={`flex min-w-0 flex-row items-center space-x-2 text-sm ${primaryText}`}>
           <div>
