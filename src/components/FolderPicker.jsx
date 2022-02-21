@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { listFolder } from '../store/actions/files';
 import { scopes } from '../store/actions/loading';
-import { getFolderIdsByPath } from '../store/reducers/files';
+import { getFileIdsByPath, getFolderIdsByPath } from '../store/reducers/files';
 import { getLoading } from '../store/reducers/loading';
 
 import * as icons from '../icons';
@@ -22,16 +22,21 @@ const height = {
   height: `calc(100% - ${HEIGHT}px`,
 };
 
-const changePath = (route, onPathChange) => (event) => {
-  event.preventDefault();
-  event.stopPropagation();
-  onPathChange(routes.makePathFromUrl(route));
-};
-
-const FolderPicker = ({ excludeIds, path, onPathChange }) => {
+const FolderPicker = ({
+  emptyTitle,
+  emptyDescription,
+  excludeIds,
+  initialPath,
+  onlyFolders,
+  onPathChange,
+}) => {
   const dispatch = useDispatch();
 
-  let items = useSelector((state) => getFolderIdsByPath(state, { path }));
+  const [path, setPath] = React.useState(initialPath);
+
+  const selector = onlyFolders ? getFolderIdsByPath : getFileIdsByPath;
+
+  let items = useSelector((state) => selector(state, { path }));
   const loading = useSelector((state) => getLoading(state, scopes.listingFolder));
 
   React.useEffect(() => {
@@ -40,12 +45,23 @@ const FolderPicker = ({ excludeIds, path, onPathChange }) => {
     }
   }, [items.length, path, dispatch]);
 
+  const changePath =
+    (nextPath, onPathChangeCallback = null) =>
+    (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      setPath(nextPath);
+      if (onPathChangeCallback != null) {
+        onPathChangeCallback(nextPath);
+      }
+    };
+
   const idsToExclude = new Set(excludeIds);
   items = items.filter((id) => !idsToExclude.has(id));
 
   const data = {
     items,
-    onClick: onPathChange,
+    onClick: (nextPath) => changePath(nextPath, onPathChange),
   };
 
   return (
@@ -56,7 +72,7 @@ const FolderPicker = ({ excludeIds, path, onPathChange }) => {
           itemRender={({ name, url }) => (
             <Breadcrumb.Item
               to={url}
-              onClick={changePath(url, onPathChange)}
+              onClick={changePath(routes.makePathFromUrl(url), onPathChange)}
               isActive={() => url === routes.makeUrlFromPath({ path })}
             >
               <span className="block truncate">{name}</span>
@@ -65,7 +81,7 @@ const FolderPicker = ({ excludeIds, path, onPathChange }) => {
           itemRenderCollapsed={({ name, url }) => (
             <Breadcrumb.ItemCollapsed
               to={url}
-              onClick={changePath(url, onPathChange)}
+              onClick={changePath(routes.makePathFromUrl(url), onPathChange)}
               isActive={() => false}
             >
               <span className="block truncate">{name}</span>
@@ -86,8 +102,8 @@ const FolderPicker = ({ excludeIds, path, onPathChange }) => {
         <div className="flex flex-col items-center justify-center rounded border" style={height}>
           <div className="text-center">
             <icons.Collection className="mx-auto mb-4 h-12 w-12 text-gray-400" />
-            <p className="text-lg font-semibold text-gray-800">Nothing here yet</p>
-            <p className="text-sm text-gray-600">Move file here</p>
+            <p className="text-lg font-semibold text-gray-800">{emptyTitle}</p>
+            <p className="text-sm text-gray-600">{emptyDescription}</p>
           </div>
         </div>
       )}
@@ -96,9 +112,18 @@ const FolderPicker = ({ excludeIds, path, onPathChange }) => {
 };
 
 FolderPicker.propTypes = {
-  excludeIds: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  path: PropTypes.string.isRequired,
+  emptyTitle: PropTypes.string.isRequired,
+  emptyDescription: PropTypes.string.isRequired,
+  excludeIds: PropTypes.arrayOf(PropTypes.string.isRequired),
+  initialPath: PropTypes.string,
   onPathChange: PropTypes.func.isRequired,
+  onlyFolders: PropTypes.bool,
+};
+
+FolderPicker.defaultProps = {
+  initialPath: '.',
+  onlyFolders: false,
+  excludeIds: [],
 };
 
 export default FolderPicker;

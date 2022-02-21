@@ -4,16 +4,17 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import { findDuplicates } from '../store/actions/files';
-import { getDuplicatesByPath } from '../store/reducers/files';
+import { findDuplicates } from '../../store/actions/files';
+import { getDuplicatesByPath } from '../../store/reducers/files';
 
-import * as icons from '../icons';
+import * as icons from '../../icons';
 
-import Button from '../components/ui/Button';
+import Button from '../../components/ui/Button';
 
-import DuplicateList from '../components/DuplicateList';
-import DuplicateListItem from '../components/DuplicateListItem';
-import DuplicatePreview from '../components/DuplicatePreview';
+import DuplicateList from './DuplicateList';
+import DuplicateListItem from './DuplicateListItem';
+import DuplicatePreview from './DuplicatePreview';
+import SelectPathButton from './SelectFolderDialogButton';
 
 const MemoizedDuplicatedListItem = React.memo(DuplicateListItem);
 
@@ -38,7 +39,7 @@ function Duplicates() {
   React.useEffect(() => {
     const maxDistance = 5;
     dispatch(findDuplicates(dirPath, maxDistance));
-  }, [dispatch]);
+  }, [dirPath, dispatch]);
 
   const onItemClick = (fileId, index) => {
     selectItem({ fileId, index });
@@ -69,19 +70,7 @@ function Duplicates() {
 
         {/* select folder and filter buttons */}
         <div className="mx-6 mt-5 flex space-x-6">
-          <Button
-            className="relative"
-            type="default"
-            title="Select folder"
-            size="base"
-            icon={<icons.Folder className="h-5 w-5 text-blue-400" />}
-            full
-          >
-            <span className="text-sm">{dirPath}</span>
-            <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
-              <icons.Selector className="h-5 w-5 text-gray-400" aria-hidden="true" />
-            </span>
-          </Button>
+          <SelectPathButton dirPath={dirPath} />
           <Button size="base" icon={<icons.Filter className="h-5 w-6 text-gray-400" />} />
         </div>
 

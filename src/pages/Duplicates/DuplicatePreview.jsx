@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 
 import { useSelector } from 'react-redux';
 
-import { getFileById } from '../store/reducers/files';
+import { getFileById } from '../../store/reducers/files';
 
-import * as icons from '../icons';
+import * as icons from '../../icons';
 
-import Button from './ui/Button';
-import FileSize from './ui/FileSize';
-import TimeAgo from './ui/TimeAgo';
+import Button from '../../components/ui/Button';
+import FileSize from '../../components/ui/FileSize';
+import TimeAgo from '../../components/ui/TimeAgo';
 
-import Thumbnail from './Thumbnail';
+import Thumbnail from '../../components/Thumbnail';
 
 function FileProperty({ header, value }) {
   return (
