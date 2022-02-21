@@ -9,27 +9,32 @@ import * as routes from '../routes';
 
 import Thumbnail from './Thumbnail';
 
-function DuplicateListItem({ data, index, style }) {
-  const { type, value } = data[index];
+function DuplicateListItem({ neighbourSelected, index, selected, type, value, onItemClick }) {
+  const borderColor = selected || neighbourSelected ? 'border-orange-200' : '';
+  const backgroundColor = selected ? 'bg-orange-50' : '';
   if (type === 'header') {
     return (
-      <div style={style}>
-        <div className="border-t bg-gray-50 px-7 py-1 text-sm font-medium text-gray-500">
-          Group #{value}
-        </div>
+      <div
+        className={`border-t bg-gray-50 px-7 py-1 text-sm font-medium text-gray-500 ${borderColor}`}
+      >
+        Group #{value}
       </div>
     );
   }
   const file = useSelector((state) => getFileById(state, value));
   return (
-    <div style={style}>
-      <div className="flex items-center space-x-4 border-t px-7 py-4 text-sm">
-        <div className="shrink-0">
-          <Thumbnail className="h-10 w-10" fileId={file.id} />
-        </div>
-        <div>
-          <div className="font-medium">{file.name}</div>
-          <div className="text-gray-500">{routes.parent(file.path)}</div>
+    <div
+      className={`flex cursor-pointer items-center space-x-4 border-t px-7 py-4 text-sm ${borderColor} ${backgroundColor}`}
+      onClick={() => onItemClick(file.id, index)}
+      aria-hidden
+    >
+      <div className="shrink-0">
+        <Thumbnail className="h-10 w-10" fileId={file.id} />
+      </div>
+      <div>
+        <div className={selected ? 'font-medium text-orange-900' : 'font-medium'}>{file.name}</div>
+        <div className={selected ? 'text-orange-800' : 'text-gray-500'}>
+          {routes.parent(file.path)}
         </div>
       </div>
     </div>
@@ -39,11 +44,16 @@ function DuplicateListItem({ data, index, style }) {
 export default DuplicateListItem;
 
 DuplicateListItem.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      type: PropTypes.oneOf(['header', 'row']),
-      value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    }).isRequired
-  ).isRequired,
+  neighbourSelected: PropTypes.bool,
   index: PropTypes.number.isRequired,
+  selected: PropTypes.bool,
+  type: PropTypes.oneOf(['header', 'row']).isRequired,
+  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  onItemClick: PropTypes.func,
+};
+
+DuplicateListItem.defaultProps = {
+  neighbourSelected: false,
+  selected: false,
+  onItemClick: null,
 };
