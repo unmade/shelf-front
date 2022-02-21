@@ -9,18 +9,22 @@ import { getDuplicatesByPath } from '../store/reducers/files';
 
 function DuplicateList({ dirPath, itemRenderer }) {
   const duplicates = useSelector((state) => getDuplicatesByPath(state, dirPath));
-  if (!duplicates?.length) {
-    return null;
-  }
 
   // flatten the array
-  const items = [];
-  duplicates.forEach((group, idx) => {
-    items.push({ type: 'header', value: idx + 1 });
-    group.forEach((fileId) => {
-      items.push({ type: 'row', value: fileId });
+  const items = React.useMemo(() => {
+    const flatten = [];
+    duplicates?.forEach((group, idx) => {
+      flatten.push({ type: 'header', value: idx + 1 });
+      group.forEach((fileId) => {
+        flatten.push({ type: 'row', value: fileId });
+      });
     });
-  });
+    return flatten;
+  }, [duplicates]);
+
+  if (!items.length) {
+    return null;
+  }
 
   return (
     <AutoSizer>

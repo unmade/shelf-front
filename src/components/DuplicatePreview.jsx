@@ -5,6 +5,8 @@ import { useSelector } from 'react-redux';
 
 import { getFileById } from '../store/reducers/files';
 
+import * as icons from '../icons';
+
 import Button from './ui/Button';
 import FileSize from './ui/FileSize';
 import TimeAgo from './ui/TimeAgo';
@@ -27,7 +29,7 @@ FileProperty.propTypes = {
 
 function DuplicatePreview({ fileId }) {
   const file = useSelector((state) => getFileById(state, fileId));
-  if (fileId == null) {
+  if (file == null) {
     return null;
   }
 
@@ -52,8 +54,8 @@ function DuplicatePreview({ fileId }) {
             value={<TimeAgo mtime={file.mtime * 1000} format="LLL" />}
           />
         </div>
-        <div>
-          <Button danger type="primary">
+        <div className="space-x-8">
+          <Button type="primary" icon={<icons.TrashOutlined className="h-4 w-4" />} danger>
             Delete
           </Button>
         </div>

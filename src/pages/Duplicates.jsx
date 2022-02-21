@@ -15,15 +15,23 @@ import DuplicateList from '../components/DuplicateList';
 import DuplicateListItem from '../components/DuplicateListItem';
 import DuplicatePreview from '../components/DuplicatePreview';
 
+const MemoizedDuplicatedListItem = React.memo(DuplicateListItem);
+
 function Duplicates() {
   const { t } = useTranslation();
+
+  const [selection, selectItem] = React.useState({ fileId: null, index: null });
 
   const dispatch = useDispatch();
   const params = useParams();
 
   const dirPath = decodeURIComponent(params.dirPath ?? '.');
 
+  // select first item by default
   const duplicates = useSelector((state) => getDuplicatesByPath(state, dirPath));
+  if (duplicates?.length && selection.fileId == null) {
+    selectItem({ fileId: duplicates[0][0], index: 0 });
+  }
 
   const title = t('Duplicates');
 
@@ -31,6 +39,23 @@ function Duplicates() {
     const maxDistance = 5;
     dispatch(findDuplicates(dirPath, maxDistance));
   }, [dispatch]);
+
+  const onItemClick = (fileId, index) => {
+    selectItem({ fileId, index });
+  };
+
+  const itemRenderer = ({ data, index, style }) => (
+    <div style={style}>
+      <MemoizedDuplicatedListItem
+        neighbourSelected={selection.index === index - 1}
+        index={index}
+        selected={data[index].value === selection.fileId}
+        type={data[index].type}
+        value={data[index].value}
+        onItemClick={onItemClick}
+      />
+    </div>
+  );
 
   return (
     <div className="flex h-full">
@@ -63,13 +88,13 @@ function Duplicates() {
         {/* duplicates list */}
         <div className="mt-7" />
         <div className="flex-1">
-          <DuplicateList dirPath={dirPath} itemRenderer={DuplicateListItem} />
+          <DuplicateList dirPath={dirPath} itemRenderer={itemRenderer} />
         </div>
       </div>
 
       {/* right column: duplicates preview */}
       <div className="w-2/3 border-l">
-        <DuplicatePreview fileId={duplicates && duplicates[1][0]} />
+        <DuplicatePreview fileId={selection.fileId} />
       </div>
     </div>
   );
