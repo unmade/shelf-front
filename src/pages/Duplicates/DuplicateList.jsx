@@ -8,7 +8,12 @@ import { VariableSizeList } from 'react-window';
 import { getDuplicatesByPath } from '../../store/reducers/files';
 
 function DuplicateList({ dirPath, itemRenderer }) {
+  const ref = React.useRef();
   const duplicates = useSelector((state) => getDuplicatesByPath(state, dirPath));
+
+  React.useEffect(() => {
+    ref.current?.resetAfterIndex(0, false);
+  }, [duplicates]);
 
   // flatten the array
   const items = React.useMemo(() => {
@@ -26,14 +31,17 @@ function DuplicateList({ dirPath, itemRenderer }) {
     return null;
   }
 
+  const getItemSize = (index) => (items[index].type === 'header' ? 29 : 73);
+
   return (
     <AutoSizer>
       {({ height, width }) => (
         <VariableSizeList
+          ref={ref}
           height={height}
           itemCount={items.length}
           itemData={items}
-          itemSize={(index) => (items[index].type === 'header' ? 29 : 73)}
+          itemSize={getItemSize}
           width={width}
         >
           {itemRenderer}

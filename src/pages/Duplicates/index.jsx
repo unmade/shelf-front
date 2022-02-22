@@ -10,6 +10,7 @@ import { getDuplicatesByPath } from '../../store/reducers/files';
 import * as icons from '../../icons';
 
 import Button from '../../components/ui/Button';
+import Listbox from '../../components/ui/Listbox';
 
 import DuplicateList from './DuplicateList';
 import DuplicateListItem from './DuplicateListItem';
@@ -18,28 +19,34 @@ import SelectPathButton from './SelectFolderDialogButton';
 
 const MemoizedDuplicatedListItem = React.memo(DuplicateListItem);
 
+const distanceOptions = [
+  { name: 'Similar', value: 5 },
+  { name: 'Nearly identical', value: 2 },
+  { name: 'Identical', value: 0 },
+];
+
 function Duplicates() {
   const { t } = useTranslation();
-
-  const [selection, selectItem] = React.useState({ fileId: null, index: null });
 
   const dispatch = useDispatch();
   const params = useParams();
 
   const dirPath = decodeURIComponent(params.dirPath ?? '.');
 
-  // select first item by default
-  const duplicates = useSelector((state) => getDuplicatesByPath(state, dirPath));
-  if (duplicates?.length && selection.fileId == null) {
-    selectItem({ fileId: duplicates[0][0], index: 0 });
-  }
+  const [selection, selectItem] = React.useState({ fileId: null, index: null });
+  const [maxDistance, setMaxDistance] = React.useState(distanceOptions[0]);
 
-  const title = t('Duplicates');
-
+  const maxDistanceValue = maxDistance.value;
   React.useEffect(() => {
-    const maxDistance = 5;
-    dispatch(findDuplicates(dirPath, maxDistance));
-  }, [dirPath, dispatch]);
+    dispatch(findDuplicates(dirPath, maxDistanceValue));
+  }, [dirPath, dispatch, maxDistanceValue]);
+
+  const duplicates = useSelector((state) => getDuplicatesByPath(state, dirPath));
+  React.useEffect(() => {
+    if (duplicates?.length) {
+      selectItem({ fileId: duplicates[0][0], index: 0 });
+    }
+  }, [duplicates, selectItem]);
 
   const onItemClick = (fileId, index) => {
     selectItem({ fileId, index });
@@ -58,6 +65,8 @@ function Duplicates() {
     </div>
   );
 
+  const title = t('Duplicates');
+
   return (
     <div className="flex h-full">
       {/* left column: search results */}
@@ -70,8 +79,20 @@ function Duplicates() {
 
         {/* select folder and filter buttons */}
         <div className="mx-6 mt-5 flex space-x-6">
-          <SelectPathButton dirPath={dirPath} />
-          <Button size="base" icon={<icons.Filter className="h-5 w-6 text-gray-400" />} />
+          <div className="w-full">
+            <SelectPathButton dirPath={dirPath} />
+          </div>
+          <Listbox
+            initial={distanceOptions[0]}
+            options={distanceOptions}
+            onOptionChange={setMaxDistance}
+          >
+            <Button
+              as="div"
+              size="base"
+              icon={<icons.Filter className="h-6 w-6 text-gray-400" />}
+            />
+          </Listbox>
         </div>
 
         {/* duplicates list */}
