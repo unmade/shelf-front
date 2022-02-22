@@ -112,8 +112,8 @@ const FolderPicker = ({
 };
 
 FolderPicker.propTypes = {
-  emptyTitle: PropTypes.string.isRequired,
-  emptyDescription: PropTypes.string.isRequired,
+  emptyTitle: PropTypes.string,
+  emptyDescription: PropTypes.string,
   excludeIds: PropTypes.arrayOf(PropTypes.string.isRequired),
   initialPath: PropTypes.string,
   onPathChange: PropTypes.func.isRequired,
@@ -121,6 +121,8 @@ FolderPicker.propTypes = {
 };
 
 FolderPicker.defaultProps = {
+  emptyTitle: '',
+  emptyDescription: '',
   initialPath: '.',
   onlyFolders: false,
   excludeIds: [],

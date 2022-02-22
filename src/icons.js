@@ -15,6 +15,7 @@ export const ArrowNarrowRight = hi.HiArrowNarrowRight;
 export const ArrowNarrowRightOutlined = hi.HiOutlineArrowNarrowRight;
 export const Bookmark = hi.HiBookmark;
 export const BookmarkOutlined = hi.HiOutlineBookmark;
+export const Check = hi.HiCheck;
 export const CheckCircle = hi.HiCheckCircle;
 export const ChevronLeft = hi.HiChevronLeft;
 export const ChevronLeftOutlined = hi.HiOutlineChevronLeft;
