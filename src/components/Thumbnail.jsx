@@ -27,7 +27,7 @@ function Thumbnail({ className, deferred, fileId, size }) {
   }, [id, path, size, deferred, shouldLoad, dispatch]);
 
   if (file.has_thumbnail && loaded) {
-    return <img className={`object-contain ${className}`} src={thumbs[size]} alt={file.name} />;
+    return <img className={`object-scale-down ${className}`} src={thumbs[size]} alt={file.name} />;
   }
   return <FileIcon className={className} mediatype={file.mediatype} hidden={file.hidden} />;
 }

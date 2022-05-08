@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 
-import * as icons from '../../icons';
 import * as routes from '../../routes';
 
 import Button from '../../components/ui/Button';
@@ -11,12 +11,13 @@ import Dialog from '../../components/ui/Dialog';
 
 import FolderPicker from '../../components/FolderPicker';
 
-function SelectFolderDialogButton({ dirPath }) {
+function SelectFolderDialogButton({ type, children, dirPath, icon, onSelectFolder }) {
+  const { t } = useTranslation();
+
   const history = useHistory();
 
   const [visible, setVisible] = React.useState(false);
   const [path, setPath] = React.useState(dirPath);
-  const name = routes.folderName(dirPath);
 
   const onPathChange = React.useCallback((nextPath) => setPath(nextPath), [setPath]);
 
@@ -31,23 +32,23 @@ function SelectFolderDialogButton({ dirPath }) {
   const onConfirm = () => {
     history.push(routes.join(routes.DUPLICATES.prefix, path));
     setVisible(false);
+    if (onSelectFolder != null) {
+      onSelectFolder(path);
+    }
   };
 
   return (
     <>
       <Button
         className="relative"
-        type="default"
-        title="Select folder"
+        type={type}
+        title={t('Select folder')}
         size="base"
-        icon={<icons.Folder className="h-5 w-5 text-blue-400" />}
+        icon={icon}
         onClick={showDialog}
         full
       >
-        <span className="text-sm">{name}</span>
-        <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
-          <icons.Selector className="h-5 w-5 text-gray-400" aria-hidden="true" />
-        </span>
+        {children}
       </Button>
 
       <Dialog
@@ -72,5 +73,14 @@ function SelectFolderDialogButton({ dirPath }) {
 export default SelectFolderDialogButton;
 
 SelectFolderDialogButton.propTypes = {
+  type: PropTypes.string,
   dirPath: PropTypes.string.isRequired,
+  icon: PropTypes.element,
+  onSelectFolder: PropTypes.func,
+};
+
+SelectFolderDialogButton.defaultProps = {
+  type: 'default',
+  icon: null,
+  onSelectFolder: null,
 };

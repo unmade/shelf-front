@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { getFileById } from '../../store/reducers/files';
 
 import * as icons from '../../icons';
+import * as routes from '../../routes';
 
 import Button from '../../components/ui/Button';
 import FileSize from '../../components/ui/FileSize';
@@ -45,7 +46,7 @@ function DuplicatePreview({ fileId }) {
       <div className="mt-8 flex bg-white px-10">
         <div className="w-1/2 space-y-8">
           <FileProperty header="Name" value={file.name} />
-          <FileProperty header="Path" value={file.path} />
+          <FileProperty header="Path" value={routes.parent(file.path)} />
         </div>
         <div className="w-1/2 space-y-8">
           <FileProperty header="Size" value={<FileSize size={file.size} />} />
