@@ -9,9 +9,13 @@ import * as routes from '../../routes';
 
 import Thumbnail from '../../components/Thumbnail';
 
-function DuplicateListItem({ neighbourSelected, index, selected, type, value, onItemClick }) {
+function DuplicateListItem({ neighbourSelected, index, last, selected, type, value, onItemClick }) {
   const borderColor = selected || neighbourSelected ? 'border-orange-200' : '';
+  const borderWidth = selected && last ? 'border-t border-b' : 'border-t';
   const backgroundColor = selected ? 'bg-orange-50' : '';
+  const nameStyle = selected ? 'font-medium text-orange-900' : 'font-medium';
+  const pathStyle = selected ? 'text-orange-800' : 'text-gray-500';
+
   if (type === 'header') {
     return (
       <div
@@ -21,10 +25,12 @@ function DuplicateListItem({ neighbourSelected, index, selected, type, value, on
       </div>
     );
   }
+
   const file = useSelector((state) => getFileById(state, value));
+
   return (
     <div
-      className={`flex cursor-pointer items-center space-x-4 border-t px-7 py-4 text-sm ${borderColor} ${backgroundColor}`}
+      className={`flex cursor-pointer items-center space-x-4 px-7 py-4 text-sm ${borderWidth} ${borderColor} ${backgroundColor}`}
       onClick={() => onItemClick(file.id, index)}
       aria-hidden
     >
@@ -32,12 +38,8 @@ function DuplicateListItem({ neighbourSelected, index, selected, type, value, on
         <Thumbnail className="h-10 w-10" fileId={file.id} />
       </div>
       <div className="min-w-0">
-        <div className={`truncate ${selected ? 'font-medium text-orange-900' : 'font-medium'}`}>
-          {file.name}
-        </div>
-        <div className={`truncate ${selected ? 'text-orange-800' : 'text-gray-500'}`}>
-          {routes.parent(file.path)}
-        </div>
+        <div className={`truncate ${nameStyle}`}>{file.name}</div>
+        <div className={`truncate ${pathStyle}`}>{routes.parent(file.path)}</div>
       </div>
     </div>
   );
@@ -48,6 +50,7 @@ export default DuplicateListItem;
 DuplicateListItem.propTypes = {
   neighbourSelected: PropTypes.bool,
   index: PropTypes.number.isRequired,
+  last: PropTypes.bool,
   selected: PropTypes.bool,
   type: PropTypes.oneOf(['header', 'row']).isRequired,
   value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
@@ -56,6 +59,7 @@ DuplicateListItem.propTypes = {
 
 DuplicateListItem.defaultProps = {
   neighbourSelected: false,
+  last: false,
   selected: false,
   onItemClick: null,
 };
