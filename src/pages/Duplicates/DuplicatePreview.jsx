@@ -13,7 +13,6 @@ import * as routes from '../../routes';
 import Button from '../../components/ui/Button';
 import FileSize from '../../components/ui/FileSize';
 import TimeAgo from '../../components/ui/TimeAgo';
-
 import Thumbnail from '../../components/Thumbnail';
 
 function FileProperty({ header, value }) {
