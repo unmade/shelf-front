@@ -32,6 +32,9 @@ module.exports = {
           to: { transform: 'translateX(0)' },
         },
       },
+      margin: {
+        '-5.75': '-1.45rem',
+      },
       maxWidth: {
         '2xs': '10rem',
       },
