@@ -69,6 +69,7 @@ function DuplicatesResult({ dirPath, onFolderChange }) {
         selected={data[index].value === selection.fileId}
         type={data[index].type}
         value={data[index].value}
+        last={index === data.length - 1}
         onItemClick={onItemClick}
       />
     </div>
@@ -107,7 +108,6 @@ function DuplicatesResult({ dirPath, onFolderChange }) {
             <Button
               as="div"
               size="base"
-              // icon={<icons.Filter className="h-6 w-6 text-gray-400" />}
               icon={
                 <div className="flex h-6 w-6 items-center justify-center text-xl font-medium text-gray-500">
                   {maxDistance.symbol}
