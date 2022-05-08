@@ -21,9 +21,18 @@ import SelectFolderDialogButton from './SelectFolderDialogButton';
 const MemoizedDuplicatedListItem = React.memo(DuplicateListItem);
 
 const distanceOptions = [
-  { name: 'Similar', value: 5 },
-  { name: 'Nearly identical', value: 2 },
-  { name: 'Identical', value: 0 },
+  { name: 'Similar', value: 5, symbol: '≈' },
+  {
+    name: 'Nearly identical',
+    value: 2,
+    symbol: (
+      <span className="flex flex-col">
+        <span>~</span>
+        <span className="-mt-5.75">–</span>
+      </span>
+    ),
+  },
+  { name: 'Identical', value: 0, symbol: '=' },
 ];
 
 function DuplicatesResult({ dirPath, onFolderChange }) {
@@ -43,6 +52,8 @@ function DuplicatesResult({ dirPath, onFolderChange }) {
   React.useEffect(() => {
     if (duplicates?.length) {
       selectItem({ fileId: duplicates[0][0], index: 0 });
+    } else {
+      selectItem({ fileId: null, index: null });
     }
   }, [duplicates, selectItem]);
 
@@ -72,7 +83,6 @@ function DuplicatesResult({ dirPath, onFolderChange }) {
         {/* header and title */}
         <div className="mx-6 mt-8">
           <h2 className="text-xl font-medium">{title}</h2>
-          <span className="text-sm text-gray-500">Lorem ipsum dolor sit amet</span>
         </div>
 
         {/* select folder and filter buttons */}
@@ -97,7 +107,12 @@ function DuplicatesResult({ dirPath, onFolderChange }) {
             <Button
               as="div"
               size="base"
-              icon={<icons.Filter className="h-6 w-6 text-gray-400" />}
+              // icon={<icons.Filter className="h-6 w-6 text-gray-400" />}
+              icon={
+                <div className="flex h-6 w-6 items-center justify-center text-xl font-medium text-gray-500">
+                  {maxDistance.symbol}
+                </div>
+              }
             />
           </Listbox>
         </div>
@@ -105,7 +120,13 @@ function DuplicatesResult({ dirPath, onFolderChange }) {
         {/* duplicates list */}
         <div className="mt-7" />
         <div className="flex-1">
-          <DuplicateList dirPath={dirPath} itemRenderer={itemRenderer} />
+          {duplicates?.length ? (
+            <DuplicateList dirPath={dirPath} itemRenderer={itemRenderer} />
+          ) : (
+            <div className="flex h-full items-center justify-center">
+              <p className="font-medium">{t('No duplicates found')}</p>
+            </div>
+          )}
         </div>
       </div>
 
