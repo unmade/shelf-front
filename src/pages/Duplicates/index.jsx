@@ -4,7 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 
 import * as icons from '../../icons';
+import { Dialogs } from '../../constants';
 
+import DeleteDialog from '../../components/DeleteDialog';
 import DuplicatesResult from './DuplicatesResult';
 import SelectFolderDialogButton from './SelectFolderDialogButton';
 
@@ -36,7 +38,12 @@ function Duplicates() {
     );
   }
 
-  return <DuplicatesResult dirPath={targetFolderPath} onFolderChange={setTargetFolderPath} />;
+  return (
+    <>
+      <DuplicatesResult dirPath={targetFolderPath} onFolderChange={setTargetFolderPath} />
+      <DeleteDialog uid={Dialogs.delete} />
+    </>
+  );
 }
 
 export default Duplicates;
