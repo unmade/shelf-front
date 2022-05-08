@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { openDialog } from '../../store/actions/ui';
 import { getFileById } from '../../store/reducers/files';
 
+import { Dialogs } from '../../constants';
 import * as icons from '../../icons';
 import * as routes from '../../routes';
 
@@ -29,10 +31,16 @@ FileProperty.propTypes = {
 };
 
 function DuplicatePreview({ fileId }) {
+  const dispatch = useDispatch();
+
   const file = useSelector((state) => getFileById(state, fileId));
   if (file == null) {
     return null;
   }
+
+  const onDelete = () => {
+    dispatch(openDialog(Dialogs.delete, { fileIds: [fileId] }));
+  };
 
   return (
     <div className="h-full">
@@ -56,7 +64,12 @@ function DuplicatePreview({ fileId }) {
           />
         </div>
         <div className="space-x-8">
-          <Button type="primary" icon={<icons.TrashOutlined className="h-4 w-4" />} danger>
+          <Button
+            type="primary"
+            icon={<icons.TrashOutlined className="h-4 w-4" />}
+            danger
+            onClick={onDelete}
+          >
             Delete
           </Button>
         </div>
