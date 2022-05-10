@@ -36,7 +36,8 @@ function hasPreview({ size, mediatype }) {
 }
 
 function replace(history, path) {
-  history.replace(routes.makeUrlFromPath({ path, asPreview: true }));
+  const queryParams = { preview: routes.basename(path) };
+  history.replace(routes.makeUrlFromPath({ path, queryParams }));
 }
 
 function Header({ idx, total, name, prevPath, nextPath }) {

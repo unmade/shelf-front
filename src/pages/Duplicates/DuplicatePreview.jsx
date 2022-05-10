@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { openDialog } from '../../store/actions/ui';
@@ -13,7 +14,9 @@ import * as routes from '../../routes';
 import Button from '../../components/ui/Button';
 import FileSize from '../../components/ui/FileSize';
 import TimeAgo from '../../components/ui/TimeAgo';
+
 import Thumbnail from '../../components/Thumbnail';
+import DuplicateLink from './DuplicateLink';
 
 function FileProperty({ header, value }) {
   return (
@@ -30,6 +33,8 @@ FileProperty.propTypes = {
 };
 
 function DuplicatePreview({ fileId }) {
+  const { t } = useTranslation();
+
   const dispatch = useDispatch();
 
   const file = useSelector((state) => getFileById(state, fileId));
@@ -62,14 +67,23 @@ function DuplicatePreview({ fileId }) {
             value={<TimeAgo mtime={file.mtime * 1000} format="LLL" />}
           />
         </div>
-        <div className="space-x-8">
+        <div className="flex flex-col space-y-4">
+          <Button type="text" icon={<icons.EyeOutlined className=" h-4 w-4 text-blue-500" />}>
+            <DuplicateLink
+              className="font-semibold text-blue-500"
+              path={file.path}
+              prefix={routes.DUPLICATES.prefix}
+            >
+              {t('Preview')}
+            </DuplicateLink>
+          </Button>
           <Button
             type="primary"
             icon={<icons.TrashOutlined className="h-4 w-4" />}
             danger
             onClick={onDelete}
           >
-            Delete
+            {t('Delete')}
           </Button>
         </div>
       </div>

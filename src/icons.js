@@ -31,6 +31,7 @@ export const DotsHorizontal = hi.HiOutlineDotsHorizontal;
 export const DotsVerticalOutlined = hi.HiOutlineDotsVertical;
 export const Download = hi.HiOutlineDownload;
 export const Edit = hi.HiOutlinePencil;
+export const EyeOutlined = hi.HiOutlineEye;
 export const File = hi.HiOutlineDocument;
 export const FileCode = hi.HiOutlineCode;
 export const FileImage = hi.HiOutlinePhotograph;
