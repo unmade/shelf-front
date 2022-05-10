@@ -23,7 +23,7 @@ export const USER_MANAGEMENT = {
   route: '/admin/user-management',
 };
 
-function basename(path) {
+export function basename(path) {
   const end = path.lastIndexOf('/');
   if (end < 0) {
     return path;
@@ -74,15 +74,17 @@ export function parent(path) {
   return path.substring(0, end);
 }
 
-export function makeUrlFromPath({ path, asPreview }) {
-  let { prefix } = FILES;
+export function makeUrlFromPath({ path, queryParams = null, defaultPrefix = FILES.prefix }) {
+  let prefix = defaultPrefix;
   if (path.toLowerCase().startsWith('trash')) {
     prefix = '/';
     // eslint-disable-next-line no-param-reassign
     path = `${path.charAt(0).toLowerCase()}${path.slice(1)}`;
   }
-  if (asPreview) {
-    return `${join(prefix, encodePath(parent(path)))}?preview=${encodePath(basename(path))}`;
+  if (queryParams != null) {
+    const params = new URLSearchParams(queryParams);
+    return `${join(prefix, encodePath(parent(path)))}?${params.toString()}`;
+    // return `${join(prefix, encodePath(parent(path)))}?preview=${encodePath(basename(path))}`;
   }
   return join(prefix, encodePath(path));
 }

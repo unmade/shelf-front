@@ -78,63 +78,65 @@ function DuplicatesResult({ dirPath, onFolderChange }) {
   const title = t('Duplicates');
 
   return (
-    <div className="flex h-full">
-      {/* left column: search results */}
-      <div className="flex w-1/3 flex-col">
-        {/* header and title */}
-        <div className="mx-6 mt-8">
-          <h2 className="text-xl font-medium">{title}</h2>
-        </div>
-
-        {/* select folder and filter buttons */}
-        <div className="mx-6 mt-5 flex space-x-6">
-          <div className="w-full">
-            <SelectFolderDialogButton
-              dirPath={dirPath}
-              icon={<icons.Folder className="h-5 w-5 text-blue-400" />}
-              onSelectFolder={onFolderChange}
-            >
-              <span className="text-sm">{routes.folderName(dirPath)}</span>
-              <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
-                <icons.Selector className="h-5 w-5 text-gray-400" aria-hidden="true" />
-              </span>
-            </SelectFolderDialogButton>
+    <>
+      <div className="flex h-full">
+        {/* left column: search results */}
+        <div className="flex w-1/3 flex-col">
+          {/* header and title */}
+          <div className="mx-6 mt-8">
+            <h2 className="text-xl font-medium">{title}</h2>
           </div>
-          <Listbox
-            initial={distanceOptions[0]}
-            options={distanceOptions}
-            onOptionChange={setMaxDistance}
-          >
-            <Button
-              as="div"
-              size="base"
-              icon={
-                <div className="flex h-6 w-6 items-center justify-center text-xl font-medium text-gray-500">
-                  {maxDistance.symbol}
-                </div>
-              }
-            />
-          </Listbox>
-        </div>
 
-        {/* duplicates list */}
-        <div className="mt-7" />
-        <div className="flex-1">
-          {duplicates?.length ? (
-            <DuplicateList dirPath={dirPath} itemRenderer={itemRenderer} />
-          ) : (
-            <div className="flex h-full items-center justify-center">
-              <p className="font-medium">{t('No duplicates found')}</p>
+          {/* select folder and filter buttons */}
+          <div className="mx-6 mt-5 flex space-x-6">
+            <div className="w-full">
+              <SelectFolderDialogButton
+                dirPath={dirPath}
+                icon={<icons.Folder className="h-5 w-5 text-blue-400" />}
+                onSelectFolder={onFolderChange}
+              >
+                <span className="text-sm">{routes.folderName(dirPath)}</span>
+                <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
+                  <icons.Selector className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                </span>
+              </SelectFolderDialogButton>
             </div>
-          )}
+            <Listbox
+              initial={distanceOptions[0]}
+              options={distanceOptions}
+              onOptionChange={setMaxDistance}
+            >
+              <Button
+                as="div"
+                size="base"
+                icon={
+                  <div className="flex h-6 w-6 items-center justify-center text-xl font-medium text-gray-500">
+                    {maxDistance.symbol}
+                  </div>
+                }
+              />
+            </Listbox>
+          </div>
+
+          {/* duplicates list */}
+          <div className="mt-7" />
+          <div className="flex-1">
+            {duplicates?.length ? (
+              <DuplicateList dirPath={dirPath} itemRenderer={itemRenderer} />
+            ) : (
+              <div className="flex h-full items-center justify-center">
+                <p className="font-medium">{t('No duplicates found')}</p>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* right column: duplicates preview */}
+        <div className="w-2/3 border-l">
+          <DuplicatePreview fileId={selection.fileId} />
         </div>
       </div>
-
-      {/* right column: duplicates preview */}
-      <div className="w-2/3 border-l">
-        <DuplicatePreview fileId={selection.fileId} />
-      </div>
-    </div>
+    </>
   );
 }
 
