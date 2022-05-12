@@ -7,6 +7,7 @@ import { listFolder } from '../store/actions/files';
 import { deselectFiles, setCurrentPath } from '../store/actions/ui';
 
 import { Dialogs } from '../constants';
+import * as routes from '../routes';
 
 import CreateFolderDialog from '../containers/CreateFolderDialog';
 import FilePreview from '../containers/FilePreview';
@@ -37,10 +38,15 @@ function Files() {
     dispatch(deselectFiles());
   }, [dirPath, dispatch]);
 
+  const preparePreviewPath = (path) =>
+    routes.makeUrlFromPath({ path, queryParams: { preview: routes.basename(path) } });
+
   return (
     <>
       <Browser actionButton={() => <Uploader />} dirPath={dirPath} droppable />
-      {preview && <FilePreview dirPath={dirPath || '.'} name={preview} />}
+      {preview && (
+        <FilePreview dirPath={dirPath || '.'} name={preview} preparePath={preparePreviewPath} />
+      )}
       <CreateFolderDialog uid={Dialogs.createFolder} />
       <RenameFileDialog uid={Dialogs.rename} />
       <MoveDialog uid={Dialogs.move} />

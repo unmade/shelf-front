@@ -4,14 +4,11 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 import { MediaType } from '../../constants';
 import * as icons from '../../icons';
-import * as routes from '../../routes';
 
 import NoPreview from '../../containers/NoPreview';
 
-import Button from '../ui/Button';
-
 import CodePreview from './CodePreview';
-import FileLink from '../FileLink';
+import Header from './Header';
 import ImagePreview from './ImagePreview';
 
 const MAX_PREVIEW_SIZE_BY_TYPE = {
@@ -35,64 +32,7 @@ function hasPreview({ size, mediatype }) {
   return size < MAX_PREVIEW_SIZE_BY_TYPE[type] && getPreview(mediatype) !== NoPreview;
 }
 
-function replace(history, path) {
-  const queryParams = { preview: routes.basename(path) };
-  history.replace(routes.makeUrlFromPath({ path, queryParams }));
-}
-
-function Header({ idx, total, name, prevPath, nextPath }) {
-  return (
-    <div className="flex flex-row items-center justify-between px-4 py-3">
-      <div className="flex flex-row sm:w-48">
-        <FileLink className="flex items-center" path={routes.parent(prevPath)}>
-          <Button
-            type="text"
-            size="base"
-            icon={<icons.ChevronLeftOutlined className="h-5 w-5" />}
-          />
-        </FileLink>
-      </div>
-
-      <div className="w-full min-w-0 px-4 sm:px-8">
-        <p className="truncate text-left text-sm font-bold sm:text-center sm:text-lg">{name}</p>
-      </div>
-
-      <div className="flex min-w-max flex-row items-center justify-end space-x-2 text-gray-800 sm:w-48">
-        <FileLink path={prevPath} preview replace>
-          <Button
-            type="text"
-            size="base"
-            icon={<icons.ArrowNarrowLeftOutlined className="h-5 w-5" />}
-          />
-        </FileLink>
-
-        <div className="text-sm text-gray-700">
-          <span>{idx + 1}</span>
-          <span> / </span>
-          <span>{total}</span>
-        </div>
-
-        <FileLink path={nextPath} preview replace>
-          <Button
-            type="text"
-            size="base"
-            icon={<icons.ArrowNarrowRightOutlined className="h-5 w-5" />}
-          />
-        </FileLink>
-      </div>
-    </div>
-  );
-}
-
-Header.propTypes = {
-  idx: PropTypes.number.isRequired,
-  total: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  prevPath: PropTypes.string.isRequired,
-  nextPath: PropTypes.string.isRequired,
-};
-
-function FilePreview({ preview, downloads, download }) {
+function FilePreview({ preview, downloads, download, preparePath }) {
   const history = useHistory();
   const location = useLocation();
 
@@ -121,10 +61,10 @@ function FilePreview({ preview, downloads, download }) {
       }
       switch (keyCode) {
         case 37: // left arrow
-          replace(history, prevFile.path);
+          history.replace(preparePath(prevFile.path));
           break;
         case 39: // right arrow
-          replace(history, nextFile.path);
+          history.replace(preparePath(nextFile.path));
           break;
         case 27: // escape
           history.goBack();
@@ -148,10 +88,10 @@ function FilePreview({ preview, downloads, download }) {
   const Preview = getPreview(mediatype);
 
   const onClickLeft = () => {
-    replace(history, prevFile.path);
+    history.replace(preparePath(prevFile.path));
   };
   const onClickRight = () => {
-    replace(history, nextFile.path);
+    history.replace(preparePath(nextFile.path));
   };
 
   return (
@@ -161,8 +101,9 @@ function FilePreview({ preview, downloads, download }) {
           idx={index}
           total={total}
           name={name}
-          prevPath={prevFile.path}
-          nextPath={nextFile.path}
+          onGoBack={() => history.goBack()}
+          onPrev={onClickLeft}
+          onNext={onClickRight}
         />
 
         <div className="h-full overflow-scroll bg-gray-200">
@@ -206,6 +147,11 @@ FilePreview.propTypes = {
   }).isRequired,
   downloads: PropTypes.objectOf(PropTypes.string.isRequired).isRequired,
   download: PropTypes.func.isRequired,
+  preparePath: PropTypes.func,
+};
+
+FilePreview.defaultProps = {
+  preparePath: ({ path }) => path,
 };
 
 export default FilePreview;
