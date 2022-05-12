@@ -31,7 +31,7 @@ function DuplicateList({ dirPath, itemRenderer }) {
     return null;
   }
 
-  const getItemSize = (index) => (items[index].type === 'header' ? 29 : 73);
+  const getItemSize = (index) => (items[index].type === 'header' ? 28 : 74);
 
   return (
     <AutoSizer>

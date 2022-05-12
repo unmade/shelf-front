@@ -98,8 +98,8 @@ function DuplicatesResult({ dirPath, onFolderChange }) {
         {/* left column: search results */}
         <div className="flex w-1/3 flex-col">
           {/* header and title */}
-          <div className="mx-6 mt-8">
-            <h2 className="text-xl font-medium">{title}</h2>
+          <div className="mx-6 pt-7">
+            <h2 className="text-xl font-medium text-gray-900 sm:text-3xl">{title}</h2>
           </div>
 
           {/* select folder and filter buttons */}
