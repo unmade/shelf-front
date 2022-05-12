@@ -9,17 +9,24 @@ import * as routes from '../../routes';
 
 import Thumbnail from '../../components/Thumbnail';
 
-function DuplicateListItem({ neighbourSelected, index, last, selected, type, value, onItemClick }) {
-  const borderColor = selected || neighbourSelected ? 'border-orange-200' : '';
-  const borderWidth = selected && last ? 'border-t border-b' : 'border-t';
-  const backgroundColor = selected ? 'bg-orange-50' : '';
+function getBackground(even, selected) {
+  return (
+    (selected && 'bg-orange-50 border-orange-200') ||
+    (even && 'bg-white border-transparent') ||
+    'bg-gray-50 border-transparent'
+  );
+}
+
+function DuplicateListItem({ index, selected, type, value, onItemClick }) {
+  const borderColor = selected ? 'border-orange-200' : '';
+  const backgroundColor = getBackground(index % 2, selected);
   const nameStyle = selected ? 'font-medium text-orange-900' : 'font-medium';
   const pathStyle = selected ? 'text-orange-800' : 'text-gray-500';
 
   if (type === 'header') {
     return (
       <div
-        className={`border-t bg-gray-50 px-7 py-1 text-sm font-medium text-gray-500 ${borderColor}`}
+        className={`px-7 py-1 text-sm font-medium uppercase tracking-wider text-gray-500 ${borderColor}`}
       >
         Group #{value}
       </div>
@@ -30,7 +37,7 @@ function DuplicateListItem({ neighbourSelected, index, last, selected, type, val
 
   return (
     <div
-      className={`flex cursor-pointer items-center space-x-4 px-7 py-4 text-sm ${borderWidth} ${borderColor} ${backgroundColor}`}
+      className={`mx-4 flex cursor-pointer items-center space-x-4 rounded-xl border px-4 py-4 text-sm ${borderColor} ${backgroundColor}`}
       onClick={() => onItemClick(file.id, index)}
       aria-hidden
     >
@@ -48,9 +55,7 @@ function DuplicateListItem({ neighbourSelected, index, last, selected, type, val
 export default DuplicateListItem;
 
 DuplicateListItem.propTypes = {
-  neighbourSelected: PropTypes.bool,
   index: PropTypes.number.isRequired,
-  last: PropTypes.bool,
   selected: PropTypes.bool,
   type: PropTypes.oneOf(['header', 'row']).isRequired,
   value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
@@ -58,8 +63,6 @@ DuplicateListItem.propTypes = {
 };
 
 DuplicateListItem.defaultProps = {
-  neighbourSelected: false,
-  last: false,
   selected: false,
   onItemClick: null,
 };
