@@ -32,7 +32,7 @@ FileProperty.propTypes = {
   value: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
 };
 
-function DuplicatePreview({ fileId }) {
+function DuplicateSidePreview({ fileId }) {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
@@ -91,12 +91,12 @@ function DuplicatePreview({ fileId }) {
   );
 }
 
-export default DuplicatePreview;
+export default DuplicateSidePreview;
 
-DuplicatePreview.propTypes = {
+DuplicateSidePreview.propTypes = {
   fileId: PropTypes.string,
 };
 
-DuplicatePreview.defaultProps = {
+DuplicateSidePreview.defaultProps = {
   fileId: null,
 };

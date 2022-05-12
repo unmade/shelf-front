@@ -241,3 +241,52 @@ export const makeGetPreview = () =>
       };
     }
   );
+
+export const makeGetDuplicatePreviewData = () =>
+  createSelector(
+    [
+      (state) => state.files.byId,
+      (state, props) => getDuplicatesByPath(state, props.dirPath),
+      (_state, props) => props.dirPath,
+      (_state, props) => props.name,
+    ],
+    (byId, duplicates, dirPath, name) => {
+      if (duplicates === null) {
+        return {
+          index: 0,
+          total: 0,
+          files: [],
+        };
+      }
+      let targetGroup = null;
+      let index = null;
+      const targetPath = routes.join(dirPath, name);
+      // eslint-disable-next-line no-restricted-syntax
+      for (const group of duplicates) {
+        index = group.findIndex((fileId) => byId[fileId].path === targetPath);
+        if (index !== -1) {
+          targetGroup = group;
+          break;
+        }
+      }
+
+      let prevIndex = index - 1;
+      if (prevIndex < 0) {
+        prevIndex = targetGroup.length - 1;
+      }
+
+      let nextIndex = index + 1;
+      if (nextIndex > targetGroup.length - 1) {
+        nextIndex = 0;
+      }
+      return {
+        index,
+        total: targetGroup.length,
+        files: [
+          byId[targetGroup[prevIndex]],
+          byId[targetGroup[index]],
+          byId[targetGroup[nextIndex]],
+        ],
+      };
+    }
+  );
