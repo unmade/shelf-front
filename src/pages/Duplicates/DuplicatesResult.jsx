@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
 import { findDuplicates } from '../../store/actions/files';
 import { getDuplicatesByPath } from '../../store/reducers/files';
@@ -10,12 +11,14 @@ import { getDuplicatesByPath } from '../../store/reducers/files';
 import * as icons from '../../icons';
 import * as routes from '../../routes';
 
+import DuplicatePreview from '../../containers/DuplicatePreview';
+
 import Button from '../../components/ui/Button';
 import Listbox from '../../components/ui/Listbox';
 
 import DuplicateList from './DuplicateList';
 import DuplicateListItem from './DuplicateListItem';
-import DuplicatePreview from './DuplicatePreview';
+import DuplicateSidePreview from './DuplicateSidePreview';
 import SelectFolderDialogButton from './SelectFolderDialogButton';
 
 const MemoizedDuplicatedListItem = React.memo(DuplicateListItem);
@@ -39,6 +42,11 @@ function DuplicatesResult({ dirPath, onFolderChange }) {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
+  const location = useLocation();
+
+  const { search } = location;
+  const queryParams = new URLSearchParams(search);
+  const preview = queryParams.get('preview');
 
   const [selection, selectItem] = React.useState({ fileId: null, index: null });
   const [maxDistance, setMaxDistance] = React.useState(distanceOptions[0]);
@@ -74,6 +82,13 @@ function DuplicatesResult({ dirPath, onFolderChange }) {
       />
     </div>
   );
+
+  const preparePreviewPath = (path) =>
+    routes.makeUrlFromPath({
+      path,
+      queryParams: { preview: routes.basename(path) },
+      defaultPrefix: routes.DUPLICATES.prefix,
+    });
 
   const title = t('Duplicates');
 
@@ -133,9 +148,12 @@ function DuplicatesResult({ dirPath, onFolderChange }) {
 
         {/* right column: duplicates preview */}
         <div className="w-2/3 border-l">
-          <DuplicatePreview fileId={selection.fileId} />
+          <DuplicateSidePreview fileId={selection.fileId} />
         </div>
       </div>
+      {preview && (
+        <DuplicatePreview dirPath={dirPath} name={preview} preparePath={preparePreviewPath} />
+      )}
     </>
   );
 }
