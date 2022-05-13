@@ -75,6 +75,7 @@ export function parent(path) {
 }
 
 export function makeUrlFromPath({ path, queryParams = null, defaultPrefix = FILES.prefix }) {
+  console.log(path);
   let prefix = defaultPrefix;
   if (path.toLowerCase().startsWith('trash')) {
     prefix = '/';
@@ -83,8 +84,7 @@ export function makeUrlFromPath({ path, queryParams = null, defaultPrefix = FILE
   }
   if (queryParams != null) {
     const params = new URLSearchParams(queryParams);
-    return `${join(prefix, encodePath(parent(path)))}?${params.toString()}`;
-    // return `${join(prefix, encodePath(parent(path)))}?preview=${encodePath(basename(path))}`;
+    return `${join(prefix, encodePath(path))}?${params.toString()}`;
   }
   return join(prefix, encodePath(path));
 }

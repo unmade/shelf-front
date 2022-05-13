@@ -39,7 +39,7 @@ function Files() {
   }, [dirPath, dispatch]);
 
   const preparePreviewPath = (path) =>
-    routes.makeUrlFromPath({ path, queryParams: { preview: routes.basename(path) } });
+    routes.makeUrlFromPath({ path: dirPath, queryParams: { preview: routes.basename(path) } });
 
   return (
     <>

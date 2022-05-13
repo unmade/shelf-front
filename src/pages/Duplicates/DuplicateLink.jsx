@@ -8,17 +8,17 @@ import * as routes from '../../routes';
 function usePreviewPath(path) {
   const params = useParams();
   const dirPath = decodeURIComponent(params.dirPath ?? '');
-  if (path.startsWith(dirPath)) {
-    return path.replace(dirPath, '').substring(1);
+  if (dirPath !== '' && path.startsWith(dirPath)) {
+    return [dirPath, path.replace(dirPath, '').substring(1)];
   }
-  return path;
+  return [dirPath, path];
 }
 
 function DuplicateLink({ children, className, path, replace }) {
-  const previewPath = usePreviewPath(path);
+  const [dirPath, previewPath] = usePreviewPath(path);
   const queryParams = { preview: previewPath };
   const defaultPrefix = routes.DUPLICATES.prefix;
-  const url = routes.makeUrlFromPath({ path, queryParams, defaultPrefix });
+  const url = routes.makeUrlFromPath({ path: dirPath, queryParams, defaultPrefix });
 
   return (
     <Link to={url} className={className} replace={replace}>
