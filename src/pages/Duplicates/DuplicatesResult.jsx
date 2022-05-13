@@ -48,7 +48,7 @@ function DuplicatesResult({ dirPath, onFolderChange }) {
   const queryParams = new URLSearchParams(search);
   const preview = queryParams.get('preview');
 
-  const [selection, selectItem] = React.useState({ fileId: null, index: null });
+  const [selection, selectItem] = React.useState({ fileId: null });
   const [maxDistance, setMaxDistance] = React.useState(distanceOptions[0]);
 
   const maxDistanceValue = maxDistance.value;
@@ -59,36 +59,39 @@ function DuplicatesResult({ dirPath, onFolderChange }) {
   const duplicates = useSelector((state) => getDuplicatesByPath(state, dirPath));
   React.useEffect(() => {
     if (duplicates?.length) {
-      selectItem({ fileId: duplicates[0][0], index: 0 });
+      selectItem({ fileId: duplicates[0][0] });
     } else {
-      selectItem({ fileId: null, index: null });
+      selectItem({ fileId: null });
     }
   }, [duplicates, selectItem]);
 
-  const onItemClick = (fileId, index) => {
-    selectItem({ fileId, index });
+  const onItemClick = (fileId) => {
+    selectItem({ fileId });
   };
 
   const itemRenderer = ({ data, index, style }) => (
     <div style={style}>
       <MemoizedDuplicatedListItem
-        neighbourSelected={selection.index === index - 1}
-        index={index}
+        indexInGroup={data[index].idx}
         selected={data[index].value === selection.fileId}
         type={data[index].type}
         value={data[index].value}
-        last={index === data.length - 1}
         onItemClick={onItemClick}
       />
     </div>
   );
 
-  const preparePreviewPath = (path) =>
-    routes.makeUrlFromPath({
-      path,
-      queryParams: { preview: routes.basename(path) },
+  const preparePreviewPath = (path) => {
+    let previewPath = path;
+    if (dirPath !== '' && path.startsWith(dirPath)) {
+      previewPath = path.replace(dirPath, '').substring(1);
+    }
+    return routes.makeUrlFromPath({
+      path: dirPath,
+      queryParams: { preview: previewPath },
       defaultPrefix: routes.DUPLICATES.prefix,
     });
+  };
 
   const title = t('Duplicates');
 

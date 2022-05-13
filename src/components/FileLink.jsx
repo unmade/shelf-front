@@ -6,12 +6,17 @@ import { Link } from 'react-router-dom';
 import * as routes from '../routes';
 
 function FileLink({ children, className, path, preview, replace }) {
-  let queryParams = null;
+  let pathParams = { path };
   if (preview) {
-    queryParams = { preview: routes.basename(path) };
+    pathParams = {
+      path: routes.parent(path),
+      queryParams: {
+        preview: routes.basename(path),
+      },
+    };
   }
 
-  const url = routes.makeUrlFromPath({ path, queryParams });
+  const url = routes.makeUrlFromPath(pathParams);
 
   return (
     <Link to={url} className={className} replace={replace}>

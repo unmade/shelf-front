@@ -17,16 +17,16 @@ function getBackground(even, selected) {
   );
 }
 
-function DuplicateListItem({ index, selected, type, value, onItemClick }) {
+function DuplicateListItem({ indexInGroup, selected, type, value, onItemClick }) {
   const borderColor = selected ? 'border-orange-200' : '';
-  const backgroundColor = getBackground(index % 2, selected);
+  const backgroundColor = getBackground(indexInGroup % 2 === 0, selected);
   const nameStyle = selected ? 'font-medium text-orange-900' : 'font-medium';
   const pathStyle = selected ? 'text-orange-800' : 'text-gray-500';
 
   if (type === 'header') {
     return (
       <div
-        className={`px-7 py-1 text-sm font-medium uppercase tracking-wider text-gray-500 ${borderColor}`}
+        className={`px-7 pt-3 pb-1 text-sm font-medium uppercase tracking-wider text-gray-500 ${borderColor}`}
       >
         Group #{value}
       </div>
@@ -38,7 +38,7 @@ function DuplicateListItem({ index, selected, type, value, onItemClick }) {
   return (
     <div
       className={`mx-4 flex cursor-pointer items-center space-x-4 rounded-xl border px-4 py-4 text-sm ${borderColor} ${backgroundColor}`}
-      onClick={() => onItemClick(file.id, index)}
+      onClick={() => onItemClick(file.id)}
       aria-hidden
     >
       <div className="shrink-0">
@@ -55,7 +55,7 @@ function DuplicateListItem({ index, selected, type, value, onItemClick }) {
 export default DuplicateListItem;
 
 DuplicateListItem.propTypes = {
-  index: PropTypes.number.isRequired,
+  indexInGroup: PropTypes.number.isRequired,
   selected: PropTypes.bool,
   type: PropTypes.oneOf(['header', 'row']).isRequired,
   value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,

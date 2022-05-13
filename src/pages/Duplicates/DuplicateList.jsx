@@ -18,10 +18,10 @@ function DuplicateList({ dirPath, itemRenderer }) {
   // flatten the array
   const items = React.useMemo(() => {
     const flatten = [];
-    duplicates?.forEach((group, idx) => {
-      flatten.push({ type: 'header', value: idx + 1 });
-      group.forEach((fileId) => {
-        flatten.push({ type: 'row', value: fileId });
+    duplicates?.forEach((group, i) => {
+      flatten.push({ idx: i, type: 'header', value: i + 1 });
+      group.forEach((fileId, j) => {
+        flatten.push({ idx: j, type: 'row', value: fileId });
       });
     });
     return flatten;
@@ -31,7 +31,7 @@ function DuplicateList({ dirPath, itemRenderer }) {
     return null;
   }
 
-  const getItemSize = (index) => (items[index].type === 'header' ? 28 : 74);
+  const getItemSize = (index) => (items[index].type === 'header' ? 36 : 74);
 
   return (
     <AutoSizer>

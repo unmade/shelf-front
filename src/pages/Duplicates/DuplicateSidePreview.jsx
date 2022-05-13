@@ -68,15 +68,16 @@ function DuplicateSidePreview({ fileId }) {
           />
         </div>
         <div className="flex flex-col space-y-4">
-          <Button type="text" icon={<icons.EyeOutlined className=" h-4 w-4 text-blue-500" />}>
-            <DuplicateLink
+          <DuplicateLink path={file.path} prefix={routes.DUPLICATES.prefix}>
+            <Button
+              as="div"
+              type="text"
               className="font-semibold text-blue-500"
-              path={file.path}
-              prefix={routes.DUPLICATES.prefix}
+              icon={<icons.EyeOutlined className=" h-4 w-4 text-blue-500" />}
             >
               {t('Preview')}
-            </DuplicateLink>
-          </Button>
+            </Button>
+          </DuplicateLink>
           <Button
             type="primary"
             icon={<icons.TrashOutlined className="h-4 w-4" />}
