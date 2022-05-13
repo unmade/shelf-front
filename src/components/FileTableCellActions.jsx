@@ -89,7 +89,7 @@ function FileTableCellActions({ id, path, onDownload, openDialog }) {
         </Button>
       )}
     >
-      <Button as="div" type="text" icon={<icons.More />} />
+      <Button as="div" type="text" size="lg" icon={<icons.More className="h-4 w-4" />} />
     </Menu>
   );
 }
