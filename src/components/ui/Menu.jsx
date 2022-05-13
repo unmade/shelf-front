@@ -24,7 +24,7 @@ function Menu({ buttonClassName, children, items, panelClassName, itemRender: Re
         <>
           <UIMenu.Button
             ref={setReferenceElement}
-            className={`${buttonClassName} rounded-md focus:outline-none focus:ring`}
+            className={`${buttonClassName} rounded-xl focus:outline-none focus:ring`}
           >
             {children}
           </UIMenu.Button>

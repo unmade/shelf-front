@@ -48,7 +48,13 @@ function AccountMenu() {
         <div className="text-xs text-gray-600">{`@${username}`}</div>
       </div>
       <div className="block lg:hidden xl:block">
-        <Button type="text" title={t('Sign Out')} icon={<icons.LogOut />} onClick={onSignOut} />
+        <Button
+          type="text"
+          title={t('Sign Out')}
+          size="lg"
+          icon={<icons.LogOut className="h-4 w-4" />}
+          onClick={onSignOut}
+        />
       </div>
     </div>
   );

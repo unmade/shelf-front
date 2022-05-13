@@ -1,80 +1,84 @@
+/* eslint-disable prefer-destructuring */
 import * as cg from 'react-icons/cg';
 import * as di from 'react-icons/di';
-import * as hi from 'react-icons/hi';
 import * as si from 'react-icons/si';
+
+// import { ArrowN } from '@heroicons/react/solid';
+import * as hiSolid from '@heroicons/react/solid';
+import * as hiOutline from '@heroicons/react/outline';
 
 import { MediaType } from './constants';
 
 import AppLogoIcon from './AppLogo';
 
 export const AppLogo = AppLogoIcon;
-export const ArrowLeft = hi.HiArrowLeft;
-export const ArrowNarrowLeft = hi.HiArrowNarrowLeft;
-export const ArrowNarrowLeftOutlined = hi.HiOutlineArrowNarrowLeft;
-export const ArrowNarrowRight = hi.HiArrowNarrowRight;
-export const ArrowNarrowRightOutlined = hi.HiOutlineArrowNarrowRight;
-export const Bookmark = hi.HiBookmark;
-export const BookmarkOutlined = hi.HiOutlineBookmark;
-export const Check = hi.HiCheck;
-export const CheckCircle = hi.HiCheckCircle;
-export const ChevronLeft = hi.HiChevronLeft;
-export const ChevronLeftOutlined = hi.HiOutlineChevronLeft;
-export const ChevronRight = hi.HiChevronRight;
-export const Clear = hi.HiBan;
-export const CloudUpload = hi.HiCloudUpload;
-export const CloudUploadOutlined = hi.HiOutlineCloudUpload;
-export const Close = hi.HiOutlineX;
-export const CloseCirle = hi.HiOutlineXCircle;
-export const Collection = hi.HiOutlineCollection;
-export const DocumentSearchOutlined = hi.HiOutlineDocumentSearch;
-export const DotsHorizontal = hi.HiOutlineDotsHorizontal;
-export const DotsVerticalOutlined = hi.HiOutlineDotsVertical;
-export const Download = hi.HiOutlineDownload;
-export const Edit = hi.HiOutlinePencil;
-export const EyeOutlined = hi.HiOutlineEye;
-export const File = hi.HiOutlineDocument;
-export const FileCode = hi.HiOutlineCode;
-export const FileImage = hi.HiOutlinePhotograph;
-export const FileText = hi.HiOutlineDocumentText;
-export const Filter = hi.HiFilter;
-export const Folder = hi.HiFolder;
-export const Home = hi.HiHome;
-export const HomeOutlined = hi.HiOutlineHome;
-export const ICursor = hi.HiOutlinePencil;
-export const LogOut = hi.HiLogout;
-export const NewFolder = hi.HiFolderAdd;
-export const Menu = hi.HiMenu;
-export const More = hi.HiOutlineDotsHorizontal;
-export const Move = hi.HiOutlineDocumentDuplicate;
-export const Plus = hi.HiPlus;
-export const Redo = hi.HiOutlineRefresh;
-export const SearchOutlined = hi.HiOutlineSearch;
-export const Selector = hi.HiSelector;
-export const SelectorOutlined = hi.HiOutlineSelector;
+export const ArrowLeft = hiSolid.ArrowLeftIcon;
+export const ArrowNarrowLeft = hiSolid.ArrowNarrowLeftIcon;
+export const ArrowNarrowLeftOutlined = hiOutline.ArrowNarrowLeftIcon;
+export const ArrowNarrowRight = hiSolid.ArrowNarrowRightIcon;
+export const ArrowNarrowRightOutlined = hiOutline.ArrowNarrowRightIcon;
+export const Bookmark = hiSolid.BookmarkIcon;
+export const BookmarkOutlined = hiOutline.BookmarkIcon;
+export const Check = hiSolid.CheckIcon;
+export const CheckCircle = hiSolid.CheckCircleIcon;
+export const ChevronLeft = hiSolid.ChevronLeftIcon;
+export const ChevronLeftOutlined = hiOutline.ChevronLeftIcon;
+export const ChevronRight = hiSolid.ChevronRightIcon;
+export const Clear = hiSolid.BanIcon;
+export const CloudUpload = hiSolid.CloudUploadIcon;
+export const CloudUploadOutlined = hiOutline.CloudUploadIcon;
+export const Close = hiOutline.XIcon;
+export const CloseCirle = hiOutline.XCircleIcon;
+export const Collection = hiOutline.CollectionIcon;
+export const DocumentSearchOutlined = hiOutline.DocumentSearchIcon;
+export const DotsHorizontal = hiOutline.DotsHorizontalIcon;
+export const DotsVerticalOutlined = hiOutline.DotsVerticalIcon;
+export const Download = hiOutline.DownloadIcon;
+export const Edit = hiOutline.PencilIcon;
+export const EyeOutlined = hiOutline.EyeIcon;
+export const File = hiOutline.DocumentIcon;
+export const FileCode = hiOutline.CodeIcon;
+export const FileImage = hiOutline.PhotographIcon;
+export const FileText = hiOutline.DocumentTextIcon;
+export const Filter = hiSolid.FilterIcon;
+export const Folder = hiSolid.FolderIcon;
+export const Home = hiSolid.HomeIcon;
+export const HomeOutlined = hiOutline.HomeIcon;
+export const ICursor = hiOutline.PencilIcon;
+export const LogOut = hiSolid.LogoutIcon;
+export const NewFolder = hiSolid.FolderAddIcon;
+export const Menu = hiSolid.MenuIcon;
+export const More = hiOutline.DotsHorizontalIcon;
+export const Move = hiOutline.DocumentDuplicateIcon;
+export const Plus = hiSolid.PlusIcon;
+export const Redo = hiOutline.RefreshIcon;
+export const SearchOutlined = hiOutline.SearchIcon;
+export const Selector = hiSolid.SelectorIcon;
+export const SelectorOutlined = hiOutline.SelectorIcon;
 export const Spinner = cg.CgSpinner;
-export const Trash = hi.HiTrash;
-export const TrashOutlined = hi.HiOutlineTrash;
-export const Upload = hi.HiUpload;
-export const UsersOutline = hi.HiOutlineUsers;
+export const Trash = hiSolid.TrashIcon;
+export const TrashOutlined = hiOutline.TrashIcon;
+export const Upload = hiSolid.UploadIcon;
+export const UsersOutline = hiOutline.UsersIcon;
 
 const PRECISE_MAP = {
   [MediaType.FOLDER]: Folder,
-  'application/gzip': hi.HiOutlineArchive,
+  'application/gzip': hiOutline.ArchiveIcon,
   'application/javascript': di.DiJavascript1,
   'application/json': si.SiJson,
   'application/pdf': si.SiAdobeacrobatreader,
-  'application/sql': hi.HiOutlineDatabase,
-  'application/x-tar': hi.HiOutlineArchive,
-  'application/x-sh': hi.HiOutlineTerminal,
-  'application/x-zsh': hi.HiOutlineTerminal,
+  'application/sql': hiOutline.DatabaseIcon,
+  'application/x-tar': hiOutline.ArchiveIcon,
+  'application/x-sh': hiOutline.TerminalIcon,
+  'application/x-zsh': hiOutline.TerminalIcon,
   'image/svg+xml': si.SiSvg, // this icon is slightly large than others
   'image/vnd.adobe.photoshop': di.DiPhotoshop,
   'text/css': di.DiCss3,
-  'text/csv': hi.HiOutlineTable,
+  'text/csv': hiOutline.TableIcon,
   'text/html': di.DiHtml5,
   'text/markdown': di.DiMarkdown,
   'text/jsx': di.DiReact,
-  'text/tab-separated-values': hi.HiOutlineTable,
+  'text/tab-separated-values': hiOutline.TableIcon,
   'text/x-c': FileCode,
   'text/x-coffeescript': di.DiCoffeescript,
   'text/x-go': di.DiGo,
@@ -85,10 +89,10 @@ const PRECISE_MAP = {
 };
 
 const FUZZY_MAP = {
-  audio: hi.HiMusicNote,
+  audio: hiSolid.MusicNoteIcon,
   image: FileImage,
   text: FileText,
-  video: hi.HiFilm,
+  video: hiSolid.FilmIcon,
 };
 
 export function getIcon(mediaType) {

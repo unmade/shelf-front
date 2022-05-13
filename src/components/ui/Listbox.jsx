@@ -33,7 +33,12 @@ function Listbox({ children, initial, options, onOptionChange }) {
     <UIListbox value={selectedOption} onChange={onChange}>
       {({ open }) => (
         <span className="z-10">
-          <UIListbox.Button ref={setReferenceElement}>{children}</UIListbox.Button>
+          <UIListbox.Button
+            ref={setReferenceElement}
+            className="rounded-xl ring-offset-2 focus:outline-none focus:ring"
+          >
+            {children}
+          </UIListbox.Button>
 
           <Transition
             show={open}
