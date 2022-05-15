@@ -2,7 +2,7 @@ import React from 'react';
 
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import './i18n';
 
@@ -12,24 +12,26 @@ import Login from './pages/Login';
 
 import App from './App';
 
+import RequireAuth from './components/RequireAuth';
+
 import './index.css';
 import './tailwind.css';
-import RequireAuth from './components/RequireAuth';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <Switch>
-          <Route path="/signin" exact>
-            <Login />
-          </Route>
-          <Route path="/">
-            <RequireAuth redirectTo="/signin">
-              <App />
-            </RequireAuth>
-          </Route>
-        </Switch>
+        <Routes>
+          <Route path="/signin" element={<Login />} />
+          <Route
+            path="/*"
+            element={
+              <RequireAuth redirectTo="/signin">
+                <App />
+              </RequireAuth>
+            }
+          />
+        </Routes>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>,

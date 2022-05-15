@@ -1,13 +1,17 @@
 import React from 'react';
 
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import * as icons from '../icons';
 
 import Button from '../components/ui/Button';
 
 function Forbidden() {
-  const history = useHistory();
+  const navigate = useNavigate();
+
+  const goBack = () => {
+    navigate(-1);
+  };
 
   return (
     <div className="fixed inset-0 z-50 bg-white">
@@ -18,7 +22,7 @@ function Forbidden() {
           size="lg"
           icon={<icons.ArrowNarrowLeft />}
           title="Go back"
-          onClick={() => history.push('/')}
+          onClick={goBack}
         >
           Go home
         </Button>

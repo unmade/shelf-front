@@ -1,12 +1,13 @@
 import React from 'react';
 
 import { useDispatch } from 'react-redux';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import { listFolder } from '../store/actions/files';
 import { deselectFiles, setCurrentPath } from '../store/actions/ui';
 
 import { Dialogs } from '../constants';
+import useDirPath from '../hooks/dir-path';
 import * as routes from '../routes';
 
 import CreateFolderDialog from '../containers/CreateFolderDialog';
@@ -21,13 +22,11 @@ import Uploader from '../components/Uploader';
 function Files() {
   const dispatch = useDispatch();
   const location = useLocation();
-  const params = useParams();
+  const dirPath = useDirPath();
 
   const { search } = location;
   const queryParams = new URLSearchParams(search);
   const preview = queryParams.get('preview');
-
-  const dirPath = decodeURIComponent(params.dirPath ?? '.');
 
   React.useEffect(() => {
     dispatch(setCurrentPath(dirPath));

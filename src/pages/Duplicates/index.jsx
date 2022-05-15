@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
 
 import { Dialogs } from '../../constants';
+import useDirPath from '../../hooks/dir-path';
 import * as icons from '../../icons';
 
 import DeleteDialog from '../../components/DeleteDialog';
@@ -13,8 +13,8 @@ import SelectFolderDialogButton from './SelectFolderDialogButton';
 function Duplicates() {
   const { t } = useTranslation();
 
-  const params = useParams();
-  const initialTargetFolderPath = params.dirPath ? decodeURIComponent(params.dirPath) : null;
+  const dirPath = useDirPath();
+  const initialTargetFolderPath = dirPath !== '.' ? dirPath : null;
   const [targetFolderPath, setTargetFolderPath] = React.useState(initialTargetFolderPath);
 
   if (targetFolderPath == null) {

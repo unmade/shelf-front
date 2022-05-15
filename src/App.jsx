@@ -1,8 +1,9 @@
 import React from 'react';
-import { Switch, Redirect, Route } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 import * as routes from './routes';
 
+import RequireAdmin from './components/RequireAdmin';
 import SideBar from './components/SideBar';
 
 import Toast from './containers/Toast';
@@ -13,7 +14,6 @@ import Duplicates from './pages/Duplicates';
 import Files from './pages/Files';
 import Trash from './pages/Trash';
 import UserManagement from './pages/admin/UserManagement';
-import RequireAdmin from './components/RequireAdmin';
 
 function updateVh() {
   const vh = window.innerHeight * 0.01;
@@ -36,26 +36,21 @@ function App() {
           <SideBar />
         </div>
         <div className="my-0 min-w-0 flex-1 bg-white shadow-sm">
-          <Switch>
-            <Route path={routes.BOOKMARKS.route}>
-              <Bookmarks />
-            </Route>
-            <Route path={routes.DUPLICATES.route}>
-              <Duplicates />
-            </Route>
-            <Route path={routes.FILES.route}>
-              <Files />
-            </Route>
-            <Route path={routes.TRASH.route}>
-              <Trash />
-            </Route>
-            <Route path={routes.USER_MANAGEMENT.route}>
-              <RequireAdmin>
-                <UserManagement />
-              </RequireAdmin>
-            </Route>
-            <Route exact path="/" render={() => <Redirect to={routes.FILES.prefix} />} />
-          </Switch>
+          <Routes>
+            <Route path={routes.BOOKMARKS.route} element={<Bookmarks />} />
+            <Route path={routes.DUPLICATES.route} element={<Duplicates />} />
+            <Route path={routes.FILES.route} element={<Files />} />
+            <Route path={routes.TRASH.route} element={<Trash />} />
+            <Route
+              path={routes.USER_MANAGEMENT.route}
+              element={
+                <RequireAdmin>
+                  <UserManagement />
+                </RequireAdmin>
+              }
+            />
+            <Route path="/" render={() => <Navigate to={routes.FILES.prefix} replace />} />
+          </Routes>
         </div>
       </div>
 

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useSelector } from 'react-redux';
 
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { getIsAuthenticated } from '../store/reducers/auth';
 
@@ -13,7 +13,7 @@ import Toast from '../containers/Toast';
 import ToastItem from '../containers/ToastItem';
 
 function Login() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const authenticated = useSelector(getIsAuthenticated);
 
@@ -21,12 +21,12 @@ function Login() {
     if (authenticated) {
       const redirectUrl = new URLSearchParams(location.search).get('next');
       if (redirectUrl) {
-        history.push(redirectUrl);
+        navigate(redirectUrl);
       } else {
-        history.push('/files');
+        navigate('/files');
       }
     }
-  }, [authenticated, history, location]);
+  }, [authenticated, navigate, location]);
 
   return (
     <>

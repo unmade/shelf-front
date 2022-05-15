@@ -5,17 +5,17 @@ export const BOOKMARKS = {
 
 export const DUPLICATES = {
   prefix: '/duplicates',
-  route: '/duplicates/:dirPath*',
+  route: '/duplicates/*',
 };
 
 export const FILES = {
   prefix: '/files',
-  route: '/files/:dirPath*',
+  route: '/files/*',
 };
 
 export const TRASH = {
   prefix: '/trash',
-  route: '/trash/:dirPath*',
+  route: '/trash/*',
 };
 
 export const USER_MANAGEMENT = {
@@ -75,7 +75,6 @@ export function parent(path) {
 }
 
 export function makeUrlFromPath({ path, queryParams = null, defaultPrefix = FILES.prefix }) {
-  console.log(path);
   let prefix = defaultPrefix;
   if (path.toLowerCase().startsWith('trash')) {
     prefix = '/';

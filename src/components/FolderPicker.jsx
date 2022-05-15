@@ -73,7 +73,7 @@ const FolderPicker = ({
             <Breadcrumb.Item
               to={url}
               onClick={changePath(routes.makePathFromUrl(url), onPathChange)}
-              isActive={() => url === routes.makeUrlFromPath({ path })}
+              active={url === routes.makeUrlFromPath({ path })}
             >
               <span className="block truncate">{name}</span>
             </Breadcrumb.Item>
@@ -82,7 +82,7 @@ const FolderPicker = ({
             <Breadcrumb.ItemCollapsed
               to={url}
               onClick={changePath(routes.makePathFromUrl(url), onPathChange)}
-              isActive={() => false}
+              active={false}
             >
               <span className="block truncate">{name}</span>
             </Breadcrumb.ItemCollapsed>
