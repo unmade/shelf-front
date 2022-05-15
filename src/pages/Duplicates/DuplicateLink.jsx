@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
+import useDirPath from '../../hooks/dir-path';
 import * as routes from '../../routes';
 
 function usePreviewPath(path) {
-  const params = useParams();
-  const dirPath = decodeURIComponent(params.dirPath ?? '');
+  const dirPath = useDirPath();
   if (dirPath !== '' && path.startsWith(dirPath)) {
     return [dirPath, path.replace(dirPath, '').substring(1)];
   }

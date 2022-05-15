@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { MediaType } from '../../constants';
 import * as icons from '../../icons';
@@ -33,7 +33,7 @@ function hasPreview({ size, mediatype }) {
 }
 
 function FilePreview({ preview, downloads, download, preparePath }) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
 
   const { index, total, files } = preview;
@@ -46,10 +46,10 @@ function FilePreview({ preview, downloads, download, preparePath }) {
   }, [file, downloads, download]);
 
   React.useEffect(() => () => {
-    if (history.action === 'POP') {
-      const { pathname, search } = history.location;
+    if (navigate.action === 'POP') {
+      const { pathname, search } = navigate.location;
       if (pathname !== location.pathname && search !== location.search) {
-        history.goBack();
+        navigate(-1);
       }
     }
   });
@@ -61,13 +61,13 @@ function FilePreview({ preview, downloads, download, preparePath }) {
       }
       switch (keyCode) {
         case 37: // left arrow
-          history.replace(preparePath(prevFile.path));
+          navigate(preparePath(prevFile.path), { replace: true });
           break;
         case 39: // right arrow
-          history.replace(preparePath(nextFile.path));
+          navigate(preparePath(nextFile.path), { replace: true });
           break;
         case 27: // escape
-          history.goBack();
+          navigate(-1);
           break;
         default:
       }
@@ -76,7 +76,7 @@ function FilePreview({ preview, downloads, download, preparePath }) {
     return () => {
       window.removeEventListener('keyup', onKeyUp);
     };
-  }, [history, prevFile, nextFile]);
+  }, [navigate, prevFile, nextFile]);
 
   if (file == null) {
     return null;
@@ -88,10 +88,13 @@ function FilePreview({ preview, downloads, download, preparePath }) {
   const Preview = getPreview(mediatype);
 
   const onClickLeft = () => {
-    history.replace(preparePath(prevFile.path));
+    navigate(preparePath(prevFile.path), { replace: true });
   };
   const onClickRight = () => {
-    history.replace(preparePath(nextFile.path));
+    navigate(preparePath(nextFile.path), { replace: true });
+  };
+  const onGoBack = () => {
+    navigate(-1);
   };
 
   return (
@@ -101,7 +104,7 @@ function FilePreview({ preview, downloads, download, preparePath }) {
           idx={index}
           total={total}
           name={name}
-          onGoBack={() => history.goBack()}
+          onGoBack={onGoBack}
           onPrev={onClickLeft}
           onNext={onClickRight}
         />

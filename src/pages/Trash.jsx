@@ -2,9 +2,10 @@ import React from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import { Dialogs, TRASH_FOLDER_NAME } from '../constants';
+import useDirPath from '../hooks/dir-path';
 import * as icons from '../icons';
 
 import { listFolder } from '../store/actions/files';
@@ -23,14 +24,14 @@ function Trash() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const location = useLocation();
-  const params = useParams();
 
   const { search } = location;
   const queryParams = new URLSearchParams(search);
   const preview = queryParams.get('preview');
 
-  let { dirPath } = params;
-  dirPath = dirPath ? `${TRASH_FOLDER_NAME}/${decodeURIComponent(dirPath)}` : TRASH_FOLDER_NAME;
+  let dirPath = useDirPath();
+  dirPath =
+    dirPath !== '.' ? `${TRASH_FOLDER_NAME}/${decodeURIComponent(dirPath)}` : TRASH_FOLDER_NAME;
 
   React.useEffect(() => {
     dispatch(setCurrentPath(dirPath));

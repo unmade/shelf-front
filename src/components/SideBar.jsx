@@ -53,14 +53,17 @@ i18n.on('languageChanged init', () => {
   adminMenu[0].title = i18n.t('Users');
 });
 
+const defaultClassNames =
+  'flex items-center whitespace-nowrap rounded-xl py-2 px-3 font-medium transition-colors duration-200';
+const activeClassNames = 'bg-gray-200 text-gray-700';
+
+function classNameFactory({ isActive }) {
+  return `${defaultClassNames} ${isActive ? activeClassNames : ''}`;
+}
+
 function MenuGroup({ items }) {
   return items.map((item) => (
-    <NavLink
-      key={item.path}
-      to={item.path}
-      className="flex items-center whitespace-nowrap rounded-xl py-2 px-3 font-medium transition-colors duration-200"
-      activeClassName="bg-gray-200 text-gray-700"
-    >
+    <NavLink key={item.path} to={item.path} className={classNameFactory}>
       <div className="mx-0 flex px-2 lg:mx-auto lg:block xl:mx-0 xl:flex xl:items-center">
         <div>{item.icon}</div>
         <div className="lg:pt-1 xl:pt-0">{item.title}</div>

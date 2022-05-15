@@ -2,40 +2,36 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
-function BreadcrumbItem({ children, className, to, isActive, onClick }) {
-  const linkProps = {};
-  if (isActive !== null) {
-    linkProps.isActive = isActive;
-  }
-  if (onClick !== null) {
-    linkProps.onClick = onClick;
-  }
+const defaultClassNames = 'block text-gray-500 transition-colors duration-150 hover:text-gray-900';
+const activeClassNames = 'text-gray-900 pointer-events-none';
+
+function BreadcrumbItem({ active, children, className, to, onClick }) {
+  const classNameFactory = ({ isActive }) => {
+    if (isActive || active === true) {
+      return `${defaultClassNames} ${activeClassNames} ${className}`;
+    }
+    return `${defaultClassNames} ${className}`;
+  };
+
   return (
-    <NavLink
-      to={to}
-      className={`block text-gray-500 transition-colors duration-150 hover:text-gray-900 ${className}`}
-      activeClassName="text-gray-900 pointer-events-none"
-      exact
-      // eslint-disable-next-line react/jsx-props-no-spreading
-      {...linkProps}
-    >
+    <NavLink to={to} className={classNameFactory} onClick={onClick} end>
       {children}
     </NavLink>
   );
 }
 
 BreadcrumbItem.propTypes = {
+  active: PropTypes.bool,
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
   className: PropTypes.string,
   to: PropTypes.string.isRequired,
-  isActive: PropTypes.func,
   onClick: PropTypes.func,
 };
 
 BreadcrumbItem.defaultProps = {
+  active: false,
   className: '',
-  isActive: null,
-  onClick: null,
+  onClick: () => {},
 };
 
 export default BreadcrumbItem;

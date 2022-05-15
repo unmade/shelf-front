@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import * as routes from '../../routes';
 
@@ -14,7 +14,7 @@ import FolderPicker from '../../components/FolderPicker';
 function SelectFolderDialogButton({ type, children, dirPath, icon, onSelectFolder }) {
   const { t } = useTranslation();
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const [visible, setVisible] = React.useState(false);
   const [path, setPath] = React.useState(dirPath);
@@ -30,7 +30,7 @@ function SelectFolderDialogButton({ type, children, dirPath, icon, onSelectFolde
   };
 
   const onConfirm = () => {
-    history.push(routes.join(routes.DUPLICATES.prefix, path));
+    navigate(routes.join(routes.DUPLICATES.prefix, path));
     setVisible(false);
     if (onSelectFolder != null) {
       onSelectFolder(path);
