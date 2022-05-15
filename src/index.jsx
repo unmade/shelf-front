@@ -8,22 +8,27 @@ import './i18n';
 
 import store from './store/store';
 
-import withAuth from './hoc/withAuth';
-
 import Login from './pages/Login';
 
 import App from './App';
 
 import './index.css';
 import './tailwind.css';
+import RequireAuth from './components/RequireAuth';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
         <Switch>
-          <Route path="/signin" component={Login} exact />
-          <Route path="/" component={withAuth(App)} />
+          <Route path="/signin" exact>
+            <Login />
+          </Route>
+          <Route path="/">
+            <RequireAuth redirectTo="/signin">
+              <App />
+            </RequireAuth>
+          </Route>
         </Switch>
       </BrowserRouter>
     </Provider>

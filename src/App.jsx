@@ -3,8 +3,6 @@ import { Switch, Redirect, Route } from 'react-router-dom';
 
 import * as routes from './routes';
 
-import withAdmin from './hoc/withAdmin';
-
 import SideBar from './components/SideBar';
 
 import Toast from './containers/Toast';
@@ -15,6 +13,7 @@ import Duplicates from './pages/Duplicates';
 import Files from './pages/Files';
 import Trash from './pages/Trash';
 import UserManagement from './pages/admin/UserManagement';
+import RequireAdmin from './components/RequireAdmin';
 
 function updateVh() {
   const vh = window.innerHeight * 0.01;
@@ -38,11 +37,23 @@ function App() {
         </div>
         <div className="my-0 min-w-0 flex-1 bg-white shadow-sm">
           <Switch>
-            <Route path={routes.BOOKMARKS.route} component={Bookmarks} />
-            <Route path={routes.DUPLICATES.route} component={Duplicates} />
-            <Route path={routes.FILES.route} component={Files} />
-            <Route path={routes.TRASH.route} component={Trash} />
-            <Route path={routes.USER_MANAGEMENT.route} component={withAdmin(UserManagement)} />
+            <Route path={routes.BOOKMARKS.route}>
+              <Bookmarks />
+            </Route>
+            <Route path={routes.DUPLICATES.route}>
+              <Duplicates />
+            </Route>
+            <Route path={routes.FILES.route}>
+              <Files />
+            </Route>
+            <Route path={routes.TRASH.route}>
+              <Trash />
+            </Route>
+            <Route path={routes.USER_MANAGEMENT.route}>
+              <RequireAdmin>
+                <UserManagement />
+              </RequireAdmin>
+            </Route>
             <Route exact path="/" render={() => <Redirect to={routes.FILES.prefix} />} />
           </Switch>
         </div>
