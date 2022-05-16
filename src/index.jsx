@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
@@ -17,7 +17,9 @@ import RequireAuth from './components/RequireAuth';
 import './index.css';
 import './tailwind.css';
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
@@ -34,8 +36,7 @@ ReactDOM.render(
         </Routes>
       </BrowserRouter>
     </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );
 
 // Hot Module Replacement (HMR) - Remove this snippet to remove HMR.
