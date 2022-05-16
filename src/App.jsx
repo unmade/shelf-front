@@ -49,7 +49,7 @@ function App() {
                 </RequireAdmin>
               }
             />
-            <Route path="/" render={() => <Navigate to={routes.FILES.prefix} replace />} />
+            <Route path="/" element={<Navigate to={routes.FILES.prefix} replace />} />
           </Routes>
         </div>
       </div>
