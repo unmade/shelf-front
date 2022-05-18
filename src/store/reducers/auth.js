@@ -1,35 +1,34 @@
-import { combineReducers } from '@reduxjs/toolkit';
+import { combineReducers, createReducer } from '@reduxjs/toolkit';
 
-import { types } from '../actions/auth';
+import * as actions from '../actions/auth';
 
 const INITIAL_STATE = {
   accessToken: null,
   expireAt: null,
 };
 
-function tokens(state = INITIAL_STATE, action) {
-  switch (action.type) {
-    case types.REFRESH_TOKEN_SUCCESS:
-    case types.SIGN_IN_SUCCESS: {
-      return {
-        ...state,
-        accessToken: action.payload.access,
-        expireAt: Date.now() + 12 * 60 * 1000, // 12 minutes from now
-      };
-    }
-    case types.REFRESH_TOKEN_FAILURE:
-    case types.SIGN_IN_FAILURE:
-    case types.SIGN_OUT: {
-      return {
-        ...state,
-        accessToken: null,
-        expireAt: null,
-      };
-    }
-    default:
-      return state;
-  }
+function isAuthFulfilled(action) {
+  return (
+    action.type === actions.refreshTokenFulfilled.type ||
+    action.type === actions.issueTokenFulfilled.type
+  );
 }
+
+function isAuthRejected(action) {
+  return (
+    action.type === actions.refreshTokenRejected.type ||
+    action.type === actions.issueTokenRejected.type
+  );
+}
+
+const tokens = createReducer(INITIAL_STATE, (builder) => {
+  builder.addCase(actions.signedOut, () => INITIAL_STATE);
+  builder.addMatcher(isAuthFulfilled, (state, action) => {
+    state.accessToken = action.payload.access_token;
+    state.expireAt = Date.now() + 12 * 60 * 1000; // 12 minutes from now
+  });
+  builder.addMatcher(isAuthRejected, () => INITIAL_STATE);
+});
 
 export default combineReducers({
   tokens,

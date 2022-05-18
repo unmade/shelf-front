@@ -75,5 +75,5 @@ export default [
   takeEvery(actions.types.ADD_BOOKMARK, addBookmark),
   takeEvery(actions.types.LIST_BOOKMARKS, listBookmarks),
   takeEvery(actions.types.REMOVE_BOOKMARK, removeBookmark),
-  takeEvery(authActions.types.SIGN_IN_SUCCESS, listBookmarks),
+  takeEvery(authActions.issueTokenFulfilled, listBookmarks),
 ];

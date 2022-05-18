@@ -16,5 +16,6 @@ module.exports = {
   rules: {
     'prettier/prettier': 'error',
     'react/prop-types': 0,
+    'no-param-reassign': ['error', { props: true, ignorePropertyModificationsFor: ['state'] }],
   },
 };
