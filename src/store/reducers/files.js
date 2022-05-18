@@ -1,6 +1,5 @@
 import { shallowEqual } from 'react-redux';
-import { combineReducers } from 'redux';
-import { createSelector } from 'reselect';
+import { combineReducers, createSelector } from '@reduxjs/toolkit';
 
 import { MediaType } from '../../constants';
 import * as routes from '../../routes';
