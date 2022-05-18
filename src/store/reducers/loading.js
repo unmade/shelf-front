@@ -1,4 +1,4 @@
-import { types as authTypes } from '../actions/auth';
+import * as authActions from '../actions/auth';
 import { types as fileTypes } from '../actions/files';
 import { types as userTypes } from '../actions/users';
 import { scopes, types } from '../actions/loading';
@@ -12,8 +12,8 @@ function loading(state = {}, action) {
         [scope]: value,
       };
     }
-    case authTypes.SIGN_IN_FAILURE:
-    case authTypes.SIGN_IN_SUCCESS:
+    case authActions.issueTokenFulfilled.type:
+    case authActions.issueTokenRejected.type:
       return {
         ...state,
         [scopes.signingIn]: false,

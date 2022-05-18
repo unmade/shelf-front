@@ -13,17 +13,17 @@ function* refreshToken() {
   const request = api.put('/auth/tokens', accessToken);
   const [response, err] = yield tryRequest(request);
   if (err !== null) {
-    yield put(actions.refreshTokenFailure(err));
+    yield put(actions.refreshTokenRejected(err));
     return;
   }
 
   const [data, parseErr] = yield tryResponse(response.json());
   if (parseErr !== null) {
-    yield put(actions.refreshTokenFailure(err));
+    yield put(actions.refreshTokenRejected(err));
     return;
   }
 
-  yield put(actions.refreshTokenSuccess(data));
+  yield put(actions.refreshTokenFulfilled(data));
 }
 
 function* refreshTokenWatcher() {
@@ -41,22 +41,22 @@ function* refreshTokenWatcher() {
     accessToken = yield select(getAccessToken);
     isExpired = yield select(getIsExpired);
     if (!accessToken || isExpired) {
-      yield take(actions.types.SIGN_IN_SUCCESS);
+      yield take(actions.issueTokenFulfilled);
     }
 
     yield delay(expiresIn);
 
     yield put(actions.refreshToken());
     yield race({
-      success: take(actions.types.REFRESH_TOKEN_SUCCESS),
-      failure: take(actions.types.REFRESH_TOKEN_FAILURE),
-      signedOut: take(actions.types.SIGN_OUT),
+      success: take(actions.refreshTokenFulfilled),
+      failure: take(actions.refreshTokenRejected),
+      signedOut: take(actions.signedOut),
     });
     expiresIn = refreshRate;
   }
 }
 
-function* signIn({ payload }) {
+function* issueToken({ payload }) {
   const { username, password } = payload;
 
   const body = new URLSearchParams({
@@ -68,21 +68,21 @@ function* signIn({ payload }) {
 
   const [response, err] = yield tryRequest(request, scopes.signingIn);
   if (err !== null) {
-    yield put(actions.signInFailure(err));
+    yield put(actions.issueTokenRejected(err));
     return;
   }
 
   const [data, parseErr] = yield tryResponse(response.json());
   if (parseErr !== null) {
-    yield put(actions.signInFailure(err));
+    yield put(actions.issueTokenRejected(err));
     return;
   }
 
-  yield put(actions.signInSuccess(data));
+  yield put(actions.issueTokenFulfilled(data));
 }
 
 export default [
   refreshTokenWatcher(),
-  takeLatest(actions.types.REFRESH_TOKEN, refreshToken),
-  takeLatest(actions.types.SIGN_IN, signIn),
+  takeLatest(actions.refreshToken, refreshToken),
+  takeLatest(actions.issueToken, issueToken),
 ];

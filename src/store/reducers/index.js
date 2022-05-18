@@ -25,7 +25,7 @@ const rootReducer = combineReducers({
 });
 
 export default function reducer(state, action) {
-  if (action.type === authActions.types.SIGN_OUT) {
+  if (action.type === authActions.signedOut.type) {
     return rootReducer(undefined, action);
   }
   return rootReducer(state, action);

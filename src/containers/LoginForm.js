@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { signIn } from '../store/actions/auth';
+import { issueToken } from '../store/actions/auth';
 import { scopes } from '../store/actions/loading';
 
 import { getLoading } from '../store/reducers/loading';
@@ -12,6 +12,6 @@ export default connect(
     loading: getLoading(state, scopes.signingIn),
   }),
   {
-    onSubmit: signIn,
+    onSubmit: issueToken,
   }
 )(LoginForm);

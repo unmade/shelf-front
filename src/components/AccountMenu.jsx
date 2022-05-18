@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { retrieveCurrentAccount } from '../store/actions/accounts';
-import { signOut } from '../store/actions/auth';
+import { signedOut } from '../store/actions/auth';
 import { getCurrentAccount } from '../store/reducers/accounts';
 
 import * as icons from '../icons';
@@ -28,7 +28,7 @@ function AccountMenu() {
 
   const { username } = account;
   const onSignOut = () => {
-    dispatch(signOut());
+    dispatch(signedOut());
   };
 
   return (
