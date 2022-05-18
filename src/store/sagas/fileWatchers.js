@@ -92,7 +92,7 @@ function* handleListFolder({ payload }) {
   if (path === currentPath) {
     const fileIds = new Set(items.map((item) => item.id));
     const selectedFiles = yield select(getSelectedFileIds);
-    const fileIdsToDeselect = difference(selectedFiles, fileIds);
+    const fileIdsToDeselect = [...difference(selectedFiles, fileIds)];
     yield put(uiActions.bulkDeselectFiles(fileIdsToDeselect));
   }
 }
