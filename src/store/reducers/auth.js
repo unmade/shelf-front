@@ -1,5 +1,6 @@
 import { combineReducers, createReducer } from '@reduxjs/toolkit';
 
+import { fulfilled, rejected } from '../actions';
 import * as actions from '../actions/auth';
 
 const INITIAL_STATE = {
@@ -9,15 +10,15 @@ const INITIAL_STATE = {
 
 function isAuthFulfilled(action) {
   return (
-    action.type === actions.refreshTokenFulfilled.type ||
-    action.type === actions.issueTokenFulfilled.type
+    action.type === fulfilled(actions.refreshToken.type) ||
+    action.type === fulfilled(actions.issueToken.type)
   );
 }
 
 function isAuthRejected(action) {
   return (
-    action.type === actions.refreshTokenRejected.type ||
-    action.type === actions.issueTokenRejected.type
+    action.type === rejected(actions.refreshToken.type) ||
+    action.type === rejected(actions.issueToken.type)
   );
 }
 

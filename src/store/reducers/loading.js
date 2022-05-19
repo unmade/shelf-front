@@ -1,4 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
+import { fulfilled, rejected } from '../actions';
 import * as authActions from '../actions/auth';
 import { types as fileTypes } from '../actions/files';
 import { types as userTypes } from '../actions/users';
@@ -7,8 +8,8 @@ import { scopes, types } from '../actions/loading';
 const INITIAL_STATE = {};
 
 const scopeByType = {
-  [authActions.issueTokenFulfilled.type]: scopes.signingIn,
-  [authActions.issueTokenRejected.type]: scopes.signingIn,
+  [fulfilled(authActions.issueToken)]: scopes.signingIn,
+  [rejected(authActions.issueToken)]: scopes.signingIn,
   [userTypes.ADD_BOOKMARK_FAILURE]: scopes.bookmarking,
   [userTypes.ADD_BOOKMARK_SUCCESS]: scopes.bookmarking,
   [userTypes.REMOVE_BOOKMARK_FAILURE]: scopes.bookmarking,

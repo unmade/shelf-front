@@ -2,6 +2,7 @@ import { put } from 'redux-saga/effects';
 
 import * as api from '../api';
 
+import { createFulfilledAction, createRejectedAction } from '../actions';
 import * as messageActions from '../actions/messages';
 import { setLoading } from '../actions/loading';
 
@@ -33,4 +34,20 @@ export function* tryResponse(parser) {
     yield put(messageActions.createErrorMessage(...parseError, CLOSE_AFTER));
     return [null, err];
   }
+}
+
+export function* tryFetch(action, request) {
+  const [response, err] = yield tryRequest(request);
+  if (err !== null) {
+    yield put(createRejectedAction(action.type, err));
+    return;
+  }
+
+  const [data, parseErr] = yield tryResponse(response.json());
+  if (parseErr !== null) {
+    yield put(createRejectedAction(action.type, parseErr));
+    return;
+  }
+
+  yield put(createFulfilledAction(action.type, data));
 }
