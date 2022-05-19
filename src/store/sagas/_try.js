@@ -4,7 +4,7 @@ import * as api from '../api';
 
 import { createFulfilledAction, createRejectedAction } from '../actions';
 import * as messageActions from '../actions/messages';
-import { setLoading } from '../actions/loading';
+import { setLoadingDeprecated } from '../actions/loading';
 
 const CLOSE_AFTER = 10;
 
@@ -13,7 +13,7 @@ const parseError = ['Bad response', "Couldn't parse response from server"];
 
 export function* tryRequest(request, scope) {
   if (scope != null) {
-    yield put(setLoading(scope, true));
+    yield put(setLoadingDeprecated(scope, true));
   }
   try {
     return [yield request, null];
