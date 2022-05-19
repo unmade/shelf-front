@@ -9,7 +9,7 @@ import { scopes } from '../store/actions/loading';
 import { closeDialog } from '../store/actions/ui';
 
 import { getFilesByIds } from '../store/reducers/files';
-import { getLoading } from '../store/reducers/loading';
+import { getLoadingDeprecated } from '../store/reducers/loading';
 import { getFileDialogProps, getFileDialogVisible } from '../store/reducers/ui';
 
 import * as routes from '../routes';
@@ -31,7 +31,7 @@ function MoveDialog({ uid }) {
 
   const visible = useSelector((state) => getFileDialogVisible(state, { uid }));
   const dialogProps = useSelector((state) => getFileDialogProps(state, { uid }));
-  const loading = useSelector((state) => getLoading(state, scopes.movingFile));
+  const loading = useSelector((state) => getLoadingDeprecated(state, scopes.movingFile));
 
   const fileIds = dialogProps.fileIds ?? [];
   const files = useSelector((state) => getFilesByIds(state, { ids: fileIds }), shallowEqual);

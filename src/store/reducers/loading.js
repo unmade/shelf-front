@@ -1,11 +1,12 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { fulfilled, rejected } from '../actions';
 import * as authActions from '../actions/auth';
+import * as actions from '../actions/loading';
 import { types as fileTypes } from '../actions/files';
 import { types as userTypes } from '../actions/users';
 import { scopes, types } from '../actions/loading';
 
-const INITIAL_STATE = {};
+const INITIAL_STATE = { actions: [] };
 
 const scopeByType = {
   [fulfilled(authActions.issueToken)]: scopes.signingIn,
@@ -39,6 +40,14 @@ function isLoaded(action) {
 }
 
 const loading = createReducer(INITIAL_STATE, (builder) => {
+  builder.addCase(actions.started, (state, action) => {
+    const { actionType, ref } = action.payload;
+    state.actions.push({ actionType, ref });
+  });
+  builder.addCase(actions.loaded, (state, action) => {
+    const { actionType, ref } = action.payload;
+    return state.actions.filter((item) => item.actionType !== actionType || item.ref !== ref);
+  });
   builder.addCase(types.SET_LOADING, (state, action) => {
     const { scope, value } = action.payload;
     state[scope] = value;
@@ -50,4 +59,7 @@ const loading = createReducer(INITIAL_STATE, (builder) => {
 
 export default loading;
 
-export const getLoading = (state, scope) => state.loading[scope] || false;
+export const getLoadingDeprecated = (state, scope) => state.loading[scope] || false;
+
+export const selectLoading = (state, { actionType, ref = null }) =>
+  state.loading.actions.some(({ actionType: t, ref: r }) => t === actionType && r === ref);

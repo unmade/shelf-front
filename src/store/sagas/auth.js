@@ -3,7 +3,7 @@ import { delay, put, race, select, take, takeLatest } from 'redux-saga/effects';
 import * as api from '../api';
 import { fulfilled, rejected } from '../actions';
 import * as actions from '../actions/auth';
-import { scopes, setLoading } from '../actions/loading';
+import { started, loaded } from '../actions/loading';
 import { getAccessToken, getIsExpired } from '../reducers/auth';
 
 import { tryFetch } from './_try';
@@ -18,9 +18,9 @@ function* issueToken(action) {
 
   const request = api.post('/auth/tokens', null, body);
 
-  yield put(setLoading(scopes.signingIn, true));
+  yield put(started(action.type));
   yield tryFetch(action, request);
-  yield put(setLoading(scopes.signingIn, false));
+  yield loaded(action.type);
 }
 
 function* refreshToken(action) {

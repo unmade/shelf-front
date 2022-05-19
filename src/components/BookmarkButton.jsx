@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { scopes } from '../store/actions/loading';
 import { addBookmark, removeBookmark } from '../store/actions/users';
-import { getLoading } from '../store/reducers/loading';
+import { getLoadingDeprecated } from '../store/reducers/loading';
 import { getIsBookmarked } from '../store/reducers/users';
 
 import * as icons from '../icons';
@@ -31,7 +31,7 @@ function BookmarkButton({ className, fileId, size }) {
 
   const dispatch = useDispatch();
   const bookmarked = useSelector((state) => getIsBookmarked(state, fileId));
-  const loading = useSelector((state) => getLoading(state, scopes.bookmarking));
+  const loading = useSelector((state) => getLoadingDeprecated(state, scopes.bookmarking));
 
   const iconClasses = `${bookmarked ? 'fill-current' : ''} ${iconSizes[size]}`;
   const title = bookmarked ? t('Remove from Saved') : t('Add to Saved');
