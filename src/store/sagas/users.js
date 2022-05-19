@@ -1,6 +1,7 @@
 import { put, select, takeEvery } from 'redux-saga/effects';
 
 import * as api from '../api';
+import { fulfilled } from '../actions';
 import { scopes } from '../actions/loading';
 import * as authActions from '../actions/auth';
 import * as actions from '../actions/users';
@@ -75,5 +76,5 @@ export default [
   takeEvery(actions.types.ADD_BOOKMARK, addBookmark),
   takeEvery(actions.types.LIST_BOOKMARKS, listBookmarks),
   takeEvery(actions.types.REMOVE_BOOKMARK, removeBookmark),
-  takeEvery(authActions.issueTokenFulfilled, listBookmarks),
+  takeEvery(fulfilled(authActions.issueToken), listBookmarks),
 ];

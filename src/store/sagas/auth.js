@@ -1,29 +1,34 @@
 import { delay, put, race, select, take, takeLatest } from 'redux-saga/effects';
 
 import * as api from '../api';
+import { fulfilled, rejected } from '../actions';
 import * as actions from '../actions/auth';
-import { scopes } from '../actions/loading';
+import { scopes, setLoading } from '../actions/loading';
 import { getAccessToken, getIsExpired } from '../reducers/auth';
 
-import { tryRequest, tryResponse } from './_try';
+import { tryFetch } from './_try';
 
-function* refreshToken() {
+function* issueToken(action) {
+  const { username, password } = action.payload;
+
+  const body = new URLSearchParams({
+    username,
+    password,
+  });
+
+  const request = api.post('/auth/tokens', null, body);
+
+  yield put(setLoading(scopes.signingIn, true));
+  yield tryFetch(action, request);
+  yield put(setLoading(scopes.signingIn, false));
+}
+
+function* refreshToken(action) {
   const accessToken = yield select(getAccessToken);
 
   const request = api.put('/auth/tokens', accessToken);
-  const [response, err] = yield tryRequest(request);
-  if (err !== null) {
-    yield put(actions.refreshTokenRejected(err));
-    return;
-  }
 
-  const [data, parseErr] = yield tryResponse(response.json());
-  if (parseErr !== null) {
-    yield put(actions.refreshTokenRejected(err));
-    return;
-  }
-
-  yield put(actions.refreshTokenFulfilled(data));
+  yield tryFetch(action, request);
 }
 
 function* refreshTokenWatcher() {
@@ -41,48 +46,23 @@ function* refreshTokenWatcher() {
     accessToken = yield select(getAccessToken);
     isExpired = yield select(getIsExpired);
     if (!accessToken || isExpired) {
-      yield take(actions.issueTokenFulfilled);
+      yield take(fulfilled(actions.issueToken));
     }
 
     yield delay(expiresIn);
 
     yield put(actions.refreshToken());
     yield race({
-      success: take(actions.refreshTokenFulfilled),
-      failure: take(actions.refreshTokenRejected),
+      success: take(fulfilled(actions.refreshToken)),
+      failure: take(rejected(actions.refreshToken)),
       signedOut: take(actions.signedOut),
     });
     expiresIn = refreshRate;
   }
 }
 
-function* issueToken({ payload }) {
-  const { username, password } = payload;
-
-  const body = new URLSearchParams({
-    username,
-    password,
-  });
-
-  const request = api.post('/auth/tokens', null, body);
-
-  const [response, err] = yield tryRequest(request, scopes.signingIn);
-  if (err !== null) {
-    yield put(actions.issueTokenRejected(err));
-    return;
-  }
-
-  const [data, parseErr] = yield tryResponse(response.json());
-  if (parseErr !== null) {
-    yield put(actions.issueTokenRejected(err));
-    return;
-  }
-
-  yield put(actions.issueTokenFulfilled(data));
-}
-
 export default [
   refreshTokenWatcher(),
-  takeLatest(actions.refreshToken, refreshToken),
   takeLatest(actions.issueToken, issueToken),
+  takeLatest(actions.refreshToken, refreshToken),
 ];
