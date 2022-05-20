@@ -2,79 +2,52 @@ import { put, select, takeEvery } from 'redux-saga/effects';
 
 import * as api from '../api';
 import { fulfilled } from '../actions';
-import { scopes } from '../actions/loading';
+import { started, loaded } from '../actions/loading';
 import * as authActions from '../actions/auth';
 import * as actions from '../actions/users';
 
 import { getAccessToken } from '../reducers/auth';
 
-import { tryRequest, tryResponse } from './_try';
+import { tryFetch } from './_try';
 
-function* addBookmark({ payload }) {
+function* addBookmark({ type, payload }) {
   const accessToken = yield select(getAccessToken);
   const { fileId } = payload;
 
   const request = api.post('/users/bookmarks/add', accessToken, { id: fileId });
-  const [response, err] = yield tryRequest(request, scopes.bookmarking);
-  if (err !== null) {
-    yield put(actions.addBookmarkFailure(err, fileId));
-    return;
-  }
 
-  const [data, parseErr] = yield tryResponse(response.json());
-  if (parseErr !== null) {
-    yield put(actions.addBookmarkFailure(err, fileId));
-    return;
-  }
-
-  yield put(actions.addBookmarkSuccess(data));
+  yield put(started(type, fileId));
+  yield tryFetch(type, request);
+  yield put(loaded(type, fileId));
 }
 
-function* listBookmarks() {
+function* listBookmarks({ type }) {
   const accessToken = yield select(getAccessToken);
   if (accessToken == null) {
     return;
   }
 
   const request = api.get('/users/bookmarks/list', accessToken);
-  const [response, err] = yield tryRequest(request, scopes.listingBookmarks);
-  if (err !== null) {
-    yield put(actions.listBookmarksFailure(err));
-    return;
-  }
 
-  const [data, parseErr] = yield tryResponse(response.json());
-  if (parseErr !== null) {
-    yield put(actions.listBookmarksFailure(err));
-    return;
-  }
-
-  yield put(actions.listBookmarksSuccess(data));
+  yield put(started(type));
+  yield tryFetch(type, request);
+  yield put(loaded(type));
 }
 
-function* removeBookmark({ payload }) {
+function* removeBookmark({ type, payload }) {
   const accessToken = yield select(getAccessToken);
   const { fileId } = payload;
 
   const request = api.post('/users/bookmarks/remove', accessToken, { id: fileId });
-  const [response, err] = yield tryRequest(request, scopes.bookmarking);
-  if (err !== null) {
-    yield put(actions.removeBookmarkFailure(err, fileId));
-    return;
-  }
 
-  const [data, parseErr] = yield tryResponse(response.json());
-  if (parseErr !== null) {
-    yield put(actions.removeBookmarkFailure(err, fileId));
-    return;
-  }
-
-  yield put(actions.removeBookmarkSuccess(data));
+  yield put(started(type, fileId));
+  yield tryFetch(type, request);
+  yield put(loaded(type, fileId));
 }
 
 export default [
-  takeEvery(actions.types.ADD_BOOKMARK, addBookmark),
-  takeEvery(actions.types.LIST_BOOKMARKS, listBookmarks),
-  takeEvery(actions.types.REMOVE_BOOKMARK, removeBookmark),
+  takeEvery(actions.addBookmark, addBookmark),
+  takeEvery(actions.listBookmarks, listBookmarks),
+  takeEvery(actions.removeBookmark, removeBookmark),
   takeEvery(fulfilled(authActions.issueToken), listBookmarks),
 ];
