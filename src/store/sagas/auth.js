@@ -19,7 +19,7 @@ function* issueToken(action) {
   const request = api.post('/auth/tokens', null, body);
 
   yield put(started(action.type));
-  yield tryFetch(action, request);
+  yield tryFetch(action.type, request);
   yield loaded(action.type);
 }
 
@@ -28,7 +28,7 @@ function* refreshToken(action) {
 
   const request = api.put('/auth/tokens', accessToken);
 
-  yield tryFetch(action, request);
+  yield tryFetch(action.type, request);
 }
 
 function* refreshTokenWatcher() {

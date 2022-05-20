@@ -1,20 +1,11 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { fulfilled, rejected } from '../actions';
-import * as authActions from '../actions/auth';
 import * as actions from '../actions/loading';
 import { types as fileTypes } from '../actions/files';
-import { types as userTypes } from '../actions/users';
 import { scopes, types } from '../actions/loading';
 
 const INITIAL_STATE = { actions: [] };
 
 const scopeByType = {
-  [fulfilled(authActions.issueToken)]: scopes.signingIn,
-  [rejected(authActions.issueToken)]: scopes.signingIn,
-  [userTypes.ADD_BOOKMARK_FAILURE]: scopes.bookmarking,
-  [userTypes.ADD_BOOKMARK_SUCCESS]: scopes.bookmarking,
-  [userTypes.REMOVE_BOOKMARK_FAILURE]: scopes.bookmarking,
-  [userTypes.REMOVE_BOOKMARK_SUCCESS]: scopes.bookmarking,
   [fileTypes.CREATE_FOLDER_FAILURE]: scopes.creatingFolder,
   [fileTypes.CREATE_FOLDER_SUCCESS]: scopes.creatingFolder,
   [fileTypes.DELETE_IMMEDIATELY_FAILURE]: scopes.deletingFileImmediately,
@@ -46,7 +37,9 @@ const loading = createReducer(INITIAL_STATE, (builder) => {
   });
   builder.addCase(actions.loaded, (state, action) => {
     const { actionType, ref } = action.payload;
-    return state.actions.filter((item) => item.actionType !== actionType || item.ref !== ref);
+    state.actions = state.actions.filter(
+      (item) => item.actionType !== actionType || item.ref !== ref
+    );
   });
   builder.addCase(types.SET_LOADING, (state, action) => {
     const { scope, value } = action.payload;

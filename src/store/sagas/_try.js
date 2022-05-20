@@ -36,18 +36,18 @@ export function* tryResponse(parser) {
   }
 }
 
-export function* tryFetch(action, request) {
+export function* tryFetch(actionType, request) {
   const [response, err] = yield tryRequest(request);
   if (err !== null) {
-    yield put(createRejectedAction(action.type, err));
+    yield put(createRejectedAction(actionType, err));
     return;
   }
 
   const [data, parseErr] = yield tryResponse(response.json());
   if (parseErr !== null) {
-    yield put(createRejectedAction(action.type, parseErr));
+    yield put(createRejectedAction(actionType, parseErr));
     return;
   }
 
-  yield put(createFulfilledAction(action.type, data));
+  yield put(createFulfilledAction(actionType, data));
 }
