@@ -3,58 +3,41 @@ import { actionChannel, call, put, select, take, takeEvery } from 'redux-saga/ef
 import { Dialogs, MediaType } from '../../constants';
 
 import * as api from '../api';
+import { createFulfilledAction, createRejectedAction } from '../actions';
 import * as actions from '../actions/files';
-import { scopes } from '../actions/loading';
+import { started, loaded } from '../actions/loading';
 import * as uiActions from '../actions/ui';
 import * as taskActions from '../actions/tasks';
 
 import { getAccessToken } from '../reducers/auth';
 
-import { tryRequest, tryResponse } from './_try';
+import { tryRequest, tryResponse, tryFetch } from './_try';
 
-function* createFolder({ payload }) {
+function* createFolder({ type, payload }) {
   const accessToken = yield select(getAccessToken);
   const { path } = payload;
 
   const request = api.post('/files/create_folder', accessToken, { path });
-  const [response, err] = yield tryRequest(request, scopes.creatingFolder);
-  if (err !== null) {
-    yield put(actions.createFolderFailure(err));
-    return;
-  }
 
-  const [data, parseErr] = yield tryResponse(response.json());
-  if (parseErr !== null) {
-    yield put(actions.createFolderFailure(err));
-    return;
-  }
-
-  yield put(actions.createFolderSuccess(data));
+  yield put(started(type));
+  yield tryFetch(type, request);
+  yield put(loaded(type));
   yield put(uiActions.closeDialog(Dialogs.createFolder));
 }
 
-function* deleteImmediately({ payload }) {
+function* deleteImmediately({ type, payload }) {
   const accessToken = yield select(getAccessToken);
   const { path } = payload;
 
   const request = api.post('/files/delete_immediately', accessToken, { path });
-  const [response, err] = yield tryRequest(request);
-  if (err !== null) {
-    yield put(actions.deleteImmediatelyFailure(err));
-    return;
-  }
 
-  const [data, parseErr] = yield tryResponse(response.json());
-  if (parseErr !== null) {
-    yield put(actions.deleteImmediatelyFailure(err));
-    return;
-  }
-
-  yield put(actions.deleteImmediatelySucess(data));
+  yield put(started(type));
+  yield tryFetch(type, request);
+  yield put(loaded(type));
   yield put(uiActions.closeDialog(Dialogs.deleteImmediately));
 }
 
-function* deleteImmediatelyBatch({ payload }) {
+function* deleteImmediatelyBatch({ type, payload }) {
   const accessToken = yield select(getAccessToken);
   const { paths } = payload;
   const body = {
@@ -62,32 +45,26 @@ function* deleteImmediatelyBatch({ payload }) {
   };
 
   const request = api.post('/files/delete_immediately_batch', accessToken, body);
-  const [response, err] = yield tryRequest(request);
-  if (err !== null) {
-    yield put(actions.deleteImmediatelyBatchFailure(err));
-    return;
-  }
 
-  const [data, parseErr] = yield tryResponse(response.json());
-  if (parseErr !== null) {
-    yield put(actions.deleteImmediatelyBatchFailure(err));
-    return;
-  }
-
-  const { async_task_id: taskId } = data;
-  yield put(actions.deleteImmediatelyBatchSucess(data));
+  yield put(started(type));
+  const data = yield tryFetch(type, request);
+  yield put(loaded(type));
   yield put(uiActions.closeDialog(Dialogs.deleteImmediately));
-  yield put(taskActions.taskStarted(taskActions.scopes.deletingImmediatelyBatch, taskId, body));
+
+  if (data != null) {
+    const { async_task_id: taskId } = data;
+    yield put(taskActions.taskStarted(taskActions.scopes.deletingImmediatelyBatch, taskId, body));
+  }
 }
 
-function* download({ payload }) {
+function* download({ type, payload }) {
   const accessToken = yield select(getAccessToken);
   const { path } = payload;
 
   const request = api.post('/files/download', accessToken, { path });
   const [response, err] = yield tryRequest(request);
   if (err !== null) {
-    yield put(actions.downloadFailure(err));
+    yield put(createRejectedAction(type, err));
     return;
   }
 
@@ -95,139 +72,97 @@ function* download({ payload }) {
   const parser = MediaType.isText(contentType) ? response.text() : response.blob();
   const [data, parseErr] = yield tryResponse(parser);
   if (parseErr !== null) {
-    yield put(actions.downloadFailure(parseErr));
+    yield put(createRejectedAction(type, parseErr));
     return;
   }
   const file = MediaType.isText(contentType) ? data : URL.createObjectURL(data);
-  yield put(actions.downloadSuccess(path, file));
+  yield put(createFulfilledAction(type, { path, file }));
 }
 
-function* emptyTrash() {
+function* emptyTrash({ type }) {
   const accessToken = yield select(getAccessToken);
 
   const request = api.post('/files/empty_trash', accessToken);
-  const [response, err] = yield tryRequest(request, scopes.emptyingTrash);
-  if (err !== null) {
-    yield put(actions.emptyTrashFailure(err));
-    return;
-  }
 
-  const [data, parseErr] = yield tryResponse(response.json());
-  if (parseErr !== null) {
-    yield put(actions.emptyTrashFailure(err));
-    return;
-  }
-
-  yield put(actions.emptyTrashSuccess(data));
+  yield put(started(type));
+  const data = yield tryFetch(type, request);
+  yield put(loaded(type));
   yield put(uiActions.closeDialog(Dialogs.emptyTrash));
-  yield put(taskActions.taskStarted(taskActions.scopes.emptyingTrash, data.async_task_id));
+
+  if (data != null) {
+    yield put(taskActions.taskStarted(taskActions.scopes.emptyingTrash, data.async_task_id));
+  }
 }
 
-function* fetchThumbnail({ payload }) {
+function* fetchThumbnail({ type, payload }) {
   const accessToken = yield select(getAccessToken);
   const { id, path, size } = payload;
 
   const request = api.post(`/files/get_thumbnail?size=${size}`, accessToken, { path });
   const [response, err] = yield tryRequest(request);
   if (err !== null) {
-    yield put(actions.fetchThumbnailFailure(err));
+    yield put(createRejectedAction(type, err));
     return;
   }
 
   const [data, parseErr] = yield tryResponse(response.blob());
   if (parseErr !== null) {
-    yield put(actions.fetchThumbnailFailure(err));
+    yield put(createRejectedAction(type, parseErr));
     return;
   }
 
   const thumb = URL.createObjectURL(data);
-  yield put(actions.fetchThumbnailSuccess(id, size, thumb));
+  yield put(createFulfilledAction(type, { id, size, thumb }));
 }
 
-function* findDuplicates({ payload }) {
+function* findDuplicates({ type, payload }) {
   const accessToken = yield select(getAccessToken);
   const { path, maxDistance } = payload;
 
   const body = { path, max_distance: maxDistance };
   const request = api.post('/files/find_duplicates', accessToken, body);
-  const [response, err] = yield tryRequest(request, scopes.searchingDuplicates);
-  if (err !== null) {
-    yield put(actions.findDuplicatesFailure(err));
-    return;
-  }
 
-  const [data, parseErr] = yield tryResponse(response.json());
-  if (parseErr !== null) {
-    yield put(actions.findDuplicatesFailure(err));
-    return;
-  }
-
-  yield put(actions.findDuplicatesSuccess(data));
+  yield put(started(type));
+  yield tryFetch(type, request);
+  yield put(loaded(type));
 }
 
-function* getBatch({ payload }) {
+function* getBatch({ type, payload }) {
   const accessToken = yield select(getAccessToken);
   const { fileIds } = payload;
 
   const request = api.post('/files/get_batch', accessToken, { ids: fileIds });
-  const [response, err] = yield tryRequest(request);
-  if (err !== null) {
-    yield put(actions.getBatchFailure(err));
-    return;
-  }
 
-  const [data, parseErr] = yield tryResponse(response.json());
-  if (parseErr !== null) {
-    yield put(actions.getBatchFailure(parseErr));
-    return;
-  }
-
-  yield put(actions.getBatchSuccess(data));
+  yield put(started(type));
+  yield tryFetch(type, request);
+  yield put(loaded(type));
 }
 
-function* listFolder({ payload }) {
+function* listFolder({ type, payload }) {
   const accessToken = yield select(getAccessToken);
   const { path = '.' } = payload;
 
   const request = api.post('/files/list_folder', accessToken, { path });
-  const [response, err] = yield tryRequest(request, scopes.listingFolder);
-  if (err !== null) {
-    yield put(actions.listFolderFailure(err));
-    return;
-  }
 
-  const [data, parseErr] = yield tryResponse(response.json());
-  if (parseErr !== null) {
-    yield put(actions.listFolderFailure(parseErr));
-    return;
-  }
-
-  yield put(actions.listFolderSuccess(data));
+  yield put(started(type));
+  yield tryFetch(type, request);
+  yield put(loaded(type));
 }
 
-function* moveFile({ payload }) {
+function* moveFile({ type, payload }) {
   const accessToken = yield select(getAccessToken);
   const { fromPath, toPath } = payload;
 
   const request = api.post('/files/move', accessToken, { from_path: fromPath, to_path: toPath });
-  const [response, err] = yield tryRequest(request, scopes.movingFile);
-  if (err !== null) {
-    yield put(actions.moveFileFailure(err));
-    return;
-  }
 
-  const [data, parseErr] = yield tryResponse(response.json());
-  if (parseErr !== null) {
-    yield put(actions.moveFileFailure(parseErr));
-    return;
-  }
-
-  yield put(actions.moveFileSuccess(data));
+  yield put(started(type));
+  yield tryFetch(type, request);
+  yield put(loaded(type));
   yield put(uiActions.closeDialog(Dialogs.rename));
   yield put(uiActions.closeDialog(Dialogs.move));
 }
 
-function* moveFileBatch({ payload }) {
+function* moveFileBatch({ type, payload }) {
   const accessToken = yield select(getAccessToken);
   const { relocations } = payload;
 
@@ -239,46 +174,31 @@ function* moveFileBatch({ payload }) {
   };
 
   const request = api.post('/files/move_batch', accessToken, body);
-  const [response, err] = yield tryRequest(request, scopes.movingFile);
-  if (err !== null) {
-    yield put(actions.moveFileBatchFailure(err));
-    return;
-  }
 
-  const [data, parseErr] = yield tryResponse(response.json());
-  if (parseErr !== null) {
-    yield put(actions.moveFileBatchFailure(parseErr));
-    return;
-  }
-
-  yield put(actions.moveFileBatchSuccess(data));
+  yield put(started(type));
+  const data = yield tryFetch(type, request);
+  yield put(loaded(type));
   yield put(uiActions.closeDialog(Dialogs.rename));
   yield put(uiActions.closeDialog(Dialogs.move));
-  yield put(taskActions.taskStarted(taskActions.scopes.movingBatch, data.async_task_id, body));
+
+  if (data != null) {
+    yield put(taskActions.taskStarted(taskActions.scopes.movingBatch, data.async_task_id, body));
+  }
 }
 
-function* moveToTrash({ payload }) {
+function* moveToTrash({ type, payload }) {
   const accessToken = yield select(getAccessToken);
   const { path } = payload;
 
   const request = api.post('/files/move_to_trash', accessToken, { path });
-  const [response, err] = yield tryRequest(request, scopes.movingToTrash);
-  if (err !== null) {
-    yield put(actions.moveToTrashFailure(err));
-    return;
-  }
 
-  const [data, parseErr] = yield tryResponse(response.json());
-  if (parseErr !== null) {
-    yield put(actions.moveToTrashFailure(parseErr));
-    return;
-  }
-
-  yield put(actions.moveToTrashSuccess(data));
+  yield put(started(type));
+  yield tryFetch(type, request);
+  yield put(loaded(type));
   yield put(uiActions.closeDialog(Dialogs.delete));
 }
 
-function* moveToTrashBatch({ payload }) {
+function* moveToTrashBatch({ type, payload }) {
   const accessToken = yield select(getAccessToken);
   const { paths } = payload;
 
@@ -287,48 +207,36 @@ function* moveToTrashBatch({ payload }) {
   };
 
   const request = api.post('/files/move_to_trash_batch', accessToken, body);
-  const [response, err] = yield tryRequest(request, scopes.movingFile);
-  if (err !== null) {
-    yield put(actions.moveFileBatchFailure(err));
-    return;
-  }
 
-  const [data, parseErr] = yield tryResponse(response.json());
-  if (parseErr !== null) {
-    yield put(actions.moveFileBatchFailure(parseErr));
-    return;
-  }
-
-  yield put(actions.moveFileBatchSuccess(data));
+  yield put(started(type));
+  const data = yield tryFetch(type, request);
+  yield put(loaded(type));
   yield put(uiActions.closeDialog(Dialogs.delete));
-  yield put(taskActions.taskStarted(taskActions.scopes.movingToTrash, data.async_task_id, body));
+
+  if (data != null) {
+    yield put(taskActions.taskStarted(taskActions.scopes.movingToTrash, data.async_task_id, body));
+  }
 }
 
-function* performDownload({ payload }) {
+function* performDownload({ type, payload }) {
   const accessToken = yield select(getAccessToken);
   const { path } = payload;
 
   const request = api.post('/files/get_download_url', accessToken, { path });
-  const [response, err] = yield tryRequest(request);
-  if (err !== null) {
-    yield put(actions.retrieveDownloadUrlFailure(err));
-    return;
-  }
 
-  const [data, parseErr] = yield tryResponse(response.json());
-  if (parseErr !== null) {
-    yield put(actions.retrieveDownloadUrlFailure(parseErr));
-    return;
-  }
+  yield put(started(type));
+  const data = yield tryFetch(type, request);
+  yield put(loaded(type));
 
-  yield put(actions.retrieveDownloadUrlSuccess(data));
-  const link = document.createElement('a');
-  link.href = data.download_url;
-  link.click();
+  if (data != null) {
+    const link = document.createElement('a');
+    link.href = data.download_url;
+    link.click();
+  }
 }
 
 function* watchFetchThumbnail() {
-  const thumbnailChan = yield actionChannel([actions.types.FETCH_THUMBNAIL]);
+  const thumbnailChan = yield actionChannel([actions.fetchThumbnail]);
 
   while (true) {
     const action = yield take(thumbnailChan);
@@ -337,18 +245,18 @@ function* watchFetchThumbnail() {
 }
 
 export default [
-  takeEvery(actions.types.CREATE_FOLDER, createFolder),
-  takeEvery(actions.types.DELETE_IMMEDIATELY, deleteImmediately),
-  takeEvery(actions.types.DELETE_IMMEDIATELY_BATCH, deleteImmediatelyBatch),
-  takeEvery(actions.types.DOWNLOAD, download),
-  takeEvery(actions.types.EMPTY_TRASH, emptyTrash),
-  takeEvery(actions.types.FIND_DUPLICATES, findDuplicates),
-  takeEvery(actions.types.GET_BATCH, getBatch),
-  takeEvery(actions.types.LIST_FOLDER, listFolder),
-  takeEvery(actions.types.MOVE_FILE, moveFile),
-  takeEvery(actions.types.MOVE_FILE_BATCH, moveFileBatch),
-  takeEvery(actions.types.MOVE_TO_TRASH, moveToTrash),
-  takeEvery(actions.types.MOVE_TO_TRASH_BATCH, moveToTrashBatch),
-  takeEvery(actions.types.PERFORM_DOWNLOAD, performDownload),
+  takeEvery(actions.createFolder, createFolder),
+  takeEvery(actions.deleteImmediately, deleteImmediately),
+  takeEvery(actions.deleteImmediatelyBatch, deleteImmediatelyBatch),
+  takeEvery(actions.download, download),
+  takeEvery(actions.emptyTrash, emptyTrash),
+  takeEvery(actions.findDuplicates, findDuplicates),
+  takeEvery(actions.getBatch, getBatch),
+  takeEvery(actions.listFolder, listFolder),
+  takeEvery(actions.moveFile, moveFile),
+  takeEvery(actions.moveFileBatch, moveFileBatch),
+  takeEvery(actions.moveToTrash, moveToTrash),
+  takeEvery(actions.moveToTrashBatch, moveToTrashBatch),
+  takeEvery(actions.performDownload, performDownload),
   watchFetchThumbnail(),
 ];

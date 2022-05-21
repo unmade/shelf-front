@@ -4,6 +4,7 @@ import { MediaType } from '../../constants';
 import * as routes from '../../routes';
 import { difference } from '../../set';
 
+import { fulfilled } from '../actions';
 import * as fileActions from '../actions/files';
 import * as taskActions from '../actions/tasks';
 import * as uiActions from '../actions/ui';
@@ -73,7 +74,7 @@ function compareFiles(a, b) {
 }
 
 function* handleCreateFolder(action) {
-  const { folder } = action.payload;
+  const folder = action.payload;
   const currPath = yield select(getCurrentPath);
 
   const ids = new Set(yield select(getFileIdsByPath, { path: currPath }));
@@ -81,7 +82,7 @@ function* handleCreateFolder(action) {
     const nextFiles = [...ids];
     const idx = yield findNextIdx(nextFiles, folder, compareFiles);
     nextFiles.splice(idx, 0, folder.id);
-    yield put(fileActions.updateFolderByPath(currPath, nextFiles));
+    yield put(fileActions.folderUpdated(currPath, nextFiles));
   }
 }
 
@@ -98,7 +99,7 @@ function* handleListFolder({ payload }) {
 }
 
 function* handleMoveFile(action) {
-  const { file } = action.payload;
+  const file = action.payload;
   const currPath = yield select(getCurrentPath);
 
   const parentPath = routes.parent(file.path);
@@ -108,7 +109,7 @@ function* handleMoveFile(action) {
     const idx = yield findNextIdx(nextFiles, file, compareFiles);
     nextFiles.splice(idx, 0, file.id);
   }
-  yield put(fileActions.updateFolderByPath(currPath, nextFiles));
+  yield put(fileActions.folderUpdated(currPath, nextFiles));
 }
 
 function* handleUpload(action) {
@@ -134,16 +135,16 @@ function* handleUpload(action) {
       const nextFiles = [...ids];
       const idx = yield findNextIdx(nextFiles, target, compareFiles);
       nextFiles.splice(idx, 0, target.id);
-      yield put(fileActions.updateFolderByPath(currPath, nextFiles));
+      yield put(fileActions.folderUpdated(currPath, nextFiles));
     }
   }
 }
 
 const watchers = {
-  [fileActions.types.CREATE_FOLDER_SUCCESS]: handleCreateFolder,
-  [fileActions.types.LIST_FOLDER_SUCCESS]: handleListFolder,
-  [fileActions.types.MOVE_FILE_SUCCESS]: handleMoveFile,
-  [fileActions.types.MOVE_TO_TRASH_SUCCESS]: handleMoveFile,
+  [fulfilled(fileActions.createFolder)]: handleCreateFolder,
+  [fulfilled(fileActions.listFolder)]: handleListFolder,
+  [fulfilled(fileActions.moveFile)]: handleMoveFile,
+  [fulfilled(fileActions.moveToTrash)]: handleMoveFile,
   [uploadActions.types.UPLOAD_SUCCESS]: handleUpload,
 };
 

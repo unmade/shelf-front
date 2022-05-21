@@ -5,11 +5,10 @@ import { Trans, useTranslation } from 'react-i18next';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import { moveToTrashBatch } from '../store/actions/files';
-import { scopes } from '../store/actions/loading';
 import { closeDialog } from '../store/actions/ui';
 
 import { getFilesByIds } from '../store/reducers/files';
-import { getLoadingDeprecated } from '../store/reducers/loading';
+import { getLoading } from '../store/reducers/loading';
 import { getFileDialogProps, getFileDialogVisible } from '../store/reducers/ui';
 
 import * as icons from '../icons';
@@ -23,7 +22,7 @@ function DeleteDialog({ uid }) {
 
   const visible = useSelector((state) => getFileDialogVisible(state, { uid }));
   const dialogProps = useSelector((state) => getFileDialogProps(state, { uid }));
-  const loading = useSelector((state) => getLoadingDeprecated(state, scopes.movingToTrash));
+  const loading = useSelector((state) => getLoading(state, { actionType: moveToTrashBatch }));
 
   const fileIds = dialogProps.fileIds ?? [];
   const files = useSelector((state) => getFilesByIds(state, { ids: fileIds }), shallowEqual);

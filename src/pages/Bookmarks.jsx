@@ -7,8 +7,7 @@ import { useMediaQuery } from 'react-responsive';
 import useSidePreview from '../hooks/preview-available';
 
 import { getBatch } from '../store/actions/files';
-import { scopes } from '../store/actions/loading';
-import { getLoadingDeprecated } from '../store/reducers/loading';
+import { getLoading } from '../store/reducers/loading';
 import { getBookmarks } from '../store/reducers/users';
 
 import * as icons from '../icons';
@@ -28,7 +27,7 @@ function Bookmarks() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const bookmarks = useSelector(getBookmarks);
-  const loading = useSelector((state) => getLoadingDeprecated(state, scopes.listingBookmarks));
+  const loading = useSelector((state) => getLoading(state, { actionType: getBatch }));
   const withSidePreview = useSidePreview();
   const isLaptop = useMediaQuery({ query: MediaQuery.lg });
 
