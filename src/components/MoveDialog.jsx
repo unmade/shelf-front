@@ -5,11 +5,10 @@ import { useTranslation } from 'react-i18next';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import { moveFileBatch } from '../store/actions/files';
-import { scopes } from '../store/actions/loading';
 import { closeDialog } from '../store/actions/ui';
 
 import { getFilesByIds } from '../store/reducers/files';
-import { getLoadingDeprecated } from '../store/reducers/loading';
+import { getLoading } from '../store/reducers/loading';
 import { getFileDialogProps, getFileDialogVisible } from '../store/reducers/ui';
 
 import * as routes from '../routes';
@@ -31,7 +30,7 @@ function MoveDialog({ uid }) {
 
   const visible = useSelector((state) => getFileDialogVisible(state, { uid }));
   const dialogProps = useSelector((state) => getFileDialogProps(state, { uid }));
-  const loading = useSelector((state) => getLoadingDeprecated(state, scopes.movingFile));
+  const loading = useSelector((state) => getLoading(state, { actionType: moveFileBatch.type }));
 
   const fileIds = dialogProps.fileIds ?? [];
   const files = useSelector((state) => getFilesByIds(state, { ids: fileIds }), shallowEqual);

@@ -1,171 +1,102 @@
-import { shallowEqual } from 'react-redux';
-import { combineReducers, createSelector } from '@reduxjs/toolkit';
+import { combineReducers, createReducer, createSelector } from '@reduxjs/toolkit';
 
 import { MediaType } from '../../constants';
 import * as routes from '../../routes';
 
-import { types } from '../actions/files';
+import { fulfilled } from '../actions';
+import * as actions from '../actions/files';
 import { types as uploadTypes } from '../actions/uploads';
 
-function normalize(files) {
-  const data = {};
-  files.forEach((file) => {
-    data[file.id] = file;
+function isFileChanged(action) {
+  return (
+    action.type === fulfilled(actions.createFolder) ||
+    action.type === fulfilled(actions.emptyTrash) ||
+    action.type === fulfilled(action.moveFile) ||
+    action.type === fulfilled(actions.moveToTrash)
+  );
+}
+
+function isFilesListed(action) {
+  return (
+    action.type === fulfilled(actions.getBatch) || action.type === fulfilled(actions.listFolder)
+  );
+}
+
+const downloads = createReducer({}, (builder) => {
+  builder.addCase(fulfilled(actions.download), (state, action) => {
+    const { path, file } = action.payload;
+    state[path] = file;
   });
-  return data;
-}
+});
 
-function duplicatesByPath(state = {}, action) {
-  switch (action.type) {
-    case types.FIND_DUPLICATES_SUCCESS: {
-      const { path, items } = action.payload;
-      return {
-        ...state,
-        [path]: items.map((group) => group.map((file) => file.id)),
-      };
-    }
-    default:
-      return state;
-  }
-}
+const duplicatesByPath = createReducer({}, (builder) => {
+  builder.addCase(fulfilled(actions.findDuplicates), (state, action) => {
+    const { path, items } = action.payload;
+    state[path] = items.map((group) => group.map((file) => file.id));
+  });
+});
 
-function filesById(state = {}, action) {
-  switch (action.type) {
-    case types.EMPTY_TRASH_SUCCESS:
-    case types.MOVE_FILE_SUCCESS:
-    case types.MOVE_TO_TRASH_SUCCESS: {
-      const { file } = action.payload;
-      return {
-        ...state,
-        [file.id]: file,
-      };
-    }
-    case types.CREATE_FOLDER_SUCCESS: {
-      const { folder } = action.payload;
-      return {
-        ...state,
-        [folder.id]: folder,
-      };
-    }
-    case types.DELETE_IMMEDIATELY_SUCCESS: {
-      const { file } = action.payload;
-      const { [file.id]: deletedFileId, ...nextState } = state;
-      return nextState;
-    }
-    case types.FIND_DUPLICATES_SUCCESS: {
-      const { items } = action.payload;
-      const nextState = { ...state };
-      items.forEach((group) =>
-        group.forEach((file) => {
-          nextState[file.id] = file;
-        })
-      );
-      if (!shallowEqual(nextState, state)) {
-        return nextState;
-      }
-      return state;
-    }
-    case types.GET_BATCH_SUCCESS:
-    case types.LIST_FOLDER_SUCCESS: {
-      if (action.payload.items.length === 0) {
-        return state;
-      }
-      const items = normalize(action.payload.items);
-      const nextState = { ...state };
-      let changed = false;
-      Object.keys(items).forEach((key) => {
-        if (!shallowEqual(items[key], nextState[key])) {
-          nextState[key] = items[key];
-          changed = true;
-        }
-      });
-      if (changed) {
-        return nextState;
-      }
-      return state;
-    }
-    case uploadTypes.UPLOAD_SUCCESS: {
-      const { file, updates } = action.payload;
-      return {
-        ...state,
-        ...normalize(updates),
-        [file.id]: file,
-      };
-    }
-    default:
-      return state;
-  }
-}
+const filesById = createReducer({}, (builder) => {
+  builder.addCase(fulfilled(actions.deleteImmediately), (state, action) => {
+    const file = action.payload;
+    delete state[file.id];
+  });
+  builder.addCase(fulfilled(actions.findDuplicates), (state, action) => {
+    const { items } = action.payload;
+    items.forEach((group) =>
+      group.forEach((file) => {
+        state[file.id] = file;
+      })
+    );
+  });
+  builder.addCase(uploadTypes.UPLOAD_SUCCESS, (state, action) => {
+    const { file, updates } = action.payload;
+    state[file.id] = file;
+    updates.forEach((update) => {
+      state[update.id] = update;
+    });
+  });
+  builder.addMatcher(isFilesListed, (state, action) => {
+    const { items } = action.payload;
+    items.forEach((file) => {
+      state[file.id] = file;
+    });
+  });
+  builder.addMatcher(isFileChanged, (state, action) => {
+    const file = action.payload;
+    state[file.id] = file;
+  });
+});
 
-function filesByPath(state = {}, action) {
-  switch (action.type) {
-    case types.DELETE_IMMEDIATELY_SUCCESS: {
-      const { file } = action.payload;
-      const parentPath = routes.parent(file.path);
-      const { [file.path]: deletedPath, ...nextState } = state;
-      nextState[parentPath] = nextState[parentPath].filter((fileId) => fileId !== file.id);
-      return nextState;
-    }
-    case types.EMPTY_TRASH_SUCCESS: {
-      const { file } = action.payload;
-      return {
-        ...state,
-        [file.path]: [],
-      };
-    }
-    case types.LIST_FOLDER_SUCCESS: {
-      const { path, items } = action.payload;
-      const ids = items.map((file) => file.id);
-      if (!shallowEqual(ids, state[path])) {
-        return {
-          ...state,
-          [path]: ids,
-        };
-      }
-      return state;
-    }
-    case types.UPDATE_FOLDER_BY_PATH: {
-      const { path, ids } = action.payload;
-      return {
-        ...state,
-        [path]: ids,
-      };
-    }
-    default:
-      return state;
-  }
-}
+const filesByPath = createReducer({}, (builder) => {
+  builder.addCase(fulfilled(actions.deleteImmediately), (state, action) => {
+    const file = action.payload;
+    const parentPath = routes.parent(file.path);
+    state[parentPath] = state[parentPath].filter((fileId) => fileId !== file.id);
+  });
+  builder.addCase(fulfilled(actions.emptyTrash), (state, action) => {
+    const file = action.payload;
+    state[file.path] = [];
+  });
+  builder.addCase(fulfilled(actions.listFolder), (state, action) => {
+    const { path, items } = action.payload;
+    state[path] = items.map((file) => file.id);
+  });
+  builder.addCase(actions.folderUpdated, (state, action) => {
+    const { path, ids } = action.payload;
+    state[path] = ids;
+  });
+});
 
-function thumbnailsById(state = {}, action) {
-  switch (action.type) {
-    case types.FETCH_THUMBNAIL_SUCCESS: {
-      const { id, size, thumb } = action.payload;
-      return {
-        ...state,
-        [id]: {
-          ...state[id],
-          [size]: thumb,
-        },
-      };
+const thumbnailsById = createReducer({}, (builder) => {
+  builder.addCase(fulfilled(actions.fetchThumbnail), (state, action) => {
+    const { id, size, thumb } = action.payload;
+    if (state[id] == null) {
+      state[id] = {};
     }
-    default:
-      return state;
-  }
-}
-
-function downloads(state = {}, action) {
-  switch (action.type) {
-    case types.DOWNLOAD_SUCCESS: {
-      const { path, file } = action.payload;
-      return {
-        ...state,
-        [path]: file,
-      };
-    }
-    default:
-      return state;
-  }
-}
+    state[id][size] = thumb;
+  });
+});
 
 export default combineReducers({
   byId: filesById,

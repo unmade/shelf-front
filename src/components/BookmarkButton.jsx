@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { scopes } from '../store/actions/loading';
 import { addBookmark, removeBookmark } from '../store/actions/users';
-import { getLoadingDeprecated } from '../store/reducers/loading';
 import { getIsBookmarked } from '../store/reducers/users';
 
 import * as icons from '../icons';
@@ -31,7 +29,6 @@ function BookmarkButton({ className, fileId, size }) {
 
   const dispatch = useDispatch();
   const bookmarked = useSelector((state) => getIsBookmarked(state, fileId));
-  const loading = useSelector((state) => getLoadingDeprecated(state, scopes.bookmarking));
 
   const iconClasses = `${bookmarked ? 'fill-current' : ''} ${iconSizes[size]}`;
   const title = bookmarked ? t('Remove from Saved') : t('Add to Saved');
@@ -50,7 +47,6 @@ function BookmarkButton({ className, fileId, size }) {
       title={title}
       className={`p-2 ${bookmarkClasses[bookmarked]} rounded-xl transition-colors focus:outline-none ${ringSizes[size]} ring-orange-300 ring-offset-2 ${className}`}
       onClick={onClick}
-      disabled={loading}
     >
       <icons.BookmarkOutlined className={iconClasses} />
     </button>

@@ -4,17 +4,13 @@ import * as api from '../api';
 
 import { createFulfilledAction, createRejectedAction } from '../actions';
 import * as messageActions from '../actions/messages';
-import { setLoadingDeprecated } from '../actions/loading';
 
 const CLOSE_AFTER = 10;
 
 const unexpectedError = ['Unexpected Error', 'Something went wrong'];
 const parseError = ['Bad response', "Couldn't parse response from server"];
 
-export function* tryRequest(request, scope) {
-  if (scope != null) {
-    yield put(setLoadingDeprecated(scope, true));
-  }
+export function* tryRequest(request) {
   try {
     return [yield request, null];
   } catch (err) {
@@ -40,14 +36,15 @@ export function* tryFetch(actionType, request) {
   const [response, err] = yield tryRequest(request);
   if (err !== null) {
     yield put(createRejectedAction(actionType, err));
-    return;
+    return null;
   }
 
   const [data, parseErr] = yield tryResponse(response.json());
   if (parseErr !== null) {
     yield put(createRejectedAction(actionType, parseErr));
-    return;
+    return null;
   }
 
   yield put(createFulfilledAction(actionType, data));
+  return data;
 }

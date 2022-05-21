@@ -1,11 +1,10 @@
 import { connect } from 'react-redux';
 
 import { moveFile } from '../store/actions/files';
-import { scopes } from '../store/actions/loading';
 import { closeDialog } from '../store/actions/ui';
 
 import { getFileById } from '../store/reducers/files';
-import { getLoadingDeprecated } from '../store/reducers/loading';
+import { getLoading } from '../store/reducers/loading';
 import { getFileDialogProps, getFileDialogVisible } from '../store/reducers/ui';
 
 import RenameFileDialog from '../components/RenameFileDialog';
@@ -16,7 +15,7 @@ export default connect(
     file:
       getFileDialogProps(state, ownProps).fileId &&
       getFileById(state, getFileDialogProps(state, ownProps).fileId),
-    loading: getLoadingDeprecated(state, scopes.movingFile),
+    loading: getLoading(state, { actionType: moveFile.type }),
   }),
   {
     onRename: moveFile,

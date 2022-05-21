@@ -4,9 +4,8 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { listFolder } from '../store/actions/files';
-import { scopes } from '../store/actions/loading';
 import { getFileIdsByPath, getFolderIdsByPath } from '../store/reducers/files';
-import { getLoadingDeprecated } from '../store/reducers/loading';
+import { getLoading } from '../store/reducers/loading';
 
 import * as icons from '../icons';
 import * as routes from '../routes';
@@ -37,7 +36,7 @@ const FolderPicker = ({
   const selector = onlyFolders ? getFolderIdsByPath : getFileIdsByPath;
 
   let items = useSelector((state) => selector(state, { path }));
-  const loading = useSelector((state) => getLoadingDeprecated(state, scopes.listingFolder));
+  const loading = useSelector((state) => getLoading(state, { actionType: listFolder }));
 
   React.useEffect(() => {
     if (items.length === 0) {
