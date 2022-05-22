@@ -174,7 +174,7 @@ function* refreshCurrentFolder({ payload }) {
 
   while (true) {
     const { completed } = yield race({
-      completed: take(taskActions.types.TASK_COMPLETED),
+      completed: take(taskActions.taskCompleted),
       expired: delay(refreshRate), // wait for 2.5 seconds
     });
 
@@ -187,4 +187,4 @@ function* refreshCurrentFolder({ payload }) {
   }
 }
 
-export default [filesWatcher(), takeLeading(taskActions.types.TASK_STARTED, refreshCurrentFolder)];
+export default [filesWatcher(), takeLeading(taskActions.taskStarted, refreshCurrentFolder)];
