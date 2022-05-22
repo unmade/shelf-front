@@ -3,22 +3,29 @@ import { put } from 'redux-saga/effects';
 import * as api from '../api';
 
 import { createFulfilledAction, createRejectedAction } from '../actions';
-import * as messageActions from '../actions/messages';
 
-const CLOSE_AFTER = 10;
+function normalizeAPIError(error) {
+  if (error instanceof api.ServerError || error instanceof api.APIError) {
+    const { title, description } = error;
+    return { title, description };
+  }
+  return {
+    title: 'Unexpected Error',
+    description: 'Something went wrong',
+  };
+}
 
-const unexpectedError = ['Unexpected Error', 'Something went wrong'];
-const parseError = ['Bad response', "Couldn't parse response from server"];
+function normalizeParseError() {
+  return {
+    title: 'Bad response',
+    description: "Couldn't parse response from server",
+  };
+}
 
 export function* tryRequest(request) {
   try {
     return [yield request, null];
   } catch (err) {
-    if (err instanceof api.ServerError || err instanceof api.APIError) {
-      yield put(messageActions.createErrorMessage(err.title, err.description, CLOSE_AFTER));
-    } else {
-      yield put(messageActions.createErrorMessage(...unexpectedError, CLOSE_AFTER));
-    }
     return [null, err];
   }
 }
@@ -27,24 +34,27 @@ export function* tryResponse(parser) {
   try {
     return [yield parser, null];
   } catch (err) {
-    yield put(messageActions.createErrorMessage(...parseError, CLOSE_AFTER));
     return [null, err];
   }
 }
 
 export function* tryFetch(actionType, request) {
-  const [response, err] = yield tryRequest(request);
-  if (err !== null) {
-    yield put(createRejectedAction(actionType, err));
+  let response;
+  try {
+    response = yield request;
+  } catch (error) {
+    yield put(createRejectedAction(actionType, error.request, normalizeAPIError(error)));
     return null;
   }
 
-  const [data, parseErr] = yield tryResponse(response.json());
-  if (parseErr !== null) {
-    yield put(createRejectedAction(actionType, parseErr));
+  let data;
+  try {
+    data = yield response.json();
+  } catch (error) {
+    yield put(createRejectedAction(actionType, response.shelfRequest, normalizeParseError(error)));
     return null;
   }
 
-  yield put(createFulfilledAction(actionType, data));
+  yield put(createFulfilledAction(actionType, response.shelfRequest, data));
   return data;
 }
