@@ -145,7 +145,7 @@ const watchers = {
   [fulfilled(fileActions.listFolder)]: handleListFolder,
   [fulfilled(fileActions.moveFile)]: handleMoveFile,
   [fulfilled(fileActions.moveToTrash)]: handleMoveFile,
-  [uploadActions.types.UPLOAD_SUCCESS]: handleUpload,
+  [uploadActions.uploadFulfilled]: handleUpload,
 };
 
 function* filesWatcher() {

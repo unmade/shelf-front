@@ -6,5 +6,5 @@ import { getVisibleUploads } from '../../store/reducers/uploads';
 import UploadList from '../../components/Uploader/UploadList';
 
 export default connect((state) => ({
-  uploads: getVisibleUploads(state, getUploadFilter(state)),
+  uploads: getVisibleUploads(state, { filter: getUploadFilter(state) }),
 }))(UploadList);

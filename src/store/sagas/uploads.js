@@ -1,7 +1,7 @@
+import { nanoid } from '@reduxjs/toolkit';
+
 import { END, buffers, channel, eventChannel } from 'redux-saga';
 import { all, call, fork, put, select, take } from 'redux-saga/effects';
-
-import { v4 as uuid4 } from 'uuid';
 
 import * as routes from '../../routes';
 
@@ -59,48 +59,47 @@ function createUploadFileChannel(url, accessToken, fileObj, fullPath) {
   }, buffers.sliding(MAX_PARALLEL_UPLOADS));
 }
 
-function* uploadFile(upload) {
+function* uploadFile(upload, file) {
   const url = `${API_BASE_URL}/files/upload`;
   const accessToken = yield select(getAccessToken);
 
-  const { uploadPath, file } = upload;
+  const { uploadPath } = upload;
   const chan = yield call(createUploadFileChannel, url, accessToken, file, uploadPath);
 
-  yield put(actions.uploadRequest(upload));
   while (true) {
     const { progress = 0, err, response } = yield take(chan);
     if (err) {
-      yield put(actions.uploadFailure(upload, err));
+      yield put(actions.uploadRejected(upload, err));
       return;
     }
     if (response) {
-      yield put(actions.uploadSuccess(upload, response));
+      yield put(actions.uploadFulfilled(upload, response));
       return;
     }
-    yield put(actions.uploadProgress(upload, progress));
+    yield put(actions.uploadProgressed(upload, progress));
   }
 }
 
 function* normalize(file, uploadTo) {
   const upload = {
-    id: uuid4(),
+    id: nanoid(),
     name: file.name,
     mediatype: null,
     uploadPath: `${uploadTo}/${file.name}`,
     parentPath: '',
     progress: 0,
     error: null,
-    file,
   };
 
+  let fileObj = file;
+
   const { fullPath } = file;
-  if (fullPath !== null && fullPath !== undefined) {
+  if (fullPath != null) {
     // must be FileSystemEntry
     try {
-      const fileObj = yield new Promise((resolve, reject) => file.file(resolve, reject));
+      fileObj = yield new Promise((resolve, reject) => file.file(resolve, reject));
       upload.mediatype = fileObj.type;
       upload.uploadPath = `${uploadTo}${fullPath}`;
-      upload.file = fileObj;
     } catch (e) {
       upload.error = e;
     }
@@ -108,13 +107,13 @@ function* normalize(file, uploadTo) {
     upload.parentPath = routes.parent(fullPath);
   }
 
-  return upload;
+  return [upload, fileObj];
 }
 
 function* handleUpload(queue) {
   while (true) {
-    const upload = yield take(queue);
-    yield uploadFile(upload);
+    const [upload, file] = yield take(queue);
+    yield uploadFile(upload, file);
   }
 }
 
@@ -126,10 +125,10 @@ function* uploadsWatcher() {
   }
 
   while (true) {
-    const action = yield take(actions.types.ADD_FILE_ENTRIES);
+    const action = yield take(actions.fileEntriesAdded);
     const { files, uploadTo } = action.payload;
     const uploads = yield all(files.map((file) => normalize(file, uploadTo)));
-    yield put(actions.uploadFiles(uploads));
+    yield put(actions.uploadsAdded(uploads.map(([upload]) => upload)));
     yield all(uploads.map((upload) => put(queue, upload)));
   }
 }
