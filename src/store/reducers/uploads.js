@@ -1,99 +1,60 @@
-import { combineReducers } from '@reduxjs/toolkit';
+import { combineReducers, createReducer, createSelector } from '@reduxjs/toolkit';
 
-import { types } from '../actions/uploads';
+import * as actions from '../actions/uploads';
 
-function normalize(items) {
-  const data = {};
-  items.forEach((item) => {
-    data[item.id] = item;
+const UPLOADS_BY_ID_INITIAL_STATE = {};
+
+const byId = createReducer(UPLOADS_BY_ID_INITIAL_STATE, (builder) => {
+  builder.addCase(actions.uploadsAdded, (state, action) => {
+    const { uploads } = action.payload;
+    uploads.forEach((upload) => {
+      state[upload.id] = upload;
+    });
   });
-  return data;
-}
+  builder.addCase(actions.uploadsCleared, () => UPLOADS_BY_ID_INITIAL_STATE);
+  builder.addCase(actions.uploadProgressed, (state, action) => {
+    const { upload, progress } = action.payload;
+    state[upload.id].progress = progress;
+  });
+  builder.addCase(actions.uploadRejected, (state, action) => {
+    const {
+      error,
+      meta: { upload },
+    } = action.payload;
+    state[upload.id].error = error;
+  });
+});
 
-function uploadsById(state = {}, action) {
-  switch (action.type) {
-    case types.CLEAR_UPLOADS: {
-      return {};
-    }
-    case types.UPLOAD_FILES: {
-      return {
-        ...state,
-        ...normalize(action.payload.uploads),
-      };
-    }
-    case types.UPLOAD_PROGRESS: {
-      const { upload, progress } = action.payload;
-      return {
-        ...state,
-        [upload.id]: {
-          ...state[upload.id],
-          ...upload,
-          progress,
-        },
-      };
-    }
-    case types.UPLOAD_FAILURE: {
-      const { upload, err } = action.payload;
-      return {
-        ...state,
-        [upload.id]: {
-          ...state[upload.id],
-          ...upload,
-          error: err,
-        },
-      };
-    }
-    default:
-      return state;
-  }
-}
+const ALL_UPLOADS_INITIAL_STATE = [];
 
-const VISIBLE_UPLOADS_DEFAULT_STATE = {
-  all: [],
-  failed: [],
-  inProgress: [],
-};
-
-function visibleUploads(state = VISIBLE_UPLOADS_DEFAULT_STATE, action) {
-  switch (action.type) {
-    case types.CLEAR_UPLOADS: {
-      return VISIBLE_UPLOADS_DEFAULT_STATE;
-    }
-    case types.UPLOAD_FILES: {
-      const { uploads } = action.payload;
-      const ids = uploads.map((item) => item.id);
-      return {
-        ...state,
-        all: [...state.all, ...ids],
-        inProgress: [...state.inProgress, ...ids],
-      };
-    }
-    case types.UPLOAD_FAILURE:
-    case types.UPLOAD_SUCCESS: {
-      const { upload } = action.payload;
-      const nextState = {
-        ...state,
-        inProgress: state.inProgress.filter((uploadId) => uploadId !== upload.id),
-      };
-      // move succeeded upload to the bottom
-      if (action.type === types.UPLOAD_SUCCESS) {
-        const allIds = state.all.filter((uploadId) => uploadId !== upload.id);
-        nextState.all = [...allIds, upload.id];
-      }
-      if (action.type === types.UPLOAD_FAILURE) {
-        nextState.failed = [...nextState.failed, upload.id];
-      }
-      return nextState;
-    }
-    default:
-      return state;
-  }
-}
+const allIds = createReducer(ALL_UPLOADS_INITIAL_STATE, (builder) => {
+  builder.addCase(actions.uploadsAdded, (state, action) => {
+    const { uploads } = action.payload;
+    state.push(...uploads.map((upload) => upload.id));
+  });
+  builder.addCase(actions.uploadsCleared, () => ALL_UPLOADS_INITIAL_STATE);
+});
 
 export default combineReducers({
-  byId: uploadsById,
-  visible: visibleUploads,
+  byId,
+  allIds,
 });
 
 export const getUploadById = (state, id) => state.uploads.byId[id];
-export const getVisibleUploads = (state, filter) => state.uploads.visible[filter];
+export const getAllUploads = (state) => state.uploads.allIds.map((id) => getUploadById(state, id));
+
+export const getVisibleUploads = createSelector(
+  [getAllUploads, (_, props) => props.filter],
+  (uploads, filter) => {
+    switch (filter) {
+      case 'all':
+        return uploads.map((upload) => upload.id);
+      case 'inProgress':
+        return uploads.filter((upload) => upload.progress < 100).map((upload) => upload.id);
+      case 'failed':
+        return uploads.filter((upload) => upload.error).map((upload) => upload.id);
+      default:
+        throw new Error(`Unknown filter: ${filter}`);
+    }
+  }
+);

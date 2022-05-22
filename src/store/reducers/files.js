@@ -5,7 +5,7 @@ import * as routes from '../../routes';
 
 import { fulfilled } from '../actions';
 import * as actions from '../actions/files';
-import { types as uploadTypes } from '../actions/uploads';
+import * as uploadActions from '../actions/uploads';
 
 function isFileChanged(action) {
   return (
@@ -49,7 +49,7 @@ const filesById = createReducer({}, (builder) => {
       })
     );
   });
-  builder.addCase(uploadTypes.UPLOAD_SUCCESS, (state, action) => {
+  builder.addCase(uploadActions.uploadFulfilled, (state, action) => {
     const { file, updates } = action.payload;
     state[file.id] = file;
     updates.forEach((update) => {
