@@ -1,7 +1,4 @@
-export const types = {
-  TASK_STARTED: 'TASK_STARTED',
-  TASK_COMPLETED: 'TASK_COMPLETED',
-};
+import { createAction } from '@reduxjs/toolkit';
 
 export const scopes = {
   deletingImmediatelyBatch: 'deletingImmediatelyBatch',
@@ -11,12 +8,10 @@ export const scopes = {
   movingToTrash: 'movingToTrash',
 };
 
-export const taskStarted = (scope, taskId, payload) => ({
-  type: types.TASK_STARTED,
+export const taskStarted = createAction('tasks/taskStarted', (scope, taskId, payload) => ({
   payload: { scope, taskId, payload },
-});
+}));
 
-export const taskCompleted = (scope, taskId, result) => ({
-  type: types.TASK_COMPLETED,
+export const taskCompleted = createAction('tasks/taskCompleted', (scope, taskId, result) => ({
   payload: { scope, taskId, result },
-});
+}));

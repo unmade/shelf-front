@@ -1,83 +1,48 @@
-import { combineReducers } from '@reduxjs/toolkit';
+import { combineReducers, createReducer } from '@reduxjs/toolkit';
 
-import { scopes, types } from '../actions/tasks';
+import * as actions from '../actions/tasks';
 
-const INITIAL_STATE = Object.fromEntries(Object.keys(scopes).map((key) => [key, []]));
+const BY_ID_INITIAL_STATE = {};
 
-function byId(state = {}, action) {
-  switch (action.type) {
-    case types.TASK_STARTED: {
-      const { scope, taskId, payload } = action.payload;
-      return {
-        ...state,
-        [taskId]: {
-          id: taskId,
-          scope,
-          payload,
-          result: null,
-        },
-      };
-    }
-    case types.TASK_COMPLETED: {
-      const { taskId, result } = action.payload;
-      return {
-        ...state,
-        [taskId]: {
-          ...state[taskId],
-          result,
-        },
-      };
-    }
-    default:
-      return state;
-  }
-}
-
-function activeByScope(state = INITIAL_STATE, action) {
-  switch (action.type) {
-    case types.TASK_STARTED: {
-      const { scope, taskId } = action.payload;
-      return {
-        ...state,
-        [scope]: [...state[scope], taskId],
-      };
-    }
-    case types.TASK_COMPLETED: {
-      const { scope, taskId } = action.payload;
-      return {
-        ...state,
-        [scope]: state[scope].filter((id) => id !== taskId),
-      };
-    }
-    default:
-      return state;
-  }
-}
+const byId = createReducer(BY_ID_INITIAL_STATE, (builder) => {
+  builder.addCase(actions.taskStarted, (state, action) => {
+    const { scope, taskId, payload } = action.payload;
+    state[taskId] = {
+      id: taskId,
+      scope,
+      payload,
+      result: null,
+    };
+  });
+  builder.addCase(actions.taskCompleted, (state, action) => {
+    const { taskId, result } = action.payload;
+    state[taskId].result = result;
+  });
+});
 
 export default combineReducers({
   byId,
-  activeByScope,
 });
 
-const getTaskById = (state, taskId) => state.tasks.byId[taskId];
-const getActiveTaskIdsByScope = (state, scope) => state.tasks.activeByScope[scope];
+function countItemsByScopes(tasks, scopes) {
+  let counter = 0;
+  tasks.forEach((task) => {
+    if (task.result == null && scopes.includes(task.scope)) {
+      counter += task.payload.items.length;
+    }
+  });
+  return counter;
+}
 
 export const getDeletingFilesCounter = (state) => {
-  const ids = [
-    ...getActiveTaskIdsByScope(state, scopes.deletingImmediatelyBatch),
-    ...getActiveTaskIdsByScope(state, scopes.movingToTrash),
-  ];
-  const tasks = ids.map((taskId) => getTaskById(state, taskId));
-  return tasks.reduce((acc, task) => acc + task.payload.items.length, 0);
+  const scopes = [actions.scopes.deletingImmediatelyBatch, actions.scopes.movingToTrash];
+  return countItemsByScopes(Object.values(state.tasks.byId), scopes);
 };
 
 export const getMovingFilesCounter = (state) => {
-  const ids = getActiveTaskIdsByScope(state, scopes.movingBatch);
-  const tasks = ids.map((taskId) => getTaskById(state, taskId));
-  return tasks.reduce((acc, task) => acc + task.payload.items.length, 0);
+  const scopes = [actions.scopes.movingBatch];
+  return countItemsByScopes(Object.values(state.tasks.byId), scopes);
 };
 
-export const getIsEmptyingTrash = (state) => {
-  const ids = getActiveTaskIdsByScope(state, scopes.emptyingTrash);
-  return ids.length > 0;
-};
+export const getIsEmptyingTrash = (state) =>
+  Object.values(state.tasks.byId).some((task) => task.scope === actions.scopes.emptyingTrash);
