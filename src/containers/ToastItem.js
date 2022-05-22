@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { removeMessage } from '../store/actions/messages';
+import { messageClosed } from '../store/actions/messages';
 
 import { getMessageById } from '../store/reducers/messages';
 
@@ -11,6 +11,6 @@ export default connect(
     message: getMessageById(state, ownProps),
   }),
   {
-    onClose: removeMessage,
+    onClose: messageClosed,
   }
 )(ToastItem);

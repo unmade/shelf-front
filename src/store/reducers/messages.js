@@ -1,45 +1,52 @@
-import { combineReducers } from '@reduxjs/toolkit';
+import { combineReducers, createReducer } from '@reduxjs/toolkit';
 
-import { types } from '../actions/messages';
+import * as actions from '../actions/messages';
 
-function byId(state = {}, action) {
-  switch (action.type) {
-    case types.CREATE_ERROR_MESSAGE: {
-      const message = action.payload;
-      return {
-        ...state,
-        [message.id]: message,
-      };
-    }
-    case types.REMOVE_MESSAGE: {
-      const { id } = action.payload;
-      const { [id]: deletedMessageId, ...nextState } = state;
-      return nextState;
-    }
-    default:
-      return state;
-  }
+const DEFAULT_CLOSE_AFTER_IN_SECONDS = 10;
+
+const BY_ID_INITIAL_STATE = {};
+
+function isRejected(action) {
+  return action.type.endsWith('rejected');
 }
 
-function all(state = [], action) {
-  switch (action.type) {
-    case types.CREATE_ERROR_MESSAGE: {
-      const message = action.payload;
-      return [...state, message.id];
-    }
-    case types.REMOVE_MESSAGE: {
-      const { id } = action.payload;
-      return state.filter((messageId) => messageId !== id);
-    }
-    default:
-      return state;
-  }
-}
+const byId = createReducer(BY_ID_INITIAL_STATE, (builder) => {
+  builder.addCase(actions.messageClosed, (state, action) => {
+    const { id } = action.payload;
+    delete state[id];
+  });
+  builder.addMatcher(isRejected, (state, action) => {
+    const {
+      error: { title, description },
+      meta: { requestId },
+    } = action;
+    state[requestId] = {
+      title,
+      description,
+      closeAfter: DEFAULT_CLOSE_AFTER_IN_SECONDS,
+    };
+  });
+});
+
+const ALL_IDS_INITIAL_STATE = [];
+
+const allIds = createReducer(ALL_IDS_INITIAL_STATE, (builder) => {
+  builder.addCase(actions.messageClosed, (state, action) => {
+    const { id } = action.payload;
+    return state.filter((messageId) => messageId !== id);
+  });
+  builder.addMatcher(isRejected, (state, action) => {
+    const {
+      meta: { requestId },
+    } = action;
+    state.push(requestId);
+  });
+});
 
 export default combineReducers({
   byId,
-  all,
+  allIds,
 });
 
 export const getMessageById = (state, props) => state.messages.byId[props.id];
-export const getAllMessages = (state) => state.messages.all;
+export const getAllMessages = (state) => state.messages.allIds;

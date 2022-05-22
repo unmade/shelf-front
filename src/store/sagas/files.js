@@ -64,7 +64,7 @@ function* download({ type, payload }) {
   const request = api.post('/files/download', accessToken, { path });
   const [response, err] = yield tryRequest(request);
   if (err !== null) {
-    yield put(createRejectedAction(type, err));
+    yield put(createRejectedAction(type, err.request, err));
     return;
   }
 
@@ -72,11 +72,11 @@ function* download({ type, payload }) {
   const parser = MediaType.isText(contentType) ? response.text() : response.blob();
   const [data, parseErr] = yield tryResponse(parser);
   if (parseErr !== null) {
-    yield put(createRejectedAction(type, parseErr));
+    yield put(createRejectedAction(type, response.shelfRequest, parseErr));
     return;
   }
   const file = MediaType.isText(contentType) ? data : URL.createObjectURL(data);
-  yield put(createFulfilledAction(type, { path, file }));
+  yield put(createFulfilledAction(type, response.shelfRequest, { path, file }));
 }
 
 function* emptyTrash({ type }) {
@@ -101,18 +101,18 @@ function* fetchThumbnail({ type, payload }) {
   const request = api.post(`/files/get_thumbnail?size=${size}`, accessToken, { path });
   const [response, err] = yield tryRequest(request);
   if (err !== null) {
-    yield put(createRejectedAction(type, err));
+    yield put(createRejectedAction(type, err.request, err));
     return;
   }
 
   const [data, parseErr] = yield tryResponse(response.blob());
   if (parseErr !== null) {
-    yield put(createRejectedAction(type, parseErr));
+    yield put(createRejectedAction(type, response.shelfRequest, parseErr));
     return;
   }
 
   const thumb = URL.createObjectURL(data);
-  yield put(createFulfilledAction(type, { id, size, thumb }));
+  yield put(createFulfilledAction(type, response.shelfRequest, { id, size, thumb }));
 }
 
 function* findDuplicates({ type, payload }) {

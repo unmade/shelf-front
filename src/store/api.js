@@ -1,16 +1,30 @@
+import { nanoid } from '@reduxjs/toolkit';
+
 const API_BASE_URL = import.meta.env.SNOWPACK_PUBLIC_API_BASE_URL ?? 'http://localhost:8000';
 
 export default API_BASE_URL;
 
-export function ServerError(title = 'Server Error', description = 'Something went wrong') {
+// eslint-disable-next-line no-shadow
+export function ServerError(
+  title = 'Server Error',
+  description = 'Something went wrong',
+  { url, options }
+) {
   this.title = title;
   this.description = description;
+  this.request = { url, options };
 }
 ServerError.prototype.toString = () => `${this.title}: ${this.description}`;
 
-export function APIError(title = 'API Error', description) {
+// eslint-disable-next-line no-shadow
+export function APIError(
+  title = 'API Error',
+  description = 'Something went wrong',
+  { url, options }
+) {
   this.title = title;
   this.description = description;
+  this.request = { url, options };
 }
 APIError.prototype.toString = () => `${this.title}: ${this.description}`;
 
@@ -30,13 +44,14 @@ function* request(method, endpoint, accessToken, body = null) {
     method,
     mode: 'cors',
     cache: 'default',
-    headers: {
+    headers: new Headers({
       'Content-Type': guessContentType(body),
-    },
+      'X-Request-ID': nanoid(),
+    }),
   };
 
   if (accessToken !== null) {
-    options.headers.authorization = `Bearer ${accessToken}`;
+    options.headers.append('Authorization', `Bearer ${accessToken}`);
   }
 
   if (body !== null) {
@@ -51,17 +66,23 @@ function* request(method, endpoint, accessToken, body = null) {
   try {
     response = yield fetch(url, options);
   } catch (e) {
-    throw new ServerError();
+    throw new ServerError({ url, options });
   }
   if (!response.ok) {
     let errorMessage;
     try {
       errorMessage = yield response.json();
     } catch (e) {
-      throw new ServerError();
+      throw new ServerError({ url, options });
     }
-    throw new APIError(errorMessage.code_verbose, errorMessage.message ?? 'Something went wrong');
+    const { code_verbose: codeVerbose, message } = errorMessage;
+    throw new APIError(codeVerbose, message ?? 'Something went wrong', {
+      url,
+      options,
+    });
   }
+
+  response.shelfRequest = { url, options };
 
   return response;
 }
