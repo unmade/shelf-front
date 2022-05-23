@@ -5,11 +5,12 @@ const API_BASE_URL = import.meta.env.SNOWPACK_PUBLIC_API_BASE_URL ?? 'http://loc
 export default API_BASE_URL;
 
 // eslint-disable-next-line no-shadow
-export function ServerError(
+export function ServerError({
   title = 'Server Error',
   description = 'Something went wrong',
-  { url, options }
-) {
+  url,
+  options,
+}) {
   this.title = title;
   this.description = description;
   this.request = { url, options };
@@ -17,11 +18,12 @@ export function ServerError(
 ServerError.prototype.toString = () => `${this.title}: ${this.description}`;
 
 // eslint-disable-next-line no-shadow
-export function APIError(
+export function APIError({
   title = 'API Error',
   description = 'Something went wrong',
-  { url, options }
-) {
+  url,
+  options,
+}) {
   this.title = title;
   this.description = description;
   this.request = { url, options };
@@ -76,7 +78,9 @@ function* request(method, endpoint, accessToken, body = null) {
       throw new ServerError({ url, options });
     }
     const { code_verbose: codeVerbose, message } = errorMessage;
-    throw new APIError(codeVerbose, message ?? 'Something went wrong', {
+    throw new APIError({
+      title: codeVerbose,
+      description: message ?? 'Something went wrong',
       url,
       options,
     });

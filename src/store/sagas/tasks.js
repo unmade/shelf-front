@@ -5,7 +5,7 @@ import * as actions from '../actions/tasks';
 
 import { getAccessToken } from '../reducers/auth';
 
-import { tryFetch } from './_try';
+import tryFetch from './_try';
 
 const endpointsByScope = {
   [actions.scopes.deletingImmediatelyBatch]: '/files/delete_immediately_batch/check',

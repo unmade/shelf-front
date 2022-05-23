@@ -8,7 +8,7 @@ import * as actions from '../actions/users';
 
 import { getAccessToken } from '../reducers/auth';
 
-import { tryFetch } from './_try';
+import tryFetch from './_try';
 
 function* addBookmark({ type, payload }) {
   const accessToken = yield select(getAccessToken);

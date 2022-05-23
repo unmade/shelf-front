@@ -3,7 +3,6 @@ import { actionChannel, call, put, select, take, takeEvery } from 'redux-saga/ef
 import { Dialogs, MediaType } from '../../constants';
 
 import * as api from '../api';
-import { createFulfilledAction, createRejectedAction } from '../actions';
 import * as actions from '../actions/files';
 import { started, loaded } from '../actions/loading';
 import * as uiActions from '../actions/ui';
@@ -11,7 +10,7 @@ import * as taskActions from '../actions/tasks';
 
 import { getAccessToken } from '../reducers/auth';
 
-import { tryRequest, tryResponse, tryFetch } from './_try';
+import tryFetch from './_try';
 
 function* createFolder({ type, payload }) {
   const accessToken = yield select(getAccessToken);
@@ -62,21 +61,18 @@ function* download({ type, payload }) {
   const { path } = payload;
 
   const request = api.post('/files/download', accessToken, { path });
-  const [response, err] = yield tryRequest(request);
-  if (err !== null) {
-    yield put(createRejectedAction(type, err.request, err));
-    return;
-  }
 
-  const contentType = response.headers.get('content-type');
-  const parser = MediaType.isText(contentType) ? response.text() : response.blob();
-  const [data, parseErr] = yield tryResponse(parser);
-  if (parseErr !== null) {
-    yield put(createRejectedAction(type, response.shelfRequest, parseErr));
-    return;
-  }
-  const file = MediaType.isText(contentType) ? data : URL.createObjectURL(data);
-  yield put(createFulfilledAction(type, response.shelfRequest, { path, file }));
+  yield tryFetch(type, request, {
+    prepareResponse: (response) => {
+      const contentType = response.headers.get('content-type');
+      return MediaType.isText(contentType) ? response.text() : response.blob();
+    },
+    preparePayload: (response, data) => {
+      const contentType = response.headers.get('content-type');
+      const file = MediaType.isText(contentType) ? data : URL.createObjectURL(data);
+      return { path, file };
+    },
+  });
 }
 
 function* emptyTrash({ type }) {
@@ -99,20 +95,13 @@ function* fetchThumbnail({ type, payload }) {
   const { id, path, size } = payload;
 
   const request = api.post(`/files/get_thumbnail?size=${size}`, accessToken, { path });
-  const [response, err] = yield tryRequest(request);
-  if (err !== null) {
-    yield put(createRejectedAction(type, err.request, err));
-    return;
-  }
 
-  const [data, parseErr] = yield tryResponse(response.blob());
-  if (parseErr !== null) {
-    yield put(createRejectedAction(type, response.shelfRequest, parseErr));
-    return;
-  }
-
-  const thumb = URL.createObjectURL(data);
-  yield put(createFulfilledAction(type, response.shelfRequest, { id, size, thumb }));
+  yield tryFetch(type, request, {
+    preparePayload: (_, data) => {
+      const thumb = URL.createObjectURL(data);
+      return { id, size, thumb };
+    },
+  });
 }
 
 function* findDuplicates({ type, payload }) {

@@ -1,5 +1,7 @@
 import { put } from 'redux-saga/effects';
 
+import { MediaType } from '../../constants';
+
 import * as api from '../api';
 
 import { createFulfilledAction, createRejectedAction } from '../actions';
@@ -22,23 +24,26 @@ function normalizeParseError() {
   };
 }
 
-export function* tryRequest(request) {
-  try {
-    return [yield request, null];
-  } catch (err) {
-    return [null, err];
-  }
+function defaultPayload(_, data) {
+  return data;
 }
 
-export function* tryResponse(parser) {
-  try {
-    return [yield parser, null];
-  } catch (err) {
-    return [null, err];
+function defaultResponse(response) {
+  const contentType = response.headers.get('content-type');
+  if (contentType === 'application/json') {
+    return response.json();
   }
+  if (MediaType.isText(contentType)) {
+    return response.text();
+  }
+  return response.blob();
 }
 
-export function* tryFetch(actionType, request) {
+export default function* tryFetch(
+  actionType,
+  request,
+  { prepareResponse = defaultResponse, preparePayload = defaultPayload } = {}
+) {
   let response;
   try {
     response = yield request;
@@ -49,12 +54,14 @@ export function* tryFetch(actionType, request) {
 
   let data;
   try {
-    data = yield response.json();
+    data = yield prepareResponse(response);
   } catch (error) {
     yield put(createRejectedAction(actionType, response.shelfRequest, normalizeParseError(error)));
     return null;
   }
 
-  yield put(createFulfilledAction(actionType, response.shelfRequest, data));
+  yield put(
+    createFulfilledAction(actionType, response.shelfRequest, preparePayload(response, data))
+  );
   return data;
 }
