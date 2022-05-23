@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { bulkSelectFiles, deselectFiles } from '../store/actions/ui';
+import { filesSelectionChanged } from '../store/actions/ui';
 import { getCountSelectedFiles, getHasSelectedFiles } from '../store/reducers/ui';
 
 import * as icons from '../icons';
 
-import VList from '../containers/VList';
+import FileTableList from '../containers/FileTableList';
 
 function TableHeader({ items }) {
   const { t } = useTranslation();
@@ -18,11 +18,8 @@ function TableHeader({ items }) {
   const selectedCount = useSelector(getCountSelectedFiles);
 
   const onSelect = () => {
-    if (hasSelected) {
-      dispatch(deselectFiles());
-    } else {
-      dispatch(bulkSelectFiles(items));
-    }
+    const selection = hasSelected ? [] : items;
+    dispatch(filesSelectionChanged(selection));
   };
 
   const checkboxClass = hasSelected ? '' : 'show-on-hover-target';
@@ -60,7 +57,7 @@ function FileTableView({ className, items, loading, scrollKey, itemRender }) {
       <TableHeader items={items} />
       <div className="flex-1">
         {items.length || loading ? (
-          <VList
+          <FileTableList
             itemCount={items.length}
             itemData={items}
             itemRender={itemRender}

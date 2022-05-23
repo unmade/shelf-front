@@ -5,7 +5,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import { moveToTrashBatch } from '../store/actions/files';
-import { closeDialog } from '../store/actions/ui';
+import { fileDialogClosed } from '../store/actions/ui';
 
 import { getFilesByIds } from '../store/reducers/files';
 import { getLoading } from '../store/reducers/loading';
@@ -58,7 +58,7 @@ function DeleteDialog({ uid }) {
       confirmLoading={loading}
       confirmDanger
       onConfirm={onDelete}
-      onCancel={() => dispatch(closeDialog(uid))}
+      onCancel={() => dispatch(fileDialogClosed(uid))}
     >
       <p>{dialogText}</p>
     </Dialog>

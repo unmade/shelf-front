@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
 import { listFolder } from '../store/actions/files';
-import { deselectFiles, setCurrentPath } from '../store/actions/ui';
+import { fileBrowserPathChanged, filesSelectionChanged } from '../store/actions/ui';
 
 import { Dialogs } from '../constants';
 import useDirPath from '../hooks/dir-path';
@@ -29,12 +29,12 @@ function Files() {
   const preview = queryParams.get('preview');
 
   React.useEffect(() => {
-    dispatch(setCurrentPath(dirPath));
+    dispatch(fileBrowserPathChanged(dirPath));
     dispatch(listFolder(dirPath));
 
     // we want to deselect all files when
     // current directory has changed
-    dispatch(deselectFiles());
+    dispatch(filesSelectionChanged([]));
   }, [dirPath, dispatch]);
 
   const preparePreviewPath = (path) =>

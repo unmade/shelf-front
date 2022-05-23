@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { uploadsCleared } from '../../store/actions/uploads';
-import { setUploadFilter } from '../../store/actions/ui';
+import { uploaderFilterChanged } from '../../store/actions/ui';
 
 import { getUploadFilter } from '../../store/reducers/ui';
 import { getVisibleUploads } from '../../store/reducers/uploads';
@@ -15,6 +15,6 @@ export default connect(
   }),
   {
     onClear: uploadsCleared,
-    onSetVisibilityFilter: setUploadFilter,
+    onSetVisibilityFilter: uploaderFilterChanged,
   }
 )(RecentUploads);

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { setScrollOffset } from '../store/actions/ui';
+import { fileBrowserScrollOffsetChanged } from '../store/actions/ui';
 
 import { getScrollOffset } from '../store/reducers/ui';
 
@@ -11,6 +11,6 @@ export default connect(
     initialScrollOffset: getScrollOffset(state, ownProps.scrollKey),
   }),
   {
-    setScrollOffset,
+    onScrollOffsetChange: fileBrowserScrollOffsetChanged,
   }
 )(VList);

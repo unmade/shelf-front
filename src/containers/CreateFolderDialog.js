@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { createFolder } from '../store/actions/files';
-import { closeDialog } from '../store/actions/ui';
+import { fileDialogClosed } from '../store/actions/ui';
 
 import { getLoading } from '../store/reducers/loading';
 import { getCurrentPath, getFileDialogVisible } from '../store/reducers/ui';
@@ -16,6 +16,6 @@ export default connect(
   }),
   {
     onCreate: createFolder,
-    onCancel: closeDialog,
+    onCancel: fileDialogClosed,
   }
 )(CreateFolderDialog);

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { moveFile } from '../store/actions/files';
-import { closeDialog } from '../store/actions/ui';
+import { fileDialogClosed } from '../store/actions/ui';
 
 import { getFileById } from '../store/reducers/files';
 import { getLoading } from '../store/reducers/loading';
@@ -19,6 +19,6 @@ export default connect(
   }),
   {
     onRename: moveFile,
-    onCancel: closeDialog,
+    onCancel: fileDialogClosed,
   }
 )(RenameFileDialog);

@@ -2,7 +2,6 @@ import { delay, put, race, select, take, takeLeading } from 'redux-saga/effects'
 
 import { MediaType } from '../../constants';
 import * as routes from '../../routes';
-import { difference } from '../../set';
 
 import { fulfilled } from '../actions';
 import * as fileActions from '../actions/files';
@@ -91,10 +90,9 @@ function* handleListFolder({ payload }) {
   const { path, items } = payload;
 
   if (path === currentPath) {
-    const fileIds = new Set(items.map((item) => item.id));
+    const fileIds = items.map((item) => item.id);
     const selectedFiles = yield select(getSelectedFileIds);
-    const fileIdsToDeselect = [...difference(selectedFiles, fileIds)];
-    yield put(uiActions.bulkDeselectFiles(fileIdsToDeselect));
+    yield put(uiActions.filesSelectionChanged(fileIds.filter((id) => selectedFiles.has(id))));
   }
 }
 

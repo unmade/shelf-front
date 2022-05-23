@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { emptyTrash } from '../store/actions/files';
-import { closeDialog } from '../store/actions/ui';
+import { fileDialogClosed } from '../store/actions/ui';
 
 import { getLoading } from '../store/reducers/loading';
 import { getFileDialogVisible } from '../store/reducers/ui';
@@ -15,6 +15,6 @@ export default connect(
   }),
   {
     onEmpty: emptyTrash,
-    onCancel: closeDialog,
+    onCancel: fileDialogClosed,
   }
 )(EmptyTrashDialog);

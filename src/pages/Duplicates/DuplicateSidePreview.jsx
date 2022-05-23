@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { openDialog } from '../../store/actions/ui';
+import { fileDialogOpened } from '../../store/actions/ui';
 import { getFileById } from '../../store/reducers/files';
 
 import { Dialogs } from '../../constants';
@@ -43,7 +43,7 @@ function DuplicateSidePreview({ fileId }) {
   }
 
   const onDelete = () => {
-    dispatch(openDialog(Dialogs.delete, { fileIds: [fileId] }));
+    dispatch(fileDialogOpened(Dialogs.delete, { fileIds: [fileId] }));
   };
 
   return (
