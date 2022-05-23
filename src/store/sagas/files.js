@@ -22,7 +22,7 @@ function* createFolder({ type, payload }) {
   yield put(started(type));
   yield tryFetch(type, request);
   yield put(loaded(type));
-  yield put(uiActions.closeDialog(Dialogs.createFolder));
+  yield put(uiActions.fileDialogClosed(Dialogs.createFolder));
 }
 
 function* deleteImmediately({ type, payload }) {
@@ -34,7 +34,7 @@ function* deleteImmediately({ type, payload }) {
   yield put(started(type));
   yield tryFetch(type, request);
   yield put(loaded(type));
-  yield put(uiActions.closeDialog(Dialogs.deleteImmediately));
+  yield put(uiActions.fileDialogClosed(Dialogs.deleteImmediately));
 }
 
 function* deleteImmediatelyBatch({ type, payload }) {
@@ -49,7 +49,7 @@ function* deleteImmediatelyBatch({ type, payload }) {
   yield put(started(type));
   const data = yield tryFetch(type, request);
   yield put(loaded(type));
-  yield put(uiActions.closeDialog(Dialogs.deleteImmediately));
+  yield put(uiActions.fileDialogClosed(Dialogs.deleteImmediately));
 
   if (data != null) {
     const { async_task_id: taskId } = data;
@@ -87,7 +87,7 @@ function* emptyTrash({ type }) {
   yield put(started(type));
   const data = yield tryFetch(type, request);
   yield put(loaded(type));
-  yield put(uiActions.closeDialog(Dialogs.emptyTrash));
+  yield put(uiActions.fileDialogClosed(Dialogs.emptyTrash));
 
   if (data != null) {
     yield put(taskActions.taskStarted(taskActions.scopes.emptyingTrash, data.async_task_id));
@@ -158,8 +158,8 @@ function* moveFile({ type, payload }) {
   yield put(started(type));
   yield tryFetch(type, request);
   yield put(loaded(type));
-  yield put(uiActions.closeDialog(Dialogs.rename));
-  yield put(uiActions.closeDialog(Dialogs.move));
+  yield put(uiActions.fileDialogClosed(Dialogs.rename));
+  yield put(uiActions.fileDialogClosed(Dialogs.move));
 }
 
 function* moveFileBatch({ type, payload }) {
@@ -178,8 +178,8 @@ function* moveFileBatch({ type, payload }) {
   yield put(started(type));
   const data = yield tryFetch(type, request);
   yield put(loaded(type));
-  yield put(uiActions.closeDialog(Dialogs.rename));
-  yield put(uiActions.closeDialog(Dialogs.move));
+  yield put(uiActions.fileDialogClosed(Dialogs.rename));
+  yield put(uiActions.fileDialogClosed(Dialogs.move));
 
   if (data != null) {
     yield put(taskActions.taskStarted(taskActions.scopes.movingBatch, data.async_task_id, body));
@@ -195,7 +195,7 @@ function* moveToTrash({ type, payload }) {
   yield put(started(type));
   yield tryFetch(type, request);
   yield put(loaded(type));
-  yield put(uiActions.closeDialog(Dialogs.delete));
+  yield put(uiActions.fileDialogClosed(Dialogs.delete));
 }
 
 function* moveToTrashBatch({ type, payload }) {
@@ -211,7 +211,7 @@ function* moveToTrashBatch({ type, payload }) {
   yield put(started(type));
   const data = yield tryFetch(type, request);
   yield put(loaded(type));
-  yield put(uiActions.closeDialog(Dialogs.delete));
+  yield put(uiActions.fileDialogClosed(Dialogs.delete));
 
   if (data != null) {
     yield put(taskActions.taskStarted(taskActions.scopes.movingToTrash, data.async_task_id, body));

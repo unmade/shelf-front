@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { performDownload } from '../../store/actions/files';
-import { openDialog } from '../../store/actions/ui';
+import { fileDialogOpened } from '../../store/actions/ui';
 
 import { getCurrentPath } from '../../store/reducers/ui';
 
@@ -24,7 +24,7 @@ function singleFileActions({ id, path, trashed, dispatch }) {
         icon: <icons.Move className="h-4 w-4" />,
         danger: false,
         onClick: () => {
-          dispatch(openDialog(Dialogs.move, { fileIds: [id] }));
+          dispatch(fileDialogOpened(Dialogs.move, { fileIds: [id] }));
         },
       },
       {
@@ -32,7 +32,7 @@ function singleFileActions({ id, path, trashed, dispatch }) {
         icon: <icons.TrashOutlined className="h-4 w-4" />,
         danger: true,
         onClick: () => {
-          dispatch(openDialog(Dialogs.deleteImmediately, { fileIds: [id] }));
+          dispatch(fileDialogOpened(Dialogs.deleteImmediately, { fileIds: [id] }));
         },
       },
     ];
@@ -52,7 +52,7 @@ function singleFileActions({ id, path, trashed, dispatch }) {
       icon: <icons.ICursor className="h-4 w-4" />,
       danger: false,
       onClick: () => {
-        dispatch(openDialog(Dialogs.rename, { fileId: id }));
+        dispatch(fileDialogOpened(Dialogs.rename, { fileId: id }));
       },
     },
     {
@@ -60,7 +60,7 @@ function singleFileActions({ id, path, trashed, dispatch }) {
       icon: <icons.Move className="h-4 w-4" />,
       danger: false,
       onClick: () => {
-        dispatch(openDialog(Dialogs.move, { fileIds: [id] }));
+        dispatch(fileDialogOpened(Dialogs.move, { fileIds: [id] }));
       },
     },
     {
@@ -68,7 +68,7 @@ function singleFileActions({ id, path, trashed, dispatch }) {
       icon: <icons.TrashOutlined className="h-4 w-4" />,
       danger: true,
       onClick: () => {
-        dispatch(openDialog(Dialogs.delete, { fileIds: [id] }));
+        dispatch(fileDialogOpened(Dialogs.delete, { fileIds: [id] }));
       },
     },
   ];
@@ -84,7 +84,7 @@ function multiFileActions({ fileIds, trashed, dispatch }) {
         icon: <icons.Move className="h-4 w-4" />,
         danger: false,
         onClick: () => {
-          dispatch(openDialog(Dialogs.move, { fileIds }));
+          dispatch(fileDialogOpened(Dialogs.move, { fileIds }));
         },
       },
       {
@@ -92,7 +92,7 @@ function multiFileActions({ fileIds, trashed, dispatch }) {
         icon: <icons.TrashOutlined className="h-4 w-4" />,
         danger: true,
         onClick: () => {
-          dispatch(openDialog(Dialogs.deleteImmediately, { fileIds }));
+          dispatch(fileDialogOpened(Dialogs.deleteImmediately, { fileIds }));
         },
       },
     ];
@@ -104,7 +104,7 @@ function multiFileActions({ fileIds, trashed, dispatch }) {
       icon: <icons.Move className="h-4 w-4" />,
       danger: false,
       onClick: () => {
-        dispatch(openDialog(Dialogs.move, { fileIds }));
+        dispatch(fileDialogOpened(Dialogs.move, { fileIds }));
       },
     },
     {
@@ -112,7 +112,7 @@ function multiFileActions({ fileIds, trashed, dispatch }) {
       icon: <icons.TrashOutlined className="h-4 w-4" />,
       danger: true,
       onClick: () => {
-        dispatch(openDialog(Dialogs.delete, { fileIds }));
+        dispatch(fileDialogOpened(Dialogs.delete, { fileIds }));
       },
     },
   ];

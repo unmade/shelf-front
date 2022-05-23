@@ -1,120 +1,78 @@
-import { combineReducers, createSelector } from '@reduxjs/toolkit';
+import { combineReducers, createReducer, createSelector } from '@reduxjs/toolkit';
 
-import { difference } from '../../set';
+import * as actions from '../actions/ui';
 
-import { types } from '../actions/ui';
+const CURRENT_PATH_INITIAL_STATE = '.';
 
-function fileBrowser(state = {}, action) {
-  switch (action.type) {
-    case types.SET_CURRENT_PATH: {
-      const { path } = action.payload;
-      return {
-        ...state,
-        path,
-      };
-    }
-    default:
-      return state;
-  }
-}
+const fileBrowserCurrentPath = createReducer(CURRENT_PATH_INITIAL_STATE, (builder) => {
+  builder.addCase(actions.fileBrowserPathChanged, (_, action) => {
+    const { path } = action.payload;
+    return path;
+  });
+});
 
-function fileDialog(state = {}, action) {
-  switch (action.type) {
-    case types.OPEN_DIALOG: {
-      const { key, props } = action.payload;
-      return {
-        ...state,
-        [key]: {
-          visible: true,
-          props,
-        },
-      };
-    }
-    case types.CLOSE_DIALOG: {
-      const { key } = action.payload;
-      return {
-        ...state,
-        [key]: {
-          ...(state[key] ?? {}),
-          visible: false,
-        },
-      };
-    }
-    default:
-      return state;
-  }
-}
+const SELECTION_INITIAL_STATE = [];
 
-function selectedFileIds(state = [], action) {
-  switch (action.type) {
-    case types.DESELECT_FILES: {
-      return [];
+const fileBrowserSelection = createReducer(SELECTION_INITIAL_STATE, (builder) => {
+  builder.addCase(actions.filesSelectionChanged, (_, action) => {
+    const { ids } = action.payload;
+    return [...ids];
+  });
+  builder.addCase(actions.fileSelectionToggled, (state, action) => {
+    const { id } = action.payload;
+    const idx = state.indexOf(id);
+    if (idx === -1) {
+      return [...state, id];
     }
-    case types.DESELECT_FILES_BULK: {
-      const { ids } = action.payload;
-      return [...difference(state, ids)];
-    }
-    case types.SELECT_FILE: {
-      const { id } = action.payload;
-      return [id];
-    }
-    case types.SELECT_FILE_ADD: {
-      const { id } = action.payload;
-      const nextState = [...state];
-      const idx = nextState.indexOf(id);
-      if (idx === -1) {
-        nextState.push(id);
-      } else {
-        nextState.pop(id);
-      }
-      return nextState;
-    }
-    case types.SELECT_FILE_BULK: {
-      const { ids } = action.payload;
-      return [...ids];
-    }
-    default:
-      return state;
-  }
-}
+    return [...state.slice(0, idx), ...state.slice(idx + 1)];
+  });
+});
 
-function scrollOffset(state = {}, action) {
-  switch (action.type) {
-    case types.SET_SCROLL_OFFSET: {
-      const { key, offset } = action.payload;
-      return {
-        ...state,
-        [key]: offset,
-      };
-    }
-    default:
-      return state;
-  }
-}
+const SCROLL_OFFSET_INITIAL_STATE = {};
 
-function uploader(state = { visibilityFilter: 'all' }, action) {
-  switch (action.type) {
-    case types.SET_UPLOAD_FILTER: {
-      const { visibilityFilter } = action.payload;
-      return {
-        ...state,
-        visibilityFilter,
-      };
-    }
-    default:
-      return state;
-  }
-}
+const fileBrowserScrollOffset = createReducer(SCROLL_OFFSET_INITIAL_STATE, (builder) => {
+  builder.addCase(actions.fileBrowserScrollOffsetChanged, (state, action) => {
+    const { key, offset } = action.payload;
+    state[key] = offset;
+  });
+});
+
+const FILE_DIALOG_INITIAL_STATE = {};
+
+const fileDialog = createReducer(FILE_DIALOG_INITIAL_STATE, (builder) => {
+  builder.addCase(actions.fileDialogOpened, (state, action) => {
+    const { key, props } = action.payload;
+    state[key] = {
+      props,
+      visible: true,
+    };
+  });
+  builder.addCase(actions.fileDialogClosed, (state, action) => {
+    const { key } = action.payload;
+    delete state[key];
+  });
+});
+
+const UPLOADER_INITIAL_STATE = { visibilityFilter: 'all' };
+
+const uploader = createReducer(UPLOADER_INITIAL_STATE, (builder) => {
+  builder.addCase(actions.uploaderFilterChanged, (state, action) => {
+    const { visibilityFilter } = action.payload;
+    state.visibilityFilter = visibilityFilter;
+  });
+});
 
 export default combineReducers({
-  fileBrowser,
+  fileBrowser: combineReducers({
+    currentPath: fileBrowserCurrentPath,
+    selection: fileBrowserSelection,
+    scrollOffset: fileBrowserScrollOffset,
+  }),
   fileDialog,
-  selectedFileIds,
-  scrollOffset,
   uploader,
 });
 
-export const getCurrentPath = (state) => state.ui.fileBrowser.path ?? '.';
+export const getCurrentPath = (state) => state.ui.fileBrowser.currentPath;
 
 export const getFileDialogVisible = (state, props) => {
   const { uid: key } = props;
@@ -131,13 +89,13 @@ export const getFileDialogProps = (state, props) => {
 };
 
 export const getSelectedFileIds = createSelector(
-  [(state) => state.ui.selectedFileIds],
+  [(state) => state.ui.fileBrowser.selection],
   (items) => new Set(items)
 );
 export const getIsFileSelected = (state, id) => getSelectedFileIds(state).has(id);
 export const getHasSelectedFiles = (state) => getSelectedFileIds(state).size !== 0;
 export const getCountSelectedFiles = (state) => getSelectedFileIds(state).size;
 
-export const getScrollOffset = (state, key) => state.ui.scrollOffset[key] ?? 0;
+export const getScrollOffset = (state, key) => state.ui.fileBrowser.scrollOffset[key] ?? 0;
 
 export const getUploadFilter = (state) => state.ui.uploader.visibilityFilter;

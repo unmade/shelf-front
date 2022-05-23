@@ -5,19 +5,18 @@ import PropTypes from 'prop-types';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import { addToSelection, selectFile } from '../store/actions/ui';
+import { filesSelectionChanged, fileSelectionToggled } from '../store/actions/ui';
 import { getFileById, getThumbnailById } from '../store/reducers/files';
 import { getHasSelectedFiles, getIsFileSelected } from '../store/reducers/ui';
 
 import { MediaType } from '../constants';
-
-import FileTableCellActions from '../containers/FileTableCellActions';
 
 import FileSize from './ui/FileSize';
 import TimeAgo from './ui/TimeAgo';
 
 import BookmarkButton from './BookmarkButton';
 import FileLink from './FileLink';
+import FileTableCellActions from './FileTableCellActions';
 import Thumbnail from './Thumbnail';
 
 function getPrimaryText(selected, hidden) {
@@ -45,10 +44,10 @@ function FileTableCell({ className, even, item, defferThumbnail, selected, hasSe
   const secondaryText = getSecondaryText(selected, item.hidden);
   const background = getBackground(even, selected);
 
-  const onCellClick = () => dispatch(selectFile(item.id));
+  const onCellClick = () => dispatch(filesSelectionChanged([item.id]));
   const onCheckboxClick = (event) => {
     event.stopPropagation();
-    dispatch(addToSelection(item.id));
+    dispatch(fileSelectionToggled(item.id));
   };
 
   const checkboxClass = selected || hasSelected ? '' : 'show-on-hover-target';

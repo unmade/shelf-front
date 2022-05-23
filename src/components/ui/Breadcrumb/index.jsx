@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 
 import i18n from '../../../i18n';
 
-import { openDialog } from '../../../store/actions/ui';
+import { fileDialogOpened } from '../../../store/actions/ui';
 
 import { Dialogs } from '../../../constants';
 import * as icons from '../../../icons';
@@ -62,7 +62,7 @@ function Breadcrumb({
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const items = breadcrumbs(path);
-  const onCreateFolder = () => dispatch(openDialog(Dialogs.createFolder));
+  const onCreateFolder = () => dispatch(fileDialogOpened(Dialogs.createFolder));
   if (items.length < 4) {
     return (
       <nav

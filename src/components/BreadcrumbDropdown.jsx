@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { Menu, Transition } from '@headlessui/react';
 
-import { openDialog } from '../store/actions/ui';
+import { fileDialogOpened } from '../store/actions/ui';
 import { getCurrentPath } from '../store/reducers/ui';
 import { Dialogs } from '../constants';
 
@@ -66,7 +66,7 @@ function BreadcrumbDropdown() {
               type="button"
               title={t('button_create_folder_title')}
               className="w-full"
-              onClick={() => dispatch(openDialog(Dialogs.createFolder))}
+              onClick={() => dispatch(fileDialogOpened(Dialogs.createFolder))}
             >
               <div className="flex items-center justify-between px-4 py-2">
                 <div className="font-medium">{t('New Folder')}</div>

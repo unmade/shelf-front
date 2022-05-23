@@ -9,7 +9,11 @@ import useDirPath from '../hooks/dir-path';
 import * as icons from '../icons';
 
 import { listFolder } from '../store/actions/files';
-import { deselectFiles, openDialog, setCurrentPath } from '../store/actions/ui';
+import {
+  fileBrowserPathChanged,
+  filesSelectionChanged,
+  fileDialogOpened,
+} from '../store/actions/ui';
 
 import EmptyTrashDialog from '../containers/EmptyTrashDialog';
 import FilePreview from '../containers/FilePreview';
@@ -34,12 +38,12 @@ function Trash() {
     dirPath !== '.' ? `${TRASH_FOLDER_NAME}/${decodeURIComponent(dirPath)}` : TRASH_FOLDER_NAME;
 
   React.useEffect(() => {
-    dispatch(setCurrentPath(dirPath));
+    dispatch(fileBrowserPathChanged(dirPath));
     dispatch(listFolder(dirPath));
 
     // we want to deselect all files when
     // current directory has changed
-    dispatch(deselectFiles());
+    dispatch(filesSelectionChanged([]));
   }, [dirPath, dispatch]);
 
   return (
@@ -50,7 +54,7 @@ function Trash() {
             type="primary"
             title={t('Empty Trash')}
             size="base"
-            onClick={() => dispatch(openDialog(Dialogs.emptyTrash))}
+            onClick={() => dispatch(fileDialogOpened(Dialogs.emptyTrash))}
             icon={<icons.TrashOutlined className="h-5 w-5 shrink-0" />}
             danger
           />

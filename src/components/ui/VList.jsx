@@ -15,10 +15,10 @@ function VList({
   itemHeight,
   loading,
   scrollKey,
-  trackScrolling,
   itemRender: View,
-  setScrollOffset,
+  onScrollOffsetChange,
 }) {
+  const trackScrolling = scrollKey != null && onScrollOffsetChange != null;
   return (
     <AutoSizer>
       {({ height, width }) => {
@@ -43,8 +43,8 @@ function VList({
             className={className}
             useIsScrolling={trackScrolling}
             onItemsRendered={({ visibleStartIndex }) => {
-              if (scrollKey != null && setScrollOffset != null) {
-                setScrollOffset(scrollKey, visibleStartIndex);
+              if (trackScrolling) {
+                onScrollOffsetChange(scrollKey, visibleStartIndex);
               }
             }}
           >
@@ -64,10 +64,9 @@ VList.propTypes = {
   itemData: PropTypes.oneOfType([PropTypes.object, PropTypes.arrayOf(PropTypes.any)]).isRequired,
   itemHeight: PropTypes.number,
   loading: PropTypes.bool,
-  trackScrolling: PropTypes.bool,
   scrollKey: PropTypes.string,
   itemRender: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
-  setScrollOffset: PropTypes.func,
+  onScrollOffsetChange: PropTypes.func,
 };
 
 VList.defaultProps = {
@@ -77,8 +76,7 @@ VList.defaultProps = {
   itemHeight: 64,
   loading: false,
   scrollKey: null,
-  trackScrolling: false,
-  setScrollOffset: null,
+  onScrollOffsetChange: null,
 };
 
 export default VList;

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import { moveFileBatch } from '../store/actions/files';
-import { closeDialog } from '../store/actions/ui';
+import { fileDialogClosed } from '../store/actions/ui';
 
 import { getFilesByIds } from '../store/reducers/files';
 import { getLoading } from '../store/reducers/loading';
@@ -48,7 +48,7 @@ function MoveDialog({ uid }) {
 
   const onClose = () => {
     setToPath('.');
-    dispatch(closeDialog(uid));
+    dispatch(fileDialogClosed(uid));
   };
 
   const onPathChange = useCallback((path) => setToPath(path), [setToPath]);
