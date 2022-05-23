@@ -5,7 +5,7 @@ import * as actions from '../actions/accounts';
 import { started, loaded } from '../actions/loading';
 import { getAccessToken } from '../reducers/auth';
 
-import { tryFetch } from './_try';
+import tryFetch from './_try';
 
 function* listAccounts({ type, payload }) {
   const accessToken = yield select(getAccessToken);

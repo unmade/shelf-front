@@ -6,7 +6,7 @@ import * as actions from '../actions/auth';
 import { started, loaded } from '../actions/loading';
 import { getAccessToken, getIsExpired } from '../reducers/auth';
 
-import { tryFetch } from './_try';
+import tryFetch from './_try';
 
 function* issueToken(action) {
   const { username, password } = action.payload;
