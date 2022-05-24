@@ -12,7 +12,7 @@ const classNamesByType = {
 const colors = {
   default: {
     [false]: ['bg-white', 'text-gray-700', 'border-gray-300', 'hover:text-gray-600'],
-    [true]: ['bg-white', 'text-red-700', 'border-red-300'],
+    [true]: ['bg-white', 'text-red-600', 'border-red-400'],
   },
   primary: {
     [false]: [
