@@ -52,7 +52,7 @@ function AccountMenu() {
           type="text"
           title={t('Sign Out')}
           size="lg"
-          icon={<icons.LogOut className="h-4 w-4" />}
+          icon={<icons.Logout className="h-5 w-5 text-gray-500" />}
           onClick={onSignOut}
         />
       </div>

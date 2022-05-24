@@ -5,7 +5,7 @@ import * as icons from '../../icons';
 
 import Button from '../ui/Button';
 
-function Header({ idx, total, name, onGoBack, onNext, onPrev }) {
+function Header({ idx, total, name, onGoBack, onNext, onPrev, onInfo }) {
   return (
     <div className="flex flex-row items-center justify-between px-4 py-3">
       <div className="flex flex-row sm:w-48">
@@ -41,6 +41,13 @@ function Header({ idx, total, name, onGoBack, onNext, onPrev }) {
           icon={<icons.ArrowNarrowRightOutlined className="h-5 w-5" />}
           onClick={onNext}
         />
+
+        <Button
+          type="text"
+          size="base"
+          icon={<icons.InformationCircleOutlined className="h-5 w-5" />}
+          onClick={onInfo}
+        />
       </div>
     </div>
   );
@@ -55,4 +62,5 @@ Header.propTypes = {
   onGoBack: PropTypes.func.isRequired,
   onNext: PropTypes.func.isRequired,
   onPrev: PropTypes.func.isRequired,
+  onInfo: PropTypes.func.isRequired,
 };

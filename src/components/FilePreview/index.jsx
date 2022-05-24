@@ -10,11 +10,16 @@ import NoPreview from '../../containers/NoPreview';
 import CodePreview from './CodePreview';
 import Header from './Header';
 import ImagePreview from './ImagePreview';
+import Info from './Info';
 
 const MAX_PREVIEW_SIZE_BY_TYPE = {
   application: 1048576, // 1 MB
   text: 1048576, // 1 MB
   image: 20971520, // 20 MB
+};
+
+const height = {
+  height: `calc(100vh - 60px)`,
 };
 
 function getPreview(mediatype) {
@@ -33,6 +38,8 @@ function hasPreview({ size, mediatype }) {
 }
 
 function FilePreview({ preview, downloads, download, preparePath }) {
+  const [infoVisible, setInfoVisible] = React.useState(true);
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -90,11 +97,17 @@ function FilePreview({ preview, downloads, download, preparePath }) {
   const onClickLeft = () => {
     navigate(preparePath(prevFile.path), { replace: true });
   };
+
   const onClickRight = () => {
     navigate(preparePath(nextFile.path), { replace: true });
   };
+
   const onGoBack = () => {
     navigate(-1);
+  };
+
+  const onInfo = () => {
+    setInfoVisible(!infoVisible);
   };
 
   return (
@@ -107,6 +120,7 @@ function FilePreview({ preview, downloads, download, preparePath }) {
           onGoBack={onGoBack}
           onPrev={onClickLeft}
           onNext={onClickRight}
+          onInfo={onInfo}
         />
 
         <div className="h-full overflow-scroll bg-gray-200">
@@ -116,17 +130,19 @@ function FilePreview({ preview, downloads, download, preparePath }) {
             </div>
           ) : (
             <>
-              <div
-                className="bg-gray-10 absolute top-0 left-0 hidden h-full w-1/4 pointer-coarse:block"
-                onClick={onClickLeft}
-                aria-hidden
-              />
-              <Preview file={file} original={original} />
-              <div
-                className="bg-gray-10 absolute top-0 right-0 hidden h-full w-1/4 pointer-coarse:block"
-                onClick={onClickRight}
-                aria-hidden
-              />
+              <div className="flex">
+                <div
+                  style={height}
+                  className={`overflow-scroll p-4 ${infoVisible ? 'w-2/3 xl:w-3/4' : 'w-full'}`}
+                >
+                  <Preview file={file} original={original} />
+                </div>
+                {infoVisible && (
+                  <div className="w-1/3 xl:w-1/4">
+                    <Info className="h-full border-t bg-white px-5 py-6 shadow" fileId={file.id} />
+                  </div>
+                )}
+              </div>
             </>
           )}
         </div>

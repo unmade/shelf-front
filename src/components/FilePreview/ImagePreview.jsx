@@ -1,27 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import AutoSizer from 'react-virtualized-auto-sizer';
-
 import FileIcon from '../FileIcon';
 
 function ImagePreview({ file, original }) {
-  return (
-    <AutoSizer>
-      {({ height, width }) => {
-        const imgHeight = height - 40;
-        return (
-          <div style={{ height, width }} className="flex items-center justify-center">
-            {original ? (
-              <img src={original} style={{ maxHeight: imgHeight }} alt={file.name} />
-            ) : (
-              <FileIcon className="h-48 w-48" mediatype={file.mediatype} hidden={file.hidden} />
-            )}
-          </div>
-        );
-      }}
-    </AutoSizer>
-  );
+  if (original) {
+    return <img className="h-full w-full object-scale-down" src={original} alt={file.name} />;
+  }
+  return <FileIcon className="h-48 w-48" mediatype={file.mediatype} hidden={file.hidden} />;
 }
 
 ImagePreview.propTypes = {

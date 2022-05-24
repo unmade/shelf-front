@@ -18,7 +18,7 @@ import FolderPickerItem from './FolderPickerItem';
 const HEIGHT = 24;
 
 const height = {
-  height: `calc(100% - ${HEIGHT}px`,
+  height: `calc(100% - ${HEIGHT}px)`,
 };
 
 const FolderPicker = ({
