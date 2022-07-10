@@ -32,7 +32,7 @@ COPY ./docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 
 COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
-COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY ./nginx/default.conf.template /etc/nginx/conf.d/default.conf.template
 COPY --from=build /usr/src/app/build /usr/share/nginx/html
 
 EXPOSE 80

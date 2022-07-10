@@ -20,7 +20,7 @@ function* issueToken(action) {
 
   yield put(started(action.type));
   yield tryFetch(action.type, request);
-  yield loaded(action.type);
+  yield put(loaded(action.type));
 }
 
 function* refreshToken(action) {
