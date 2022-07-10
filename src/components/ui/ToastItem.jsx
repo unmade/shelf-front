@@ -9,7 +9,7 @@ function ToastItem({ id, message, onClose }) {
   const { title, description, closeAfter } = message;
 
   React.useEffect(() => {
-    if (closeAfter !== null && closeAfter !== undefined) {
+    if (closeAfter != null) {
       const interval = setInterval(() => {
         onClose(id);
       }, closeAfter * 1000);
@@ -34,7 +34,7 @@ function ToastItem({ id, message, onClose }) {
       <div>
         <Button
           type="text"
-          icon={<icons.Close className="text-gray-600" />}
+          icon={<icons.Close className="h-4 w-4 text-gray-600" />}
           title="Close"
           onClick={() => onClose(id)}
         />

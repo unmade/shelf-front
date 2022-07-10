@@ -27,7 +27,7 @@ function* checkTask({ type, payload }) {
     const accessToken = yield select(getAccessToken);
     const request = api.post(endpoint, accessToken, body);
 
-    const data = tryFetch(type, request);
+    const data = yield tryFetch(type, request);
     if (data == null) {
       yield delay(refreshRateOnErr);
       // eslint-disable-next-line no-continue
