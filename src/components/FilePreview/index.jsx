@@ -133,12 +133,14 @@ function FilePreview({ preview, downloads, download, preparePath }) {
               <div className="flex">
                 <div
                   style={height}
-                  className={`overflow-scroll p-4 ${infoVisible ? 'w-2/3 xl:w-3/4' : 'w-full'}`}
+                  className={`overflow-scroll p-4 ${
+                    infoVisible ? 'w-full sm:w-2/3 xl:w-3/4' : 'w-full'
+                  }`}
                 >
                   <Preview file={file} original={original} />
                 </div>
                 {infoVisible && (
-                  <div className="w-1/3 xl:w-1/4">
+                  <div className="hidden sm:block sm:w-1/3 xl:w-1/4">
                     <Info className="h-full border-t bg-white px-5 py-6 shadow" fileId={file.id} />
                   </div>
                 )}
