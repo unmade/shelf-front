@@ -43,6 +43,7 @@ function Header({ idx, total, name, onGoBack, onNext, onPrev, onInfo }) {
         />
 
         <Button
+          className="hidden sm:block"
           type="text"
           size="base"
           icon={<icons.InformationCircleOutlined className="h-5 w-5" />}
