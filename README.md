@@ -1,8 +1,20 @@
-# Shelf (WIP)
+# Shelf App
 
 This is frontend for a shelf project - a self-hosted file storage.
 
 <img src="https://i.imgur.com/h1QQIFp.png" alt="shelf-main" width="1379" alt="App Preview">
+
+## Demo
+
+[https://shelfcloud.herokuapp.com/files](https://shelfcloud.herokuapp.com/files)
+
+The demo version runs on free Heroku instance with no persistent storage.
+A dyno restart wipes out all data.
+
+You can login with a test user:
+
+- login: **admin**
+- password: **root**
 
 ## Development
 
