@@ -11,7 +11,7 @@ function isFileChanged(action) {
   return (
     action.type === fulfilled(actions.createFolder) ||
     action.type === fulfilled(actions.emptyTrash) ||
-    action.type === fulfilled(action.moveFile) ||
+    action.type === fulfilled(actions.moveFile) ||
     action.type === fulfilled(actions.moveToTrash)
   );
 }
