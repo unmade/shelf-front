@@ -13,6 +13,24 @@ import * as icons from '../icons';
 import Button from './ui/Button';
 import Menu from './ui/Menu';
 
+const ActionButton = React.forwardRef(({ item }, ref) => (
+  <Button
+    innerRef={ref}
+    key={item.name}
+    type="text"
+    onClick={(event) => {
+      event.stopPropagation();
+      item.onClick();
+    }}
+    danger={item.danger}
+  >
+    <div className="my-1 flex w-full flex-row items-center justify-between whitespace-nowrap">
+      <div>{item.name}</div>
+      <div className="ml-6">{item.icon}</div>
+    </div>
+  </Button>
+));
+
 function FileTableCellActions({ id, path }) {
   const { t } = useTranslation();
 
@@ -76,25 +94,7 @@ function FileTableCellActions({ id, path }) {
   }
 
   return (
-    <Menu
-      items={menu}
-      itemRender={({ item }) => (
-        <Button
-          key={item.name}
-          type="text"
-          onClick={(event) => {
-            event.stopPropagation();
-            item.onClick();
-          }}
-          danger={item.danger}
-        >
-          <div className="my-1 flex w-full flex-row items-center justify-between whitespace-nowrap">
-            <div>{item.name}</div>
-            <div className="ml-6">{item.icon}</div>
-          </div>
-        </Button>
-      )}
-    >
+    <Menu items={menu} itemRender={ActionButton}>
       <Button as="div" type="text" size="lg" icon={<icons.More className="h-4 w-4" />} />
     </Menu>
   );

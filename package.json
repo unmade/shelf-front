@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@floating-ui/react-dom": "^0.7.2",
     "@headlessui/react": "^1.6.2",
     "@heroicons/react": "^1.0.6",
-    "@popperjs/core": "^2.10.1",
     "@reduxjs/toolkit": "^1.8.1",
     "@tailwindcss/forms": "^0.4.0",
     "autoprefixer": "^10.4.2",
@@ -20,7 +20,6 @@
     "react-dom": "^18.1.0",
     "react-i18next": "^11.15.3",
     "react-icons": "^4.2.0",
-    "react-popper": "^2.2.5",
     "react-redux": "^8.0.2",
     "react-responsive": "^9.0.0-beta.8",
     "react-router-dom": "^6.3.0",

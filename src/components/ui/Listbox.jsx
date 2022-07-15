@@ -1,25 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useFloating, offset } from '@floating-ui/react-dom';
 import { Listbox as UIListbox, Transition } from '@headlessui/react';
-import { usePopper } from 'react-popper';
 
 import * as icons from '../../icons';
 
 function Listbox({ children, initial, options, onOptionChange }) {
   const [selectedOption, setSelectedOption] = React.useState(initial);
-  const [referenceElement, setReferenceElement] = React.useState();
-  const [popperElement, setPopperElement] = React.useState();
-  const { styles, attributes } = usePopper(referenceElement, popperElement, {
+  const { x, y, reference, floating, strategy } = useFloating({
     placement: 'bottom-end',
-    modifiers: [
-      {
-        name: 'offset',
-        options: {
-          offset: [0, 5],
-        },
-      },
-    ],
+    middleware: [offset(0, 5)],
   });
 
   const onChange = (option) => {
@@ -34,7 +25,7 @@ function Listbox({ children, initial, options, onOptionChange }) {
       {({ open }) => (
         <span className="z-10">
           <UIListbox.Button
-            ref={setReferenceElement}
+            ref={reference}
             className="rounded-xl ring-offset-2 focus:outline-none focus:ring"
           >
             {children}
@@ -51,11 +42,13 @@ function Listbox({ children, initial, options, onOptionChange }) {
           >
             <UIListbox.Options
               static
-              ref={setPopperElement}
-              style={styles.popper}
-              // eslint-disable-next-line react/jsx-props-no-spreading
-              {...attributes.popper}
+              ref={floating}
               className="max-h-60 rounded-xl bg-white p-2 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+              style={{
+                position: strategy,
+                top: y ?? 0,
+                left: x ?? 0,
+              }}
             >
               {options.map((option) => (
                 <UIListbox.Option

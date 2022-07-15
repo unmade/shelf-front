@@ -65,7 +65,7 @@ VList.propTypes = {
   itemHeight: PropTypes.number,
   loading: PropTypes.bool,
   scrollKey: PropTypes.string,
-  itemRender: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
+  itemRender: PropTypes.elementType.isRequired,
   onScrollOffsetChange: PropTypes.func,
 };
 

@@ -16,7 +16,7 @@ function Toast({ messages, itemRender: Render }) {
 
 Toast.propTypes = {
   messages: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  itemRender: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
+  itemRender: PropTypes.elementType.isRequired,
 };
 
 export default Toast;

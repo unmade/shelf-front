@@ -152,7 +152,7 @@ Breadcrumb.ItemCollapsed = BreadcrumbItemCollapsed;
 Breadcrumb.propTypes = {
   className: PropTypes.string,
   path: PropTypes.string.isRequired,
-  itemRender: PropTypes.func.isRequired,
+  itemRender: PropTypes.elementType.isRequired,
   itemRenderCollapsed: PropTypes.func.isRequired,
 };
 
