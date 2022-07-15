@@ -83,6 +83,7 @@ function Button({
   full,
   htmlType,
   icon,
+  innerRef,
   loading,
   shape,
   size,
@@ -110,6 +111,10 @@ function Button({
 
   if (title != null) {
     buttonProps.title = title;
+  }
+
+  if (innerRef != null) {
+    buttonProps.ref = innerRef;
   }
 
   if (onClick != null) {
@@ -160,6 +165,10 @@ Button.propTypes = {
   full: PropTypes.bool,
   htmlType: PropTypes.oneOf(['button', 'submit']),
   icon: PropTypes.element,
+  innerRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(React.Component) }),
+  ]),
   loading: PropTypes.bool,
   shape: PropTypes.oneOf(['circle', 'round']),
   size: PropTypes.oneOf(['xs', 'sm', 'base', 'lg']),
@@ -177,6 +186,7 @@ Button.defaultProps = {
   full: false,
   htmlType: 'button',
   icon: null,
+  innerRef: null,
   loading: false,
   shape: 'round',
   size: 'sm',

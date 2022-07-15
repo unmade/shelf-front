@@ -27,7 +27,7 @@ function UploadList({ uploads, virtual, itemRender }) {
 UploadList.propTypes = {
   uploads: PropTypes.arrayOf(PropTypes.string).isRequired,
   virtual: PropTypes.bool,
-  itemRender: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
+  itemRender: PropTypes.elementType.isRequired,
 };
 
 UploadList.defaultProps = {

@@ -86,7 +86,7 @@ FileTableView.propTypes = {
   items: PropTypes.arrayOf(PropTypes.string).isRequired,
   loading: PropTypes.bool,
   scrollKey: PropTypes.string.isRequired,
-  itemRender: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
+  itemRender: PropTypes.elementType.isRequired,
 };
 
 FileTableView.defaultProps = {
