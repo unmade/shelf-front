@@ -45,10 +45,10 @@ const Browser = React.memo(({ actionButton, dirPath, droppable }) => {
   return (
     <div className="flex h-full flex-col">
       <BrowserHeader isLaptop={isLaptop} actionButton={actionButton} />
-      <div className="flex flex-1 flex-row pt-4">
-        <div className={withSidePreview ? 'w-7/12' : 'w-full'}>{tableView}</div>
+      <div className="flex h-full flex-row overflow-scroll pt-4">
+        <div className={`h-full ${withSidePreview ? 'w-7/12' : 'w-full'}`}>{tableView}</div>
         {withSidePreview && (
-          <div className="w-5/12">
+          <div className="w-5/12 overflow-scroll">
             <SidePreview />
           </div>
         )}
