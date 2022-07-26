@@ -16,6 +16,7 @@ import TimeAgo from '../ui/TimeAgo';
 import BookmarkButton from '../BookmarkButton';
 import FileLink from '../FileLink';
 import Thumbnail from '../Thumbnail';
+import FileInfoTabs from '../FileInfoTabs';
 
 import SidePreviewActions from './SidePreviewActions';
 
@@ -46,8 +47,8 @@ function SingleFilePreview({ file }) {
   return (
     <>
       <div className="flex flex-col px-4 pb-2">
-        <div className="flex h-72 w-auto items-center justify-center rounded-xl bg-gray-50">
-          <Thumbnail className="h-64 w-80 shrink-0 xl:w-96" size="xl" fileId={file.id} />
+        <div className="flex h-64 w-auto items-center justify-center rounded-xl bg-gray-50">
+          <Thumbnail className="h-60 w-80 shrink-0 xl:w-96" size="xl" fileId={file.id} />
         </div>
 
         <div className="flex items-center justify-between py-2 pl-2">
@@ -64,7 +65,7 @@ function SingleFilePreview({ file }) {
 
         <div className="flex items-center justify-between py-2 pl-2 pr-0.5">
           <div>
-            <Button type="primary" size="xs">
+            <Button type="primary">
               <FileLink path={file.path} preview={file.mediatype !== MediaType.FOLDER}>
                 {t('Open')}
               </FileLink>
@@ -76,27 +77,7 @@ function SingleFilePreview({ file }) {
         </div>
 
         <div className="mt-2 p-2">
-          <h3 className="text-base font-semibold">{t('Information')}</h3>
-          <div className="divide-y text-xs font-medium">
-            <div className="flex justify-between py-2">
-              <p className="text-gray-500">{t('Size')}</p>
-              <p>
-                <FileSize size={file.size} />
-              </p>
-            </div>
-            <div className="flex justify-between py-2">
-              <p className="text-gray-500">{t('Created')}</p>
-              <p>
-                <TimeAgo mtime={file.mtime * 1000} format="LLL" />
-              </p>
-            </div>
-            <div className="flex justify-between py-2">
-              <p className="text-gray-500">{t('Modified')}</p>
-              <p>
-                <TimeAgo mtime={file.mtime * 1000} format="LLL" />
-              </p>
-            </div>
-          </div>
+          <FileInfoTabs fileId={file.id} />
         </div>
       </div>
     </>
@@ -137,7 +118,7 @@ function MultiFilePreview({ files }) {
   return (
     <>
       <div className="flex flex-col px-4 pb-2">
-        <div className="flex h-72 w-auto items-center justify-center rounded-xl bg-gray-50">
+        <div className="flex h-64 w-auto items-center justify-center rounded-xl bg-gray-50">
           {previews.map((file, i) => (
             <span
               key={file.id}
@@ -225,9 +206,6 @@ function SidePreview() {
   const files = useSelector((state) => getFilesByIds(state, { ids: selectedIds }), shallowEqual);
   return (
     <div className="mr-4 mb-4 rounded-lg border-4 border-transparent bg-white text-gray-800">
-      {/* tweak to match height to the table header (offset to table body) */}
-      <div className="mb-1 px-8 py-2 text-xs">&#8203;</div>
-
       {files.length === 1 ? (
         <SingleFilePreview file={files[0]} />
       ) : (

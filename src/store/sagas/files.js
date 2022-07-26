@@ -127,6 +127,17 @@ function* getBatch({ type, payload }) {
   yield put(loaded(type));
 }
 
+function* getContentMetadata({ type, payload }) {
+  const accessToken = yield select(getAccessToken);
+  const { path } = payload;
+
+  const request = api.post('/files/get_content_metadata', accessToken, { path });
+
+  yield put(started(type, path));
+  yield tryFetch(type, request);
+  yield put(loaded(type, path));
+}
+
 function* listFolder({ type, payload }) {
   const accessToken = yield select(getAccessToken);
   const { path = '.' } = payload;
@@ -241,6 +252,7 @@ export default [
   takeEvery(actions.emptyTrash, emptyTrash),
   takeEvery(actions.findDuplicates, findDuplicates),
   takeEvery(actions.getBatch, getBatch),
+  takeEvery(actions.getContentMetadata, getContentMetadata),
   takeEvery(actions.listFolder, listFolder),
   takeEvery(actions.moveFile, moveFile),
   takeEvery(actions.moveFileBatch, moveFileBatch),

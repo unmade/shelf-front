@@ -34,6 +34,10 @@ export const getBatch = createAction('files/getBatch', (fileIds) => ({
   payload: { fileIds },
 }));
 
+export const getContentMetadata = createAction('files/getContentMetadata', (path) => ({
+  payload: { path },
+}));
+
 export const listFolder = createAction('files/listFolder', (path) => ({
   payload: { path },
 }));
