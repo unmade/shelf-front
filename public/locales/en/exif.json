@@ -1,0 +1,11 @@
+{
+  "aperture": "Aperture",
+  "dateTimeDigitized": "Date Time Digitized",
+  "dateTimeOriginal": "Date Time Original",
+  "dimensions": "Dimensions",
+  "exposure": "Exposure",
+  "ISO": "ISO",
+  "make": "Lens make",
+  "model": "Lens model",
+  "notAvailable": "Not available"
+}

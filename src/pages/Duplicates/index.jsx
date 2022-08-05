@@ -11,7 +11,7 @@ import DuplicatesResult from './DuplicatesResult';
 import SelectFolderDialogButton from './SelectFolderDialogButton';
 
 function Duplicates() {
-  const { t } = useTranslation();
+  const { t } = useTranslation('duplicates');
 
   const dirPath = useDirPath();
   const initialTargetFolderPath = dirPath !== '.' ? dirPath : null;
@@ -24,14 +24,12 @@ function Duplicates() {
           <icons.DocumentSearchOutlined className="h-12 w-12 text-gray-400" />
         </div>
         <div className="mt-2">
-          <p className="text-center text-2xl font-medium">{t('Duplicates Finder')}</p>
-          <p className="mt-2 text-center">
-            {t('Start by selecting a folder to search for duplicates in.')}
-          </p>
+          <p className="text-center text-2xl font-medium">{t('duplicates:welcomeTitle')}</p>
+          <p className="mt-2 text-center">{t('duplicates:welcomeHelpText')}</p>
         </div>
         <div className="mt-4">
           <SelectFolderDialogButton type="primary" dirPath="." onSelectFolder={setTargetFolderPath}>
-            {t('Select folder')}
+            {t('duplicates:selectFolderButton')}
           </SelectFolderDialogButton>
         </div>
       </div>

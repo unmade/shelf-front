@@ -1,0 +1,11 @@
+{
+  "action.selectFolder": "Select Folder",
+  "emptyResult": "No duplicates found",
+  "folderPickerEmptyTitle": "No folders",
+  "resultTitle": "Duplicates",
+  "selectFolderButton": "Select Folder",
+  "selectFolderDialogConfirmButton": "Select",
+  "selectFolderDialogTitle": "Select Folder",
+  "welcomeHelpText": "Start by selecting a folder to search for duplicates in",
+  "welcomeTitle": "Duplicates Finder"
+}

@@ -1,0 +1,11 @@
+{
+  "aperture": "Диафрагма",
+  "dateTimeDigitized": "Дата и время оцифровки",
+  "dateTimeOriginal": "Дата и время оригинала",
+  "dimensions": "Размер",
+  "exposure": "Выдержка",
+  "ISO": "Фоточувствительность (ISO)",
+  "make": "Производитель",
+  "model": "Модель",
+  "notAvailable": "Нет данных"
+}
