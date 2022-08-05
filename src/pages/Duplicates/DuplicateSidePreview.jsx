@@ -33,7 +33,7 @@ FileProperty.propTypes = {
 };
 
 function DuplicateSidePreview({ fileId }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('file');
 
   const dispatch = useDispatch();
 
@@ -57,13 +57,13 @@ function DuplicateSidePreview({ fileId }) {
       </div>
       <div className="mt-8 flex bg-white px-10">
         <div className="w-1/2 space-y-8">
-          <FileProperty header="Name" value={file.name} />
-          <FileProperty header="Path" value={routes.parent(file.path)} />
+          <FileProperty header={t('file:name')} value={file.name} />
+          <FileProperty header={t('file:path')} value={routes.parent(file.path)} />
         </div>
         <div className="w-1/2 space-y-8">
-          <FileProperty header="Size" value={<FileSize size={file.size} />} />
+          <FileProperty header={t('file:size')} value={<FileSize size={file.size} />} />
           <FileProperty
-            header="Modified date"
+            header={t('file:modified')}
             value={<TimeAgo mtime={file.mtime * 1000} format="LLL" />}
           />
         </div>
@@ -75,7 +75,7 @@ function DuplicateSidePreview({ fileId }) {
               className="font-semibold text-blue-500"
               icon={<icons.EyeOutlined className=" h-4 w-4 text-blue-500" />}
             >
-              {t('Preview')}
+              {t('file:preview')}
             </Button>
           </DuplicateLink>
           <Button
@@ -84,7 +84,7 @@ function DuplicateSidePreview({ fileId }) {
             danger
             onClick={onDelete}
           >
-            {t('Delete')}
+            {t('file:delete')}
           </Button>
         </div>
       </div>

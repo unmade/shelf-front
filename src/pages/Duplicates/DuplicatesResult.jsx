@@ -39,7 +39,7 @@ const distanceOptions = [
 ];
 
 function DuplicatesResult({ dirPath, onFolderChange }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('duplicates');
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -93,7 +93,7 @@ function DuplicatesResult({ dirPath, onFolderChange }) {
     });
   };
 
-  const title = t('Duplicates');
+  const title = t('duplicates:resultTitle');
 
   return (
     <>
@@ -143,7 +143,7 @@ function DuplicatesResult({ dirPath, onFolderChange }) {
               <DuplicateList dirPath={dirPath} itemRenderer={itemRenderer} />
             ) : (
               <div className="flex h-full items-center justify-center">
-                <p className="font-medium">{t('No duplicates found')}</p>
+                <p className="font-medium">{t('duplicates:emptyResult')}</p>
               </div>
             )}
           </div>

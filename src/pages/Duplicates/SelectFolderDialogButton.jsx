@@ -12,7 +12,7 @@ import Dialog from '../../components/ui/Dialog';
 import FolderPicker from '../../components/FolderPicker';
 
 function SelectFolderDialogButton({ type, children, dirPath, icon, onSelectFolder }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('duplicates');
 
   const navigate = useNavigate();
 
@@ -42,7 +42,7 @@ function SelectFolderDialogButton({ type, children, dirPath, icon, onSelectFolde
       <Button
         className="relative"
         type={type}
-        title={t('Select folder')}
+        title={t('duplicates:action.selectFolder')}
         size="base"
         icon={icon}
         onClick={showDialog}
@@ -52,15 +52,15 @@ function SelectFolderDialogButton({ type, children, dirPath, icon, onSelectFolde
       </Button>
 
       <Dialog
-        title="Select Folder"
+        title={t('duplicates:selectFolderDialogTitle')}
         visible={visible}
-        confirmTitle="Select"
+        confirmTitle={t('duplicates:selectFolderDialogConfirmButton')}
         onConfirm={onConfirm}
         onCancel={hideDialog}
       >
         <div className="mt-4 h-96 w-full sm:w-96">
           <FolderPicker
-            emptyTitle="Nothing here yet"
+            emptyTitle={t('duplicates:folderPickerEmptyTitle')}
             initialPath={dirPath}
             onPathChange={onPathChange}
           />

@@ -1,0 +1,11 @@
+{
+  "action.selectFolder": "Выбрать папку",
+  "emptyResult": "Дубликаты не найдены",
+  "folderPickerEmptyTitle": "Нет папок",
+  "resultTitle": "Дубликаты",
+  "selectFolderButton": "Выбрать папку",
+  "selectFolderDialogConfirmButton": "Выбрать",
+  "selectFolderDialogTitle": "Выберите папку",
+  "welcomeHelpText": "Начните с выбора папки, в которой хотите найти дубликаты",
+  "welcomeTitle": "Поиск дубликатов"
+}

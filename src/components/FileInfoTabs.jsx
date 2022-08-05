@@ -24,15 +24,21 @@ function Property({ name, value }) {
 }
 
 function InformationPanel({ fileId }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('file');
 
   const file = useSelector((state) => getFileById(state, fileId));
 
   return (
     <div className="divide-y text-xs font-medium">
-      <Property name={t('Size')} value={<FileSize size={file.size} />} />
-      <Property name={t('Created')} value={<TimeAgo mtime={file.mtime * 1000} format="LLL" />} />
-      <Property name={t('Modified')} value={<TimeAgo mtime={file.mtime * 1000} format="LLL" />} />
+      <Property name={t('file:size')} value={<FileSize size={file.size} />} />
+      <Property
+        name={t('file:created')}
+        value={<TimeAgo mtime={file.mtime * 1000} format="LLL" />}
+      />
+      <Property
+        name={t('file:modified')}
+        value={<TimeAgo mtime={file.mtime * 1000} format="LLL" />}
+      />
     </div>
   );
 }
@@ -43,7 +49,7 @@ Property.fileProps = {
 };
 
 function ExifPanel({ fileId }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['exif']);
 
   const dispatch = useDispatch();
 
@@ -73,33 +79,33 @@ function ExifPanel({ fileId }) {
   if (meta == null) {
     return (
       <div className="flex flex-col items-center justify-center space-y-2 py-3 text-gray-500">
-        <p>{t('Not available')}</p>
+        <p>{t('exif:notAvailable')}</p>
       </div>
     );
   }
 
   return (
     <div className="divide-y text-xs font-medium">
-      {meta.make && <Property name={t('Maker')} value={`${meta.make}`} />}
-      {meta.model && <Property name={t('Camera')} value={`${meta.model}`} />}
+      {meta.make && <Property name={t('exif:make')} value={`${meta.make}`} />}
+      {meta.model && <Property name={t('exif:model')} value={`${meta.model}`} />}
       {meta.width && meta.height && (
-        <Property name={t('Dimensions')} value={`${meta.width}x${meta.height}`} />
+        <Property name={t('exif:dimensions')} value={`${meta.width}x${meta.height}`} />
       )}
       {meta.dt_digitized && (
         <Property
-          name={t('Date Time Digitized')}
+          name={t('exif:dateTimeDigitized')}
           value={<TimeAgo mtime={meta.dt_digitized * 1000} format="LLL" />}
         />
       )}
       {meta.dt_original && (
         <Property
-          name={t('Date Time Original')}
+          name={t('exif:dateTimeOriginal')}
           value={<TimeAgo mtime={meta.dt_original * 1000} format="LLL" />}
         />
       )}
-      {meta.fnumber && <Property name={t('Aperture')} value={`ƒ/${meta.fnumber}`} />}
-      {meta.exposure && <Property name={t('Exposure')} value={meta.exposure} />}
-      {meta.iso && <Property name={t('ISO')} value={meta.iso} />}
+      {meta.fnumber && <Property name={t('exif:aperture')} value={`ƒ/${meta.fnumber}`} />}
+      {meta.exposure && <Property name={t('exif:exposure')} value={meta.exposure} />}
+      {meta.iso && <Property name={t('exif:ISO')} value={meta.iso} />}
     </div>
   );
 }
@@ -108,16 +114,24 @@ ExifPanel.propTypes = {
   fileId: PropTypes.string.isRequired,
 };
 
-const tabs = {
-  Information: InformationPanel,
-  Meta: ExifPanel,
-};
-
 function FileInfoTabs({ fileId }) {
+  const { t } = useTranslation('file');
+
+  const tabs = [
+    {
+      name: t('file:information'),
+      panel: InformationPanel,
+    },
+    {
+      name: t('file:exif'),
+      panel: ExifPanel,
+    },
+  ];
+
   return (
     <Tabs
-      tabs={Object.entries(tabs).map(([key, Panel]) => ({
-        name: key,
+      tabs={tabs.map(({ name, panel: Panel }) => ({
+        name,
         render: <Panel fileId={fileId} />,
       }))}
     />
