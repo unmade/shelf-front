@@ -35,6 +35,7 @@ export const DotsHorizontal = hiOutline.DotsHorizontalIcon;
 export const DotsVerticalOutlined = hiOutline.DotsVerticalIcon;
 export const Download = hiOutline.DownloadIcon;
 export const Edit = hiOutline.PencilIcon;
+export const ExternalLink = hiOutline.ExternalLinkIcon;
 export const EyeOutlined = hiOutline.EyeIcon;
 export const File = hiOutline.DocumentIcon;
 export const FileCode = hiOutline.CodeIcon;

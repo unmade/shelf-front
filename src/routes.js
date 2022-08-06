@@ -13,6 +13,11 @@ export const FILES = {
   route: '/files/*',
 };
 
+export const SIGNUP = {
+  prefix: '/signup',
+  route: '/signup',
+};
+
 export const TRASH = {
   prefix: '/trash',
   route: '/trash/*',
