@@ -9,6 +9,7 @@ import './i18n';
 import store from './store/store';
 
 import Login from './pages/Login';
+import SignUp from './pages/SignUp';
 
 import App from './App';
 
@@ -25,6 +26,7 @@ root.render(
       <BrowserRouter>
         <Routes>
           <Route path="/signin" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route
             path="/*"
             element={

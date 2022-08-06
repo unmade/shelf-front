@@ -4,13 +4,14 @@ import { useSelector } from 'react-redux';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { getIsAuthenticated } from '../store/reducers/auth';
+import { getIsAuthenticated } from '../../store/reducers/auth';
 
-import * as icons from '../icons';
+import * as icons from '../../icons';
 
-import LoginForm from '../containers/LoginForm';
-import Toast from '../containers/Toast';
-import ToastItem from '../containers/ToastItem';
+import Toast from '../../containers/Toast';
+import ToastItem from '../../containers/ToastItem';
+
+import LoginForm from './LoginForm';
 
 function Login() {
   const navigate = useNavigate();

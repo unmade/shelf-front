@@ -1,13 +1,25 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-import Button from './ui/Button';
-import Input from './ui/Input';
+import { issueToken } from '../../store/actions/auth';
 
-function LoginForm({ loading, onSubmit }) {
+import * as icons from '../../icons';
+import * as routes from '../../routes';
+
+import Button from '../../components/ui/Button';
+import Input from '../../components/ui/Input';
+import { getLoading } from '../../store/reducers/loading';
+
+function LoginForm() {
   const { t } = useTranslation();
+
+  const dispatch = useDispatch();
+
+  const loading = useSelector((state) => getLoading(state, { actionType: issueToken }));
+
   const [inputs, setInputs] = React.useState({
     username: null,
     password: null,
@@ -46,7 +58,7 @@ function LoginForm({ loading, onSubmit }) {
   const submit = () => {
     if (validate()) {
       const { username, password } = inputs;
-      onSubmit(username, password);
+      dispatch(issueToken(username, password));
     }
   };
 
@@ -88,17 +100,24 @@ function LoginForm({ loading, onSubmit }) {
           {t('Sign In')}
         </Button>
       </div>
+      <div className="w-full pt-2 text-gray-700">
+        <p className="text-center text-sm">
+          Not registered yet?{' '}
+          <Link
+            to={routes.SIGNUP.prefix}
+            className="inline-flex items-center space-x-1 font-medium text-indigo-600"
+          >
+            <span>Register now </span>
+            <span>
+              <icons.ExternalLink className="w5 h-5" />
+            </span>
+          </Link>
+        </p>
+      </div>
     </form>
   );
 }
 
-LoginForm.propTypes = {
-  loading: PropTypes.bool,
-  onSubmit: PropTypes.func.isRequired,
-};
-
-LoginForm.defaultProps = {
-  loading: false,
-};
+LoginForm.propTypes = {};
 
 export default LoginForm;
