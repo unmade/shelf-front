@@ -13,6 +13,11 @@ export const FILES = {
   route: '/files/*',
 };
 
+export const SIGNIN = {
+  prefix: '/signin',
+  route: '/signin',
+};
+
 export const SIGNUP = {
   prefix: '/signup',
   route: '/signup',

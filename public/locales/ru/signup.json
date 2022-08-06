@@ -1,0 +1,9 @@
+{
+  "alreadyHaveAnAccount": "Уже есть аккаунт?",
+  "form.button.title": "Создать аккаунт",
+  "form.errors.agreeToTermsAndConditionsUnchecked": "Для создания аккаунта необходимо принять Условия обслуживания Shelf и Политики конфиденциальности",
+  "form.errors.passwordsShouldMatch": "Убедитесь, что пароли совпадают",
+  "form.iHaveReadAndAgreeToTermsAndConditions": "Я принимаю <1>Условия обслуживания Shelf</1> и <4>Политики конфиденциальности</4>",
+  "form.title": "Создать аккаунт в Shelf",
+  "signInHere": "Войти"
+}

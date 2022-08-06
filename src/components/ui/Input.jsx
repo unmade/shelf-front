@@ -53,7 +53,7 @@ function Input({
           {label}
         </label>
       )}
-      <div className="relative rounded-md shadow-sm">
+      <div className="relative rounded-xl shadow-sm">
         <input
           id={id}
           type={type}
@@ -65,9 +65,7 @@ function Input({
           {...inputProps}
         />
       </div>
-      {error !== null && error !== undefined && (
-        <p className="mt-3 text-xs italic text-red-500">{error}</p>
-      )}
+      {error != null && <p className="mt-3 text-xs italic text-red-500">{error}</p>}
     </div>
   );
 }
