@@ -1,0 +1,9 @@
+{
+  "alreadyHaveAnAccount": "Already have an account?",
+  "form.button.title": "Create an account",
+  "form.errors.agreeToTermsAndConditionsUnchecked": "You must accept Shelf Terms and Privacy Policy to register an account",
+  "form.errors.passwordsShouldMatch": "Please make sure your passwords match",
+  "form.iHaveReadAndAgreeToTermsAndConditions": "I agree to the <1>Shelf Terms</1> and <4>Privacy Policy</4>",
+  "form.title": "Create Shelf Account",
+  "signInHere": "Sign in here"
+}

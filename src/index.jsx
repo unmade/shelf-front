@@ -8,6 +8,8 @@ import './i18n';
 
 import store from './store/store';
 
+import * as routes from './routes';
+
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 
@@ -25,12 +27,12 @@ root.render(
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
-          <Route path="/signin" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
+          <Route path={routes.SIGNIN.route} element={<Login />} />
+          <Route path={routes.SIGNUP.route} element={<SignUp />} />
           <Route
             path="/*"
             element={
-              <RequireAuth redirectTo="/signin">
+              <RequireAuth redirectTo={routes.SIGNIN.route}>
                 <App />
               </RequireAuth>
             }

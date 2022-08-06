@@ -2,12 +2,8 @@ import React from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { issueToken } from '../../store/actions/auth';
-
-import * as icons from '../../icons';
-import * as routes from '../../routes';
 
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
@@ -39,24 +35,24 @@ function LoginForm() {
     }
   };
 
-  const validate = () => {
-    let hasError = false;
-
+  const isValid = () => {
+    const emptyFields = {};
     Object.entries(inputs).forEach(([field, value]) => {
       if (value == null || value === '') {
-        setErrors({
-          ...errors,
-          [field]: t('This field is required'),
-        });
-        hasError = true;
+        emptyFields[field] = t('This field is required');
       }
     });
 
-    return !hasError;
+    if (Object.keys(emptyFields).length > 0) {
+      setErrors({ ...errors, ...emptyFields });
+      return false;
+    }
+
+    return true;
   };
 
   const submit = () => {
-    if (validate()) {
+    if (isValid()) {
       const { username, password } = inputs;
       dispatch(issueToken(username, password));
     }
@@ -90,29 +86,15 @@ function LoginForm() {
       <div className="w-full pt-5">
         <Button
           htmlType="submit"
-          title={t('Sign In')}
+          title={t('login:form.buttonTitle')}
           type="primary"
           size="base"
           onClick={submit}
           loading={loading}
           full
         >
-          {t('Sign In')}
+          {t('login:form.buttonTitle')}
         </Button>
-      </div>
-      <div className="w-full pt-2 text-gray-700">
-        <p className="text-center text-sm">
-          Not registered yet?{' '}
-          <Link
-            to={routes.SIGNUP.prefix}
-            className="inline-flex items-center space-x-1 font-medium text-indigo-600"
-          >
-            <span>Register now </span>
-            <span>
-              <icons.ExternalLink className="w5 h-5" />
-            </span>
-          </Link>
-        </p>
       </div>
     </form>
   );
