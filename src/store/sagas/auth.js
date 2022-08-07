@@ -62,11 +62,11 @@ function* signIn(action) {
 }
 
 function* signUp({ type, payload }) {
-  const { username, password, email } = payload;
+  const { username, password, confirmPassword } = payload;
   const body = {
     username,
     password,
-    email,
+    confirm_password: confirmPassword,
   };
 
   const request = api.post('/auth/sign_up', null, body);
