@@ -11,14 +11,16 @@ const INITIAL_STATE = {
 function isAuthFulfilled(action) {
   return (
     action.type === fulfilled(actions.refreshToken.type) ||
-    action.type === fulfilled(actions.issueToken.type)
+    action.type === fulfilled(actions.signIn.type) ||
+    action.type === fulfilled(actions.signUp.type)
   );
 }
 
 function isAuthRejected(action) {
   return (
     action.type === rejected(actions.refreshToken.type) ||
-    action.type === rejected(actions.issueToken.type)
+    action.type === rejected(actions.signIn.type) ||
+    action.type === rejected(actions.signUp.type)
   );
 }
 

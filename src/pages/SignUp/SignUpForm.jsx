@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { Trans, useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -6,7 +7,7 @@ import { Link } from 'react-router-dom';
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
 
-function SignUpForm() {
+function SignUpForm({ loading, onSubmit }) {
   const { t } = useTranslation(['translation', 'signup', 'forms']);
 
   const [inputs, setInputs] = React.useState({
@@ -77,7 +78,10 @@ function SignUpForm() {
   };
 
   const submit = () => {
-    isValid();
+    if (isValid()) {
+      const { username, password } = inputs;
+      onSubmit(username, password);
+    }
   };
 
   return (
@@ -148,6 +152,7 @@ function SignUpForm() {
           type="primary"
           size="base"
           onClick={submit}
+          loading={loading}
           full
         >
           {t('signup:form.button.title')}
@@ -157,6 +162,9 @@ function SignUpForm() {
   );
 }
 
-SignUpForm.propTypes = {};
+SignUpForm.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+};
 
 export default SignUpForm;

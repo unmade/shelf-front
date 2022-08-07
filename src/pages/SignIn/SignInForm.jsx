@@ -1,20 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { issueToken } from '../../store/actions/auth';
 
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
-import { getLoading } from '../../store/reducers/loading';
 
-function LoginForm() {
-  const { t } = useTranslation();
-
-  const dispatch = useDispatch();
-
-  const loading = useSelector((state) => getLoading(state, { actionType: issueToken }));
+function LoginForm({ loading, onSubmit }) {
+  const { t } = useTranslation(['translation', 'signin']);
 
   const [inputs, setInputs] = React.useState({
     username: null,
@@ -54,7 +47,7 @@ function LoginForm() {
   const submit = () => {
     if (isValid()) {
       const { username, password } = inputs;
-      dispatch(issueToken(username, password));
+      onSubmit(username, password);
     }
   };
 
@@ -86,20 +79,23 @@ function LoginForm() {
       <div className="w-full pt-5">
         <Button
           htmlType="submit"
-          title={t('login:form.buttonTitle')}
+          title={t('signin:form.buttonTitle')}
           type="primary"
           size="base"
           onClick={submit}
           loading={loading}
           full
         >
-          {t('login:form.buttonTitle')}
+          {t('signin:form.buttonTitle')}
         </Button>
       </div>
     </form>
   );
 }
 
-LoginForm.propTypes = {};
+LoginForm.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+};
 
 export default LoginForm;

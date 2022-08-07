@@ -10,7 +10,7 @@ import store from './store/store';
 
 import * as routes from './routes';
 
-import Login from './pages/Login';
+import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 
 import App from './App';
@@ -27,7 +27,7 @@ root.render(
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
-          <Route path={routes.SIGNIN.route} element={<Login />} />
+          <Route path={routes.SIGNIN.route} element={<SignIn />} />
           <Route path={routes.SIGNUP.route} element={<SignUp />} />
           <Route
             path="/*"

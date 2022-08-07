@@ -49,5 +49,5 @@ export default [
   takeEvery(actions.addBookmark, addBookmark),
   takeEvery(actions.listBookmarks, listBookmarks),
   takeEvery(actions.removeBookmark, removeBookmark),
-  takeEvery(fulfilled(authActions.issueToken), listBookmarks),
+  takeEvery(fulfilled(authActions.signIn), listBookmarks),
 ];
