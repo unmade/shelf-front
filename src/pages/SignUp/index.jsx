@@ -9,7 +9,7 @@ import * as routes from '../../routes';
 import Toast from '../../containers/Toast';
 import ToastItem from '../../containers/ToastItem';
 
-import SignUpForm from './SignUpForm';
+import SignUpFormContainer from './SignUpFormContainer';
 
 function SignUp() {
   const { t } = useTranslation(['translation', 'signup']);
@@ -23,7 +23,7 @@ function SignUp() {
               <icons.AppLogo className="h-10 w-10 text-gray-600" />
               <h1 className="text-2xl font-bold text-gray-700">{t('signup:form.title')}</h1>
             </div>
-            <SignUpForm />
+            <SignUpFormContainer />
           </div>
           <div className="mt-6 w-full text-gray-700">
             <p className="text-center text-sm">

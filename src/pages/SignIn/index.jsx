@@ -1,11 +1,8 @@
 import React from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-
-import { getIsAuthenticated } from '../../store/reducers/auth';
+import { Link } from 'react-router-dom';
 
 import * as icons from '../../icons';
 import * as routes from '../../routes';
@@ -13,25 +10,10 @@ import * as routes from '../../routes';
 import Toast from '../../containers/Toast';
 import ToastItem from '../../containers/ToastItem';
 
-import LoginForm from './LoginForm';
+import SignInFormContainer from './SignInFormContainer';
 
-function Login() {
-  const { t } = useTranslation(['translation', 'login']);
-
-  const navigate = useNavigate();
-  const location = useLocation();
-  const authenticated = useSelector(getIsAuthenticated);
-
-  React.useEffect(() => {
-    if (authenticated) {
-      const redirectUrl = new URLSearchParams(location.search).get('next');
-      if (redirectUrl) {
-        navigate(redirectUrl);
-      } else {
-        navigate('/files');
-      }
-    }
-  }, [authenticated, navigate, location]);
+function SignIn() {
+  const { t } = useTranslation(['translation', 'signin']);
 
   return (
     <>
@@ -42,19 +24,16 @@ function Login() {
               <icons.AppLogo className="h-10 w-10 text-gray-600" />
               <h1 className="text-2xl font-bold text-gray-700">Shelf</h1>
             </div>
-            <LoginForm />
+            <SignInFormContainer />
           </div>
           <div className="mt-6 w-full max-w-md text-gray-700">
             <p className="text-center text-sm">
-              {t('login:dontHaveAnAccount')}{' '}
+              {t('signin:dontHaveAnAccount')}{' '}
               <Link
                 to={routes.SIGNUP.route}
                 className="inline-flex items-center space-x-1 font-medium text-indigo-600"
               >
-                <span>{t('login:signUpNow')} </span>
-                <span>
-                  <icons.ExternalLink className="w5 h-5" />
-                </span>
+                {t('signin:signUpNow')}
               </Link>
             </p>
           </div>
@@ -65,6 +44,6 @@ function Login() {
   );
 }
 
-Login.propTypes = {};
+SignIn.propTypes = {};
 
-export default Login;
+export default SignIn;

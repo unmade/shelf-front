@@ -27,6 +27,9 @@ export const fileSelectionToggled = createAction('ui/fileSelectionToggled', (id)
   payload: { id },
 }));
 
+export const signInResetted = createAction('ui/signIn/resetted');
+export const signUpResetted = createAction('ui/signUp/resetted');
+
 export const uploaderFilterChanged = createAction(
   'ui/uploader/filterChanged',
   (visibilityFilter) => ({

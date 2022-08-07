@@ -1,4 +1,4 @@
-import { delay, put, race, select, take, takeLatest } from 'redux-saga/effects';
+import { delay, put, race, select, take, takeEvery, takeLatest } from 'redux-saga/effects';
 
 import * as api from '../api';
 import { fulfilled, rejected } from '../actions';
@@ -8,25 +8,10 @@ import { getAccessToken, getIsExpired } from '../reducers/auth';
 
 import tryFetch from './_try';
 
-function* issueToken(action) {
-  const { username, password } = action.payload;
-
-  const body = new URLSearchParams({
-    username,
-    password,
-  });
-
-  const request = api.post('/auth/tokens', null, body);
-
-  yield put(started(action.type));
-  yield tryFetch(action.type, request);
-  yield put(loaded(action.type));
-}
-
 function* refreshToken(action) {
   const accessToken = yield select(getAccessToken);
 
-  const request = api.put('/auth/tokens', accessToken);
+  const request = api.post('/auth/refresh_token', accessToken);
 
   yield tryFetch(action.type, request);
 }
@@ -46,7 +31,7 @@ function* refreshTokenWatcher() {
     accessToken = yield select(getAccessToken);
     isExpired = yield select(getIsExpired);
     if (!accessToken || isExpired) {
-      yield take(fulfilled(actions.issueToken));
+      yield take(fulfilled(actions.signIn));
     }
 
     yield delay(expiresIn);
@@ -61,8 +46,39 @@ function* refreshTokenWatcher() {
   }
 }
 
+function* signIn(action) {
+  const { username, password } = action.payload;
+
+  const body = new URLSearchParams({
+    username,
+    password,
+  });
+
+  const request = api.post('/auth/sign_in', null, body);
+
+  yield put(started(action.type));
+  yield tryFetch(action.type, request);
+  yield put(loaded(action.type));
+}
+
+function* signUp({ type, payload }) {
+  const { username, password, email } = payload;
+  const body = {
+    username,
+    password,
+    email,
+  };
+
+  const request = api.post('/auth/sign_up', null, body);
+
+  yield put(started(type));
+  yield tryFetch(type, request);
+  yield put(loaded(type));
+}
+
 export default [
   refreshTokenWatcher(),
-  takeLatest(actions.issueToken, issueToken),
+  takeLatest(actions.signIn, signIn),
   takeLatest(actions.refreshToken, refreshToken),
+  takeEvery(actions.signUp, signUp),
 ];

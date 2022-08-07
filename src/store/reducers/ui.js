@@ -1,6 +1,8 @@
 import { combineReducers, createReducer, createSelector } from '@reduxjs/toolkit';
+import { fulfilled } from '../actions';
 
 import * as actions from '../actions/ui';
+import * as authActions from '../actions/auth';
 
 const CURRENT_PATH_INITIAL_STATE = '.';
 
@@ -62,6 +64,26 @@ const uploader = createReducer(UPLOADER_INITIAL_STATE, (builder) => {
   });
 });
 
+export const SignInState = {
+  initial: 'initial',
+  signedIn: 'signedIn',
+};
+
+const signIn = createReducer(SignInState.initial, (builder) => {
+  builder.addCase(fulfilled(authActions.signIn), () => SignInState.signedIn);
+  builder.addCase(actions.signInResetted, () => SignInState.initial);
+});
+
+export const SignUpState = {
+  initial: 'initial',
+  signedUp: 'signedUp',
+};
+
+const signUp = createReducer(SignUpState.initial, (builder) => {
+  builder.addCase(fulfilled(authActions.signUp), () => SignUpState.signedUp);
+  builder.addCase(actions.signUpResetted, () => SignUpState.initial);
+});
+
 export default combineReducers({
   fileBrowser: combineReducers({
     currentPath: fileBrowserCurrentPath,
@@ -69,6 +91,8 @@ export default combineReducers({
     scrollOffset: fileBrowserScrollOffset,
   }),
   fileDialog,
+  signIn,
+  signUp,
   uploader,
 });
 
@@ -99,3 +123,6 @@ export const getCountSelectedFiles = (state) => getSelectedFileIds(state).size;
 export const getScrollOffset = (state, key) => state.ui.fileBrowser.scrollOffset[key] ?? 0;
 
 export const getUploadFilter = (state) => state.ui.uploader.visibilityFilter;
+
+export const getSignInState = (state) => state.ui.signIn;
+export const getSignUpState = (state) => state.ui.signUp;
