@@ -3,9 +3,18 @@ import PropTypes from 'prop-types';
 
 import { Trans, useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import validator from 'validator';
 
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
+
+const strongPasswordOptions = {
+  minLength: 8,
+  minLowercase: 1,
+  minUppercase: 1,
+  minNumbers: 1,
+  minSymbols: 0,
+};
 
 function SignUpForm({ loading, onSubmit }) {
   const { t } = useTranslation(['translation', 'signup', 'forms']);
@@ -53,15 +62,26 @@ function SignUpForm({ loading, onSubmit }) {
       }
     });
 
-    // check agreed to terms and conditions
-    if (!inputs.agreeToTermsAndConditions) {
-      emptyFields.agreeToTermsAndConditions = t(
-        'signup:form.errors.agreeToTermsAndConditionsUnchecked'
-      );
-    }
-
     if (Object.keys(emptyFields).length > 0) {
       setErrors({ ...errors, ...emptyFields });
+      return false;
+    }
+
+    // check username length
+    if (inputs.username?.length < 3) {
+      setErrors({ ...errors, username: t('signup:weakUsername') });
+      return false;
+    }
+
+    // check username contains only alphanum characters
+    if (!validator.isAlphanumeric(inputs.username)) {
+      setErrors({ ...errors, username: t('signup:weakUsername') });
+      return false;
+    }
+
+    // check password is strong enough
+    if (!validator.isStrongPassword(inputs.password, strongPasswordOptions)) {
+      setErrors({ ...errors, password: t('signup:weakPassword') });
       return false;
     }
 
@@ -74,13 +94,20 @@ function SignUpForm({ loading, onSubmit }) {
       return false;
     }
 
+    // check agreed to terms and conditions
+    if (!inputs.agreeToTermsAndConditions) {
+      emptyFields.agreeToTermsAndConditions = t(
+        'signup:form.errors.agreeToTermsAndConditionsUnchecked'
+      );
+    }
+
     return true;
   };
 
   const submit = () => {
     if (isValid()) {
-      const { username, password } = inputs;
-      onSubmit(username, password);
+      const { username, password, confirmPassword } = inputs;
+      onSubmit(username, password, confirmPassword);
     }
   };
 

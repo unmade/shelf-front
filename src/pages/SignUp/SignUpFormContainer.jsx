@@ -26,8 +26,8 @@ function SignUpFormContainer() {
     return () => dispatch(signUpResetted());
   }, [state, dispatch, navigate]);
 
-  const onSubmit = (username, password) => {
-    dispatch(signUp(username, password));
+  const onSubmit = (username, password, confirmPassword) => {
+    dispatch(signUp(username, password, confirmPassword));
   };
 
   return <SignUpForm onSubmit={onSubmit} loading={loading} />;
