@@ -12,7 +12,51 @@ import { getIsCurrentAccountSuperuser } from '../store/reducers/accounts';
 import * as icons from '../icons';
 import * as routes from '../routes';
 
+import CircularProgressBar from './ui/CiruclarProgressBar';
+import ProgressBar from './ui/ProgressBar';
+
 import AccountMenu from './AccountMenu';
+
+function StorageUsed() {
+  const storageUsed = Math.floor(((994.66 - 84.21) / 994.66) * 100);
+
+  return (
+    <>
+      <div className="hidden space-y-2 xl:block">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <icons.Database className="h-4 w-4" />
+            <p>Storage</p>
+          </div>
+          <p className="text-gray-400">{storageUsed}%</p>
+        </div>
+        <ProgressBar
+          progress={storageUsed}
+          success={storageUsed < 50}
+          warning={storageUsed >= 50 && storageUsed < 85}
+          danger={storageUsed >= 85}
+        />
+      </div>
+
+      <div className="block xl:hidden">
+        <div className="mx-auto h-12 w-12">
+          <CircularProgressBar
+            progress={storageUsed}
+            success={storageUsed < 50}
+            warning={storageUsed >= 50 && storageUsed < 85}
+            danger={storageUsed >= 85}
+          >
+            <div className="text-[12px]">{storageUsed}%</div>
+          </CircularProgressBar>
+        </div>
+        <div className="mt-2 flex items-center justify-center space-x-1 text-sm">
+          <icons.Database className="h-4 w-4" />
+          <p>Storage</p>
+        </div>
+      </div>
+    </>
+  );
+}
 
 const menu = [
   {
@@ -109,8 +153,14 @@ function SideBar() {
         </nav>
       </div>
 
-      <div className="px-3 py-2">
-        <AccountMenu />
+      <div className="space-y-1 px-3 py-6 text-sm font-medium text-gray-500">
+        <StorageUsed />
+      </div>
+
+      <div className="border-t-2 pt-2">
+        <div className="px-3 py-2">
+          <AccountMenu />
+        </div>
       </div>
     </div>
   );
