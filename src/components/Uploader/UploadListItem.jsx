@@ -55,7 +55,7 @@ function UploadListItem({ item, style }) {
               <p>{t('Upload failed')}</p>
             </div>
           ) : (
-            <ProgressBar progress={progress} />
+            <ProgressBar progress={progress} info={progress < 100} success={progress === 100} />
           )}
         </div>
       </div>
