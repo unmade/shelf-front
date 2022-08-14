@@ -2,12 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import i18n from '../i18n';
 
-import { getIsCurrentAccountSuperuser } from '../store/reducers/accounts';
+import { getSpaceUsage } from '../store/actions/accounts';
+import {
+  getIsCurrentAccountSuperuser,
+  getSpaceUsage as selectSpaceUsage,
+} from '../store/reducers/accounts';
 
 import * as icons from '../icons';
 import * as routes from '../routes';
@@ -18,7 +22,29 @@ import ProgressBar from './ui/ProgressBar';
 import AccountMenu from './AccountMenu';
 
 function StorageUsed() {
-  const storageUsed = Math.floor(((994.66 - 84.21) / 994.66) * 100);
+  const { t } = useTranslation();
+
+  const dispatch = useDispatch();
+  const spaceUsage = useSelector(selectSpaceUsage);
+
+  const { used, quota } = spaceUsage;
+
+  React.useEffect(() => {
+    if (used == null) {
+      dispatch(getSpaceUsage());
+    }
+  }, [used, dispatch]);
+
+  let storageUsed = null;
+  if (quota != null) {
+    storageUsed = Math.floor(((used ?? 0) / quota) * 100);
+  }
+
+  const progress = storageUsed == null ? 100 : storageUsed;
+  const idle = storageUsed == null;
+  const success = storageUsed != null && storageUsed < 50;
+  const warning = storageUsed != null && storageUsed >= 50 && storageUsed < 85;
+  const danger = storageUsed != null && storageUsed >= 85;
 
   return (
     <>
@@ -26,32 +52,38 @@ function StorageUsed() {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <icons.Database className="h-4 w-4" />
-            <p>Storage</p>
+            <p>{t('Storage')}</p>
           </div>
-          <p className="text-gray-400">{storageUsed}%</p>
+          {(storageUsed != null && <p className="text-gray-400">{storageUsed}%</p>) || (
+            <icons.Infinite className="h-5 w-5" />
+          )}
         </div>
         <ProgressBar
-          progress={storageUsed}
-          success={storageUsed < 50}
-          warning={storageUsed >= 50 && storageUsed < 85}
-          danger={storageUsed >= 85}
+          progress={progress}
+          idle={idle}
+          success={success}
+          warning={warning}
+          danger={danger}
         />
       </div>
 
       <div className="block xl:hidden">
         <div className="mx-auto h-12 w-12">
           <CircularProgressBar
-            progress={storageUsed}
-            success={storageUsed < 50}
-            warning={storageUsed >= 50 && storageUsed < 85}
-            danger={storageUsed >= 85}
+            progress={progress}
+            idle={idle}
+            success={success}
+            warning={warning}
+            danger={danger}
           >
-            <div className="text-[12px]">{storageUsed}%</div>
+            {(storageUsed != null && <div className="text-[12px]">{storageUsed}%</div>) || (
+              <icons.Infinite className="h-5 w-5" />
+            )}
           </CircularProgressBar>
         </div>
         <div className="mt-2 flex items-center justify-center space-x-1 text-sm">
           <icons.Database className="h-4 w-4" />
-          <p>Storage</p>
+          <p>{t('Storage')}</p>
         </div>
       </div>
     </>

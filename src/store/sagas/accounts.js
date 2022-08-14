@@ -7,6 +7,16 @@ import { getAccessToken } from '../reducers/auth';
 
 import tryFetch from './_try';
 
+function* getSpaceUsage({ type }) {
+  const accessToken = yield select(getAccessToken);
+
+  const request = api.get('/accounts/get_space_usage', accessToken);
+
+  yield put(started(type));
+  yield tryFetch(type, request);
+  yield put(loaded(type));
+}
+
 function* listAccounts({ type, payload }) {
   const accessToken = yield select(getAccessToken);
 
@@ -29,6 +39,7 @@ function* retrieveCurrentAccount({ type }) {
 }
 
 export default [
+  takeEvery(actions.getSpaceUsage, getSpaceUsage),
   takeEvery(actions.listAccounts, listAccounts),
   takeEvery(actions.retrieveCurrentAccount, retrieveCurrentAccount),
 ];

@@ -98,6 +98,7 @@
   "status_bar_select_count_few": "Выбрано {{count}} из {{totalCount}}",
   "status_bar_select_count_many": "Выбрано {{count}} из {{totalCount}}",
   "status_bar_select_count_other": "Выбрано {{count}} из {{totalCount}}",
+  "Storage": "Хранилище",
   "This field is required": "Обязательное поле",
   "Trash": "Корзина",
   "Upload failed": "Загрузка не удалась",

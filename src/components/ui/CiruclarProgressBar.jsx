@@ -24,6 +24,7 @@ const defaultStyles = {
 
 const colorByVariant = {
   danger: 'stroke-red-500',
+  idle: 'stroke-indigo-500',
   info: 'stroke-indigo-500',
   success: 'stroke-emerald-500',
   warning: 'stroke-orange-500',
@@ -31,8 +32,8 @@ const colorByVariant = {
 
 const DEFAULT_VARIANT = 'info';
 
-function CircularProgressBar({ children, progress, danger, info, success, warning }) {
-  const variants = { danger, info, success, warning };
+function CircularProgressBar({ children, progress, danger, idle, info, success, warning }) {
+  const variants = { danger, idle, info, success, warning };
   const variant =
     Object.keys(variants).filter((key) => variants[key] === true)[0] ?? DEFAULT_VARIANT;
 
@@ -60,6 +61,7 @@ CircularProgressBar.propTypes = {
     .isRequired,
   progress: PropTypes.number.isRequired,
   danger: PropTypes.bool,
+  idle: PropTypes.bool,
   info: PropTypes.bool,
   success: PropTypes.bool,
   warning: PropTypes.bool,
@@ -67,6 +69,7 @@ CircularProgressBar.propTypes = {
 
 CircularProgressBar.defaultProps = {
   danger: false,
+  idle: false,
   info: false,
   success: false,
   warning: false,
