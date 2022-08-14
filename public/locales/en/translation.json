@@ -76,6 +76,7 @@
   "status_bar_moving_task_other": "Moving {{count}} items",
   "status_bar_select_count_one": "{{count}} of {{totalCount}} selected",
   "status_bar_select_count_other": "{{count}} of {{totalCount}} selected",
+  "Storage": "Storage",
   "This field is required": "This field is required",
   "Trash": "Trash",
   "Upload failed": "Upload failed",

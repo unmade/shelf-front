@@ -1,6 +1,7 @@
 /* eslint-disable prefer-destructuring */
 import * as cg from 'react-icons/cg';
 import * as di from 'react-icons/di';
+import * as io from 'react-icons/io';
 import * as si from 'react-icons/si';
 
 // import { ArrowN } from '@heroicons/react/solid';
@@ -47,6 +48,7 @@ export const Folder = hiSolid.FolderIcon;
 export const Home = hiSolid.HomeIcon;
 export const HomeOutlined = hiOutline.HomeIcon;
 export const ICursor = hiOutline.PencilIcon;
+export const Infinite = io.IoIosInfinite;
 export const InformationCircleOutlined = hiOutline.InformationCircleIcon;
 export const Logout = hiSolid.LogoutIcon;
 export const NewFolder = hiSolid.FolderAddIcon;

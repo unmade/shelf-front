@@ -37,10 +37,20 @@ const idsByPage = createReducer(IDS_BY_PAGE_INITIAL_STATE, (builder) => {
   });
 });
 
+const SPACE_USAGE_INITIAL_STATE = { used: null, quota: null };
+
+const spaceUsage = createReducer(SPACE_USAGE_INITIAL_STATE, (builder) => {
+  builder.addCase(fulfilled(actions.getSpaceUsage), (_, action) => {
+    const { used, quota } = action.payload;
+    return { used, quota };
+  });
+});
+
 export default combineReducers({
   byId,
   currentAccountId,
   idsByPage,
+  spaceUsage,
 });
 
 export const getAccountById = (state, { id }) => state.accounts.byId[id];
@@ -50,3 +60,4 @@ export const getCurrentAccount = (state) =>
 export const getIsCurrentAccountSuperuser = (state) => getCurrentAccount(state)?.superuser ?? false;
 export const getAccountsIdsByPage = (state, { page }) => state.accounts.idsByPage[page];
 export const isAdmin = (state) => getCurrentAccount(state)?.superuser ?? false;
+export const getSpaceUsage = (state) => state.accounts.spaceUsage;
