@@ -16,7 +16,7 @@ import {
 import * as icons from '../icons';
 import * as routes from '../routes';
 
-import CircularProgressBar from './ui/CiruclarProgressBar';
+import CircularProgressBar from './ui/CircularProgressBar';
 import ProgressBar from './ui/ProgressBar';
 
 import AccountMenu from './AccountMenu';
