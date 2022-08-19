@@ -7,6 +7,7 @@ import { useMediaQuery } from 'react-responsive';
 import useSidePreview from '../hooks/preview-available';
 
 import { getBatch } from '../store/actions/files';
+import { filesSelectionChanged } from '../store/actions/ui';
 import { getLoading } from '../store/reducers/loading';
 import { getBookmarks } from '../store/reducers/users';
 
@@ -35,6 +36,7 @@ function Bookmarks() {
 
   React.useEffect(() => {
     dispatch(getBatch([...bookmarks]));
+    dispatch(filesSelectionChanged([]));
   }, [bookmarks, dispatch]);
 
   return (
