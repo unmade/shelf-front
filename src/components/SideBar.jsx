@@ -48,7 +48,7 @@ function StorageUsed() {
 
   return (
     <>
-      <div className="hidden space-y-2 xl:block">
+      <div className="block space-y-2 lg:hidden xl:block">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <icons.Database className="h-4 w-4" />
@@ -67,7 +67,7 @@ function StorageUsed() {
         />
       </div>
 
-      <div className="block xl:hidden">
+      <div className="hidden lg:block xl:hidden">
         <div className="mx-auto h-12 w-12">
           <CircularProgressBar
             progress={progress}

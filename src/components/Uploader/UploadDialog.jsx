@@ -5,10 +5,11 @@ import { useTranslation } from 'react-i18next';
 
 import * as icons from '../../icons';
 
-import RecentUploads from '../../containers/Uploader/RecentUploads';
 import UploadButton from '../../containers/Uploader/UploadButton';
 
 import Dialog from '../ui/Dialog';
+
+import RecentUploads from './RecentUploads';
 
 function UploadDialog({ visible, onCancel }) {
   const { t } = useTranslation();

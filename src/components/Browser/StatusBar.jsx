@@ -11,6 +11,7 @@ import {
   getIsEmptyingTrash,
 } from '../../store/reducers/tasks';
 import { getCountSelectedFiles } from '../../store/reducers/ui';
+import { getIsUploading, getVisibleUploadsLength } from '../../store/reducers/uploads';
 
 import { TRASH_FOLDER_NAME } from '../../constants';
 import * as icons from '../../icons';
@@ -18,13 +19,17 @@ import * as icons from '../../icons';
 import Breadcrumb from '../ui/Breadcrumb';
 
 function BackgroundTask({ className }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'uploads']);
+
   const deletingFilesCounter = useSelector(getDeletingFilesCounter);
+  const emptyingTrash = useSelector(getIsEmptyingTrash);
   const movingFilesCounter = useSelector(getMovingFilesCounter);
-  const isEmptyingTrash = useSelector(getIsEmptyingTrash);
+
+  const uploading = useSelector(getIsUploading);
+  const uploadsCounter = useSelector((state) => getVisibleUploadsLength(state, 'all'));
 
   const text = [];
-  if (isEmptyingTrash) {
+  if (emptyingTrash) {
     text.push(t('status_bar_emptying_trash_task'));
   }
   if (movingFilesCounter > 0) {
@@ -32,6 +37,9 @@ function BackgroundTask({ className }) {
   }
   if (deletingFilesCounter > 0) {
     text.push(t('status_bar_deleting_task', { count: deletingFilesCounter }));
+  }
+  if (uploading) {
+    text.push(t('uploads:totalUploadingCount', { count: uploadsCounter }));
   }
 
   if (text.length < 1) {

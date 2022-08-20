@@ -1,0 +1,13 @@
+{
+  "dropzone.title": "Drag files here",
+  "panel.emptyTitle": "Uploads will appear here",
+  "tab.all.title": "All",
+  "tab.failed.title": "Failed",
+  "tab.inProgress.title": "In-Progress",
+  "title": "Uploads",
+  "totalUploadedCount_one": "Uploaded {{count}} file out of {{totalCount}}",
+  "totalUploadedCount_other": "Uploaded {{count}} files out of {{totalCount}}",
+  "totalUploadingCount_one": "Uploading {{count}} file...",
+  "totalUploadingCount_other": "Uploading {{count}} files...",
+  "uploadButton.title": "Browse"
+}

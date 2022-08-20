@@ -1,37 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useSelector } from 'react-redux';
+
+import { getVisibleUploads } from '../../store/reducers/uploads';
+
 import VList from '../ui/VList';
 
-function UploadList({ uploads, virtual, itemRender }) {
+function UploadList({ visibilityFilter, itemRender }) {
+  const uploads = useSelector((state) => getVisibleUploads(state, { filter: visibilityFilter }));
+
   if (uploads.length < 1) {
     return null;
   }
-
-  if (virtual) {
-    return <VList itemCount={uploads.length} itemData={uploads} itemRender={itemRender} />;
-  }
-
-  const ItemRender = itemRender;
-  return (
-    <>
-      {uploads.map((uploadId, idx) => (
-        <div key={uploadId} className="rounded-lg p-4 hover:bg-gray-100">
-          <ItemRender data={uploads} index={idx} />
-        </div>
-      ))}
-    </>
-  );
+  return <VList itemCount={uploads.length} itemData={uploads} itemRender={itemRender} />;
 }
 
 UploadList.propTypes = {
-  uploads: PropTypes.arrayOf(PropTypes.string).isRequired,
-  virtual: PropTypes.bool,
+  visibilityFilter: PropTypes.oneOf(['all', 'failed', 'inProgress']).isRequired,
   itemRender: PropTypes.elementType.isRequired,
-};
-
-UploadList.defaultProps = {
-  virtual: false,
 };
 
 export default UploadList;

@@ -70,8 +70,18 @@ const paddings = {
 };
 
 const shapes = {
-  circle: ['rounded-full'],
-  round: ['rounded-xl'],
+  circle: {
+    xs: ['rounded-full'],
+    sm: ['rounded-full'],
+    base: ['rounded-full'],
+    lg: ['rounded-full'],
+  },
+  round: {
+    xs: ['rounded-md'],
+    sm: ['rounded-lg'],
+    base: ['rounded-xl'],
+    lg: ['rounded-xl'],
+  },
 };
 
 function Button({
@@ -95,7 +105,6 @@ function Button({
   const classNames = [
     className,
     fontSizes[size],
-    'rounded-xl',
     'focus:outline-none',
     'focus:ring',
     'ring-offset-2',
@@ -125,7 +134,7 @@ function Button({
     classNames.push('inline-flex', 'items-center', 'space-x-2');
   }
 
-  classNames.push(...shapes[shape]);
+  classNames.push(...shapes[shape][size]);
   classNames.push(...classNamesByType[type]);
   classNames.push(...colors[type][danger]);
   buttonProps.className = classNames.join(' ');
