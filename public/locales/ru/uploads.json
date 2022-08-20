@@ -1,0 +1,17 @@
+{
+  "dropzone.title": "Перетащите файлы",
+  "panel.emptyTitle": "Здесь будут показаны загрузки",
+  "tab.all.title": "Все",
+  "tab.failed.title": "Неуспешные",
+  "tab.inProgress.title": "В процессе",
+  "title": "Загрузки",
+  "totalUploadedCount_one": "Загружен {{count}} файл из {{totalCount}}",
+  "totalUploadedCount_few": "Загружено {{count}} файла из {{totalCount}}",
+  "totalUploadedCount_many": "Загружено {{count}} файлов из {{totalCount}}",
+  "totalUploadedCount_other": "Загружено {{count}} файлов из {{totalCount}}",
+  "totalUploadingCount_one": "Загружается {{count}} файл",
+  "totalUploadingCount_few": "Загружается {{count}} файла",
+  "totalUploadingCount_many": "Загружается {{count}} файлов",
+  "totalUploadingCount_other": "Загружается {{count}} файлов",
+  "uploadButton.title": "Выбрать"
+}

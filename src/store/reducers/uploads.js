@@ -50,7 +50,9 @@ export const getVisibleUploads = createSelector(
       case 'all':
         return uploads.map((upload) => upload.id);
       case 'inProgress':
-        return uploads.filter((upload) => upload.progress < 100).map((upload) => upload.id);
+        return uploads
+          .filter(({ progress, error }) => progress < 100 && !error)
+          .map((upload) => upload.id);
       case 'failed':
         return uploads.filter((upload) => upload.error).map((upload) => upload.id);
       default:
@@ -58,3 +60,8 @@ export const getVisibleUploads = createSelector(
     }
   }
 );
+
+export const getVisibleUploadsLength = (state, filter) =>
+  getVisibleUploads(state, { filter }).length;
+
+export const getIsUploading = (state) => getVisibleUploadsLength(state, 'inProgress') > 0;

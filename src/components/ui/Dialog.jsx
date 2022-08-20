@@ -32,7 +32,7 @@ function Dialog({
         open={visible}
         onClose={onCancel}
       >
-        <div className="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+        <div className="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center lg:block lg:p-0">
           <Transition.Child
             as={React.Fragment}
             enter="ease-out duration-300"
@@ -49,7 +49,7 @@ function Dialog({
           </Transition.Child>
 
           {/* This element is to trick the browser into centering the modal contents. */}
-          <span className="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true">
+          <span className="hidden lg:inline-block lg:h-screen lg:align-middle" aria-hidden="true">
             &#8203;
           </span>
 
@@ -62,16 +62,16 @@ function Dialog({
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <div className="inline-block w-full transform overflow-hidden rounded-2xl bg-white text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-auto sm:max-w-lg sm:align-middle">
-              <div className="bg-white px-4 pt-5 pb-4 sm:flex sm:items-start sm:p-6 sm:pb-4">
+            <div className="inline-block w-full max-w-lg transform overflow-hidden rounded-2xl bg-white text-left align-bottom shadow-xl transition-all lg:my-8 lg:w-auto lg:align-middle">
+              <div className="bg-white px-4 pt-5 pb-4 lg:flex lg:items-start lg:p-6 lg:pb-4">
                 {icon && (
                   <div
-                    className={`mx-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-full ${iconColors} sm:mx-0 sm:h-10 sm:w-10`}
+                    className={`mx-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-full ${iconColors} lg:mx-0 lg:h-10 lg:w-10`}
                   >
                     {icon}
                   </div>
                 )}
-                <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                <div className="mt-3 text-center lg:mt-0 lg:ml-4 lg:text-left">
                   <UIDialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
                     {title}
                   </UIDialog.Title>
@@ -80,11 +80,12 @@ function Dialog({
               </div>
 
               {(onCancel !== null || onConfirm !== null || RenderConfirm !== null) && (
-                <div className="bg-gray-100 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                <div className="bg-gray-100 px-4 py-3 lg:flex lg:flex-row-reverse lg:px-6">
                   {(onConfirm !== null || RenderConfirm !== null) && (
-                    <div className="w-full sm:ml-3 sm:w-auto">
+                    <div className="w-full lg:ml-3 lg:w-auto">
                       {onConfirm !== null && (
                         <Button
+                          className="rounded-xl"
                           type="primary"
                           danger={confirmDanger}
                           loading={confirmLoading}
@@ -98,7 +99,7 @@ function Dialog({
                     </div>
                   )}
                   {onCancel && (
-                    <div className="mt-3 w-full sm:mt-0 sm:ml-3 sm:w-auto">
+                    <div className="mt-3 w-full lg:mt-0 lg:ml-3 lg:w-auto">
                       <Button type="default" onClick={onCancel} full>
                         {t('Cancel')}
                       </Button>

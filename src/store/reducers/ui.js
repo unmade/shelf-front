@@ -55,15 +55,6 @@ const fileDialog = createReducer(FILE_DIALOG_INITIAL_STATE, (builder) => {
   });
 });
 
-const UPLOADER_INITIAL_STATE = { visibilityFilter: 'all' };
-
-const uploader = createReducer(UPLOADER_INITIAL_STATE, (builder) => {
-  builder.addCase(actions.uploaderFilterChanged, (state, action) => {
-    const { visibilityFilter } = action.payload;
-    state.visibilityFilter = visibilityFilter;
-  });
-});
-
 export const SignInState = {
   initial: 'initial',
   signedIn: 'signedIn',
@@ -93,7 +84,6 @@ export default combineReducers({
   fileDialog,
   signIn,
   signUp,
-  uploader,
 });
 
 export const getCurrentPath = (state) => state.ui.fileBrowser.currentPath;

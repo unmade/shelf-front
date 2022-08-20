@@ -7,7 +7,12 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-function Tabs({ tabs }) {
+const paddingBySize = {
+  sm: 'py-1',
+  base: 'py-2',
+};
+
+function Tabs({ tabs, size }) {
   return (
     <UITab.Group>
       <UITab.List className="flex space-x-1 rounded-xl bg-gray-100 p-1">
@@ -16,9 +21,12 @@ function Tabs({ tabs }) {
             key={tab.name}
             className={({ selected }) =>
               classNames(
-                'w-full rounded-lg py-2 text-sm font-medium leading-5 text-gray-700',
+                'w-full rounded-lg py-1 text-sm font-medium leading-5 ',
                 'focus:outline-none focus:ring-2',
-                selected ? 'bg-white shadow' : 'text-gray-500 hover:bg-gray-200 hover:text-gray-700'
+                paddingBySize[size],
+                selected
+                  ? 'bg-white text-gray-700 shadow'
+                  : 'text-gray-500 hover:bg-gray-200 hover:text-gray-700'
               )
             }
           >
@@ -52,4 +60,9 @@ Tabs.propTypes = {
       render: PropTypes.element.isRequired,
     }).isRequired
   ).isRequired,
+  size: PropTypes.oneOf(['sm', 'base']),
+};
+
+Tabs.defaultProps = {
+  size: 'base',
 };

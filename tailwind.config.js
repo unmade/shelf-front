@@ -16,6 +16,7 @@ module.exports = {
       green: colors.green,
       indigo: colors.indigo,
       orange: colors.orange,
+      purple: colors.purple,
       red: colors.red,
       rose: colors.rose,
       teal: colors.teal,
@@ -25,11 +26,23 @@ module.exports = {
     extend: {
       animation: {
         'toast-in-right': 'toast-in-right .3s ease-in-out',
+        gradient: 'gradient 3s ease infinite',
       },
       keyframes: {
         'toast-in-right': {
           from: { transform: 'translateX(-100%)' },
           to: { transform: 'translateX(0)' },
+        },
+        gradient: {
+          '0%': {
+            backgroundPosition: '0% 50%',
+          },
+          '50%': {
+            backgroundPosition: '100% 50%',
+          },
+          '100%': {
+            backgroundPosition: '0% 50%',
+          },
         },
       },
       margin: {
