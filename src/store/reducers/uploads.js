@@ -1,4 +1,5 @@
 import { combineReducers, createReducer, createSelector } from '@reduxjs/toolkit';
+import { shallowEqual } from 'react-redux';
 
 import * as actions from '../actions/uploads';
 
@@ -43,9 +44,15 @@ export default combineReducers({
 export const getUploadById = (state, id) => state.uploads.byId[id];
 export const getAllUploads = (state) => state.uploads.allIds.map((id) => getUploadById(state, id));
 
+const EMPTY_LIST = [];
+
 export const getVisibleUploads = createSelector(
-  [getAllUploads, (_, props) => props.filter],
-  (uploads, filter) => {
+  [(state) => state.uploads.allIds, (state) => state.uploads.byId, (_, props) => props.filter],
+  (allIds_, byId_, filter) => {
+    const uploads = allIds_.map((id) => byId_[id]);
+    if (uploads.length === 0) {
+      return EMPTY_LIST;
+    }
     switch (filter) {
       case 'all':
         return uploads.map((upload) => upload.id);
@@ -58,6 +65,13 @@ export const getVisibleUploads = createSelector(
       default:
         throw new Error(`Unknown filter: ${filter}`);
     }
+  },
+  {
+    memoizeOptions: {
+      equalityCheck: (a, b) => a === b,
+      maxSize: 3,
+      resultEqualityCheck: shallowEqual,
+    },
   }
 );
 
