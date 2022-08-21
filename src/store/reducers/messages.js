@@ -16,15 +16,16 @@ const byId = createReducer(BY_ID_INITIAL_STATE, (builder) => {
     delete state[id];
   });
   builder.addMatcher(isRejected, (state, action) => {
-    const {
-      error: { title, description },
-      meta: { requestId },
-    } = action;
-    state[requestId] = {
-      title,
-      description,
-      closeAfter: DEFAULT_CLOSE_AFTER_IN_SECONDS,
-    };
+    const { error, meta } = action;
+    if (error?.title != null) {
+      const { title, description } = error;
+      const { requestId } = meta;
+      state[requestId] = {
+        title,
+        description,
+        closeAfter: DEFAULT_CLOSE_AFTER_IN_SECONDS,
+      };
+    }
   });
 });
 
@@ -36,10 +37,11 @@ const allIds = createReducer(ALL_IDS_INITIAL_STATE, (builder) => {
     return state.filter((messageId) => messageId !== id);
   });
   builder.addMatcher(isRejected, (state, action) => {
-    const {
-      meta: { requestId },
-    } = action;
-    state.push(requestId);
+    const { error, meta } = action;
+    if (error?.title != null) {
+      const { requestId } = meta;
+      state.push(requestId);
+    }
   });
 });
 

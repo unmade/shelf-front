@@ -20,7 +20,7 @@ const byId = createReducer(UPLOADS_BY_ID_INITIAL_STATE, (builder) => {
     const {
       error,
       meta: { upload },
-    } = action.payload;
+    } = action;
     state[upload.id].error = error;
   });
 });

@@ -9,10 +9,6 @@ import VList from '../ui/VList';
 
 function UploadList({ visibilityFilter, itemRender }) {
   const uploads = useSelector((state) => getVisibleUploads(state, { filter: visibilityFilter }));
-
-  if (uploads.length < 1) {
-    return null;
-  }
   return <VList itemCount={uploads.length} itemData={uploads} itemRender={itemRender} />;
 }
 

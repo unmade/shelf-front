@@ -26,10 +26,11 @@ export const uploadFulfilled = createAction(fulfilled(upload), (fileUpload, payl
   },
 }));
 
-export const uploadRejected = createAction(rejected(upload), (fileUpload, error) => ({
+export const uploadRejected = createAction(rejected(upload), (fileUpload, requestId, error) => ({
   payload: null,
   error,
   meta: {
+    requestId,
     upload: fileUpload,
   },
 }));
