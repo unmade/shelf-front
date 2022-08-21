@@ -42,17 +42,11 @@ export default combineReducers({
 });
 
 export const getUploadById = (state, id) => state.uploads.byId[id];
-export const getAllUploads = (state) => state.uploads.allIds.map((id) => getUploadById(state, id));
-
-const EMPTY_LIST = [];
 
 export const getVisibleUploads = createSelector(
   [(state) => state.uploads.allIds, (state) => state.uploads.byId, (_, props) => props.filter],
-  (allIds_, byId_, filter) => {
-    const uploads = allIds_.map((id) => byId_[id]);
-    if (uploads.length === 0) {
-      return EMPTY_LIST;
-    }
+  (ids, allbyId, filter) => {
+    const uploads = ids.map((id) => allbyId[id]);
     switch (filter) {
       case 'all':
         return uploads.map((upload) => upload.id);

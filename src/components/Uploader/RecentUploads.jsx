@@ -8,47 +8,11 @@ import { getVisibleUploadsLength } from '../../store/reducers/uploads';
 
 import * as icons from '../../icons';
 
-import ProgressBar from '../ui/ProgressBar';
 import Tabs from '../ui/Tabs';
 
+import TotalProgress from './TotalProgress';
 import UploadList from './UploadList';
 import UploadListItem from './UploadListItem';
-
-function UploadProgress() {
-  const { t } = useTranslation('uploads');
-
-  const allCount = useSelector((state) => getVisibleUploadsLength(state, 'all'));
-  const inProgressCount = useSelector((state) => getVisibleUploadsLength(state, 'inProgress'));
-  const failedCount = useSelector((state) => getVisibleUploadsLength(state, 'failed'));
-
-  let progress = 0;
-  if (allCount - failedCount > 0) {
-    progress = Math.floor((1 - inProgressCount / (allCount - failedCount)) * 100);
-  }
-
-  return (
-    <div className="mt-2 space-y-2 border-t-2 pt-4 text-sm font-semibold">
-      <div className="flex justify-between">
-        {inProgressCount ? (
-          <p>{t('uploads:totalUploadingCount', { count: allCount })}</p>
-        ) : (
-          <p>
-            {t('uploads:totalUploadedCount', {
-              count: allCount - inProgressCount - failedCount,
-              totalCount: allCount,
-            })}
-          </p>
-        )}
-        <p>{progress}%</p>
-      </div>
-      <div>
-        <ProgressBar progress={progress} success />
-      </div>
-    </div>
-  );
-}
-
-UploadProgress.propTypes = {};
 
 function UploadsPanel({ visibilityFilter }) {
   const { t } = useTranslation('uploads');
@@ -61,7 +25,7 @@ function UploadsPanel({ visibilityFilter }) {
         <div className="min-h-[30vh] text-xs">
           <UploadList itemRender={UploadListItem} visibilityFilter={visibilityFilter} />
         </div>
-        <UploadProgress />
+        <TotalProgress />
       </div>
     );
   }

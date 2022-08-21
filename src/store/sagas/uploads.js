@@ -14,11 +14,9 @@ const MAX_PARALLEL_UPLOADS = 1;
 // taken from: https://decembersoft.com/posts/file-upload-progress-with-redux-saga/
 function createUploadFileChannel({ url, accessToken, requestId, fileObj, fullPath }) {
   return eventChannel((emitter) => {
-    const xhr = new XMLHttpRequest();
     const onProgress = (event) => {
       if (event.lengthComputable) {
-        const progress = Math.ceil(100 * (event.loaded / event.total));
-        emitter({ progress });
+        emitter({ progress: event.loaded / event.total });
       }
     };
 
@@ -27,6 +25,7 @@ function createUploadFileChannel({ url, accessToken, requestId, fileObj, fullPat
       emitter(END);
     };
 
+    const xhr = new XMLHttpRequest();
     xhr.upload.addEventListener('progress', onProgress);
     xhr.upload.addEventListener('error', onFailure);
     xhr.upload.addEventListener('abort', onFailure);
@@ -41,6 +40,7 @@ function createUploadFileChannel({ url, accessToken, requestId, fileObj, fullPat
         }
       }
     };
+
     xhr.open('POST', url, true);
     xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
     xhr.setRequestHeader('X-Request-ID', requestId);
@@ -73,8 +73,9 @@ function* uploadFile(upload, file) {
     fullPath: uploadPath,
   });
 
+  let prevProgressCeiled = 0;
   while (true) {
-    const { progress = 0, error, response } = yield take(chan);
+    const { progress = prevProgressCeiled, error, response } = yield take(chan);
     if (error) {
       yield put(actions.uploadRejected(upload, requestId, error));
       return;
@@ -83,7 +84,11 @@ function* uploadFile(upload, file) {
       yield put(actions.uploadFulfilled(upload, response));
       return;
     }
-    yield put(actions.uploadProgressed(upload, progress));
+    const progressCeiled = Math.ceil(100 * progress);
+    if (progressCeiled !== prevProgressCeiled) {
+      yield put(actions.uploadProgressed(upload, progressCeiled));
+      prevProgressCeiled = progressCeiled;
+    }
   }
 }
 
