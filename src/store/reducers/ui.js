@@ -3,6 +3,7 @@ import { fulfilled } from '../actions';
 
 import * as actions from '../actions/ui';
 import * as authActions from '../actions/auth';
+import * as uploadActions from '../actions/uploads';
 
 const CURRENT_PATH_INITIAL_STATE = '.';
 
@@ -75,6 +76,26 @@ const signUp = createReducer(SignUpState.initial, (builder) => {
   builder.addCase(actions.signUpResetted, () => SignUpState.initial);
 });
 
+const UPLOADER_INITIAL_STATE = { uploadsCount: 0, totalProgress: 0, finished: 0 };
+
+const uploader = createReducer(UPLOADER_INITIAL_STATE, (builder) => {
+  builder.addCase(uploadActions.uploadsAdded, (state, action) => {
+    const { uploads } = action.payload;
+    state.uploadsCount = uploads.length;
+    state.totalProgress = 0;
+    state.finished = 0;
+  });
+  builder.addCase(uploadActions.uploadProgressed, (state, action) => {
+    const { progress } = action.payload;
+    const offset = state.finished * Math.floor((1 / state.uploadsCount) * 100);
+    const relativeProgress = Math.ceil((1 / state.uploadsCount) * (progress / 100) * 100);
+    state.totalProgress = offset + relativeProgress;
+    if (progress === 100) {
+      state.finished += 1;
+    }
+  });
+});
+
 export default combineReducers({
   fileBrowser: combineReducers({
     currentPath: fileBrowserCurrentPath,
@@ -84,6 +105,7 @@ export default combineReducers({
   fileDialog,
   signIn,
   signUp,
+  uploader,
 });
 
 export const getCurrentPath = (state) => state.ui.fileBrowser.currentPath;
@@ -116,3 +138,5 @@ export const getUploadFilter = (state) => state.ui.uploader.visibilityFilter;
 
 export const getSignInState = (state) => state.ui.signIn;
 export const getSignUpState = (state) => state.ui.signUp;
+
+export const getUploaderTotalProgress = (state) => state.ui.uploader.totalProgress;
