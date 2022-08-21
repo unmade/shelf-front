@@ -12,7 +12,7 @@ import { getAccessToken } from '../reducers/auth';
 const MAX_PARALLEL_UPLOADS = 1;
 
 // taken from: https://decembersoft.com/posts/file-upload-progress-with-redux-saga/
-function createUploadFileChannel(url, accessToken, fileObj, fullPath) {
+function createUploadFileChannel({ url, accessToken, requestId, fileObj, fullPath }) {
   return eventChannel((emitter) => {
     const xhr = new XMLHttpRequest();
     const onProgress = (event) => {
@@ -23,7 +23,7 @@ function createUploadFileChannel(url, accessToken, fileObj, fullPath) {
     };
 
     const onFailure = () => {
-      emitter({ err: new Error('Upload failed') });
+      emitter({ error: true });
       emitter(END);
     };
 
@@ -37,12 +37,13 @@ function createUploadFileChannel(url, accessToken, fileObj, fullPath) {
           emitter({ response: JSON.parse(xhr.response) });
           emitter(END);
         } else {
-          onFailure(null);
+          onFailure();
         }
       }
     };
     xhr.open('POST', url, true);
     xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
+    xhr.setRequestHeader('X-Request-ID', requestId);
 
     const formData = new FormData();
     formData.append('file', fileObj);
@@ -62,14 +63,20 @@ function createUploadFileChannel(url, accessToken, fileObj, fullPath) {
 function* uploadFile(upload, file) {
   const url = `${API_BASE_URL}/files/upload`;
   const accessToken = yield select(getAccessToken);
-
+  const requestId = nanoid();
   const { uploadPath } = upload;
-  const chan = yield call(createUploadFileChannel, url, accessToken, file, uploadPath);
+  const chan = yield call(createUploadFileChannel, {
+    url,
+    accessToken,
+    requestId,
+    fileObj: file,
+    fullPath: uploadPath,
+  });
 
   while (true) {
-    const { progress = 0, err, response } = yield take(chan);
-    if (err) {
-      yield put(actions.uploadRejected(upload, err));
+    const { progress = 0, error, response } = yield take(chan);
+    if (error) {
+      yield put(actions.uploadRejected(upload, requestId, error));
       return;
     }
     if (response) {

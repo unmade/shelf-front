@@ -21,7 +21,10 @@ function UploadProgress() {
   const inProgressCount = useSelector((state) => getVisibleUploadsLength(state, 'inProgress'));
   const failedCount = useSelector((state) => getVisibleUploadsLength(state, 'failed'));
 
-  const progress = Math.floor((1 - inProgressCount / (allCount - failedCount)) * 100);
+  let progress = 0;
+  if (allCount - failedCount > 0) {
+    progress = Math.floor((1 - inProgressCount / (allCount - failedCount)) * 100);
+  }
 
   return (
     <div className="mt-2 space-y-2 border-t-2 pt-4 text-sm font-semibold">
