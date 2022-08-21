@@ -3,6 +3,7 @@ import { nanoid } from '@reduxjs/toolkit';
 import { END, buffers, channel, eventChannel } from 'redux-saga';
 import { all, call, fork, put, select, take } from 'redux-saga/effects';
 
+import { MediaType } from '../../constants';
 import * as routes from '../../routes';
 
 import API_BASE_URL from '../api';
@@ -100,6 +101,7 @@ function* normalize(file, uploadTo) {
     uploadPath: `${uploadTo}/${file.name}`,
     parentPath: '',
     progress: 0,
+    thumbnail: null,
     error: null,
   };
 
@@ -110,10 +112,14 @@ function* normalize(file, uploadTo) {
     // must be FileSystemEntry
     try {
       fileObj = yield new Promise((resolve, reject) => file.file(resolve, reject));
-      upload.mediatype = fileObj.type;
       upload.uploadPath = `${uploadTo}${fullPath}`;
+      upload.mediatype = fileObj.type;
     } catch (e) {
-      upload.error = e;
+      upload.error = true;
+    }
+
+    if (MediaType.isImage(upload.mediatype)) {
+      upload.thumbnail = URL.createObjectURL(fileObj);
     }
 
     upload.parentPath = routes.parent(fullPath);

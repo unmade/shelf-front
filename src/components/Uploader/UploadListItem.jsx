@@ -1,15 +1,12 @@
 import React from 'react';
 
-import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import { getUploadById } from '../../store/reducers/uploads';
 
 import * as icons from '../../icons';
 
-import Button from '../ui/Button';
-
-import FileIcon from '../FileIcon';
+import UploadThumbnail from './UploadThumbnail';
 
 const textColors = {
   completed: {
@@ -45,8 +42,7 @@ function getStatus({ progress, error }) {
 function UploadListItem({ uploadId, style }) {
   const item = useSelector((state) => getUploadById(state, uploadId));
 
-  const { name, mediatype, parentPath, progress, error } = item;
-  const { t } = useTranslation();
+  const { id, name, parentPath, progress, error } = item;
 
   const fillerStyles = {
     height: 'calc(100% - 0.25rem)',
@@ -62,8 +58,8 @@ function UploadListItem({ uploadId, style }) {
     <div style={style}>
       <div className="flex h-full flex-row items-center space-x-4 py-2">
         <div style={fillerStyles} className={`absolute my-1 rounded-lg ${bgColor}`} />
-        <div>
-          <FileIcon className={`${textColor.secondary} h-6 w-6`} mediatype={mediatype} />
+        <div className="z-10">
+          <UploadThumbnail className={`${textColor.secondary} h-12 w-12`} uploadId={id} />
         </div>
 
         <div className="z-10 flex w-full min-w-0 flex-col space-y-2">
@@ -75,14 +71,7 @@ function UploadListItem({ uploadId, style }) {
 
             <div className="text-right text-sm">
               {error ? (
-                <Button
-                  type="primary"
-                  className="mr-2"
-                  size="base"
-                  title={t('Retry')}
-                  icon={<icons.Redo className="z-10 h-4 w-4" />}
-                  danger
-                />
+                <icons.ExclamationCircle className={`z-10 mr-2 h-5 w-5 ${textColor.secondary}`} />
               ) : (
                 <div className={`mr-2 font-medium ${textColor.secondary}`}>{progress}%</div>
               )}
