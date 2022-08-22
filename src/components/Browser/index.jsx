@@ -20,26 +20,23 @@ const Browser = React.memo(({ actionButton, dirPath, droppable }) => {
   const withSidePreview = useSidePreview();
   const path = dirPath ?? '.';
 
+  const fileTableView = <FileTableView path={path} scrollKey={path} itemRender={FileTableCell} />;
+
   const tableView = droppable ? (
     <FileDrop
       className="h-full"
       uploadTo={path}
       render={({ dragging }) => (
-        <FileTableView
-          className={dragging ? 'border-blue-300' : 'border-transparent'}
-          path={path}
-          scrollKey={path}
-          itemRender={FileTableCell}
-        />
+        <div className="relative h-full w-full">
+          <div className={`${dragging ? 'block' : 'hidden'} absolute z-10 h-full w-full px-2 pb-2`}>
+            <div className="h-full w-full rounded-2xl border-4 border-dashed border-teal-200" />
+          </div>
+          {fileTableView}
+        </div>
       )}
     />
   ) : (
-    <FileTableView
-      className="border-transparent"
-      path={path}
-      scrollKey={path}
-      itemRender={FileTableCell}
-    />
+    fileTableView
   );
 
   return (

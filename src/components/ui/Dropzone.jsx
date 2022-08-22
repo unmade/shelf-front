@@ -3,65 +3,42 @@ import PropType from 'prop-types';
 
 import getFileEntries from '../../filereader';
 
-class Dropzone extends React.Component {
-  constructor(props) {
-    super(props);
+function Dropzone({ className, render: View, uploadTo, onDrop }) {
+  const [dragging, setDragging] = React.useState(false);
 
-    this.state = {
-      dragging: false,
-    };
-
-    this.handleDragLeave = this.handleDragLeave.bind(this);
-    this.handleDragOver = this.handleDragOver.bind(this);
-    this.handleDrop = this.handleDrop.bind(this);
-  }
-
-  handleDragOver(event) {
+  const handleDragOver = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    this.setDragging(true);
-  }
+    setDragging(true);
+  };
 
-  handleDragLeave(event) {
+  const handleDragLeave = (event) => {
     event.preventDefault();
-    this.setDragging(false);
-  }
+    setDragging(false);
+  };
 
-  handleDrop(event) {
+  const handleDrop = (event) => {
     event.preventDefault();
-    this.setDragging(false);
+    setDragging(false);
 
-    const { uploadTo, onDrop } = this.props;
     const { items } = event.dataTransfer;
     getFileEntries(items).then((files) => {
       if (onDrop) {
         onDrop(files, uploadTo);
       }
     });
-  }
+  };
 
-  setDragging(value) {
-    const { dragging } = this.state;
-    if (dragging !== value) {
-      this.setState({ dragging: value });
-    }
-  }
-
-  render() {
-    const { dragging } = this.state;
-    const { className, render: View } = this.props;
-
-    return (
-      <div
-        onDragOver={this.handleDragOver}
-        onDragLeave={this.handleDragLeave}
-        onDrop={this.handleDrop}
-        className={className}
-      >
-        <View dragging={dragging} />
-      </div>
-    );
-  }
+  return (
+    <div
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+      className={className}
+    >
+      <View dragging={dragging} />
+    </div>
+  );
 }
 
 Dropzone.propTypes = {

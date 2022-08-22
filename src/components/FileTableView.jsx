@@ -51,7 +51,7 @@ function TableHeader({ items }) {
 
 function FileTableView({ className, items, loading, scrollKey, itemRender }) {
   const { t } = useTranslation();
-  const fileDropBorder = 'transition ease-in-out duration-75 border-4 rounded-lg';
+  const fileDropBorder = 'transition ease-in-out duration-75 rounded-lg';
   return (
     <div className="flex h-full flex-col">
       <TableHeader items={items} />
