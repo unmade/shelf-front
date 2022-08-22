@@ -4,7 +4,28 @@ import PropTypes from 'prop-types';
 import { useFloating, offset } from '@floating-ui/react-dom';
 import { Popover, Transition } from '@headlessui/react';
 
-function Dropdown({ children, overlay: Overlay }) {
+function OverlayWrapper({ children, open, onOpenChange }) {
+  React.useEffect(() => {
+    if (onOpenChange != null) {
+      onOpenChange(open);
+    }
+  }, [open, onOpenChange]);
+
+  return children;
+}
+
+OverlayWrapper.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element])
+    .isRequired,
+  open: PropTypes.bool.isRequired,
+  onOpenChange: PropTypes.func,
+};
+
+OverlayWrapper.defaultProps = {
+  onOpenChange: null,
+};
+
+function Dropdown({ children, overlay: Overlay, onOpenChange }) {
   const { x, y, reference, floating, strategy } = useFloating({
     placement: 'bottom-end',
     middleware: [offset(0, 5)],
@@ -40,7 +61,9 @@ function Dropdown({ children, overlay: Overlay }) {
                 left: x ?? 0,
               }}
             >
-              <Overlay />
+              <OverlayWrapper open={open} onOpenChange={onOpenChange}>
+                <Overlay />
+              </OverlayWrapper>
             </Popover.Panel>
           </Transition>
         </>
@@ -52,6 +75,11 @@ function Dropdown({ children, overlay: Overlay }) {
 Dropdown.propTypes = {
   children: PropTypes.element.isRequired,
   overlay: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
+  onOpenChange: PropTypes.func,
+};
+
+Dropdown.defaultProps = {
+  onOpenChange: null,
 };
 
 export default Dropdown;
