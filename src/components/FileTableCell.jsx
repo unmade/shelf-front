@@ -55,7 +55,7 @@ function FileTableCell({ className, even, item, defferThumbnail, selected, hasSe
   return (
     <div
       onClick={onCellClick}
-      className={`show-on-hover-trigger ${className} ${background} mx-4 flex h-full flex-row items-center rounded-xl border px-4 text-sm`}
+      className={`show-on-hover-trigger ${className} ${background} mx-4 flex h-full flex-row items-center rounded-xl border px-5 text-sm`}
     >
       <div className={`flex w-full ${primaryText} ${!hasSelected ? 'md:w-3/5 lg:w-2/3' : ''}`}>
         <div className="flex w-full min-w-0 items-center space-x-3">

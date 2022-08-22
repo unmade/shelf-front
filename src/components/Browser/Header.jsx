@@ -46,7 +46,11 @@ function GoBack() {
   if (isRoot) {
     return button;
   }
-  return <FileLink path={routes.parent(currentPath)}>{button}</FileLink>;
+  return (
+    <FileLink className="h-9 w-9" path={routes.parent(currentPath)}>
+      {button}
+    </FileLink>
+  );
 }
 
 function Header({ isLaptop, actionButton: ActionButton }) {
