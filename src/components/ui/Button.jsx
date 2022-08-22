@@ -176,7 +176,7 @@ Button.propTypes = {
   icon: PropTypes.element,
   innerRef: PropTypes.oneOfType([
     PropTypes.func,
-    PropTypes.shape({ current: PropTypes.instanceOf(React.Component) }),
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
   ]),
   loading: PropTypes.bool,
   shape: PropTypes.oneOf(['circle', 'round']),

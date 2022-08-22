@@ -21,34 +21,42 @@ const buttonClasses = [
   'hover:from-indigo-300 hover:via-purple-300 hover:to-blue-300',
 ].join(' ');
 
-function DropdownButton() {
-  const uploading = useSelector(getIsUploading);
-
-  return (
-    <Button
-      className={uploading ? buttonClasses : ''}
-      as="div"
-      type="primary"
-      title="Uploads"
-      size="lg"
-      icon={<icons.CloudUploadOutlined className="h-5 w-5 shrink-0" />}
-    />
-  );
-}
+const DropdownButton = React.forwardRef(({ uploading }, ref) => (
+  <Button
+    innerRef={ref}
+    className={uploading ? buttonClasses : ''}
+    as="div"
+    type="primary"
+    title="Uploads"
+    size="lg"
+    icon={<icons.CloudUploadOutlined className="h-5 w-5 shrink-0" />}
+  />
+));
 
 DropdownButton.propTypes = {};
 
-function Uploader() {
-  const [uploaderVisible, setUploaderVisible] = React.useState(false);
-  const isLaptop = useMediaQuery({ query: MediaQuery.lg });
+function UploaderDropdown() {
+  const [open, setOpen] = React.useState(false);
+  const uploading = useSelector(getIsUploading);
+  const buttonRef = React.useRef();
 
-  if (isLaptop) {
-    return (
-      <Dropdown overlay={Overlay}>
-        <DropdownButton />
-      </Dropdown>
-    );
-  }
+  React.useEffect(() => {
+    if (uploading && !open) {
+      buttonRef.current?.click();
+    }
+  }, [uploading]);
+
+  return (
+    <Dropdown overlay={Overlay} onOpenChange={setOpen}>
+      <DropdownButton uploading={uploading} ref={buttonRef} />
+    </Dropdown>
+  );
+}
+
+UploaderDropdown.propTypes = {};
+
+function UploaderDialog() {
+  const [visible, setVisible] = React.useState(false);
 
   return (
     <>
@@ -59,17 +67,28 @@ function Uploader() {
         size="base"
         icon={<icons.CloudUploadOutlined className="h-5 w-5 shrink-0" />}
         onClick={() => {
-          setUploaderVisible(true);
+          setVisible(true);
         }}
       />
       <UploadDialog
-        visible={uploaderVisible}
+        visible={visible}
         onCancel={() => {
-          setUploaderVisible(false);
+          setVisible(false);
         }}
       />
     </>
   );
+}
+
+UploaderDialog.propTypes = {};
+
+function Uploader() {
+  const laptop = useMediaQuery({ query: MediaQuery.lg });
+
+  if (laptop) {
+    return <UploaderDropdown />;
+  }
+  return <UploaderDialog />;
 }
 
 Uploader.propTypes = {};
