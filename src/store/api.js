@@ -23,10 +23,12 @@ export function APIError({
   description = 'Something went wrong',
   url,
   options,
+  silent,
 }) {
   this.title = title;
   this.description = description;
   this.request = { url, options };
+  this.silent = silent;
 }
 APIError.prototype.toString = () => `${this.title}: ${this.description}`;
 
@@ -83,6 +85,7 @@ function* request(method, endpoint, accessToken, body = null) {
       description: message ?? 'Something went wrong',
       url,
       options,
+      silent: response.status === 422,
     });
   }
 
