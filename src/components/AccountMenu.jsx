@@ -33,7 +33,7 @@ function AccountMenu() {
 
   return (
     <div className="flex flex-row items-center lg:block xl:flex">
-      <div className="mx-0 flex h-10 w-10 items-center justify-center rounded-full border border-orange-200 bg-orange-50 text-orange-600 lg:mx-auto xl:mx-0">
+      <div className="mx-0 flex h-10 w-10 items-center justify-center rounded-xl border border-orange-200 bg-orange-50 text-orange-600 lg:mx-auto xl:mx-0">
         {username.substring(0, 1).toUpperCase()}
       </div>
       <button
@@ -45,7 +45,6 @@ function AccountMenu() {
       </button>
       <div className="ml-2 flex flex-1 flex-col text-left lg:hidden xl:flex">
         <div className="text-sm font-semibold text-gray-700">{username}</div>
-        <div className="text-xs text-gray-600">{`@${username}`}</div>
       </div>
       <div className="block lg:hidden xl:block">
         <Button
