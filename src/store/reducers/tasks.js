@@ -45,4 +45,6 @@ export const getMovingFilesCounter = (state) => {
 };
 
 export const getIsEmptyingTrash = (state) =>
-  Object.values(state.tasks.byId).some((task) => task.scope === actions.scopes.emptyingTrash);
+  Object.values(state.tasks.byId).some(
+    (task) => task.result == null && task.scope === actions.scopes.emptyingTrash
+  );

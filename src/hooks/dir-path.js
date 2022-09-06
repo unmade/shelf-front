@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 
 function useDirPath() {
   const { '*': dirPath } = useParams();
-  return dirPath === '' ? '.' : decodeURIComponent(dirPath);
+  return dirPath === '' ? '.' : dirPath;
 }
 
 export default useDirPath;

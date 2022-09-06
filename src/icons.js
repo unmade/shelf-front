@@ -20,6 +20,7 @@ export const ArrowNarrowRight = hiSolid.ArrowNarrowRightIcon;
 export const ArrowNarrowRightOutlined = hiOutline.ArrowNarrowRightIcon;
 export const Bookmark = hiSolid.BookmarkIcon;
 export const BookmarkOutlined = hiOutline.BookmarkIcon;
+export const BookmarkAltOutlined = hiOutline.BookmarkAltIcon;
 export const Check = hiSolid.CheckIcon;
 export const CheckCircle = hiSolid.CheckCircleIcon;
 export const ChevronLeft = hiSolid.ChevronLeftIcon;

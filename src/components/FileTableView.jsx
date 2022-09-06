@@ -7,8 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { filesSelectionChanged } from '../store/actions/ui';
 import { getCountSelectedFiles, getHasSelectedFiles } from '../store/reducers/ui';
 
-import * as icons from '../icons';
-
 import FileTableList from '../containers/FileTableList';
 
 function TableHeader({ items }) {
@@ -49,8 +47,16 @@ function TableHeader({ items }) {
   );
 }
 
-function FileTableView({ className, items, loading, scrollKey, itemRender }) {
-  const { t } = useTranslation();
+function FileTableView({
+  className,
+  emptyIcon,
+  emptyTitle,
+  emptyDescription,
+  items,
+  loading,
+  scrollKey,
+  itemRender,
+}) {
   const fileDropBorder = 'transition ease-in-out duration-75 rounded-lg';
   return (
     <div className="flex h-full flex-col">
@@ -71,9 +77,9 @@ function FileTableView({ className, items, loading, scrollKey, itemRender }) {
           <div
             className={`flex h-full flex-col items-center justify-center ${fileDropBorder} ${className}`}
           >
-            <icons.Collection className="mx-auto mb-4 h-12 w-12 text-gray-400" />
-            <p className="text-lg font-semibold text-gray-800">{t('Nothing here yet')}</p>
-            <p className="text-sm text-gray-600">{t('Drag and drop files to upload')}</p>
+            {emptyIcon}
+            <p className="mt-4 text-lg font-semibold text-gray-800">{emptyTitle}</p>
+            <p className="text-sm text-gray-600">{emptyDescription}</p>
           </div>
         )}
       </div>
@@ -83,6 +89,9 @@ function FileTableView({ className, items, loading, scrollKey, itemRender }) {
 
 FileTableView.propTypes = {
   className: PropTypes.string,
+  emptyIcon: PropTypes.element.isRequired,
+  emptyTitle: PropTypes.string.isRequired,
+  emptyDescription: PropTypes.string,
   items: PropTypes.arrayOf(PropTypes.string).isRequired,
   loading: PropTypes.bool,
   scrollKey: PropTypes.string.isRequired,
@@ -92,6 +101,7 @@ FileTableView.propTypes = {
 FileTableView.defaultProps = {
   className: '',
   loading: true,
+  emptyDescription: '',
 };
 
 export default FileTableView;
