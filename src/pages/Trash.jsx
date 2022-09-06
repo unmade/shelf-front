@@ -43,7 +43,7 @@ function Trash() {
     emptyTitle = t('Trash folder is empty');
     emptyDescription = t('Deleted file will appear here');
   } else {
-    emptyTitle = t('Folder is empty');
+    emptyTitle = t('This folder is empty');
     emptyDescription = '';
   }
 

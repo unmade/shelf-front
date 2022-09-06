@@ -5,7 +5,9 @@
   "form.errors.passwordsShouldMatch": "Убедитесь, что пароли совпадают",
   "form.iHaveReadAndAgreeToTermsAndConditions": "Я принимаю <1>Условия обслуживания Shelf</1> и <4>Политики конфиденциальности</4>",
   "form.title": "Создать аккаунт в Shelf",
+  "passwordTooLong": "Пароль должен быть от {{minLength}} до {{maxLength}} символов",
   "signInHere": "Войти",
+  "usernameTooLong": "Имя пользователя должно быть от {{minLength}} до {{maxLength}} символов",
   "weakPassword": "Пароль должен содержать не менее 8 символов и включать как минимум одну цифру, одну прописную и одну строчную букву",
   "weakUsername": "Имя пользователя должно содержать не менее 3 символов и включать только буквы и цифры"
 }
