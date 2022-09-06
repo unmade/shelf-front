@@ -10,6 +10,10 @@ function isRejected(action) {
   return action.type.endsWith('rejected');
 }
 
+function shouldShow(error) {
+  return error?.title && !error?.silent;
+}
+
 const byId = createReducer(BY_ID_INITIAL_STATE, (builder) => {
   builder.addCase(actions.messageClosed, (state, action) => {
     const { id } = action.payload;
@@ -17,7 +21,7 @@ const byId = createReducer(BY_ID_INITIAL_STATE, (builder) => {
   });
   builder.addMatcher(isRejected, (state, action) => {
     const { error, meta } = action;
-    if (error?.title != null) {
+    if (shouldShow(error)) {
       const { title, description } = error;
       const { requestId } = meta;
       state[requestId] = {
@@ -38,7 +42,7 @@ const allIds = createReducer(ALL_IDS_INITIAL_STATE, (builder) => {
   });
   builder.addMatcher(isRejected, (state, action) => {
     const { error, meta } = action;
-    if (error?.title != null) {
+    if (shouldShow(error)) {
       const { requestId } = meta;
       state.push(requestId);
     }

@@ -8,12 +8,13 @@ import { createFulfilledAction, createRejectedAction } from '../actions';
 
 function normalizeAPIError(error) {
   if (error instanceof api.ServerError || error instanceof api.APIError) {
-    const { title, description } = error;
-    return { title, description };
+    const { title, description, silent } = error;
+    return { title, description, silent };
   }
   return {
     title: 'Unexpected Error',
     description: 'Something went wrong',
+    silent: false,
   };
 }
 
