@@ -5,7 +5,9 @@
   "form.errors.passwordsShouldMatch": "Please make sure your passwords match",
   "form.iHaveReadAndAgreeToTermsAndConditions": "I agree to the <1>Shelf Terms</1> and <4>Privacy Policy</4>",
   "form.title": "Create Shelf Account",
+  "passwordTooLong": "Password should be {{minLength}} to {{maxLength}} character long",
   "signInHere": "Sign in here",
+  "usernameTooLong": "Username should be {{minLength}} to {{maxLength}} character long",
   "weakPassword": "Password must be at least 8 characters including a lowercase letter, an uppercase letter, and a number",
   "weakUsername": "Username must be at least 3 characters and contain only letters and numbers"
 }

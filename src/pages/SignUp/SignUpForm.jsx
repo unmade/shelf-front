@@ -62,6 +62,13 @@ function SignUpForm({ loading, onSubmit }) {
       }
     });
 
+    // check agreed to terms and conditions
+    if (!inputs.agreeToTermsAndConditions) {
+      emptyFields.agreeToTermsAndConditions = t(
+        'signup:form.errors.agreeToTermsAndConditionsUnchecked'
+      );
+    }
+
     if (Object.keys(emptyFields).length > 0) {
       setErrors({ ...errors, ...emptyFields });
       return false;
@@ -71,6 +78,20 @@ function SignUpForm({ loading, onSubmit }) {
     if (inputs.username?.length < 3) {
       setErrors({ ...errors, username: t('signup:weakUsername') });
       return false;
+    }
+
+    if (inputs.username?.length > 31) {
+      setErrors({
+        ...errors,
+        username: t('signup:usernameTooLong', { minLength: 3, maxLength: 31 }),
+      });
+    }
+
+    if (inputs.password?.length > 63) {
+      setErrors({
+        ...errors,
+        password: t('signup:passwordTooLong', { minLength: 8, maxLength: 63 }),
+      });
     }
 
     // check username contains only alphanum characters
@@ -92,13 +113,6 @@ function SignUpForm({ loading, onSubmit }) {
         confirmPassword: t('signup:form.errors.passwordsShouldMatch'),
       });
       return false;
-    }
-
-    // check agreed to terms and conditions
-    if (!inputs.agreeToTermsAndConditions) {
-      emptyFields.agreeToTermsAndConditions = t(
-        'signup:form.errors.agreeToTermsAndConditionsUnchecked'
-      );
     }
 
     return true;
