@@ -7,6 +7,7 @@ import { useLocation } from 'react-router-dom';
 import { Dialogs, TRASH_FOLDER_NAME } from '../constants';
 import useDirPath from '../hooks/dir-path';
 import * as icons from '../icons';
+import * as routes from '../routes';
 
 import { listFolder } from '../store/actions/files';
 import {
@@ -34,8 +35,17 @@ function Trash() {
   const preview = queryParams.get('preview');
 
   let dirPath = useDirPath();
-  dirPath =
-    dirPath !== '.' ? `${TRASH_FOLDER_NAME}/${decodeURIComponent(dirPath)}` : TRASH_FOLDER_NAME;
+  dirPath = dirPath === '.' ? TRASH_FOLDER_NAME : routes.join(TRASH_FOLDER_NAME, dirPath);
+
+  let emptyTitle;
+  let emptyDescription;
+  if (dirPath === TRASH_FOLDER_NAME) {
+    emptyTitle = t('Trash folder is empty');
+    emptyDescription = t('Deleted file will appear here');
+  } else {
+    emptyTitle = t('Folder is empty');
+    emptyDescription = '';
+  }
 
   React.useEffect(() => {
     dispatch(fileBrowserPathChanged(dirPath));
@@ -60,6 +70,9 @@ function Trash() {
           />
         )}
         dirPath={dirPath}
+        emptyIcon={<icons.Collection className="h-12 w-12 text-gray-400" />}
+        emptyTitle={emptyTitle}
+        emptyDescription={emptyDescription}
       />
       {preview && <FilePreview dirPath={dirPath || '.'} name={preview} />}
       <MoveDialog uid={Dialogs.move} />

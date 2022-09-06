@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
@@ -8,6 +9,7 @@ import { fileBrowserPathChanged, filesSelectionChanged } from '../store/actions/
 
 import { Dialogs } from '../constants';
 import useDirPath from '../hooks/dir-path';
+import * as icons from '../icons';
 import * as routes from '../routes';
 
 import CreateFolderDialog from '../containers/CreateFolderDialog';
@@ -20,6 +22,8 @@ import MoveDialog from '../components/MoveDialog';
 import Uploader from '../components/Uploader';
 
 function Files() {
+  const { t } = useTranslation();
+
   const dispatch = useDispatch();
   const location = useLocation();
   const dirPath = useDirPath();
@@ -42,7 +46,14 @@ function Files() {
 
   return (
     <>
-      <Browser actionButton={() => <Uploader />} dirPath={dirPath} droppable />
+      <Browser
+        actionButton={() => <Uploader />}
+        dirPath={dirPath}
+        droppable
+        emptyIcon={<icons.Collection className="h-12 w-12" />}
+        emptyTitle={t('This folder is empty')}
+        emptyDescription={t('Drag and drop files to upload')}
+      />
       {preview && (
         <FilePreview dirPath={dirPath || '.'} name={preview} preparePath={preparePreviewPath} />
       )}

@@ -74,6 +74,8 @@ function Bookmarks() {
               scrollKey="bookmarks-table-view" // possible collissions
               itemRender={FileTableCell}
               loading={loading}
+              emptyIcon={<icons.BookmarkAltOutlined className="h-12 w-12 text-gray-400" />}
+              emptyTitle={t('Bookmarks will appear here')}
             />
           </div>
           {withSidePreview && (
