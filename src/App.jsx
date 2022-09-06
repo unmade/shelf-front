@@ -15,20 +15,7 @@ import Files from './pages/Files';
 import Trash from './pages/Trash';
 import UserManagement from './pages/admin/UserManagement';
 
-function updateVh() {
-  const vh = window.innerHeight * 0.01;
-  document.documentElement.style.setProperty('--vh', `${vh}px`);
-}
-
 function App() {
-  React.useEffect(() => {
-    updateVh();
-    window.addEventListener('resize', updateVh);
-    return () => {
-      window.removeEventListener('resize', updateVh);
-    };
-  }, []);
-
   return (
     <>
       <div className="shelf-h-screen flex bg-gray-100">
