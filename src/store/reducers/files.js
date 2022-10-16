@@ -95,22 +95,11 @@ const metaById = createReducer({}, (builder) => {
   });
 });
 
-const thumbnailsById = createReducer({}, (builder) => {
-  builder.addCase(fulfilled(actions.fetchThumbnail), (state, action) => {
-    const { id, size, thumb } = action.payload;
-    if (state[id] == null) {
-      state[id] = {};
-    }
-    state[id][size] = thumb;
-  });
-});
-
 export default combineReducers({
   byId: filesById,
   byPath: filesByPath,
   metaById,
   duplicatesByPath,
-  thumbnailsById,
   downloads,
 });
 
@@ -120,7 +109,6 @@ export const getDuplicatesByPath = (state, path) => state.files.duplicatesByPath
 export const getFileById = (state, id) => state.files.byId[id];
 export const getFileIdsByPath = (state, { path }) => state.files.byPath[path] ?? FILES_EMPTY;
 export const getFilesCountByPath = (state, path) => getFileIdsByPath(state, { path }).length;
-export const getThumbnailById = (state, id) => state.files.thumbnailsById[id];
 
 export const getContentMetadata = (state, id) => state.files.metaById[id] ?? null;
 
