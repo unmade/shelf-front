@@ -47,7 +47,7 @@ function FilePreview({ preview, downloads, download, preparePath }) {
   const [prevFile, file, nextFile] = files;
 
   React.useEffect(() => {
-    if (file && hasPreview(file) && !downloads[file.path]) {
+    if (file && hasPreview(file) && file.thumbnail_url == null && !downloads[file.path]) {
       download(file.path);
     }
   }, [file, downloads, download]);
@@ -91,7 +91,7 @@ function FilePreview({ preview, downloads, download, preparePath }) {
 
   const { name, path, mediatype } = file;
   const original = downloads[path];
-  const loading = hasPreview(file) && original == null;
+  const loading = hasPreview(file) && file.thumbnail_url == null && original == null;
   const Preview = getPreview(mediatype);
 
   const onClickLeft = () => {

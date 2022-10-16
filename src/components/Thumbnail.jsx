@@ -39,7 +39,7 @@ function Thumbnail({ className, fileId, size }) {
 Thumbnail.propTypes = {
   className: PropTypes.string,
   fileId: PropTypes.string.isRequired,
-  size: PropTypes.oneOf(['xs', 'sm', 'md', 'lg', 'xl', 'xxl']),
+  size: PropTypes.oneOf(['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl']),
 };
 
 Thumbnail.defaultProps = {
