@@ -1,4 +1,4 @@
-import { actionChannel, call, put, select, take, takeEvery } from 'redux-saga/effects';
+import { put, select, takeEvery } from 'redux-saga/effects';
 
 import { Dialogs, MediaType } from '../../constants';
 
@@ -88,20 +88,6 @@ function* emptyTrash({ type }) {
   if (data != null) {
     yield put(taskActions.taskStarted(taskActions.scopes.emptyingTrash, data.async_task_id));
   }
-}
-
-function* fetchThumbnail({ type, payload }) {
-  const accessToken = yield select(getAccessToken);
-  const { id, path, size } = payload;
-
-  const request = api.post(`/files/get_thumbnail?size=${size}`, accessToken, { path });
-
-  yield tryFetch(type, request, {
-    preparePayload: (_, data) => {
-      const thumb = URL.createObjectURL(data);
-      return { id, size, thumb };
-    },
-  });
 }
 
 function* findDuplicates({ type, payload }) {
@@ -235,15 +221,6 @@ function* performDownload({ type, payload }) {
   }
 }
 
-function* watchFetchThumbnail() {
-  const thumbnailChan = yield actionChannel([actions.fetchThumbnail]);
-
-  while (true) {
-    const action = yield take(thumbnailChan);
-    yield call(fetchThumbnail, action);
-  }
-}
-
 export default [
   takeEvery(actions.createFolder, createFolder),
   takeEvery(actions.deleteImmediately, deleteImmediately),
@@ -259,5 +236,4 @@ export default [
   takeEvery(actions.moveToTrash, moveToTrash),
   takeEvery(actions.moveToTrashBatch, moveToTrashBatch),
   takeEvery(actions.performDownload, performDownload),
-  watchFetchThumbnail(),
 ];

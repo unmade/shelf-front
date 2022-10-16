@@ -18,10 +18,6 @@ export const download = createAction('files/download', (path) => ({
 
 export const emptyTrash = createAction('files/emptyTrash');
 
-export const fetchThumbnail = createAction('files/fetchThumbnail', (id, path, size) => ({
-  payload: { id, path, size },
-}));
-
 export const findDuplicates = createAction('files/findDuplicates', (path, maxDistance) => ({
   payload: { path, maxDistance },
 }));
