@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { nanoid } from '@reduxjs/toolkit';
 
-async function fetchImage(url, accessToken, onSuccess) {
+async function fetchImage(url, accessToken, onLoad) {
   const options = {
     method: 'GET',
     mode: 'cors',
@@ -16,20 +16,36 @@ async function fetchImage(url, accessToken, onSuccess) {
   const response = await fetch(url, options);
   if (response.ok) {
     const data = await response.blob();
-    onSuccess(data);
+    onLoad(data);
   }
 }
 
-function ProtectedImage({ accessToken, alt, children, className, debounce, loading, src }) {
+function ProtectedImage({
+  accessToken,
+  alt,
+  children,
+  cachedImage,
+  className,
+  debounce,
+  loading,
+  src,
+  onLoad: onLoadCallback,
+}) {
   const [objectURL, setObjectURL] = React.useState(null);
 
   React.useEffect(() => {
-    const deferredLoad = setTimeout(() => {
-      const onSuccess = (data) => {
-        setObjectURL(URL.createObjectURL(data));
-      };
-      fetchImage(src, accessToken, onSuccess);
-    }, debounce);
+    let deferredLoad = null;
+    if (cachedImage == null) {
+      deferredLoad = setTimeout(() => {
+        const onFetchSuccess = (data) => {
+          setObjectURL(URL.createObjectURL(data));
+          if (onLoadCallback != null) {
+            onLoadCallback(data);
+          }
+        };
+        fetchImage(src, accessToken, onFetchSuccess);
+      }, debounce);
+    }
     return () => {
       clearTimeout(deferredLoad);
       URL.revokeObjectURL(objectURL);
@@ -37,8 +53,9 @@ function ProtectedImage({ accessToken, alt, children, className, debounce, loadi
     };
   }, [accessToken, src]);
 
-  if (objectURL != null) {
-    return <img className={className} src={objectURL} alt={alt} loading={loading} />;
+  const imgsrc = objectURL ?? cachedImage;
+  if (imgsrc) {
+    return <img className={className} src={imgsrc} alt={alt} loading={loading} />;
   }
   return children;
 }
@@ -46,18 +63,22 @@ function ProtectedImage({ accessToken, alt, children, className, debounce, loadi
 ProtectedImage.propTypes = {
   accessToken: PropTypes.string.isRequired,
   alt: PropTypes.string.isRequired,
+  cachedImage: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element]),
   className: PropTypes.string,
   debounce: PropTypes.number,
   loading: PropTypes.oneOf(['eager', 'lazy']),
   src: PropTypes.string.isRequired,
+  onLoad: PropTypes.func,
 };
 
 ProtectedImage.defaultProps = {
   children: null,
+  cachedImage: null,
   className: '',
   debounce: 150,
   loading: 'eager',
+  onLoad: null,
 };
 
 export default ProtectedImage;
