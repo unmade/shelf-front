@@ -1,16 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { getFileById } from '../store/reducers/files';
+import { thumbnailCached } from '../store/actions/thumbnails';
 
-import FileIcon from './FileIcon';
 import { getAccessToken } from '../store/reducers/auth';
+import { getFileById } from '../store/reducers/files';
+import { getThumbnailById } from '../store/reducers/thumbnails';
+
 import ProtectedImage from './ui/ProtectedImage';
 
+import FileIcon from './FileIcon';
+
 function Thumbnail({ className, fileId, size }) {
+  const dispatch = useDispatch();
+
   const accessToken = useSelector(getAccessToken);
+  const cachedThumbnail = useSelector((state) => getThumbnailById(state, fileId));
+
   const file = useSelector((state) => getFileById(state, fileId));
   const { mtime, thumbnail_url: thumbnailUrl } = file;
 
@@ -28,6 +36,10 @@ function Thumbnail({ className, fileId, size }) {
         src={src.toString()}
         alt={file.name}
         accessToken={accessToken}
+        cachedImage={cachedThumbnail && cachedThumbnail[size]}
+        onLoad={(data) => {
+          dispatch(thumbnailCached(fileId, size, URL.createObjectURL(data)));
+        }}
       >
         {fileIcon}
       </ProtectedImage>

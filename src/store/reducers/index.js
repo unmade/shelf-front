@@ -8,6 +8,7 @@ import files from './files';
 import loading from './loading';
 import messages from './messages';
 import tasks from './tasks';
+import thumbnails from './thumbnails';
 import ui from './ui';
 import uploads from './uploads';
 import users from './users';
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   loading,
   messages,
   tasks,
+  thumbnails,
   ui,
   uploads,
   users,

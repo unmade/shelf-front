@@ -6,6 +6,7 @@ import fileSagas from './files';
 import fileWatchers from './fileWatchers';
 import launch from './launch';
 import taskSagas from './tasks';
+import thumbnailsSagas from './thumbnails';
 import uploadSagas from './uploads';
 import userSagas from './users';
 
@@ -17,6 +18,7 @@ export default function* rootSaga() {
     ...fileWatchers,
     ...launch,
     ...taskSagas,
+    ...thumbnailsSagas,
     ...uploadSagas,
     ...userSagas,
   ]);
