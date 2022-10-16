@@ -59,8 +59,8 @@ function ExifPanel({ fileId }) {
     getLoading(state, { actionType: fetchContentMetadata, ref: file?.path })
   );
 
-  const { path, has_thumbnail: hasThumbnail } = file;
-  const shouldFetchMetadata = meta == null && hasThumbnail;
+  const { path, thumbnail_url: thumbnailUrl } = file;
+  const shouldFetchMetadata = meta == null && thumbnailUrl != null;
 
   React.useEffect(() => {
     if (shouldFetchMetadata) {

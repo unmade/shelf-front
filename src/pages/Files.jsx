@@ -46,14 +46,16 @@ function Files() {
 
   return (
     <>
-      <Browser
-        actionButton={() => <Uploader />}
-        dirPath={dirPath}
-        droppable
-        emptyIcon={<icons.Collection className="h-12 w-12" />}
-        emptyTitle={t('This folder is empty')}
-        emptyDescription={t('Drag and drop files to upload')}
-      />
+      <div className={`flex h-full flex-col ${preview ? 'hidden' : 'block'}`}>
+        <Browser
+          actionButton={() => <Uploader />}
+          dirPath={dirPath}
+          droppable
+          emptyIcon={<icons.Collection className="h-12 w-12" />}
+          emptyTitle={t('This folder is empty')}
+          emptyDescription={t('Drag and drop files to upload')}
+        />
+      </div>
       {preview && (
         <FilePreview dirPath={dirPath || '.'} name={preview} preparePath={preparePreviewPath} />
       )}
