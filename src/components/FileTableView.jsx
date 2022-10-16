@@ -69,7 +69,6 @@ function FileTableView({
             itemRender={itemRender}
             itemHeight={72}
             className={`${fileDropBorder} ${className}`}
-            trackScrolling
             scrollKey={scrollKey}
             loading={items.length === 0 && loading}
           />

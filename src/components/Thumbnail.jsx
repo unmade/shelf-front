@@ -1,47 +1,49 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { fetchThumbnail } from '../store/actions/files';
-
-import { getFileById, getThumbnailById } from '../store/reducers/files';
+import { getFileById } from '../store/reducers/files';
 
 import FileIcon from './FileIcon';
+import { getAccessToken } from '../store/reducers/auth';
+import ProtectedImage from './ui/ProtectedImage';
 
-function Thumbnail({ className, deferred, fileId, size }) {
-  const dispatch = useDispatch();
-
+function Thumbnail({ className, fileId, size }) {
+  const accessToken = useSelector(getAccessToken);
   const file = useSelector((state) => getFileById(state, fileId));
-  const thumbs = useSelector((state) => getThumbnailById(state, file.id));
+  const { mtime, thumbnail_url: thumbnailUrl } = file;
 
-  const loaded = thumbs != null && thumbs[size] != null;
-  const shouldLoad = file.has_thumbnail && !loaded && !deferred;
+  const fileIcon = (
+    <FileIcon className={className} mediatype={file.mediatype} hidden={file.hidden} />
+  );
 
-  const { id, path } = file;
-
-  React.useEffect(() => {
-    if (shouldLoad) {
-      dispatch(fetchThumbnail(id, path, size));
-    }
-  }, [id, path, size, deferred, shouldLoad, dispatch]);
-
-  if (file.has_thumbnail && loaded) {
-    return <img className={`object-scale-down ${className}`} src={thumbs[size]} alt={file.name} />;
+  if (thumbnailUrl != null) {
+    const src = new URL(thumbnailUrl);
+    src.searchParams.set('size', size);
+    src.searchParams.set('mtime', mtime);
+    return (
+      <ProtectedImage
+        className={`object-scale-down ${className}`}
+        src={src.toString()}
+        alt={file.name}
+        accessToken={accessToken}
+      >
+        {fileIcon}
+      </ProtectedImage>
+    );
   }
-  return <FileIcon className={className} mediatype={file.mediatype} hidden={file.hidden} />;
+  return fileIcon;
 }
 
 Thumbnail.propTypes = {
   className: PropTypes.string,
-  deferred: PropTypes.bool,
   fileId: PropTypes.string.isRequired,
-  size: PropTypes.oneOf(['xs', 'sm', 'md', 'lg', 'xl']),
+  size: PropTypes.oneOf(['xs', 'sm', 'md', 'lg', 'xl', 'xxl']),
 };
 
 Thumbnail.defaultProps = {
   className: '',
-  deferred: false,
   size: 'xs',
 };
 

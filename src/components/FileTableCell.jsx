@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { filesSelectionChanged, fileSelectionToggled } from '../store/actions/ui';
-import { getFileById, getThumbnailById } from '../store/reducers/files';
+import { getFileById } from '../store/reducers/files';
 import { getHasSelectedFiles, getIsFileSelected } from '../store/reducers/ui';
 
 import { MediaType } from '../constants';
@@ -37,7 +37,7 @@ function getBackground(even, selected) {
   );
 }
 
-function FileTableCell({ className, even, item, defferThumbnail, selected, hasSelected }) {
+function FileTableCell({ className, even, item, selected, hasSelected }) {
   const dispatch = useDispatch();
 
   const primaryText = getPrimaryText(selected, item.hidden);
@@ -67,7 +67,7 @@ function FileTableCell({ className, even, item, defferThumbnail, selected, hasSe
             readOnly
           />
           <div className="shrink-0">
-            <Thumbnail className="h-9 w-9" fileId={item.id} deferred={defferThumbnail} />
+            <Thumbnail className="h-9 w-9" fileId={item.id} />
           </div>
           <span
             className="truncate"
@@ -108,7 +108,6 @@ function FileTableCell({ className, even, item, defferThumbnail, selected, hasSe
 FileTableCell.propTypes = {
   className: PropTypes.string,
   even: PropTypes.bool.isRequired,
-  defferThumbnail: PropTypes.bool.isRequired,
   item: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
@@ -127,15 +126,12 @@ FileTableCell.defaultProps = {
 
 const MemoizedFileTableCell = React.memo(FileTableCell);
 
-function FileTableCellContainer({ data, index, isScrolling, style }) {
+function FileTableCellContainer({ data, index, style }) {
   const itemId = data[index];
   const even = index % 2 === 0;
   const item = useSelector((state) => getFileById(state, itemId));
   const selected = useSelector((state) => getIsFileSelected(state, itemId));
   const hasSelected = useSelector(getHasSelectedFiles);
-
-  const thumbs = useSelector((state) => getThumbnailById(state, itemId));
-  const thumbnailLoaded = thumbs != null && thumbs.xs != null;
 
   if (item == null) {
     return null;
@@ -145,7 +141,6 @@ function FileTableCellContainer({ data, index, isScrolling, style }) {
     <div style={style}>
       <MemoizedFileTableCell
         even={even}
-        defferThumbnail={item.has_thumbnail && isScrolling && !thumbnailLoaded}
         item={item}
         selected={selected}
         hasSelected={hasSelected}
@@ -157,7 +152,6 @@ function FileTableCellContainer({ data, index, isScrolling, style }) {
 FileTableCellContainer.propTypes = {
   data: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   index: PropTypes.number.isRequired,
-  isScrolling: PropTypes.bool.isRequired,
 };
 
 export default React.memo(FileTableCellContainer);
