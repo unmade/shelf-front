@@ -1,12 +1,12 @@
 /* eslint-disable no-bitwise */
 // based on https://www.somacon.com/p576.php
 
-const KILOBYTE = 1000;
-const MEGABYTE = 1000 * KILOBYTE;
-const GIGABYTE = 1000 * MEGABYTE;
-const TERABYTE = 1000 * GIGABYTE;
-const PETABYTE = 1000 * TERABYTE;
-const EXABYTE = 1000 * PETABYTE;
+export const KILOBYTE = 1000;
+export const MEGABYTE = 1000 * KILOBYTE;
+export const GIGABYTE = 1000 * MEGABYTE;
+export const TERABYTE = 1000 * GIGABYTE;
+export const PETABYTE = 1000 * TERABYTE;
+export const EXABYTE = 1000 * PETABYTE;
 
 export default function getHumanSize(size) {
   let suffix;

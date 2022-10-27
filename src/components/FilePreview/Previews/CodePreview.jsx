@@ -1,7 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Highlight from '../ui/Highlight';
+import useFileContent from '../../../hooks/file-content';
+
+import { MEGABYTE } from '../../../filesize';
+
+import Highlight from '../../ui/Highlight';
+
+import Loader from '../Loader';
+
+import NoPreview from './NoPreview';
 
 import 'highlight.js/styles/github.css';
 
@@ -31,6 +39,8 @@ const LANGS = {
   xml: 'xml',
 };
 
+const MAX_SIZE = 1 * MEGABYTE;
+
 function langByMediaType({ name, mediatype }) {
   const suffix = name.split('.').pop();
   if (['cfg', 'ini'].includes(suffix)) {
@@ -44,13 +54,23 @@ function langByMediaType({ name, mediatype }) {
   return '';
 }
 
-function CodePreview({ file, original }) {
+function CodePreview({ file }) {
+  const content = useFileContent(file.path, file.size, MAX_SIZE);
+
+  if (file.size > MAX_SIZE) {
+    return <NoPreview file={file} />;
+  }
+
+  if (content == null) {
+    return <Loader />;
+  }
+
   const lang = langByMediaType(file);
   return (
     <div className="bg-white">
       <div className="container mx-auto p-4">
         <Highlight language={lang} className="whitespace-pre-wrap">
-          {original}
+          {content}
         </Highlight>
       </div>
     </div>
@@ -62,7 +82,6 @@ CodePreview.propTypes = {
     name: PropTypes.string.isRequired,
     mediatype: PropTypes.string.isRequired,
   }).isRequired,
-  original: PropTypes.string.isRequired,
 };
 
 export default CodePreview;

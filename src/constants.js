@@ -15,6 +15,9 @@ export const MediaType = {
     const [type, subtype] = mediaType.split('/');
     return type === 'image' && ['jpeg', 'png', 'svg+xml', 'webp', 'x-icon'].includes(subtype);
   },
+  isPDF(mediaType) {
+    return mediaType === 'application/pdf';
+  },
   isText(mediaType) {
     if (mediaType.startsWith('text')) {
       return true;
