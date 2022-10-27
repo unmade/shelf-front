@@ -114,6 +114,8 @@ export const getContentMetadata = (state, id) => state.files.metaById[id] ?? nul
 
 export const getDownloads = (state) => state.files.downloads;
 
+export const getDownload = (state, path) => state.files.downloads[path];
+
 function createPropsSelector(selector) {
   return (_, props) => selector(props);
 }

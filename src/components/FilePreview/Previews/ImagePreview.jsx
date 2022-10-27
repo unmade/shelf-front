@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Thumbnail from '../Thumbnail';
+import Thumbnail from '../../Thumbnail';
 
 function isHiDPI() {
   return (
