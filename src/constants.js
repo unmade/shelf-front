@@ -18,6 +18,9 @@ export const MediaType = {
   isPDF(mediaType) {
     return mediaType === 'application/pdf';
   },
+  isSVG(mediaType) {
+    return mediaType === 'image/svg+xml';
+  },
   isText(mediaType) {
     if (mediaType.startsWith('text')) {
       return true;
