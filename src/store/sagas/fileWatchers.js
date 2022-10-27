@@ -9,7 +9,7 @@ import * as taskActions from '../actions/tasks';
 import * as uiActions from '../actions/ui';
 import * as uploadActions from '../actions/uploads';
 
-import { getFileById, getFileIdsByPath } from '../reducers/files';
+import { getDownload, getFileById, getFileIdsByPath } from '../reducers/files';
 import { getCurrentPath, getSelectedFileIds } from '../reducers/ui';
 
 /**
@@ -146,6 +146,25 @@ const watchers = {
   [uploadActions.uploadFulfilled]: handleUpload,
 };
 
+const DOWNLOAD_CACHE_MAX_SIZE = 8;
+
+function* downloadCacheWatcher() {
+  const queue = [];
+  while (true) {
+    const { payload } = yield take(fulfilled(fileActions.download));
+    const { path, content } = payload;
+
+    queue.push(path);
+    yield put(fileActions.downloadCached(path, content));
+    if (queue.length > DOWNLOAD_CACHE_MAX_SIZE) {
+      const stalePath = queue.pop();
+      const cachedDownload = yield select((state) => getDownload(state, stalePath));
+      URL.revokeObjectURL(cachedDownload);
+      yield put(fileActions.downloadExpired(path));
+    }
+  }
+}
+
 function* filesWatcher() {
   while (true) {
     const result = yield race(Object.keys(watchers).map((key) => take(key)));
@@ -185,4 +204,8 @@ function* refreshCurrentFolder({ payload }) {
   }
 }
 
-export default [filesWatcher(), takeLeading(taskActions.taskStarted, refreshCurrentFolder)];
+export default [
+  downloadCacheWatcher(),
+  filesWatcher(),
+  takeLeading(taskActions.taskStarted, refreshCurrentFolder),
+];

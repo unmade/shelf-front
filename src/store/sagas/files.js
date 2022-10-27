@@ -69,8 +69,8 @@ function* download({ type, payload }) {
     },
     preparePayload: (response, data) => {
       const contentType = response.headers.get('content-type');
-      const file = MediaType.isText(contentType) ? data : URL.createObjectURL(data);
-      return { path, file };
+      const content = MediaType.isText(contentType) ? data : URL.createObjectURL(data);
+      return { path, content };
     },
   });
 }
