@@ -12,6 +12,19 @@ import { getThumbnailById } from '../store/reducers/thumbnails';
 import ProtectedImage from './ui/ProtectedImage';
 
 import FileIcon from './FileIcon';
+import useFileContent from '../hooks/file-content';
+import { MEGABYTE } from '../filesize';
+import { MediaType } from '../constants';
+
+function SVGThumbnail({ className, fileId }) {
+  const file = useSelector((state) => getFileById(state, fileId));
+  const content = useFileContent(file.path, file.size, MEGABYTE);
+
+  if (content == null) {
+    return <FileIcon className={className} mediatype={file.mediatype} hidden={file.hidden} />;
+  }
+  return <img className={`object-scale-down ${className}`} src={content} alt="svg preview" />;
+}
 
 function Thumbnail({ className, fileId, size }) {
   const dispatch = useDispatch();
@@ -44,6 +57,10 @@ function Thumbnail({ className, fileId, size }) {
         {fileIcon}
       </ProtectedImage>
     );
+  }
+
+  if (MediaType.isSVG(file.mediatype)) {
+    return <SVGThumbnail className={className} fileId={fileId} />;
   }
   return fileIcon;
 }
