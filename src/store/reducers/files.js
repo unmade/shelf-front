@@ -23,9 +23,13 @@ function isFilesListed(action) {
 }
 
 const downloads = createReducer({}, (builder) => {
-  builder.addCase(fulfilled(actions.download), (state, action) => {
-    const { path, file } = action.payload;
-    state[path] = file;
+  builder.addCase(actions.downloadCached, (state, action) => {
+    const { path, content } = action.payload;
+    state[path] = content;
+  });
+  builder.addCase(actions.downloadExpired, (state, action) => {
+    const { path } = action.payload;
+    delete state[path];
   });
 });
 
