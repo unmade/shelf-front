@@ -11,7 +11,7 @@ import Loader from '../Loader';
 
 import NoPreview from './NoPreview';
 
-const MAX_SIZE = 8 * MEGABYTE;
+const MAX_SIZE = 9 * MEGABYTE;
 
 function PDFPreview({ file }) {
   const { t } = useTranslation(['filePreview']);

@@ -51,7 +51,7 @@ function Files() {
           actionButton={() => <Uploader />}
           dirPath={dirPath}
           droppable
-          emptyIcon={<icons.Collection className="h-12 w-12" />}
+          emptyIcon={<icons.Collection className="h-12 w-12 text-gray-400" />}
           emptyTitle={t('This folder is empty')}
           emptyDescription={t('Drag and drop files to upload')}
         />

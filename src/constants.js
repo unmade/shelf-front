@@ -12,6 +12,7 @@ export const Dialogs = {
 export const MediaType = {
   FOLDER: 'application/directory',
   IMAGES: new Set([
+    'image/gif',
     'image/heic',
     'image/heif',
     'image/jpeg',
