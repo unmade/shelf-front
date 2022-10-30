@@ -11,9 +11,25 @@ export const Dialogs = {
 
 export const MediaType = {
   FOLDER: 'application/directory',
+  IMAGES: new Set([
+    'image/heic',
+    'image/heif',
+    'image/jpeg',
+    'image/png',
+    'image/svg+xml',
+    'image/webp',
+    'image/x-icon',
+  ]),
+  TEXTS: new Set([
+    'text/javascript',
+    'text/json',
+    'text/sql',
+    'text/x-sh',
+    'text/x-zsh',
+    'text/xml',
+  ]),
   isImage(mediaType) {
-    const [type, subtype] = mediaType.split('/');
-    return type === 'image' && ['jpeg', 'png', 'svg+xml', 'webp', 'x-icon'].includes(subtype);
+    return this.IMAGES.has(mediaType);
   },
   isPDF(mediaType) {
     return mediaType === 'application/pdf';
@@ -22,11 +38,7 @@ export const MediaType = {
     return mediaType === 'image/svg+xml';
   },
   isText(mediaType) {
-    if (mediaType.startsWith('text')) {
-      return true;
-    }
-    const subtype = mediaType.split('/')[1];
-    return ['javascript', 'json', 'sql', 'x-sh', 'x-zsh', 'xml'].includes(subtype);
+    return this.TEXTS.has(mediaType);
   },
 };
 
