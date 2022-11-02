@@ -2,6 +2,8 @@
   "action.selectFolder": "Select Folder",
   "emptyResult": "No duplicates found",
   "folderPickerEmptyTitle": "No folders",
+  "goBack": "Go Back",
+  "pageNotAvailableOnMobile": "This page is not ready yet for mobile screens",
   "resultTitle": "Duplicates",
   "selectFolderButton": "Select Folder",
   "selectFolderDialogConfirmButton": "Select",

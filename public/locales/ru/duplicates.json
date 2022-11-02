@@ -2,6 +2,8 @@
   "action.selectFolder": "Выбрать папку",
   "emptyResult": "Дубликаты не найдены",
   "folderPickerEmptyTitle": "Нет папок",
+  "goBack": "Назад",
+  "pageNotAvailableOnMobile": "Эта страница еще не готова для мобильных экранов",
   "resultTitle": "Дубликаты",
   "selectFolderButton": "Выбрать папку",
   "selectFolderDialogConfirmButton": "Выбрать",
