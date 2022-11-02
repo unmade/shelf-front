@@ -95,21 +95,25 @@ const menu = [
     path: routes.FILES.prefix,
     title: i18n.t('Home'),
     icon: <icons.HomeOutlined className="mr-3 h-5 w-5 shrink-0 lg:mx-auto xl:mr-3" />,
+    desktopOnly: false,
   },
   {
     path: routes.BOOKMARKS.prefix,
     title: i18n.t('Saved'),
     icon: <icons.BookmarkOutlined className="mr-3 h-5 w-5 shrink-0 lg:mx-auto xl:mr-3" />,
+    desktopOnly: false,
   },
   {
     path: '/duplicates',
     title: i18n.t('Duplicates'),
     icon: <icons.DocumentSearchOutlined className="mr-3 h-5 w-5 shrink-0 lg:mx-auto xl:mr-3" />,
+    desktopOnly: true,
   },
   {
     path: routes.TRASH.prefix,
     title: i18n.t('Trash'),
     icon: <icons.TrashOutlined className="mr-3 h-5 w-5 shrink-0 lg:mx-auto xl:mr-3" />,
+    desktopOnly: false,
   },
 ];
 
@@ -139,12 +143,14 @@ function classNameFactory({ isActive }) {
 
 function MenuGroup({ items }) {
   return items.map((item) => (
-    <NavLink key={item.path} to={item.path} className={classNameFactory}>
-      <div className="mx-0 flex px-2 lg:mx-auto lg:block xl:mx-0 xl:flex xl:items-center">
-        <div>{item.icon}</div>
-        <div className="lg:pt-1 xl:pt-0">{item.title}</div>
-      </div>
-    </NavLink>
+    <div key={item.path} className={item.desktopOnly ? 'hidden lg:block' : 'block'}>
+      <NavLink to={item.path} className={classNameFactory}>
+        <div className="mx-0 flex px-2 lg:mx-auto lg:block xl:mx-0 xl:flex xl:items-center">
+          <div>{item.icon}</div>
+          <div className="lg:pt-1 xl:pt-0">{item.title}</div>
+        </div>
+      </NavLink>
+    </div>
   ));
 }
 
@@ -154,6 +160,7 @@ MenuGroup.propTypes = {
       title: PropTypes.string.isRequired,
       path: PropTypes.string.isRequired,
       icon: PropTypes.element.isRequired,
+      desktopOnly: PropTypes.bool.isRequired,
     }).isRequired
   ),
 };
