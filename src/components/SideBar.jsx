@@ -17,6 +17,7 @@ import * as icons from '../icons';
 import * as routes from '../routes';
 
 import CircularProgressBar from './ui/CircularProgressBar';
+import FileSize from './ui/FileSize';
 import ProgressBar from './ui/ProgressBar';
 
 import AccountMenu from './AccountMenu';
@@ -65,6 +66,13 @@ function StorageUsed() {
           warning={warning}
           danger={danger}
         />
+        <div className="text-gray-400">
+          {quota != null && (
+            <>
+              <FileSize size={quota - used} /> {t('available')}
+            </>
+          )}
+        </div>
       </div>
 
       <div className="hidden lg:block xl:hidden">

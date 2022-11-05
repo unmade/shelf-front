@@ -31,7 +31,8 @@ export default function getHumanSize(size) {
     suffix = 'KB';
     readable = size / KILOBYTE;
   } else {
-    return `${size} B`;
+    suffix = 'B';
+    readable = size;
   }
 
   // Return formatted number with suffix
