@@ -65,7 +65,7 @@ function SideBar() {
 
   return (
     <div className="flex h-full flex-col px-1 py-4">
-      <div className="mx-0 flex items-center px-2 pt-2 pb-8 font-mono text-2xl font-bold text-gray-900 lg:mx-auto xl:mx-0">
+      <div className="mx-0 flex items-center px-3 pt-2 pb-8 font-mono text-2xl font-bold text-gray-900 lg:mx-auto xl:mx-0">
         <div className="mr-3 flex items-center rounded-xl bg-white p-2 shadow-sm lg:mr-0 xl:mr-3">
           <icons.AppLogo className="h-7 w-7 shrink-0 text-gray-600" />
         </div>

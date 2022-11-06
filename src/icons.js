@@ -71,6 +71,7 @@ export const UserRemoveOutlined = hiOutline.UserRemoveIcon;
 
 const PRECISE_MAP = {
   [MediaType.FOLDER]: Folder,
+  'application/epub+zip': hiOutline.DocumentTextIcon,
   'application/gzip': hiOutline.ArchiveIcon,
   'application/javascript': di.DiJavascript1,
   'application/json': si.SiJson,
