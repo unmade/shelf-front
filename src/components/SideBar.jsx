@@ -90,7 +90,6 @@ function StorageUsed() {
           </CircularProgressBar>
         </div>
         <div className="mt-2 flex items-center justify-center space-x-1 text-sm">
-          <icons.Database className="h-4 w-4" />
           <p>{t('Storage')}</p>
         </div>
       </div>
@@ -205,9 +204,7 @@ function SideBar() {
       </div>
 
       <div className="border-t-2 pt-2">
-        <div className="px-3 py-2">
-          <AccountMenu />
-        </div>
+        <AccountMenu />
       </div>
     </div>
   );
