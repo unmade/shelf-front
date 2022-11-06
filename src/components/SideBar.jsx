@@ -76,7 +76,7 @@ function StorageUsed() {
       </div>
 
       <div className="hidden lg:block xl:hidden">
-        <div className="mx-auto h-12 w-12">
+        <div className="mx-auto h-11 w-11">
           <CircularProgressBar
             progress={progress}
             idle={idle}
@@ -84,42 +84,41 @@ function StorageUsed() {
             warning={warning}
             danger={danger}
           >
-            {(storageUsed != null && <div className="text-[12px]">{storageUsed}%</div>) || (
+            {(storageUsed != null && <icons.Database className="h-5 w-5" />) || (
               <icons.Infinite className="h-5 w-5" />
             )}
           </CircularProgressBar>
-        </div>
-        <div className="mt-2 flex items-center justify-center space-x-1 text-sm">
-          <p>{t('Storage')}</p>
         </div>
       </div>
     </>
   );
 }
 
+const iconClassName = 'mr-3 h-5 w-5 shrink-0 lg:mx-auto lg:h-6 lg:w-6 xl:mr-3 xl:h-5 xl:w-5';
+
 const menu = [
   {
     path: routes.FILES.prefix,
     title: i18n.t('Home'),
-    icon: <icons.HomeOutlined className="mr-3 h-5 w-5 shrink-0 lg:mx-auto xl:mr-3" />,
+    icon: <icons.HomeOutlined className={iconClassName} />,
     desktopOnly: false,
   },
   {
     path: routes.BOOKMARKS.prefix,
     title: i18n.t('Saved'),
-    icon: <icons.BookmarkOutlined className="mr-3 h-5 w-5 shrink-0 lg:mx-auto xl:mr-3" />,
+    icon: <icons.BookmarkOutlined className={iconClassName} />,
     desktopOnly: false,
   },
   {
     path: '/duplicates',
     title: i18n.t('Duplicates'),
-    icon: <icons.DocumentSearchOutlined className="mr-3 h-5 w-5 shrink-0 lg:mx-auto xl:mr-3" />,
+    icon: <icons.DocumentSearchOutlined className={iconClassName} />,
     desktopOnly: true,
   },
   {
     path: routes.TRASH.prefix,
     title: i18n.t('Trash'),
-    icon: <icons.TrashOutlined className="mr-3 h-5 w-5 shrink-0 lg:mx-auto xl:mr-3" />,
+    icon: <icons.TrashOutlined className={iconClassName} />,
     desktopOnly: false,
   },
 ];
@@ -128,7 +127,7 @@ const adminMenu = [
   {
     path: routes.USER_MANAGEMENT.prefix,
     title: i18n.t('Users'),
-    icon: <icons.UsersOutline className="mr-3 h-5 w-5 shrink-0 lg:mx-auto xl:mr-3" />,
+    icon: <icons.UsersOutline className={iconClassName} />,
   },
 ];
 
@@ -141,7 +140,7 @@ i18n.on('languageChanged init', () => {
 });
 
 const defaultClassNames =
-  'flex items-center whitespace-nowrap rounded-xl py-2 px-3 font-medium transition-colors duration-200';
+  'mx-3 flex items-center whitespace-nowrap rounded-xl py-2 px-3 font-medium transition-colors duration-200 lg:p-2.5 xl:py-2 xl:px-3';
 const activeClassNames = 'bg-gray-200 text-gray-700';
 
 function classNameFactory({ isActive }) {
@@ -152,9 +151,9 @@ function MenuGroup({ items }) {
   return items.map((item) => (
     <div key={item.path} className={item.desktopOnly ? 'hidden lg:block' : 'block'}>
       <NavLink to={item.path} className={classNameFactory}>
-        <div className="mx-0 flex px-2 lg:mx-auto lg:block xl:mx-0 xl:flex xl:items-center">
+        <div className="mx-0 flex lg:mx-auto lg:block xl:mx-0 xl:flex xl:items-center">
           <div>{item.icon}</div>
-          <div className="lg:pt-1 xl:pt-0">{item.title}</div>
+          <div className="block lg:hidden xl:block">{item.title}</div>
         </div>
       </NavLink>
     </div>
@@ -177,7 +176,7 @@ function SideBar() {
   const isSuperuser = useSelector(getIsCurrentAccountSuperuser);
 
   return (
-    <div className="flex h-full flex-col px-3 py-4">
+    <div className="flex h-full flex-col px-1 py-4">
       <div className="mx-0 flex items-center px-2 pt-2 pb-8 font-mono text-2xl font-bold text-gray-900 lg:mx-auto xl:mx-0">
         <div className="mr-3 flex items-center rounded-xl bg-white p-2 shadow-sm lg:mr-0 xl:mr-3">
           <icons.AppLogo className="h-7 w-7 shrink-0 text-gray-600" />
@@ -186,7 +185,7 @@ function SideBar() {
       </div>
 
       <div className="flex-1 pt-2 pb-4 text-sm text-gray-500">
-        <nav className="space-y-2">
+        <nav className="space-y-2 lg:space-y-4 xl:space-y-2">
           <MenuGroup items={menu} />
           {isSuperuser && (
             <>
@@ -203,7 +202,7 @@ function SideBar() {
         <StorageUsed />
       </div>
 
-      <div className="border-t-2 pt-2">
+      <div className="mx-3 border-t-2 pt-2">
         <AccountMenu />
       </div>
     </div>

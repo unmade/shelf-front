@@ -21,7 +21,7 @@ function Tabs({ tabs, size }) {
             key={tab.name}
             className={({ selected }) =>
               classNames(
-                'w-full rounded-lg py-1 text-sm font-medium leading-5 ',
+                'w-full rounded-lg text-sm font-medium leading-5 ',
                 'focus:outline-none focus:ring-2',
                 paddingBySize[size],
                 selected

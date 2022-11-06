@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,20 +23,29 @@ function Avatar({ className, username }) {
   );
 }
 
+Avatar.propTypes = {
+  className: PropTypes.string,
+  username: PropTypes.string.isRequired,
+};
+
+Avatar.defaultProps = {
+  className: '',
+};
+
 function Overlay() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
+  const { username } = useSelector(getCurrentAccount);
 
   const onSignOut = () => {
     dispatch(signedOut());
   };
 
-  const username = 'admin';
-
   return (
-    <div className="flex min-w-[12rem] flex-col space-y-2 rounded-2xl bg-white p-2 shadow focus:outline-none">
+    <div className="flex min-w-[12rem] flex-col space-y-2 rounded-xl bg-white p-2 shadow focus:outline-none">
       <div className="flex flex-row items-center">
-        <Avatar className="h-10 w-10" username={username} />
+        <Avatar className="h-8 w-8 rounded-lg" username={username} />
         <div className="ml-2 flex flex-1 flex-col text-left">
           <div className="text-sm font-semibold text-gray-700">{username}</div>
         </div>
@@ -57,6 +67,8 @@ function Overlay() {
   );
 }
 
+Overlay.propTypes = {};
+
 function AccountMenu() {
   const dispatch = useDispatch();
   const account = useSelector(getCurrentAccount);
@@ -76,15 +88,13 @@ function AccountMenu() {
 
   return (
     <Dropdown overlay={Overlay} placement="top-end">
-      <div className="rounded-2xl px-3 py-2 hover:bg-gray-200">
-        <div className="flex flex-row items-center lg:block xl:flex">
-          <Avatar username={username} className="h-10 w-10" />
-          <div className="ml-2 flex flex-1 flex-col text-left lg:hidden xl:flex">
-            <div className="text-sm font-semibold text-gray-700">{username}</div>
-          </div>
-          <div className="block lg:hidden xl:block">
-            <icons.Selector className="h-5 w-5 text-gray-500" />
-          </div>
+      <div className="flex flex-row items-center lg:block xl:flex">
+        <Avatar username={username} className="h-10 w-10" />
+        <div className="ml-2 flex flex-1 flex-col text-left lg:hidden xl:flex">
+          <div className="text-sm font-semibold text-gray-700">{username}</div>
+        </div>
+        <div className="block lg:hidden xl:block">
+          <icons.Selector className="h-5 w-5 text-gray-500" />
         </div>
       </div>
     </Dropdown>
