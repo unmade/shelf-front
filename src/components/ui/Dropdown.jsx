@@ -75,7 +75,7 @@ function Dropdown({ children, overlay: Overlay, placement, onOpenChange }) {
 Dropdown.propTypes = {
   children: PropTypes.element.isRequired,
   overlay: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
-  placement: PropTypes.oneOf(['start-end', 'bottom-end', 'right-end']),
+  placement: PropTypes.oneOf(['start-end', 'bottom-end', 'right-end', 'top-end']),
   onOpenChange: PropTypes.func,
 };
 

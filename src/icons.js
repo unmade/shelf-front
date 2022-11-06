@@ -4,7 +4,6 @@ import * as di from 'react-icons/di';
 import * as io from 'react-icons/io';
 import * as si from 'react-icons/si';
 
-// import { ArrowN } from '@heroicons/react/solid';
 import * as hiSolid from '@heroicons/react/solid';
 import * as hiOutline from '@heroicons/react/outline';
 
@@ -63,7 +62,6 @@ export const Redo = hiOutline.RefreshIcon;
 export const SearchOutlined = hiOutline.SearchIcon;
 export const Selector = hiSolid.SelectorIcon;
 export const SelectorOutlined = hiOutline.SelectorIcon;
-export const SettingsOutlined = hiOutline.CogIcon;
 export const Spinner = cg.CgSpinner;
 export const Trash = hiSolid.TrashIcon;
 export const TrashOutlined = hiOutline.TrashIcon;
