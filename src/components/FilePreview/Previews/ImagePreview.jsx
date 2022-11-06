@@ -1,7 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useTranslation } from 'react-i18next';
+
+import { MEGABYTE } from '../../../filesize';
+
 import Thumbnail from '../../Thumbnail';
+
+import NoPreview from './NoPreview';
+
+const MAX_SIZE = 20 * MEGABYTE;
 
 function isHiDPI() {
   return (
@@ -43,6 +51,12 @@ function getSize({ width, height }) {
 }
 
 function ImagePreview({ file }) {
+  const { t } = useTranslation(['filePreview']);
+
+  if (file.size > MAX_SIZE) {
+    return <NoPreview file={file} reason={t('filePreview:fileTooLarge')} />;
+  }
+
   const size = getSize(window.screen);
   return <Thumbnail className="h-full w-full" fileId={file.id} size={size} />;
 }
