@@ -53,6 +53,7 @@ export const ICursor = hiOutline.PencilIcon;
 export const Infinite = io.IoIosInfinite;
 export const InformationCircleOutlined = hiOutline.InformationCircleIcon;
 export const Logout = hiSolid.LogoutIcon;
+export const LogoutOutlined = hiOutline.LogoutIcon;
 export const NewFolder = hiSolid.FolderAddIcon;
 export const Menu = hiSolid.MenuIcon;
 export const More = hiOutline.DotsHorizontalIcon;
@@ -62,11 +63,13 @@ export const Redo = hiOutline.RefreshIcon;
 export const SearchOutlined = hiOutline.SearchIcon;
 export const Selector = hiSolid.SelectorIcon;
 export const SelectorOutlined = hiOutline.SelectorIcon;
+export const SettingsOutlined = hiOutline.CogIcon;
 export const Spinner = cg.CgSpinner;
 export const Trash = hiSolid.TrashIcon;
 export const TrashOutlined = hiOutline.TrashIcon;
 export const Upload = hiSolid.UploadIcon;
 export const UsersOutline = hiOutline.UsersIcon;
+export const UserRemoveOutlined = hiOutline.UserRemoveIcon;
 
 const PRECISE_MAP = {
   [MediaType.FOLDER]: Folder,

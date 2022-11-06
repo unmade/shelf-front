@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { useFloating, offset } from '@floating-ui/react-dom';
+import { useFloating, flip, offset } from '@floating-ui/react-dom';
 import { Popover, Transition } from '@headlessui/react';
 
 function OverlayWrapper({ children, open, onOpenChange }) {
@@ -25,10 +25,10 @@ OverlayWrapper.defaultProps = {
   onOpenChange: null,
 };
 
-function Dropdown({ children, overlay: Overlay, onOpenChange }) {
+function Dropdown({ children, overlay: Overlay, placement, onOpenChange }) {
   const { x, y, reference, floating, strategy } = useFloating({
-    placement: 'bottom-end',
-    middleware: [offset(0, 5)],
+    placement,
+    middleware: [offset(10), flip()],
   });
 
   return (
@@ -75,10 +75,12 @@ function Dropdown({ children, overlay: Overlay, onOpenChange }) {
 Dropdown.propTypes = {
   children: PropTypes.element.isRequired,
   overlay: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
+  placement: PropTypes.oneOf(['start-end', 'bottom-end', 'right-end']),
   onOpenChange: PropTypes.func,
 };
 
 Dropdown.defaultProps = {
+  placement: 'bottom-end',
   onOpenChange: null,
 };
 

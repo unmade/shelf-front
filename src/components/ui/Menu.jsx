@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { useFloating, offset } from '@floating-ui/react-dom';
+import { useFloating, flip, offset } from '@floating-ui/react-dom';
 import { Menu as UIMenu, Transition } from '@headlessui/react';
 
 function Menu({ buttonClassName, children, items, panelClassName, itemRender: Render }) {
   const { x, y, reference, floating, strategy } = useFloating({
     placement: 'bottom-end',
-    middleware: [offset(0, 5)],
+    middleware: [offset(5), flip()],
   });
 
   return (
