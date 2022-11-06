@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,27 +9,9 @@ import { getCurrentAccount } from '../../store/reducers/accounts';
 
 import * as icons from '../../icons';
 
+import Avatar from '../ui/Avatar';
 import Button from '../ui/Button';
 import Dropdown from '../ui/Dropdown';
-
-function Avatar({ className, username }) {
-  return (
-    <div
-      className={`${className} mx-0 flex items-center justify-center rounded-xl border border-orange-200 bg-orange-50 text-orange-600 lg:mx-auto xl:mx-0`}
-    >
-      {username.substring(0, 1).toUpperCase()}
-    </div>
-  );
-}
-
-Avatar.propTypes = {
-  className: PropTypes.string,
-  username: PropTypes.string.isRequired,
-};
-
-Avatar.defaultProps = {
-  className: '',
-};
 
 function Overlay() {
   const { t } = useTranslation();
