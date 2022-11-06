@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { retrieveCurrentAccount } from '../store/actions/accounts';
-import { signedOut } from '../store/actions/auth';
-import { getCurrentAccount } from '../store/reducers/accounts';
+import { retrieveCurrentAccount } from '../../store/actions/accounts';
+import { signedOut } from '../../store/actions/auth';
+import { getCurrentAccount } from '../../store/reducers/accounts';
 
-import * as icons from '../icons';
+import * as icons from '../../icons';
 
-import Button from './ui/Button';
-import Dropdown from './ui/Dropdown';
+import Button from '../ui/Button';
+import Dropdown from '../ui/Dropdown';
 
 function Avatar({ className, username }) {
   return (
@@ -69,7 +69,7 @@ function Overlay() {
 
 Overlay.propTypes = {};
 
-function AccountMenu() {
+function CurrentAccount() {
   const dispatch = useDispatch();
   const account = useSelector(getCurrentAccount);
 
@@ -101,6 +101,6 @@ function AccountMenu() {
   );
 }
 
-AccountMenu.propTypes = {};
+CurrentAccount.propTypes = {};
 
-export default AccountMenu;
+export default CurrentAccount;
