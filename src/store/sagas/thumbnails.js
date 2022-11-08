@@ -15,11 +15,11 @@ function* watcher() {
     if (size !== 'xs') {
       queue.push({ fileId, size });
       if (queue.length > MAX_SIZE) {
-        const entry = queue.pop();
+        const entry = queue.shift();
         const thumbnailCache = yield select((state) => getThumbnailById(state, entry.fileId));
         const objectUrl = thumbnailCache[size];
         URL.revokeObjectURL(objectUrl);
-        yield put(actions.thumbnailExpired(fileId, size));
+        yield put(actions.thumbnailExpired(entry.fileId, size));
       }
     }
   }

@@ -157,10 +157,10 @@ function* downloadCacheWatcher() {
     queue.push(path);
     yield put(fileActions.downloadCached(path, content));
     if (queue.length > DOWNLOAD_CACHE_MAX_SIZE) {
-      const stalePath = queue.pop();
+      const stalePath = queue.shift();
       const cachedDownload = yield select((state) => getDownload(state, stalePath));
       URL.revokeObjectURL(cachedDownload);
-      yield put(fileActions.downloadExpired(path));
+      yield put(fileActions.downloadExpired(stalePath));
     }
   }
 }

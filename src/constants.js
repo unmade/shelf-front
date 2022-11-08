@@ -22,12 +22,12 @@ export const MediaType = {
     'image/x-icon',
   ]),
   TEXTS: new Set([
-    'text/javascript',
-    'text/json',
-    'text/sql',
-    'text/x-sh',
-    'text/x-zsh',
-    'text/xml',
+    'application/javascript',
+    'application/json',
+    'application/sql',
+    'application/x-sh',
+    'application/x-zsh',
+    'application/xml',
   ]),
   isImage(mediaType) {
     return this.IMAGES.has(mediaType);
@@ -39,6 +39,9 @@ export const MediaType = {
     return mediaType === 'image/svg+xml';
   },
   isText(mediaType) {
+    if (mediaType.startsWith('text')) {
+      return true;
+    }
     return this.TEXTS.has(mediaType);
   },
 };
