@@ -29,7 +29,7 @@ const DropdownButton = React.forwardRef(({ uploading }, ref) => (
     type="primary"
     title="Uploads"
     size="lg"
-    icon={<icons.CloudUploadOutlined className="h-5 w-5 shrink-0" />}
+    icon={<icons.CloudUpload className="h-5 w-5 shrink-0" />}
   />
 ));
 

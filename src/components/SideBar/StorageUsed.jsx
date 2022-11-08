@@ -56,7 +56,7 @@ function StorageUsed() {
           warning={warning}
           danger={danger}
         />
-        <div className="text-gray-400">
+        <div className="text-xs text-gray-400">
           {quota != null && (
             <>
               <FileSize size={quota - used} /> {t('available')}
@@ -84,6 +84,6 @@ function StorageUsed() {
   );
 }
 
-export default StorageUsed;
-
 StorageUsed.propTypes = {};
+
+export default StorageUsed;

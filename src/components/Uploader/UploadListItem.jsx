@@ -57,12 +57,12 @@ function UploadListItem({ uploadId, style }) {
   return (
     <div style={style}>
       <div className="flex h-full flex-row items-center space-x-4 py-2">
-        <div style={fillerStyles} className={`absolute my-1 rounded-lg ${bgColor}`} />
+        <div style={fillerStyles} className={`absolute rounded-xl ${bgColor}`} />
         <div className="z-10">
           <UploadThumbnail className={`${textColor.secondary} h-12 w-12`} uploadId={id} />
         </div>
 
-        <div className="z-10 flex w-full min-w-0 flex-col space-y-2">
+        <div className="z-10 flex w-full min-w-0 flex-col">
           <div className="flex flex-row items-center justify-between space-x-4">
             <div className={`flex min-w-0 flex-col ${textColor.primary}`}>
               <p className="truncate font-semibold">{name}</p>

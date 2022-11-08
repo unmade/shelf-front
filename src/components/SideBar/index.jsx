@@ -86,11 +86,11 @@ function SideBar() {
         </nav>
       </div>
 
-      <div className="space-y-1 px-3 py-6 text-sm font-medium text-gray-500">
+      <div className="space-y-1 p-3 text-sm font-medium text-gray-500">
         <StorageUsed />
       </div>
 
-      <div className="mx-3 border-t-2 pt-2">
+      <div className="mx-3 border-t-2 pt-3">
         <CurrentAccount />
       </div>
     </div>
