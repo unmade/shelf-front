@@ -17,12 +17,17 @@ const byId = createReducer(UPLOADS_BY_ID_INITIAL_STATE, (builder) => {
     const { upload, progress } = action.payload;
     state[upload.id].progress = progress;
   });
+  builder.addCase(actions.uploadFulfilled, (state, action) => {
+    const { upload } = action.meta;
+    state[upload.id].done = true;
+  });
   builder.addCase(actions.uploadRejected, (state, action) => {
     const {
       error,
       meta: { upload },
     } = action;
     state[upload.id].error = error;
+    state[upload.id].done = true;
   });
 });
 

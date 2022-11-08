@@ -26,7 +26,7 @@ function BackgroundTask({ className }) {
   const movingFilesCounter = useSelector(getMovingFilesCounter);
 
   const uploading = useSelector(getIsUploading);
-  const uploadsCounter = useSelector((state) => getVisibleUploadsLength(state, 'all'));
+  const uploadsCounter = useSelector((state) => getVisibleUploadsLength(state, 'inProgress'));
 
   const text = [];
   if (emptyingTrash) {

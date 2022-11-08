@@ -6,13 +6,11 @@ import { getUploadById } from '../../store/reducers/uploads';
 import FileIcon from '../FileIcon';
 
 function UploadThumbnail({ className, uploadId }) {
-  const upload = useSelector((state) => getUploadById(state, uploadId));
-  if (upload.thumbnail !== null) {
-    return (
-      <img className={`object-scale-down ${className}`} src={upload.thumbnail} alt={upload.name} />
-    );
+  const { name, mediatype, thumbnail } = useSelector((state) => getUploadById(state, uploadId));
+  if (thumbnail != null) {
+    return <img className={`object-scale-down ${className}`} src={thumbnail} alt={name} />;
   }
-  return <FileIcon className={className} mediatype={upload.mediatype} />;
+  return <FileIcon className={className} mediatype={mediatype} />;
 }
 
 UploadThumbnail.propTypes = {

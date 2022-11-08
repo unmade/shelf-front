@@ -103,6 +103,7 @@ function* normalize(file, uploadTo) {
     progress: 0,
     thumbnail: null,
     error: null,
+    done: false,
   };
 
   let fileObj = file;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { useSelector } from 'react-redux';
 
@@ -29,20 +30,41 @@ const bgColors = {
   inProgress: 'bg-blue-400/25',
 };
 
-function getStatus({ progress, error }) {
+function getStatus({ error, done }) {
   if (error) {
     return 'failed';
   }
-  if (progress === 100) {
+  if (done) {
     return 'completed';
   }
   return 'inProgress';
 }
 
+function Progress({ done, error, progress }) {
+  const status = getStatus({ error, done });
+  const textColor = textColors[status];
+
+  if (error) {
+    return <icons.ExclamationCircle className={`z-10 mr-2 h-5 w-5 ${textColor.secondary}`} />;
+  }
+  if (done) {
+    return <icons.CheckCircle className={`z-10 mr-2 h-5 w-5 ${textColor.secondary}`} />;
+  }
+  if (progress === 100 && !done) {
+    return <icons.Spinner className="z-10 mr-2 h-5 w-5 animate-spin text-blue-500" />;
+  }
+  return <div className={`mr-2 font-medium ${textColor.secondary}`}>{progress}%</div>;
+}
+
+Progress.propTypes = {
+  done: PropTypes.bool.isRequired,
+  progress: PropTypes.number.isRequired,
+};
+
 function UploadListItem({ uploadId, style }) {
   const item = useSelector((state) => getUploadById(state, uploadId));
 
-  const { id, name, parentPath, progress, error } = item;
+  const { id, name, parentPath, progress, error, done } = item;
 
   const fillerStyles = {
     height: 'calc(100% - 0.25rem)',
@@ -70,11 +92,7 @@ function UploadListItem({ uploadId, style }) {
             </div>
 
             <div className="text-right text-sm">
-              {error ? (
-                <icons.ExclamationCircle className={`z-10 mr-2 h-5 w-5 ${textColor.secondary}`} />
-              ) : (
-                <div className={`mr-2 font-medium ${textColor.secondary}`}>{progress}%</div>
-              )}
+              <Progress error={error} done={done} progress={progress} />
             </div>
           </div>
         </div>
