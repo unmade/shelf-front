@@ -11,6 +11,7 @@ import * as actions from '../actions/uploads';
 import { getAccessToken } from '../reducers/auth';
 
 const MAX_PARALLEL_UPLOADS = 1;
+const MAX_UPLOAD_SIZE = import.meta.env.SNOWPACK_PUBLIC_MAX_UPLOAD_SIZE_IN_BYTES ?? 104857600;
 
 // taken from: https://decembersoft.com/posts/file-upload-progress-with-redux-saga/
 function createUploadFileChannel({ url, accessToken, requestId, fileObj, fullPath }) {
@@ -22,7 +23,7 @@ function createUploadFileChannel({ url, accessToken, requestId, fileObj, fullPat
     };
 
     const onFailure = () => {
-      emitter({ error: true });
+      emitter({ error: { code: 'uploadError' } });
       emitter(END);
     };
 
@@ -62,6 +63,11 @@ function createUploadFileChannel({ url, accessToken, requestId, fileObj, fullPat
 }
 
 function* uploadFile(upload, file) {
+  if (upload.error) {
+    yield put(actions.uploadRejected(upload, null, upload.error));
+    return;
+  }
+
   const url = `${API_BASE_URL}/files/upload`;
   const accessToken = yield select(getAccessToken);
   const requestId = nanoid();
@@ -110,13 +116,13 @@ function* normalize(file, uploadTo) {
 
   const { fullPath } = file;
   if (fullPath != null) {
-    // must be FileSystemEntry
+    // must be FileSystemFileEntry
     try {
       fileObj = yield new Promise((resolve, reject) => file.file(resolve, reject));
       upload.uploadPath = `${uploadTo}${fullPath}`;
       upload.mediatype = fileObj.type;
     } catch (e) {
-      upload.error = true;
+      upload.error = { code: 'badFile' };
     }
 
     if (MediaType.isImage(upload.mediatype)) {
@@ -124,6 +130,10 @@ function* normalize(file, uploadTo) {
     }
 
     upload.parentPath = routes.parent(fullPath);
+  }
+
+  if (fileObj.size > MAX_UPLOAD_SIZE) {
+    upload.error = { code: 'uploadTooLarge' };
   }
 
   return [upload, fileObj];

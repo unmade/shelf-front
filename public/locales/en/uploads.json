@@ -1,4 +1,5 @@
 {
+  "badFile": "Invalid file",
   "dropzone.title": "Drag files here",
   "panel.emptyTitle": "Uploads will appear here",
   "tab.all.title": "All",
@@ -9,5 +10,7 @@
   "totalUploadedCount_other": "Uploaded {{count}} files out of {{totalCount}}",
   "totalUploadingCount_one": "Uploading {{count}} file...",
   "totalUploadingCount_other": "Uploading {{count}} files...",
-  "uploadButton.title": "Browse"
+  "uploadButton.title": "Browse",
+  "uploadError": "Upload failed",
+  "uploadTooLarge": "File size is too large"
 }

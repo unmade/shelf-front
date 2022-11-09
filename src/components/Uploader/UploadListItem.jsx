@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import { getUploadById } from '../../store/reducers/uploads';
 
@@ -31,13 +32,27 @@ const bgColors = {
 };
 
 function getStatus({ error, done }) {
-  if (error) {
+  if (error != null) {
     return 'failed';
   }
   if (done) {
     return 'completed';
   }
   return 'inProgress';
+}
+
+function useUploadError(code) {
+  const { t } = useTranslation(['uploads']);
+  switch (code) {
+    case 'uploadTooLarge':
+      return t('uploads:uploadTooLarge');
+    case 'badFile':
+      return t('uploads:badFile');
+    case 'uploadError':
+      return t('uploads:uploadError');
+    default:
+      return null;
+  }
 }
 
 function Progress({ done, error, progress }) {
@@ -73,13 +88,14 @@ function UploadListItem({ uploadId, style }) {
   };
 
   const status = getStatus(item);
+  const errorText = useUploadError(error?.code);
   const textColor = textColors[status];
   const bgColor = bgColors[status];
 
   return (
     <div style={style}>
       <div className="flex h-full flex-row items-center space-x-4 py-2">
-        <div style={fillerStyles} className={`absolute rounded-xl ${bgColor}`} />
+        <div style={fillerStyles} className={`absolute rounded-lg ${bgColor}`} />
         <div className="z-10">
           <UploadThumbnail className={`${textColor.secondary} h-12 w-12`} uploadId={id} />
         </div>
@@ -88,7 +104,7 @@ function UploadListItem({ uploadId, style }) {
           <div className="flex flex-row items-center justify-between space-x-4">
             <div className={`flex min-w-0 flex-col ${textColor.primary}`}>
               <p className="truncate font-semibold">{name}</p>
-              <p className={`truncate ${textColor.secondary}`}>{parentPath}</p>
+              <p className={`truncate ${textColor.secondary}`}>{errorText ?? parentPath}</p>
             </div>
 
             <div className="text-right text-sm">

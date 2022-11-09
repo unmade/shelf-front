@@ -1,4 +1,5 @@
 {
+  "badFile": "файл поврежден",
   "dropzone.title": "Перетащите файлы",
   "panel.emptyTitle": "Здесь будут показаны загрузки",
   "tab.all.title": "Все",
@@ -13,5 +14,7 @@
   "totalUploadingCount_few": "Загружается {{count}} файла",
   "totalUploadingCount_many": "Загружается {{count}} файлов",
   "totalUploadingCount_other": "Загружается {{count}} файлов",
-  "uploadButton.title": "Выбрать"
+  "uploadButton.title": "Выбрать",
+  "uploadError": "Загрузка не удалась",
+  "uploadTooLarge": "Файл слишком большой"
 }
