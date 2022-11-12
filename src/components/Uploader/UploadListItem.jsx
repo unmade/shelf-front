@@ -12,23 +12,23 @@ import UploadThumbnail from './UploadThumbnail';
 
 const textColors = {
   completed: {
-    primary: 'text-teal-700',
-    secondary: 'text-teal-600',
+    primary: 'text-teal-700 dark:text-teal-300',
+    secondary: 'text-teal-600 dark:text-teal-400',
   },
   failed: {
-    primary: 'text-red-700',
-    secondary: 'text-red-600',
+    primary: 'text-red-700 dark:text-rose-300',
+    secondary: 'text-red-600 dark:text-rose-400',
   },
   inProgress: {
-    primary: 'text-gray-600',
-    secondary: 'text-gray-500',
+    primary: 'text-gray-600 dark:text-zinc-300',
+    secondary: 'text-gray-500 dark:text-zinc-400',
   },
 };
 
 const bgColors = {
-  completed: 'bg-teal-400/25',
-  failed: 'bg-red-400/25',
-  inProgress: 'bg-blue-400/25',
+  completed: 'bg-teal-400/25 dark:bg-teal-500/25',
+  failed: 'bg-red-400/25 dark:bg-rose-500/25',
+  inProgress: 'bg-blue-400/25 dark:bg-blue-500/25',
 };
 
 function getStatus({ error, done }) {

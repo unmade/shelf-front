@@ -8,9 +8,9 @@ import { MediaType } from '../constants';
 function FileIcon({ className, hidden, mediatype }) {
   let color;
   if (mediatype === MediaType.FOLDER) {
-    color = hidden ? 'text-blue-200' : 'text-blue-400';
+    color = hidden ? 'text-blue-200 dark:text-blue-500/50' : 'text-blue-400';
   } else {
-    color = hidden ? 'text-gray-300' : 'text-gray-400';
+    color = hidden ? 'text-gray-300 dark:text-zinc-600' : 'text-gray-400 dark:text-zinc-500';
   }
 
   const Icon = icons.getIcon(mediatype);

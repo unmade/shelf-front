@@ -23,13 +23,13 @@ function TableHeader({ items }) {
   const checkboxClass = hasSelected ? '' : 'show-on-hover-target';
 
   return (
-    <div className="show-on-hover-trigger mb-1 flex flex-row items-center border-l border-r border-transparent bg-white px-9 py-2 text-xs font-medium uppercase tracking-wider text-gray-500">
+    <div className="show-on-hover-trigger mb-1 flex flex-row items-center border-l border-r border-transparent px-9 py-2 text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-zinc-400">
       <div className={`flex w-full ${!hasSelected ? 'md:w-3/5 lg:w-2/3' : ''}`}>
         <input
           // hack: set partial status for checkbox
           // eslint-disable-next-line no-return-assign,no-param-reassign
           ref={(el) => el && (el.indeterminate = hasSelected && selectedCount !== items.length)}
-          className={`form-checkbox rounded-md border-gray-300 text-blue-500 ${checkboxClass}`}
+          className={`form-checkbox rounded-md border-gray-300 bg-transparent text-blue-500 dark:border-zinc-600 dark:focus:ring-offset-zinc-800 ${checkboxClass}`}
           onClick={onSelect}
           type="checkbox"
           checked={hasSelected}
@@ -77,8 +77,10 @@ function FileTableView({
             className={`flex h-full flex-col items-center justify-center ${fileDropBorder} ${className}`}
           >
             {emptyIcon}
-            <p className="mt-4 text-lg font-semibold text-gray-800">{emptyTitle}</p>
-            <p className="text-sm text-gray-600">{emptyDescription}</p>
+            <p className="mt-4 text-lg font-semibold text-gray-800 dark:text-zinc-200">
+              {emptyTitle}
+            </p>
+            <p className="text-sm text-gray-600 dark:text-zinc-400">{emptyDescription}</p>
           </div>
         )}
       </div>

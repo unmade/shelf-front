@@ -33,8 +33,8 @@ function NoPreview({ file, reason }) {
           mediatype={mediatype}
           hidden={hidden}
         />
-        <p className="text-gray-700">{name}</p>
-        <div className="text-xs text-gray-600">
+        <p className="text-gray-700 dark:text-zinc-200">{name}</p>
+        <div className="text-xs text-gray-600 dark:text-zinc-400">
           <FileSize size={size} />
           <span> &bull; </span>
           <TimeAgo mtime={mtime * 1000} />
@@ -42,7 +42,7 @@ function NoPreview({ file, reason }) {
       </div>
 
       <div className="text-center">
-        <p className="mb-4 text-xl font-medium text-gray-700">
+        <p className="mb-4 text-xl font-medium text-gray-700 dark:text-zinc-200">
           {reason || t('filePreview:previewNotAvailable')}
         </p>
         <Button

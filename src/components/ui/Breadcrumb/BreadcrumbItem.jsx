@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
-const defaultClassNames = 'block text-gray-500 transition-colors duration-150 hover:text-gray-900';
-const activeClassNames = 'text-gray-900 pointer-events-none';
+const defaultClassNames =
+  'block text-gray-500 transition-colors duration-150 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-zinc-100 ';
+const activeClassNames = 'text-gray-900 pointer-events-none dark:text-zinc-100';
 
 function BreadcrumbItem({ active, children, className, to, onClick }) {
   const classNameFactory = ({ isActive }) => {

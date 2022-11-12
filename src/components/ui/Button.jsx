@@ -11,28 +11,56 @@ const classNamesByType = {
 
 const colors = {
   default: {
-    [false]: ['bg-white', 'text-gray-700', 'border-gray-300', 'hover:text-gray-600'],
-    [true]: ['bg-white', 'text-red-600', 'border-red-400'],
+    [false]: [
+      'bg-white dark:bg-zinc-700',
+      'text-gray-700 dark:text-zinc-200',
+      'border-gray-300 dark:border-zinc-600',
+      'hover:text-gray-600 dark:hover:text-zinc-300',
+      'dark:focus:ring-zinc-700',
+    ],
+    [true]: [
+      'bg-white dark:bg-zinc-700',
+      'text-red-600 dark:text-rose-300',
+      'border-red-400 dark:border-rose-500',
+    ],
   },
   primary: {
     [false]: [
-      'bg-gradient-to-br from-blue-400 to-indigo-400',
+      'bg-gradient-to-br',
+      'from-blue-400 dark:from-blue-500/90',
+      'to-indigo-400 dark:to-indigo-500/90',
       'text-white',
-      'hover:from-blue-300 hover:to-indigo-400',
+      'hover:from-blue-300 dark:hover:from-blue-500',
+      'hover:to-indigo-400 dark:hover:to-indigo-500',
       'shadow',
+      'dark:focus:ring-indigo-700',
     ],
     [true]: [
       'bg-gradient-to-br',
-      'from-red-400 hover:from-red-300',
-      'to-rose-400',
+      'from-red-400 dark:from-rose-500/90',
+      'to-rose-400 dark:to-red-500/90',
+      'hover:from-red-300 dark:hover:from-rose-500',
+      'dark:hover:to-red-500',
       'text-red-50 hover:text-white',
       'shadow',
-      'ring-rose-300',
+      'ring-rose-300 dark:focus:ring-rose-700',
     ],
   },
   text: {
-    [false]: ['text-gray-700', 'hover:bg-gray-50'],
-    [true]: ['text-red-600', 'hover:bg-red-50'],
+    [false]: [
+      'text-gray-700',
+      'hover:bg-gray-50',
+      'dark:text-zinc-300',
+      'dark:hover:bg-zinc-700/30',
+      'dark:focus:ring-zinc-700',
+    ],
+    [true]: [
+      'text-red-600',
+      'hover:bg-red-50',
+      'dark:text-rose-500',
+      'dark:hover:bg-rose-700/30',
+      'dark:focus:ring-rose-800',
+    ],
   },
 };
 
@@ -107,7 +135,8 @@ function Button({
     fontSizes[size],
     'focus:outline-none',
     'focus:ring',
-    'ring-offset-2',
+    'focus:ring-offset-2',
+    'dark:focus:ring-offset-zinc-800',
     'transition-all',
     'ease-in-out',
   ];

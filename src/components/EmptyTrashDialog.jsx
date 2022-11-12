@@ -26,7 +26,7 @@ function EmptyTrashDialog({ loading, uid, visible, onEmpty, onCancel }) {
       <p>
         <Trans i18nKey="empty_trash_dialog_text_styled" t={t}>
           Are you sure you want to delete
-          <b className="text-gray-700">all</b>
+          <b className="text-gray-700 dark:text-zinc-200">all</b>
           files in the Trash?
         </Trans>
       </p>

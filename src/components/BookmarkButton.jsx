@@ -21,7 +21,7 @@ const ringSizes = {
 
 const bookmarkClasses = {
   [true]: 'fill-current text-orange-600',
-  [false]: 'show-on-hover-target text-gray-300 hover:text-orange-600',
+  [false]: 'show-on-hover-target text-gray-300 dark:text-zinc-600 hover:text-orange-600',
 };
 
 function BookmarkButton({ className, fileId, size }) {
@@ -45,10 +45,10 @@ function BookmarkButton({ className, fileId, size }) {
     <button
       type="button"
       title={title}
-      className={`p-2 ${bookmarkClasses[bookmarked]} rounded-xl transition-colors focus:outline-none ${ringSizes[size]} ring-orange-300 ring-offset-2 ${className}`}
+      className={`p-2 ${bookmarkClasses[bookmarked]} rounded-xl transition-colors focus:outline-none ${ringSizes[size]} ring-orange-300 ring-offset-2 dark:ring-orange-700 dark:ring-offset-zinc-800 ${className}`}
       onClick={onClick}
     >
-      <icons.BookmarkOutlined className={iconClasses} />
+      <icons.BookmarkOutlined className={`${iconClasses}`} />
     </button>
   );
 }

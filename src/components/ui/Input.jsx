@@ -30,8 +30,8 @@ function Input({
   onChange,
 }) {
   const borderColor = error
-    ? 'border-red-400 focus:ring-red-200 focus:border-red-400'
-    : 'border-gray-300 focus:ring-blue-100 focus:border-blue-300';
+    ? 'border-red-400 focus:border-red-400 focus:ring-red-200 dark:border-rose-500 dark:focus:border-rose-300 dark:focus:ring-rose-500'
+    : 'border-gray-300 focus:ring-blue-100 focus:border-blue-300 dark:border-zinc-600 dark:focus:ring-indigo-500 dark:focus:border-indigo-300';
   const inputProps = {};
   if (placeholder !== null && placeholder !== undefined) {
     inputProps.placeholder = placeholder;
@@ -48,7 +48,7 @@ function Input({
         // eslint-disable-next-line jsx-a11y/label-has-associated-control
         <label
           htmlFor={id}
-          className={`mb-1 block text-left font-medium text-gray-700 ${fontSizes[size].label}`}
+          className={`mb-1 block text-left font-medium text-gray-700 dark:text-zinc-200 ${fontSizes[size].label}`}
         >
           {label}
         </label>
@@ -57,7 +57,7 @@ function Input({
         <input
           id={id}
           type={type}
-          className={`w-full ${paddings[size]} text-gray-800 ${fontSizes[size].input} border ${borderColor} rounded-xl focus:outline-none focus:ring`}
+          className={`w-full ${paddings[size]} text-gray-800 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-400 ${fontSizes[size].input} border ${borderColor} rounded-xl focus:outline-none focus:ring`}
           // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus={autoFocus}
           onChange={onChange}
@@ -65,7 +65,9 @@ function Input({
           {...inputProps}
         />
       </div>
-      {error != null && <p className="mt-3 text-xs italic text-red-500">{error}</p>}
+      {error != null && (
+        <p className="mt-3 text-xs italic text-red-500 dark:text-rose-500">{error}</p>
+      )}
     </div>
   );
 }

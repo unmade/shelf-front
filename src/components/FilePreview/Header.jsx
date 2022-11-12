@@ -21,7 +21,7 @@ function Header({ idx, total, name, onGoBack, onNext, onPrev, onInfo }) {
         <p className="truncate text-left text-sm font-bold sm:text-center sm:text-lg">{name}</p>
       </div>
 
-      <div className="flex min-w-max flex-row items-center justify-end space-x-2 text-gray-800 sm:w-48">
+      <div className="flex min-w-max flex-row items-center justify-end space-x-2 text-gray-800 dark:text-zinc-200 sm:w-48">
         <Button
           type="text"
           size="base"
@@ -29,7 +29,7 @@ function Header({ idx, total, name, onGoBack, onNext, onPrev, onInfo }) {
           onClick={onPrev}
         />
 
-        <div className="text-sm text-gray-700">
+        <div className="text-sm text-gray-700 dark:text-zinc-200">
           <span>{idx + 1}</span>
           <span> / </span>
           <span>{total}</span>

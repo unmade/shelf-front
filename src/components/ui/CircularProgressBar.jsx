@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
-import { blue, emerald, gray, indigo, orange, red, rose, teal } from 'tailwindcss/colors';
+import { blue, emerald, gray, indigo, orange, red, rose, teal, zinc } from 'tailwindcss/colors';
+
+import useColorScheme from '../../hooks/prefers-color-scheme';
 
 import 'react-circular-progressbar/dist/styles.css';
 
@@ -36,7 +38,7 @@ const defaultStyles = {
     transition: 'stroke-dashoffset 0.5s ease 0s',
   },
   trail: {
-    stroke: gray[200],
+    stroke: null, // value depends on the color scheme
     strokeLinecap: 'round',
     transform: 'rotate(0.25turn)',
     transformOrigin: 'center center',
@@ -59,6 +61,10 @@ const colorsByVariant = {
 };
 
 function CircularProgressBar({ children, progress, danger, idle, info, success, warning }) {
+  const colorScheme = useColorScheme();
+  const styles = { ...defaultStyles };
+  styles.trail.stroke = colorScheme === 'dark' ? zinc[700] : gray[200];
+
   const variants = { danger, idle, info, success, warning };
   const variant =
     Object.keys(variants).filter((key) => variants[key] === true)[0] ?? defaultVariant;
@@ -66,7 +72,7 @@ function CircularProgressBar({ children, progress, danger, idle, info, success, 
   return (
     <>
       <Gradient colors={colorsByVariant[variant]} />
-      <CircularProgressbarWithChildren value={progress} styles={defaultStyles}>
+      <CircularProgressbarWithChildren value={progress} styles={styles}>
         {children}
       </CircularProgressbarWithChildren>
     </>

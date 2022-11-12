@@ -70,7 +70,7 @@ function Trash() {
           />
         )}
         dirPath={dirPath}
-        emptyIcon={<icons.Collection className="h-12 w-12 text-gray-400" />}
+        emptyIcon={<icons.Collection className="h-12 w-12 text-gray-400 dark:text-zinc-500" />}
         emptyTitle={emptyTitle}
         emptyDescription={emptyDescription}
       />

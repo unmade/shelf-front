@@ -47,14 +47,14 @@ function Bookmarks() {
           {!isLaptop ? (
             <>
               <SideBarModal />
-              <h2 className="ml-2 truncate text-xl font-medium text-gray-900 sm:text-3xl">
+              <h2 className="ml-2 truncate text-xl font-medium text-gray-900 dark:text-zinc-100 sm:text-3xl">
                 {title}
               </h2>
             </>
           ) : (
             <div className="flex min-w-0 flex-1 items-center ">
-              <icons.BookmarkOutlined className="ml-2 h-7 w-7 text-gray-400" />
-              <h2 className="ml-2 truncate text-xl font-medium text-gray-900 sm:text-3xl">
+              <icons.BookmarkOutlined className="ml-2 h-7 w-7 text-gray-400 dark:text-zinc-500" />
+              <h2 className="ml-2 truncate text-xl font-medium text-gray-900 dark:text-zinc-100 sm:text-3xl">
                 {title}
               </h2>
             </div>
@@ -74,7 +74,9 @@ function Bookmarks() {
               scrollKey="bookmarks-table-view" // possible collissions
               itemRender={FileTableCell}
               loading={loading}
-              emptyIcon={<icons.BookmarkAltOutlined className="h-12 w-12 text-gray-400" />}
+              emptyIcon={
+                <icons.BookmarkAltOutlined className="h-12 w-12 text-gray-400 dark:text-zinc-500" />
+              }
               emptyTitle={t('Bookmarks will appear here')}
             />
           </div>

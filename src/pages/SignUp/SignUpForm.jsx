@@ -165,25 +165,27 @@ function SignUpForm({ loading, onSubmit }) {
             id="agreeToTermsAndConditions"
             type="checkbox"
             name="agreeToTermsAndConditions"
-            className="form-checkbox rounded-md border-gray-300 text-blue-500"
+            className="form-checkbox rounded-md border-gray-300 bg-transparent text-blue-500 dark:border-zinc-600 dark:focus:ring-offset-zinc-800"
             onClick={onCheckboxChange}
             readOnly
           />
-          <span className="ml-2">
+          <span className="ml-2 dark:text-zinc-200">
             <Trans i18nKey="signup:form.iHaveReadAndAgreeToTermsAndConditions" t={t}>
               I agree to the {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-              <Link to="#" className="font-medium text-indigo-600">
+              <Link to="#" className="font-medium text-indigo-600 dark:text-indigo-400">
                 Shelf Terms
               </Link>{' '}
               and {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-              <Link to="#" className="font-medium text-indigo-600">
+              <Link to="#" className="font-medium text-indigo-600 dark:text-indigo-400">
                 Privacy Policy
               </Link>
             </Trans>
           </span>
         </div>
         {errors?.agreeToTermsAndConditions && (
-          <p className="mt-3 text-xs italic text-red-500">{errors?.agreeToTermsAndConditions}</p>
+          <p className="mt-3 text-xs italic text-red-500 dark:text-rose-500">
+            {errors?.agreeToTermsAndConditions}
+          </p>
         )}
       </div>
       <div className="w-full pt-2">

@@ -47,20 +47,24 @@ function SingleFilePreview({ file }) {
   return (
     <>
       <div className="flex flex-col px-4 pb-2">
-        <div className="flex h-64 w-auto items-center justify-center rounded-xl bg-gray-50">
+        <div className="flex h-64 w-auto items-center justify-center rounded-xl bg-gray-50 dark:bg-zinc-700/30">
           <Thumbnail className="h-60 w-80 shrink-0 xl:w-96" size="xl" fileId={file.id} />
         </div>
 
         <div className="flex items-center justify-between py-2 pl-2">
-          <div className="min-w-0 text-gray-800">
+          <div className="min-w-0 text-gray-800 dark:text-zinc-200">
             <p className={`${fontSize} break-words font-semibold`}>{file.name}</p>
-            <p className="text-xs text-gray-600">
+            <p className="text-xs text-gray-600 dark:text-zinc-400">
               <FileSize size={file.size} />
               <span className="px-1">&bull;</span>
               <TimeAgo mtime={file.mtime * 1000} />
             </p>
           </div>
-          <BookmarkButton fileId={file.id} className="hover:bg-orange-50" size="lg" />
+          <BookmarkButton
+            fileId={file.id}
+            className="hover:bg-orange-50 dark:hover:bg-orange-700/30"
+            size="lg"
+          />
         </div>
 
         <div className="flex items-center justify-between py-2 pl-2 pr-0.5">
@@ -118,7 +122,7 @@ function MultiFilePreview({ files }) {
   return (
     <>
       <div className="flex flex-col px-4 pb-2">
-        <div className="flex h-64 w-auto items-center justify-center rounded-xl bg-gray-50">
+        <div className="flex h-64 w-auto items-center justify-center rounded-xl bg-gray-50 dark:bg-zinc-700/30">
           {previews.map((file, i) => (
             <span
               key={file.id}
@@ -131,11 +135,11 @@ function MultiFilePreview({ files }) {
           ))}
         </div>
 
-        <div className="p-2 text-gray-800">
+        <div className="p-2 text-gray-800 dark:text-zinc-200">
           <p className="break-words text-lg font-semibold">
             {t('items_count', { count: files.length })}
           </p>
-          <p className="text-xs text-gray-600">
+          <p className="text-xs text-gray-600 dark:text-zinc-400">
             <span>
               {countByTypeText(
                 t('folders_count', { count: folderCount }),
@@ -151,9 +155,7 @@ function MultiFilePreview({ files }) {
 
         <div className="flex items-center justify-between py-2 pl-2 pr-1">
           <div>
-            <Button type="primary" size="xs">
-              {t('Download')}
-            </Button>
+            <Button type="primary">{t('Download')}</Button>
           </div>
           <div className="flex flex-row justify-center space-x-4">
             <SidePreviewActions files={files} />
@@ -162,15 +164,15 @@ function MultiFilePreview({ files }) {
 
         <div className="mt-2 p-2">
           <h3 className="text-base font-semibold">{t('Information')}</h3>
-          <div className="divide-y text-xs font-medium">
+          <div className="divide-y text-xs font-medium dark:divide-zinc-700">
             <div className="flex justify-between py-2">
-              <p className="text-gray-500">{t('Size')}</p>
+              <p className="text-gray-500 dark:text-zinc-400">{t('Size')}</p>
               <p>
                 <FileSize size={size} />
               </p>
             </div>
             <div className="flex justify-between py-2">
-              <p className="text-gray-500">{t('Created')}</p>
+              <p className="text-gray-500 dark:text-zinc-400">{t('Created')}</p>
               <p>
                 <TimeAgo mtime={minMtime.mtime * 1000} format="ll" />
                 &nbsp;-&nbsp;
@@ -178,7 +180,7 @@ function MultiFilePreview({ files }) {
               </p>
             </div>
             <div className="flex justify-between py-2">
-              <p className="text-gray-500">{t('Modified')}</p>
+              <p className="text-gray-500 dark:text-zinc-400">{t('Modified')}</p>
               <p>
                 <TimeAgo mtime={minMtime.mtime * 1000} format="ll" />
                 &nbsp;-&nbsp;
@@ -205,7 +207,7 @@ function SidePreview() {
   const selectedIds = useSelector(getSelectedFileIds);
   const files = useSelector((state) => getFilesByIds(state, { ids: selectedIds }), shallowEqual);
   return (
-    <div className="mr-4 mb-4 rounded-lg border-4 border-transparent bg-white text-gray-800">
+    <div className="mr-4 mb-4 rounded-lg border-4 border-transparent text-gray-800 dark:text-zinc-100">
       {files.length === 1 ? (
         <SingleFilePreview file={files[0]} />
       ) : (

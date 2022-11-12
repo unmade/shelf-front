@@ -33,7 +33,7 @@ function Duplicates() {
         {/* desktop */}
         <div className="hidden h-full flex-col items-center justify-center lg:flex">
           <div>
-            <icons.DocumentSearchOutlined className="h-12 w-12 text-gray-400" />
+            <icons.DocumentSearchOutlined className="h-12 w-12 text-gray-400 dark:text-zinc-500" />
           </div>
           <div className="mt-2">
             <p className="text-center text-2xl font-medium">{t('duplicates:welcomeTitle')}</p>

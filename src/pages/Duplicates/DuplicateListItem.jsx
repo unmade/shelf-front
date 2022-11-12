@@ -11,22 +11,24 @@ import Thumbnail from '../../components/Thumbnail';
 
 function getBackground(even, selected) {
   return (
-    (selected && 'bg-orange-50 border-orange-200') ||
-    (even && 'bg-white border-transparent') ||
-    'bg-gray-50 border-transparent'
+    (selected && 'bg-orange-50 border-orange-200 dark:bg-amber-600/10 dark:border-amber-700/30') ||
+    (even && 'border-transparent') ||
+    'bg-gray-50 border-transparent dark:bg-zinc-700/30'
   );
 }
 
 function DuplicateListItem({ indexInGroup, selected, type, value, onItemClick }) {
-  const borderColor = selected ? 'border-orange-200' : '';
+  const borderColor = selected ? 'border-orange-200 dark:border-orange-700/30' : '';
   const backgroundColor = getBackground(indexInGroup % 2 === 0, selected);
-  const nameStyle = selected ? 'font-medium text-orange-900' : 'font-medium';
-  const pathStyle = selected ? 'text-orange-800' : 'text-gray-500';
+  const nameStyle = selected ? 'font-medium text-orange-900 dark:text-amber-50' : 'font-medium';
+  const pathStyle = selected
+    ? 'text-orange-800 dark:text-amber-200'
+    : 'text-gray-500 dark:text-zinc-400';
 
   if (type === 'header') {
     return (
       <div
-        className={`px-7 pt-3 pb-1 text-sm font-medium uppercase tracking-wider text-gray-500 ${borderColor}`}
+        className={`px-7 pt-3 pb-1 text-sm font-medium uppercase tracking-wider text-gray-500 dark:text-zinc-500 ${borderColor}`}
       >
         Group #{value}
       </div>

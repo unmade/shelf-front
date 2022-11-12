@@ -24,14 +24,14 @@ function Overlay() {
   };
 
   return (
-    <div className="flex min-w-[12rem] flex-col space-y-2 rounded-xl bg-white p-2 shadow focus:outline-none">
+    <div className="flex min-w-[12rem] flex-col space-y-2 rounded-xl bg-white p-2 shadow focus:outline-none dark:bg-zinc-800 dark:shadow-zinc-900/70">
       <div className="flex flex-row items-center">
         <Avatar className="h-8 w-8 rounded-lg" username={username} />
         <div className="ml-2 flex flex-1 flex-col text-left">
-          <div className="text-sm font-semibold text-gray-700">{username}</div>
+          <div className="text-sm font-semibold text-gray-700 dark:text-gray-300">{username}</div>
         </div>
       </div>
-      <hr />
+      <hr className="dark:border-zinc-700" />
       <div className="space-y-1">
         <Button
           full
@@ -72,10 +72,10 @@ function CurrentAccount() {
       <div className="flex flex-row items-center lg:block xl:flex">
         <Avatar username={username} className="h-10 w-10" />
         <div className="ml-2 flex flex-1 flex-col text-left lg:hidden xl:flex">
-          <div className="text-sm font-semibold text-gray-700">{username}</div>
+          <div className="text-sm font-semibold text-gray-700 dark:text-zinc-400">{username}</div>
         </div>
         <div className="block lg:hidden xl:block">
-          <icons.Selector className="h-5 w-5 text-gray-500" />
+          <icons.Selector className="h-5 w-5 text-gray-500 dark:text-zinc-500" />
         </div>
       </div>
     </Dropdown>

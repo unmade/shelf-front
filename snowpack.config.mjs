@@ -3,6 +3,7 @@ export default {
   mount: {
     public: { url: '/', static: true },
     src: { url: '/dist' },
+    'node_modules/highlight.js/styles': { url: '/hljs', static: true },
   },
   plugins: [
     '@snowpack/plugin-react-refresh',

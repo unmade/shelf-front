@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 
 const defaultClassNames =
   'mx-3 flex items-center whitespace-nowrap rounded-xl py-2 px-3 font-medium transition-colors duration-200 lg:p-2.5 xl:py-2 xl:px-3';
-const activeClassNames = 'bg-gray-200 text-gray-700';
+const activeClassNames = 'bg-gray-200 text-gray-700 dark:bg-zinc-700/50 dark:text-zinc-400';
 
 function classNameFactory({ isActive }) {
   return `${defaultClassNames} ${isActive ? activeClassNames : ''}`;

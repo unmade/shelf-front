@@ -41,14 +41,14 @@ function DeleteDialog({ uid }) {
         Are you sure you want to
         <b>permanently</b>
         delete
-        <b className="text-gray-700">{{ fileName }}</b>?
+        <b className="text-gray-700 dark:text-zinc-200">{{ fileName }}</b>?
       </Trans>
     ) : (
       <Trans i18nKey="delete_immediately_dialog_batch_text" t={t} count={count}>
         Are you sure you want to
         <b>permanently</b>
         delete
-        <b className="text-gray-700">{{ count }}</b>?
+        <b className="text-gray-700 dark:text-zinc-200">{{ count }}</b>?
       </Trans>
     );
 

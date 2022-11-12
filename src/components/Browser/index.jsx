@@ -41,7 +41,7 @@ const Browser = React.memo(
             <div
               className={`${dragging ? 'block' : 'hidden'} absolute z-10 h-full w-full px-2 pb-2`}
             >
-              <div className="h-full w-full rounded-2xl border-4 border-dashed border-teal-200" />
+              <div className="h-full w-full rounded-2xl border-4 border-dashed border-teal-200 dark:border-teal-600" />
             </div>
             {fileTableView}
           </div>
