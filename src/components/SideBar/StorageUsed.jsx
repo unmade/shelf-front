@@ -40,14 +40,14 @@ function StorageUsed() {
   return (
     <>
       <div className="block space-y-2 lg:hidden xl:block">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between ">
           <div className="flex items-center space-x-2">
             <icons.Database className="h-4 w-4" />
             <p>{t('Storage')}</p>
           </div>
-          {(storageUsed != null && <p className="text-gray-400">{storageUsed}%</p>) || (
-            <icons.Infinite className="h-5 w-5" />
-          )}
+          {(storageUsed != null && (
+            <p className="text-gray-400 dark:text-zinc-500">{storageUsed}%</p>
+          )) || <icons.Infinite className="h-5 w-5" />}
         </div>
         <ProgressBar
           progress={progress}
@@ -56,7 +56,7 @@ function StorageUsed() {
           warning={warning}
           danger={danger}
         />
-        <div className="text-xs text-gray-400">
+        <div className="text-xs text-gray-400 dark:text-zinc-500">
           {quota != null && (
             <>
               <FileSize size={quota - used} /> {t('available')}

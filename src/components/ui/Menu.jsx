@@ -16,7 +16,7 @@ function Menu({ buttonClassName, children, items, panelClassName, itemRender: Re
         <>
           <UIMenu.Button
             ref={reference}
-            className={`${buttonClassName} rounded-xl focus:outline-none focus:ring`}
+            className={`${buttonClassName} rounded-xl focus:outline-none`}
             onClick={(event) => {
               event.stopPropagation();
             }}
@@ -36,7 +36,7 @@ function Menu({ buttonClassName, children, items, panelClassName, itemRender: Re
           >
             <UIMenu.Items
               static
-              className={`${panelClassName} flex flex-col rounded-xl bg-white p-2 shadow focus:outline-none`}
+              className={`${panelClassName} flex flex-col rounded-xl bg-white p-2 shadow focus:outline-none dark:bg-zinc-800 dark:shadow-zinc-900/70`}
               ref={floating}
               style={{
                 position: strategy,

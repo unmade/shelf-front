@@ -21,7 +21,9 @@ function Dialog({
 }) {
   const { t } = useTranslation();
 
-  const iconColors = confirmDanger ? 'bg-red-50 text-red-500' : 'bg-gray-50 text-gray-500';
+  const iconColors = confirmDanger
+    ? 'bg-red-50 text-red-500 dark:bg-rose-700/30 dark:text-rose-400'
+    : 'bg-gray-50 text-gray-500 dark:bg-zinc-700/30 dark:text-zinc-400';
   return (
     <Transition show={visible} as={React.Fragment}>
       <UIDialog
@@ -42,10 +44,7 @@ function Dialog({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <UIDialog.Overlay
-              className="fixed inset-0 backdrop-blur-sm backdrop-filter"
-              style={{ background: 'rgba(160, 174, 192, .75)' }}
-            />
+            <UIDialog.Overlay className="fixed inset-0 bg-gray-100/75 backdrop-blur-sm backdrop-filter dark:bg-zinc-700/50" />
           </Transition.Child>
 
           {/* This element is to trick the browser into centering the modal contents. */}
@@ -62,8 +61,8 @@ function Dialog({
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <div className="inline-block w-full max-w-lg transform overflow-hidden rounded-2xl bg-white text-left align-bottom shadow-xl transition-all lg:my-8 lg:w-auto lg:align-middle">
-              <div className="bg-white px-4 pt-5 pb-4 lg:flex lg:items-start lg:p-6 lg:pb-4">
+            <div className="inline-block w-full max-w-lg transform overflow-hidden rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-zinc-800 lg:my-8 lg:w-auto lg:align-middle">
+              <div className="bg-white px-4 pt-5 pb-4 dark:bg-zinc-800 lg:flex lg:items-start lg:p-6 lg:pb-4">
                 {icon && (
                   <div
                     className={`mx-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-full ${iconColors} lg:mx-0 lg:h-10 lg:w-10`}
@@ -72,15 +71,18 @@ function Dialog({
                   </div>
                 )}
                 <div className="mt-3 text-center lg:mt-0 lg:ml-4 lg:text-left">
-                  <UIDialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
+                  <UIDialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-900 dark:text-zinc-100"
+                  >
                     {title}
                   </UIDialog.Title>
-                  <div className="mt-2 text-sm text-gray-500">{children}</div>
+                  <div className="mt-2 text-sm text-gray-500 dark:text-zinc-400">{children}</div>
                 </div>
               </div>
 
               {(onCancel !== null || onConfirm !== null || RenderConfirm !== null) && (
-                <div className="bg-gray-100 px-4 py-3 lg:flex lg:flex-row-reverse lg:px-6">
+                <div className="bg-gray-100 px-4 py-3 dark:bg-zinc-700/30 lg:flex lg:flex-row-reverse lg:px-6">
                   {(onConfirm !== null || RenderConfirm !== null) && (
                     <div className="w-full lg:ml-3 lg:w-auto">
                       {onConfirm !== null && (

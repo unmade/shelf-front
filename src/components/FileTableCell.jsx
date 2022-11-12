@@ -21,19 +21,25 @@ import Thumbnail from './Thumbnail';
 
 function getPrimaryText(selected, hidden) {
   return (
-    (selected && 'text-orange-900 font-medium') || (hidden && 'text-gray-500') || 'text-gray-900'
+    (selected && 'text-orange-900 font-medium dark:text-amber-50') ||
+    (hidden && 'text-gray-500 dark:text-zinc-400') ||
+    'text-gray-900 dark:text-zinc-100'
   );
 }
 
 function getSecondaryText(selected, hidden) {
-  return (selected && 'text-orange-800') || (hidden && 'text-gray-400') || 'text-gray-500';
+  return (
+    (selected && 'text-orange-800 dark:text-amber-200') ||
+    (hidden && 'text-gray-400 dark:text-zinc-500') ||
+    'text-gray-500 dark:text-zinc-400'
+  );
 }
 
 function getBackground(even, selected) {
   return (
-    (selected && 'bg-orange-50 border-orange-200') ||
-    (even && 'bg-white border-transparent') ||
-    'bg-gray-50 border-transparent'
+    (selected && 'bg-orange-50 border-orange-200 dark:bg-amber-600/10 dark:border-amber-700/30') ||
+    (even && 'border-transparent') ||
+    'bg-gray-50 border-transparent dark:bg-zinc-700/30'
   );
 }
 
@@ -62,7 +68,7 @@ function FileTableCell({ className, even, item, selected, hasSelected }) {
           <input
             onClick={onCheckboxClick}
             type="checkbox"
-            className={`form-checkbox rounded-md border-gray-300 text-blue-500 ${checkboxClass}`}
+            className={`form-checkbox rounded-md border-gray-300 bg-transparent text-blue-500 dark:border-zinc-600 dark:focus:ring-offset-zinc-800 ${checkboxClass}`}
             checked={selected}
             readOnly
           />
@@ -83,9 +89,13 @@ function FileTableCell({ className, even, item, selected, hasSelected }) {
         <div className="ml-2 flex items-center space-x-4">
           <BookmarkButton
             fileId={item.id}
-            className={selected ? 'hover:bg-orange-100' : 'hover:bg-orange-50'}
+            className={
+              selected
+                ? 'hover:bg-orange-100 dark:hover:bg-orange-800/30'
+                : 'hover:bg-orange-50 dark:hover:bg-orange-700/30'
+            }
           />
-          <div className={`${secondaryText} hover:${primaryText}`}>
+          <div className={`flex items-center ${secondaryText} hover:${primaryText}`}>
             <FileTableCellActions id={item.id} mediaType={item.mediatype} path={item.path} />
           </div>
         </div>

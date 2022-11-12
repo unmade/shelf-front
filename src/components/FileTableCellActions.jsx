@@ -95,7 +95,12 @@ function FileTableCellActions({ id, path }) {
 
   return (
     <Menu items={menu} itemRender={ActionButton}>
-      <Button as="div" type="text" size="lg" icon={<icons.More className="h-4 w-4" />} />
+      <Button
+        as="div"
+        type="text"
+        size="lg"
+        icon={<icons.MoreOutlined className="h-4 w-4 dark:text-zinc-400" />}
+      />
     </Menu>
   );
 }

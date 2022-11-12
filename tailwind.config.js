@@ -9,6 +9,7 @@ module.exports = {
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
+      amber: colors.amber,
       black: colors.black,
       blue: colors.blue,
       emerald: colors.emerald,
@@ -21,7 +22,7 @@ module.exports = {
       rose: colors.rose,
       teal: colors.teal,
       white: colors.white,
-      yellow: colors.amber,
+      zinc: colors.zinc,
     },
     extend: {
       animation: {

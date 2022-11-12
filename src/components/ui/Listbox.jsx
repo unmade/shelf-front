@@ -26,7 +26,7 @@ function Listbox({ children, initial, options, onOptionChange }) {
         <span className="z-10">
           <UIListbox.Button
             ref={reference}
-            className="rounded-xl ring-offset-2 focus:outline-none focus:ring"
+            className="rounded-xl ring-offset-2 focus:outline-none focus:ring dark:ring-zinc-700 dark:ring-offset-zinc-800"
           >
             {children}
           </UIListbox.Button>
@@ -43,7 +43,7 @@ function Listbox({ children, initial, options, onOptionChange }) {
             <UIListbox.Options
               static
               ref={floating}
-              className="max-h-60 rounded-xl bg-white p-2 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+              className="max-h-60 rounded-xl bg-white p-2 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-zinc-800 dark:shadow-zinc-900/50 dark:ring-offset-zinc-800 sm:text-sm"
               style={{
                 position: strategy,
                 top: y ?? 0,
@@ -54,8 +54,8 @@ function Listbox({ children, initial, options, onOptionChange }) {
                 <UIListbox.Option
                   key={option.value}
                   className={({ active }) =>
-                    `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                      active ? 'rounded-lg bg-gray-50 text-gray-900' : 'text-gray-900'
+                    `relative cursor-default select-none py-2 pl-10 pr-4 text-gray-900 dark:text-zinc-200 ${
+                      active ? 'rounded-lg bg-gray-50 dark:bg-zinc-700/30' : ''
                     }`
                   }
                   value={option}
@@ -68,7 +68,7 @@ function Listbox({ children, initial, options, onOptionChange }) {
                         {option.name}
                       </span>
                       {selected ? (
-                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-600">
+                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-600 dark:text-zinc-300">
                           <icons.Check className="h-5 w-5" aria-hidden="true" />
                         </span>
                       ) : null}

@@ -30,8 +30,8 @@ function UploadsPanel({ visibilityFilter }) {
     );
   }
   return (
-    <div className="flex min-h-[20vh] flex-col items-center justify-center space-y-2 text-gray-600">
-      <icons.Collection className="h-6 w-6 text-gray-500" />
+    <div className="flex min-h-[20vh] flex-col items-center justify-center space-y-2 text-gray-600 dark:text-zinc-300">
+      <icons.Collection className="h-6 w-6 text-gray-500 dark:text-zinc-400" />
       <p className="text-sm">{t('uploads:panel.emptyTitle')}</p>
     </div>
   );

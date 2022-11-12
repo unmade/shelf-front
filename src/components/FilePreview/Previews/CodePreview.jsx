@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import useFileContent from '../../../hooks/file-content';
+import useColorScheme from '../../../hooks/prefers-color-scheme';
 
 import { MEGABYTE } from '../../../filesize';
 
@@ -10,8 +11,6 @@ import Highlight from '../../ui/Highlight';
 import Loader from '../Loader';
 
 import NoPreview from './NoPreview';
-
-import 'highlight.js/styles/github.css';
 
 const LANGS = {
   css: 'css',
@@ -55,6 +54,7 @@ function langByMediaType({ name, mediatype }) {
 }
 
 function CodePreview({ file }) {
+  const scheme = useColorScheme();
   const content = useFileContent(file.path, file.size, MAX_SIZE);
 
   if (file.size > MAX_SIZE) {
@@ -67,12 +67,10 @@ function CodePreview({ file }) {
 
   const lang = langByMediaType(file);
   return (
-    <div className="bg-white">
-      <div className="container mx-auto p-4">
-        <Highlight language={lang} className="whitespace-pre-wrap">
-          {content}
-        </Highlight>
-      </div>
+    <div className="container mx-auto p-4 text-sm">
+      <Highlight language={lang} mode={scheme} className="whitespace-pre-wrap">
+        {content}
+      </Highlight>
     </div>
   );
 }

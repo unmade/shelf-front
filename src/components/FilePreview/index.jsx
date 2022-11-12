@@ -96,7 +96,7 @@ function FilePreview({ preview, preparePath }) {
 
   return (
     <div className="fixed inset-0 bottom-0 z-10">
-      <div className="flex h-full flex-col bg-white">
+      <div className="flex h-full flex-col bg-white dark:bg-zinc-800">
         <Header
           idx={index}
           total={total}
@@ -107,7 +107,7 @@ function FilePreview({ preview, preparePath }) {
           onInfo={onInfo}
         />
 
-        <div className="h-full overflow-scroll bg-gray-200">
+        <div className="h-full overflow-scroll bg-gray-200 dark:bg-zinc-900/50">
           <div className="flex">
             <div
               style={height}
@@ -119,7 +119,10 @@ function FilePreview({ preview, preparePath }) {
             </div>
             {infoVisible && (
               <div className="hidden sm:block sm:w-1/3 xl:w-1/4">
-                <Info className="h-full border-t bg-white px-5 py-6 shadow" fileId={file.id} />
+                <Info
+                  className="h-full border-t bg-white px-5 py-6 shadow dark:border-zinc-700 dark:bg-zinc-800 dark:shadow-zinc-900/70"
+                  fileId={file.id}
+                />
               </div>
             )}
           </div>

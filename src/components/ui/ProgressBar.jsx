@@ -6,7 +6,7 @@ const colorByVariant = {
   idle: 'bg-gradient-to-r from-indigo-400 via-blue-400 to-teal-400',
   info: 'bg-gradient-to-r from-blue-500 to-indigo-500',
   success: 'bg-gradient-to-r from-teal-500 to-emerald-500',
-  warning: 'bg-gradient-to-r from-yellow-500 to-orange-500',
+  warning: 'bg-gradient-to-r from-amber-500 to-orange-500',
 };
 
 const DEFAULT_VARIANT = 'info';
@@ -22,7 +22,7 @@ function ProgressBar({ progress, danger, idle, info, success, warning }) {
     Object.keys(variants).filter((key) => variants[key] === true)[0] ?? DEFAULT_VARIANT;
 
   return (
-    <div className="flex h-2 overflow-hidden rounded bg-gray-200 text-xs">
+    <div className="flex h-2 overflow-hidden rounded bg-gray-200 text-xs dark:bg-zinc-700">
       <div
         style={fillerStyles}
         className={`flex flex-col justify-center whitespace-nowrap rounded text-center text-white shadow-none ${colorByVariant[variant]}`}

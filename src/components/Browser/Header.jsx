@@ -40,7 +40,11 @@ function GoBack() {
     <Button
       disabled={isRoot}
       type="text"
-      icon={<icons.ArrowLeft className={`h-7 w-7 ${isRoot ? 'text-gray-400' : ''}`} />}
+      icon={
+        <icons.ArrowLeft
+          className={`h-7 w-7 ${isRoot ? 'text-gray-400 dark:text-zinc-500' : ''}`}
+        />
+      }
     />
   );
   if (isRoot) {
@@ -66,7 +70,7 @@ function Header({ isLaptop, actionButton: ActionButton }) {
         ) : (
           <div className="flex min-w-0 flex-1 items-center ">
             <GoBack />
-            <h2 className="ml-2 truncate text-xl font-medium text-gray-900 sm:text-3xl">
+            <h2 className="ml-2 truncate text-xl font-medium text-gray-900 dark:text-gray-100 sm:text-3xl">
               {currentFolderName}
             </h2>
           </div>

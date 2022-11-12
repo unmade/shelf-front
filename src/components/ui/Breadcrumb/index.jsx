@@ -66,15 +66,17 @@ function Breadcrumb({
   if (items.length < 4) {
     return (
       <nav
-        className={`${className} flex items-center space-x-1 whitespace-nowrap font-medium text-gray-500 sm:space-x-4`}
+        className={`${className} flex items-center space-x-1 whitespace-nowrap font-medium text-gray-500 dark:text-zinc-400 sm:space-x-4`}
       >
         {items.map((item, idx) => (
           <React.Fragment key={item.url}>
-            {idx !== 0 && <icons.ChevronRight className="h-4 w-4 shrink-0 text-gray-300" />}
+            {idx !== 0 && (
+              <icons.ChevronRight className="h-4 w-4 shrink-0 text-gray-300 dark:text-zinc-600" />
+            )}
             <span className="flex max-w-xs items-center truncate">
               {idx === 0 && (
                 <span className="py-2 sm:py-1">
-                  <item.Icon className="mr-2 h-4 w-4 shrink-0 text-gray-300" />
+                  <item.Icon className="mr-2 h-4 w-4 shrink-0 text-gray-300 dark:text-zinc-600" />
                 </span>
               )}
               <Render name={item.name} url={item.url} />
@@ -83,11 +85,11 @@ function Breadcrumb({
         ))}
         {withCreateFolder && (
           <>
-            <icons.ChevronRight className="h-4 w-4 shrink-0 text-gray-300" />
+            <icons.ChevronRight className="h-4 w-4 shrink-0 text-gray-300 dark:text-zinc-600" />
             <button
               type="button"
               title={t('button_create_folder_title')}
-              className="rounded-lg p-2 text-gray-400 ring-teal-200 ring-offset-2 hover:bg-teal-50 hover:text-blue-400 focus:outline-none focus:ring-2 sm:p-1"
+              className="rounded-lg p-2 text-gray-400 hover:bg-teal-50 hover:text-blue-400 focus:outline-none focus:ring-2 focus:ring-teal-200 focus:ring-offset-2 dark:text-zinc-500 dark:hover:bg-teal-700/30 dark:focus:ring-teal-700 dark:focus:ring-offset-zinc-800 sm:p-1"
               onClick={onCreateFolder}
             >
               <icons.NewFolder className="h-4 w-4" />
@@ -103,14 +105,14 @@ function Breadcrumb({
 
   return (
     <nav
-      className={`${className} flex items-center space-x-1 whitespace-nowrap font-medium text-gray-500 sm:space-x-4`}
+      className={`${className} flex items-center space-x-1 whitespace-nowrap font-medium text-gray-500 dark:text-zinc-400 sm:space-x-4`}
     >
       <span className="flex max-w-xs items-center">
-        <first.Icon className="mr-2 h-4 w-4 shrink-0 text-gray-300" />
+        <first.Icon className="mr-2 h-4 w-4 shrink-0 text-gray-300 dark:text-zinc-600" />
         <Render name={first.name} url={first.url} />
       </span>
       <div>
-        <icons.ChevronRight className="h-4 w-4 shrink-0 text-gray-300" />
+        <icons.ChevronRight className="h-4 w-4 shrink-0 text-gray-300 dark:text-zinc-600" />
       </div>
       <Menu
         panelClassName="max-w-xs"
@@ -120,22 +122,22 @@ function Breadcrumb({
         <Button
           as="div"
           type="text"
-          size="sm"
-          icon={<icons.DotsHorizontal className="h-4 w-4" />}
+          size="xs"
+          icon={<icons.DotsHorizontal className="h-4 w-4 dark:text-zinc-600" />}
         />
       </Menu>
       <div>
-        <icons.ChevronRight className="h-4 w-4 shrink-0 text-gray-300" />
+        <icons.ChevronRight className="h-4 w-4 shrink-0 text-gray-300 dark:text-zinc-600" />
       </div>
       <span className="max-w-2xs">
         <Render name={last.name} url={last.url} />
       </span>
       {withCreateFolder && (
         <>
-          <icons.ChevronRight className="h-4 w-4 shrink-0 text-gray-300" />
+          <icons.ChevronRight className="h-4 w-4 shrink-0 text-gray-300 dark:text-zinc-600" />
           <button
             type="button"
-            className="rounded-lg p-2 text-gray-400 ring-teal-200 ring-offset-2 hover:bg-teal-50 hover:text-blue-400 focus:outline-none focus:ring-2 sm:p-1"
+            className="rounded-lg p-2 text-gray-400 hover:bg-teal-50 hover:text-blue-400 focus:outline-none focus:ring-2 focus:ring-teal-200 focus:ring-offset-2 dark:text-zinc-500 dark:hover:bg-teal-700/30 dark:focus:ring-teal-700 dark:focus:ring-offset-zinc-800 sm:p-1"
             onClick={onCreateFolder}
           >
             <icons.NewFolder className="h-4 w-4 shrink-0" />

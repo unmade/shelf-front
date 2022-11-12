@@ -18,8 +18,8 @@ function TotalProgress() {
   const progress = useSelector(getUploaderTotalProgress);
 
   return (
-    <div className="mt-2 space-y-2 border-t-2 pt-4 text-sm font-semibold">
-      <div className="flex justify-between">
+    <div className="mt-2 space-y-2 border-t-2 pt-4 text-sm font-semibold dark:border-zinc-700">
+      <div className="flex justify-between dark:text-zinc-200">
         {uploading ? (
           <p>{t('uploads:totalUploadingCount', { count: allCount })}</p>
         ) : (

@@ -21,7 +21,7 @@ import DuplicateLink from './DuplicateLink';
 function FileProperty({ header, value }) {
   return (
     <div className="text-sm">
-      <div className="font-medium text-gray-500">{header}</div>
+      <div className="font-medium text-gray-500 dark:text-zinc-500">{header}</div>
       <div>{value}</div>
     </div>
   );
@@ -48,14 +48,14 @@ function DuplicateSidePreview({ fileId }) {
 
   return (
     <div className="h-full">
-      <div className="relative h-2/3 bg-gray-100">
+      <div className="relative h-2/3 bg-gray-100 dark:bg-zinc-900/50">
         <Thumbnail
           className="absolute right-1/2 h-full translate-x-1/2 p-10"
-          size="xl"
+          size="2xl"
           fileId={file.id}
         />
       </div>
-      <div className="mt-8 flex bg-white px-10">
+      <div className="mt-8 flex px-10">
         <div className="w-1/2 space-y-8">
           <FileProperty header={t('file:name')} value={file.name} />
           <FileProperty header={t('file:path')} value={routes.parent(file.path)} />
@@ -72,8 +72,8 @@ function DuplicateSidePreview({ fileId }) {
             <Button
               as="div"
               type="text"
-              className="font-semibold text-blue-500"
-              icon={<icons.EyeOutlined className=" h-4 w-4 text-blue-500" />}
+              className="font-semibold text-blue-500 dark:text-indigo-400"
+              icon={<icons.EyeOutlined className=" h-4 w-4 text-blue-500 dark:text-indigo-400" />}
             >
               {t('file:preview')}
             </Button>

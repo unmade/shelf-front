@@ -38,13 +38,13 @@ function DeleteDialog({ uid }) {
     files.length === 1 ? (
       <Trans i18nKey="delete_dialog_text" t={t} fileName={fileName}>
         Are you sure you want to move
-        <b className="text-gray-700">{{ fileName }}</b>
+        <b className="text-gray-700 dark:text-zinc-200">{{ fileName }}</b>
         to trash?
       </Trans>
     ) : (
       <Trans i18nKey="delete_dialog_batch_text" t={t} count={count}>
         Are you sure you want to move
-        <b className="text-gray-700">{{ count }}</b>
+        <b className="text-gray-700 dark:text-zinc-200">{{ count }}</b>
         to trash?
       </Trans>
     );

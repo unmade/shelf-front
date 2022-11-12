@@ -17,7 +17,7 @@ import TimeAgo from './ui/TimeAgo';
 function Property({ name, value }) {
   return (
     <div className="flex justify-between py-3">
-      <p className="text-gray-500">{name}</p>
+      <p className="text-gray-500 dark:text-zinc-400">{name}</p>
       <p>{value}</p>
     </div>
   );
@@ -29,7 +29,7 @@ function InformationPanel({ fileId }) {
   const file = useSelector((state) => getFileById(state, fileId));
 
   return (
-    <div className="divide-y text-xs font-medium">
+    <div className="divide-y text-xs font-medium dark:divide-zinc-700">
       <Property name={t('file:size')} value={<FileSize size={file.size} />} />
       <Property
         name={t('file:created')}
@@ -70,22 +70,22 @@ function ExifPanel({ fileId }) {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center space-y-2 py-3 text-gray-500">
-        <icons.Spinner className="h-7 w-7 animate-spin text-gray-600" />
+      <div className="flex flex-col items-center justify-center space-y-2 py-3 text-gray-500 dark:text-zinc-400">
+        <icons.Spinner className="h-7 w-7 animate-spin text-gray-600 dark:text-zinc-300" />
       </div>
     );
   }
 
   if (meta == null) {
     return (
-      <div className="flex flex-col items-center justify-center space-y-2 py-3 text-gray-500">
+      <div className="flex flex-col items-center justify-center space-y-2 py-3 text-gray-500 dark:text-zinc-400">
         <p>{t('exif:notAvailable')}</p>
       </div>
     );
   }
 
   return (
-    <div className="divide-y text-xs font-medium">
+    <div className="divide-y text-xs font-medium dark:divide-zinc-700">
       {meta.make && <Property name={t('exif:make')} value={`${meta.make}`} />}
       {meta.model && <Property name={t('exif:model')} value={`${meta.model}`} />}
       {meta.width && meta.height && (

@@ -90,7 +90,7 @@ const FolderPicker = ({
       </div>
       {items.length || loading ? (
         <VList
-          className="rounded border"
+          className="rounded border dark:border-zinc-700"
           heightOffset={HEIGHT}
           itemCount={items.length}
           itemData={data}
@@ -100,9 +100,9 @@ const FolderPicker = ({
       ) : (
         <div className="flex flex-col items-center justify-center rounded border" style={height}>
           <div className="text-center">
-            <icons.Collection className="mx-auto mb-4 h-12 w-12 text-gray-400" />
-            <p className="text-lg font-semibold text-gray-800">{emptyTitle}</p>
-            <p className="text-sm text-gray-600">{emptyDescription}</p>
+            <icons.Collection className="mx-auto mb-4 h-12 w-12 text-gray-400 dark:text-zinc-500" />
+            <p className="text-lg font-semibold text-gray-800 dark:text-zinc-200">{emptyTitle}</p>
+            <p className="text-sm text-gray-600 dark:text-zinc-400">{emptyDescription}</p>
           </div>
         </div>
       )}

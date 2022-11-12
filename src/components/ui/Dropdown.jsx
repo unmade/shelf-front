@@ -37,7 +37,7 @@ function Dropdown({ children, overlay: Overlay, placement, onOpenChange }) {
         <>
           <Popover.Button
             ref={reference}
-            className="w-full rounded-xl ring-offset-2 focus:outline-none focus:ring"
+            className="w-full rounded-xl ring-offset-2 focus:outline-none focus:ring dark:focus:ring-indigo-700 dark:focus:ring-offset-zinc-800"
           >
             {children}
           </Popover.Button>

@@ -11,7 +11,9 @@ function FolderPickerItem({ data, index, style }) {
   const itemId = data.items[index];
   const item = useSelector((state) => getFileById(state, itemId));
 
-  const primaryText = item.hidden ? 'text-gray-500' : 'text-gray-800';
+  const primaryText = item.hidden
+    ? 'text-gray-500 dark:text-zinc-400'
+    : 'text-gray-800 dark:text-zinc-200';
 
   return (
     <div style={style}>

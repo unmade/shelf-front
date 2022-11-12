@@ -102,7 +102,9 @@ function DuplicatesResult({ dirPath, onFolderChange }) {
         <div className="flex w-1/3 flex-col">
           {/* header and title */}
           <div className="mx-6 pt-7">
-            <h2 className="text-xl font-medium text-gray-900 sm:text-3xl">{title}</h2>
+            <h2 className="text-xl font-medium text-gray-900 dark:text-zinc-200 sm:text-3xl">
+              {title}
+            </h2>
           </div>
 
           {/* select folder and filter buttons */}
@@ -115,7 +117,10 @@ function DuplicatesResult({ dirPath, onFolderChange }) {
               >
                 <span className="text-sm">{routes.folderName(dirPath)}</span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
-                  <icons.Selector className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                  <icons.Selector
+                    className="h-5 w-5 text-gray-400 dark:text-zinc-500"
+                    aria-hidden="true"
+                  />
                 </span>
               </SelectFolderDialogButton>
             </div>
@@ -128,7 +133,7 @@ function DuplicatesResult({ dirPath, onFolderChange }) {
                 as="div"
                 size="base"
                 icon={
-                  <div className="flex h-6 w-6 items-center justify-center text-xl font-medium text-gray-500">
+                  <div className="flex h-6 w-6 items-center justify-center text-xl font-medium text-gray-500 dark:text-zinc-400">
                     {maxDistance.symbol}
                   </div>
                 }
@@ -150,7 +155,7 @@ function DuplicatesResult({ dirPath, onFolderChange }) {
         </div>
 
         {/* right column: duplicates preview */}
-        <div className="w-2/3 border-l">
+        <div className="w-2/3 border-l dark:border-zinc-700">
           <DuplicateSidePreview fileId={selection.fileId} />
         </div>
       </div>

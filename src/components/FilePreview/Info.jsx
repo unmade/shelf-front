@@ -17,14 +17,18 @@ function Info({ className, fileId }) {
   return (
     <div className={className}>
       <div className="flex">
-        <div className="mr-4 w-full min-w-0 text-gray-800">
+        <div className="mr-4 w-full min-w-0 text-gray-800 dark:text-zinc-200">
           <p className="truncate text-lg font-semibold">{file.name}</p>
-          <p className="text-xs font-medium text-gray-500">
+          <p className="text-xs font-medium text-gray-500 dark:text-zinc-400">
             <TimeAgo mtime={file.mtime * 1000} />
           </p>
         </div>
         <div>
-          <BookmarkButton fileId={file.id} className="hover:bg-orange-50" size="lg" />
+          <BookmarkButton
+            fileId={file.id}
+            className="hover:bg-orange-50 dark:hover:bg-orange-700/30"
+            size="lg"
+          />
         </div>
       </div>
 
