@@ -6,11 +6,11 @@ import { Listbox as UIListbox, Transition } from '@headlessui/react';
 
 import * as icons from '../../icons';
 
-function Listbox({ children, initial, options, onOptionChange }) {
+function Listbox({ children, initial, options, placement, onOptionChange }) {
   const [selectedOption, setSelectedOption] = React.useState(initial);
   const { x, y, reference, floating, strategy } = useFloating({
-    placement: 'bottom-end',
-    middleware: [offset(0, 5)],
+    placement,
+    middleware: [offset(5)],
   });
 
   const onChange = (option) => {
@@ -21,13 +21,10 @@ function Listbox({ children, initial, options, onOptionChange }) {
   };
 
   return (
-    <UIListbox value={selectedOption} onChange={onChange}>
+    <UIListbox value={selectedOption} by="value" onChange={onChange}>
       {({ open }) => (
         <span className="z-10">
-          <UIListbox.Button
-            ref={reference}
-            className="rounded-xl ring-offset-2 focus:outline-none focus:ring dark:ring-zinc-700 dark:ring-offset-zinc-800"
-          >
+          <UIListbox.Button as="span" ref={reference}>
             {children}
           </UIListbox.Button>
 
@@ -100,9 +97,11 @@ Listbox.propTypes = {
       value: PropTypes.any.isRequired,
     }).isRequired
   ).isRequired,
+  placement: PropTypes.oneOf(['start-end', 'bottom-end', 'right-end', 'top-end']),
   onOptionChange: PropTypes.func,
 };
 
 Listbox.defaultProps = {
+  placement: 'bottom-end',
   onOptionChange: null,
 };

@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-// import { applyMiddleware, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 
 import * as uploadActions from './actions/uploads';
 
 import rootReducer from './reducers';
 import { saveAuthState, loadAuthState } from './reducers/auth';
+import { loadAppearanceState, saveAppearanceState } from './reducers/ui';
 import rootSaga from './sagas';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -19,11 +19,12 @@ const store = configureStore({
       },
     }).concat(sagaMiddleware),
   devTools: import.meta.env.SNOWPACK_PUBLIC_MODE !== 'production',
-  preloadedState: { ...loadAuthState() },
+  preloadedState: { ...loadAuthState(), ...loadAppearanceState() },
 });
 
 store.subscribe(() => {
   saveAuthState(store.getState());
+  saveAppearanceState(store.getState());
 });
 
 sagaMiddleware.run(rootSaga);

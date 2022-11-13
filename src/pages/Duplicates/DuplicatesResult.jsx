@@ -130,7 +130,6 @@ function DuplicatesResult({ dirPath, onFolderChange }) {
               onOptionChange={setMaxDistance}
             >
               <Button
-                as="div"
                 size="base"
                 icon={
                   <div className="flex h-6 w-6 items-center justify-center text-xl font-medium text-gray-500 dark:text-zinc-400">

@@ -55,6 +55,7 @@ export const Logout = hiSolid.LogoutIcon;
 export const LogoutOutlined = hiOutline.LogoutIcon;
 export const NewFolder = hiSolid.FolderAddIcon;
 export const Menu = hiSolid.MenuIcon;
+export const MoonOutlined = hiOutline.MoonIcon;
 export const More = hiSolid.DotsHorizontalIcon;
 export const MoreOutlined = hiOutline.DotsHorizontalIcon;
 export const Move = hiOutline.DocumentDuplicateIcon;

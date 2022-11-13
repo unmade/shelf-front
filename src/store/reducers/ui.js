@@ -5,6 +5,13 @@ import * as actions from '../actions/ui';
 import * as authActions from '../actions/auth';
 import * as uploadActions from '../actions/uploads';
 
+const appearance = createReducer('auto', (builder) => {
+  builder.addCase(actions.appearanceChanged, (_, action) => {
+    const { appearance: value } = action.payload;
+    return value;
+  });
+});
+
 const CURRENT_PATH_INITIAL_STATE = '.';
 
 const fileBrowserCurrentPath = createReducer(CURRENT_PATH_INITIAL_STATE, (builder) => {
@@ -97,6 +104,7 @@ const uploader = createReducer(UPLOADER_INITIAL_STATE, (builder) => {
 });
 
 export default combineReducers({
+  appearance,
   fileBrowser: combineReducers({
     currentPath: fileBrowserCurrentPath,
     selection: fileBrowserSelection,
@@ -107,6 +115,8 @@ export default combineReducers({
   signUp,
   uploader,
 });
+
+export const getAppearance = (state) => state.ui.appearance ?? 'auto';
 
 export const getCurrentPath = (state) => state.ui.fileBrowser.currentPath;
 
@@ -140,3 +150,15 @@ export const getSignInState = (state) => state.ui.signIn;
 export const getSignUpState = (state) => state.ui.signUp;
 
 export const getUploaderTotalProgress = (state) => state.ui.uploader.totalProgress;
+
+const APPEARANCE_KEY = 'state.ui.appearance';
+
+export const saveAppearanceState = (state) => {
+  localStorage.setItem(APPEARANCE_KEY, getAppearance(state));
+};
+
+export const loadAppearanceState = () => ({
+  ui: {
+    appearance: localStorage.getItem(APPEARANCE_KEY) ?? 'auto',
+  },
+});

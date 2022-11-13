@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@floating-ui/react-dom": "^1.0.0",
-    "@headlessui/react": "^1.6.2",
+    "@headlessui/react": "^1.7.4",
     "@heroicons/react": "^1.0.6",
     "@reduxjs/toolkit": "^1.8.1",
     "@snowpack/plugin-dotenv": "^2.2.0",
