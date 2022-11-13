@@ -1,5 +1,7 @@
 # Build Stage
-FROM node:alpine as build
+
+# `yarn build` fails on arm64 alpine, so use buster instead
+FROM node:lts-buster-slim as build
 
 RUN mkdir -p /usr/src/app
 
@@ -12,7 +14,10 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
 COPY ./package.json /usr/src/app/
 COPY ./yarn.lock /usr/src/app/
-RUN yarn install
+
+# increase timeout for arm64
+# see: https://github.com/docker/build-push-action/issues/471
+RUN yarn install --frozen-lockfile --network-timeout 600000
 
 COPY ./public /usr/src/app/public
 COPY ./src /usr/src/app/src
