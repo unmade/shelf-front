@@ -1,11 +1,6 @@
 import React from 'react';
 
-import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
-
 import i18n from '../../i18n';
-
-import { getIsCurrentAccountSuperuser } from '../../store/reducers/accounts';
 
 import * as icons from '../../icons';
 import * as routes from '../../routes';
@@ -60,9 +55,6 @@ i18n.on('languageChanged init', () => {
 });
 
 function SideBar() {
-  const { t } = useTranslation();
-  const isSuperuser = useSelector(getIsCurrentAccountSuperuser);
-
   return (
     <div className="flex h-full flex-col px-1 py-4">
       <div className="mx-0 flex items-center px-3 pt-2 pb-8 font-mono text-2xl font-bold text-gray-900 dark:text-zinc-100 lg:mx-auto xl:mx-0">
@@ -75,14 +67,6 @@ function SideBar() {
       <div className="flex-1 pt-2 pb-4 text-sm text-gray-500 dark:text-zinc-500">
         <nav className="space-y-2 lg:space-y-4 xl:space-y-2">
           <MenuGroup items={menu} />
-          {isSuperuser && (
-            <>
-              <div className="px-3 pt-4 font-semibold text-gray-400 dark:text-zinc-600 lg:mx-auto lg:text-center xl:mx-0 xl:text-left">
-                {t('ADMIN')}
-              </div>
-              <MenuGroup items={adminMenu} />
-            </>
-          )}
         </nav>
       </div>
 
