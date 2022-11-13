@@ -1,5 +1,9 @@
 import { createAction } from '@reduxjs/toolkit';
 
+export const appearanceChanged = createAction('ui/appearance/changed', (appearance) => ({
+  payload: { appearance },
+}));
+
 export const fileBrowserPathChanged = createAction('ui/fileBrowser/pathChanged', (path) => ({
   payload: { path },
 }));
