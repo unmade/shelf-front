@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import * as icons from '../../icons';
 import * as routes from '../../routes';
 
+import usePrefersColorScheme from '../../hooks/prefers-color-scheme';
+
 import Toast from '../../containers/Toast';
 import ToastItem from '../../containers/ToastItem';
 
@@ -13,6 +15,8 @@ import SignUpFormContainer from './SignUpFormContainer';
 
 function SignUp() {
   const { t } = useTranslation(['translation', 'signup']);
+
+  usePrefersColorScheme();
 
   return (
     <>

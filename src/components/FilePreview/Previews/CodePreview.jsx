@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import useFileContent from '../../../hooks/file-content';
-import useColorScheme from '../../../hooks/prefers-color-scheme';
+import usePrefersColorScheme from '../../../hooks/prefers-color-scheme';
 
 import { MEGABYTE } from '../../../filesize';
 
@@ -54,7 +54,7 @@ function langByMediaType({ name, mediatype }) {
 }
 
 function CodePreview({ file }) {
-  const scheme = useColorScheme();
+  const scheme = usePrefersColorScheme();
   const content = useFileContent(file.path, file.size, MAX_SIZE);
 
   if (file.size > MAX_SIZE) {

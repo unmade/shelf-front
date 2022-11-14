@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import { blue, emerald, gray, indigo, orange, red, rose, teal, zinc } from 'tailwindcss/colors';
 
-import useColorScheme from '../../hooks/prefers-color-scheme';
+import usePrefersColorScheme from '../../hooks/prefers-color-scheme';
 
 import 'react-circular-progressbar/dist/styles.css';
 
@@ -61,7 +61,7 @@ const colorsByVariant = {
 };
 
 function CircularProgressBar({ children, progress, danger, idle, info, success, warning }) {
-  const colorScheme = useColorScheme();
+  const colorScheme = usePrefersColorScheme();
   const styles = { ...defaultStyles };
   styles.trail.stroke = colorScheme === 'dark' ? zinc[700] : gray[200];
 

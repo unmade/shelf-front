@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import { getAppearance } from '../store/reducers/ui';
 
-function useColorScheme() {
+function usePrefersColorScheme() {
   const appearance = useSelector(getAppearance);
 
   const [scheme, setScheme] = useState('no-preference');
@@ -55,4 +55,4 @@ function useColorScheme() {
   return scheme;
 }
 
-export default useColorScheme;
+export default usePrefersColorScheme;

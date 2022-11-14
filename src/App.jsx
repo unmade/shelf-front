@@ -3,6 +3,8 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 
 import * as routes from './routes';
 
+import usePrefersColorScheme from './hooks/prefers-color-scheme';
+
 import RequireAdmin from './components/RequireAdmin';
 import SideBar from './components/SideBar';
 
@@ -16,6 +18,8 @@ import Trash from './pages/Trash';
 import UserManagement from './pages/admin/UserManagement';
 
 function App() {
+  usePrefersColorScheme();
+
   return (
     <>
       <div className="shelf-h-screen flex bg-gray-100 dark:bg-zinc-900 dark:text-zinc-200">
