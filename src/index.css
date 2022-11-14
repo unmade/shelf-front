@@ -10,11 +10,6 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-.shelf-h-screen {
-  height: 100vh; /* Fallback for browsers that do not support Custom Properties */
-  height: calc(var(--vh, 1vh) * 100);
-}
-
 .show-on-hover-trigger .show-on-hover-target {
   visibility: hidden;
   display: none;
