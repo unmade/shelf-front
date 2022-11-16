@@ -1,8 +1,11 @@
 import React from 'react';
 
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 
 import { Link } from 'react-router-dom';
+
+import { getFeature } from '../../store/reducers/features';
 
 import * as icons from '../../icons';
 import * as routes from '../../routes';
@@ -19,6 +22,8 @@ function SignIn() {
 
   usePrefersColorScheme();
 
+  const signUpDisabled = useSelector((state) => getFeature(state, 'sign_up_disabled'));
+
   return (
     <>
       <div className="flex min-h-screen items-end justify-center bg-gray-100 pb-20 dark:bg-zinc-900 sm:items-center sm:p-0">
@@ -30,17 +35,19 @@ function SignIn() {
             </div>
             <SignInFormContainer />
           </div>
-          <div className="mt-6 w-full max-w-md text-gray-700 dark:text-zinc-200">
-            <p className="text-center text-sm">
-              {t('signin:dontHaveAnAccount')}{' '}
-              <Link
-                to={routes.SIGNUP.route}
-                className="inline-flex items-center space-x-1 font-medium text-indigo-600 dark:text-indigo-400"
-              >
-                {t('signin:signUpNow')}
-              </Link>
-            </p>
-          </div>
+          {!signUpDisabled && (
+            <div className="mt-6 w-full max-w-md text-gray-700 dark:text-zinc-200">
+              <p className="text-center text-sm">
+                {t('signin:dontHaveAnAccount')}{' '}
+                <Link
+                  to={routes.SIGNUP.route}
+                  className="inline-flex items-center space-x-1 font-medium text-indigo-600 dark:text-indigo-400"
+                >
+                  {t('signin:signUpNow')}
+                </Link>
+              </p>
+            </div>
+          )}
         </div>
       </div>
       <Toast itemRender={ToastItem} />

@@ -5,6 +5,7 @@ import * as authActions from '../actions/auth';
 import accounts from './accounts';
 import auth from './auth';
 import files from './files';
+import features from './features';
 import loading from './loading';
 import messages from './messages';
 import tasks from './tasks';
@@ -16,6 +17,7 @@ import users from './users';
 const rootReducer = combineReducers({
   accounts,
   auth,
+  features,
   files,
   loading,
   messages,

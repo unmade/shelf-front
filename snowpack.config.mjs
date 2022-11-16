@@ -30,7 +30,6 @@ export default {
     /* ... */
   },
   env: {
-    MAX_UPLOAD_SIZE_IN_BYTES: 104857600, // 100 MB
     TRASH_FOLDER_NAME: 'Trash',
   },
 };
