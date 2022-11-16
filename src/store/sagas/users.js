@@ -21,7 +21,8 @@ function* addBookmark({ type, payload }) {
   yield put(loaded(type, fileId));
 }
 
-function* listBookmarks({ type }) {
+function* listBookmarks() {
+  const { type } = actions.listBookmarks;
   const accessToken = yield select(getAccessToken);
   if (accessToken == null) {
     return;

@@ -9,9 +9,9 @@ import * as routes from '../../routes';
 import API_BASE_URL from '../api';
 import * as actions from '../actions/uploads';
 import { getAccessToken } from '../reducers/auth';
+import { getFeature } from '../reducers/features';
 
 const MAX_PARALLEL_UPLOADS = 1;
-const MAX_UPLOAD_SIZE = import.meta.env.SNOWPACK_PUBLIC_MAX_UPLOAD_SIZE_IN_BYTES ?? 104857600;
 
 // taken from: https://decembersoft.com/posts/file-upload-progress-with-redux-saga/
 function createUploadFileChannel({ url, accessToken, requestId, fileObj, fullPath }) {
@@ -132,7 +132,8 @@ function* normalize(file, uploadTo) {
     upload.parentPath = routes.parent(fullPath);
   }
 
-  if (fileObj.size > MAX_UPLOAD_SIZE) {
+  const maxUploadSize = yield select(getFeature, 'upload_file_max_size');
+  if (fileObj.size > maxUploadSize) {
     upload.error = { code: 'uploadTooLarge' };
   }
 
