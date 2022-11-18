@@ -98,6 +98,8 @@ SingleFilePreview.propTypes = {
   }).isRequired,
 };
 
+const SingleFilePreviewMemoized = React.memo(SingleFilePreview);
+
 const rotations = {
   0: 'rotate-6',
   1: '-rotate-6',
@@ -209,7 +211,7 @@ function SidePreview() {
   return (
     <div className="mr-4 mb-4 rounded-lg border-4 border-transparent text-gray-800 dark:text-zinc-100">
       {files.length === 1 ? (
-        <SingleFilePreview file={files[0]} />
+        <SingleFilePreviewMemoized file={files[0]} />
       ) : (
         <MultiFilePreview files={files} />
       )}

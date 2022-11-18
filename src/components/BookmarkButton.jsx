@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
 
-import { addBookmark, removeBookmark } from '../store/actions/users';
-import { getIsBookmarked } from '../store/reducers/users';
+import {
+  selectIsBookmarked,
+  useAddBookmarkMutation,
+  useRemoveBookmarkMutation,
+} from '../store/users';
 
 import * as icons from '../icons';
 
@@ -27,17 +30,19 @@ const bookmarkClasses = {
 function BookmarkButton({ className, fileId, size }) {
   const { t } = useTranslation();
 
-  const dispatch = useDispatch();
-  const bookmarked = useSelector((state) => getIsBookmarked(state, fileId));
+  const bookmarked = useSelector((state) => selectIsBookmarked(state, fileId));
+
+  const [addBookmark] = useAddBookmarkMutation();
+  const [removeBookmark] = useRemoveBookmarkMutation();
 
   const iconClasses = `${bookmarked ? 'fill-current' : ''} ${iconSizes[size]}`;
   const title = bookmarked ? t('Remove from Saved') : t('Add to Saved');
 
-  const onClick = () => {
+  const onClick = async () => {
     if (bookmarked) {
-      dispatch(removeBookmark(fileId));
+      await removeBookmark(fileId);
     } else {
-      dispatch(addBookmark(fileId));
+      await addBookmark(fileId);
     }
   };
 

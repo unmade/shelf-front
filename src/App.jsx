@@ -1,5 +1,8 @@
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
+import { usersApi } from './store/users';
 
 import * as routes from './routes';
 
@@ -18,7 +21,14 @@ import Trash from './pages/Trash';
 import UserManagement from './pages/admin/UserManagement';
 
 function App() {
+  const dispatch = useDispatch();
+
   usePrefersColorScheme();
+
+  React.useEffect(() => {
+    const result = dispatch(usersApi.endpoints.listBookmarks.initiate());
+    return result.unsubscribe;
+  }, []);
 
   return (
     <>

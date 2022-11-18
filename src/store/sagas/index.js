@@ -9,7 +9,6 @@ import launch from './launch';
 import taskSagas from './tasks';
 import thumbnailsSagas from './thumbnails';
 import uploadSagas from './uploads';
-import userSagas from './users';
 
 export default function* rootSaga() {
   yield all([
@@ -22,6 +21,5 @@ export default function* rootSaga() {
     ...taskSagas,
     ...thumbnailsSagas,
     ...uploadSagas,
-    ...userSagas,
   ]);
 }
