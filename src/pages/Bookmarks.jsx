@@ -1,15 +1,14 @@
 import React from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
 
 import useSidePreview from '../hooks/preview-available';
 
 import { getBatch } from '../store/actions/files';
 import { filesSelectionChanged } from '../store/actions/ui';
-import { getLoading } from '../store/reducers/loading';
-import { getBookmarks } from '../store/reducers/users';
+import { useListBookmarksQuery } from '../store/users';
 
 import * as icons from '../icons';
 import { Dialogs, MediaQuery } from '../constants';
@@ -27,16 +26,17 @@ import SidePreview from '../components/Browser/SidePreview';
 function Bookmarks() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const bookmarks = useSelector(getBookmarks);
-  const loading = useSelector((state) => getLoading(state, { actionType: getBatch }));
+  const { data: bookmarks, isLoading } = useListBookmarksQuery();
   const withSidePreview = useSidePreview();
   const isLaptop = useMediaQuery({ query: MediaQuery.lg });
 
   const title = t('Bookmarks');
 
   React.useEffect(() => {
-    dispatch(getBatch([...bookmarks]));
-    dispatch(filesSelectionChanged([]));
+    if (bookmarks != null) {
+      dispatch(getBatch(bookmarks));
+      dispatch(filesSelectionChanged([]));
+    }
   }, [bookmarks, dispatch]);
 
   return (
@@ -70,10 +70,10 @@ function Bookmarks() {
           <div className={withSidePreview ? 'w-7/12' : 'w-full'}>
             <FileTableView
               className="border-transparent"
-              items={[...bookmarks]}
+              items={bookmarks != null ? bookmarks : []}
               scrollKey="bookmarks-table-view" // possible collissions
               itemRender={FileTableCell}
-              loading={loading}
+              loading={isLoading}
               emptyIcon={
                 <icons.BookmarkAltOutlined className="h-12 w-12 text-gray-400 dark:text-zinc-500" />
               }
