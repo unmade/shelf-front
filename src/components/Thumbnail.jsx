@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { thumbnailCached } from '../store/actions/thumbnails';
 
-import { getAccessToken } from '../store/reducers/auth';
+import { selectAccessToken } from '../store/auth';
 import { getFileById } from '../store/reducers/files';
 import { getThumbnailById } from '../store/reducers/thumbnails';
 
@@ -29,7 +29,7 @@ function SVGThumbnail({ className, fileId }) {
 function Thumbnail({ className, fileId, size }) {
   const dispatch = useDispatch();
 
-  const accessToken = useSelector(getAccessToken);
+  const accessToken = useSelector(selectAccessToken);
   const cachedThumbnail = useSelector((state) => getThumbnailById(state, fileId));
 
   const file = useSelector((state) => getFileById(state, fileId));

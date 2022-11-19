@@ -8,7 +8,7 @@ import * as routes from '../../routes';
 
 import API_BASE_URL from '../api';
 import * as actions from '../actions/uploads';
-import { getAccessToken } from '../reducers/auth';
+import { selectAccessToken } from '../auth';
 import { selectFeatureValue } from '../features';
 
 const MAX_PARALLEL_UPLOADS = 1;
@@ -69,7 +69,7 @@ function* uploadFile(upload, file) {
   }
 
   const url = `${API_BASE_URL}/files/upload`;
-  const accessToken = yield select(getAccessToken);
+  const accessToken = yield select(selectAccessToken);
   const requestId = nanoid();
   const { uploadPath } = upload;
   const chan = yield call(createUploadFileChannel, {

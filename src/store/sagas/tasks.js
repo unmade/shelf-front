@@ -3,7 +3,7 @@ import { delay, put, select, takeEvery } from 'redux-saga/effects';
 import * as api from '../api';
 import * as actions from '../actions/tasks';
 
-import { getAccessToken } from '../reducers/auth';
+import { selectAccessToken } from '../auth';
 
 import tryFetch from './_try';
 
@@ -24,7 +24,7 @@ function* checkTask({ type, payload }) {
 
   yield delay(1000); // wait for 1 second before first check
   while (true) {
-    const accessToken = yield select(getAccessToken);
+    const accessToken = yield select(selectAccessToken);
     const request = api.post(endpoint, accessToken, body);
 
     const data = yield tryFetch(type, request);

@@ -4,14 +4,13 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { signedOut } from '../store/actions/auth';
-import { getIsAuthenticated } from '../store/reducers/auth';
+import { selectIsAuthenticated, signedOut } from '../store/auth';
 
 export default function RequireAuth({ children, redirectTo }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const authenticated = useSelector(getIsAuthenticated);
+  const authenticated = useSelector(selectIsAuthenticated);
 
   React.useEffect(() => {
     if (!authenticated) {

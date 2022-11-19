@@ -8,12 +8,12 @@ import { started, loaded } from '../actions/loading';
 import * as uiActions from '../actions/ui';
 import * as taskActions from '../actions/tasks';
 
-import { getAccessToken } from '../reducers/auth';
+import { selectAccessToken } from '../auth';
 
 import tryFetch from './_try';
 
 function* createFolder({ type, payload }) {
-  const accessToken = yield select(getAccessToken);
+  const accessToken = yield select(selectAccessToken);
   const { path } = payload;
 
   const request = api.post('/files/create_folder', accessToken, { path });
@@ -25,7 +25,7 @@ function* createFolder({ type, payload }) {
 }
 
 function* deleteImmediately({ type, payload }) {
-  const accessToken = yield select(getAccessToken);
+  const accessToken = yield select(selectAccessToken);
   const { path } = payload;
 
   const request = api.post('/files/delete_immediately', accessToken, { path });
@@ -37,7 +37,7 @@ function* deleteImmediately({ type, payload }) {
 }
 
 function* deleteImmediatelyBatch({ type, payload }) {
-  const accessToken = yield select(getAccessToken);
+  const accessToken = yield select(selectAccessToken);
   const { paths } = payload;
   const body = {
     items: paths.map((path) => ({ path })),
@@ -57,7 +57,7 @@ function* deleteImmediatelyBatch({ type, payload }) {
 }
 
 function* download({ type, payload }) {
-  const accessToken = yield select(getAccessToken);
+  const accessToken = yield select(selectAccessToken);
   const { path } = payload;
 
   const request = api.post('/files/download', accessToken, { path });
@@ -76,7 +76,7 @@ function* download({ type, payload }) {
 }
 
 function* emptyTrash({ type }) {
-  const accessToken = yield select(getAccessToken);
+  const accessToken = yield select(selectAccessToken);
 
   const request = api.post('/files/empty_trash', accessToken);
 
@@ -91,7 +91,7 @@ function* emptyTrash({ type }) {
 }
 
 function* findDuplicates({ type, payload }) {
-  const accessToken = yield select(getAccessToken);
+  const accessToken = yield select(selectAccessToken);
   const { path, maxDistance } = payload;
 
   const body = { path, max_distance: maxDistance };
@@ -103,7 +103,7 @@ function* findDuplicates({ type, payload }) {
 }
 
 function* getBatch({ type, payload }) {
-  const accessToken = yield select(getAccessToken);
+  const accessToken = yield select(selectAccessToken);
   const { fileIds } = payload;
 
   const request = api.post('/files/get_batch', accessToken, { ids: fileIds });
@@ -114,7 +114,7 @@ function* getBatch({ type, payload }) {
 }
 
 function* getContentMetadata({ type, payload }) {
-  const accessToken = yield select(getAccessToken);
+  const accessToken = yield select(selectAccessToken);
   const { path } = payload;
 
   const request = api.post('/files/get_content_metadata', accessToken, { path });
@@ -125,7 +125,7 @@ function* getContentMetadata({ type, payload }) {
 }
 
 function* listFolder({ type, payload }) {
-  const accessToken = yield select(getAccessToken);
+  const accessToken = yield select(selectAccessToken);
   const { path = '.' } = payload;
 
   const request = api.post('/files/list_folder', accessToken, { path });
@@ -136,7 +136,7 @@ function* listFolder({ type, payload }) {
 }
 
 function* moveFile({ type, payload }) {
-  const accessToken = yield select(getAccessToken);
+  const accessToken = yield select(selectAccessToken);
   const { fromPath, toPath } = payload;
 
   const request = api.post('/files/move', accessToken, { from_path: fromPath, to_path: toPath });
@@ -149,7 +149,7 @@ function* moveFile({ type, payload }) {
 }
 
 function* moveFileBatch({ type, payload }) {
-  const accessToken = yield select(getAccessToken);
+  const accessToken = yield select(selectAccessToken);
   const { relocations } = payload;
 
   const body = {
@@ -173,7 +173,7 @@ function* moveFileBatch({ type, payload }) {
 }
 
 function* moveToTrash({ type, payload }) {
-  const accessToken = yield select(getAccessToken);
+  const accessToken = yield select(selectAccessToken);
   const { path } = payload;
 
   const request = api.post('/files/move_to_trash', accessToken, { path });
@@ -185,7 +185,7 @@ function* moveToTrash({ type, payload }) {
 }
 
 function* moveToTrashBatch({ type, payload }) {
-  const accessToken = yield select(getAccessToken);
+  const accessToken = yield select(selectAccessToken);
   const { paths } = payload;
 
   const body = {
@@ -205,7 +205,7 @@ function* moveToTrashBatch({ type, payload }) {
 }
 
 function* performDownload({ type, payload }) {
-  const accessToken = yield select(getAccessToken);
+  const accessToken = yield select(selectAccessToken);
   const { path } = payload;
 
   const request = api.post('/files/get_download_url', accessToken, { path });
