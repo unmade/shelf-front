@@ -19,9 +19,13 @@ import RequireAuth from './components/RequireAuth';
 
 import './index.css';
 import './tailwind.css';
+import { featuresApi } from './store/features';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
+
+store.dispatch(featuresApi.endpoints.listFeatures.initiate());
+
 root.render(
   <React.StrictMode>
     <Provider store={store}>

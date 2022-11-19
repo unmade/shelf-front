@@ -7,7 +7,6 @@ import apiSlice from '../apiSlice';
 import accounts from './accounts';
 import auth from './auth';
 import files from './files';
-import features from './features';
 import loading from './loading';
 import messages from './messages';
 import tasks from './tasks';
@@ -19,7 +18,6 @@ const rootReducer = combineReducers({
   [apiSlice.reducerPath]: apiSlice.reducer,
   accounts,
   auth,
-  features,
   files,
   loading,
   messages,
