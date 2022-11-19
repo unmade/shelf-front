@@ -3,7 +3,6 @@ import { combineReducers } from '@reduxjs/toolkit';
 import apiSlice from '../apiSlice';
 import auth, { signedOut } from '../auth';
 
-import accounts from './accounts';
 import files from './files';
 import loading from './loading';
 import messages from './messages';
@@ -14,7 +13,6 @@ import uploads from './uploads';
 
 const rootReducer = combineReducers({
   [apiSlice.reducerPath]: apiSlice.reducer,
-  accounts,
   auth,
   files,
   loading,

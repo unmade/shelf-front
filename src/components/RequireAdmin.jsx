@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 
 import { useSelector } from 'react-redux';
 
-import { isAdmin } from '../store/reducers/accounts';
+import { selectIsAdmin } from '../store/accounts';
 
 import Forbidden from '../pages/Forbidden';
 
 export default function RequireAdmin({ children }) {
-  const admin = useSelector(isAdmin);
+  const admin = useSelector(selectIsAdmin);
 
   if (admin) {
     return children;
