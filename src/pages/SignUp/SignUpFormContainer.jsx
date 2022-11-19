@@ -1,33 +1,25 @@
 import React from 'react';
 
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 
-import { signUp } from '../../store/actions/auth';
-import { signUpResetted } from '../../store/actions/ui';
-import { getLoading } from '../../store/reducers/loading';
-import { SignUpState, getSignUpState } from '../../store/reducers/ui';
+import { useSignUpMutation } from '../../store/auth';
 
 import * as routes from '../../routes';
 
 import SignUpForm from './SignUpForm';
 
 function SignUpFormContainer() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const loading = useSelector((state) => getLoading(state, { actionType: signUp }));
-  const state = useSelector(getSignUpState);
+  const [signUp, { isLoading: loading }] = useSignUpMutation();
 
-  React.useEffect(() => {
-    if (state === SignUpState.signedUp) {
-      navigate(routes.FILES.prefix);
+  const onSubmit = async (username, password, confirmPassword) => {
+    try {
+      await signUp({ username, password, confirmPassword }).unwrap();
+    } catch (err) {
+      return;
     }
-    return () => dispatch(signUpResetted());
-  }, [state, dispatch, navigate]);
-
-  const onSubmit = (username, password, confirmPassword) => {
-    dispatch(signUp(username, password, confirmPassword));
+    navigate(routes.FILES.prefix);
   };
 
   return <SignUpForm onSubmit={onSubmit} loading={loading} />;

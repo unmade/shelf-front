@@ -1,11 +1,9 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
-import * as authActions from '../actions/auth';
-
 import apiSlice from '../apiSlice';
+import auth, { signedOut } from '../auth';
 
 import accounts from './accounts';
-import auth from './auth';
 import files from './files';
 import loading from './loading';
 import messages from './messages';
@@ -28,7 +26,7 @@ const rootReducer = combineReducers({
 });
 
 export default function reducer(state, action) {
-  if (action.type === authActions.signedOut.type) {
+  if (action.type === signedOut.type) {
     return rootReducer(undefined, action);
   }
   return rootReducer(state, action);

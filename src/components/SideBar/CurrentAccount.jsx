@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { retrieveCurrentAccount } from '../../store/actions/accounts';
-import { signedOut } from '../../store/actions/auth';
+import { signedOut } from '../../store/auth';
 import { appearanceChanged } from '../../store/actions/ui';
 
 import { getCurrentAccount } from '../../store/reducers/accounts';

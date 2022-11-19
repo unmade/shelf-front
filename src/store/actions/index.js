@@ -12,7 +12,7 @@ export function createFulfilledAction(actionType, request, payload) {
     payload,
     error: null,
     meta: {
-      requestId: request.options.headers.get('x-request-id'),
+      // requestId: request.options.headers.get('x-request-id'),
     },
   };
 }

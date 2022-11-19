@@ -5,7 +5,7 @@ import * as uploadActions from './actions/uploads';
 import apiSlice from './apiSlice';
 
 import rootReducer from './reducers';
-import { saveAuthState, loadAuthState } from './reducers/auth';
+import { saveAuthState, loadAuthState } from './auth';
 import { loadAppearanceState, saveAppearanceState } from './reducers/ui';
 import rootSaga from './sagas';
 

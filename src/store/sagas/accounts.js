@@ -3,12 +3,12 @@ import { put, select, takeEvery } from 'redux-saga/effects';
 import * as api from '../api';
 import * as actions from '../actions/accounts';
 import { started, loaded } from '../actions/loading';
-import { getAccessToken } from '../reducers/auth';
+import { selectAccessToken } from '../auth';
 
 import tryFetch from './_try';
 
 function* getSpaceUsage({ type }) {
-  const accessToken = yield select(getAccessToken);
+  const accessToken = yield select(selectAccessToken);
 
   const request = api.get('/accounts/get_space_usage', accessToken);
 
@@ -18,7 +18,7 @@ function* getSpaceUsage({ type }) {
 }
 
 function* listAccounts({ type, payload }) {
-  const accessToken = yield select(getAccessToken);
+  const accessToken = yield select(selectAccessToken);
 
   const { page, perPage } = payload;
   const request = api.get(`/accounts/list_all?page=${page}&per_page=${perPage}`, accessToken);
@@ -29,7 +29,7 @@ function* listAccounts({ type, payload }) {
 }
 
 function* retrieveCurrentAccount({ type }) {
-  const accessToken = yield select(getAccessToken);
+  const accessToken = yield select(selectAccessToken);
 
   const request = api.get('/accounts/get_current', accessToken);
 
