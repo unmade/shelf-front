@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 import { Link } from 'react-router-dom';
 
-import { getFeature } from '../../store/reducers/features';
+import { selectFeatureValue } from '../../store/features';
 
 import * as icons from '../../icons';
 import * as routes from '../../routes';
@@ -22,7 +22,7 @@ function SignIn() {
 
   usePrefersColorScheme();
 
-  const signUpDisabled = useSelector((state) => getFeature(state, 'sign_up_disabled'));
+  const signUpDisabled = useSelector((state) => selectFeatureValue(state, 'sign_up_disabled'));
 
   return (
     <>

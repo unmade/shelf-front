@@ -9,7 +9,7 @@ import * as routes from '../../routes';
 import API_BASE_URL from '../api';
 import * as actions from '../actions/uploads';
 import { getAccessToken } from '../reducers/auth';
-import { getFeature } from '../reducers/features';
+import { selectFeatureValue } from '../features';
 
 const MAX_PARALLEL_UPLOADS = 1;
 
@@ -132,7 +132,7 @@ function* normalize(file, uploadTo) {
     upload.parentPath = routes.parent(fullPath);
   }
 
-  const maxUploadSize = yield select(getFeature, 'upload_file_max_size');
+  const maxUploadSize = yield select(selectFeatureValue, 'upload_file_max_size');
   if (fileObj.size > maxUploadSize) {
     upload.error = { code: 'uploadTooLarge' };
   }
