@@ -1,10 +1,4 @@
-import React, { useState } from 'react';
-
-import { useDispatch, useSelector } from 'react-redux';
-
-import { listAccounts } from '../../store/actions/accounts';
-
-import { getAccountsIdsByPage } from '../../store/reducers/accounts';
+import React from 'react';
 
 import * as icons from '../../icons';
 
@@ -13,14 +7,8 @@ import Button from '../../components/ui/Button';
 import AccountTableCell from '../../components/AccountTableCell';
 
 function UserManagement() {
-  const dispatch = useDispatch();
-  const [page] = useState(1);
-  const ids = useSelector((state) => getAccountsIdsByPage(state, { page }));
-  React.useEffect(() => {
-    if (ids == null) {
-      dispatch(listAccounts(page));
-    }
-  }, [ids, page, dispatch]);
+  const ids = null;
+
   return (
     <div>
       <div className="flex items-center justify-between px-8 py-7">

@@ -1,12 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { useSelector } from 'react-redux';
-
-import { getAccountById } from '../store/reducers/accounts';
-
 function AccountTableCell({ className, id }) {
-  const account = useSelector((state) => getAccountById(state, { id }));
+  const account = { id };
   const fullName = [account.first_name, account.last_name].join(' ').trim() || '-';
   return (
     <tr className={className}>

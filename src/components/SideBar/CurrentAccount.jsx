@@ -3,11 +3,10 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { retrieveCurrentAccount } from '../../store/actions/accounts';
+import { useGetCurrentAccountQuery } from '../../store/accounts';
 import { signedOut } from '../../store/auth';
 import { appearanceChanged } from '../../store/actions/ui';
 
-import { getCurrentAccount } from '../../store/reducers/accounts';
 import { getAppearance } from '../../store/reducers/ui';
 
 import * as icons from '../../icons';
@@ -56,7 +55,8 @@ function Overlay() {
 
   const dispatch = useDispatch();
 
-  const { username } = useSelector(getCurrentAccount);
+  const { data: account } = useGetCurrentAccountQuery();
+  const { username } = account;
 
   const onSignOut = () => {
     dispatch(signedOut());
@@ -91,15 +91,7 @@ function Overlay() {
 Overlay.propTypes = {};
 
 function CurrentAccount() {
-  const dispatch = useDispatch();
-  const account = useSelector(getCurrentAccount);
-
-  const shouldRetrieveAccount = account == null;
-  React.useEffect(() => {
-    if (shouldRetrieveAccount) {
-      dispatch(retrieveCurrentAccount());
-    }
-  }, [shouldRetrieveAccount]);
+  const { data: account } = useGetCurrentAccountQuery();
 
   if (account == null) {
     return null;

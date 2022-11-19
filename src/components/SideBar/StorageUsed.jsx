@@ -1,10 +1,8 @@
 import React from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
 
-import { getSpaceUsage } from '../../store/actions/accounts';
-import { getSpaceUsage as selectSpaceUsage } from '../../store/reducers/accounts';
+import { useGetSpaceUsageQuery } from '../../store/accounts';
 
 import * as icons from '../../icons';
 
@@ -15,16 +13,13 @@ import ProgressBar from '../ui/ProgressBar';
 function StorageUsed() {
   const { t } = useTranslation();
 
-  const dispatch = useDispatch();
-  const spaceUsage = useSelector(selectSpaceUsage);
-
-  const { used, quota } = spaceUsage;
-
-  React.useEffect(() => {
-    if (used == null) {
-      dispatch(getSpaceUsage());
-    }
-  }, [used, dispatch]);
+  let used = null;
+  let quota = null;
+  const { data } = useGetSpaceUsageQuery();
+  if (data != null) {
+    used = data.used;
+    quota = data.quota;
+  }
 
   let storageUsed = null;
   if (quota != null) {
