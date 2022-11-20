@@ -1,6 +1,5 @@
 import { combineReducers, createReducer, createSelector } from '@reduxjs/toolkit';
 
-import { MediaType } from '../../constants';
 import * as routes from '../../routes';
 
 import { fulfilled } from '../actions';
@@ -75,17 +74,9 @@ const filesByPath = createReducer({}, (builder) => {
   });
 });
 
-const metaById = createReducer({}, (builder) => {
-  builder.addCase(fulfilled(actions.getContentMetadata), (state, action) => {
-    const { file_id: fileId, data } = action.payload;
-    state[fileId] = data;
-  });
-});
-
 export default combineReducers({
   byId: filesById,
   byPath: filesByPath,
-  metaById,
   downloads,
 });
 
@@ -95,8 +86,6 @@ export const getFileById = (state, id) => state.files.byId[id];
 export const getFileIdsByPath = (state, { path }) => state.files.byPath[path] ?? FILES_EMPTY;
 export const getFilesCountByPath = (state, path) => getFileIdsByPath(state, { path }).length;
 
-export const getContentMetadata = (state, id) => state.files.metaById[id] ?? null;
-
 export const getDownloads = (state) => state.files.downloads;
 
 export const getDownload = (state, path) => state.files.downloads[path];
@@ -104,17 +93,6 @@ export const getDownload = (state, path) => state.files.downloads[path];
 function createPropsSelector(selector) {
   return (_, props) => selector(props);
 }
-
-const getPathProp = createPropsSelector((props) => props.path);
-
-export const getFolderIdsByPath = createSelector(
-  [(state) => state.files.byId, (state) => state.files.byPath, getPathProp],
-  (byId, byPath, path) =>
-    (byPath[path] ?? FILES_EMPTY)
-      .map((id) => byId[id])
-      .filter((item) => item.mediatype === MediaType.FOLDER)
-      .map((item) => item.id)
-);
 
 const getIdsProps = createPropsSelector((props) => props.ids);
 

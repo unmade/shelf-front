@@ -22,6 +22,13 @@ const filesApi = apiSlice.injectEndpoints({
       }),
       transformResponse: (data) => data.items,
     }),
+    getContentMetadata: builder.query({
+      query: (path) => ({
+        url: '/files/get_content_metadata',
+        method: 'POST',
+        body: { path },
+      }),
+    }),
     listFolder: builder.query({
       query: (path) => ({
         url: '/files/list_folder',
@@ -46,6 +53,7 @@ const filesApi = apiSlice.injectEndpoints({
 export const {
   useFindDuplicatesQuery,
   useGetBatchQuery,
+  useGetContentMetadataQuery,
   useListFolderQuery,
   util: { invalidateTags },
 } = filesApi;
