@@ -4,8 +4,10 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { shallowEqual, useSelector } from 'react-redux';
 
-import { getFilesByIds } from '../../store/reducers/files';
+import { selectFileByIdInPath } from '../../store/files';
 import { getSelectedFileIds } from '../../store/reducers/ui';
+
+import { FileShape } from '../../types';
 
 import { MediaType } from '../../constants';
 
@@ -48,7 +50,7 @@ function SingleFilePreview({ file }) {
     <>
       <div className="flex flex-col px-4 pb-2">
         <div className="flex h-64 w-auto items-center justify-center rounded-xl bg-gray-50 dark:bg-zinc-700/30">
-          <Thumbnail className="h-60 w-80 shrink-0 xl:w-96" size="xl" fileId={file.id} />
+          <Thumbnail className="h-60 w-80 shrink-0 xl:w-96" size="xl" file={file} />
         </div>
 
         <div className="flex items-center justify-between py-2 pl-2">
@@ -81,7 +83,7 @@ function SingleFilePreview({ file }) {
         </div>
 
         <div className="mt-2 p-2">
-          <FileInfoTabs fileId={file.id} />
+          <FileInfoTabs file={file} />
         </div>
       </div>
     </>
@@ -89,13 +91,7 @@ function SingleFilePreview({ file }) {
 }
 
 SingleFilePreview.propTypes = {
-  file: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    mtime: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    path: PropTypes.string.isRequired,
-    size: PropTypes.number.isRequired,
-  }).isRequired,
+  file: FileShape.isRequired,
 };
 
 const SingleFilePreviewMemoized = React.memo(SingleFilePreview);
@@ -132,7 +128,7 @@ function MultiFilePreview({ files }) {
                 i === previews.length - 1 ? 'rotate-0' : rotations[i]
               }`}
             >
-              <Thumbnail className="h-56 w-56" size="lg" fileId={file.id} />
+              <Thumbnail className="h-56 w-56" size="lg" file={file} />
             </span>
           ))}
         </div>
@@ -197,17 +193,18 @@ function MultiFilePreview({ files }) {
 }
 
 MultiFilePreview.propTypes = {
-  files: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      mediatype: PropTypes.string.isRequired,
-    }).isRequired
-  ).isRequired,
+  files: PropTypes.arrayOf(FileShape.isRequired).isRequired,
 };
 
-function SidePreview() {
-  const selectedIds = useSelector(getSelectedFileIds);
-  const files = useSelector((state) => getFilesByIds(state, { ids: selectedIds }), shallowEqual);
+function SidePreview({ path }) {
+  const selectedIds = useSelector((state) => getSelectedFileIds(state));
+
+  const files = useSelector((state) => {
+    const entities = [];
+    selectedIds.forEach((id) => entities.push(selectFileByIdInPath(state, { path, id })));
+    return entities.filter((entity) => entity != null);
+  }, shallowEqual);
+
   return (
     <div className="mr-4 mb-4 rounded-lg border-4 border-transparent text-gray-800 dark:text-zinc-100">
       {files.length === 1 ? (
@@ -219,6 +216,8 @@ function SidePreview() {
   );
 }
 
-SidePreview.propTypes = {};
+SidePreview.propTypes = {
+  path: PropTypes.string.isRequired,
+};
 
 export default SidePreview;

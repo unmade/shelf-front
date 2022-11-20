@@ -14,6 +14,6 @@ export default createApi({
       return headers;
     },
   }),
-  tagTypes: ['Auth'],
+  tagTypes: ['Auth', 'Files'],
   endpoints: () => ({}),
 });

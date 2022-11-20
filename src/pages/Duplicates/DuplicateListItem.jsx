@@ -44,7 +44,7 @@ function DuplicateListItem({ indexInGroup, selected, type, value, onItemClick })
       aria-hidden
     >
       <div className="shrink-0">
-        <Thumbnail className="h-10 w-10" fileId={file.id} />
+        <Thumbnail className="h-10 w-10" file={file} />
       </div>
       <div className="min-w-0">
         <div className={`truncate ${nameStyle}`}>{file.name}</div>

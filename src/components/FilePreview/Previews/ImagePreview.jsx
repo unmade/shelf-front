@@ -1,9 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
 
 import { MEGABYTE } from '../../../filesize';
+import { FileShape } from '../../../types';
 
 import Thumbnail from '../../Thumbnail';
 
@@ -58,15 +58,11 @@ function ImagePreview({ file }) {
   }
 
   const size = getSize(window.screen);
-  return <Thumbnail className="h-full w-full" fileId={file.id} size={size} />;
+  return <Thumbnail className="h-full w-full" file={file} size={size} />;
 }
 
 ImagePreview.propTypes = {
-  file: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    hidden: PropTypes.bool.isRequired,
-    mediatype: PropTypes.string.isRequired,
-  }).isRequired,
+  file: FileShape.isRequired,
 };
 
 export default ImagePreview;

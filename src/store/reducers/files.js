@@ -17,9 +17,7 @@ function isFileChanged(action) {
 }
 
 function isFilesListed(action) {
-  return (
-    action.type === fulfilled(actions.getBatch) || action.type === fulfilled(actions.listFolder)
-  );
+  return action.type === 'files/listFolder/fulfilled';
 }
 
 const downloads = createReducer({}, (builder) => {
@@ -82,7 +80,7 @@ const filesByPath = createReducer({}, (builder) => {
     const file = action.payload;
     state[file.path] = [];
   });
-  builder.addCase(fulfilled(actions.listFolder), (state, action) => {
+  builder.addCase('files/listFolder/fulfilled', (state, action) => {
     const { path, items } = action.payload;
     state[path] = items.map((file) => file.id);
   });
@@ -149,32 +147,6 @@ export const getFilesByIds = createSelector(
     return files;
   }
 );
-
-export const makeGetPreview = () =>
-  createSelector(
-    [
-      (state) => state.files.byId,
-      (state, props) => getFileIdsByPath(state, { path: props.dirPath }),
-      (_state, props) => props.name,
-    ],
-    (byId, files, name) => {
-      const index = files.findIndex((fileId) => byId[fileId].name === name);
-      let prevIndex = index - 1;
-      if (prevIndex < 0) {
-        prevIndex = files.length - 1;
-      }
-
-      let nextIndex = index + 1;
-      if (nextIndex > files.length - 1) {
-        nextIndex = 0;
-      }
-      return {
-        index,
-        total: files.length,
-        files: [byId[files[prevIndex]], byId[files[index]], byId[files[nextIndex]]],
-      };
-    }
-  );
 
 export const makeGetDuplicatePreviewData = () =>
   createSelector(

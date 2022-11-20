@@ -52,7 +52,7 @@ function DuplicateSidePreview({ fileId }) {
         <Thumbnail
           className="absolute right-1/2 h-full translate-x-1/2 p-10"
           size="2xl"
-          fileId={file.id}
+          file={file}
         />
       </div>
       <div className="mt-8 flex px-10">

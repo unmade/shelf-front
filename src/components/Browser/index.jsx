@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 
 import { useMediaQuery } from 'react-responsive';
 
+import { useListFolderQuery } from '../../store/files';
+
 import { MediaQuery } from '../../constants';
 
 import FileDrop from '../../containers/FileDrop';
-import FileTableView from '../../containers/FileTableView';
 
 import FileTableCell from '../FileTableCell';
+import FileTableView from '../FileTableView';
 
 import BrowserHeader from './Header';
 import SidePreview from './SidePreview';
@@ -21,8 +23,18 @@ const Browser = React.memo(
     const withSidePreview = useSidePreview();
     const path = dirPath ?? '.';
 
+    const { data, isLoading: loading } = useListFolderQuery(path);
+
+    const entities = React.useMemo(() => Object.values(data?.entities ?? {}), [data?.entities]);
+
+    if (loading) {
+      return null;
+    }
+
     const fileTableView = (
       <FileTableView
+        items={entities}
+        loading={loading}
         path={path}
         scrollKey={path}
         itemRender={FileTableCell}
@@ -58,7 +70,7 @@ const Browser = React.memo(
           <div className={`h-full ${withSidePreview ? 'w-7/12' : 'w-full'}`}>{tableView}</div>
           {withSidePreview && (
             <div className="w-5/12 overflow-scroll">
-              <SidePreview />
+              <SidePreview path={path} />
             </div>
           )}
         </div>

@@ -5,8 +5,10 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { getContentMetadata as fetchContentMetadata } from '../store/actions/files';
-import { getFileById, getContentMetadata } from '../store/reducers/files';
+import { getContentMetadata } from '../store/reducers/files';
 import { getLoading } from '../store/reducers/loading';
+
+import { FileShape } from '../types';
 
 import * as icons from '../icons';
 
@@ -23,10 +25,13 @@ function Property({ name, value }) {
   );
 }
 
-function InformationPanel({ fileId }) {
-  const { t } = useTranslation('file');
+Property.propTypes = {
+  name: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
+};
 
-  const file = useSelector((state) => getFileById(state, fileId));
+function InformationPanel({ file }) {
+  const { t } = useTranslation('file');
 
   return (
     <div className="divide-y text-xs font-medium dark:divide-zinc-700">
@@ -43,18 +48,16 @@ function InformationPanel({ fileId }) {
   );
 }
 
-Property.fileProps = {
-  name: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+InformationPanel.propTypes = {
+  file: FileShape.isRequired,
 };
 
-function ExifPanel({ fileId }) {
+function ExifPanel({ file }) {
   const { t } = useTranslation(['exif']);
 
   const dispatch = useDispatch();
 
-  const file = useSelector((state) => getFileById(state, fileId));
-  const meta = useSelector((state) => getContentMetadata(state, fileId));
+  const meta = useSelector((state) => getContentMetadata(state, file.id));
   const loading = useSelector((state) =>
     getLoading(state, { actionType: fetchContentMetadata, ref: file?.path })
   );
@@ -111,10 +114,10 @@ function ExifPanel({ fileId }) {
 }
 
 ExifPanel.propTypes = {
-  fileId: PropTypes.string.isRequired,
+  file: FileShape.isRequired,
 };
 
-function FileInfoTabs({ fileId }) {
+function FileInfoTabs({ file }) {
   const { t } = useTranslation('file');
 
   const tabs = [
@@ -132,7 +135,7 @@ function FileInfoTabs({ fileId }) {
     <Tabs
       tabs={tabs.map(({ name, panel: Panel }) => ({
         name,
-        render: <Panel fileId={fileId} />,
+        render: <Panel file={file} />,
       }))}
     />
   );
@@ -141,5 +144,5 @@ function FileInfoTabs({ fileId }) {
 export default FileInfoTabs;
 
 FileInfoTabs.propTypes = {
-  fileId: PropTypes.string.isRequired,
+  file: FileShape.isRequired,
 };
