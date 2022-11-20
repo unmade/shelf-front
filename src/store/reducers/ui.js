@@ -41,7 +41,9 @@ const SCROLL_OFFSET_INITIAL_STATE = {};
 const fileBrowserScrollOffset = createReducer(SCROLL_OFFSET_INITIAL_STATE, (builder) => {
   builder.addCase(actions.fileBrowserScrollOffsetChanged, (state, action) => {
     const { key, offset } = action.payload;
-    state[key] = offset;
+    if (state[key] !== offset) {
+      state[key] = offset;
+    }
   });
 });
 

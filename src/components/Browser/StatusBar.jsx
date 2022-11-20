@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { getFilesCountByPath } from '../../store/reducers/files';
 import {
   getDeletingFilesCounter,
   getMovingFilesCounter,
@@ -17,6 +16,7 @@ import { TRASH_FOLDER_NAME } from '../../constants';
 import * as icons from '../../icons';
 
 import Breadcrumb from '../ui/Breadcrumb';
+import { selectListFolderData } from '../../store/files';
 
 function BackgroundTask({ className }) {
   const { t } = useTranslation(['translation', 'uploads']);
@@ -67,7 +67,7 @@ BackgroundTask.defaultProps = {
 function TotalFiles({ className, dirPath }) {
   const { t } = useTranslation();
 
-  const totalCount = useSelector((state) => getFilesCountByPath(state, dirPath));
+  const totalCount = useSelector((state) => selectListFolderData(state, dirPath)?.ids.length ?? 0);
   const selectedCount = useSelector(getCountSelectedFiles);
   const text =
     selectedCount === 0
