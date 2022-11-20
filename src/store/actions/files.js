@@ -1,9 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
 
-export const createFolder = createAction('files/createFolder', (path) => ({
-  payload: { path },
-}));
-
 export const deleteImmediately = createAction('files/deleteImmediately', (path) => ({
   payload: { path },
 }));

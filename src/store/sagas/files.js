@@ -12,18 +12,6 @@ import { selectAccessToken } from '../auth';
 
 import tryFetch from './_try';
 
-function* createFolder({ type, payload }) {
-  const accessToken = yield select(selectAccessToken);
-  const { path } = payload;
-
-  const request = api.post('/files/create_folder', accessToken, { path });
-
-  yield put(started(type));
-  yield tryFetch(type, request);
-  yield put(loaded(type));
-  yield put(uiActions.fileDialogClosed(Dialogs.createFolder));
-}
-
 function* deleteImmediately({ type, payload }) {
   const accessToken = yield select(selectAccessToken);
   const { path } = payload;
@@ -177,7 +165,6 @@ function* performDownload({ type, payload }) {
 }
 
 export default [
-  takeEvery(actions.createFolder, createFolder),
   takeEvery(actions.deleteImmediately, deleteImmediately),
   takeEvery(actions.deleteImmediatelyBatch, deleteImmediatelyBatch),
   takeEvery(actions.download, download),

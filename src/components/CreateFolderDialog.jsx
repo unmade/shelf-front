@@ -2,15 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 
 import * as icons from '../icons';
-import * as routes from '../routes';
+
+import { useCreateFolderMutation } from '../store/files';
+import { fileDialogClosed } from '../store/actions/ui';
+import { getCurrentPath, getFileDialogVisible } from '../store/reducers/ui';
 
 import Dialog from './ui/Dialog';
 import Input from './ui/Input';
 
-function CreateFolderDialog({ loading, path, uid, visible, onCreate, onCancel }) {
+function CreateFolderDialog({ uid }) {
   const { t } = useTranslation();
+
+  const dispatch = useDispatch();
+
+  const path = useSelector(getCurrentPath);
+  const visible = useSelector((state) => getFileDialogVisible(state, { uid }));
+
+  const [createFolder, { isLoading: loading }] = useCreateFolderMutation();
 
   const [error, setError] = React.useState(null);
   const [folderName, setFolderName] = React.useState(null);
@@ -27,18 +38,22 @@ function CreateFolderDialog({ loading, path, uid, visible, onCreate, onCancel })
   }, [visible, error, folderName, setError, setFolderName]);
 
   const onNameChange = (event) => {
-    // todo: validate name properly
     setFolderName(event.target.value);
     if (error !== null && error !== undefined) {
       setError(null);
     }
   };
 
-  const onConfirm = () => {
+  const closeDialog = () => {
+    dispatch(fileDialogClosed(uid));
+  };
+
+  const onConfirm = async () => {
     if (folderName === null || folderName === '') {
       setError(t('Name cannot be empty.'));
     } else {
-      onCreate(routes.join(path, folderName));
+      await createFolder({ name: folderName, inPath: path });
+      closeDialog();
     }
   };
 
@@ -50,9 +65,7 @@ function CreateFolderDialog({ loading, path, uid, visible, onCreate, onCancel })
       confirmTitle={t('Create')}
       confirmLoading={loading}
       onConfirm={onConfirm}
-      onCancel={() => {
-        onCancel(uid);
-      }}
+      onCancel={closeDialog}
     >
       <form
         className="w-full sm:min-w-1.5xs"
@@ -75,16 +88,7 @@ function CreateFolderDialog({ loading, path, uid, visible, onCreate, onCancel })
 }
 
 CreateFolderDialog.propTypes = {
-  loading: PropTypes.bool,
-  path: PropTypes.string.isRequired,
   uid: PropTypes.string.isRequired,
-  visible: PropTypes.bool.isRequired,
-  onCreate: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
-};
-
-CreateFolderDialog.defaultProps = {
-  loading: false,
 };
 
 export default CreateFolderDialog;

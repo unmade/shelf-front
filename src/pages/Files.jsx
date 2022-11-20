@@ -11,11 +11,11 @@ import useDirPath from '../hooks/dir-path';
 import * as icons from '../icons';
 import * as routes from '../routes';
 
-import CreateFolderDialog from '../containers/CreateFolderDialog';
 import FilePreview from '../containers/FilePreview';
 import RenameFileDialog from '../containers/RenameFileDialog';
 
 import Browser from '../components/Browser';
+import CreateFolderDialog from '../components/CreateFolderDialog';
 import DeleteDialog from '../components/DeleteDialog';
 import MoveDialog from '../components/MoveDialog';
 import Uploader from '../components/Uploader';
