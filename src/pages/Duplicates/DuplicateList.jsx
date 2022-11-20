@@ -1,37 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { useSelector } from 'react-redux';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { VariableSizeList } from 'react-window';
 
-import { getDuplicatesByPath } from '../../store/reducers/files';
+import { FileShape } from '../../types';
 
-function DuplicateList({ dirPath, itemRenderer }) {
+function DuplicateList({ items, itemRenderer }) {
   const ref = React.useRef();
-  const duplicates = useSelector((state) => getDuplicatesByPath(state, dirPath));
 
   React.useEffect(() => {
     ref.current?.resetAfterIndex(0, false);
-  }, [duplicates]);
+  }, [items]);
 
   // flatten the array
-  const items = React.useMemo(() => {
+  const flatItems = React.useMemo(() => {
     const flatten = [];
-    duplicates?.forEach((group, i) => {
+    items?.forEach((group, i) => {
       flatten.push({ idx: i, type: 'header', value: i + 1 });
-      group.forEach((fileId, j) => {
-        flatten.push({ idx: j, type: 'row', value: fileId });
+      group.forEach((file, j) => {
+        flatten.push({ idx: j, type: 'row', value: file });
       });
     });
     return flatten;
-  }, [duplicates]);
+  }, [items]);
 
-  if (!items.length) {
+  if (!flatItems.length) {
     return null;
   }
 
-  const getItemSize = (index) => (items[index].type === 'header' ? 36 : 74);
+  const getItemSize = (index) => (flatItems[index].type === 'header' ? 36 : 74);
 
   return (
     <AutoSizer>
@@ -39,8 +37,8 @@ function DuplicateList({ dirPath, itemRenderer }) {
         <VariableSizeList
           ref={ref}
           height={height}
-          itemCount={items.length}
-          itemData={items}
+          itemCount={flatItems.length}
+          itemData={flatItems}
           itemSize={getItemSize}
           width={width}
         >
@@ -54,6 +52,6 @@ function DuplicateList({ dirPath, itemRenderer }) {
 export default DuplicateList;
 
 DuplicateList.propTypes = {
-  dirPath: PropTypes.string.isRequired,
+  items: PropTypes.arrayOf(PropTypes.arrayOf(FileShape.isRequired).isRequired).isRequired,
   itemRenderer: PropTypes.func.isRequired,
 };

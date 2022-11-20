@@ -90,18 +90,6 @@ function* emptyTrash({ type }) {
   }
 }
 
-function* findDuplicates({ type, payload }) {
-  const accessToken = yield select(selectAccessToken);
-  const { path, maxDistance } = payload;
-
-  const body = { path, max_distance: maxDistance };
-  const request = api.post('/files/find_duplicates', accessToken, body);
-
-  yield put(started(type));
-  yield tryFetch(type, request);
-  yield put(loaded(type));
-}
-
 function* getContentMetadata({ type, payload }) {
   const accessToken = yield select(selectAccessToken);
   const { path } = payload;
@@ -205,7 +193,6 @@ export default [
   takeEvery(actions.deleteImmediatelyBatch, deleteImmediatelyBatch),
   takeEvery(actions.download, download),
   takeEvery(actions.emptyTrash, emptyTrash),
-  takeEvery(actions.findDuplicates, findDuplicates),
   takeEvery(actions.getContentMetadata, getContentMetadata),
   takeEvery(actions.moveFile, moveFile),
   takeEvery(actions.moveFileBatch, moveFileBatch),

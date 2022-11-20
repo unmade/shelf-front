@@ -21,12 +21,11 @@ const makeGetPreview = () =>
       if (nextIndex > ids.length - 1) {
         nextIndex = 0;
       }
-      const result = {
+      return {
         index,
         total: data.ids.length,
         files: [entities[ids[prevIndex]], entities[ids[index]], entities[ids[nextIndex]]],
       };
-      return result;
     }
   );
 
