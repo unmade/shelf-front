@@ -6,24 +6,24 @@ import { VariableSizeList } from 'react-window';
 
 import { FileShape } from '../../types';
 
-function DuplicateList({ items, itemRenderer }) {
+function DuplicateList({ data, itemRenderer }) {
   const ref = React.useRef();
 
   React.useEffect(() => {
     ref.current?.resetAfterIndex(0, false);
-  }, [items]);
+  }, [data.items]);
 
   // flatten the array
   const flatItems = React.useMemo(() => {
     const flatten = [];
-    items?.forEach((group, i) => {
+    data.items?.forEach((group, i) => {
       flatten.push({ idx: i, type: 'header', value: i + 1 });
       group.forEach((file, j) => {
         flatten.push({ idx: j, type: 'row', value: file });
       });
     });
     return flatten;
-  }, [items]);
+  }, [data.items]);
 
   if (!flatItems.length) {
     return null;
@@ -38,7 +38,7 @@ function DuplicateList({ items, itemRenderer }) {
           ref={ref}
           height={height}
           itemCount={flatItems.length}
-          itemData={flatItems}
+          itemData={{ ...data, items: flatItems }}
           itemSize={getItemSize}
           width={width}
         >
@@ -52,6 +52,10 @@ function DuplicateList({ items, itemRenderer }) {
 export default DuplicateList;
 
 DuplicateList.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.arrayOf(FileShape.isRequired).isRequired).isRequired,
-  itemRenderer: PropTypes.func.isRequired,
+  data: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.arrayOf(FileShape.isRequired).isRequired).isRequired,
+    selectedId: PropTypes.string,
+    onItemClick: PropTypes.func.isRequired,
+  }).isRequired,
+  itemRenderer: PropTypes.elementType.isRequired,
 };
