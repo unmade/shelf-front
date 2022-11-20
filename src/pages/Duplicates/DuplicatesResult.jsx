@@ -19,7 +19,17 @@ import DuplicateListItem from './DuplicateListItem';
 import DuplicateSidePreview from './DuplicateSidePreview';
 import SelectFolderDialogButton from './SelectFolderDialogButton';
 
-const MemoizedDuplicatedListItem = React.memo(DuplicateListItem);
+const MemoizedDuplicatedListItem = React.memo(({ data, index, style }) => (
+  <div style={style}>
+    <DuplicateListItem
+      indexInGroup={data.items[index].idx}
+      selected={data.items[index].value.id === data.selectedId}
+      type={data.items[index].type}
+      value={data.items[index].value}
+      onItemClick={data.onItemClick}
+    />
+  </div>
+));
 
 const distanceOptions = [
   { name: 'Similar', value: 5, symbol: '≈' },
@@ -65,17 +75,11 @@ function DuplicatesResult({ dirPath, onFolderChange }) {
     selectItem(file);
   };
 
-  const itemRenderer = ({ data, index, style }) => (
-    <div style={style}>
-      <MemoizedDuplicatedListItem
-        indexInGroup={data[index].idx}
-        selected={data[index].value.id === selection?.id}
-        type={data[index].type}
-        value={data[index].value}
-        onItemClick={onItemClick}
-      />
-    </div>
-  );
+  const data = {
+    items: duplicates,
+    selectedId: selection?.id,
+    onItemClick,
+  };
 
   const preparePreviewPath = (path) => {
     let previewPath = path;
@@ -140,7 +144,7 @@ function DuplicatesResult({ dirPath, onFolderChange }) {
           <div className="mt-7" />
           <div className="flex-1">
             {duplicates?.length ? (
-              <DuplicateList items={duplicates} itemRenderer={itemRenderer} />
+              <DuplicateList data={data} itemRenderer={MemoizedDuplicatedListItem} />
             ) : (
               <div className="flex h-full items-center justify-center">
                 <p className="font-medium">{t('duplicates:emptyResult')}</p>
