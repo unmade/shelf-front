@@ -37,7 +37,6 @@ function* handleUpload(action) {
 }
 
 const watchers = {
-  [fulfilled(fileActions.createFolder)]: refreshFolder,
   [fulfilled(fileActions.moveFile)]: refreshFolder,
   [fulfilled(fileActions.moveToTrash)]: refreshFolder,
   [uploadActions.uploadFulfilled]: handleUpload,

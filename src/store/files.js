@@ -1,11 +1,22 @@
 import { createEntityAdapter, createSelector } from '@reduxjs/toolkit';
+
 import apiSlice from './apiSlice';
+
+import * as routes from '../routes';
 
 const filesAdapter = createEntityAdapter();
 const initialState = filesAdapter.getInitialState();
 
 const filesApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    createFolder: builder.mutation({
+      query: ({ name, inPath }) => ({
+        url: '/files/create_folder',
+        method: 'POST',
+        body: { path: routes.join(inPath, name) },
+      }),
+      invalidatesTags: (_result, _error, { inPath }) => [{ type: 'Files', id: inPath }],
+    }),
     findDuplicates: builder.query({
       query: ({ path, maxDistance }) => ({
         url: '/files/find_duplicates',
@@ -51,6 +62,7 @@ const filesApi = apiSlice.injectEndpoints({
 });
 
 export const {
+  useCreateFolderMutation,
   useFindDuplicatesQuery,
   useGetBatchQuery,
   useGetContentMetadataQuery,

@@ -12,7 +12,6 @@ import { useListBookmarksQuery } from '../store/users';
 import * as icons from '../icons';
 import { Dialogs, MediaQuery } from '../constants';
 
-import CreateFolderDialog from '../containers/CreateFolderDialog';
 import RenameFileDialog from '../containers/RenameFileDialog';
 
 import DeleteDialog from '../components/DeleteDialog';
@@ -87,7 +86,6 @@ function Bookmarks() {
           )}
         </div>
       </div>
-      <CreateFolderDialog uid={Dialogs.createFolder} />
       <RenameFileDialog uid={Dialogs.rename} />
       <MoveDialog uid={Dialogs.move} />
       <DeleteDialog uid={Dialogs.delete} />

@@ -8,7 +8,6 @@ import * as uploadActions from '../actions/uploads';
 
 function isFileChanged(action) {
   return (
-    action.type === fulfilled(actions.createFolder) ||
     action.type === fulfilled(actions.emptyTrash) ||
     action.type === fulfilled(actions.moveFile) ||
     action.type === fulfilled(actions.moveToTrash)
