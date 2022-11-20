@@ -30,10 +30,6 @@ export const folderUpdated = createAction('files/folderUpdated', (path, ids) => 
   payload: { path, ids },
 }));
 
-export const getContentMetadata = createAction('files/getContentMetadata', (path) => ({
-  payload: { path },
-}));
-
 export const moveFile = createAction('files/moveFile', (fromPath, toPath) => ({
   payload: { fromPath, toPath },
 }));

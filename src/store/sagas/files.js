@@ -90,17 +90,6 @@ function* emptyTrash({ type }) {
   }
 }
 
-function* getContentMetadata({ type, payload }) {
-  const accessToken = yield select(selectAccessToken);
-  const { path } = payload;
-
-  const request = api.post('/files/get_content_metadata', accessToken, { path });
-
-  yield put(started(type, path));
-  yield tryFetch(type, request);
-  yield put(loaded(type, path));
-}
-
 function* moveFile({ type, payload }) {
   const accessToken = yield select(selectAccessToken);
   const { fromPath, toPath } = payload;
@@ -193,7 +182,6 @@ export default [
   takeEvery(actions.deleteImmediatelyBatch, deleteImmediatelyBatch),
   takeEvery(actions.download, download),
   takeEvery(actions.emptyTrash, emptyTrash),
-  takeEvery(actions.getContentMetadata, getContentMetadata),
   takeEvery(actions.moveFile, moveFile),
   takeEvery(actions.moveFileBatch, moveFileBatch),
   takeEvery(actions.moveToTrash, moveToTrash),

@@ -2,11 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { getContentMetadata as fetchContentMetadata } from '../store/actions/files';
-import { getContentMetadata } from '../store/reducers/files';
-import { getLoading } from '../store/reducers/loading';
 
 import { FileShape } from '../types';
 
@@ -15,6 +10,7 @@ import * as icons from '../icons';
 import FileSize from './ui/FileSize';
 import Tabs from './ui/Tabs';
 import TimeAgo from './ui/TimeAgo';
+import { useGetContentMetadataQuery } from '../store/files';
 
 function Property({ name, value }) {
   return (
@@ -55,21 +51,10 @@ InformationPanel.propTypes = {
 function ExifPanel({ file }) {
   const { t } = useTranslation(['exif']);
 
-  const dispatch = useDispatch();
-
-  const meta = useSelector((state) => getContentMetadata(state, file.id));
-  const loading = useSelector((state) =>
-    getLoading(state, { actionType: fetchContentMetadata, ref: file?.path })
-  );
-
   const { path, thumbnail_url: thumbnailUrl } = file;
-  const shouldFetchMetadata = meta == null && thumbnailUrl != null;
-
-  React.useEffect(() => {
-    if (shouldFetchMetadata) {
-      dispatch(fetchContentMetadata(path));
-    }
-  }, [path, shouldFetchMetadata, dispatch]);
+  const { data, isLoading: loading } = useGetContentMetadataQuery(path, {
+    skip: thumbnailUrl == null,
+  });
 
   if (loading) {
     return (
@@ -79,13 +64,15 @@ function ExifPanel({ file }) {
     );
   }
 
-  if (meta == null) {
+  if (data?.data == null || thumbnailUrl == null) {
     return (
       <div className="flex flex-col items-center justify-center space-y-2 py-3 text-gray-500 dark:text-zinc-400">
         <p>{t('exif:notAvailable')}</p>
       </div>
     );
   }
+
+  const { data: meta } = data;
 
   return (
     <div className="divide-y text-xs font-medium dark:divide-zinc-700">
