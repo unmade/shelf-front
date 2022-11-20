@@ -2,11 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
-import { findDuplicates } from '../../store/actions/files';
-import { getDuplicatesByPath } from '../../store/reducers/files';
+import { useFindDuplicatesQuery } from '../../store/files';
 
 import * as icons from '../../icons';
 import * as routes from '../../routes';
@@ -41,39 +39,37 @@ const distanceOptions = [
 function DuplicatesResult({ dirPath, onFolderChange }) {
   const { t } = useTranslation('duplicates');
 
-  const dispatch = useDispatch();
   const location = useLocation();
 
   const { search } = location;
   const queryParams = new URLSearchParams(search);
   const preview = queryParams.get('preview');
 
-  const [selection, selectItem] = React.useState({ fileId: null });
+  const [selection, selectItem] = React.useState(null);
   const [maxDistance, setMaxDistance] = React.useState(distanceOptions[0]);
 
-  const maxDistanceValue = maxDistance.value;
-  React.useEffect(() => {
-    dispatch(findDuplicates(dirPath, maxDistanceValue));
-  }, [dirPath, dispatch, maxDistanceValue]);
+  const { data: duplicates } = useFindDuplicatesQuery({
+    path: dirPath,
+    maxDistance: maxDistance.value,
+  });
 
-  const duplicates = useSelector((state) => getDuplicatesByPath(state, dirPath));
   React.useEffect(() => {
     if (duplicates?.length) {
-      selectItem({ fileId: duplicates[0][0] });
+      selectItem(duplicates[0][0]);
     } else {
-      selectItem({ fileId: null });
+      selectItem(null);
     }
   }, [duplicates, selectItem]);
 
-  const onItemClick = (fileId) => {
-    selectItem({ fileId });
+  const onItemClick = (file) => {
+    selectItem(file);
   };
 
   const itemRenderer = ({ data, index, style }) => (
     <div style={style}>
       <MemoizedDuplicatedListItem
         indexInGroup={data[index].idx}
-        selected={data[index].value === selection.fileId}
+        selected={data[index].value.id === selection?.id}
         type={data[index].type}
         value={data[index].value}
         onItemClick={onItemClick}
@@ -144,7 +140,7 @@ function DuplicatesResult({ dirPath, onFolderChange }) {
           <div className="mt-7" />
           <div className="flex-1">
             {duplicates?.length ? (
-              <DuplicateList dirPath={dirPath} itemRenderer={itemRenderer} />
+              <DuplicateList items={duplicates} itemRenderer={itemRenderer} />
             ) : (
               <div className="flex h-full items-center justify-center">
                 <p className="font-medium">{t('duplicates:emptyResult')}</p>
@@ -155,7 +151,7 @@ function DuplicatesResult({ dirPath, onFolderChange }) {
 
         {/* right column: duplicates preview */}
         <div className="w-2/3 border-l dark:border-zinc-700">
-          <DuplicateSidePreview fileId={selection.fileId} />
+          {selection != null && <DuplicateSidePreview file={selection} />}
         </div>
       </div>
       {preview && (

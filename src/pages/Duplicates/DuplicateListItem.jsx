@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { useSelector } from 'react-redux';
-
-import { getFileById } from '../../store/reducers/files';
+import { FileShape } from '../../types';
 
 import * as routes from '../../routes';
 
@@ -35,20 +33,18 @@ function DuplicateListItem({ indexInGroup, selected, type, value, onItemClick })
     );
   }
 
-  const file = useSelector((state) => getFileById(state, value));
-
   return (
     <div
       className={`mx-4 flex cursor-pointer items-center space-x-4 rounded-xl border px-4 py-4 text-sm ${borderColor} ${backgroundColor}`}
-      onClick={() => onItemClick(file.id)}
+      onClick={() => onItemClick(value)}
       aria-hidden
     >
       <div className="shrink-0">
-        <Thumbnail className="h-10 w-10" file={file} />
+        <Thumbnail className="h-10 w-10" file={value} />
       </div>
       <div className="min-w-0">
-        <div className={`truncate ${nameStyle}`}>{file.name}</div>
-        <div className={`truncate ${pathStyle}`}>{routes.parent(file.path)}</div>
+        <div className={`truncate ${nameStyle}`}>{value.name}</div>
+        <div className={`truncate ${pathStyle}`}>{routes.parent(value.path)}</div>
       </div>
     </div>
   );
@@ -60,7 +56,7 @@ DuplicateListItem.propTypes = {
   indexInGroup: PropTypes.number.isRequired,
   selected: PropTypes.bool,
   type: PropTypes.oneOf(['header', 'row']).isRequired,
-  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  value: PropTypes.oneOfType([PropTypes.number, FileShape]).isRequired,
   onItemClick: PropTypes.func,
 };
 

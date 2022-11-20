@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { fileDialogOpened } from '../../store/actions/ui';
-import { getFileById } from '../../store/reducers/files';
+
+import { FileShape } from '../../types';
 
 import { Dialogs } from '../../constants';
 import * as icons from '../../icons';
@@ -32,18 +33,13 @@ FileProperty.propTypes = {
   value: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
 };
 
-function DuplicateSidePreview({ fileId }) {
+function DuplicateSidePreview({ file }) {
   const { t } = useTranslation('file');
 
   const dispatch = useDispatch();
 
-  const file = useSelector((state) => getFileById(state, fileId));
-  if (file == null) {
-    return null;
-  }
-
   const onDelete = () => {
-    dispatch(fileDialogOpened(Dialogs.delete, { fileIds: [fileId] }));
+    dispatch(fileDialogOpened(Dialogs.delete, { fileIds: [file.id] }));
   };
 
   return (
@@ -92,12 +88,8 @@ function DuplicateSidePreview({ fileId }) {
   );
 }
 
-export default DuplicateSidePreview;
-
 DuplicateSidePreview.propTypes = {
-  fileId: PropTypes.string,
+  file: FileShape.isRequired,
 };
 
-DuplicateSidePreview.defaultProps = {
-  fileId: null,
-};
+export default DuplicateSidePreview;

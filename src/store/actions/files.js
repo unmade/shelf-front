@@ -26,10 +26,6 @@ export const downloadExpired = createAction('files/download/expired', (path) => 
 
 export const emptyTrash = createAction('files/emptyTrash');
 
-export const findDuplicates = createAction('files/findDuplicates', (path, maxDistance) => ({
-  payload: { path, maxDistance },
-}));
-
 export const folderUpdated = createAction('files/folderUpdated', (path, ids) => ({
   payload: { path, ids },
 }));

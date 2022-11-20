@@ -6,6 +6,14 @@ const initialState = filesAdapter.getInitialState();
 
 const filesApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    findDuplicates: builder.query({
+      query: ({ path, maxDistance }) => ({
+        url: '/files/find_duplicates',
+        method: 'POST',
+        body: { path, max_distance: maxDistance },
+      }),
+      transformResponse: (data) => data.items,
+    }),
     getBatch: builder.query({
       query: (ids) => ({
         url: '/files/get_batch',
@@ -36,10 +44,16 @@ const filesApi = apiSlice.injectEndpoints({
 });
 
 export const {
+  useFindDuplicatesQuery,
   useGetBatchQuery,
   useListFolderQuery,
   util: { invalidateTags },
 } = filesApi;
+
+export const selectFindDuplicatesData = createSelector(
+  (state, path, maxDistance) => filesApi.endpoints.findDuplicates.select(path, maxDistance)(state),
+  (result) => result.data ?? null
+);
 
 export const selectListFolderData = createSelector(
   (state, path) => filesApi.endpoints.listFolder.select(path)(state),
