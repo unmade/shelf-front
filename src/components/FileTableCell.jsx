@@ -6,8 +6,9 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { filesSelectionChanged, fileSelectionToggled } from '../store/actions/ui';
-import { getFileById } from '../store/reducers/files';
 import { getHasSelectedFiles, getIsFileSelected } from '../store/reducers/ui';
+
+import { FileShape } from '../types';
 
 import { MediaType } from '../constants';
 
@@ -73,7 +74,7 @@ function FileTableCell({ className, even, item, selected, hasSelected }) {
             readOnly
           />
           <div className="shrink-0">
-            <Thumbnail className="h-9 w-9" fileId={item.id} />
+            <Thumbnail className="h-9 w-9" file={item} />
           </div>
           <span
             className="truncate"
@@ -118,14 +119,7 @@ function FileTableCell({ className, even, item, selected, hasSelected }) {
 FileTableCell.propTypes = {
   className: PropTypes.string,
   even: PropTypes.bool.isRequired,
-  item: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    path: PropTypes.string.isRequired,
-    size: PropTypes.number.isRequired,
-    mtime: PropTypes.number.isRequired,
-    hidden: PropTypes.bool.isRequired,
-  }).isRequired,
+  item: FileShape.isRequired,
   selected: PropTypes.bool.isRequired,
   hasSelected: PropTypes.bool.isRequired,
 };
@@ -137,15 +131,11 @@ FileTableCell.defaultProps = {
 const MemoizedFileTableCell = React.memo(FileTableCell);
 
 function FileTableCellContainer({ data, index, style }) {
-  const itemId = data[index];
+  const item = data[index];
+  const itemId = item.id;
   const even = index % 2 === 0;
-  const item = useSelector((state) => getFileById(state, itemId));
   const selected = useSelector((state) => getIsFileSelected(state, itemId));
   const hasSelected = useSelector(getHasSelectedFiles);
-
-  if (item == null) {
-    return null;
-  }
 
   return (
     <div style={style}>
@@ -160,7 +150,7 @@ function FileTableCellContainer({ data, index, style }) {
 }
 
 FileTableCellContainer.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  data: PropTypes.arrayOf(FileShape.isRequired).isRequired,
   index: PropTypes.number.isRequired,
 };
 

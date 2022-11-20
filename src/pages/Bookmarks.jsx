@@ -6,7 +6,6 @@ import { useMediaQuery } from 'react-responsive';
 
 import useSidePreview from '../hooks/preview-available';
 
-import { getBatch } from '../store/actions/files';
 import { filesSelectionChanged } from '../store/actions/ui';
 import { useListBookmarksQuery } from '../store/users';
 
@@ -22,22 +21,23 @@ import FileTableCell from '../components/FileTableCell';
 import MoveDialog from '../components/MoveDialog';
 import SideBarModal from '../components/SideBarModal';
 import SidePreview from '../components/Browser/SidePreview';
+import { useGetBatchQuery } from '../store/files';
+
+const empty = [];
 
 function Bookmarks() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { data: bookmarks, isLoading } = useListBookmarksQuery();
+  const { data: fileIds } = useListBookmarksQuery();
+  const { data: files, isLoading } = useGetBatchQuery(fileIds, { skip: fileIds == null });
   const withSidePreview = useSidePreview();
   const isLaptop = useMediaQuery({ query: MediaQuery.lg });
 
   const title = t('Bookmarks');
 
   React.useEffect(() => {
-    if (bookmarks != null) {
-      dispatch(getBatch(bookmarks));
-      dispatch(filesSelectionChanged([]));
-    }
-  }, [bookmarks, dispatch]);
+    dispatch(filesSelectionChanged([]));
+  }, []);
 
   return (
     <>
@@ -70,7 +70,7 @@ function Bookmarks() {
           <div className={withSidePreview ? 'w-7/12' : 'w-full'}>
             <FileTableView
               className="border-transparent"
-              items={bookmarks != null ? bookmarks : []}
+              items={files ?? empty}
               scrollKey="bookmarks-table-view" // possible collissions
               itemRender={FileTableCell}
               loading={isLoading}

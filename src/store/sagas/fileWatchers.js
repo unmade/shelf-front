@@ -1,113 +1,17 @@
 import { delay, put, race, select, take, takeLeading } from 'redux-saga/effects';
 
-import { MediaType } from '../../constants';
-import * as routes from '../../routes';
-
 import { fulfilled } from '../actions';
 import * as fileActions from '../actions/files';
 import * as taskActions from '../actions/tasks';
-import * as uiActions from '../actions/ui';
 import * as uploadActions from '../actions/uploads';
+import { invalidateTags } from '../files';
 
-import { getDownload, getFileById, getFileIdsByPath } from '../reducers/files';
-import { getCurrentPath, getSelectedFileIds } from '../reducers/ui';
+import { getDownload } from '../reducers/files';
+import { getCurrentPath } from '../reducers/ui';
 
-/**
- * Return index in an `arr` where `target` should be inserted in order.
- * This is sort of modified version of binary search, because array sorted by
- * two fields - folder come first in abc order, then go files.
- */
-function* findNextIdx(arr, target, cmp) {
-  let low = 0;
-  let high = arr.length;
-  let prevMid = null;
-
-  while (low < high) {
-    // eslint-disable-next-line no-bitwise
-    const mid = (low + high) >>> 1;
-    const file = yield select(getFileById, arr[mid]);
-    const result = cmp(target, file);
-    if (result === 1) {
-      low = mid + 1;
-    } else if (result === -1) {
-      high = mid;
-    } else if (result === 2) {
-      low = mid + 1;
-      if (prevMid > high) {
-        high = prevMid;
-      }
-    } else if (result === -2) {
-      high = mid;
-      if (low > prevMid + 1) {
-        low = prevMid + 1;
-      }
-    }
-    prevMid = mid;
-  }
-  return low;
-}
-
-/**
- * This method guarantees to return:
- *     ' 1' if 'a' occurs after 'b' and they both files
- *     '-1' if 'a' occurs before 'b' and they both files
- *     '-2' if 'a' is a folder and 'b' is not
- *     ' 2  if 'a' is not a folder and 'b' is
- */
-function compareFiles(a, b) {
-  if (a.mediatype === MediaType.FOLDER && b.mediatype !== MediaType.FOLDER) {
-    return -2;
-  }
-  if (a.mediatype !== MediaType.FOLDER && b.mediatype === MediaType.FOLDER) {
-    return 2;
-  }
-
-  const result = a.path.toLowerCase().localeCompare(b.path.toLowerCase());
-  if (result > 0) {
-    return 1;
-  }
-  if (result < 0) {
-    return -1;
-  }
-  return 0;
-}
-
-function* handleCreateFolder(action) {
-  const folder = action.payload;
-  const currPath = yield select(getCurrentPath);
-
-  const ids = new Set(yield select(getFileIdsByPath, { path: currPath }));
-  if (!ids.has(folder.id)) {
-    const nextFiles = [...ids];
-    const idx = yield findNextIdx(nextFiles, folder, compareFiles);
-    nextFiles.splice(idx, 0, folder.id);
-    yield put(fileActions.folderUpdated(currPath, nextFiles));
-  }
-}
-
-function* handleListFolder({ payload }) {
-  const currentPath = yield select(getCurrentPath);
-  const { path, items } = payload;
-
-  if (path === currentPath) {
-    const fileIds = items.map((item) => item.id);
-    const selectedFiles = yield select(getSelectedFileIds);
-    yield put(uiActions.filesSelectionChanged(fileIds.filter((id) => selectedFiles.has(id))));
-  }
-}
-
-function* handleMoveFile(action) {
-  const file = action.payload;
-  const currPath = yield select(getCurrentPath);
-
-  const parentPath = routes.parent(file.path);
-  const ids = yield select(getFileIdsByPath, { path: currPath });
-  const nextFiles = [...ids.filter((id) => id !== file.id)];
-  if (parentPath === currPath) {
-    const idx = yield findNextIdx(nextFiles, file, compareFiles);
-    nextFiles.splice(idx, 0, file.id);
-  }
-  yield put(fileActions.folderUpdated(currPath, nextFiles));
+function* refreshFolder() {
+  const path = yield select(getCurrentPath);
+  yield put(invalidateTags([{ type: 'Files', id: path }]));
 }
 
 function* handleUpload(action) {
@@ -128,21 +32,14 @@ function* handleUpload(action) {
     }
   }
   if (target) {
-    const ids = new Set(yield select(getFileIdsByPath, { path: currPath }));
-    if (!ids.has(target.id)) {
-      const nextFiles = [...ids];
-      const idx = yield findNextIdx(nextFiles, target, compareFiles);
-      nextFiles.splice(idx, 0, target.id);
-      yield put(fileActions.folderUpdated(currPath, nextFiles));
-    }
+    yield refreshFolder();
   }
 }
 
 const watchers = {
-  [fulfilled(fileActions.createFolder)]: handleCreateFolder,
-  [fulfilled(fileActions.listFolder)]: handleListFolder,
-  [fulfilled(fileActions.moveFile)]: handleMoveFile,
-  [fulfilled(fileActions.moveToTrash)]: handleMoveFile,
+  [fulfilled(fileActions.createFolder)]: refreshFolder,
+  [fulfilled(fileActions.moveFile)]: refreshFolder,
+  [fulfilled(fileActions.moveToTrash)]: refreshFolder,
   [uploadActions.uploadFulfilled]: handleUpload,
 };
 
@@ -196,7 +93,7 @@ function* refreshCurrentFolder({ payload }) {
     });
 
     const path = yield select(getCurrentPath);
-    yield put(fileActions.listFolder(path));
+    yield put(invalidateTags([{ type: 'Files', id: path }]));
 
     if (completed) {
       break;

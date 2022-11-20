@@ -102,17 +102,6 @@ function* findDuplicates({ type, payload }) {
   yield put(loaded(type));
 }
 
-function* getBatch({ type, payload }) {
-  const accessToken = yield select(selectAccessToken);
-  const { fileIds } = payload;
-
-  const request = api.post('/files/get_batch', accessToken, { ids: fileIds });
-
-  yield put(started(type));
-  yield tryFetch(type, request);
-  yield put(loaded(type));
-}
-
 function* getContentMetadata({ type, payload }) {
   const accessToken = yield select(selectAccessToken);
   const { path } = payload;
@@ -122,17 +111,6 @@ function* getContentMetadata({ type, payload }) {
   yield put(started(type, path));
   yield tryFetch(type, request);
   yield put(loaded(type, path));
-}
-
-function* listFolder({ type, payload }) {
-  const accessToken = yield select(selectAccessToken);
-  const { path = '.' } = payload;
-
-  const request = api.post('/files/list_folder', accessToken, { path });
-
-  yield put(started(type));
-  yield tryFetch(type, request);
-  yield put(loaded(type));
 }
 
 function* moveFile({ type, payload }) {
@@ -228,9 +206,7 @@ export default [
   takeEvery(actions.download, download),
   takeEvery(actions.emptyTrash, emptyTrash),
   takeEvery(actions.findDuplicates, findDuplicates),
-  takeEvery(actions.getBatch, getBatch),
   takeEvery(actions.getContentMetadata, getContentMetadata),
-  takeEvery(actions.listFolder, listFolder),
   takeEvery(actions.moveFile, moveFile),
   takeEvery(actions.moveFileBatch, moveFileBatch),
   takeEvery(actions.moveToTrash, moveToTrash),

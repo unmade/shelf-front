@@ -1,15 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { useSelector } from 'react-redux';
-
-import { getFileById } from '../store/reducers/files';
+import { FileShape } from '../types';
 
 import FileIcon from './FileIcon';
 
 function FolderPickerItem({ data, index, style }) {
-  const itemId = data.items[index];
-  const item = useSelector((state) => getFileById(state, itemId));
+  const item = data.items[index];
 
   const primaryText = item.hidden
     ? 'text-gray-500 dark:text-zinc-400'
@@ -35,7 +32,7 @@ function FolderPickerItem({ data, index, style }) {
 
 FolderPickerItem.propTypes = {
   data: PropTypes.shape({
-    items: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    items: PropTypes.arrayOf(FileShape).isRequired,
     onClick: PropTypes.func.isRequired,
   }).isRequired,
   index: PropTypes.number.isRequired,

@@ -9,7 +9,6 @@ import useDirPath from '../hooks/dir-path';
 import * as icons from '../icons';
 import * as routes from '../routes';
 
-import { listFolder } from '../store/actions/files';
 import {
   fileBrowserPathChanged,
   filesSelectionChanged,
@@ -49,7 +48,6 @@ function Trash() {
 
   React.useEffect(() => {
     dispatch(fileBrowserPathChanged(dirPath));
-    dispatch(listFolder(dirPath));
 
     // we want to deselect all files when
     // current directory has changed

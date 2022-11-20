@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
-import { listFolder } from '../store/actions/files';
 import { fileBrowserPathChanged, filesSelectionChanged } from '../store/actions/ui';
 
 import { Dialogs } from '../constants';
@@ -34,7 +33,6 @@ function Files() {
 
   React.useEffect(() => {
     dispatch(fileBrowserPathChanged(dirPath));
-    dispatch(listFolder(dirPath));
 
     // we want to deselect all files when
     // current directory has changed

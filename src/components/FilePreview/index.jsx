@@ -121,7 +121,7 @@ function FilePreview({ preview, preparePath }) {
               <div className="hidden sm:block sm:w-1/3 xl:w-1/4">
                 <Info
                   className="h-full border-t bg-white px-5 py-6 shadow dark:border-zinc-700 dark:bg-zinc-800 dark:shadow-zinc-900/70"
-                  fileId={file.id}
+                  file={file}
                 />
               </div>
             )}

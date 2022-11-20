@@ -1,12 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { useDispatch, useSelector } from 'react-redux';
-
-import { listFolder } from '../store/actions/files';
-import { getFileIdsByPath, getFolderIdsByPath } from '../store/reducers/files';
-import { getLoading } from '../store/reducers/loading';
-
 import * as icons from '../icons';
 import * as routes from '../routes';
 
@@ -14,6 +8,8 @@ import Breadcrumb from './ui/Breadcrumb';
 import VList from './ui/VList';
 
 import FolderPickerItem from './FolderPickerItem';
+import { useListFolderQuery } from '../store/files';
+import { MediaType } from '../constants';
 
 const HEIGHT = 24;
 
@@ -29,20 +25,21 @@ const FolderPicker = ({
   onlyFolders,
   onPathChange,
 }) => {
-  const dispatch = useDispatch();
-
   const [path, setPath] = React.useState(initialPath);
 
-  const selector = onlyFolders ? getFolderIdsByPath : getFileIdsByPath;
+  const { data: listFolderResult, isLoading: loading } = useListFolderQuery(path);
 
-  let items = useSelector((state) => selector(state, { path }));
-  const loading = useSelector((state) => getLoading(state, { actionType: listFolder }));
-
-  React.useEffect(() => {
-    if (items.length === 0) {
-      dispatch(listFolder(path));
+  const items = React.useMemo(() => {
+    let entities = Object.values(listFolderResult?.entities ?? {});
+    if (onlyFolders) {
+      entities = entities.filter((entity) => entity.mediatype === MediaType.FOLDER);
     }
-  }, [items.length, path, dispatch]);
+    if (excludeIds.length) {
+      const idsToExclude = new Set(excludeIds);
+      entities = entities.filter((entity) => !idsToExclude.has(entity.id));
+    }
+    return entities;
+  }, [listFolderResult?.entities, onlyFolders, excludeIds]);
 
   const changePath =
     (nextPath, onPathChangeCallback = null) =>
@@ -54,9 +51,6 @@ const FolderPicker = ({
         onPathChangeCallback(nextPath);
       }
     };
-
-  const idsToExclude = new Set(excludeIds);
-  items = items.filter((id) => !idsToExclude.has(id));
 
   const data = {
     items,

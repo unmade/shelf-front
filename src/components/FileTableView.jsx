@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { filesSelectionChanged } from '../store/actions/ui';
 import { getCountSelectedFiles, getHasSelectedFiles } from '../store/reducers/ui';
 
+import { FileShape } from '../types';
+
 import FileTableList from '../containers/FileTableList';
 
 function TableHeader({ items }) {
@@ -93,7 +95,7 @@ FileTableView.propTypes = {
   emptyIcon: PropTypes.element.isRequired,
   emptyTitle: PropTypes.string.isRequired,
   emptyDescription: PropTypes.string,
-  items: PropTypes.arrayOf(PropTypes.string).isRequired,
+  items: PropTypes.arrayOf(FileShape).isRequired,
   loading: PropTypes.bool,
   scrollKey: PropTypes.string.isRequired,
   itemRender: PropTypes.elementType.isRequired,
