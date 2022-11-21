@@ -18,7 +18,21 @@ function VList({
   itemRender: View,
   onScrollOffsetChange,
 }) {
-  const trackScrolling = scrollKey != null && onScrollOffsetChange != null;
+  const shouldTrackScrolling = scrollKey != null && onScrollOffsetChange != null;
+
+  const timeout = React.useRef(null);
+  const onItemsRendered = React.useCallback(
+    ({ visibleStartIndex }) => {
+      clearTimeout(timeout.current);
+      timeout.current = setTimeout(() => {
+        if (visibleStartIndex !== initialScrollOffset) {
+          onScrollOffsetChange(scrollKey, visibleStartIndex);
+        }
+      }, 200);
+    },
+    [initialScrollOffset, onScrollOffsetChange, timeout]
+  );
+
   return (
     <AutoSizer>
       {({ height, width }) => {
@@ -41,12 +55,7 @@ function VList({
             itemSize={itemHeight}
             width={width}
             className={className}
-            useIsScrolling={trackScrolling}
-            onItemsRendered={({ visibleStartIndex }) => {
-              if (trackScrolling) {
-                onScrollOffsetChange(scrollKey, visibleStartIndex);
-              }
-            }}
+            onItemsRendered={shouldTrackScrolling ? onItemsRendered : null}
           >
             {View}
           </FixedSizeList>
