@@ -2,6 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { selectFileByIdInPath, useMoveFileBatchMutation } from '../store/files';
+import { scopes, waitForBackgroundTaskToComplete } from '../store/tasks';
+
+import { fileDialogClosed } from '../store/actions/ui';
+
+import { getCurrentPath, getFileDialogProps, getFileDialogVisible } from '../store/reducers/ui';
+
+import { FileShape } from '../types';
 
 import { MediaType } from '../constants';
 import * as icons from '../icons';
@@ -13,30 +23,30 @@ import Input from './ui/Input';
 function RenameFileDialog({ file, loading, uid, visible, onRename, onCancel }) {
   const { t } = useTranslation();
 
-  const [name, setName] = React.useState((file && file.name) || null);
+  const [name, setName] = React.useState((file && file.name) ?? null);
   const [error, setError] = React.useState(null);
 
   React.useEffect(() => {
-    if (file !== null) {
+    if (file != null) {
       setName(file.name);
     }
   }, [file]);
 
   React.useEffect(() => {
-    if (!visible && error !== null && error !== undefined) {
+    if (!visible && error != null) {
       setError(null);
     }
   }, [visible, error, setError]);
 
   const onNameChange = (event) => {
     setName(event.target.value);
-    if (error !== null && error !== undefined) {
+    if (error != null) {
       setError(null);
     }
   };
 
   const onConfirm = () => {
-    if (name === null || name === undefined || name === '') {
+    if (name == null || name === '') {
       setError(t('Name cannot be empty.'));
     } else if (name === file.name) {
       setError(t('Name is the same.'));
@@ -83,11 +93,7 @@ function RenameFileDialog({ file, loading, uid, visible, onRename, onCancel }) {
 }
 
 RenameFileDialog.propTypes = {
-  file: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    path: PropTypes.string.isRequired,
-    mediatype: PropTypes.string.isRequired,
-  }),
+  file: FileShape,
   loading: PropTypes.bool,
   uid: PropTypes.string.isRequired,
   visible: PropTypes.bool,
@@ -101,4 +107,51 @@ RenameFileDialog.defaultProps = {
   visible: false,
 };
 
-export default RenameFileDialog;
+function RenameFileDialogContainer({ uid }) {
+  const dispatch = useDispatch();
+
+  const [moveFileBatch, { isLoading: loading }] = useMoveFileBatchMutation();
+
+  const visible = useSelector((state) => getFileDialogVisible(state, { uid }));
+  const { fileId } = useSelector((state) => getFileDialogProps(state, { uid }));
+
+  const path = useSelector(getCurrentPath);
+  const file = useSelector((state) => selectFileByIdInPath(state, { path, id: fileId }));
+
+  const onRename = async (fromPath, toPath) => {
+    const relocations = [{ fromPath, toPath }];
+
+    const {
+      data: { taskId },
+    } = await moveFileBatch(relocations);
+    dispatch(
+      waitForBackgroundTaskToComplete({
+        taskId,
+        scope: scopes.movingBatch,
+        itemsCount: relocations.length,
+      })
+    );
+    dispatch(fileDialogClosed(uid));
+  };
+
+  const onCancel = () => {
+    dispatch(fileDialogClosed(uid));
+  };
+
+  return (
+    <RenameFileDialog
+      uid={uid}
+      file={file}
+      visible={visible}
+      loading={loading}
+      onRename={onRename}
+      onCancel={onCancel}
+    />
+  );
+}
+
+RenameFileDialogContainer.propTypes = {
+  uid: PropTypes.string.isRequired,
+};
+
+export default RenameFileDialogContainer;

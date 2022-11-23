@@ -12,12 +12,11 @@ import { useListBookmarksQuery } from '../store/users';
 import * as icons from '../icons';
 import { Dialogs, MediaQuery } from '../constants';
 
-import RenameFileDialog from '../containers/RenameFileDialog';
-
 import DeleteDialog from '../components/DeleteDialog';
 import FileTableView from '../components/FileTableView';
 import FileTableCell from '../components/FileTableCell';
 import MoveDialog from '../components/MoveDialog';
+import RenameFileDialog from '../components/RenameFileDialog';
 import SideBarModal from '../components/SideBarModal';
 import SidePreview from '../components/Browser/SidePreview';
 import { useGetBatchQuery } from '../store/files';

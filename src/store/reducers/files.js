@@ -1,18 +1,7 @@
 import { combineReducers, createReducer, createSelector } from '@reduxjs/toolkit';
 
-import * as routes from '../../routes';
-
-import { fulfilled } from '../actions';
 import * as actions from '../actions/files';
 import * as uploadActions from '../actions/uploads';
-
-function isFileChanged(action) {
-  return (
-    action.type === fulfilled(actions.emptyTrash) ||
-    action.type === fulfilled(actions.moveFile) ||
-    action.type === fulfilled(actions.moveToTrash)
-  );
-}
 
 function isFilesListed(action) {
   return action.type === 'files/listFolder/fulfilled';
@@ -30,10 +19,6 @@ const downloads = createReducer({}, (builder) => {
 });
 
 const filesById = createReducer({}, (builder) => {
-  builder.addCase(fulfilled(actions.deleteImmediately), (state, action) => {
-    const file = action.payload;
-    delete state[file.id];
-  });
   builder.addCase(uploadActions.uploadFulfilled, (state, action) => {
     const { file, updates } = action.payload;
     state[file.id] = file;
@@ -47,29 +32,12 @@ const filesById = createReducer({}, (builder) => {
       state[file.id] = file;
     });
   });
-  builder.addMatcher(isFileChanged, (state, action) => {
-    const file = action.payload;
-    state[file.id] = file;
-  });
 });
 
 const filesByPath = createReducer({}, (builder) => {
-  builder.addCase(fulfilled(actions.deleteImmediately), (state, action) => {
-    const file = action.payload;
-    const parentPath = routes.parent(file.path);
-    state[parentPath] = state[parentPath].filter((fileId) => fileId !== file.id);
-  });
-  builder.addCase(fulfilled(actions.emptyTrash), (state, action) => {
-    const file = action.payload;
-    state[file.path] = [];
-  });
   builder.addCase('files/listFolder/fulfilled', (state, action) => {
     const { path, items } = action.payload;
     state[path] = items.map((file) => file.id);
-  });
-  builder.addCase(actions.folderUpdated, (state, action) => {
-    const { path, ids } = action.payload;
-    state[path] = ids;
   });
 });
 

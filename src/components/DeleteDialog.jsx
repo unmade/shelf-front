@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import { Trans, useTranslation } from 'react-i18next';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
-import { moveToTrashBatch } from '../store/actions/files';
-import { fileDialogClosed } from '../store/actions/ui';
+import { useMoveToTrashBatchMutation } from '../store/files';
+import { scopes, waitForBackgroundTaskToComplete } from '../store/tasks';
 
+import { fileDialogClosed } from '../store/actions/ui';
 import { getFilesByIds } from '../store/reducers/files';
-import { getLoading } from '../store/reducers/loading';
 import { getFileDialogProps, getFileDialogVisible } from '../store/reducers/ui';
 
 import * as icons from '../icons';
@@ -22,13 +22,29 @@ function DeleteDialog({ uid }) {
 
   const visible = useSelector((state) => getFileDialogVisible(state, { uid }));
   const dialogProps = useSelector((state) => getFileDialogProps(state, { uid }));
-  const loading = useSelector((state) => getLoading(state, { actionType: moveToTrashBatch }));
+
+  const [moveToTrashBatch, { isLoading: loading }] = useMoveToTrashBatchMutation();
 
   const fileIds = dialogProps.fileIds ?? [];
   const files = useSelector((state) => getFilesByIds(state, { ids: fileIds }), shallowEqual);
 
-  const onDelete = () => {
-    dispatch(moveToTrashBatch(files.map((file) => file.path)));
+  const onConfirm = async () => {
+    const paths = files.map((file) => file.path);
+    const {
+      data: { taskId },
+    } = await moveToTrashBatch(paths);
+    dispatch(
+      waitForBackgroundTaskToComplete({
+        taskId,
+        scope: scopes.movingToTrash,
+        itemsCount: paths.length,
+      })
+    );
+    dispatch(fileDialogClosed(uid));
+  };
+
+  const onCancel = () => {
+    dispatch(fileDialogClosed(uid));
   };
 
   const count = files.length;
@@ -57,8 +73,8 @@ function DeleteDialog({ uid }) {
       confirmTitle={t('Delete')}
       confirmLoading={loading}
       confirmDanger
-      onConfirm={onDelete}
-      onCancel={() => dispatch(fileDialogClosed(uid))}
+      onConfirm={onConfirm}
+      onCancel={onCancel}
     >
       <p>{dialogText}</p>
     </Dialog>
