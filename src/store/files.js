@@ -17,6 +17,21 @@ const filesApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: (_result, _error, { inPath }) => [{ type: 'Files', id: inPath }],
     }),
+    deleteImmediatelyBatch: builder.mutation({
+      query: (paths) => ({
+        url: '/files/delete_immediately_batch',
+        method: 'POST',
+        body: { items: paths.map((path) => ({ path })) },
+      }),
+      transformResponse: (responseData) => ({ taskId: responseData.async_task_id }),
+    }),
+    emptyTrash: builder.mutation({
+      query: () => ({
+        url: '/files/empty_trash',
+        method: 'POST',
+      }),
+      transformResponse: (responseData) => ({ taskId: responseData.async_task_id }),
+    }),
     findDuplicates: builder.query({
       query: ({ path, maxDistance }) => ({
         url: '/files/find_duplicates',
@@ -46,7 +61,10 @@ const filesApi = apiSlice.injectEndpoints({
         method: 'POST',
         body: { path },
       }),
-      providesTags: (_result, _error, arg) => [{ type: 'Files', id: arg }],
+      providesTags: (_result, _error, arg) => [
+        { type: 'Files', id: arg },
+        { type: 'Files', id: 'listFolder' },
+      ],
       transformResponse: (data) => filesAdapter.setAll(initialState, data.items),
       async onQueryStarted({ path }, { dispatch, queryFulfilled }) {
         try {
@@ -58,16 +76,40 @@ const filesApi = apiSlice.injectEndpoints({
         }
       },
     }),
+    moveFileBatch: builder.mutation({
+      query: (relocations) => ({
+        url: '/files/move_batch',
+        method: 'POST',
+        body: {
+          items: relocations.map((relocation) => ({
+            from_path: relocation.fromPath,
+            to_path: relocation.toPath,
+          })),
+        },
+      }),
+      transformResponse: (responseData) => ({ taskId: responseData.async_task_id }),
+    }),
+    moveToTrashBatch: builder.mutation({
+      query: (paths) => ({
+        url: '/files/move_to_trash_batch',
+        method: 'POST',
+        body: { items: paths.map((path) => ({ path })) },
+      }),
+      transformResponse: (responseData) => ({ taskId: responseData.async_task_id }),
+    }),
   }),
 });
 
 export const {
   useCreateFolderMutation,
+  useDeleteImmediatelyBatchMutation,
+  useEmptyTrashMutation,
   useFindDuplicatesQuery,
   useGetBatchQuery,
   useGetContentMetadataQuery,
   useListFolderQuery,
-  util: { invalidateTags },
+  useMoveFileBatchMutation,
+  useMoveToTrashBatchMutation,
 } = filesApi;
 
 export const selectFindDuplicatesData = createSelector(

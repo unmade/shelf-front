@@ -2,13 +2,44 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Trans, useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { useEmptyTrashMutation } from '../store/files';
+import { scopes, waitForBackgroundTaskToComplete } from '../store/tasks';
+
+import { fileDialogClosed } from '../store/actions/ui';
+import { getFileDialogVisible } from '../store/reducers/ui';
 
 import * as icons from '../icons';
 
 import Dialog from './ui/Dialog';
 
-function EmptyTrashDialog({ loading, uid, visible, onEmpty, onCancel }) {
+function EmptyTrashDialog({ uid }) {
   const { t } = useTranslation();
+
+  const dispatch = useDispatch();
+
+  const visible = useSelector((state) => getFileDialogVisible(state, { uid }));
+
+  const [emptyTrash, { isLoading: loading }] = useEmptyTrashMutation();
+
+  const onConfirm = async () => {
+    const {
+      data: { taskId },
+    } = await emptyTrash();
+    dispatch(
+      waitForBackgroundTaskToComplete({
+        taskId,
+        scope: scopes.emptyingTrash,
+        itemsCount: 1,
+      })
+    );
+    dispatch(fileDialogClosed(uid));
+  };
+
+  const onCancel = () => {
+    dispatch(fileDialogClosed(uid));
+  };
 
   return (
     <Dialog
@@ -18,10 +49,8 @@ function EmptyTrashDialog({ loading, uid, visible, onEmpty, onCancel }) {
       confirmTitle={t('Empty')}
       confirmLoading={loading}
       confirmDanger
-      onConfirm={onEmpty}
-      onCancel={() => {
-        onCancel(uid);
-      }}
+      onConfirm={onConfirm}
+      onCancel={onCancel}
     >
       <p>
         <Trans i18nKey="empty_trash_dialog_text_styled" t={t}>
@@ -35,15 +64,7 @@ function EmptyTrashDialog({ loading, uid, visible, onEmpty, onCancel }) {
 }
 
 EmptyTrashDialog.propTypes = {
-  loading: PropTypes.bool,
   uid: PropTypes.string.isRequired,
-  visible: PropTypes.bool.isRequired,
-  onEmpty: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
-};
-
-EmptyTrashDialog.defaultProps = {
-  loading: false,
 };
 
 export default EmptyTrashDialog;

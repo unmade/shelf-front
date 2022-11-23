@@ -2,11 +2,11 @@ import { combineReducers } from '@reduxjs/toolkit';
 
 import apiSlice from '../apiSlice';
 import auth, { signedOut } from '../auth';
+import tasks from '../tasks';
 
 import files from './files';
 import loading from './loading';
 import messages from './messages';
-import tasks from './tasks';
 import thumbnails from './thumbnails';
 import ui from './ui';
 import uploads from './uploads';

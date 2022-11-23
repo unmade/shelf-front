@@ -15,13 +15,13 @@ import {
   fileDialogOpened,
 } from '../store/actions/ui';
 
-import EmptyTrashDialog from '../containers/EmptyTrashDialog';
 import FilePreview from '../containers/FilePreview';
 
 import Button from '../components/ui/Button';
 
 import Browser from '../components/Browser';
 import DeleteImmediatelyDialog from '../components/DeleteImmediatelyDialog';
+import EmptyTrashDialog from '../components/EmptyTrashDialog';
 import MoveDialog from '../components/MoveDialog';
 
 function Trash() {

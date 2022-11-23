@@ -4,11 +4,8 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import {
-  getDeletingFilesCounter,
-  getMovingFilesCounter,
-  getIsEmptyingTrash,
-} from '../../store/reducers/tasks';
+import { scopes, selectCounterByScope } from '../../store/tasks';
+
 import { getCountSelectedFiles } from '../../store/reducers/ui';
 import { getIsUploading, getVisibleUploadsLength } from '../../store/reducers/uploads';
 
@@ -21,9 +18,17 @@ import { selectListFolderData } from '../../store/files';
 function BackgroundTask({ className }) {
   const { t } = useTranslation(['translation', 'uploads']);
 
-  const deletingFilesCounter = useSelector(getDeletingFilesCounter);
-  const emptyingTrash = useSelector(getIsEmptyingTrash);
-  const movingFilesCounter = useSelector(getMovingFilesCounter);
+  const deletingFilesCounter = useSelector(
+    (state) =>
+      selectCounterByScope(state, scopes.deletingImmediatelyBatch) +
+      selectCounterByScope(state, scopes.movingToTrash)
+  );
+  const emptyingTrash = useSelector(
+    (state) => selectCounterByScope(state, scopes.emptyingTrash) !== 0
+  );
+  const movingFilesCounter = useSelector((state) =>
+    selectCounterByScope(state, scopes.movingBatch)
+  );
 
   const uploading = useSelector(getIsUploading);
   const uploadsCounter = useSelector((state) => getVisibleUploadsLength(state, 'inProgress'));

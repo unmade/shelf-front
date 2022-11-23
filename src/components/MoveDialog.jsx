@@ -4,11 +4,12 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
-import { moveFileBatch } from '../store/actions/files';
+import { useMoveFileBatchMutation } from '../store/files';
+import { scopes, waitForBackgroundTaskToComplete } from '../store/tasks';
+
 import { fileDialogClosed } from '../store/actions/ui';
 
 import { getFilesByIds } from '../store/reducers/files';
-import { getLoading } from '../store/reducers/loading';
 import { getFileDialogProps, getFileDialogVisible } from '../store/reducers/ui';
 
 import * as routes from '../routes';
@@ -24,29 +25,38 @@ const styles = {
 function MoveDialog({ uid }) {
   const { t } = useTranslation();
 
+  const dispatch = useDispatch();
+
   const [toPath, setToPath] = React.useState('.');
 
-  const dispatch = useDispatch();
+  const [moveFileBatch, { isLoading: loading }] = useMoveFileBatchMutation();
 
   const visible = useSelector((state) => getFileDialogVisible(state, { uid }));
   const dialogProps = useSelector((state) => getFileDialogProps(state, { uid }));
-  const loading = useSelector((state) => getLoading(state, { actionType: moveFileBatch.type }));
 
   const fileIds = dialogProps.fileIds ?? [];
   const files = useSelector((state) => getFilesByIds(state, { ids: fileIds }), shallowEqual);
 
-  const onMove = () => {
+  const onConfirm = async () => {
+    const relocations = files.map((file) => ({
+      fromPath: file.path,
+      toPath: routes.join(toPath, file.name),
+    }));
+
+    const {
+      data: { taskId },
+    } = await moveFileBatch(relocations);
     dispatch(
-      moveFileBatch(
-        files.map((file) => ({
-          fromPath: file.path,
-          toPath: routes.join(toPath, file.name),
-        }))
-      )
+      waitForBackgroundTaskToComplete({
+        taskId,
+        scope: scopes.movingBatch,
+        itemsCount: relocations.length,
+      })
     );
+    dispatch(fileDialogClosed(uid));
   };
 
-  const onClose = () => {
+  const onCancel = () => {
     setToPath('.');
     dispatch(fileDialogClosed(uid));
   };
@@ -59,8 +69,8 @@ function MoveDialog({ uid }) {
       visible={visible}
       confirmTitle={t('Move')}
       confirmLoading={loading}
-      onConfirm={onMove}
-      onCancel={onClose}
+      onConfirm={onConfirm}
+      onCancel={onCancel}
     >
       <div className="w-full sm:w-96" style={styles}>
         <FolderPicker
