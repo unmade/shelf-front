@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { performDownload } from '../../store/actions/files';
+import { download } from '../../store/files';
 import { fileDialogOpened } from '../../store/actions/ui';
 
 import { getCurrentPath } from '../../store/reducers/ui';
@@ -44,7 +44,7 @@ function singleFileActions({ id, path, trashed, dispatch }) {
       icon: <icons.Download className="h-4 w-4" />,
       danger: false,
       onClick: () => {
-        dispatch(performDownload(path));
+        dispatch(download(path));
       },
     },
     {
