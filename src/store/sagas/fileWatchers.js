@@ -23,7 +23,7 @@ function* handleUpload(action) {
     }
   }
   if (target) {
-    yield put(invalidateTags([{ type: 'Files', id: 'listFolder' }]));
+    yield put(invalidateTags([{ type: 'Files', id: currPath }]));
   }
 }
 

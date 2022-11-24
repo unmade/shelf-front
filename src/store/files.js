@@ -106,6 +106,22 @@ const filesApi = apiSlice.injectEndpoints({
         body: { path },
       }),
     }),
+    getThumbnail: builder.query({
+      query: ({ fileId, size, mtime }) => ({
+        url: `/files/get_thumbnail/${fileId}`,
+        params: { size, mtime },
+        responseHandler: (response) => response.blob(),
+      }),
+      transformResponse: (data, _meta, arg) => {
+        const content = URL.createObjectURL(data);
+        return { fileId: arg, content };
+      },
+      async onCacheEntryAdded(_arg, { cacheDataLoaded, cacheEntryRemoved }) {
+        const data = await cacheDataLoaded;
+        await cacheEntryRemoved;
+        URL.revokeObjectURL(data?.content);
+      },
+    }),
     listFolder: builder.query({
       query: (path) => ({
         url: '/files/list_folder',
@@ -159,6 +175,7 @@ export const {
   useFindDuplicatesQuery,
   useGetBatchQuery,
   useGetContentMetadataQuery,
+  useGetThumbnailQuery,
   useListFolderQuery,
   useMoveFileBatchMutation,
   useMoveToTrashBatchMutation,

@@ -5,9 +5,7 @@ import auth, { signedOut } from '../auth';
 import tasks from '../tasks';
 
 import files from './files';
-import loading from './loading';
 import messages from './messages';
-import thumbnails from './thumbnails';
 import ui from './ui';
 import uploads from './uploads';
 
@@ -15,10 +13,8 @@ const rootReducer = combineReducers({
   [apiSlice.reducerPath]: apiSlice.reducer,
   auth,
   files,
-  loading,
   messages,
   tasks,
-  thumbnails,
   ui,
   uploads,
 });
