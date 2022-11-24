@@ -11,7 +11,3 @@ export const downloadCached = createAction('files/download/cached', (path, conte
 export const downloadExpired = createAction('files/download/expired', (path) => ({
   payload: { path },
 }));
-
-export const performDownload = createAction('files/performDownload', (path) => ({
-  payload: { path },
-}));

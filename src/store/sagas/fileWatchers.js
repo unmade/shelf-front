@@ -40,6 +40,10 @@ function* downloadCacheWatcher() {
   const queue = [];
   while (true) {
     const { payload } = yield take(fulfilled(fileActions.download));
+    if (payload?.path == null || payload?.content == null) {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
     const { path, content } = payload;
 
     queue.push(path);

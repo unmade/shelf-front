@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
-import { performDownload } from '../../../store/actions/files';
+import { download } from '../../../store/files';
 
 import * as icons from '../../../icons';
 
@@ -22,7 +22,7 @@ function NoPreview({ file, reason }) {
   const { name, path, mediatype, hidden, size, mtime } = file;
 
   const onDownload = () => {
-    dispatch(performDownload(path));
+    dispatch(download(path));
   };
 
   return (
