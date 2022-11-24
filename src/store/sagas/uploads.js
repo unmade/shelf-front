@@ -6,7 +6,7 @@ import { all, call, fork, put, select, take } from 'redux-saga/effects';
 import { MediaType } from '../../constants';
 import * as routes from '../../routes';
 
-import API_BASE_URL from '../api';
+import { API_BASE_URL } from '../apiSlice';
 import * as actions from '../actions/uploads';
 import { selectAccessToken } from '../auth';
 import { selectFeatureValue } from '../features';

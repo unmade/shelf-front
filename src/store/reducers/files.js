@@ -1,22 +1,10 @@
 import { combineReducers, createReducer, createSelector } from '@reduxjs/toolkit';
 
-import * as actions from '../actions/files';
 import * as uploadActions from '../actions/uploads';
 
 function isFilesListed(action) {
   return action.type === 'files/listFolder/fulfilled';
 }
-
-const downloads = createReducer({}, (builder) => {
-  builder.addCase(actions.downloadCached, (state, action) => {
-    const { path, content } = action.payload;
-    state[path] = content;
-  });
-  builder.addCase(actions.downloadExpired, (state, action) => {
-    const { path } = action.payload;
-    delete state[path];
-  });
-});
 
 const filesById = createReducer({}, (builder) => {
   builder.addCase(uploadActions.uploadFulfilled, (state, action) => {
@@ -44,17 +32,7 @@ const filesByPath = createReducer({}, (builder) => {
 export default combineReducers({
   byId: filesById,
   byPath: filesByPath,
-  downloads,
 });
-
-const FILES_EMPTY = [];
-
-export const getFileById = (state, id) => state.files.byId[id];
-export const getFileIdsByPath = (state, { path }) => state.files.byPath[path] ?? FILES_EMPTY;
-
-export const getDownloads = (state) => state.files.downloads;
-
-export const getDownload = (state, path) => state.files.downloads[path];
 
 function createPropsSelector(selector) {
   return (_, props) => selector(props);

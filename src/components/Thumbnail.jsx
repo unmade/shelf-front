@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { selectAccessToken } from '../store/auth';
+import { useDownloadContentQuery } from '../store/files';
 import { thumbnailCached } from '../store/actions/thumbnails';
 import { getThumbnailById } from '../store/reducers/thumbnails';
 
@@ -12,17 +13,16 @@ import { FileShape } from '../types';
 import ProtectedImage from './ui/ProtectedImage';
 
 import FileIcon from './FileIcon';
-import useFileContent from '../hooks/file-content';
 import { MEGABYTE } from '../filesize';
 import { MediaType } from '../constants';
 
 function SVGThumbnail({ className, file }) {
-  const content = useFileContent(file.path, file.size, MEGABYTE);
+  const { data } = useDownloadContentQuery(file.path, { skip: file.size > MEGABYTE });
 
-  if (content == null) {
+  if (data?.content == null) {
     return <FileIcon className={className} mediatype={file.mediatype} hidden={file.hidden} />;
   }
-  return <img className={`object-scale-down ${className}`} src={content} alt="svg preview" />;
+  return <img className={`object-scale-down ${className}`} src={data.content} alt="svg preview" />;
 }
 
 SVGThumbnail.propTypes = {
