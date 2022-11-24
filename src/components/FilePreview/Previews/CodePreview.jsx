@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import useFileContent from '../../../hooks/file-content';
 import usePrefersColorScheme from '../../../hooks/prefers-color-scheme';
+
+import { useDownloadContentQuery } from '../../../store/files';
 
 import { MEGABYTE } from '../../../filesize';
 
@@ -55,13 +56,15 @@ function langByMediaType({ name, mediatype }) {
 
 function CodePreview({ file }) {
   const scheme = usePrefersColorScheme();
-  const content = useFileContent(file.path, file.size, MAX_SIZE);
 
-  if (file.size > MAX_SIZE) {
+  const shouldSkip = file.size > MAX_SIZE;
+  const { data, isLoading: loading } = useDownloadContentQuery(file.path, { skip: shouldSkip });
+
+  if (shouldSkip) {
     return <NoPreview file={file} />;
   }
 
-  if (content == null) {
+  if (loading) {
     return <Loader />;
   }
 
@@ -69,7 +72,7 @@ function CodePreview({ file }) {
   return (
     <div className="container mx-auto p-4 text-sm">
       <Highlight language={lang} mode={scheme} className="whitespace-pre-wrap">
-        {content}
+        {data?.content}
       </Highlight>
     </div>
   );

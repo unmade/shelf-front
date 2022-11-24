@@ -2,12 +2,10 @@ import { createSelector } from '@reduxjs/toolkit';
 import { connect } from 'react-redux';
 
 import { selectFindDuplicatesData } from '../store/files';
-import { getDownloads } from '../store/reducers/files';
 
 import * as routes from '../routes';
 
 import FilePreview from '../components/FilePreview';
-import { download } from '../store/actions/files';
 
 export const makeGetDuplicatePreviewData = () =>
   createSelector(
@@ -55,12 +53,9 @@ export const makeGetDuplicatePreviewData = () =>
 const makeMapStateToProps = () => {
   const getPreview = makeGetDuplicatePreviewData();
   const mapStateToProps = (state, ownProps) => ({
-    downloads: getDownloads(state),
     preview: getPreview(state, ownProps),
   });
   return mapStateToProps;
 };
 
-export default connect(makeMapStateToProps, {
-  download,
-})(FilePreview);
+export default connect(makeMapStateToProps)(FilePreview);

@@ -1,11 +1,8 @@
 import { put, race, select, take } from 'redux-saga/effects';
 
-import { fulfilled } from '../actions';
-import * as fileActions from '../actions/files';
 import * as uploadActions from '../actions/uploads';
 import { invalidateTags } from '../apiSlice';
 
-import { getDownload } from '../reducers/files';
 import { getCurrentPath } from '../reducers/ui';
 
 function* handleUpload(action) {
@@ -34,29 +31,6 @@ const watchers = {
   [uploadActions.uploadFulfilled]: handleUpload,
 };
 
-const DOWNLOAD_CACHE_MAX_SIZE = 8;
-
-function* downloadCacheWatcher() {
-  const queue = [];
-  while (true) {
-    const { payload } = yield take(fulfilled(fileActions.download));
-    if (payload?.path == null || payload?.content == null) {
-      // eslint-disable-next-line no-continue
-      continue;
-    }
-    const { path, content } = payload;
-
-    queue.push(path);
-    yield put(fileActions.downloadCached(path, content));
-    if (queue.length > DOWNLOAD_CACHE_MAX_SIZE) {
-      const stalePath = queue.shift();
-      const cachedDownload = yield select((state) => getDownload(state, stalePath));
-      URL.revokeObjectURL(cachedDownload);
-      yield put(fileActions.downloadExpired(stalePath));
-    }
-  }
-}
-
 function* filesWatcher() {
   while (true) {
     const result = yield race(Object.keys(watchers).map((key) => take(key)));
@@ -65,4 +39,4 @@ function* filesWatcher() {
   }
 }
 
-export default [downloadCacheWatcher(), filesWatcher()];
+export default [filesWatcher()];

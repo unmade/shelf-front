@@ -1,5 +1,7 @@
 import { createAsyncThunk, createEntityAdapter, createSelector, nanoid } from '@reduxjs/toolkit';
 
+import { MediaType } from '../constants';
+
 import apiSlice, { API_BASE_URL } from './apiSlice';
 
 import * as routes from '../routes';
@@ -52,6 +54,27 @@ const filesApi = apiSlice.injectEndpoints({
         body: { items: paths.map((path) => ({ path })) },
       }),
       transformResponse: (responseData) => ({ taskId: responseData.async_task_id }),
+    }),
+    downloadContent: builder.query({
+      query: (path) => ({
+        url: '/files/download',
+        method: 'POST',
+        body: { path },
+        responseHandler: (response) => {
+          const contentType = response.headers.get('content-type');
+          return MediaType.isText(contentType) ? response.text() : response.blob();
+        },
+      }),
+      transformResponse: (data, meta, arg) => {
+        const contentType = meta.response.headers.get('content-type');
+        const content = MediaType.isText(contentType) ? data : URL.createObjectURL(data);
+        return { path: arg, content };
+      },
+      async onCacheEntryAdded(_arg, { cacheDataLoaded, cacheEntryRemoved }) {
+        const data = await cacheDataLoaded;
+        await cacheEntryRemoved;
+        URL.revokeObjectURL(data?.content);
+      },
     }),
     emptyTrash: builder.mutation({
       query: () => ({
@@ -131,6 +154,7 @@ const filesApi = apiSlice.injectEndpoints({
 export const {
   useCreateFolderMutation,
   useDeleteImmediatelyBatchMutation,
+  useDownloadContentQuery,
   useEmptyTrashMutation,
   useFindDuplicatesQuery,
   useGetBatchQuery,

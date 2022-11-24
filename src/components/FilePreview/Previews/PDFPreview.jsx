@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
 
-import useFileContent from '../../../hooks/file-content';
-
 import { MEGABYTE } from '../../../filesize';
+
+import { useDownloadContentQuery } from '../../../store/files';
 
 import Loader from '../Loader';
 
@@ -16,19 +16,20 @@ const MAX_SIZE = 9 * MEGABYTE;
 function PDFPreview({ file }) {
   const { t } = useTranslation(['filePreview']);
 
-  const content = useFileContent(file.path, file.size, MAX_SIZE);
+  const shouldSkip = file.size > MAX_SIZE;
+  const { data, isLoading: loading } = useDownloadContentQuery(file.path, { skip: shouldSkip });
 
-  if (file.size > MAX_SIZE) {
+  if (shouldSkip) {
     return <NoPreview file={file} reason={t('filePreview:fileTooLarge')} />;
   }
 
-  if (content == null) {
+  if (loading) {
     return <Loader />;
   }
 
   return (
     <object
-      data={content}
+      data={data?.content}
       type="application/pdf"
       width="100%"
       height="100%"
