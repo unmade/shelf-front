@@ -143,15 +143,6 @@ const filesApi = apiSlice.injectEndpoints({
         { type: 'Files', id: 'listFolder' },
       ],
       transformResponse: (data) => filesAdapter.setAll(initialState, data.items),
-      async onQueryStarted({ path }, { dispatch, queryFulfilled }) {
-        try {
-          const { data } = await queryFulfilled;
-          const items = Object.values(data?.entities ?? {});
-          dispatch({ type: 'files/listFolder/fulfilled', payload: { path, items } });
-        } catch (err) {
-          //
-        }
-      },
     }),
     moveFileBatch: builder.mutation({
       query: (relocations) => ({

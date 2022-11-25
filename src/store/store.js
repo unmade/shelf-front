@@ -1,16 +1,34 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import { all } from 'redux-saga/effects';
 
 import apiSlice from './apiSlice';
-import { fileEntriesAdded } from './uploads';
 
-import rootReducer from './reducers';
-import { saveAuthState, loadAuthState } from './auth';
-import { loadAppearanceState, saveAppearanceState } from './reducers/ui';
+import auth, { signedOut, saveAuthState, loadAuthState } from './auth';
+import messages from './reducers/messages';
+import tasks from './tasks';
+import ui, { loadAppearanceState, saveAppearanceState } from './reducers/ui';
+import uploads, { fileEntriesAdded } from './uploads';
+
 import uploadsSaga from './uploadsSaga';
 
 const sagaMiddleware = createSagaMiddleware();
+
+const reducers = combineReducers({
+  [apiSlice.reducerPath]: apiSlice.reducer,
+  auth,
+  messages,
+  tasks,
+  ui,
+  uploads,
+});
+
+function rootReducer(state, action) {
+  if (action.type === signedOut.type) {
+    return reducers(undefined, action);
+  }
+  return reducers(state, action);
+}
 
 const store = configureStore({
   reducer: rootReducer,

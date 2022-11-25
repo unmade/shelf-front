@@ -4,13 +4,12 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
-import { useMoveFileBatchMutation } from '../store/files';
+import { selectFileByIdInPath, useMoveFileBatchMutation } from '../store/files';
 import { scopes, waitForBackgroundTaskToComplete } from '../store/tasks';
 
 import { fileDialogClosed } from '../store/actions/ui';
 
-import { getFilesByIds } from '../store/reducers/files';
-import { getFileDialogProps, getFileDialogVisible } from '../store/reducers/ui';
+import { getCurrentPath, getFileDialogProps, getFileDialogVisible } from '../store/reducers/ui';
 
 import * as routes from '../routes';
 
@@ -35,7 +34,11 @@ function MoveDialog({ uid }) {
   const dialogProps = useSelector((state) => getFileDialogProps(state, { uid }));
 
   const fileIds = dialogProps.fileIds ?? [];
-  const files = useSelector((state) => getFilesByIds(state, { ids: fileIds }), shallowEqual);
+  const currentPath = useSelector(getCurrentPath);
+  const files = useSelector(
+    (state) => fileIds.map((id) => selectFileByIdInPath(state, { path: currentPath, id })),
+    shallowEqual
+  );
 
   const onConfirm = async () => {
     const relocations = files.map((file) => ({
