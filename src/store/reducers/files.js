@@ -1,19 +1,10 @@
 import { combineReducers, createReducer, createSelector } from '@reduxjs/toolkit';
 
-import * as uploadActions from '../actions/uploads';
-
 function isFilesListed(action) {
   return action.type === 'files/listFolder/fulfilled';
 }
 
 const filesById = createReducer({}, (builder) => {
-  builder.addCase(uploadActions.uploadFulfilled, (state, action) => {
-    const { file, updates } = action.payload;
-    state[file.id] = file;
-    updates.forEach((update) => {
-      state[update.id] = update;
-    });
-  });
   builder.addMatcher(isFilesListed, (state, action) => {
     const { items } = action.payload;
     items.forEach((file) => {

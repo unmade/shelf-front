@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { getUploadById } from '../../store/reducers/uploads';
+import { selectUploadById } from '../../store/uploads';
 
 import * as icons from '../../icons';
 
@@ -77,7 +77,7 @@ Progress.propTypes = {
 };
 
 function UploadListItem({ uploadId, style }) {
-  const item = useSelector((state) => getUploadById(state, uploadId));
+  const item = useSelector((state) => selectUploadById(state, uploadId));
 
   const { id, name, parentPath, progress, error, done } = item;
 

@@ -3,11 +3,11 @@ import { combineReducers } from '@reduxjs/toolkit';
 import apiSlice from '../apiSlice';
 import auth, { signedOut } from '../auth';
 import tasks from '../tasks';
+import uploads from '../uploads';
 
 import files from './files';
 import messages from './messages';
 import ui from './ui';
-import uploads from './uploads';
 
 const rootReducer = combineReducers({
   [apiSlice.reducerPath]: apiSlice.reducer,

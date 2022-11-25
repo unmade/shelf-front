@@ -24,7 +24,10 @@ function Browser({ actionButton, dirPath, droppable, emptyIcon, emptyTitle, empt
 
   const { data, isLoading: loading } = useListFolderQuery(path);
 
-  const entities = React.useMemo(() => Object.values(data?.entities ?? {}), [data?.entities]);
+  const entities = React.useMemo(
+    () => data?.ids.map((id) => data?.entities[id]) ?? [],
+    [data?.ids, data?.entities]
+  );
 
   if (loading) {
     return null;

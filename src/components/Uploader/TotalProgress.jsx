@@ -4,16 +4,16 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import { getUploaderTotalProgress } from '../../store/reducers/ui';
-import { getIsUploading, getVisibleUploadsLength } from '../../store/reducers/uploads';
+import { selectIsUploading, selectVisibleUploadsLength } from '../../store/uploads';
 
 import ProgressBar from '../ui/ProgressBar';
 
 function TotalProgress() {
   const { t } = useTranslation('uploads');
 
-  const uploading = useSelector(getIsUploading);
-  const allCount = useSelector((state) => getVisibleUploadsLength(state, 'all'));
-  const failedCount = useSelector((state) => getVisibleUploadsLength(state, 'failed'));
+  const uploading = useSelector(selectIsUploading);
+  const allCount = useSelector((state) => selectVisibleUploadsLength(state, 'all'));
+  const failedCount = useSelector((state) => selectVisibleUploadsLength(state, 'failed'));
 
   const progress = useSelector(getUploaderTotalProgress);
 

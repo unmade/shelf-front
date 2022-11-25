@@ -1,7 +1,7 @@
 import { combineReducers, createReducer, createSelector } from '@reduxjs/toolkit';
 
 import * as actions from '../actions/ui';
-import * as uploadActions from '../actions/uploads';
+import { uploadsAdded, uploadProgressed } from '../uploads';
 
 const appearance = createReducer('auto', (builder) => {
   builder.addCase(actions.appearanceChanged, (_, action) => {
@@ -66,13 +66,12 @@ const fileDialog = createReducer(FILE_DIALOG_INITIAL_STATE, (builder) => {
 const UPLOADER_INITIAL_STATE = { uploadsCount: 0, totalProgress: 0, finished: 0 };
 
 const uploader = createReducer(UPLOADER_INITIAL_STATE, (builder) => {
-  builder.addCase(uploadActions.uploadsAdded, (state, action) => {
+  builder.addCase(uploadsAdded, (state, action) => {
     const { uploads } = action.payload;
-    state.uploadsCount = uploads.length;
-    state.totalProgress = 0;
-    state.finished = 0;
+    state.uploadsCount += uploads.length;
+    state.totalProgress /= uploads.length;
   });
-  builder.addCase(uploadActions.uploadProgressed, (state, action) => {
+  builder.addCase(uploadProgressed, (state, action) => {
     const { progress } = action.payload;
     const offset = state.finished * Math.floor((1 / state.uploadsCount) * 100);
     const relativeProgress = Math.ceil((1 / state.uploadsCount) * (progress / 100) * 100);

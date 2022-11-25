@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { scopes, selectCounterByScope } from '../../store/tasks';
 
 import { getCountSelectedFiles } from '../../store/reducers/ui';
-import { getIsUploading, getVisibleUploadsLength } from '../../store/reducers/uploads';
+import { selectIsUploading, selectVisibleUploadsLength } from '../../store/uploads';
 
 import { TRASH_FOLDER_NAME } from '../../constants';
 import * as icons from '../../icons';
@@ -30,8 +30,8 @@ function BackgroundTask({ className }) {
     selectCounterByScope(state, scopes.movingBatch)
   );
 
-  const uploading = useSelector(getIsUploading);
-  const uploadsCounter = useSelector((state) => getVisibleUploadsLength(state, 'inProgress'));
+  const uploading = useSelector(selectIsUploading);
+  const uploadsCounter = useSelector((state) => selectVisibleUploadsLength(state, 'inProgress'));
 
   const text = [];
   if (emptyingTrash) {

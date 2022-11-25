@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { getVisibleUploadsLength } from '../../store/reducers/uploads';
+import { selectVisibleUploadsLength } from '../../store/uploads';
 
 import * as icons from '../../icons';
 
@@ -17,7 +17,7 @@ import UploadListItem from './UploadListItem';
 function UploadsPanel({ visibilityFilter }) {
   const { t } = useTranslation('uploads');
 
-  const uploadCount = useSelector((state) => getVisibleUploadsLength(state, visibilityFilter));
+  const uploadCount = useSelector((state) => selectVisibleUploadsLength(state, visibilityFilter));
 
   if (uploadCount > 0) {
     return (

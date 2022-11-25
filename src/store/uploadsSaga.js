@@ -3,15 +3,49 @@ import { nanoid } from '@reduxjs/toolkit';
 import { END, buffers, channel, eventChannel } from 'redux-saga';
 import { all, call, fork, put, select, take } from 'redux-saga/effects';
 
-import { MediaType } from '../../constants';
-import * as routes from '../../routes';
+import { MediaType } from '../constants';
+import * as routes from '../routes';
 
-import { API_BASE_URL } from '../apiSlice';
-import * as actions from '../actions/uploads';
-import { selectAccessToken } from '../auth';
-import { selectFeatureValue } from '../features';
+import { getCurrentPath } from './reducers/ui';
+
+import apiSlice, { API_BASE_URL } from './apiSlice';
+import { selectAccessToken } from './auth';
+import { selectFeatureValue } from './features';
+import { filesAdapter } from './files';
+import {
+  fileEntriesAdded,
+  uploadsAdded,
+  uploadProgressed,
+  uploadFulfilled,
+  uploadRejected,
+} from './uploads';
 
 const MAX_PARALLEL_UPLOADS = 1;
+
+function* updateListFolderCache({ file, updates }) {
+  const currPath = yield select(getCurrentPath);
+
+  const path = file.path.substring(0, file.path.length - file.name.length - 1);
+
+  let target = null;
+  if (path === currPath || (path === '' && currPath === '.')) {
+    target = file;
+  } else {
+    for (let i = 0; i < updates.length; i += 1) {
+      if (updates[i].path === currPath) {
+        target = updates[i + 1];
+        break;
+      }
+    }
+  }
+  if (target) {
+    yield put(
+      apiSlice.util.updateQueryData('listFolder', currPath, (draft) => {
+        filesAdapter.upsertOne(draft, target);
+      })
+    );
+  }
+}
 
 // taken from: https://decembersoft.com/posts/file-upload-progress-with-redux-saga/
 function createUploadFileChannel({ url, accessToken, requestId, fileObj, fullPath }) {
@@ -64,7 +98,7 @@ function createUploadFileChannel({ url, accessToken, requestId, fileObj, fullPat
 
 function* uploadFile(upload, file) {
   if (upload.error) {
-    yield put(actions.uploadRejected(upload, null, upload.error));
+    yield put(uploadRejected(upload, null, upload.error));
     return;
   }
 
@@ -84,16 +118,17 @@ function* uploadFile(upload, file) {
   while (true) {
     const { progress = prevProgressCeiled, error, response } = yield take(chan);
     if (error) {
-      yield put(actions.uploadRejected(upload, requestId, error));
+      yield put(uploadRejected({ upload, error }));
       return;
     }
     if (response) {
-      yield put(actions.uploadFulfilled(upload, response));
+      yield put(uploadFulfilled({ upload, response }));
+      yield updateListFolderCache(response);
       return;
     }
     const progressCeiled = Math.ceil(100 * progress);
     if (progressCeiled !== prevProgressCeiled) {
-      yield put(actions.uploadProgressed(upload, progressCeiled));
+      yield put(uploadProgressed({ upload, progress: progressCeiled }));
       prevProgressCeiled = progressCeiled;
     }
   }
@@ -155,10 +190,10 @@ function* uploadsWatcher() {
   }
 
   while (true) {
-    const action = yield take(actions.fileEntriesAdded);
+    const action = yield take(fileEntriesAdded);
     const { files, uploadTo } = action.payload;
     const uploads = yield all(files.map((file) => normalize(file, uploadTo)));
-    yield put(actions.uploadsAdded(uploads.map(([upload]) => upload)));
+    yield put(uploadsAdded({ uploads: uploads.map(([upload]) => upload) }));
     yield all(uploads.map((upload) => put(queue, upload)));
   }
 }

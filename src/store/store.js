@@ -1,13 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
+import { all } from 'redux-saga/effects';
 
-import * as uploadActions from './actions/uploads';
 import apiSlice from './apiSlice';
+import { fileEntriesAdded } from './uploads';
 
 import rootReducer from './reducers';
 import { saveAuthState, loadAuthState } from './auth';
 import { loadAppearanceState, saveAppearanceState } from './reducers/ui';
-import rootSaga from './sagas';
+import uploadsSaga from './uploadsSaga';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -16,7 +17,7 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [uploadActions.fileEntriesAdded.type],
+        ignoredActions: [fileEntriesAdded.type],
       },
     })
       .concat(sagaMiddleware)
@@ -29,6 +30,10 @@ store.subscribe(() => {
   saveAuthState(store.getState());
   saveAppearanceState(store.getState());
 });
+
+function* rootSaga() {
+  yield all([...uploadsSaga]);
+}
 
 sagaMiddleware.run(rootSaga);
 
