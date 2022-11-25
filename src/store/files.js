@@ -34,7 +34,17 @@ export const download = createAsyncThunk('files/download', async (path, { getSta
   }
 });
 
-const filesAdapter = createEntityAdapter();
+export const filesAdapter = createEntityAdapter({
+  sortComparer: (a, b) => {
+    if (a.mediatype === MediaType.FOLDER && b.mediatype !== MediaType.FOLDER) {
+      return -1;
+    }
+    if (a.mediatype !== MediaType.FOLDER && b.mediatype === MediaType.FOLDER) {
+      return 1;
+    }
+    return a.path.toLowerCase().localeCompare(b.path.toLowerCase());
+  },
+});
 const initialState = filesAdapter.getInitialState();
 
 const filesApi = apiSlice.injectEndpoints({

@@ -24,7 +24,7 @@ function Dropzone({ className, render: View, uploadTo, onDrop }) {
     const { items } = event.dataTransfer;
     getFileEntries(items).then((files) => {
       if (onDrop) {
-        onDrop(files, uploadTo);
+        onDrop({ files, uploadTo });
       }
     });
   };

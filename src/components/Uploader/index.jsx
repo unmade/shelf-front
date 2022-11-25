@@ -3,7 +3,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
 
-import { getIsUploading, getVisibleUploadsLength } from '../../store/reducers/uploads';
+import { selectIsUploading, selectVisibleUploadsLength } from '../../store/uploads';
 
 import { MediaQuery } from '../../constants';
 import * as icons from '../../icons';
@@ -37,8 +37,8 @@ DropdownButton.propTypes = {};
 
 function UploaderDropdown() {
   const [open, setOpen] = React.useState(false);
-  const uploading = useSelector(getIsUploading);
-  const uploadCounter = useSelector((state) => getVisibleUploadsLength(state, 'all'));
+  const uploading = useSelector(selectIsUploading);
+  const uploadCounter = useSelector((state) => selectVisibleUploadsLength(state, 'all'));
   const buttonRef = React.useRef();
 
   React.useEffect(() => {

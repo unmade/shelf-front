@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { fileEntriesAdded } from '../store/actions/uploads';
+import { fileEntriesAdded } from '../store/uploads';
 
 import Dropzone from '../components/ui/Dropzone';
 

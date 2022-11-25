@@ -15,7 +15,7 @@ class UploadButton extends React.Component {
   setUploadFiles(event) {
     const { uploadTo, onUpload } = this.props;
     const { files } = event.target;
-    onUpload([...files], uploadTo);
+    onUpload({ files: [...files], uploadTo });
     this.inputRef.current.value = '';
   }
 

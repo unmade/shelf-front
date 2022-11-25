@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 
 import { useSelector } from 'react-redux';
 
-import { getVisibleUploads } from '../../store/reducers/uploads';
+import { selectVisibleUploads } from '../../store/uploads';
 
 import VList from '../ui/VList';
 
 function UploadList({ visibilityFilter, itemRender }) {
-  const uploads = useSelector((state) => getVisibleUploads(state, { filter: visibilityFilter }));
+  const uploads = useSelector((state) => selectVisibleUploads(state, { filter: visibilityFilter }));
   return <VList itemCount={uploads.length} itemData={uploads} itemRender={itemRender} />;
 }
 

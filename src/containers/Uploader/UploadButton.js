@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { fileEntriesAdded } from '../../store/actions/uploads';
+import { fileEntriesAdded } from '../../store/uploads';
 
 import { getCurrentPath } from '../../store/reducers/ui';
 
