@@ -11,9 +11,6 @@ import usePrefersColorScheme from './hooks/prefers-color-scheme';
 import RequireAdmin from './components/RequireAdmin';
 import SideBar from './components/SideBar';
 
-import Toast from './containers/Toast';
-import ToastItem from './containers/ToastItem';
-
 import Bookmarks from './pages/Bookmarks';
 import Duplicates from './pages/Duplicates';
 import Files from './pages/Files';
@@ -59,8 +56,6 @@ function App() {
           </Routes>
         </div>
       </div>
-
-      <Toast itemRender={ToastItem} />
     </>
   );
 }

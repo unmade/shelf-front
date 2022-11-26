@@ -12,9 +12,6 @@ import * as routes from '../../routes';
 
 import usePrefersColorScheme from '../../hooks/prefers-color-scheme';
 
-import Toast from '../../containers/Toast';
-import ToastItem from '../../containers/ToastItem';
-
 import SignInFormContainer from './SignInFormContainer';
 
 function SignIn() {
@@ -50,7 +47,6 @@ function SignIn() {
           )}
         </div>
       </div>
-      <Toast itemRender={ToastItem} />
     </>
   );
 }
