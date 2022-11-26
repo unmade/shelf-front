@@ -1,14 +1,5 @@
 export const TRASH_FOLDER_NAME = import.meta.env.SNOWPACK_PUBLIC_TRASH_FOLDER_NAME ?? 'Trash';
 
-export const Dialogs = {
-  createFolder: 'createFolder',
-  emptyTrash: 'emptyTrash',
-  delete: 'delete',
-  deleteImmediately: 'deleteImmediately',
-  move: 'move',
-  rename: 'rename',
-};
-
 export const MediaType = {
   FOLDER: 'application/directory',
   IMAGES: new Set([

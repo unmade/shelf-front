@@ -1,23 +1,24 @@
 import React from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { Menu, Transition } from '@headlessui/react';
 
 import { selectCurrentPath } from '../store/browser';
-import { fileDialogOpened } from '../store/actions/ui';
 
-import { Dialogs } from '../constants';
 import * as icons from '../icons';
 
 import { breadcrumbs } from './ui/Breadcrumb';
 
+import { useCreateFolderDialog } from './CreateFolderDialogProvider';
+
 function BreadcrumbDropdown() {
   const { t } = useTranslation();
 
+  const openCreateFolderDialog = useCreateFolderDialog();
+
   const currentPath = useSelector(selectCurrentPath);
-  const dispatch = useDispatch();
   const crumbs = breadcrumbs(currentPath);
 
   let currentFolder;
@@ -66,7 +67,7 @@ function BreadcrumbDropdown() {
               type="button"
               title={t('button_create_folder_title')}
               className="w-full"
-              onClick={() => dispatch(fileDialogOpened(Dialogs.createFolder))}
+              onClick={openCreateFolderDialog}
             >
               <div className="flex items-center justify-between px-4 py-2">
                 <div className="font-medium">{t('New Folder')}</div>

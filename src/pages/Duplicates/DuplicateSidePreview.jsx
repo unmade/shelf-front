@@ -2,13 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
-
-import { fileDialogOpened } from '../../store/actions/ui';
 
 import { FileShape } from '../../types';
 
-import { Dialogs } from '../../constants';
 import * as icons from '../../icons';
 import * as routes from '../../routes';
 
@@ -16,7 +12,9 @@ import Button from '../../components/ui/Button';
 import FileSize from '../../components/ui/FileSize';
 import TimeAgo from '../../components/ui/TimeAgo';
 
+import { useDeleteDialog } from '../../components/DeleteDialogProvider';
 import Thumbnail from '../../components/Thumbnail';
+
 import DuplicateLink from './DuplicateLink';
 
 function FileProperty({ header, value }) {
@@ -36,10 +34,10 @@ FileProperty.propTypes = {
 function DuplicateSidePreview({ file }) {
   const { t } = useTranslation('file');
 
-  const dispatch = useDispatch();
+  const openDeleteDialog = useDeleteDialog();
 
   const onDelete = () => {
-    dispatch(fileDialogOpened(Dialogs.delete, { fileIds: [file.id] }));
+    openDeleteDialog([file]);
   };
 
   return (

@@ -2,26 +2,23 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { selectCurrentPath } from '../store/browser';
-import { selectFileByIdInPath, useMoveFileBatchMutation } from '../store/files';
-import { scopes, waitForBackgroundTaskToComplete } from '../store/tasks';
+import { useMoveFileBatchMutation } from '../../store/files';
+import { scopes, waitForBackgroundTaskToComplete } from '../../store/tasks';
 
-import { fileDialogClosed } from '../store/actions/ui';
-import { getFileDialogProps, getFileDialogVisible } from '../store/reducers/ui';
+import * as routes from '../../routes';
+import { FileShape } from '../../types';
 
-import * as routes from '../routes';
+import Dialog from '../ui/Dialog';
 
-import Dialog from './ui/Dialog';
-
-import FolderPicker from './FolderPicker';
+import FolderPicker from '../FolderPicker';
 
 const styles = {
   height: '40vh',
 };
 
-function MoveDialog({ uid }) {
+function MoveDialog({ files, visible, onClose }) {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
@@ -29,16 +26,6 @@ function MoveDialog({ uid }) {
   const [toPath, setToPath] = React.useState('.');
 
   const [moveFileBatch, { isLoading: loading }] = useMoveFileBatchMutation();
-
-  const visible = useSelector((state) => getFileDialogVisible(state, { uid }));
-  const dialogProps = useSelector((state) => getFileDialogProps(state, { uid }));
-
-  const fileIds = dialogProps.fileIds ?? [];
-  const currentPath = useSelector(selectCurrentPath);
-  const files = useSelector(
-    (state) => fileIds.map((id) => selectFileByIdInPath(state, { path: currentPath, id })),
-    shallowEqual
-  );
 
   const onConfirm = async () => {
     const relocations = files.map((file) => ({
@@ -56,12 +43,13 @@ function MoveDialog({ uid }) {
         itemsCount: relocations.length,
       })
     );
-    dispatch(fileDialogClosed(uid));
+    setToPath('.');
+    onClose();
   };
 
   const onCancel = () => {
     setToPath('.');
-    dispatch(fileDialogClosed(uid));
+    onClose();
   };
 
   const onPathChange = useCallback((path) => setToPath(path), [setToPath]);
@@ -79,7 +67,7 @@ function MoveDialog({ uid }) {
         <FolderPicker
           emptyTitle={t('Nothing here yet')}
           emptyDescription={t('Press "Move" button to move file here')}
-          excludeIds={fileIds}
+          excludeIds={files.map((file) => file.id)}
           onPathChange={onPathChange}
           onlyFolders
         />
@@ -89,7 +77,9 @@ function MoveDialog({ uid }) {
 }
 
 MoveDialog.propTypes = {
-  uid: PropTypes.string.isRequired,
+  files: PropTypes.arrayOf(FileShape).isRequired,
+  visible: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default MoveDialog;

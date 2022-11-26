@@ -6,15 +6,25 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { selectCurrentPath } from '../../store/browser';
 import { download } from '../../store/files';
-import { fileDialogOpened } from '../../store/actions/ui';
 
-import { Dialogs, TRASH_FOLDER_NAME } from '../../constants';
+import { TRASH_FOLDER_NAME } from '../../constants';
 import * as icons from '../../icons';
 
 import Button from '../ui/Button';
 
-function singleFileActions({ id, path, trashed, dispatch }) {
+import { useDeleteDialog } from '../DeleteDialogProvider';
+import { useDeleteImmediatelyDialog } from '../DeleteImmediatelyDialogProvider';
+import { useMoveDialog } from '../MoveDialogProvider';
+import { useRenameFileDialog } from '../RenameFileDialogProvider';
+import { FileShape } from '../../types';
+
+function singleFileActions({ file, trashed, dispatch }) {
   const { t } = useTranslation();
+
+  const openDeleteDialog = useDeleteDialog();
+  const openDeleteImmediatelyDialog = useDeleteImmediatelyDialog();
+  const openMoveDialog = useMoveDialog();
+  const openRenameDialog = useRenameFileDialog();
 
   if (trashed) {
     return [
@@ -23,7 +33,7 @@ function singleFileActions({ id, path, trashed, dispatch }) {
         icon: <icons.Move className="h-4 w-4" />,
         danger: false,
         onClick: () => {
-          dispatch(fileDialogOpened(Dialogs.move, { fileIds: [id] }));
+          openMoveDialog([file]);
         },
       },
       {
@@ -31,7 +41,7 @@ function singleFileActions({ id, path, trashed, dispatch }) {
         icon: <icons.TrashOutlined className="h-4 w-4" />,
         danger: true,
         onClick: () => {
-          dispatch(fileDialogOpened(Dialogs.deleteImmediately, { fileIds: [id] }));
+          openDeleteImmediatelyDialog([file]);
         },
       },
     ];
@@ -43,7 +53,7 @@ function singleFileActions({ id, path, trashed, dispatch }) {
       icon: <icons.Download className="h-4 w-4" />,
       danger: false,
       onClick: () => {
-        dispatch(download(path));
+        dispatch(download(file.path));
       },
     },
     {
@@ -51,7 +61,7 @@ function singleFileActions({ id, path, trashed, dispatch }) {
       icon: <icons.ICursor className="h-4 w-4" />,
       danger: false,
       onClick: () => {
-        dispatch(fileDialogOpened(Dialogs.rename, { fileId: id }));
+        openRenameDialog(file);
       },
     },
     {
@@ -59,7 +69,7 @@ function singleFileActions({ id, path, trashed, dispatch }) {
       icon: <icons.Move className="h-4 w-4" />,
       danger: false,
       onClick: () => {
-        dispatch(fileDialogOpened(Dialogs.move, { fileIds: [id] }));
+        openMoveDialog([file]);
       },
     },
     {
@@ -67,14 +77,18 @@ function singleFileActions({ id, path, trashed, dispatch }) {
       icon: <icons.TrashOutlined className="h-4 w-4" />,
       danger: true,
       onClick: () => {
-        dispatch(fileDialogOpened(Dialogs.delete, { fileIds: [id] }));
+        openDeleteDialog([file]);
       },
     },
   ];
 }
 
-function multiFileActions({ fileIds, trashed, dispatch }) {
+function multiFileActions({ files, trashed }) {
   const { t } = useTranslation();
+
+  const openDeleteDialog = useDeleteDialog();
+  const openDeleteImmediatelyDialog = useDeleteImmediatelyDialog();
+  const openMoveDialog = useMoveDialog();
 
   if (trashed) {
     return [
@@ -83,7 +97,7 @@ function multiFileActions({ fileIds, trashed, dispatch }) {
         icon: <icons.Move className="h-4 w-4" />,
         danger: false,
         onClick: () => {
-          dispatch(fileDialogOpened(Dialogs.move, { fileIds }));
+          openMoveDialog(files);
         },
       },
       {
@@ -91,7 +105,7 @@ function multiFileActions({ fileIds, trashed, dispatch }) {
         icon: <icons.TrashOutlined className="h-4 w-4" />,
         danger: true,
         onClick: () => {
-          dispatch(fileDialogOpened(Dialogs.deleteImmediately, { fileIds }));
+          openDeleteImmediatelyDialog(files);
         },
       },
     ];
@@ -103,7 +117,7 @@ function multiFileActions({ fileIds, trashed, dispatch }) {
       icon: <icons.Move className="h-4 w-4" />,
       danger: false,
       onClick: () => {
-        dispatch(fileDialogOpened(Dialogs.move, { fileIds }));
+        openMoveDialog(files);
       },
     },
     {
@@ -111,7 +125,7 @@ function multiFileActions({ fileIds, trashed, dispatch }) {
       icon: <icons.TrashOutlined className="h-4 w-4" />,
       danger: true,
       onClick: () => {
-        dispatch(fileDialogOpened(Dialogs.delete, { fileIds }));
+        openDeleteDialog(files);
       },
     },
   ];
@@ -126,14 +140,13 @@ function SidePreviewActions({ files }) {
   if (files.length === 1) {
     const [file] = files;
     menu = singleFileActions({
-      id: file.id,
-      path: file.path,
+      file,
       trashed,
       dispatch,
     });
   } else {
     menu = multiFileActions({
-      fileIds: files.map((file) => file.id),
+      files,
       trashed,
       dispatch,
     });
@@ -157,12 +170,7 @@ function SidePreviewActions({ files }) {
 }
 
 SidePreviewActions.propTypes = {
-  files: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      path: PropTypes.string.isRequired,
-    }).isRequired
-  ).isRequired,
+  files: PropTypes.arrayOf(FileShape).isRequired,
 };
 
 export default SidePreviewActions;

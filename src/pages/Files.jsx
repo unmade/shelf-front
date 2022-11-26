@@ -3,7 +3,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
-import { Dialogs } from '../constants';
 import useDirPath from '../hooks/dir-path';
 import * as icons from '../icons';
 import * as routes from '../routes';
@@ -11,11 +10,23 @@ import * as routes from '../routes';
 import FilePreview from '../containers/FilePreview';
 
 import Browser from '../components/Browser';
-import CreateFolderDialog from '../components/CreateFolderDialog';
-import DeleteDialog from '../components/DeleteDialog';
-import MoveDialog from '../components/MoveDialog';
-import RenameFileDialog from '../components/RenameFileDialog';
+import CreateFolderDialogProvider from '../components/CreateFolderDialogProvider';
+import DeleteDialogProvider from '../components/DeleteDialogProvider';
+import MoveDialogProvider from '../components/MoveDialogProvider';
+import RenameFileDialogProvider from '../components/RenameFileDialogProvider';
 import Uploader from '../components/Uploader';
+
+function DialogsProvider({ children }) {
+  return (
+    <CreateFolderDialogProvider>
+      <DeleteDialogProvider>
+        <MoveDialogProvider>
+          <RenameFileDialogProvider>{children}</RenameFileDialogProvider>
+        </MoveDialogProvider>
+      </DeleteDialogProvider>
+    </CreateFolderDialogProvider>
+  );
+}
 
 function Files() {
   const { t } = useTranslation();
@@ -31,7 +42,7 @@ function Files() {
     routes.makeUrlFromPath({ path: dirPath, queryParams: { preview: routes.basename(path) } });
 
   return (
-    <>
+    <DialogsProvider>
       <div className={`flex h-full flex-col ${preview ? 'hidden' : 'block'}`}>
         <Browser
           actionButton={() => <Uploader />}
@@ -45,11 +56,7 @@ function Files() {
       {preview && (
         <FilePreview dirPath={dirPath || '.'} name={preview} preparePath={preparePreviewPath} />
       )}
-      <CreateFolderDialog uid={Dialogs.createFolder} />
-      <RenameFileDialog uid={Dialogs.rename} />
-      <MoveDialog uid={Dialogs.move} />
-      <DeleteDialog uid={Dialogs.delete} />
-    </>
+    </DialogsProvider>
   );
 }
 
