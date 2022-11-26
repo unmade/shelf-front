@@ -2,35 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Trans, useTranslation } from 'react-i18next';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { selectCurrentPath } from '../store/browser';
-import { selectFileByIdInPath, useMoveToTrashBatchMutation } from '../store/files';
-import { scopes, waitForBackgroundTaskToComplete } from '../store/tasks';
+import { useMoveToTrashBatchMutation } from '../../store/files';
+import { scopes, waitForBackgroundTaskToComplete } from '../../store/tasks';
 
-import { fileDialogClosed } from '../store/actions/ui';
-import { getFileDialogProps, getFileDialogVisible } from '../store/reducers/ui';
+import * as icons from '../../icons';
+import { FileShape } from '../../types';
 
-import * as icons from '../icons';
+import Dialog from '../ui/Dialog';
 
-import Dialog from './ui/Dialog';
-
-function DeleteDialog({ uid }) {
+function DeleteDialog({ files, visible, onClose }) {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
 
-  const visible = useSelector((state) => getFileDialogVisible(state, { uid }));
-  const dialogProps = useSelector((state) => getFileDialogProps(state, { uid }));
-
   const [moveToTrashBatch, { isLoading: loading }] = useMoveToTrashBatchMutation();
-
-  const fileIds = dialogProps.fileIds ?? [];
-  const path = useSelector(selectCurrentPath);
-  const files = useSelector(
-    (state) => fileIds.map((id) => selectFileByIdInPath(state, { path, id })),
-    shallowEqual
-  );
 
   const onConfirm = async () => {
     const paths = files.map((file) => file.path);
@@ -44,11 +31,11 @@ function DeleteDialog({ uid }) {
         itemsCount: paths.length,
       })
     );
-    dispatch(fileDialogClosed(uid));
+    onClose();
   };
 
   const onCancel = () => {
-    dispatch(fileDialogClosed(uid));
+    onClose();
   };
 
   const count = files.length;
@@ -86,7 +73,9 @@ function DeleteDialog({ uid }) {
 }
 
 DeleteDialog.propTypes = {
-  uid: PropTypes.string.isRequired,
+  files: PropTypes.arrayOf(FileShape).isRequired,
+  visible: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default DeleteDialog;

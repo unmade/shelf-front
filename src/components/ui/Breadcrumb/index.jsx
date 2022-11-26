@@ -2,15 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
 
 import i18n from '../../../i18n';
 
-import { fileDialogOpened } from '../../../store/actions/ui';
-
-import { Dialogs } from '../../../constants';
 import * as icons from '../../../icons';
 import * as routes from '../../../routes';
+
+import { useCreateFolderDialog } from '../../CreateFolderDialogProvider';
 
 import Button from '../Button';
 import Menu from '../Menu';
@@ -60,9 +58,10 @@ function Breadcrumb({
   itemRenderCollapsed: RenderCollapsed,
 }) {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
+
+  const openCreateFolderDialog = useCreateFolderDialog();
+
   const items = breadcrumbs(path);
-  const onCreateFolder = () => dispatch(fileDialogOpened(Dialogs.createFolder));
   if (items.length < 4) {
     return (
       <nav
@@ -90,7 +89,7 @@ function Breadcrumb({
               type="button"
               title={t('button_create_folder_title')}
               className="rounded-lg p-2 text-gray-400 hover:bg-teal-50 hover:text-blue-400 focus:outline-none focus:ring-2 focus:ring-teal-200 focus:ring-offset-2 dark:text-zinc-500 dark:hover:bg-teal-700/30 dark:focus:ring-teal-700 dark:focus:ring-offset-zinc-800 sm:p-1"
-              onClick={onCreateFolder}
+              onClick={openCreateFolderDialog}
             >
               <icons.NewFolder className="h-4 w-4" />
             </button>
@@ -138,7 +137,7 @@ function Breadcrumb({
           <button
             type="button"
             className="rounded-lg p-2 text-gray-400 hover:bg-teal-50 hover:text-blue-400 focus:outline-none focus:ring-2 focus:ring-teal-200 focus:ring-offset-2 dark:text-zinc-500 dark:hover:bg-teal-700/30 dark:focus:ring-teal-700 dark:focus:ring-offset-zinc-800 sm:p-1"
-            onClick={onCreateFolder}
+            onClick={openCreateFolderDialog}
           >
             <icons.NewFolder className="h-4 w-4 shrink-0" />
           </button>

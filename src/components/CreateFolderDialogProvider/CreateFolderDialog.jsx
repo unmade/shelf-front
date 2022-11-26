@@ -2,25 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import * as icons from '../icons';
+import * as icons from '../../icons';
 
-import { useCreateFolderMutation } from '../store/files';
-import { selectCurrentPath } from '../store/browser';
-import { fileDialogClosed } from '../store/actions/ui';
-import { getFileDialogVisible } from '../store/reducers/ui';
+import { useCreateFolderMutation } from '../../store/files';
+import { selectCurrentPath } from '../../store/browser';
 
-import Dialog from './ui/Dialog';
-import Input from './ui/Input';
+import Dialog from '../ui/Dialog';
+import Input from '../ui/Input';
 
-function CreateFolderDialog({ uid }) {
+function CreateFolderDialog({ visible, onClose }) {
   const { t } = useTranslation();
 
-  const dispatch = useDispatch();
-
   const path = useSelector(selectCurrentPath);
-  const visible = useSelector((state) => getFileDialogVisible(state, { uid }));
 
   const [createFolder, { isLoading: loading }] = useCreateFolderMutation();
 
@@ -46,7 +41,7 @@ function CreateFolderDialog({ uid }) {
   };
 
   const closeDialog = () => {
-    dispatch(fileDialogClosed(uid));
+    onClose();
   };
 
   const onConfirm = async () => {
@@ -89,7 +84,8 @@ function CreateFolderDialog({ uid }) {
 }
 
 CreateFolderDialog.propTypes = {
-  uid: PropTypes.string.isRequired,
+  visible: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default CreateFolderDialog;

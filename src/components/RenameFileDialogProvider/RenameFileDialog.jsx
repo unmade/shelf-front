@@ -2,26 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
 
-import { selectCurrentPath } from '../store/browser';
-import { selectFileByIdInPath, useMoveFileBatchMutation } from '../store/files';
-import { scopes, waitForBackgroundTaskToComplete } from '../store/tasks';
+import { FileShape } from '../../types';
 
-import { fileDialogClosed } from '../store/actions/ui';
+import { MediaType } from '../../constants';
+import * as icons from '../../icons';
+import * as routes from '../../routes';
 
-import { getFileDialogProps, getFileDialogVisible } from '../store/reducers/ui';
+import Dialog from '../ui/Dialog';
+import Input from '../ui/Input';
 
-import { FileShape } from '../types';
-
-import { MediaType } from '../constants';
-import * as icons from '../icons';
-import * as routes from '../routes';
-
-import Dialog from './ui/Dialog';
-import Input from './ui/Input';
-
-function RenameFileDialog({ file, loading, uid, visible, onRename, onCancel }) {
+function RenameFileDialog({ file, loading, visible, onRename, onCancel }) {
   const { t } = useTranslation();
 
   const [name, setName] = React.useState((file && file.name) ?? null);
@@ -69,7 +60,7 @@ function RenameFileDialog({ file, loading, uid, visible, onRename, onCancel }) {
       confirmLoading={loading}
       onConfirm={onConfirm}
       onCancel={() => {
-        onCancel(uid);
+        onCancel();
       }}
     >
       <form
@@ -96,7 +87,6 @@ function RenameFileDialog({ file, loading, uid, visible, onRename, onCancel }) {
 RenameFileDialog.propTypes = {
   file: FileShape,
   loading: PropTypes.bool,
-  uid: PropTypes.string.isRequired,
   visible: PropTypes.bool,
   onRename: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
@@ -108,51 +98,4 @@ RenameFileDialog.defaultProps = {
   visible: false,
 };
 
-function RenameFileDialogContainer({ uid }) {
-  const dispatch = useDispatch();
-
-  const [moveFileBatch, { isLoading: loading }] = useMoveFileBatchMutation();
-
-  const visible = useSelector((state) => getFileDialogVisible(state, { uid }));
-  const { fileId } = useSelector((state) => getFileDialogProps(state, { uid }));
-
-  const path = useSelector(selectCurrentPath);
-  const file = useSelector((state) => selectFileByIdInPath(state, { path, id: fileId }));
-
-  const onRename = async (fromPath, toPath) => {
-    const relocations = [{ fromPath, toPath }];
-
-    const {
-      data: { taskId },
-    } = await moveFileBatch(relocations);
-    dispatch(
-      waitForBackgroundTaskToComplete({
-        taskId,
-        scope: scopes.movingBatch,
-        itemsCount: relocations.length,
-      })
-    );
-    dispatch(fileDialogClosed(uid));
-  };
-
-  const onCancel = () => {
-    dispatch(fileDialogClosed(uid));
-  };
-
-  return (
-    <RenameFileDialog
-      uid={uid}
-      file={file}
-      visible={visible}
-      loading={loading}
-      onRename={onRename}
-      onCancel={onCancel}
-    />
-  );
-}
-
-RenameFileDialogContainer.propTypes = {
-  uid: PropTypes.string.isRequired,
-};
-
-export default RenameFileDialogContainer;
+export default RenameFileDialog;

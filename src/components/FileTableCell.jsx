@@ -100,7 +100,7 @@ function FileTableCell({ className, even, item, selected, hasSelection }) {
             }
           />
           <div className={`flex items-center ${secondaryText} hover:${primaryText}`}>
-            <FileTableCellActions id={item.id} mediaType={item.mediatype} path={item.path} />
+            <FileTableCellActions item={item} />
           </div>
         </div>
       </div>

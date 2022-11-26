@@ -1,28 +1,43 @@
 import React from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
-import { Dialogs, TRASH_FOLDER_NAME } from '../constants';
+import { TRASH_FOLDER_NAME } from '../constants';
 import useDirPath from '../hooks/dir-path';
 import * as icons from '../icons';
 import * as routes from '../routes';
-
-import { fileDialogOpened } from '../store/actions/ui';
 
 import FilePreview from '../containers/FilePreview';
 
 import Button from '../components/ui/Button';
 
 import Browser from '../components/Browser';
-import DeleteImmediatelyDialog from '../components/DeleteImmediatelyDialog';
-import EmptyTrashDialog from '../components/EmptyTrashDialog';
-import MoveDialog from '../components/MoveDialog';
+import EmptyTrashDialogProvider, {
+  useEmptyTrashDialog,
+} from '../components/EmptyTrashDialogProvider';
+import DeleteImmediatelyDialogProvider from '../components/DeleteImmediatelyDialogProvider';
+import MoveDialogProvider from '../components/MoveDialogProvider';
+
+function EmptyTrashDialogButton() {
+  const { t } = useTranslation();
+
+  const openEmptyTrashDialog = useEmptyTrashDialog();
+
+  return (
+    <Button
+      type="primary"
+      title={t('Empty Trash')}
+      size="base"
+      onClick={openEmptyTrashDialog}
+      icon={<icons.TrashOutlined className="h-5 w-5 shrink-0" />}
+      danger
+    />
+  );
+}
 
 function Trash() {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const location = useLocation();
 
   const { search } = location;
@@ -43,28 +58,20 @@ function Trash() {
   }
 
   return (
-    <>
-      <Browser
-        actionButton={() => (
-          <Button
-            type="primary"
-            title={t('Empty Trash')}
-            size="base"
-            onClick={() => dispatch(fileDialogOpened(Dialogs.emptyTrash))}
-            icon={<icons.TrashOutlined className="h-5 w-5 shrink-0" />}
-            danger
+    <EmptyTrashDialogProvider>
+      <DeleteImmediatelyDialogProvider>
+        <MoveDialogProvider>
+          <Browser
+            actionButton={EmptyTrashDialogButton}
+            dirPath={dirPath}
+            emptyIcon={<icons.Collection className="h-12 w-12 text-gray-400 dark:text-zinc-500" />}
+            emptyTitle={emptyTitle}
+            emptyDescription={emptyDescription}
           />
-        )}
-        dirPath={dirPath}
-        emptyIcon={<icons.Collection className="h-12 w-12 text-gray-400 dark:text-zinc-500" />}
-        emptyTitle={emptyTitle}
-        emptyDescription={emptyDescription}
-      />
-      {preview && <FilePreview dirPath={dirPath || '.'} name={preview} />}
-      <MoveDialog uid={Dialogs.move} />
-      <EmptyTrashDialog uid={Dialogs.emptyTrash} />
-      <DeleteImmediatelyDialog uid={Dialogs.deleteImmediately} />
-    </>
+          {preview && <FilePreview dirPath={dirPath || '.'} name={preview} />}
+        </MoveDialogProvider>
+      </DeleteImmediatelyDialogProvider>
+    </EmptyTrashDialogProvider>
   );
 }
 

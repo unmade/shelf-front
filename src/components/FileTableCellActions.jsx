@@ -1,17 +1,22 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
 import { download } from '../store/files';
-import { fileDialogOpened } from '../store/actions/ui';
 
-import { TRASH_FOLDER_NAME, Dialogs } from '../constants';
+import { FileShape } from '../types';
+
+import { TRASH_FOLDER_NAME } from '../constants';
 import * as icons from '../icons';
 
 import Button from './ui/Button';
 import Menu from './ui/Menu';
+
+import { useDeleteDialog } from './DeleteDialogProvider';
+import { useDeleteImmediatelyDialog } from './DeleteImmediatelyDialogProvider';
+import { useMoveDialog } from './MoveDialogProvider';
+import { useRenameFileDialog } from './RenameFileDialogProvider';
 
 const ActionButton = React.forwardRef(({ item }, ref) => (
   <Button
@@ -31,10 +36,16 @@ const ActionButton = React.forwardRef(({ item }, ref) => (
   </Button>
 ));
 
-function FileTableCellActions({ id, path }) {
+function FileTableCellActions({ item }) {
   const { t } = useTranslation();
-
   const dispatch = useDispatch();
+
+  const openDeleteDialog = useDeleteDialog();
+  const openDeleteImmediatelyDialog = useDeleteImmediatelyDialog();
+  const openMoveDialog = useMoveDialog();
+  const openRenameDialog = useRenameFileDialog();
+
+  const { path } = item;
 
   let menu;
   if (path.toLowerCase().startsWith(TRASH_FOLDER_NAME.toLowerCase())) {
@@ -44,7 +55,7 @@ function FileTableCellActions({ id, path }) {
         icon: <icons.Move className="h-4 w-4" />,
         danger: false,
         onClick: () => {
-          dispatch(fileDialogOpened(Dialogs.move, { fileIds: [id] }));
+          openMoveDialog([item]);
         },
       },
       {
@@ -52,7 +63,7 @@ function FileTableCellActions({ id, path }) {
         icon: <icons.TrashOutlined className="h-4 w-4" />,
         danger: true,
         onClick: () => {
-          dispatch(fileDialogOpened(Dialogs.deleteImmediately, { fileIds: [id] }));
+          openDeleteImmediatelyDialog([item]);
         },
       },
     ];
@@ -71,7 +82,7 @@ function FileTableCellActions({ id, path }) {
         icon: <icons.ICursor className="h-4 w-4" />,
         danger: false,
         onClick: () => {
-          dispatch(fileDialogOpened(Dialogs.rename, { fileId: id }));
+          openRenameDialog(item);
         },
       },
       {
@@ -79,7 +90,7 @@ function FileTableCellActions({ id, path }) {
         icon: <icons.Move className="h-4 w-4" />,
         danger: false,
         onClick: () => {
-          dispatch(fileDialogOpened(Dialogs.move, { fileIds: [id] }));
+          openMoveDialog([item]);
         },
       },
       {
@@ -87,7 +98,7 @@ function FileTableCellActions({ id, path }) {
         icon: <icons.TrashOutlined className="h-4 w-4" />,
         danger: true,
         onClick: () => {
-          dispatch(fileDialogOpened(Dialogs.delete, { fileIds: [id] }));
+          openDeleteDialog([item]);
         },
       },
     ];
@@ -106,8 +117,7 @@ function FileTableCellActions({ id, path }) {
 }
 
 FileTableCellActions.propTypes = {
-  id: PropTypes.string.isRequired,
-  path: PropTypes.string.isRequired,
+  item: FileShape.isRequired,
 };
 
 export default FileTableCellActions;

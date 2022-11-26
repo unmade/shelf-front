@@ -7,7 +7,6 @@ import apiSlice from './apiSlice';
 import auth, { signedOut, saveAuthState, loadAuthState } from './auth';
 import browser from './browser';
 import tasks from './tasks';
-import ui from './reducers/ui';
 import { appearance, loadAppearanceState, saveAppearanceState } from './ui';
 import uploads, { fileEntriesAdded } from './uploads';
 
@@ -21,7 +20,6 @@ const reducers = combineReducers({
   auth,
   browser,
   tasks,
-  ui,
   uploads,
 });
 

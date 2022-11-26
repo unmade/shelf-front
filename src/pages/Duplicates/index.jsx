@@ -3,13 +3,12 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { Dialogs } from '../../constants';
 import useDirPath from '../../hooks/dir-path';
 import * as icons from '../../icons';
 
 import Button from '../../components/ui/Button';
 
-import DeleteDialog from '../../components/DeleteDialog';
+import DeleteDialogProvider from '../../components/DeleteDialogProvider';
 
 import DuplicatesResult from './DuplicatesResult';
 import SelectFolderDialogButton from './SelectFolderDialogButton';
@@ -61,10 +60,9 @@ function Duplicates() {
   }
 
   return (
-    <>
+    <DeleteDialogProvider>
       <DuplicatesResult dirPath={targetFolderPath} onFolderChange={setTargetFolderPath} />
-      <DeleteDialog uid={Dialogs.delete} />
-    </>
+    </DeleteDialogProvider>
   );
 }
 
