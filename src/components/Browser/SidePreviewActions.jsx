@@ -4,10 +4,9 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { selectCurrentPath } from '../../store/browser';
 import { download } from '../../store/files';
 import { fileDialogOpened } from '../../store/actions/ui';
-
-import { getCurrentPath } from '../../store/reducers/ui';
 
 import { Dialogs, TRASH_FOLDER_NAME } from '../../constants';
 import * as icons from '../../icons';
@@ -120,7 +119,7 @@ function multiFileActions({ fileIds, trashed, dispatch }) {
 
 function SidePreviewActions({ files }) {
   const dispatch = useDispatch();
-  const currentPath = useSelector(getCurrentPath);
+  const currentPath = useSelector(selectCurrentPath);
   const trashed = currentPath.toLowerCase().startsWith(TRASH_FOLDER_NAME.toLowerCase());
 
   let menu;

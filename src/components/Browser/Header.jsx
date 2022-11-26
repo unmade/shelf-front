@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { getCurrentPath } from '../../store/reducers/ui';
+import { selectCurrentPath } from '../../store/browser';
 
 import * as icons from '../../icons';
 import * as routes from '../../routes';
@@ -19,7 +19,7 @@ import SideBarModal from '../SideBarModal';
 function useCurrentFolderName() {
   const { t } = useTranslation();
 
-  const currentPath = useSelector(getCurrentPath);
+  const currentPath = useSelector(selectCurrentPath);
   const folderName = routes.folderName(currentPath);
 
   if (routes.isRoot(currentPath)) {
@@ -34,7 +34,7 @@ function useCurrentFolderName() {
 }
 
 function GoBack() {
-  const currentPath = useSelector(getCurrentPath);
+  const currentPath = useSelector(selectCurrentPath);
   const isRoot = routes.isRoot(currentPath);
   const button = (
     <Button

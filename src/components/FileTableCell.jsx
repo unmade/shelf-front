@@ -5,8 +5,11 @@ import PropTypes from 'prop-types';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import { filesSelectionChanged, fileSelectionToggled } from '../store/actions/ui';
-import { getHasSelectedFiles, getIsFileSelected } from '../store/reducers/ui';
+import {
+  filesSelectionChanged,
+  fileSelectionToggled,
+  selectAllSelectedFileIds,
+} from '../store/browser';
 
 import { FileShape } from '../types';
 
@@ -44,27 +47,27 @@ function getBackground(even, selected) {
   );
 }
 
-function FileTableCell({ className, even, item, selected, hasSelected }) {
+function FileTableCell({ className, even, item, selected, hasSelection }) {
   const dispatch = useDispatch();
 
   const primaryText = getPrimaryText(selected, item.hidden);
   const secondaryText = getSecondaryText(selected, item.hidden);
   const background = getBackground(even, selected);
 
-  const onCellClick = () => dispatch(filesSelectionChanged([item.id]));
+  const onCellClick = () => dispatch(filesSelectionChanged({ ids: [item.id] }));
   const onCheckboxClick = (event) => {
     event.stopPropagation();
-    dispatch(fileSelectionToggled(item.id));
+    dispatch(fileSelectionToggled({ id: item.id }));
   };
 
-  const checkboxClass = selected || hasSelected ? '' : 'show-on-hover-target';
+  const checkboxClass = selected || hasSelection ? '' : 'show-on-hover-target';
 
   return (
     <div
       onClick={onCellClick}
       className={`show-on-hover-trigger ${className} ${background} mx-4 flex h-full flex-row items-center rounded-xl border px-5 text-sm`}
     >
-      <div className={`flex w-full ${primaryText} ${!hasSelected ? 'md:w-3/5 lg:w-2/3' : ''}`}>
+      <div className={`flex w-full ${primaryText} ${!hasSelection ? 'md:w-3/5 lg:w-2/3' : ''}`}>
         <div className="flex w-full min-w-0 items-center space-x-3">
           <input
             onClick={onCheckboxClick}
@@ -102,7 +105,7 @@ function FileTableCell({ className, even, item, selected, hasSelected }) {
         </div>
       </div>
 
-      {!hasSelected && (
+      {!hasSelection && (
         <div className="hidden flex-row items-center justify-evenly space-x-4 md:flex md:w-2/5 lg:w-1/3">
           <div className={`hidden w-32 text-left md:block ${secondaryText}`}>
             <TimeAgo mtime={item.mtime * 1000} />
@@ -121,7 +124,7 @@ FileTableCell.propTypes = {
   even: PropTypes.bool.isRequired,
   item: FileShape.isRequired,
   selected: PropTypes.bool.isRequired,
-  hasSelected: PropTypes.bool.isRequired,
+  hasSelection: PropTypes.bool.isRequired,
 };
 
 FileTableCell.defaultProps = {
@@ -132,10 +135,9 @@ const MemoizedFileTableCell = React.memo(FileTableCell);
 
 function FileTableCellContainer({ data, index, style }) {
   const item = data[index];
-  const itemId = item.id;
   const even = index % 2 === 0;
-  const selected = useSelector((state) => getIsFileSelected(state, itemId));
-  const hasSelected = useSelector(getHasSelectedFiles);
+  const selected = useSelector((state) => selectAllSelectedFileIds(state).has(item.id));
+  const hasSelection = useSelector((state) => selectAllSelectedFileIds(state).size !== 0);
 
   return (
     <div style={style}>
@@ -143,7 +145,7 @@ function FileTableCellContainer({ data, index, style }) {
         even={even}
         item={item}
         selected={selected}
-        hasSelected={hasSelected}
+        hasSelection={hasSelection}
       />
     </div>
   );

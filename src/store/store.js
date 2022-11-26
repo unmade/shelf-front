@@ -5,9 +5,11 @@ import { all } from 'redux-saga/effects';
 import apiSlice from './apiSlice';
 
 import auth, { signedOut, saveAuthState, loadAuthState } from './auth';
+import browser from './browser';
 import messages from './reducers/messages';
 import tasks from './tasks';
-import ui, { loadAppearanceState, saveAppearanceState } from './reducers/ui';
+import ui from './reducers/ui';
+import { appearance, loadAppearanceState, saveAppearanceState } from './ui';
 import uploads, { fileEntriesAdded } from './uploads';
 
 import uploadsSaga from './uploadsSaga';
@@ -16,7 +18,9 @@ const sagaMiddleware = createSagaMiddleware();
 
 const reducers = combineReducers({
   [apiSlice.reducerPath]: apiSlice.reducer,
+  appearance,
   auth,
+  browser,
   messages,
   tasks,
   ui,

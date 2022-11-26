@@ -6,7 +6,7 @@ import { all, call, fork, put, select, take } from 'redux-saga/effects';
 import { MediaType } from '../constants';
 import * as routes from '../routes';
 
-import { getCurrentPath } from './reducers/ui';
+import { selectCurrentPath } from './browser';
 
 import apiSlice, { API_BASE_URL } from './apiSlice';
 import { selectAccessToken } from './auth';
@@ -23,7 +23,7 @@ import {
 const MAX_PARALLEL_UPLOADS = 1;
 
 function* updateListFolderCache({ file, updates }) {
-  const currPath = yield select(getCurrentPath);
+  const currPath = yield select(selectCurrentPath);
 
   const path = file.path.substring(0, file.path.length - file.name.length - 1);
 

@@ -5,9 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { useGetCurrentAccountQuery } from '../../store/accounts';
 import { signedOut } from '../../store/auth';
-import { appearanceChanged } from '../../store/actions/ui';
-
-import { getAppearance } from '../../store/reducers/ui';
+import { appearanceChanged, selectAppearance } from '../../store/ui';
 
 import * as icons from '../../icons';
 
@@ -27,11 +25,11 @@ function PreferredAppearance() {
     { name: t('Auto'), value: 'auto' },
   ];
 
-  const appearance = useSelector(getAppearance);
+  const appearance = useSelector(selectAppearance);
   const currentOption = options.filter(({ value }) => value === appearance)[0];
 
   const onOptionChange = (option) => {
-    dispatch(appearanceChanged(option.value));
+    dispatch(appearanceChanged({ appearance: option.value }));
   };
 
   return (

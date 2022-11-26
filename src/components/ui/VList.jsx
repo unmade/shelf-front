@@ -26,7 +26,7 @@ function VList({
       clearTimeout(timeout.current);
       timeout.current = setTimeout(() => {
         if (visibleStartIndex !== initialScrollOffset) {
-          onScrollOffsetChange(scrollKey, visibleStartIndex);
+          onScrollOffsetChange({ key: scrollKey, offset: visibleStartIndex });
         }
       }, 200);
     },

@@ -4,11 +4,12 @@ import PropTypes from 'prop-types';
 import { Trans, useTranslation } from 'react-i18next';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
+import { selectCurrentPath } from '../store/browser';
 import { selectFileByIdInPath, useMoveToTrashBatchMutation } from '../store/files';
 import { scopes, waitForBackgroundTaskToComplete } from '../store/tasks';
 
 import { fileDialogClosed } from '../store/actions/ui';
-import { getCurrentPath, getFileDialogProps, getFileDialogVisible } from '../store/reducers/ui';
+import { getFileDialogProps, getFileDialogVisible } from '../store/reducers/ui';
 
 import * as icons from '../icons';
 
@@ -25,7 +26,7 @@ function DeleteDialog({ uid }) {
   const [moveToTrashBatch, { isLoading: loading }] = useMoveToTrashBatchMutation();
 
   const fileIds = dialogProps.fileIds ?? [];
-  const path = useSelector(getCurrentPath);
+  const path = useSelector(selectCurrentPath);
   const files = useSelector(
     (state) => fileIds.map((id) => selectFileByIdInPath(state, { path, id })),
     shallowEqual

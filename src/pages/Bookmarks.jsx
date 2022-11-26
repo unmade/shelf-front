@@ -6,7 +6,7 @@ import { useMediaQuery } from 'react-responsive';
 
 import useSidePreview from '../hooks/preview-available';
 
-import { filesSelectionChanged } from '../store/actions/ui';
+import { fileSelectionCleared } from '../store/browser';
 import { useListBookmarksQuery } from '../store/users';
 
 import * as icons from '../icons';
@@ -33,9 +33,12 @@ function Bookmarks() {
 
   const title = t('Bookmarks');
 
-  React.useEffect(() => {
-    dispatch(filesSelectionChanged([]));
-  }, []);
+  React.useEffect(
+    () => () => {
+      dispatch(fileSelectionCleared());
+    },
+    []
+  );
 
   return (
     <>

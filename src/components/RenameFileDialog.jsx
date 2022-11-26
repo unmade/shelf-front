@@ -4,12 +4,13 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { selectCurrentPath } from '../store/browser';
 import { selectFileByIdInPath, useMoveFileBatchMutation } from '../store/files';
 import { scopes, waitForBackgroundTaskToComplete } from '../store/tasks';
 
 import { fileDialogClosed } from '../store/actions/ui';
 
-import { getCurrentPath, getFileDialogProps, getFileDialogVisible } from '../store/reducers/ui';
+import { getFileDialogProps, getFileDialogVisible } from '../store/reducers/ui';
 
 import { FileShape } from '../types';
 
@@ -115,7 +116,7 @@ function RenameFileDialogContainer({ uid }) {
   const visible = useSelector((state) => getFileDialogVisible(state, { uid }));
   const { fileId } = useSelector((state) => getFileDialogProps(state, { uid }));
 
-  const path = useSelector(getCurrentPath);
+  const path = useSelector(selectCurrentPath);
   const file = useSelector((state) => selectFileByIdInPath(state, { path, id: fileId }));
 
   const onRename = async (fromPath, toPath) => {
