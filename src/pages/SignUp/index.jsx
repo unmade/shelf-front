@@ -8,9 +8,6 @@ import * as routes from '../../routes';
 
 import usePrefersColorScheme from '../../hooks/prefers-color-scheme';
 
-import Toast from '../../containers/Toast';
-import ToastItem from '../../containers/ToastItem';
-
 import SignUpFormContainer from './SignUpFormContainer';
 
 function SignUp() {
@@ -45,7 +42,6 @@ function SignUp() {
           </div>
         </div>
       </div>
-      <Toast itemRender={ToastItem} />
     </>
   );
 }

@@ -16,6 +16,7 @@ import SignUp from './pages/SignUp';
 import App from './App';
 
 import RequireAuth from './components/RequireAuth';
+import ToastProvider from './components/ui/Toast/ToastProvider';
 
 import './index.css';
 import './tailwind.css';
@@ -29,20 +30,22 @@ store.dispatch(featuresApi.endpoints.listFeatures.initiate());
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-        <Routes>
-          <Route path={routes.SIGNIN.route} element={<SignIn />} />
-          <Route path={routes.SIGNUP.route} element={<SignUp />} />
-          <Route
-            path="/*"
-            element={
-              <RequireAuth redirectTo={routes.SIGNIN.route}>
-                <App />
-              </RequireAuth>
-            }
-          />
-        </Routes>
-      </BrowserRouter>
+      <ToastProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path={routes.SIGNIN.route} element={<SignIn />} />
+            <Route path={routes.SIGNUP.route} element={<SignUp />} />
+            <Route
+              path="/*"
+              element={
+                <RequireAuth redirectTo={routes.SIGNIN.route}>
+                  <App />
+                </RequireAuth>
+              }
+            />
+          </Routes>
+        </BrowserRouter>
+      </ToastProvider>
     </Provider>
   </React.StrictMode>
 );
