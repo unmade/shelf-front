@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 
 import { useSelector } from 'react-redux';
 
-import { getAppearance } from '../store/reducers/ui';
+import { selectAppearance } from '../store/ui';
 
 function usePrefersColorScheme() {
-  const appearance = useSelector(getAppearance);
+  const appearance = useSelector(selectAppearance);
 
   const [scheme, setScheme] = useState('no-preference');
 

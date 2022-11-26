@@ -1,9 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useDispatch } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
 
+import useSidePreview from '../../hooks/preview-available';
+
 import { useListFolderQuery } from '../../store/files';
+import { fileBrowserPathChanged, fileSelectionCleared } from '../../store/browser';
 
 import { MediaQuery } from '../../constants';
 
@@ -15,30 +19,29 @@ import FileTableView from '../FileTableView';
 import BrowserHeader from './Header';
 import SidePreview from './SidePreview';
 import StatusBar from './StatusBar';
-import useSidePreview from '../../hooks/preview-available';
 
-function Browser({ actionButton, dirPath, droppable, emptyIcon, emptyTitle, emptyDescription }) {
-  const isLaptop = useMediaQuery({ query: MediaQuery.lg });
-  const withSidePreview = useSidePreview();
-  const path = dirPath ?? '.';
-
-  const { data, isLoading: loading } = useListFolderQuery(path);
+function FileTableViewContainer({ dirPath, droppable, emptyIcon, emptyTitle, emptyDescription }) {
+  const dispatch = useDispatch();
+  const { data, isLoading: loading } = useListFolderQuery(dirPath);
 
   const entities = React.useMemo(
     () => data?.ids.map((id) => data?.entities[id]) ?? [],
     [data?.ids, data?.entities]
   );
 
-  if (loading) {
-    return null;
-  }
+  React.useEffect(() => {
+    dispatch(fileBrowserPathChanged({ path: dirPath }));
+    return () => {
+      dispatch(fileSelectionCleared());
+    };
+  }, [dirPath, dispatch]);
 
   const fileTableView = (
     <FileTableView
       items={entities}
       loading={loading}
-      path={path}
-      scrollKey={path}
+      path={dirPath}
+      scrollKey={dirPath}
       itemRender={FileTableCell}
       emptyIcon={emptyIcon}
       emptyTitle={emptyTitle}
@@ -46,10 +49,10 @@ function Browser({ actionButton, dirPath, droppable, emptyIcon, emptyTitle, empt
     />
   );
 
-  const tableView = droppable ? (
+  return droppable ? (
     <FileDrop
       className="h-full"
-      uploadTo={path}
+      uploadTo={dirPath}
       render={({ dragging }) => (
         <div className="relative h-full w-full">
           <div className={`${dragging ? 'block' : 'hidden'} absolute z-10 h-full w-full px-2 pb-2`}>
@@ -62,12 +65,34 @@ function Browser({ actionButton, dirPath, droppable, emptyIcon, emptyTitle, empt
   ) : (
     fileTableView
   );
+}
+
+FileTableViewContainer.propTypes = {
+  dirPath: PropTypes.string.isRequired,
+  droppable: PropTypes.bool.isRequired,
+  emptyIcon: PropTypes.element.isRequired,
+  emptyTitle: PropTypes.string.isRequired,
+  emptyDescription: PropTypes.string.isRequired,
+};
+
+function Browser({ actionButton, dirPath, droppable, emptyIcon, emptyTitle, emptyDescription }) {
+  const isLaptop = useMediaQuery({ query: MediaQuery.lg });
+  const withSidePreview = useSidePreview();
+  const path = dirPath ?? '.';
 
   return (
     <div className="flex h-full flex-col">
       <BrowserHeader isLaptop={isLaptop} actionButton={actionButton} />
       <div className="flex h-full flex-row overflow-scroll pt-4">
-        <div className={`h-full ${withSidePreview ? 'w-7/12' : 'w-full'}`}>{tableView}</div>
+        <div className={`h-full ${withSidePreview ? 'w-7/12' : 'w-full'}`}>
+          <FileTableViewContainer
+            dirPath={dirPath}
+            droppable={droppable}
+            emptyIcon={emptyIcon}
+            emptyTitle={emptyTitle}
+            emptyDescription={emptyDescription}
+          />
+        </div>
         {withSidePreview && (
           <div className="w-5/12 overflow-scroll">
             <SidePreview path={path} />

@@ -7,8 +7,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as icons from '../icons';
 
 import { useCreateFolderMutation } from '../store/files';
+import { selectCurrentPath } from '../store/browser';
 import { fileDialogClosed } from '../store/actions/ui';
-import { getCurrentPath, getFileDialogVisible } from '../store/reducers/ui';
+import { getFileDialogVisible } from '../store/reducers/ui';
 
 import Dialog from './ui/Dialog';
 import Input from './ui/Input';
@@ -18,7 +19,7 @@ function CreateFolderDialog({ uid }) {
 
   const dispatch = useDispatch();
 
-  const path = useSelector(getCurrentPath);
+  const path = useSelector(selectCurrentPath);
   const visible = useSelector((state) => getFileDialogVisible(state, { uid }));
 
   const [createFolder, { isLoading: loading }] = useCreateFolderMutation();

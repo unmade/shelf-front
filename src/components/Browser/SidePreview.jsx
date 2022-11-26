@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { shallowEqual, useSelector } from 'react-redux';
 
+import { selectAllSelectedFileIds } from '../../store/browser';
 import { selectFileByIdInPath } from '../../store/files';
-import { getSelectedFileIds } from '../../store/reducers/ui';
 
 import { FileShape } from '../../types';
 
@@ -197,7 +197,7 @@ MultiFilePreview.propTypes = {
 };
 
 function SidePreview({ path }) {
-  const selectedIds = useSelector((state) => getSelectedFileIds(state));
+  const selectedIds = useSelector(selectAllSelectedFileIds);
 
   const files = useSelector((state) => {
     const entities = [];

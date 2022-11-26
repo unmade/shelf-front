@@ -5,10 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { Menu, Transition } from '@headlessui/react';
 
+import { selectCurrentPath } from '../store/browser';
 import { fileDialogOpened } from '../store/actions/ui';
-import { getCurrentPath } from '../store/reducers/ui';
-import { Dialogs } from '../constants';
 
+import { Dialogs } from '../constants';
 import * as icons from '../icons';
 
 import { breadcrumbs } from './ui/Breadcrumb';
@@ -16,7 +16,7 @@ import { breadcrumbs } from './ui/Breadcrumb';
 function BreadcrumbDropdown() {
   const { t } = useTranslation();
 
-  const currentPath = useSelector(getCurrentPath);
+  const currentPath = useSelector(selectCurrentPath);
   const dispatch = useDispatch();
   const crumbs = breadcrumbs(currentPath);
 

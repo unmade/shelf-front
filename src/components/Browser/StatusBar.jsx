@@ -4,16 +4,16 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
+import { selectAllSelectedFileIds } from '../../store/browser';
+import { selectListFolderData } from '../../store/files';
 import { scopes, selectCounterByScope } from '../../store/tasks';
 
-import { getCountSelectedFiles } from '../../store/reducers/ui';
 import { selectIsUploading, selectVisibleUploadsLength } from '../../store/uploads';
 
 import { TRASH_FOLDER_NAME } from '../../constants';
 import * as icons from '../../icons';
 
 import Breadcrumb from '../ui/Breadcrumb';
-import { selectListFolderData } from '../../store/files';
 
 function BackgroundTask({ className }) {
   const { t } = useTranslation(['translation', 'uploads']);
@@ -73,11 +73,11 @@ function TotalFiles({ className, dirPath }) {
   const { t } = useTranslation();
 
   const totalCount = useSelector((state) => selectListFolderData(state, dirPath)?.ids.length ?? 0);
-  const selectedCount = useSelector(getCountSelectedFiles);
+  const selectionSize = useSelector((state) => selectAllSelectedFileIds(state).size);
   const text =
-    selectedCount === 0
+    selectionSize === 0
       ? t('items_count', { count: totalCount })
-      : t('status_bar_select_count', { count: selectedCount, totalCount });
+      : t('status_bar_select_count', { count: selectionSize, totalCount });
 
   return <div className={className}>{text}</div>;
 }

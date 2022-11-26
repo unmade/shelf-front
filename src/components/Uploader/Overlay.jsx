@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { getCurrentPath } from '../../store/reducers/ui';
+import { selectCurrentPath } from '../../store/browser';
 
 import * as icons from '../../icons';
 
@@ -64,7 +64,7 @@ Dropzone.defaultProps = {
 };
 
 function Overlay() {
-  const currentPath = useSelector(getCurrentPath);
+  const currentPath = useSelector(selectCurrentPath);
 
   return (
     <div className="w-96 rounded-2xl bg-white p-4 text-gray-700 shadow dark:bg-zinc-800 dark:text-gray-200 dark:shadow-zinc-900/70">

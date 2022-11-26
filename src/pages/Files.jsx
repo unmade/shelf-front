@@ -1,10 +1,7 @@
 import React from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-
-import { fileBrowserPathChanged, filesSelectionChanged } from '../store/actions/ui';
 
 import { Dialogs } from '../constants';
 import useDirPath from '../hooks/dir-path';
@@ -23,21 +20,12 @@ import Uploader from '../components/Uploader';
 function Files() {
   const { t } = useTranslation();
 
-  const dispatch = useDispatch();
   const location = useLocation();
   const dirPath = useDirPath();
 
   const { search } = location;
   const queryParams = new URLSearchParams(search);
   const preview = queryParams.get('preview');
-
-  React.useEffect(() => {
-    dispatch(fileBrowserPathChanged(dirPath));
-
-    // we want to deselect all files when
-    // current directory has changed
-    dispatch(filesSelectionChanged([]));
-  }, [dirPath, dispatch]);
 
   const preparePreviewPath = (path) =>
     routes.makeUrlFromPath({ path: dirPath, queryParams: { preview: routes.basename(path) } });

@@ -9,11 +9,7 @@ import useDirPath from '../hooks/dir-path';
 import * as icons from '../icons';
 import * as routes from '../routes';
 
-import {
-  fileBrowserPathChanged,
-  filesSelectionChanged,
-  fileDialogOpened,
-} from '../store/actions/ui';
+import { fileDialogOpened } from '../store/actions/ui';
 
 import FilePreview from '../containers/FilePreview';
 
@@ -45,14 +41,6 @@ function Trash() {
     emptyTitle = t('This folder is empty');
     emptyDescription = '';
   }
-
-  React.useEffect(() => {
-    dispatch(fileBrowserPathChanged(dirPath));
-
-    // we want to deselect all files when
-    // current directory has changed
-    dispatch(filesSelectionChanged([]));
-  }, [dirPath, dispatch]);
 
   return (
     <>

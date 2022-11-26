@@ -1,12 +1,16 @@
-import { createEntityAdapter, createSelector, createSlice } from '@reduxjs/toolkit';
+import {
+  combineReducers,
+  createEntityAdapter,
+  createSelector,
+  createSlice,
+} from '@reduxjs/toolkit';
 import { shallowEqual } from 'react-redux';
 
 const uploadsAdapter = createEntityAdapter();
-const initialState = uploadsAdapter.getInitialState();
 
 const uploadsSlice = createSlice({
   name: 'uploads',
-  initialState,
+  initialState: uploadsAdapter.getInitialState(),
   reducers: {
     fileEntriesAdded() {},
     uploadsAdded(state, action) {
@@ -28,8 +32,6 @@ const uploadsSlice = createSlice({
   },
 });
 
-export default uploadsSlice.reducer;
-
 export const { fileEntriesAdded, uploadsAdded, uploadProgressed, uploadFulfilled, uploadRejected } =
   uploadsSlice.actions;
 
@@ -37,7 +39,7 @@ export const {
   selectById: selectUploadById,
   selectIds: selectUploadIds,
   selectAll: selectAllUploads,
-} = uploadsAdapter.getSelectors((state) => state.uploads);
+} = uploadsAdapter.getSelectors((state) => state.uploads.uploads);
 
 export const selectVisibleUploads = createSelector(
   selectAllUploads,
@@ -69,3 +71,31 @@ export const selectVisibleUploadsLength = (state, filter) =>
   selectVisibleUploads(state, { filter }).length;
 
 export const selectIsUploading = (state) => selectVisibleUploadsLength(state, 'inProgress') > 0;
+
+const totalProgressSlice = createSlice({
+  name: 'progress',
+  initialState: { uploadsCount: 0, totalProgress: 0, finished: 0 },
+  extraReducers: (builder) => {
+    builder.addCase(uploadsAdded, (state, action) => {
+      const { uploads } = action.payload;
+      state.uploadsCount += uploads.length;
+      state.totalProgress /= uploads.length;
+    });
+    builder.addCase(uploadProgressed, (state, action) => {
+      const { progress } = action.payload;
+      const offset = state.finished * Math.floor((1 / state.uploadsCount) * 100);
+      const relativeProgress = Math.ceil((1 / state.uploadsCount) * (progress / 100) * 100);
+      state.totalProgress = offset + relativeProgress;
+      if (progress === 100) {
+        state.finished += 1;
+      }
+    });
+  },
+});
+
+export const selectUploadsTotalProgress = (state) => state.uploads.progress.totalProgress;
+
+export default combineReducers({
+  [uploadsSlice.name]: uploadsSlice.reducer,
+  [totalProgressSlice.name]: totalProgressSlice.reducer,
+});
