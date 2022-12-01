@@ -2,10 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
-import { shallowEqual, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { selectAllSelectedFileIds } from '../../store/browser';
-import { selectFileByIdInPath } from '../../store/files';
 
 import { FileShape } from '../../types';
 
@@ -196,14 +195,19 @@ MultiFilePreview.propTypes = {
   files: PropTypes.arrayOf(FileShape.isRequired).isRequired,
 };
 
-function SidePreview({ path }) {
+function SidePreview({ itemsMap }) {
   const selectedIds = useSelector(selectAllSelectedFileIds);
 
-  const files = useSelector((state) => {
+  const files = React.useMemo(() => {
     const entities = [];
-    selectedIds.forEach((id) => entities.push(selectFileByIdInPath(state, { path, id })));
-    return entities.filter((entity) => entity != null);
-  }, shallowEqual);
+    selectedIds.forEach((id) => {
+      const entity = itemsMap[id];
+      if (entity != null) {
+        entities.push(entity);
+      }
+    });
+    return entities;
+  }, [selectedIds, itemsMap]);
 
   return (
     <div className="mr-4 mb-4 rounded-lg border-4 border-transparent text-gray-800 dark:text-zinc-100">
@@ -217,7 +221,7 @@ function SidePreview({ path }) {
 }
 
 SidePreview.propTypes = {
-  path: PropTypes.string.isRequired,
+  itemsMap: PropTypes.objectOf(FileShape).isRequired,
 };
 
 export default SidePreview;

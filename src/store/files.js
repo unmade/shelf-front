@@ -107,7 +107,7 @@ const filesApi = apiSlice.injectEndpoints({
         method: 'POST',
         body: { ids },
       }),
-      transformResponse: (data) => data.items,
+      transformResponse: (data) => filesAdapter.setAll(initialState, data.items),
     }),
     getContentMetadata: builder.query({
       query: (path) => ({
