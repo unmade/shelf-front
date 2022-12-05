@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './i18n';
 
 import store from './store/store';
+import { featuresApi } from './store/features';
 
 import * as routes from './routes';
 
@@ -16,11 +17,10 @@ import SignUp from './pages/SignUp';
 import App from './App';
 
 import RequireAuth from './components/RequireAuth';
-import ToastProvider from './components/ui/Toast/ToastProvider';
+import ToastListContainer from './components/ui/Toast/ToastListContainer';
 
 import './index.css';
 import './tailwind.css';
-import { featuresApi } from './store/features';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -30,7 +30,7 @@ store.dispatch(featuresApi.endpoints.listFeatures.initiate());
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ToastProvider>
+      <ToastListContainer>
         <BrowserRouter>
           <Routes>
             <Route path={routes.SIGNIN.route} element={<SignIn />} />
@@ -45,7 +45,7 @@ root.render(
             />
           </Routes>
         </BrowserRouter>
-      </ToastProvider>
+      </ToastListContainer>
     </Provider>
   </React.StrictMode>
 );

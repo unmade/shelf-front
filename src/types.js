@@ -10,7 +10,7 @@ export const FileShape = PropTypes.shape({
 });
 
 export const ToastShape = PropTypes.shape({
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   closeAfter: PropTypes.number,

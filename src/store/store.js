@@ -1,4 +1,4 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore, isRejectedWithValue } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import { all } from 'redux-saga/effects';
 
@@ -7,6 +7,7 @@ import apiSlice from './apiSlice';
 import auth, { signedOut, saveAuthState, loadAuthState } from './auth';
 import browser from './browser';
 import tasks from './tasks';
+import toasts, { addToast } from './toasts';
 import { appearance, loadAppearanceState, saveAppearanceState } from './ui';
 import uploads, { fileEntriesAdded } from './uploads';
 
@@ -20,6 +21,7 @@ const reducers = combineReducers({
   auth,
   browser,
   tasks,
+  toasts,
   uploads,
 });
 
@@ -30,6 +32,25 @@ function rootReducer(state, action) {
   return reducers(state, action);
 }
 
+export const errorsMiddleware =
+  ({ dispatch }) =>
+  (next) =>
+  (action) => {
+    if (isRejectedWithValue(action)) {
+      const { payload } = action;
+      if (payload.data != null) {
+        const { code, code_verbose: title, message: description } = payload.data;
+        if (code !== 422 && title != null && description != null) {
+          dispatch(addToast({ title, description }));
+        }
+      } else {
+        dispatch(addToast({ title: 'Server Error', description: 'Something went wrong' }));
+      }
+    }
+
+    return next(action);
+  };
+
 const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
@@ -39,7 +60,8 @@ const store = configureStore({
       },
     })
       .concat(sagaMiddleware)
-      .concat(apiSlice.middleware),
+      .concat(apiSlice.middleware)
+      .concat(errorsMiddleware),
   devTools: import.meta.env.SNOWPACK_PUBLIC_MODE !== 'production',
   preloadedState: { ...loadAuthState(), ...loadAppearanceState() },
 });
