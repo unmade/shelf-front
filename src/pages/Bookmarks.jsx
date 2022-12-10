@@ -2,11 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
 
-import { fileSelectionCleared } from '../store/browser';
+import {
+  fileSelectionCleared,
+  filesSelectionChanged,
+  selectAllSelectedFileIds,
+} from '../store/browser';
 import { useGetBatchQuery } from '../store/files';
+
 import { useListBookmarksQuery } from '../store/users';
 
 import { FileShape } from '../types';
@@ -99,6 +104,7 @@ function BookmarksContainer() {
 
   const dispatch = useDispatch();
   const withSidePreview = useSidePreview();
+  const selectedIds = useSelector(selectAllSelectedFileIds);
 
   const { data: fileIds } = useListBookmarksQuery();
   const { data, isLoading: loading } = useGetBatchQuery(fileIds, { skip: fileIds == null });
@@ -114,6 +120,13 @@ function BookmarksContainer() {
     },
     []
   );
+
+  React.useEffect(() => {
+    const existingIds = fileIds?.filter((id) => selectedIds.has(id));
+    if (existingIds != null && !shallowEqual(existingIds, [...selectedIds])) {
+      dispatch(filesSelectionChanged({ ids: existingIds }));
+    }
+  }, [selectedIds, fileIds]);
 
   if (pathToPreview) {
     return <FilePreview pathToPreview={pathToPreview} files={files} />;
