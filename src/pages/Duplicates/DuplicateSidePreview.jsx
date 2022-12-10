@@ -15,7 +15,7 @@ import TimeAgo from '../../components/ui/TimeAgo';
 import { useDeleteDialog } from '../../components/DeleteDialogProvider';
 import Thumbnail from '../../components/Thumbnail';
 
-import DuplicateLink from './DuplicateLink';
+import FileLink from '../../components/FileLink';
 
 function FileProperty({ header, value }) {
   return (
@@ -62,7 +62,7 @@ function DuplicateSidePreview({ file }) {
           />
         </div>
         <div className="flex flex-col space-y-4">
-          <DuplicateLink path={file.path} prefix={routes.DUPLICATES.prefix}>
+          <FileLink path={file.path} preview prefix={routes.DUPLICATES.prefix}>
             <Button
               as="div"
               type="text"
@@ -71,7 +71,7 @@ function DuplicateSidePreview({ file }) {
             >
               {t('file:preview')}
             </Button>
-          </DuplicateLink>
+          </FileLink>
           <Button
             type="primary"
             icon={<icons.TrashOutlined className="h-4 w-4" />}

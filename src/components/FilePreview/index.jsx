@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
+import usePreviewSearchParam from '../../hooks/preview-search-param';
 import { MediaType } from '../../constants';
+import { FileShape } from '../../types';
 
 import CodePreview from './Previews/CodePreview';
 import ImagePreview from './Previews/ImagePreview';
@@ -28,15 +30,21 @@ function getPreview(mediatype) {
   }
   return NoPreview;
 }
-
-function FilePreview({ preview, preparePath }) {
+function FilePreview({ pathToPreview, files }) {
   const [infoVisible, setInfoVisible] = React.useState(true);
 
-  const navigate = useNavigate();
   const location = useLocation();
+  const navigate = useNavigate();
+  const [, setSearchParams] = useSearchParams();
 
-  const { index, total, files } = preview;
-  const [prevFile, file, nextFile] = files;
+  const currentIndex = files.findIndex((file) => file.path.replace('Trash/', '') === pathToPreview);
+
+  const file = files[currentIndex];
+  const prevFile = currentIndex - 1 < 0 ? files[files.length - 1] : files[currentIndex - 1];
+  const nextFile = currentIndex + 1 > files.length - 1 ? files[0] : files[currentIndex + 1];
+
+  const prevFilePreview = usePreviewSearchParam(prevFile.path);
+  const nextFilePreview = usePreviewSearchParam(nextFile.path);
 
   React.useEffect(() => () => {
     if (navigate.action === 'POP') {
@@ -54,10 +62,10 @@ function FilePreview({ preview, preparePath }) {
       }
       switch (keyCode) {
         case 37: // left arrow
-          navigate(preparePath(prevFile.path), { replace: true });
+          setSearchParams(prevFilePreview, { replace: true });
           break;
         case 39: // right arrow
-          navigate(preparePath(nextFile.path), { replace: true });
+          setSearchParams(nextFilePreview, { replace: true });
           break;
         case 27: // escape
           navigate(-1);
@@ -79,11 +87,11 @@ function FilePreview({ preview, preparePath }) {
   const Preview = getPreview(mediatype);
 
   const onClickLeft = () => {
-    navigate(preparePath(prevFile.path), { replace: true });
+    setSearchParams(prevFilePreview, { replace: true });
   };
 
   const onClickRight = () => {
-    navigate(preparePath(nextFile.path), { replace: true });
+    setSearchParams(nextFilePreview, { replace: true });
   };
 
   const onGoBack = () => {
@@ -98,8 +106,8 @@ function FilePreview({ preview, preparePath }) {
     <div className="fixed inset-0 bottom-0 z-10">
       <div className="flex h-full flex-col bg-white dark:bg-zinc-800">
         <Header
-          idx={index}
-          total={total}
+          idx={currentIndex}
+          total={files.length}
           name={name}
           onGoBack={onGoBack}
           onPrev={onClickLeft}
@@ -133,23 +141,8 @@ function FilePreview({ preview, preparePath }) {
 }
 
 FilePreview.propTypes = {
-  preview: PropTypes.shape({
-    index: PropTypes.number.isRequired,
-    total: PropTypes.number.isRequired,
-    files: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        path: PropTypes.string.isRequired,
-        mediatype: PropTypes.string.isRequired,
-        hidden: PropTypes.bool.isRequired,
-      })
-    ).isRequired,
-  }).isRequired,
-  preparePath: PropTypes.func,
-};
-
-FilePreview.defaultProps = {
-  preparePath: ({ path }) => path,
+  pathToPreview: PropTypes.string.isRequired,
+  files: PropTypes.arrayOf(FileShape).isRequired,
 };
 
 export default FilePreview;

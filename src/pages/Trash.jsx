@@ -1,14 +1,12 @@
 import React from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
 
 import { TRASH_FOLDER_NAME } from '../constants';
 import useDirPath from '../hooks/dir-path';
+import useResolvedPreviewSearchParam from '../hooks/resolved-preview-search-param';
 import * as icons from '../icons';
 import * as routes from '../routes';
-
-import FilePreview from '../containers/FilePreview';
 
 import Button from '../components/ui/Button';
 
@@ -18,6 +16,8 @@ import EmptyTrashDialogProvider, {
 } from '../components/EmptyTrashDialogProvider';
 import DeleteImmediatelyDialogProvider from '../components/DeleteImmediatelyDialogProvider';
 import MoveDialogProvider from '../components/MoveDialogProvider';
+
+import FilePreviewContainer from './FilePreviewContainer';
 
 function EmptyTrashDialogButton() {
   const { t } = useTranslation();
@@ -38,11 +38,8 @@ function EmptyTrashDialogButton() {
 
 function Trash() {
   const { t } = useTranslation();
-  const location = useLocation();
 
-  const { search } = location;
-  const queryParams = new URLSearchParams(search);
-  const preview = queryParams.get('preview');
+  const pathToPreview = useResolvedPreviewSearchParam();
 
   let dirPath = useDirPath();
   dirPath = dirPath === '.' ? TRASH_FOLDER_NAME : routes.join(TRASH_FOLDER_NAME, dirPath);
@@ -61,14 +58,19 @@ function Trash() {
     <EmptyTrashDialogProvider>
       <DeleteImmediatelyDialogProvider>
         <MoveDialogProvider>
-          <Browser
-            actionButton={EmptyTrashDialogButton}
-            dirPath={dirPath}
-            emptyIcon={<icons.Collection className="h-12 w-12 text-gray-400 dark:text-zinc-500" />}
-            emptyTitle={emptyTitle}
-            emptyDescription={emptyDescription}
-          />
-          {preview && <FilePreview dirPath={dirPath || '.'} name={preview} />}
+          {pathToPreview ? (
+            <FilePreviewContainer pathToPreview={pathToPreview} dirPath={dirPath} />
+          ) : (
+            <Browser
+              actionButton={EmptyTrashDialogButton}
+              dirPath={dirPath}
+              emptyIcon={
+                <icons.Collection className="h-12 w-12 text-gray-400 dark:text-zinc-500" />
+              }
+              emptyTitle={emptyTitle}
+              emptyDescription={emptyDescription}
+            />
+          )}
         </MoveDialogProvider>
       </DeleteImmediatelyDialogProvider>
     </EmptyTrashDialogProvider>

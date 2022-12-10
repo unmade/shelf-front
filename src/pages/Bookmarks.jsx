@@ -1,19 +1,23 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
 
-import useSidePreview from '../hooks/preview-available';
-
 import { fileSelectionCleared } from '../store/browser';
 import { useGetBatchQuery } from '../store/files';
 import { useListBookmarksQuery } from '../store/users';
 
+import { FileShape } from '../types';
+
 import * as icons from '../icons';
 import { MediaQuery } from '../constants';
+import useResolvedPreviewSearchParam from '../hooks/resolved-preview-search-param';
+import useSidePreview from '../hooks/preview-available';
 
 import DeleteDialogProvider from '../components/DeleteDialogProvider';
+import FilePreview from '../components/FilePreview';
 import FileTableView from '../components/FileTableView';
 import FileTableCell from '../components/FileTableCell';
 import MoveDialogProvider from '../components/MoveDialogProvider';
@@ -56,12 +60,48 @@ function BookmarkHeader() {
 
 BookmarkHeader.propTypes = {};
 
-function BookmarkList() {
+function BookmarkList({ files, filesById, loading, withSidePreview }) {
   const { t } = useTranslation();
+
+  return (
+    <div className="flex flex-1 flex-row pt-4">
+      <div className={withSidePreview ? 'w-7/12' : 'w-full'}>
+        <FileTableView
+          className="border-transparent"
+          items={files}
+          scrollKey="bookmarks-table-view" // possible collissions
+          itemRender={FileTableCell}
+          loading={loading}
+          emptyIcon={
+            <icons.BookmarkAltOutlined className="h-12 w-12 text-gray-400 dark:text-zinc-500" />
+          }
+          emptyTitle={t('Bookmarks will appear here')}
+        />
+      </div>
+      {withSidePreview && (
+        <div className="w-5/12">
+          <SidePreview itemsMap={filesById} />
+        </div>
+      )}
+    </div>
+  );
+}
+
+BookmarkList.propTypes = {
+  files: PropTypes.arrayOf(FileShape).isRequired,
+  filesById: PropTypes.objectOf(FileShape).isRequired,
+  loading: PropTypes.bool.isRequired,
+  withSidePreview: PropTypes.bool.isRequired,
+};
+
+function BookmarksContainer() {
+  const pathToPreview = useResolvedPreviewSearchParam();
+
   const dispatch = useDispatch();
-  const { data: fileIds } = useListBookmarksQuery();
-  const { data, isLoading } = useGetBatchQuery(fileIds, { skip: fileIds == null });
   const withSidePreview = useSidePreview();
+
+  const { data: fileIds } = useListBookmarksQuery();
+  const { data, isLoading: loading } = useGetBatchQuery(fileIds, { skip: fileIds == null });
 
   const files = React.useMemo(
     () => data?.ids.map((id) => data?.entities[id]) ?? empty,
@@ -75,41 +115,31 @@ function BookmarkList() {
     []
   );
 
+  if (pathToPreview) {
+    return <FilePreview pathToPreview={pathToPreview} files={files} />;
+  }
+
   return (
-    <div className="flex flex-1 flex-row pt-4">
-      <div className={withSidePreview ? 'w-7/12' : 'w-full'}>
-        <FileTableView
-          className="border-transparent"
-          items={files}
-          scrollKey="bookmarks-table-view" // possible collissions
-          itemRender={FileTableCell}
-          loading={isLoading}
-          emptyIcon={
-            <icons.BookmarkAltOutlined className="h-12 w-12 text-gray-400 dark:text-zinc-500" />
-          }
-          emptyTitle={t('Bookmarks will appear here')}
-        />
-      </div>
-      {withSidePreview && (
-        <div className="w-5/12">
-          <SidePreview itemsMap={data.entities} />
-        </div>
-      )}
+    <div className="flex h-full flex-col">
+      <BookmarkHeader />
+      <BookmarkList
+        files={files}
+        filesById={data?.entities ?? {}}
+        loading={loading}
+        withSidePreview={withSidePreview}
+      />
     </div>
   );
 }
 
-BookmarkList.propTypes = {};
+BookmarksContainer.propTypes = {};
 
 function Bookmarks() {
   return (
     <DeleteDialogProvider>
       <MoveDialogProvider>
         <RenameFileDialogProvider>
-          <div className="flex h-full flex-col">
-            <BookmarkHeader />
-            <BookmarkList />
-          </div>
+          <BookmarksContainer />
         </RenameFileDialogProvider>
       </MoveDialogProvider>
     </DeleteDialogProvider>
