@@ -11,9 +11,10 @@ const trashPrefix = 'trash/';
 
 function FolderLink({ children, className, path, replace }) {
   const { pathname } = useResolvedPath(routes.encodePath(path));
+  const url = pathname.replace(routes.BOOKMARKS.prefix, routes.FILES.prefix);
 
   return (
-    <Link to={pathname} className={className} replace={replace}>
+    <Link to={url} className={className} replace={replace}>
       {children}
     </Link>
   );
