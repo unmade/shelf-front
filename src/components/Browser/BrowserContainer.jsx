@@ -1,12 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { useDispatch } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import useSidePreview from '../../hooks/preview-available';
 
 import { useListFolderQuery } from '../../store/files';
-import { fileBrowserPathChanged, fileSelectionCleared } from '../../store/browser';
+import {
+  fileBrowserPathChanged,
+  filesSelectionChanged,
+  fileSelectionCleared,
+  selectAllSelectedFileIds,
+} from '../../store/browser';
 
 import { FileShape } from '../../types';
 
@@ -71,8 +76,9 @@ function BrowserContainer({ dirPath, droppable, emptyIcon, emptyTitle, emptyDesc
   const dispatch = useDispatch();
 
   const withSidePreview = useSidePreview();
-  const { data, isLoading: loading } = useListFolderQuery(dirPath);
+  const selectedIds = useSelector(selectAllSelectedFileIds);
 
+  const { data, isFetching: loading } = useListFolderQuery(dirPath);
   const files = React.useMemo(
     () => data?.ids.map((id) => data?.entities[id]) ?? [],
     [data?.ids, data?.entities]
@@ -84,6 +90,13 @@ function BrowserContainer({ dirPath, droppable, emptyIcon, emptyTitle, emptyDesc
       dispatch(fileSelectionCleared());
     };
   }, [dirPath, dispatch]);
+
+  React.useEffect(() => {
+    const existingIds = data?.ids.filter((id) => selectedIds.has(id));
+    if (existingIds != null && !shallowEqual(existingIds, [...selectedIds])) {
+      dispatch(filesSelectionChanged({ ids: existingIds }));
+    }
+  }, [selectedIds, data?.ids]);
 
   return (
     <>

@@ -72,7 +72,7 @@ function FileTableView({
             itemHeight={72}
             className={`${fileDropBorder} ${className}`}
             scrollKey={scrollKey}
-            loading={items.length === 0 && loading}
+            loading={loading}
           />
         ) : (
           <div

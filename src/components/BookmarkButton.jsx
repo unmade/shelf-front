@@ -38,7 +38,8 @@ function BookmarkButton({ className, fileId, size }) {
   const iconClasses = `${bookmarked ? 'fill-current' : ''} ${iconSizes[size]}`;
   const title = bookmarked ? t('Remove from Saved') : t('Add to Saved');
 
-  const onClick = async () => {
+  const onClick = async (event) => {
+    event.stopPropagation();
     if (bookmarked) {
       await removeBookmark(fileId);
     } else {

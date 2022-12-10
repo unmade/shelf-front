@@ -52,7 +52,7 @@ function ExifPanel({ file }) {
   const { t } = useTranslation(['exif']);
 
   const { path, thumbnail_url: thumbnailUrl } = file;
-  const { data, isLoading: loading } = useGetContentMetadataQuery(path, {
+  const { data, isFetching: loading } = useGetContentMetadataQuery(path, {
     skip: thumbnailUrl == null,
   });
 
