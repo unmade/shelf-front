@@ -221,7 +221,11 @@ function SidePreview({ itemsMap }) {
 }
 
 SidePreview.propTypes = {
-  itemsMap: PropTypes.objectOf(FileShape).isRequired,
+  itemsMap: PropTypes.objectOf(FileShape),
+};
+
+SidePreview.defaultProps = {
+  itemsMap: {},
 };
 
 export default SidePreview;

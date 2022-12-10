@@ -17,9 +17,9 @@ function DuplicateList({ data, itemRenderer }) {
   const flatItems = React.useMemo(() => {
     const flatten = [];
     data.items?.forEach((group, i) => {
-      flatten.push({ idx: i, type: 'header', value: i + 1 });
+      flatten.push({ type: 'header', idx: i, groupId: i, value: i + 1 });
       group.forEach((file, j) => {
-        flatten.push({ idx: j, type: 'row', value: file });
+        flatten.push({ type: 'row', idx: j, groupId: i, value: file });
       });
     });
     return flatten;

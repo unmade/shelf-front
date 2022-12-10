@@ -15,7 +15,7 @@ function getBackground(even, selected) {
   );
 }
 
-function DuplicateListItem({ indexInGroup, selected, type, value, onItemClick }) {
+function DuplicateListItem({ groupId, indexInGroup, selected, type, value, onItemClick }) {
   const borderColor = selected ? 'border-orange-200 dark:border-orange-700/30' : '';
   const backgroundColor = getBackground(indexInGroup % 2 === 0, selected);
   const nameStyle = selected ? 'font-medium text-orange-900 dark:text-amber-50' : 'font-medium';
@@ -36,7 +36,7 @@ function DuplicateListItem({ indexInGroup, selected, type, value, onItemClick })
   return (
     <div
       className={`mx-4 flex cursor-pointer items-center space-x-4 rounded-xl border px-4 py-4 text-sm ${borderColor} ${backgroundColor}`}
-      onClick={() => onItemClick(value)}
+      onClick={() => onItemClick({ groupId, value })}
       aria-hidden
     >
       <div className="shrink-0">
@@ -50,8 +50,6 @@ function DuplicateListItem({ indexInGroup, selected, type, value, onItemClick })
   );
 }
 
-export default DuplicateListItem;
-
 DuplicateListItem.propTypes = {
   indexInGroup: PropTypes.number.isRequired,
   selected: PropTypes.bool,
@@ -64,3 +62,39 @@ DuplicateListItem.defaultProps = {
   selected: false,
   onItemClick: null,
 };
+
+const MemoizedDuplicatedListItem = React.memo(DuplicateListItem);
+
+function DuplicatedListItemContainer({ data, index, style }) {
+  const { items, selectedId, onItemClick } = data;
+  const { type, idx, groupId, value } = items[index];
+  return (
+    <div style={style}>
+      <MemoizedDuplicatedListItem
+        groupId={groupId}
+        indexInGroup={idx}
+        selected={value.id === selectedId}
+        type={type}
+        value={value}
+        onItemClick={onItemClick}
+      />
+    </div>
+  );
+}
+
+DuplicatedListItemContainer.propTypes = {
+  data: PropTypes.shape({
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        type: PropTypes.string.isRequired,
+        idx: PropTypes.number.isRequired,
+        groupId: PropTypes.number.isRequired,
+        value: PropTypes.oneOfType([PropTypes.number, FileShape.isRequired]),
+      })
+    ).isRequired,
+    selectedId: PropTypes.string,
+    onItemClick: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+export default DuplicatedListItemContainer;

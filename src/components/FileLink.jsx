@@ -1,27 +1,53 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Link } from 'react-router-dom';
+import { Link, useResolvedPath } from 'react-router-dom';
 
+import useDirPath from '../hooks/dir-path';
 import * as routes from '../routes';
+import usePreviewSearchParam from '../hooks/preview-search-param';
 
-function FileLink({ children, className, path, preview, replace }) {
-  let pathParams = { path };
-  if (preview) {
-    pathParams = {
-      path: routes.parent(path),
-      queryParams: {
-        preview: routes.basename(path),
-      },
-    };
-  }
+const trashPrefix = 'trash/';
 
-  const url = routes.makeUrlFromPath(pathParams);
+function FolderLink({ children, className, path, replace }) {
+  const { pathname } = useResolvedPath(routes.encodePath(path));
+
+  return (
+    <Link to={pathname} className={className} replace={replace}>
+      {children}
+    </Link>
+  );
+}
+
+function PreviewLink({ children, className, path, replace }) {
+  const dirPath = useDirPath();
+  const previewSearchParam = usePreviewSearchParam(path);
+
+  const url = `${routes.encodePath(dirPath)}?${previewSearchParam}`;
 
   return (
     <Link to={url} className={className} replace={replace}>
       {children}
     </Link>
+  );
+}
+
+function FileLink({ children, className, path, preview, replace }) {
+  if (path.toLowerCase().startsWith(trashPrefix)) {
+    // eslint-disable-next-line no-param-reassign
+    path = path.slice(trashPrefix.length);
+  }
+  if (path.toLowerCase() === 'trash') {
+    // eslint-disable-next-line no-param-reassign
+    path = '';
+  }
+
+  const Render = preview ? PreviewLink : FolderLink;
+
+  return (
+    <Render className={className} path={path} replace={replace}>
+      {children}
+    </Render>
   );
 }
 

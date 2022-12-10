@@ -1,6 +1,6 @@
 export const BOOKMARKS = {
   prefix: '/bookmarks',
-  route: '/bookmarks',
+  route: '/bookmarks/*',
 };
 
 export const DUPLICATES = {
@@ -84,16 +84,12 @@ export function parent(path) {
   return path.substring(0, end);
 }
 
-export function makeUrlFromPath({ path, queryParams = null, defaultPrefix = FILES.prefix }) {
-  let prefix = defaultPrefix;
+export function makeUrlFromPath({ path }) {
+  let { prefix } = FILES;
   if (path.toLowerCase().startsWith('trash')) {
     prefix = '/';
     // eslint-disable-next-line no-param-reassign
     path = `${path.charAt(0).toLowerCase()}${path.slice(1)}`;
-  }
-  if (queryParams != null) {
-    const params = new URLSearchParams(queryParams);
-    return `${join(prefix, encodePath(path))}?${params.toString()}`;
   }
   return join(prefix, encodePath(path));
 }

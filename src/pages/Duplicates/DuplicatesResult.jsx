@@ -2,34 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
 
 import { useFindDuplicatesQuery } from '../../store/files';
 
 import * as icons from '../../icons';
+import useResolvedPreviewSearchParam from '../../hooks/resolved-preview-search-param';
 import * as routes from '../../routes';
-
-import DuplicatePreview from '../../containers/DuplicatePreview';
 
 import Button from '../../components/ui/Button';
 import Listbox from '../../components/ui/Listbox';
+
+import FilePreview from '../../components/FilePreview';
 
 import DuplicateList from './DuplicateList';
 import DuplicateListItem from './DuplicateListItem';
 import DuplicateSidePreview from './DuplicateSidePreview';
 import SelectFolderDialogButton from './SelectFolderDialogButton';
-
-const MemoizedDuplicatedListItem = React.memo(({ data, index, style }) => (
-  <div style={style}>
-    <DuplicateListItem
-      indexInGroup={data.items[index].idx}
-      selected={data.items[index].value.id === data.selectedId}
-      type={data.items[index].type}
-      value={data.items[index].value}
-      onItemClick={data.onItemClick}
-    />
-  </div>
-));
 
 const distanceOptions = [
   { name: 'Similar', value: 5, symbol: '≈' },
@@ -49,11 +37,7 @@ const distanceOptions = [
 function DuplicatesResult({ dirPath, onFolderChange }) {
   const { t } = useTranslation('duplicates');
 
-  const location = useLocation();
-
-  const { search } = location;
-  const queryParams = new URLSearchParams(search);
-  const preview = queryParams.get('preview');
+  const pathToPreview = useResolvedPreviewSearchParam();
 
   const [selection, selectItem] = React.useState(null);
   const [maxDistance, setMaxDistance] = React.useState(distanceOptions[0]);
@@ -65,103 +49,88 @@ function DuplicatesResult({ dirPath, onFolderChange }) {
 
   React.useEffect(() => {
     if (duplicates?.length) {
-      selectItem(duplicates[0][0]);
+      selectItem({ groupId: 0, value: duplicates[0][0] });
     } else {
       selectItem(null);
     }
   }, [duplicates, selectItem]);
 
-  const onItemClick = (file) => {
-    selectItem(file);
+  const onItemClick = ({ groupId, value }) => {
+    selectItem({ groupId, value });
   };
 
   const data = {
     items: duplicates,
-    selectedId: selection?.id,
+    selectedId: selection?.value.id,
     onItemClick,
   };
 
-  const preparePreviewPath = (path) => {
-    let previewPath = path;
-    if (dirPath !== '' && path.startsWith(dirPath)) {
-      previewPath = path.replace(dirPath, '').substring(1);
-    }
-    return routes.makeUrlFromPath({
-      path: dirPath,
-      queryParams: { preview: previewPath },
-      defaultPrefix: routes.DUPLICATES.prefix,
-    });
-  };
-
-  const title = t('duplicates:resultTitle');
+  if (pathToPreview) {
+    return <FilePreview pathToPreview={pathToPreview} files={duplicates[selection?.groupId]} />;
+  }
 
   return (
-    <>
-      <div className="flex h-full">
-        {/* left column: search results */}
-        <div className="flex w-1/3 flex-col">
-          {/* header and title */}
-          <div className="mx-6 pt-7">
-            <h2 className="text-xl font-medium text-gray-900 dark:text-zinc-200 sm:text-3xl">
-              {title}
-            </h2>
-          </div>
-
-          {/* select folder and filter buttons */}
-          <div className="mx-6 mt-5 flex space-x-6">
-            <div className="w-full">
-              <SelectFolderDialogButton
-                dirPath={dirPath}
-                icon={<icons.Folder className="h-5 w-5 text-blue-400" />}
-                onSelectFolder={onFolderChange}
-              >
-                <span className="text-sm">{routes.folderName(dirPath)}</span>
-                <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
-                  <icons.Selector
-                    className="h-5 w-5 text-gray-400 dark:text-zinc-500"
-                    aria-hidden="true"
-                  />
-                </span>
-              </SelectFolderDialogButton>
-            </div>
-            <Listbox
-              initial={distanceOptions[0]}
-              options={distanceOptions}
-              onOptionChange={setMaxDistance}
-            >
-              <Button
-                size="base"
-                icon={
-                  <div className="flex h-6 w-6 items-center justify-center text-xl font-medium text-gray-500 dark:text-zinc-400">
-                    {maxDistance.symbol}
-                  </div>
-                }
-              />
-            </Listbox>
-          </div>
-
-          {/* duplicates list */}
-          <div className="mt-7" />
-          <div className="flex-1">
-            {duplicates?.length ? (
-              <DuplicateList data={data} itemRenderer={MemoizedDuplicatedListItem} />
-            ) : (
-              <div className="flex h-full items-center justify-center">
-                <p className="font-medium">{t('duplicates:emptyResult')}</p>
-              </div>
-            )}
-          </div>
+    <div className="flex h-full">
+      {/* left column: search results */}
+      <div className="flex w-1/3 flex-col">
+        {/* header and title */}
+        <div className="mx-6 pt-7">
+          <h2 className="text-xl font-medium text-gray-900 dark:text-zinc-200 sm:text-3xl">
+            {t('duplicates:resultTitle')}
+          </h2>
         </div>
 
-        {/* right column: duplicates preview */}
-        <div className="w-2/3 border-l dark:border-zinc-700">
-          {selection != null && <DuplicateSidePreview file={selection} />}
+        {/* select folder and filter buttons */}
+        <div className="mx-6 mt-5 flex space-x-6">
+          <div className="w-full">
+            <SelectFolderDialogButton
+              dirPath={dirPath}
+              icon={<icons.Folder className="h-5 w-5 text-blue-400" />}
+              onSelectFolder={onFolderChange}
+            >
+              <span className="text-sm">{routes.folderName(dirPath)}</span>
+              <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
+                <icons.Selector
+                  className="h-5 w-5 text-gray-400 dark:text-zinc-500"
+                  aria-hidden="true"
+                />
+              </span>
+            </SelectFolderDialogButton>
+          </div>
+          <Listbox
+            initial={distanceOptions[0]}
+            options={distanceOptions}
+            onOptionChange={setMaxDistance}
+          >
+            <Button
+              size="base"
+              icon={
+                <div className="flex h-6 w-6 items-center justify-center text-xl font-medium text-gray-500 dark:text-zinc-400">
+                  {maxDistance.symbol}
+                </div>
+              }
+            />
+          </Listbox>
+        </div>
+
+        {/* duplicates list */}
+        <div className="mt-7" />
+        <div className="flex-1">
+          {duplicates?.length ? (
+            <DuplicateList data={data} itemRenderer={DuplicateListItem} />
+          ) : (
+            <div className="flex h-full items-center justify-center">
+              <p className="font-medium">{t('duplicates:emptyResult')}</p>
+            </div>
+          )}
         </div>
       </div>
-      {preview && (
-        <DuplicatePreview dirPath={dirPath} name={preview} preparePath={preparePreviewPath} />
-      )}
-    </>
+
+      {/* right column: duplicates preview */}
+      <div className="w-2/3 border-l dark:border-zinc-700">
+        {selection?.value != null && <DuplicateSidePreview file={selection.value} />}
+      </div>
+    </div>
   );
 }
 
