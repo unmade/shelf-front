@@ -10,7 +10,7 @@ function ToastList({ items, itemRenderer: Render, onClose }) {
   }
 
   return createPortal(
-    <div className="fixed top-2 right-2 z-50 m-2">
+    <div className="fixed top-2 right-2 m-2">
       {items.map((toast) => (
         <Render key={toast.id} item={toast} onClose={onClose} />
       ))}

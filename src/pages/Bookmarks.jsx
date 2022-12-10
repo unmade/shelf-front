@@ -107,7 +107,7 @@ function BookmarksContainer() {
   const selectedIds = useSelector(selectAllSelectedFileIds);
 
   const { data: fileIds } = useListBookmarksQuery();
-  const { data, isLoading: loading } = useGetBatchQuery(fileIds, { skip: fileIds == null });
+  const { data, isFetching: loading } = useGetBatchQuery(fileIds, { skip: fileIds == null });
 
   const files = React.useMemo(
     () => data?.ids.map((id) => data?.entities[id]) ?? empty,
@@ -129,7 +129,7 @@ function BookmarksContainer() {
   }, [selectedIds, fileIds]);
 
   if (pathToPreview) {
-    return <FilePreview pathToPreview={pathToPreview} files={files} />;
+    return <FilePreview pathToPreview={pathToPreview} files={files} loading={loading} />;
   }
 
   return (
