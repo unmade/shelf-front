@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import { useListFolderQuery } from '../store/files';
 
-import { MediaType } from '../constants';
 import * as icons from '../icons';
 
 import Breadcrumb from './ui/Breadcrumb';
@@ -17,29 +16,19 @@ const height = {
   height: `calc(100% - ${HEIGHT}px)`,
 };
 
-const FolderPicker = ({
-  emptyTitle,
-  emptyDescription,
-  excludeIds,
-  initialPath,
-  onlyFolders,
-  onPathChange,
-}) => {
+const FolderPicker = ({ emptyTitle, emptyDescription, excludeIds, initialPath, onPathChange }) => {
   const [path, setPath] = React.useState(initialPath);
 
   const { data: listFolderResult, isFetching: loading } = useListFolderQuery(path);
 
   const items = React.useMemo(() => {
-    let entities = Object.values(listFolderResult?.entities ?? {});
-    if (onlyFolders) {
-      entities = entities.filter((entity) => entity.mediatype === MediaType.FOLDER);
-    }
+    const entities = Object.values(listFolderResult?.entities ?? {});
     if (excludeIds.length) {
       const idsToExclude = new Set(excludeIds);
-      entities = entities.filter((entity) => !idsToExclude.has(entity.id));
+      return entities.filter((entity) => !idsToExclude.has(entity.id));
     }
     return entities;
-  }, [listFolderResult?.entities, onlyFolders, excludeIds]);
+  }, [listFolderResult?.entities, excludeIds]);
 
   const changePath =
     (nextPath, onPathChangeCallback = null) =>
@@ -110,14 +99,12 @@ FolderPicker.propTypes = {
   excludeIds: PropTypes.arrayOf(PropTypes.string.isRequired),
   initialPath: PropTypes.string,
   onPathChange: PropTypes.func.isRequired,
-  onlyFolders: PropTypes.bool,
 };
 
 FolderPicker.defaultProps = {
   emptyTitle: '',
   emptyDescription: '',
   initialPath: '.',
-  onlyFolders: false,
   excludeIds: [],
 };
 

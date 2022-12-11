@@ -24,6 +24,7 @@ function MoveDialog({ files, visible, onClose }) {
   const dispatch = useDispatch();
 
   const [toPath, setToPath] = React.useState('.');
+  React.useEffect(() => () => setToPath('.'));
 
   const [moveFileBatch, { isLoading: loading }] = useMoveFileBatchMutation();
 
@@ -43,12 +44,10 @@ function MoveDialog({ files, visible, onClose }) {
         itemsCount: relocations.length,
       })
     );
-    setToPath('.');
     onClose();
   };
 
   const onCancel = () => {
-    setToPath('.');
     onClose();
   };
 
@@ -69,7 +68,6 @@ function MoveDialog({ files, visible, onClose }) {
           emptyDescription={t('Press "Move" button to move file here')}
           excludeIds={files.map((file) => file.id)}
           onPathChange={onPathChange}
-          onlyFolders
         />
       </div>
     </Dialog>

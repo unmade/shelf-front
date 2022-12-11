@@ -20,6 +20,9 @@ export const MediaType = {
     'application/x-zsh',
     'application/xml',
   ]),
+  isFolder(mediaType) {
+    return mediaType === this.FOLDER;
+  },
   isImage(mediaType) {
     return this.IMAGES.has(mediaType);
   },

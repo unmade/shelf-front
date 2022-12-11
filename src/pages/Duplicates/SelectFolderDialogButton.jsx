@@ -63,7 +63,6 @@ function SelectFolderDialogButton({ type, children, dirPath, icon, onSelectFolde
             emptyTitle={t('duplicates:folderPickerEmptyTitle')}
             initialPath={dirPath}
             onPathChange={onPathChange}
-            onlyFolders
           />
         </div>
       </Dialog>
