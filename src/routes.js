@@ -84,24 +84,6 @@ export function parent(path) {
   return path.substring(0, end);
 }
 
-export function makeUrlFromPath({ path }) {
-  let { prefix } = FILES;
-  if (path.toLowerCase().startsWith('trash')) {
-    prefix = '/';
-    // eslint-disable-next-line no-param-reassign
-    path = `${path.charAt(0).toLowerCase()}${path.slice(1)}`;
-  }
-  return join(prefix, encodePath(path));
-}
-
-export function makePathFromUrl(url) {
-  const start = url.slice(1).indexOf('/');
-  if (start < 0) {
-    return '.';
-  }
-  return decodeURIComponent(url.substring(start + 2));
-}
-
 export function isRoot(path) {
   return path === '.' || path.toLowerCase() === 'trash';
 }

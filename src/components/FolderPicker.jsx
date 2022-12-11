@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useListFolderQuery } from '../store/files';
+
+import { MediaType } from '../constants';
 import * as icons from '../icons';
-import * as routes from '../routes';
 
 import Breadcrumb from './ui/Breadcrumb';
 import VList from './ui/VList';
 
 import FolderPickerItem from './FolderPickerItem';
-import { useListFolderQuery } from '../store/files';
-import { MediaType } from '../constants';
 
 const HEIGHT = 24;
 
@@ -27,7 +27,7 @@ const FolderPicker = ({
 }) => {
   const [path, setPath] = React.useState(initialPath);
 
-  const { data: listFolderResult, isLoading: loading } = useListFolderQuery(path);
+  const { data: listFolderResult, isFetching: loading } = useListFolderQuery(path);
 
   const items = React.useMemo(() => {
     let entities = Object.values(listFolderResult?.entities ?? {});
@@ -62,19 +62,19 @@ const FolderPicker = ({
       <div className="pb-1">
         <Breadcrumb
           path={path}
-          itemRender={({ name, url }) => (
+          itemRender={({ name, url, path: nextPath }) => (
             <Breadcrumb.Item
               to={url}
-              onClick={changePath(routes.makePathFromUrl(url), onPathChange)}
-              active={url === routes.makeUrlFromPath({ path })}
+              onClick={changePath(nextPath, onPathChange)}
+              active={path === nextPath}
             >
               <span className="block truncate">{name}</span>
             </Breadcrumb.Item>
           )}
-          itemRenderCollapsed={({ name, url }) => (
+          itemRenderCollapsed={({ name, url, path: nextPath }) => (
             <Breadcrumb.ItemCollapsed
               to={url}
-              onClick={changePath(routes.makePathFromUrl(url), onPathChange)}
+              onClick={changePath(nextPath, onPathChange)}
               active={false}
             >
               <span className="block truncate">{name}</span>
@@ -88,7 +88,7 @@ const FolderPicker = ({
           heightOffset={HEIGHT}
           itemCount={items.length}
           itemData={data}
-          loading={items.length === 0 && loading}
+          loading={loading}
           itemRender={FolderPickerItem}
         />
       ) : (

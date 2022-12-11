@@ -16,34 +16,45 @@ import Menu from '../Menu';
 import BreadcrumbItem from './BreadcrumbItem';
 import BreadcrumbItemCollapsed from './BreadcrumbItemCollapsed';
 
-const BREADCRUMBS_ALIASES = {
+const breadcrumbsAliases = {
   files: {
     Icon: icons.Home,
     name: i18n.t('Home'),
     url: routes.FILES.prefix,
+    path: '.',
   },
   trash: {
     Icon: icons.Trash,
     name: i18n.t('Trash'),
     url: routes.TRASH.prefix,
+    path: 'trash',
   },
 };
 
 i18n.on('languageChanged init', () => {
-  BREADCRUMBS_ALIASES.files.name = i18n.t('Home');
-  BREADCRUMBS_ALIASES.trash.name = i18n.t('Trash');
+  breadcrumbsAliases.files.name = i18n.t('Home');
+  breadcrumbsAliases.trash.name = i18n.t('Trash');
 });
 
 export function breadcrumbs(path) {
-  const parts = routes.makeUrlFromPath({ path }).split('/').slice(1);
-  const items = [BREADCRUMBS_ALIASES[parts[0]]];
-  let prefix = items[0].url;
-  parts.slice(1).forEach((part) => {
-    prefix = `${prefix}/${part}`;
+  const items = [];
+
+  if (path.toLowerCase() === 'trash' || path.toLowerCase().startsWith('trash/')) {
+    items.push(breadcrumbsAliases.trash);
+  } else {
+    items.push(breadcrumbsAliases.files);
+  }
+
+  if (routes.isRoot(path)) {
+    return items;
+  }
+
+  path.split('/').forEach((part, idx) => {
     items.push({
       Icon: icons.Folder,
-      name: decodeURIComponent(part),
-      url: prefix,
+      name: part,
+      url: routes.join(items[idx].url, routes.encodePath(part)),
+      path: routes.join(items[idx].path, part),
     });
   });
 
@@ -78,7 +89,7 @@ function Breadcrumb({
                   <item.Icon className="mr-2 h-4 w-4 shrink-0 text-gray-300 dark:text-zinc-600" />
                 </span>
               )}
-              <Render name={item.name} url={item.url} />
+              <Render name={item.name} url={item.url} path={item.path} />
             </span>
           </React.Fragment>
         ))}
@@ -108,7 +119,7 @@ function Breadcrumb({
     >
       <span className="flex max-w-xs items-center">
         <first.Icon className="mr-2 h-4 w-4 shrink-0 text-gray-300 dark:text-zinc-600" />
-        <Render name={first.name} url={first.url} />
+        <Render name={first.name} url={first.url} path={first.path} />
       </span>
       <div>
         <icons.ChevronRight className="h-4 w-4 shrink-0 text-gray-300 dark:text-zinc-600" />
@@ -116,7 +127,9 @@ function Breadcrumb({
       <Menu
         panelClassName="max-w-xs"
         items={rest}
-        itemRender={({ item }) => <RenderCollapsed name={item.name} url={item.url} />}
+        itemRender={({ item }) => (
+          <RenderCollapsed name={item.name} url={item.url} path={item.path} />
+        )}
       >
         <Button
           as="div"
@@ -129,7 +142,7 @@ function Breadcrumb({
         <icons.ChevronRight className="h-4 w-4 shrink-0 text-gray-300 dark:text-zinc-600" />
       </div>
       <span className="max-w-2xs">
-        <Render name={last.name} url={last.url} />
+        <Render name={last.name} url={last.url} path={last.path} />
       </span>
       {withCreateFolder && (
         <>

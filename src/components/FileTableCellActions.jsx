@@ -48,7 +48,7 @@ function FileTableCellActions({ item }) {
   const { path } = item;
 
   let menu;
-  if (path.toLowerCase().startsWith(TRASH_FOLDER_NAME.toLowerCase())) {
+  if (path.toLowerCase().startsWith(`${TRASH_FOLDER_NAME.toLowerCase()}/`)) {
     menu = [
       {
         name: t('Move'),
