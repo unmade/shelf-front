@@ -46,13 +46,22 @@ export const MediaQuery = {
   lg: '(min-width: 1024px)',
 };
 
-export const MENU = [
-  {
-    path: '/files',
-    title: 'All files',
-  },
-  {
-    path: '/trash',
-    title: TRASH_FOLDER_NAME,
-  },
+export const ThumbnailSize = {
+  xs: 'xs',
+  sm: 'sm',
+  md: 'md',
+  lg: 'lg',
+  xl: 'xl',
+  xxl: '2xl',
+  xxxl: '3xl',
+};
+
+export const thumbnailSizes = [
+  ThumbnailSize.xs,
+  ThumbnailSize.sm,
+  ThumbnailSize.md,
+  ThumbnailSize.lg,
+  ThumbnailSize.xl,
+  ThumbnailSize.xxl,
+  ThumbnailSize.xxxl,
 ];

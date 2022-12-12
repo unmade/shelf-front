@@ -22,6 +22,8 @@ import FileTableView from '../FileTableView';
 
 import SidePreview from './SidePreview';
 
+const MemoizedSidePreview = React.memo(SidePreview);
+
 function FileTableViewContainer({
   dirPath,
   items,
@@ -72,6 +74,8 @@ FileTableViewContainer.propTypes = {
   emptyDescription: PropTypes.string.isRequired,
 };
 
+const MemoizedFileTableViewContainer = React.memo(FileTableViewContainer);
+
 function BrowserContainer({ dirPath, droppable, emptyIcon, emptyTitle, emptyDescription }) {
   const dispatch = useDispatch();
 
@@ -101,7 +105,7 @@ function BrowserContainer({ dirPath, droppable, emptyIcon, emptyTitle, emptyDesc
   return (
     <>
       <div className={`h-full ${withSidePreview ? 'w-7/12' : 'w-full'}`}>
-        <FileTableViewContainer
+        <MemoizedFileTableViewContainer
           dirPath={dirPath}
           items={files}
           loading={loading}
@@ -113,7 +117,7 @@ function BrowserContainer({ dirPath, droppable, emptyIcon, emptyTitle, emptyDesc
       </div>
       {withSidePreview && (
         <div className="w-5/12 overflow-scroll">
-          <SidePreview itemsMap={data?.entities} />
+          <MemoizedSidePreview itemsMap={data?.entities} />
         </div>
       )}
     </>

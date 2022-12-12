@@ -3,19 +3,18 @@ import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
 
-import { FileShape } from '../../types';
-
+import { ThumbnailSize } from '../../constants';
 import * as icons from '../../icons';
 import * as routes from '../../routes';
+import { FileShape } from '../../types';
 
 import Button from '../../components/ui/Button';
 import FileSize from '../../components/ui/FileSize';
 import TimeAgo from '../../components/ui/TimeAgo';
 
 import { useDeleteDialog } from '../../components/DeleteDialogProvider';
-import Thumbnail from '../../components/Thumbnail';
-
 import FileLink from '../../components/FileLink';
+import Thumbnail from '../../components/Thumbnail';
 
 function FileProperty({ header, value }) {
   return (
@@ -45,7 +44,7 @@ function DuplicateSidePreview({ file }) {
       <div className="relative h-2/3 bg-gray-100 dark:bg-zinc-900/50">
         <Thumbnail
           className="absolute right-1/2 h-full translate-x-1/2 p-10"
-          size="2xl"
+          size={ThumbnailSize.xxl}
           file={file}
         />
       </div>

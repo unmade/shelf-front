@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useTranslation } from 'react-i18next';
 
+import { ThumbnailSize } from '../../../constants';
 import { MEGABYTE } from '../../../filesize';
 import { FileShape } from '../../../types';
 
@@ -30,24 +31,24 @@ function getSize({ width, height }) {
     pixelSize *= 2;
   }
   if (pixelSize <= 64) {
-    return 'xs';
+    return ThumbnailSize.xs;
   }
   if (pixelSize <= 128) {
-    return 'sm';
+    return ThumbnailSize.sm;
   }
   if (pixelSize <= 256) {
-    return 'md';
+    return ThumbnailSize.md;
   }
   if (pixelSize <= 512) {
-    return 'lg';
+    return ThumbnailSize.lg;
   }
   if (pixelSize <= 1024) {
-    return 'xl';
+    return ThumbnailSize.xl;
   }
   if (pixelSize <= 2048) {
-    return '2xl';
+    return ThumbnailSize.xxl;
   }
-  return '3xl';
+  return ThumbnailSize.xxxl;
 }
 
 function ImagePreview({ file }) {

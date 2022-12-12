@@ -8,7 +8,7 @@ import { selectAllSelectedFileIds } from '../../store/browser';
 
 import { FileShape } from '../../types';
 
-import { MediaType } from '../../constants';
+import { MediaType, ThumbnailSize } from '../../constants';
 
 import Button from '../ui/Button';
 import FileSize from '../ui/FileSize';
@@ -49,7 +49,7 @@ function SingleFilePreview({ file }) {
     <>
       <div className="flex flex-col px-4 pb-2">
         <div className="flex h-64 w-auto items-center justify-center rounded-xl bg-gray-50 dark:bg-zinc-700/30">
-          <Thumbnail className="h-60 w-80 shrink-0 xl:w-96" size="xl" file={file} />
+          <Thumbnail className="h-60 w-80 shrink-0 xl:w-96" size={ThumbnailSize.xl} file={file} />
         </div>
 
         <div className="flex items-center justify-between py-2 pl-2">
@@ -127,7 +127,7 @@ function MultiFilePreview({ files }) {
                 i === previews.length - 1 ? 'rotate-0' : rotations[i]
               }`}
             >
-              <Thumbnail className="h-56 w-56" size="lg" file={file} />
+              <Thumbnail className="h-56 w-56" size={ThumbnailSize.xl} file={file} />
             </span>
           ))}
         </div>

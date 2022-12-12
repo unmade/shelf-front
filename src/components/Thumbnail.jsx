@@ -1,13 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { useDownloadContentQuery, useGetThumbnailQuery } from '../store/files';
+import { useSelector } from 'react-redux';
 
+import {
+  selectFallbackThumbnail,
+  useDownloadContentQuery,
+  useGetThumbnailQuery,
+} from '../store/files';
+
+import { MediaType, ThumbnailSize, thumbnailSizes } from '../constants';
+import { MEGABYTE } from '../filesize';
 import { FileShape } from '../types';
 
+import Spinner from './ui/Spinner';
+
 import FileIcon from './FileIcon';
-import { MEGABYTE } from '../filesize';
-import { MediaType } from '../constants';
 
 function SVGThumbnail({ className, file }) {
   const { hidden, mediatype, name, path, size } = file;
@@ -40,28 +48,39 @@ function ImageThumbnail({ className, file, size }) {
       setShouldSkip(true);
     };
   }, [setShouldSkip]);
-  const { id, hidden, name, mediatype, mtime } = file;
+  const { id, name, mtime } = file;
+
+  const fallbackThumbnail = useSelector((state) =>
+    selectFallbackThumbnail(state, { fileId: id, size, mtime })
+  );
+
   const { data, isFetching: loading } = useGetThumbnailQuery(
     { fileId: id, size, mtime },
     { skip: shouldSkip }
   );
 
-  if (loading || data?.content == null) {
-    return <FileIcon className={className} mediatype={mediatype} hidden={hidden} />;
+  if (fallbackThumbnail?.content != null && loading) {
+    return (
+      <img className={`object-contain ${className}`} src={fallbackThumbnail?.content} alt={name} />
+    );
   }
 
-  return <img className={`object-scale-down ${className}`} src={data.content} alt={name} />;
+  if (loading || data?.content == null) {
+    return <Spinner className={className} />;
+  }
+
+  return <img className={`object-scale-down ${className}`} src={data?.content} alt={name} />;
 }
 
 ImageThumbnail.propTypes = {
   className: PropTypes.string,
   file: FileShape.isRequired,
-  size: PropTypes.oneOf(['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl']),
+  size: PropTypes.oneOf(thumbnailSizes),
 };
 
 ImageThumbnail.defaultProps = {
   className: '',
-  size: 'xs',
+  size: ThumbnailSize.xs,
 };
 
 function Thumbnail({ className, file, size }) {
@@ -80,12 +99,12 @@ function Thumbnail({ className, file, size }) {
 Thumbnail.propTypes = {
   className: PropTypes.string,
   file: FileShape.isRequired,
-  size: PropTypes.oneOf(['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl']),
+  size: PropTypes.oneOf(thumbnailSizes),
 };
 
 Thumbnail.defaultProps = {
   className: '',
-  size: 'xs',
+  size: ThumbnailSize.xs,
 };
 
 export default Thumbnail;

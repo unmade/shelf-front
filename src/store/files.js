@@ -1,10 +1,9 @@
 import { createAsyncThunk, createEntityAdapter, createSelector, nanoid } from '@reduxjs/toolkit';
 
-import { MediaType } from '../constants';
+import { MediaType, ThumbnailSize, thumbnailSizes } from '../constants';
+import * as routes from '../routes';
 
 import apiSlice, { API_BASE_URL } from './apiSlice';
-
-import * as routes from '../routes';
 
 export const download = createAsyncThunk('files/download', async (path, { getState }) => {
   const { accessToken } = getState().auth;
@@ -182,22 +181,28 @@ export const {
   useMoveToTrashBatchMutation,
 } = filesApi;
 
-export const selectFindDuplicatesData = createSelector(
-  (state, path, maxDistance) => filesApi.endpoints.findDuplicates.select(path, maxDistance)(state),
-  (result) => result.data ?? null
-);
-
 export const selectListFolderData = createSelector(
   (state, path) => filesApi.endpoints.listFolder.select(path)(state),
   (result) => result.data ?? initialState
 );
 
-export const selectFileByIdInPath = createSelector(
-  (state, { path, id }) => {
-    const { selectById } = filesAdapter.getSelectors((state_) =>
-      selectListFolderData(state_, path)
-    );
-    return selectById(state, id);
-  },
-  (entity) => entity
-);
+export const selectFallbackThumbnail = (state, { fileId, size, mtime }) => {
+  if (size === ThumbnailSize.xs) {
+    return null;
+  }
+  const selector = filesApi.endpoints.getThumbnail.select;
+  let thumbnail = null;
+
+  // eslint-disable-next-line no-restricted-syntax
+  for (const fallbackSize of thumbnailSizes) {
+    if (fallbackSize === size) {
+      break;
+    }
+    const { data } = selector({ fileId, size: fallbackSize, mtime })(state);
+    if (data?.content != null) {
+      thumbnail = data;
+    }
+  }
+
+  return thumbnail;
+};
