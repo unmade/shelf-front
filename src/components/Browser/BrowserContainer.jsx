@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Transition } from '@headlessui/react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import useSidePreview from '../../hooks/preview-available';
@@ -104,7 +105,7 @@ function BrowserContainer({ dirPath, droppable, emptyIcon, emptyTitle, emptyDesc
 
   return (
     <>
-      <div className={`h-full ${withSidePreview ? 'w-7/12' : 'w-full'}`}>
+      <div className={`easy-in-out h-full duration-500 ${withSidePreview ? 'w-7/12' : 'w-full'}`}>
         <MemoizedFileTableViewContainer
           dirPath={dirPath}
           items={files}
@@ -115,11 +116,18 @@ function BrowserContainer({ dirPath, droppable, emptyIcon, emptyTitle, emptyDesc
           emptyDescription={emptyDescription}
         />
       </div>
-      {withSidePreview && (
-        <div className="w-5/12 overflow-scroll">
-          <MemoizedSidePreview itemsMap={data?.entities} />
-        </div>
-      )}
+      <Transition
+        className="overflow-scroll"
+        show={withSidePreview}
+        enter="transform transition-all ease-in-out duration-500"
+        enterFrom="w-0 translate-x-full"
+        enterTo="w-5/12 translate-x-0"
+        leave="transform transition-all ease-in-out duration-500"
+        leaveFrom="w-5/12 translate-x-0"
+        leaveTo="w-0 translate-x-full"
+      >
+        <MemoizedSidePreview itemsMap={data?.entities} />
+      </Transition>
     </>
   );
 }

@@ -3,6 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Transition } from '@headlessui/react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import {
@@ -105,16 +106,22 @@ function FileTableCell({ className, even, item, selected, hasSelection }) {
         </div>
       </div>
 
-      {!hasSelection && (
+      <Transition
+        show={!hasSelection}
+        as={React.Fragment}
+        enter="transition ease-in-out duration-500"
+        enterFrom="opacity-0 w-0"
+        enterTo="opacity-100 w-full"
+      >
         <div className="hidden flex-row items-center justify-evenly space-x-4 md:flex md:w-2/5 lg:w-1/3">
-          <div className={`hidden w-32 text-left md:block ${secondaryText}`}>
+          <div className={`hidden w-32 text-left md:block ${!hasSelection ? secondaryText : ''}`}>
             <TimeAgo mtime={item.mtime * 1000} />
           </div>
           <div className={`hidden w-24 text-right md:block ${secondaryText}`}>
             <FileSize size={item.size} />
           </div>
         </div>
-      )}
+      </Transition>
     </div>
   );
 }

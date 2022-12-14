@@ -24,7 +24,8 @@ const ringSizes = {
 
 const bookmarkClasses = {
   [true]: 'fill-current text-orange-600',
-  [false]: 'show-on-hover-target text-gray-300 dark:text-zinc-600 hover:text-orange-600',
+  [false]:
+    'show-on-hover-target text-gray-300 dark:text-zinc-600 hover:text-orange-600 dark:hover:text-orange-600',
 };
 
 function BookmarkButton({ className, fileId, size }) {

@@ -210,7 +210,7 @@ function SidePreview({ itemsMap }) {
   }, [selectedIds, itemsMap]);
 
   return (
-    <div className="mr-4 mb-4 rounded-lg border-4 border-transparent text-gray-800 dark:text-zinc-100">
+    <div className="mr-4 mb-4 min-w-[24rem] rounded-lg border-4 border-transparent text-gray-800 dark:text-zinc-100">
       {files.length === 1 ? (
         <SingleFilePreviewMemoized file={files[0]} />
       ) : (
