@@ -6,8 +6,6 @@ import { all, call, fork, put, select, take } from 'redux-saga/effects';
 import { MediaType } from '../constants';
 import * as routes from '../routes';
 
-import { selectCurrentPath } from './browser';
-
 import apiSlice, { API_BASE_URL } from './apiSlice';
 import { selectAccessToken } from './auth';
 import { selectFeatureValue } from './features';
@@ -23,28 +21,14 @@ import {
 const MAX_PARALLEL_UPLOADS = 1;
 
 function* updateListFolderCache({ file, updates }) {
-  const currPath = yield select(selectCurrentPath);
-
-  const path = file.path.substring(0, file.path.length - file.name.length - 1);
-
-  let target = null;
-  if (path === currPath || (path === '' && currPath === '.')) {
-    target = file;
-  } else {
-    for (let i = 0; i < updates.length; i += 1) {
-      if (updates[i].path === currPath) {
-        target = updates[i + 1];
-        break;
-      }
-    }
-  }
-  if (target) {
-    yield put(
-      apiSlice.util.updateQueryData('listFolder', currPath, (draft) => {
-        filesAdapter.upsertOne(draft, target);
+  const cacheOptimisticUpdates = [file, ...updates].map((update) =>
+    put(
+      apiSlice.util.updateQueryData('listFolder', routes.parent(update.path), (draft) => {
+        filesAdapter.upsertOne(draft, update);
       })
-    );
-  }
+    )
+  );
+  yield all(cacheOptimisticUpdates);
 }
 
 // taken from: https://decembersoft.com/posts/file-upload-progress-with-redux-saga/

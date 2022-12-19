@@ -8,6 +8,8 @@ import useResolvedPreviewSearchParam from '../hooks/resolved-preview-search-para
 import * as icons from '../icons';
 import * as routes from '../routes';
 
+import FilePreviewContainer from '../containers/FilePreviewContainer';
+
 import Button from '../components/ui/Button';
 
 import Browser from '../components/Browser';
@@ -17,7 +19,9 @@ import EmptyTrashDialogProvider, {
 import DeleteImmediatelyDialogProvider from '../components/DeleteImmediatelyDialogProvider';
 import MoveDialogProvider from '../components/MoveDialogProvider';
 
-import FilePreviewContainer from './FilePreviewContainer';
+import ListFolderDataProvider, {
+  ListFolderDataContext,
+} from '../components/ListFolderDataProvider';
 
 function EmptyTrashDialogButton() {
   const { t } = useTranslation();
@@ -59,7 +63,7 @@ function Trash() {
       <DeleteImmediatelyDialogProvider>
         <MoveDialogProvider>
           {pathToPreview ? (
-            <FilePreviewContainer pathToPreview={pathToPreview} dirPath={dirPath} />
+            <FilePreviewContainer dirPath={dirPath} />
           ) : (
             <Browser
               actionButton={EmptyTrashDialogButton}
@@ -69,6 +73,8 @@ function Trash() {
               }
               emptyTitle={emptyTitle}
               emptyDescription={emptyDescription}
+              dataProvider={ListFolderDataProvider}
+              dataContext={ListFolderDataContext}
             />
           )}
         </MoveDialogProvider>

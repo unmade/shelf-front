@@ -12,12 +12,12 @@ import * as routes from '../../routes';
 import Button from '../../components/ui/Button';
 import Listbox from '../../components/ui/Listbox';
 
-import FilePreview from '../../components/FilePreview';
-
 import DuplicateList from './DuplicateList';
 import DuplicateListItem from './DuplicateListItem';
 import DuplicateSidePreview from './DuplicateSidePreview';
+import FilePreviewContainer from './FilePreviewContainer';
 import SelectFolderDialogButton from './SelectFolderDialogButton';
+import Spinner from '../../components/ui/Spinner';
 
 const distanceOptions = [
   { name: 'Similar', value: 5, symbol: '≈' },
@@ -42,7 +42,7 @@ function DuplicatesResult({ dirPath, onFolderChange }) {
   const [selection, selectItem] = React.useState(null);
   const [maxDistance, setMaxDistance] = React.useState(distanceOptions[0]);
 
-  const { data: duplicates } = useFindDuplicatesQuery({
+  const { data: duplicates, isFetching: loading } = useFindDuplicatesQuery({
     path: dirPath,
     maxDistance: maxDistance.value,
   });
@@ -65,8 +65,12 @@ function DuplicatesResult({ dirPath, onFolderChange }) {
     onItemClick,
   };
 
+  if (loading) {
+    return <Spinner className="h-full w-full" />;
+  }
+
   if (pathToPreview) {
-    return <FilePreview pathToPreview={pathToPreview} files={duplicates[selection?.groupId]} />;
+    return <FilePreviewContainer files={duplicates[selection?.groupId]} />;
   }
 
   return (

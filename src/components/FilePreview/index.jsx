@@ -1,12 +1,18 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
+
 import PropTypes from 'prop-types';
+
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { shallowEqual, useSelector } from 'react-redux';
 
 import usePreviewSearchParam from '../../hooks/preview-search-param';
+import useResolvedPreviewSearchParam from '../../hooks/resolved-preview-search-param';
+
 import { MediaType } from '../../constants';
-import * as icons from '../../icons';
 import { FileShape } from '../../types';
+
+import Spinner from '../ui/Spinner';
 
 import CodePreview from './Previews/CodePreview';
 import ImagePreview from './Previews/ImagePreview';
@@ -32,21 +38,16 @@ function getPreview(mediatype) {
   }
   return NoPreview;
 }
-function FilePreview({ pathToPreview, files, loading }) {
+
+function FilePreviewComponent({ currentIndex, file, loading, nextPath, prevPath, total }) {
   const [infoVisible, setInfoVisible] = React.useState(true);
 
   const location = useLocation();
   const navigate = useNavigate();
   const [, setSearchParams] = useSearchParams();
 
-  const currentIndex = files.findIndex((file) => file.path.replace('Trash/', '') === pathToPreview);
-
-  const file = files[currentIndex];
-  const prevFile = currentIndex - 1 < 0 ? files[files.length - 1] : files[currentIndex - 1];
-  const nextFile = currentIndex + 1 > files.length - 1 ? files[0] : files[currentIndex + 1];
-
-  const prevFilePreview = usePreviewSearchParam(prevFile?.path ?? '');
-  const nextFilePreview = usePreviewSearchParam(nextFile?.path ?? '');
+  const prevFilePreview = usePreviewSearchParam(prevPath ?? '');
+  const nextFilePreview = usePreviewSearchParam(nextPath ?? '');
 
   React.useEffect(() => () => {
     if (navigate.action === 'POP') {
@@ -59,9 +60,6 @@ function FilePreview({ pathToPreview, files, loading }) {
 
   React.useEffect(() => {
     const onKeyUp = ({ keyCode }) => {
-      if (prevFile == null || nextFile == null) {
-        return;
-      }
       switch (keyCode) {
         case 37: // left arrow
           setSearchParams(prevFilePreview, { replace: true });
@@ -79,7 +77,7 @@ function FilePreview({ pathToPreview, files, loading }) {
     return () => {
       window.removeEventListener('keyup', onKeyUp);
     };
-  }, [navigate, prevFile, nextFile]);
+  }, [navigate, prevFilePreview, nextFilePreview]);
 
   if (file == null) {
     return null;
@@ -107,14 +105,12 @@ function FilePreview({ pathToPreview, files, loading }) {
   return createPortal(
     <div className="fixed inset-0 bottom-0 dark:bg-zinc-900 dark:text-zinc-200">
       {loading ? (
-        <div className="flex h-full items-center justify-center">
-          <icons.Spinner className="h-7 w-7 animate-spin text-gray-600 dark:text-zinc-300" />
-        </div>
+        <Spinner className="h-full w-full" />
       ) : (
         <div className="flex h-full flex-col bg-white dark:bg-zinc-800">
           <Header
             idx={currentIndex}
-            total={files.length}
+            total={total}
             name={name}
             onGoBack={onGoBack}
             onPrev={onClickLeft}
@@ -149,14 +145,54 @@ function FilePreview({ pathToPreview, files, loading }) {
   );
 }
 
-FilePreview.propTypes = {
-  pathToPreview: PropTypes.string.isRequired,
-  files: PropTypes.arrayOf(FileShape).isRequired,
+FilePreviewComponent.propTypes = {
+  file: FileShape,
+  prevPath: PropTypes.string,
+  nextPath: PropTypes.string,
+  currentIndex: PropTypes.number,
+  total: PropTypes.number,
   loading: PropTypes.bool,
 };
 
-FilePreview.defaultProps = {
+FilePreviewComponent.defaultProps = {
   loading: false,
+};
+
+function FilePreview({ ids, loading, selectById }) {
+  const pathToPreview = useResolvedPreviewSearchParam();
+
+  const paths = useSelector((state) => ids.map((id) => selectById(state, id).path), shallowEqual);
+
+  let currentIndex = 0;
+  let prevIndex = 0;
+  let nextIndex = 0;
+  if (paths.length) {
+    currentIndex = paths.findIndex((path) => path.replace('Trash/', '') === pathToPreview);
+    prevIndex = currentIndex - 1 < 0 ? ids.length - 1 : currentIndex - 1;
+    nextIndex = currentIndex + 1 > ids.length - 1 ? 0 : currentIndex + 1;
+  }
+
+  const file = useSelector((state) => selectById(state, ids[currentIndex]));
+  const prevFilePath = useSelector((state) => selectById(state, ids[prevIndex])?.path);
+  const nextFilePath = useSelector((state) => selectById(state, ids[nextIndex])?.path);
+
+  return (
+    <FilePreviewComponent
+      file={file}
+      prevPath={prevFilePath}
+      nextPath={nextFilePath}
+      currentIndex={currentIndex}
+      total={ids.length}
+      loading={loading}
+      pathToPreview={pathToPreview}
+    />
+  );
+}
+
+FilePreview.propTypes = {
+  ids: PropTypes.arrayOf(PropTypes.string).isRequired,
+  loading: PropTypes.bool.isRequired,
+  selectById: PropTypes.func.isRequired,
 };
 
 export default FilePreview;

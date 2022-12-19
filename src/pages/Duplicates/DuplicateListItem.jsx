@@ -20,7 +20,7 @@ function DuplicateListItem({ groupId, indexInGroup, selected, type, value, onIte
   const backgroundColor = getBackground(indexInGroup % 2 === 0, selected);
   const nameStyle = selected ? 'font-medium text-orange-900 dark:text-amber-50' : 'font-medium';
   const pathStyle = selected
-    ? 'text-orange-800 dark:text-amber-200'
+    ? 'text-orange-800 dark:text-amber-400'
     : 'text-gray-500 dark:text-zinc-400';
 
   if (type === 'header') {
@@ -97,4 +97,4 @@ DuplicatedListItemContainer.propTypes = {
   }).isRequired,
 };
 
-export default DuplicatedListItemContainer;
+export default React.memo(DuplicatedListItemContainer);

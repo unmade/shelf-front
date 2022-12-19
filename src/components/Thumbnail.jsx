@@ -59,7 +59,7 @@ function ImageThumbnail({ className, file, size }) {
     { skip: shouldSkip }
   );
 
-  if (fallbackThumbnail?.content != null && loading) {
+  if (fallbackThumbnail?.content != null && data?.content == null) {
     return (
       <img className={`object-contain ${className}`} src={fallbackThumbnail?.content} alt={name} />
     );

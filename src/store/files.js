@@ -1,6 +1,6 @@
 import { createAsyncThunk, createEntityAdapter, createSelector, nanoid } from '@reduxjs/toolkit';
 
-import { MediaType, ThumbnailSize, thumbnailSizes } from '../constants';
+import { MediaType, thumbnailSizes } from '../constants';
 import * as routes from '../routes';
 
 import apiSlice, { API_BASE_URL } from './apiSlice';
@@ -131,6 +131,23 @@ const filesApi = apiSlice.injectEndpoints({
         URL.revokeObjectURL(data?.content);
       },
     }),
+    listBookmarkedFiles: builder.query({
+      async queryFn(arg, _queryApi, _extraOptions, fetchWithBQ) {
+        const fileIdsResult = await fetchWithBQ('/users/bookmarks/list');
+        if (fileIdsResult.error) {
+          return { error: fileIdsResult.error };
+        }
+        const { items: fileIds } = fileIdsResult.data;
+        const result = await fetchWithBQ({
+          url: '/files/get_batch',
+          method: 'POST',
+          body: { ids: fileIds },
+        });
+        return result.data
+          ? { data: filesAdapter.setAll(initialState, result.data.items) }
+          : { error: result.error };
+      },
+    }),
     listFolder: builder.query({
       query: (path) => ({
         url: '/files/list_folder',
@@ -176,6 +193,7 @@ export const {
   useGetBatchQuery,
   useGetContentMetadataQuery,
   useGetThumbnailQuery,
+  useListBookmarkedFilesQuery,
   useListFolderQuery,
   useMoveFileBatchMutation,
   useMoveToTrashBatchMutation,
@@ -186,21 +204,39 @@ export const selectListFolderData = createSelector(
   (result) => result.data ?? initialState
 );
 
+export const selectFileByIdInPath = createSelector(
+  (state, { path, id }) => {
+    const { selectById } = filesAdapter.getSelectors((state_) =>
+      selectListFolderData(state_, path)
+    );
+    return selectById(state, id);
+  },
+  (entity) => entity
+);
+
+const selectListBookmarkedFilesResult = filesApi.endpoints.listBookmarkedFiles.select();
+
+const selectListBookmarkedFilesData = createSelector(
+  selectListBookmarkedFilesResult,
+  (listBookmarkedFilesResult) => listBookmarkedFilesResult.data
+);
+
+export const { selectById: selectBookmarkedFileById } = filesAdapter.getSelectors(
+  (state) => selectListBookmarkedFilesData(state) ?? initialState
+);
+
 export const selectFallbackThumbnail = (state, { fileId, size, mtime }) => {
-  if (size === ThumbnailSize.xs) {
-    return null;
-  }
   const selector = filesApi.endpoints.getThumbnail.select;
   let thumbnail = null;
 
   // eslint-disable-next-line no-restricted-syntax
   for (const fallbackSize of thumbnailSizes) {
-    if (fallbackSize === size) {
-      break;
-    }
     const { data } = selector({ fileId, size: fallbackSize, mtime })(state);
     if (data?.content != null) {
       thumbnail = data;
+    }
+    if (fallbackSize === size) {
+      break;
     }
   }
 

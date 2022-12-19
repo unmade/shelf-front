@@ -7,8 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { filesSelectionChanged, selectAllSelectedFileIds } from '../store/browser';
 
-import { FileShape } from '../types';
-
 import FileTableList from '../containers/FileTableList';
 
 function TableHeader({ items }) {
@@ -19,8 +17,7 @@ function TableHeader({ items }) {
   const hasSelection = useSelector((state) => selectAllSelectedFileIds(state).size !== 0);
 
   const onSelect = () => {
-    const selection = hasSelection ? [] : items.map((item) => item.id);
-    dispatch(filesSelectionChanged({ ids: selection }));
+    dispatch(filesSelectionChanged({ ids: hasSelection ? [] : items }));
   };
 
   const checkboxClass = hasSelection ? '' : 'show-on-hover-target';
@@ -102,7 +99,7 @@ FileTableView.propTypes = {
   emptyIcon: PropTypes.element.isRequired,
   emptyTitle: PropTypes.string.isRequired,
   emptyDescription: PropTypes.string,
-  items: PropTypes.arrayOf(FileShape).isRequired,
+  items: PropTypes.arrayOf(PropTypes.string).isRequired,
   loading: PropTypes.bool,
   scrollKey: PropTypes.string.isRequired,
   itemRender: PropTypes.elementType.isRequired,

@@ -20,6 +20,7 @@ import FileSize from './ui/FileSize';
 import TimeAgo from './ui/TimeAgo';
 
 import BookmarkButton from './BookmarkButton';
+import { useBrowserDataContext } from './Browser/BrowserDataProvider';
 import FileLink from './FileLink';
 import FileTableCellActions from './FileTableCellActions';
 import Thumbnail from './Thumbnail';
@@ -141,16 +142,22 @@ FileTableCell.defaultProps = {
 const MemoizedFileTableCell = React.memo(FileTableCell);
 
 function FileTableCellContainer({ data, index, style }) {
-  const item = data[index];
+  const itemId = data[index];
   const even = index % 2 === 0;
-  const selected = useSelector((state) => selectAllSelectedFileIds(state).has(item.id));
+  const selected = useSelector((state) => selectAllSelectedFileIds(state).has(itemId));
   const hasSelection = useSelector((state) => selectAllSelectedFileIds(state).size !== 0);
+
+  const { selectById } = useBrowserDataContext();
+  const file = useSelector((state) => selectById(state, itemId));
+  if (file == null) {
+    return null;
+  }
 
   return (
     <div style={style}>
       <MemoizedFileTableCell
         even={even}
-        item={item}
+        item={file}
         selected={selected}
         hasSelection={hasSelection}
       />
@@ -159,7 +166,7 @@ function FileTableCellContainer({ data, index, style }) {
 }
 
 FileTableCellContainer.propTypes = {
-  data: PropTypes.arrayOf(FileShape.isRequired).isRequired,
+  data: PropTypes.arrayOf(PropTypes.string).isRequired,
   index: PropTypes.number.isRequired,
 };
 

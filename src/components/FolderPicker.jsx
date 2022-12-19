@@ -30,16 +30,12 @@ const FolderPicker = ({ emptyTitle, emptyDescription, excludeIds, initialPath, o
     return entities;
   }, [listFolderResult?.entities, excludeIds]);
 
-  const changePath =
-    (nextPath, onPathChangeCallback = null) =>
-    (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      setPath(nextPath);
-      if (onPathChangeCallback != null) {
-        onPathChangeCallback(nextPath);
-      }
-    };
+  const changePath = (nextPath, onPathChangeCallback) => (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setPath(nextPath);
+    onPathChangeCallback(nextPath);
+  };
 
   const data = {
     items,

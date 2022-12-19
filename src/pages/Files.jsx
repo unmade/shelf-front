@@ -7,14 +7,17 @@ import useResolvedPreviewSearchParam from '../hooks/resolved-preview-search-para
 
 import * as icons from '../icons';
 
+import FilePreviewContainer from '../containers/FilePreviewContainer';
+
 import Browser from '../components/Browser';
 import CreateFolderDialogProvider from '../components/CreateFolderDialogProvider';
 import DeleteDialogProvider from '../components/DeleteDialogProvider';
+import ListFolderDataProvider, {
+  ListFolderDataContext,
+} from '../components/ListFolderDataProvider';
 import MoveDialogProvider from '../components/MoveDialogProvider';
 import RenameFileDialogProvider from '../components/RenameFileDialogProvider';
 import Uploader from '../components/Uploader';
-
-import FilePreviewContainer from './FilePreviewContainer';
 
 function DialogsProvider({ children }) {
   return (
@@ -32,19 +35,20 @@ function Files() {
   const { t } = useTranslation();
 
   const dirPath = useDirPath();
-
   const pathToPreview = useResolvedPreviewSearchParam();
 
   return (
     <DialogsProvider>
       {pathToPreview ? (
-        <FilePreviewContainer dirPath={dirPath} pathToPreview={pathToPreview} />
+        <FilePreviewContainer dirPath={dirPath} />
       ) : (
         <div className="flex h-full flex-col">
           <Browser
-            actionButton={() => <Uploader />}
+            actionButton={Uploader}
             dirPath={dirPath}
             droppable
+            dataProvider={ListFolderDataProvider}
+            dataContext={ListFolderDataContext}
             emptyIcon={<icons.Collection className="h-12 w-12 text-gray-400 dark:text-zinc-500" />}
             emptyTitle={t('This folder is empty')}
             emptyDescription={t('Drag and drop files to upload')}

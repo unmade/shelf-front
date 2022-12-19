@@ -24,7 +24,6 @@ function MoveDialog({ files, visible, onClose }) {
   const dispatch = useDispatch();
 
   const [toPath, setToPath] = React.useState('.');
-  React.useEffect(() => () => setToPath('.'));
 
   const [moveFileBatch, { isLoading: loading }] = useMoveFileBatchMutation();
 
@@ -49,6 +48,7 @@ function MoveDialog({ files, visible, onClose }) {
 
   const onCancel = () => {
     onClose();
+    setToPath('.');
   };
 
   const onPathChange = useCallback((path) => setToPath(path), [setToPath]);

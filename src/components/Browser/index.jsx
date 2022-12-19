@@ -1,29 +1,51 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+import { useDispatch } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
+
+import { fileBrowserPathChanged } from '../../store/browser';
 
 import { MediaQuery } from '../../constants';
 
+import BrowserDataProvider from './BrowserDataProvider';
 import BrowserHeader from './Header';
-import BrowserContainer from './BrowserContainer';
+import TableView from './TableView';
 import StatusBar from './StatusBar';
 
-function Browser({ actionButton, dirPath, droppable, emptyIcon, emptyTitle, emptyDescription }) {
+function Browser({
+  actionButton,
+  dirPath,
+  droppable,
+  dataProvider: DataProvider,
+  dataContext,
+  emptyIcon,
+  emptyTitle,
+  emptyDescription,
+}) {
+  const dispatch = useDispatch();
+
   const isLaptop = useMediaQuery({ query: MediaQuery.lg });
   const path = dirPath ?? '.';
+
+  useEffect(() => {
+    dispatch(fileBrowserPathChanged({ path }));
+  }, [path]);
 
   return (
     <div className="flex h-full flex-col">
       <BrowserHeader isLaptop={isLaptop} actionButton={actionButton} />
       <div className="flex h-full flex-row overflow-scroll pt-4">
-        <BrowserContainer
-          dirPath={dirPath}
-          droppable={droppable}
-          emptyIcon={emptyIcon}
-          emptyTitle={emptyTitle}
-          emptyDescription={emptyDescription}
-        />
+        <DataProvider>
+          <BrowserDataProvider dataContext={dataContext}>
+            <TableView
+              droppable={droppable}
+              emptyIcon={emptyIcon}
+              emptyTitle={emptyTitle}
+              emptyDescription={emptyDescription}
+            />
+          </BrowserDataProvider>
+        </DataProvider>
       </div>
       <StatusBar dirPath={path} isLaptop={isLaptop} />
     </div>

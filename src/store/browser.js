@@ -25,9 +25,6 @@ const selection = createSlice({
       const { ids } = action.payload;
       return [...ids];
     },
-    fileSelectionCleared() {
-      return selectionInitialState;
-    },
     fileSelectionToggled(state, action) {
       const { id } = action.payload;
       const idx = state.indexOf(id);
@@ -39,8 +36,7 @@ const selection = createSlice({
   },
 });
 
-export const { filesSelectionChanged, fileSelectionCleared, fileSelectionToggled } =
-  selection.actions;
+export const { filesSelectionChanged, fileSelectionToggled } = selection.actions;
 
 export const selectAllSelectedFileIds = createSelector(
   [(state) => state.browser.selection],

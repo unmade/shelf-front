@@ -1,12 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
-import { selectAllSelectedFileIds } from '../../store/browser';
-
-import { FileShape } from '../../types';
+import {
+  fileSelectionToggled,
+  filesSelectionChanged,
+  selectAllSelectedFileIds,
+} from '../../store/browser';
 
 import { MediaType, ThumbnailSize } from '../../constants';
 
@@ -19,6 +20,7 @@ import FileLink from '../FileLink';
 import Thumbnail from '../Thumbnail';
 import FileInfoTabs from '../FileInfoTabs';
 
+import { useBrowserDataContext } from './BrowserDataProvider';
 import SidePreviewActions from './SidePreviewActions';
 
 function getFontSizeFromText(text) {
@@ -41,9 +43,25 @@ function countByTypeText(folderText, documentText, folderCount, documentCount) {
   return `${documentText}, ${folderText}`;
 }
 
-function SingleFilePreview({ file }) {
+function SingleFilePreview({ fileId }) {
   const { t } = useTranslation();
-  const fontSize = getFontSizeFromText(file.name);
+
+  const dispatch = useDispatch();
+
+  const { selectById } = useBrowserDataContext();
+  const file = useSelector((state) => selectById(state, fileId));
+
+  React.useEffect(() => {
+    if (file == null) {
+      dispatch(fileSelectionToggled({ id: fileId }));
+    }
+  }, [file, dispatch]);
+
+  if (file == null) {
+    return null;
+  }
+
+  const fontSize = getFontSizeFromText(file.name ?? '');
 
   return (
     <>
@@ -89,19 +107,29 @@ function SingleFilePreview({ file }) {
   );
 }
 
-SingleFilePreview.propTypes = {
-  file: FileShape.isRequired,
-};
-
-const SingleFilePreviewMemoized = React.memo(SingleFilePreview);
+SingleFilePreview.propTypes = {};
 
 const rotations = {
   0: 'rotate-6',
   1: '-rotate-6',
 };
 
-function MultiFilePreview({ files }) {
+function MultiFilePreview({ fileIds }) {
   const { t } = useTranslation();
+
+  const dispatch = useDispatch();
+
+  const { selectById } = useBrowserDataContext();
+  const files = useSelector(
+    (state) => fileIds.map((id) => selectById(state, id)).filter((file) => file != null),
+    shallowEqual
+  );
+
+  React.useEffect(() => {
+    if (fileIds.length !== files.length) {
+      dispatch(filesSelectionChanged({ ids: files.map((file) => file.id) }));
+    }
+  }, [fileIds, files]);
 
   const size = files.reduce((acc, item) => acc + item.size, 0);
   const previews = files.slice(-3);
@@ -191,41 +219,23 @@ function MultiFilePreview({ files }) {
   );
 }
 
-MultiFilePreview.propTypes = {
-  files: PropTypes.arrayOf(FileShape.isRequired).isRequired,
-};
+MultiFilePreview.propTypes = {};
 
-function SidePreview({ itemsMap }) {
+function SidePreview() {
   const selectedIds = useSelector(selectAllSelectedFileIds);
-
-  const files = React.useMemo(() => {
-    const entities = [];
-    selectedIds.forEach((id) => {
-      const entity = itemsMap[id];
-      if (entity != null) {
-        entities.push(entity);
-      }
-    });
-    return entities;
-  }, [selectedIds, itemsMap]);
+  const [fileId] = selectedIds;
 
   return (
     <div className="mr-4 mb-4 min-w-[24rem] rounded-lg border-4 border-transparent text-gray-800 dark:text-zinc-100">
-      {files.length === 1 ? (
-        <SingleFilePreviewMemoized file={files[0]} />
+      {fileId != null && selectedIds.size === 0 ? (
+        <SingleFilePreview fileId={fileId} />
       ) : (
-        <MultiFilePreview files={files} />
+        <MultiFilePreview fileIds={[...selectedIds]} />
       )}
     </div>
   );
 }
 
-SidePreview.propTypes = {
-  itemsMap: PropTypes.objectOf(FileShape),
-};
-
-SidePreview.defaultProps = {
-  itemsMap: {},
-};
+SidePreview.propTypes = {};
 
 export default SidePreview;
