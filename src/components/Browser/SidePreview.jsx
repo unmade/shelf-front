@@ -227,7 +227,7 @@ function SidePreview() {
 
   return (
     <div className="mr-4 mb-4 min-w-[24rem] rounded-lg border-4 border-transparent text-gray-800 dark:text-zinc-100">
-      {fileId != null && selectedIds.size === 0 ? (
+      {fileId != null && selectedIds.size === 1 ? (
         <SingleFilePreview fileId={fileId} />
       ) : (
         <MultiFilePreview fileIds={[...selectedIds]} />
