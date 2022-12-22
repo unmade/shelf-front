@@ -10,6 +10,7 @@ import * as hiOutline from '@heroicons/react/outline';
 import { MediaType } from './constants';
 
 import AppLogoIcon from './AppLogo';
+import FolderSolid from './FolderIcon';
 
 export const AppLogo = AppLogoIcon;
 export const ArrowLeft = hiSolid.ArrowLeftIcon;
@@ -45,7 +46,7 @@ export const FileCode = hiOutline.CodeIcon;
 export const FileImage = hiOutline.PhotographIcon;
 export const FileText = hiOutline.DocumentTextIcon;
 export const Filter = hiSolid.FilterIcon;
-export const Folder = hiSolid.FolderIcon;
+export const Folder = FolderSolid;
 export const Home = hiSolid.HomeIcon;
 export const HomeOutlined = hiOutline.HomeIcon;
 export const ICursor = hiOutline.PencilIcon;
