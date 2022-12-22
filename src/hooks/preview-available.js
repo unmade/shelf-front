@@ -1,14 +1,13 @@
 import { useSelector } from 'react-redux';
-import { useMediaQuery } from 'react-responsive';
 
 import { selectAllSelectedFileIds } from '../store/browser';
 
-import { MediaQuery } from '../constants';
+import { useIsLaptop } from './media-query';
 
 function useSidePreview() {
-  const isOnLaptop = useMediaQuery({ query: MediaQuery.lg });
+  const isLaptop = useIsLaptop();
   const hasSelection = useSelector((state) => selectAllSelectedFileIds(state).size !== 0);
-  return isOnLaptop && hasSelection;
+  return isLaptop && hasSelection;
 }
 
 export default useSidePreview;

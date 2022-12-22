@@ -1,11 +1,11 @@
 import React from 'react';
 
 import { useSelector } from 'react-redux';
-import { useMediaQuery } from 'react-responsive';
 
 import { selectIsUploading, selectVisibleUploadsLength } from '../../store/uploads';
 
-import { MediaQuery } from '../../constants';
+import { useIsLaptop } from '../../hooks/media-query';
+
 import * as icons from '../../icons';
 
 import Button from '../ui/Button';
@@ -84,9 +84,9 @@ function UploaderDialog() {
 UploaderDialog.propTypes = {};
 
 function Uploader() {
-  const laptop = useMediaQuery({ query: MediaQuery.lg });
+  const isLaptop = useIsLaptop();
 
-  if (laptop) {
+  if (isLaptop) {
     return <UploaderDropdown />;
   }
   return <UploaderDialog />;

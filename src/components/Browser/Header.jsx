@@ -6,6 +6,8 @@ import { useSelector } from 'react-redux';
 
 import { selectCurrentPath } from '../../store/browser';
 
+import { useIsLaptop } from '../../hooks/media-query';
+
 import * as icons from '../../icons';
 import * as routes from '../../routes';
 
@@ -57,7 +59,8 @@ function GoBack() {
   );
 }
 
-function Header({ isLaptop, actionButton: ActionButton }) {
+function Header({ actionButton: ActionButton }) {
+  const isLaptop = useIsLaptop();
   const currentFolderName = useCurrentFolderName();
   return (
     <>
@@ -87,10 +90,5 @@ function Header({ isLaptop, actionButton: ActionButton }) {
 export default Header;
 
 Header.propTypes = {
-  isLaptop: PropTypes.bool,
   actionButton: PropTypes.func.isRequired,
-};
-
-Header.defaultProps = {
-  isLaptop: false,
 };

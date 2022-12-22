@@ -2,11 +2,9 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { useDispatch } from 'react-redux';
-import { useMediaQuery } from 'react-responsive';
 
 import { fileBrowserPathChanged } from '../../store/browser';
 
-import { MediaQuery } from '../../constants';
 import { BreadcrumbShape } from '../../types';
 
 import BrowserDataProvider from './BrowserDataProvider';
@@ -27,7 +25,6 @@ function Browser({
 }) {
   const dispatch = useDispatch();
 
-  const isLaptop = useMediaQuery({ query: MediaQuery.lg });
   const path = dirPath ?? '.';
 
   useEffect(() => {
@@ -38,7 +35,7 @@ function Browser({
     <DataProvider>
       <BrowserDataProvider dataContext={dataContext}>
         <div className="flex h-full flex-col">
-          <BrowserHeader isLaptop={isLaptop} actionButton={actionButton} />
+          <BrowserHeader actionButton={actionButton} />
           <div className="flex h-full flex-row overflow-scroll pt-4">
             <TableView
               droppable={droppable}
@@ -47,7 +44,7 @@ function Browser({
               emptyDescription={emptyDescription}
             />
           </div>
-          <StatusBar breadcrumbs={breadcrumbs} dirPath={path} isLaptop={isLaptop} />
+          <StatusBar breadcrumbs={breadcrumbs} />
         </div>
       </BrowserDataProvider>
     </DataProvider>

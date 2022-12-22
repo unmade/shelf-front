@@ -8,6 +8,8 @@ import { selectAllSelectedFileIds } from '../../store/browser';
 import { scopes, selectCounterByScope } from '../../store/tasks';
 import { selectIsUploading, selectVisibleUploadsLength } from '../../store/uploads';
 
+import { useIsLaptop } from '../../hooks/media-query';
+
 import * as icons from '../../icons';
 import { BreadcrumbShape } from '../../types';
 
@@ -126,7 +128,9 @@ function BreadcrumbItemCollapsed({ name, url }) {
   );
 }
 
-function StatusBar({ breadcrumbs, isLaptop }) {
+function StatusBar({ breadcrumbs }) {
+  const isLaptop = useIsLaptop();
+
   return (
     <div className="bottom-0 flex w-full items-center justify-center border-t bg-gray-50 py-0.5 pl-6 pr-8 text-center text-xs text-gray-400 dark:border-zinc-700 dark:bg-zinc-700/30 dark:text-zinc-500 lg:justify-between">
       {isLaptop && (
@@ -148,9 +152,4 @@ export default StatusBar;
 
 StatusBar.propTypes = {
   breadcrumbs: PropTypes.arrayOf(BreadcrumbShape).isRequired,
-  isLaptop: PropTypes.bool,
-};
-
-StatusBar.defaultProps = {
-  isLaptop: false,
 };

@@ -1,13 +1,13 @@
 import React, { createContext } from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { useMediaQuery } from 'react-responsive';
 
 import { selectBookmarkedFileById, useListBookmarkedFilesQuery } from '../store/files';
 
-import * as icons from '../icons';
-import { MediaQuery } from '../constants';
+import { useIsLaptop } from '../hooks/media-query';
 import useResolvedPreviewSearchParam from '../hooks/resolved-preview-search-param';
+
+import * as icons from '../icons';
 
 import BrowserDataProvider from '../components/Browser/BrowserDataProvider';
 import TableView from '../components/Browser/TableView';
@@ -29,7 +29,7 @@ FilePreviewContainer.propTypes = {};
 
 function BookmarkHeader() {
   const { t } = useTranslation();
-  const isLaptop = useMediaQuery({ query: MediaQuery.lg });
+  const isLaptop = useIsLaptop();
 
   const title = t('Bookmarks');
 
