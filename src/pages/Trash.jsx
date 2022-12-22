@@ -48,6 +48,8 @@ function Trash() {
   let dirPath = useDirPath();
   dirPath = dirPath === '.' ? TRASH_FOLDER_NAME : routes.join(TRASH_FOLDER_NAME, dirPath);
 
+  const breadcrumbs = routes.breadcrumbs(dirPath);
+
   let emptyTitle;
   let emptyDescription;
   if (dirPath === TRASH_FOLDER_NAME) {
@@ -67,6 +69,7 @@ function Trash() {
           ) : (
             <Browser
               actionButton={EmptyTrashDialogButton}
+              breadcrumbs={breadcrumbs}
               dirPath={dirPath}
               emptyIcon={
                 <icons.Collection className="h-12 w-12 text-gray-400 dark:text-zinc-500" />

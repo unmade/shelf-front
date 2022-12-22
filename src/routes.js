@@ -1,3 +1,5 @@
+import i18n from './i18n';
+
 export const BOOKMARKS = {
   prefix: '/bookmarks',
   route: '/bookmarks/*',
@@ -86,4 +88,53 @@ export function parent(path) {
 
 export function isRoot(path) {
   return path === '.' || path.toLowerCase() === 'trash';
+}
+
+const breadcrumbsAliases = {
+  files: {
+    key: '.',
+    name: i18n.t('Home'),
+    url: FILES.prefix,
+    path: '.',
+  },
+  trash: {
+    key: 'trash',
+    name: i18n.t('Trash'),
+    url: TRASH.prefix,
+    path: 'trash',
+  },
+};
+
+i18n.on('languageChanged init', () => {
+  breadcrumbsAliases.files.name = i18n.t('Home');
+  breadcrumbsAliases.trash.name = i18n.t('Trash');
+});
+
+export function breadcrumbs(path) {
+  const items = [];
+
+  if (path.toLowerCase() === 'trash' || path.toLowerCase().startsWith('trash/')) {
+    items.push(breadcrumbsAliases.trash);
+  } else {
+    items.push(breadcrumbsAliases.files);
+  }
+
+  if (isRoot(path)) {
+    return items;
+  }
+
+  path
+    .split('/')
+    .slice(items[0].key === 'trash' ? 1 : 0)
+    .forEach((part, idx) => {
+      const itemPath = join(items[idx].path, part);
+      items.push({
+        key: itemPath,
+        name: part,
+        url: join(items[idx].url, encodePath(part)),
+        path: itemPath,
+      });
+    });
+
+  return items;
 }

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { useListFolderQuery } from '../store/files';
 
 import * as icons from '../icons';
+import * as routes from '../routes';
 
 import Breadcrumb from './ui/Breadcrumb';
 import VList from './ui/VList';
@@ -15,6 +16,44 @@ const HEIGHT = 24;
 const height = {
   height: `calc(100% - ${HEIGHT}px)`,
 };
+
+const iconsByPath = {
+  '.': icons.Home,
+  trash: icons.Trash,
+};
+
+function BreadcrumbItem({ name, path, activePath, onClick }) {
+  const Icon = iconsByPath[path];
+  return (
+    <Breadcrumb.Item active={path === activePath}>
+      <div className="flex max-w-2xs items-center truncate">
+        {Icon && (
+          <span className="py-2 sm:py-1">
+            <Icon className="mr-2 h-4 w-4 shrink-0 text-gray-300 dark:text-zinc-600" />
+          </span>
+        )}
+        <button className="min-w-0" type="button" onClick={onClick}>
+          <span className="block truncate">{name}</span>
+        </button>
+      </div>
+    </Breadcrumb.Item>
+  );
+}
+
+function BreadcrumbItemCollapsed({ name, onClick }) {
+  return (
+    <Breadcrumb.Item active={false}>
+      <div className="flex max-w-xs items-center">
+        <span className="py-2 sm:py-1">
+          <icons.Folder className="mr-2 h-5 w-5 shrink-0 text-blue-400" />
+        </span>
+        <button type="button" className="min-w-0" onClick={onClick}>
+          <span className="block truncate">{name}</span>
+        </button>
+      </div>
+    </Breadcrumb.Item>
+  );
+}
 
 const FolderPicker = ({ emptyTitle, emptyDescription, excludeIds, initialPath, onPathChange }) => {
   const [path, setPath] = React.useState(initialPath);
@@ -42,28 +81,25 @@ const FolderPicker = ({ emptyTitle, emptyDescription, excludeIds, initialPath, o
     onClick: (nextPath) => changePath(nextPath, onPathChange),
   };
 
+  const breadcrumbs = routes.breadcrumbs(path);
+
   return (
     <>
       <div className="pb-1">
         <Breadcrumb
-          path={path}
-          itemRender={({ name, url, path: nextPath }) => (
-            <Breadcrumb.Item
-              to={url}
-              onClick={changePath(nextPath, onPathChange)}
-              active={path === nextPath}
-            >
-              <span className="block truncate">{name}</span>
-            </Breadcrumb.Item>
+          items={breadcrumbs}
+          collapseAfter={1}
+          maxLastItems={1}
+          itemRenderer={({ name, path: itemPath }) => (
+            <BreadcrumbItem
+              name={name}
+              path={itemPath}
+              activePath={path}
+              onClick={changePath(itemPath, onPathChange)}
+            />
           )}
-          itemRenderCollapsed={({ name, url, path: nextPath }) => (
-            <Breadcrumb.ItemCollapsed
-              to={url}
-              onClick={changePath(nextPath, onPathChange)}
-              active={false}
-            >
-              <span className="block truncate">{name}</span>
-            </Breadcrumb.ItemCollapsed>
+          itemRendererCollapsed={({ name, path: itemPath }) => (
+            <BreadcrumbItemCollapsed name={name} onClick={changePath(itemPath, onPathChange)} />
           )}
         />
       </div>

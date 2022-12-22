@@ -6,7 +6,7 @@ import { Menu as UIMenu, Transition } from '@headlessui/react';
 
 function Menu({ buttonClassName, children, items, panelClassName, itemRender: Render }) {
   const { x, y, reference, floating, strategy } = useFloating({
-    placement: 'bottom-end',
+    placement: 'bottom-center',
     middleware: [offset(5), flip()],
   });
 

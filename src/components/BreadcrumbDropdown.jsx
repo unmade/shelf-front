@@ -8,8 +8,7 @@ import { Menu, Transition } from '@headlessui/react';
 import { selectCurrentPath } from '../store/browser';
 
 import * as icons from '../icons';
-
-import { breadcrumbs } from './ui/Breadcrumb';
+import * as routes from '../routes';
 
 import { useCreateFolderDialog } from './CreateFolderDialogProvider';
 
@@ -19,17 +18,9 @@ function BreadcrumbDropdown() {
   const openCreateFolderDialog = useCreateFolderDialog();
 
   const currentPath = useSelector(selectCurrentPath);
-  const crumbs = breadcrumbs(currentPath);
+  const crumbs = routes.breadcrumbs(currentPath);
 
-  let currentFolder;
-  let hasBreadcrumbs;
-  if (crumbs.length === 1) {
-    currentFolder = crumbs[crumbs.length - 1];
-    hasBreadcrumbs = false;
-  } else {
-    currentFolder = crumbs.pop();
-    hasBreadcrumbs = true;
-  }
+  const [currentFolder, ...rest] = crumbs.slice().reverse();
 
   return (
     <Menu as="div" className="relative min-w-0 flex-1 px-3">
@@ -48,21 +39,16 @@ function BreadcrumbDropdown() {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute right-0 z-10 mt-2 w-full max-w-xs origin-top-right overflow-auto rounded-xl bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-zinc-800 dark:text-zinc-100 sm:text-sm">
-          <div className={`${hasBreadcrumbs ? 'border-b' : 'hidden'} max-h-60 overflow-scroll`}>
-            {crumbs
-              .slice()
-              .reverse()
-              .map((item) => (
-                <Menu.Item key={item.url}>
-                  <NavLink to={item.url} className="flex items-center px-4 py-2 ">
-                    <icons.Folder className="h-5 w-5 shrink-0 text-blue-400" />
-                    <div className="ml-3 truncate">{item.name}</div>
-                  </NavLink>
-                </Menu.Item>
-              ))}
-          </div>
-          <Menu.Item>
+        <Menu.Items className="absolute right-0 z-10 mt-2 max-h-60 w-full max-w-xs origin-top-right overflow-auto rounded-xl bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-zinc-800 dark:text-zinc-100 sm:text-sm">
+          {rest.map((item) => (
+            <Menu.Item key={item.key}>
+              <NavLink to={item.url} className="flex items-center px-4 py-2 ">
+                <icons.Folder className="h-5 w-5 shrink-0 text-blue-400" />
+                <div className="ml-3 truncate">{item.name}</div>
+              </NavLink>
+            </Menu.Item>
+          ))}
+          <Menu.Item className="w-full border-t dark:border-zinc-700">
             <button
               type="button"
               title={t('button_create_folder_title')}

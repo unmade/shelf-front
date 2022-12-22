@@ -5,15 +5,15 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import { selectAllSelectedFileIds } from '../../store/browser';
-import { selectListFolderData } from '../../store/files';
 import { scopes, selectCounterByScope } from '../../store/tasks';
-
 import { selectIsUploading, selectVisibleUploadsLength } from '../../store/uploads';
 
-import { TRASH_FOLDER_NAME } from '../../constants';
 import * as icons from '../../icons';
+import { BreadcrumbShape } from '../../types';
 
 import Breadcrumb from '../ui/Breadcrumb';
+
+import { useBrowserDataContext } from './BrowserDataProvider';
 
 function BackgroundTask({ className }) {
   const { t } = useTranslation(['translation', 'uploads']);
@@ -69,10 +69,12 @@ BackgroundTask.defaultProps = {
   className: '',
 };
 
-function TotalFiles({ className, dirPath }) {
+function TotalFiles({ className }) {
   const { t } = useTranslation();
 
-  const totalCount = useSelector((state) => selectListFolderData(state, dirPath)?.ids.length ?? 0);
+  const { ids } = useBrowserDataContext();
+
+  const totalCount = ids?.length ?? 0;
   const selectionSize = useSelector((state) => selectAllSelectedFileIds(state).size);
   const text =
     selectionSize === 0
@@ -84,35 +86,59 @@ function TotalFiles({ className, dirPath }) {
 
 TotalFiles.propTypes = {
   className: PropTypes.string,
-  dirPath: PropTypes.string.isRequired,
 };
 
 TotalFiles.defaultProps = {
   className: '',
 };
 
-function StatusBar({ dirPath, isLaptop }) {
+const iconsByPath = {
+  '.': icons.Home,
+  trash: icons.Trash,
+};
+
+function BreadcrumbItem({ name, url, path }) {
+  const Icon = iconsByPath[path];
   return (
-    <div className="bottom-0 flex w-full items-center justify-center border-t bg-gray-50 py-1 pl-6 pr-8 text-center text-xs text-gray-400 dark:border-zinc-700 dark:bg-zinc-700/30 dark:text-zinc-500 lg:justify-between">
+    <Breadcrumb.Item to={url}>
+      <span className="flex max-w-2xs items-center truncate">
+        {Icon && (
+          <span className="py-2 sm:py-1">
+            <Icon className="mr-2 h-4 w-4 shrink-0 text-gray-300 dark:text-zinc-600" />
+          </span>
+        )}
+        <span className="block truncate">{name}</span>
+      </span>
+    </Breadcrumb.Item>
+  );
+}
+
+function BreadcrumbItemCollapsed({ name, url }) {
+  return (
+    <Breadcrumb.Item to={url}>
+      <span className="flex max-w-xs items-center">
+        <span className="py-2 sm:py-1">
+          <icons.Folder className="mr-2 h-5 w-5 shrink-0 text-blue-400" />
+        </span>
+        <span className="block truncate">{name}</span>
+      </span>
+    </Breadcrumb.Item>
+  );
+}
+
+function StatusBar({ breadcrumbs, isLaptop }) {
+  return (
+    <div className="bottom-0 flex w-full items-center justify-center border-t bg-gray-50 py-0.5 pl-6 pr-8 text-center text-xs text-gray-400 dark:border-zinc-700 dark:bg-zinc-700/30 dark:text-zinc-500 lg:justify-between">
       {isLaptop && (
         <Breadcrumb
-          path={dirPath}
-          itemRender={({ name, url }) => (
-            <Breadcrumb.Item to={url}>
-              <span className="block truncate">{name}</span>
-            </Breadcrumb.Item>
-          )}
-          itemRenderCollapsed={({ name, url }) => (
-            <Breadcrumb.ItemCollapsed to={url}>
-              <span className="block truncate">{name}</span>
-            </Breadcrumb.ItemCollapsed>
-          )}
-          withCreateFolder={dirPath !== TRASH_FOLDER_NAME}
+          items={breadcrumbs}
+          itemRenderer={BreadcrumbItem}
+          itemRendererCollapsed={BreadcrumbItemCollapsed}
         />
       )}
       <div className="flex">
         <BackgroundTask />
-        <TotalFiles className="ml-6" dirPath={dirPath} />
+        <TotalFiles className="ml-6" />
       </div>
     </div>
   );
@@ -121,11 +147,10 @@ function StatusBar({ dirPath, isLaptop }) {
 export default StatusBar;
 
 StatusBar.propTypes = {
-  dirPath: PropTypes.string,
+  breadcrumbs: PropTypes.arrayOf(BreadcrumbShape).isRequired,
   isLaptop: PropTypes.bool,
 };
 
 StatusBar.defaultProps = {
-  dirPath: '.',
   isLaptop: false,
 };

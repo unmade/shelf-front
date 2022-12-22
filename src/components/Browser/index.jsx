@@ -7,6 +7,7 @@ import { useMediaQuery } from 'react-responsive';
 import { fileBrowserPathChanged } from '../../store/browser';
 
 import { MediaQuery } from '../../constants';
+import { BreadcrumbShape } from '../../types';
 
 import BrowserDataProvider from './BrowserDataProvider';
 import BrowserHeader from './Header';
@@ -15,6 +16,7 @@ import StatusBar from './StatusBar';
 
 function Browser({
   actionButton,
+  breadcrumbs,
   dirPath,
   droppable,
   dataProvider: DataProvider,
@@ -33,22 +35,22 @@ function Browser({
   }, [path]);
 
   return (
-    <div className="flex h-full flex-col">
-      <BrowserHeader isLaptop={isLaptop} actionButton={actionButton} />
-      <div className="flex h-full flex-row overflow-scroll pt-4">
-        <DataProvider>
-          <BrowserDataProvider dataContext={dataContext}>
+    <DataProvider>
+      <BrowserDataProvider dataContext={dataContext}>
+        <div className="flex h-full flex-col">
+          <BrowserHeader isLaptop={isLaptop} actionButton={actionButton} />
+          <div className="flex h-full flex-row overflow-scroll pt-4">
             <TableView
               droppable={droppable}
               emptyIcon={emptyIcon}
               emptyTitle={emptyTitle}
               emptyDescription={emptyDescription}
             />
-          </BrowserDataProvider>
-        </DataProvider>
-      </div>
-      <StatusBar dirPath={path} isLaptop={isLaptop} />
-    </div>
+          </div>
+          <StatusBar breadcrumbs={breadcrumbs} dirPath={path} isLaptop={isLaptop} />
+        </div>
+      </BrowserDataProvider>
+    </DataProvider>
   );
 }
 
@@ -56,6 +58,7 @@ export default Browser;
 
 Browser.propTypes = {
   actionButton: PropTypes.func.isRequired,
+  breadcrumbs: PropTypes.arrayOf(BreadcrumbShape).isRequired,
   dirPath: PropTypes.string,
   droppable: PropTypes.bool,
   emptyIcon: PropTypes.element.isRequired,
