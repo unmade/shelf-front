@@ -2,9 +2,11 @@ import React from 'react';
 
 import { useTranslation } from 'react-i18next';
 
-import { TRASH_FOLDER_NAME } from '../constants';
 import useDirPath from '../hooks/dir-path';
+import { useIsLaptop } from '../hooks/media-query';
 import useResolvedPreviewSearchParam from '../hooks/resolved-preview-search-param';
+
+import { TRASH_FOLDER_NAME } from '../constants';
 import * as icons from '../icons';
 import * as routes from '../routes';
 
@@ -45,12 +47,15 @@ function EmptyTrashDialogButton() {
 function Trash() {
   const { t } = useTranslation();
 
-  const pathToPreview = useResolvedPreviewSearchParam();
-
   let dirPath = useDirPath();
   dirPath = dirPath === '.' ? TRASH_FOLDER_NAME : routes.join(TRASH_FOLDER_NAME, dirPath);
+  const pathToPreview = useResolvedPreviewSearchParam();
+  const isLaptop = useIsLaptop();
 
   const breadcrumbs = routes.breadcrumbs(dirPath);
+  if (!isLaptop) {
+    breadcrumbs.reverse();
+  }
 
   const title = routes.folderName(dirPath);
 
@@ -78,10 +83,7 @@ function Trash() {
                     <GoBackButton to={routes.parent(dirPath)} disabled={routes.isRoot(dirPath)} />
                   }
                 >
-                  <span className="hidden lg:block">{title}</span>
-                  <span className="lg:hidden">
-                    <BreadcrumbDropdown />
-                  </span>
+                  {isLaptop ? title : <BreadcrumbDropdown items={breadcrumbs} />}
                 </PageHeader.Title>
                 <PageHeader.Actions>
                   <EmptyTrashDialogButton />
