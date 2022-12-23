@@ -92,7 +92,7 @@ function Files() {
             </PageHeader.Title>
             <PageHeader.Actions>
               <SearchButton />
-              <Uploader />
+              <Uploader uploadTo={dirPath} />
             </PageHeader.Actions>
           </PageHeader>
 

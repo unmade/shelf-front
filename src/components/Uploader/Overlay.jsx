@@ -2,16 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
-
-import { selectCurrentPath } from '../../store/browser';
 
 import * as icons from '../../icons';
 
 import FileDrop from '../../containers/FileDrop';
-import UploadButton from '../../containers/Uploader/UploadButton';
 
 import RecentUploads from './RecentUploads';
+import UploadButton from './UploadButton';
 
 const dropzoneClass = [
   'p-4',
@@ -28,7 +25,7 @@ const dropzoneClass = [
   'duration-75',
 ].join(' ');
 
-function Dropzone({ dragging }) {
+function Dropzone({ dragging, uploadTo }) {
   const { t } = useTranslation(['translation', 'uploads']);
 
   let bg;
@@ -49,7 +46,9 @@ function Dropzone({ dragging }) {
       <div className="flex flex-col space-y-1 text-center text-sm font-semibold">
         <p className={textPrimary}>{t('uploads:dropzone.title')}</p>
         <p className={textSecondary}>{t('or')}</p>
-        <UploadButton icon={<icons.Upload />}>{t('uploads:uploadButton.title')}</UploadButton>
+        <UploadButton uploadTo={uploadTo} icon={<icons.Upload />}>
+          {t('uploads:uploadButton.title')}
+        </UploadButton>
       </div>
     </div>
   );
@@ -57,23 +56,28 @@ function Dropzone({ dragging }) {
 
 Dropzone.propTypes = {
   dragging: PropTypes.bool,
+  uploadTo: PropTypes.string.isRequired,
 };
 
 Dropzone.defaultProps = {
   dragging: false,
 };
 
-function Overlay() {
-  const currentPath = useSelector(selectCurrentPath);
-
+function Overlay({ uploadTo }) {
   return (
     <div className="w-96 rounded-2xl bg-white p-4 text-gray-700 shadow dark:bg-zinc-800 dark:text-gray-200 dark:shadow-zinc-900/70">
-      <FileDrop uploadTo={currentPath} className="w-full" render={Dropzone} />
+      <FileDrop
+        uploadTo={uploadTo}
+        className="w-full"
+        render={({ dragging }) => <Dropzone dragging={dragging} uploadTo={uploadTo} />}
+      />
       <RecentUploads />
     </div>
   );
 }
 
-Overlay.propTypes = {};
+Overlay.propTypes = {
+  uploadTo: PropTypes.string.isRequired,
+};
 
 export default Overlay;

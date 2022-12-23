@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { useSelector } from 'react-redux';
 
@@ -35,7 +36,7 @@ const DropdownButton = React.forwardRef(({ uploading }, ref) => (
 
 DropdownButton.propTypes = {};
 
-function UploaderDropdown() {
+function UploaderDropdown({ uploadTo }) {
   const [open, setOpen] = React.useState(false);
   const uploading = useSelector(selectIsUploading);
   const uploadCounter = useSelector((state) => selectVisibleUploadsLength(state, 'all'));
@@ -48,15 +49,17 @@ function UploaderDropdown() {
   }, [uploadCounter]);
 
   return (
-    <Dropdown overlay={Overlay} onOpenChange={setOpen}>
+    <Dropdown overlay={() => <Overlay uploadTo={uploadTo} />} onOpenChange={setOpen}>
       <DropdownButton uploading={uploading} ref={buttonRef} />
     </Dropdown>
   );
 }
 
-UploaderDropdown.propTypes = {};
+UploaderDropdown.propTypes = {
+  uploadTo: PropTypes.string.isRequired,
+};
 
-function UploaderDialog() {
+function UploaderDialog({ uploadTo }) {
   const [visible, setVisible] = React.useState(false);
 
   return (
@@ -72,6 +75,7 @@ function UploaderDialog() {
         }}
       />
       <UploadDialog
+        uploadTo={uploadTo}
         visible={visible}
         onCancel={() => {
           setVisible(false);
@@ -81,17 +85,21 @@ function UploaderDialog() {
   );
 }
 
-UploaderDialog.propTypes = {};
+UploaderDialog.propTypes = {
+  uploadTo: PropTypes.string.isRequired,
+};
 
-function Uploader() {
+function Uploader({ uploadTo }) {
   const isLaptop = useIsLaptop();
 
   if (isLaptop) {
-    return <UploaderDropdown />;
+    return <UploaderDropdown uploadTo={uploadTo} />;
   }
-  return <UploaderDialog />;
+  return <UploaderDialog uploadTo={uploadTo} />;
 }
 
-Uploader.propTypes = {};
+Uploader.propTypes = {
+  uploadTo: PropTypes.string.isRequired,
+};
 
 export default Uploader;

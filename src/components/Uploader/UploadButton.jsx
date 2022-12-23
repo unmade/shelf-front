@@ -1,55 +1,54 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
+
+import { useDispatch } from 'react-redux';
+
+import { fileEntriesAdded } from '../../store/uploads';
+
+import { Children } from '../../types';
 
 import Button from '../ui/Button';
 
-class UploadButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.inputRef = React.createRef(null);
+function UploadButton({ children, full, icon, uploadTo }) {
+  const dispatch = useDispatch();
 
-    this.setUploadFiles = this.setUploadFiles.bind(this);
-    this.openUpload = this.openUpload.bind(this);
-  }
+  const inputRef = useRef(null);
 
-  setUploadFiles(event) {
-    const { uploadTo, onUpload } = this.props;
-    const { files } = event.target;
-    onUpload({ files: [...files], uploadTo });
-    this.inputRef.current.value = '';
-  }
-
-  openUpload(event) {
+  const openUpload = (event) => {
     event.preventDefault();
-    this.inputRef.current.click();
-  }
+    inputRef.current.click();
+  };
 
-  render() {
-    const { children, icon, full } = this.props;
-    return (
-      <form>
-        <input
-          ref={this.inputRef}
-          type="file"
-          name="file"
-          className="hidden"
-          onChange={this.setUploadFiles}
-          multiple
-        />
-        <Button type="primary" size="sm" icon={icon} onClick={this.openUpload} full={full}>
-          {children}
-        </Button>
-      </form>
-    );
-  }
+  const setUploadFiles = (event) => {
+    const { files } = event.target;
+    dispatch(fileEntriesAdded({ files: [...files], uploadTo }));
+    inputRef.current.value = '';
+  };
+
+  return (
+    <form>
+      <input
+        ref={inputRef}
+        type="file"
+        name="file"
+        className="hidden"
+        onChange={setUploadFiles}
+        multiple
+      />
+      <Button type="primary" size="sm" icon={icon} onClick={openUpload} full={full}>
+        {children}
+      </Button>
+    </form>
+  );
 }
 
 export default UploadButton;
 
 UploadButton.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+  children: Children,
   full: PropTypes.bool,
   icon: PropTypes.element,
+  uploadTo: PropTypes.string.isRequired,
 };
 
 UploadButton.defaultProps = {

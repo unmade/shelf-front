@@ -5,13 +5,13 @@ import { useTranslation } from 'react-i18next';
 
 import * as icons from '../../icons';
 
-import UploadButton from '../../containers/Uploader/UploadButton';
+import UploadButton from './UploadButton';
 
 import Dialog from '../ui/Dialog';
 
 import RecentUploads from './RecentUploads';
 
-function UploadDialog({ visible, onCancel }) {
+function UploadDialog({ uploadTo, visible, onCancel }) {
   const { t } = useTranslation();
 
   return (
@@ -19,7 +19,11 @@ function UploadDialog({ visible, onCancel }) {
       title={t('Uploads')}
       icon={<icons.CloudUploadOutlined className="h-6 w-6" />}
       confirmTitle={t('Browse')}
-      confirmRender={() => <UploadButton full>{t('Browse')}</UploadButton>}
+      confirmRender={() => (
+        <UploadButton uploadTo={uploadTo} full>
+          {t('Browse')}
+        </UploadButton>
+      )}
       visible={visible}
       onCancel={onCancel}
     >
