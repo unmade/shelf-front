@@ -8,12 +8,10 @@ import { fileBrowserPathChanged } from '../../store/browser';
 import { BreadcrumbShape } from '../../types';
 
 import BrowserDataProvider from './BrowserDataProvider';
-import BrowserHeader from './Header';
-import TableView from './TableView';
 import StatusBar from './StatusBar';
+import TableView from './TableView';
 
 function Browser({
-  actionButton,
   breadcrumbs,
   dirPath,
   droppable,
@@ -35,7 +33,6 @@ function Browser({
     <DataProvider>
       <BrowserDataProvider dataContext={dataContext}>
         <div className="flex h-full flex-col">
-          <BrowserHeader actionButton={actionButton} />
           <div className="flex h-full flex-row overflow-scroll pt-4">
             <TableView
               droppable={droppable}
@@ -54,7 +51,6 @@ function Browser({
 export default Browser;
 
 Browser.propTypes = {
-  actionButton: PropTypes.func.isRequired,
   breadcrumbs: PropTypes.arrayOf(BreadcrumbShape).isRequired,
   dirPath: PropTypes.string,
   droppable: PropTypes.bool,

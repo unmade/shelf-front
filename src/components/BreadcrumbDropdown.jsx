@@ -12,23 +12,48 @@ import * as routes from '../routes';
 
 import { useCreateFolderDialog } from './CreateFolderDialogProvider';
 
-function BreadcrumbDropdown() {
+function CreateFolderDialogButton() {
   const { t } = useTranslation();
 
   const openCreateFolderDialog = useCreateFolderDialog();
 
+  return (
+    <button
+      type="button"
+      title={t('button_create_folder_title')}
+      className="w-full"
+      onClick={openCreateFolderDialog}
+    >
+      <div className="flex items-center justify-between px-4 py-2">
+        <div className="font-medium">{t('New Folder')}</div>
+        <icons.NewFolder className="h-5 w-5 shrink-0 text-gray-400 dark:text-zinc-500" />
+      </div>
+    </button>
+  );
+}
+
+CreateFolderDialogButton.propTypes = {};
+
+function BreadcrumbDropdown() {
   const currentPath = useSelector(selectCurrentPath);
   const crumbs = routes.breadcrumbs(currentPath);
 
   const [currentFolder, ...rest] = crumbs.slice().reverse();
 
+  const canCreateFolder = !currentPath.toLowerCase().startsWith('trash');
+  const CreateFolderDialogButtonItem = canCreateFolder ? (
+    <Menu.Item>
+      <CreateFolderDialogButton />
+    </Menu.Item>
+  ) : null;
+
   return (
-    <Menu as="div" className="relative min-w-0 flex-1 px-3">
+    <Menu as="div" className="relative min-w-1.5xs px-3">
       <Menu.Button className="mx-auto flex w-full items-center justify-center focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:w-auto sm:max-w-xs lg:max-w-md">
-        <h2 className="truncate text-xl font-medium text-gray-900 dark:text-zinc-100 sm:text-3xl">
-          {currentFolder.name}
-        </h2>
-        <icons.Selector className="ml-3 h-5 w-5 shrink-0 dark:text-zinc-100" />
+        <span className="max-w-2xs truncate sm:max-w-sm">{currentFolder.name}</span>
+        {canCreateFolder || rest.length ? (
+          <icons.Selector className="ml-3 h-5 w-5 shrink-0 dark:text-zinc-100" />
+        ) : null}
       </Menu.Button>
       <Transition
         as={React.Fragment}
@@ -48,19 +73,7 @@ function BreadcrumbDropdown() {
               </NavLink>
             </Menu.Item>
           ))}
-          <Menu.Item className="w-full border-t dark:border-zinc-700">
-            <button
-              type="button"
-              title={t('button_create_folder_title')}
-              className="w-full"
-              onClick={openCreateFolderDialog}
-            >
-              <div className="flex items-center justify-between px-4 py-2">
-                <div className="font-medium">{t('New Folder')}</div>
-                <icons.NewFolder className="h-5 w-5 shrink-0 text-gray-400 dark:text-zinc-500" />
-              </div>
-            </button>
-          </Menu.Item>
+          {CreateFolderDialogButtonItem}
         </Menu.Items>
       </Transition>
     </Menu>

@@ -7,6 +7,8 @@ export const BreadcrumbShape = PropTypes.shape({
   path: PropTypes.path,
 });
 
+export const Children = PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]);
+
 export const FileShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,

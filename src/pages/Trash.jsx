@@ -12,16 +12,18 @@ import FilePreviewContainer from '../containers/FilePreviewContainer';
 
 import Button from '../components/ui/Button';
 
+import BreadcrumbDropdown from '../components/BreadcrumbDropdown';
 import Browser from '../components/Browser';
 import EmptyTrashDialogProvider, {
   useEmptyTrashDialog,
 } from '../components/EmptyTrashDialogProvider';
 import DeleteImmediatelyDialogProvider from '../components/DeleteImmediatelyDialogProvider';
+import GoBackButton from '../components/GoBackButton';
 import MoveDialogProvider from '../components/MoveDialogProvider';
-
 import ListFolderDataProvider, {
   ListFolderDataContext,
 } from '../components/ListFolderDataProvider';
+import PageHeader from '../components/PageHeader';
 
 function EmptyTrashDialogButton() {
   const { t } = useTranslation();
@@ -50,6 +52,8 @@ function Trash() {
 
   const breadcrumbs = routes.breadcrumbs(dirPath);
 
+  const title = routes.folderName(dirPath);
+
   let emptyTitle;
   let emptyDescription;
   if (dirPath === TRASH_FOLDER_NAME) {
@@ -67,18 +71,36 @@ function Trash() {
           {pathToPreview ? (
             <FilePreviewContainer dirPath={dirPath} />
           ) : (
-            <Browser
-              actionButton={EmptyTrashDialogButton}
-              breadcrumbs={breadcrumbs}
-              dirPath={dirPath}
-              emptyIcon={
-                <icons.Collection className="h-12 w-12 text-gray-400 dark:text-zinc-500" />
-              }
-              emptyTitle={emptyTitle}
-              emptyDescription={emptyDescription}
-              dataProvider={ListFolderDataProvider}
-              dataContext={ListFolderDataContext}
-            />
+            <div className="flex h-full flex-col">
+              <PageHeader>
+                <PageHeader.Title
+                  icon={
+                    <GoBackButton to={routes.parent(dirPath)} disabled={routes.isRoot(dirPath)} />
+                  }
+                >
+                  <span className="hidden lg:block">{title}</span>
+                  <span className="lg:hidden">
+                    <BreadcrumbDropdown />
+                  </span>
+                </PageHeader.Title>
+                <PageHeader.Actions>
+                  <EmptyTrashDialogButton />
+                </PageHeader.Actions>
+              </PageHeader>
+
+              <Browser
+                actionButton={EmptyTrashDialogButton}
+                breadcrumbs={breadcrumbs}
+                dirPath={dirPath}
+                emptyIcon={
+                  <icons.Collection className="h-12 w-12 text-gray-400 dark:text-zinc-500" />
+                }
+                emptyTitle={emptyTitle}
+                emptyDescription={emptyDescription}
+                dataProvider={ListFolderDataProvider}
+                dataContext={ListFolderDataContext}
+              />
+            </div>
           )}
         </MoveDialogProvider>
       </DeleteImmediatelyDialogProvider>

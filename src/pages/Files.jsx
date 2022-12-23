@@ -3,6 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import useDirPath from '../hooks/dir-path';
+import { useIsLaptop } from '../hooks/media-query';
 import useResolvedPreviewSearchParam from '../hooks/resolved-preview-search-param';
 
 import * as icons from '../icons';
@@ -10,16 +11,20 @@ import * as routes from '../routes';
 
 import FilePreviewContainer from '../containers/FilePreviewContainer';
 
+import BreadcrumbDropdown from '../components/BreadcrumbDropdown';
 import Browser from '../components/Browser';
 import CreateFolderDialogProvider, {
   useCreateFolderDialog,
 } from '../components/CreateFolderDialogProvider';
 import DeleteDialogProvider from '../components/DeleteDialogProvider';
+import GoBackButton from '../components/GoBackButton';
 import ListFolderDataProvider, {
   ListFolderDataContext,
 } from '../components/ListFolderDataProvider';
 import MoveDialogProvider from '../components/MoveDialogProvider';
+import PageHeader from '../components/PageHeader';
 import RenameFileDialogProvider from '../components/RenameFileDialogProvider';
+import SearchButton from '../components/SearchButton';
 import Uploader from '../components/Uploader';
 
 function DialogsProvider({ children }) {
@@ -61,6 +66,7 @@ function Files() {
 
   const dirPath = useDirPath();
   const pathToPreview = useResolvedPreviewSearchParam();
+  const isLaptop = useIsLaptop();
 
   const breadcrumbs = routes.breadcrumbs(dirPath);
   breadcrumbs.push({
@@ -70,14 +76,27 @@ function Files() {
     path: null,
   });
 
+  const title = routes.folderName(dirPath);
+
   return (
     <DialogsProvider>
       {pathToPreview ? (
         <FilePreviewContainer dirPath={dirPath} />
       ) : (
         <div className="flex h-full flex-col">
+          <PageHeader>
+            <PageHeader.Title
+              icon={<GoBackButton to={routes.parent(dirPath)} disabled={routes.isRoot(dirPath)} />}
+            >
+              {isLaptop ? title : <BreadcrumbDropdown />}
+            </PageHeader.Title>
+            <PageHeader.Actions>
+              <SearchButton />
+              <Uploader />
+            </PageHeader.Actions>
+          </PageHeader>
+
           <Browser
-            actionButton={Uploader}
             breadcrumbs={breadcrumbs}
             dirPath={dirPath}
             droppable

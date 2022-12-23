@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 
 import { selectBookmarkedFileById, useListBookmarkedFilesQuery } from '../store/files';
 
-import { useIsLaptop } from '../hooks/media-query';
 import useResolvedPreviewSearchParam from '../hooks/resolved-preview-search-param';
 
 import * as icons from '../icons';
@@ -14,8 +13,8 @@ import TableView from '../components/Browser/TableView';
 import DeleteDialogProvider from '../components/DeleteDialogProvider';
 import FilePreview from '../components/FilePreview';
 import MoveDialogProvider from '../components/MoveDialogProvider';
+import PageHeader from '../components/PageHeader';
 import RenameFileDialogProvider from '../components/RenameFileDialogProvider';
-import SideBarModal from '../components/SideBarModal';
 
 function FilePreviewContainer() {
   const { ids, isFetching: loading } = useListBookmarkedFilesQuery(undefined, {
@@ -26,39 +25,6 @@ function FilePreviewContainer() {
 }
 
 FilePreviewContainer.propTypes = {};
-
-function BookmarkHeader() {
-  const { t } = useTranslation();
-  const isLaptop = useIsLaptop();
-
-  const title = t('Bookmarks');
-
-  return (
-    <div className="flex flex-row items-center justify-between px-6 py-7 sm:pl-5 sm:pr-8">
-      {!isLaptop ? (
-        <>
-          <SideBarModal />
-          <h2 className="ml-2 truncate text-xl font-medium text-gray-900 dark:text-zinc-100 sm:text-3xl">
-            {title}
-          </h2>
-        </>
-      ) : (
-        <div className="flex min-w-0 flex-1 items-center ">
-          <icons.BookmarkOutlined className="ml-2 h-7 w-7 text-gray-400 dark:text-zinc-500" />
-          <h2 className="ml-2 truncate text-xl font-medium text-gray-900 dark:text-zinc-100 sm:text-3xl">
-            {title}
-          </h2>
-        </div>
-      )}
-      <div className="flex items-center text-2xl sm:ml-6 sm:space-x-8">
-        {/* hack: this is to center text like on other pages */}
-        <div className="h-9 w-9">&nbsp;</div>
-      </div>
-    </div>
-  );
-}
-
-BookmarkHeader.propTypes = {};
 
 const BookmarksDataContext = createContext(null);
 
@@ -94,6 +60,8 @@ function BookmarkList() {
 BookmarkList.propTypes = {};
 
 function BookmarksContainer() {
+  const { t } = useTranslation();
+
   const pathToPreview = useResolvedPreviewSearchParam();
 
   if (pathToPreview) {
@@ -102,7 +70,16 @@ function BookmarksContainer() {
 
   return (
     <div className="flex h-full flex-col">
-      <BookmarkHeader />
+      <PageHeader title={t('Bookmarks')}>
+        <PageHeader.Title
+          icon={
+            <icons.BookmarkOutlined className="ml-2 h-7 w-7 text-gray-400 dark:text-zinc-500" />
+          }
+        >
+          {t('Bookmarks')}
+        </PageHeader.Title>
+        <PageHeader.Actions />
+      </PageHeader>
       <div className="flex h-full flex-row overflow-scroll pt-4">
         <BookmarkList />
       </div>
