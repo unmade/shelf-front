@@ -2,20 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 
 import * as icons from '../../icons';
 
 import { useCreateFolderMutation } from '../../store/files';
-import { selectCurrentPath } from '../../store/browser';
 
 import Dialog from '../ui/Dialog';
 import Input from '../ui/Input';
 
-function CreateFolderDialog({ visible, onClose }) {
+function CreateFolderDialog({ inPath, visible, onClose }) {
   const { t } = useTranslation();
-
-  const path = useSelector(selectCurrentPath);
 
   const [createFolder, { isLoading: loading }] = useCreateFolderMutation();
 
@@ -48,7 +44,7 @@ function CreateFolderDialog({ visible, onClose }) {
     if (folderName === null || folderName === '') {
       setError(t('Name cannot be empty.'));
     } else {
-      await createFolder({ name: folderName, inPath: path });
+      await createFolder({ name: folderName, inPath });
       closeDialog();
     }
   };
@@ -84,8 +80,13 @@ function CreateFolderDialog({ visible, onClose }) {
 }
 
 CreateFolderDialog.propTypes = {
+  inPath: PropTypes.string,
   visible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+};
+
+CreateFolderDialog.defaultProps = {
+  inPath: null,
 };
 
 export default CreateFolderDialog;

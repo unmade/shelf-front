@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -12,7 +13,7 @@ import * as routes from '../routes';
 
 import { useCreateFolderDialog } from './CreateFolderDialogProvider';
 
-function CreateFolderDialogButton() {
+function CreateFolderDialogButton({ inPath }) {
   const { t } = useTranslation();
 
   const openCreateFolderDialog = useCreateFolderDialog();
@@ -22,7 +23,7 @@ function CreateFolderDialogButton() {
       type="button"
       title={t('button_create_folder_title')}
       className="w-full"
-      onClick={openCreateFolderDialog}
+      onClick={() => openCreateFolderDialog(inPath)}
     >
       <div className="flex items-center justify-between px-4 py-2">
         <div className="font-medium">{t('New Folder')}</div>
@@ -32,7 +33,9 @@ function CreateFolderDialogButton() {
   );
 }
 
-CreateFolderDialogButton.propTypes = {};
+CreateFolderDialogButton.propTypes = {
+  inPath: PropTypes.string.isRequired,
+};
 
 function BreadcrumbDropdown() {
   const currentPath = useSelector(selectCurrentPath);
@@ -43,7 +46,7 @@ function BreadcrumbDropdown() {
   const canCreateFolder = !currentPath.toLowerCase().startsWith('trash');
   const CreateFolderDialogButtonItem = canCreateFolder ? (
     <Menu.Item>
-      <CreateFolderDialogButton />
+      <CreateFolderDialogButton inPath={currentPath} />
     </Menu.Item>
   ) : null;
 

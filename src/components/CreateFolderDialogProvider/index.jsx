@@ -5,19 +5,22 @@ import CreateFolderDialog from './CreateFolderDialog';
 export const CreateFolderDialogContext = createContext({ openDialog: () => {} });
 
 function CreateFolderDialogProvider({ children }) {
+  const [inPath, setInPath] = useState(null);
   const [visible, setVisible] = useState(false);
 
-  const openDialog = () => {
+  const openDialog = (path) => {
+    setInPath(path);
     setVisible(true);
   };
 
   const closeDialog = () => {
+    setInPath(null);
     setVisible(false);
   };
 
   return (
     <CreateFolderDialogContext.Provider value={{ openDialog }}>
-      <CreateFolderDialog visible={visible} onClose={closeDialog} />
+      <CreateFolderDialog inPath={inPath} visible={visible} onClose={closeDialog} />
       {children}
     </CreateFolderDialogContext.Provider>
   );

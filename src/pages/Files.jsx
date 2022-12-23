@@ -39,7 +39,7 @@ function DialogsProvider({ children }) {
   );
 }
 
-function CreateFolderDialogButton() {
+function CreateFolderDialogButton({ inPath }) {
   const { t } = useTranslation();
 
   const openCreateFolderDialog = useCreateFolderDialog();
@@ -49,7 +49,7 @@ function CreateFolderDialogButton() {
       type="button"
       title={t('button_create_folder_title')}
       className="group m-1 rounded-lg border border-gray-300 bg-white py-0.5 px-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-1 dark:border-zinc-600 dark:bg-zinc-700 dark:text-zinc-400 dark:hover:border-zinc-500 dark:hover:bg-zinc-600 dark:hover:text-zinc-200 dark:focus:ring-zinc-700 dark:focus:ring-offset-zinc-800"
-      onClick={openCreateFolderDialog}
+      onClick={() => openCreateFolderDialog(inPath)}
     >
       <span className="flex space-x-2">
         <icons.NewFolder className="h-4 w-4 text-gray-400 group-hover:text-blue-400 dark:group-hover:text-zinc-200" />
@@ -71,7 +71,7 @@ function Files() {
   const breadcrumbs = routes.breadcrumbs(dirPath);
   breadcrumbs.push({
     key: 'create-folder',
-    name: <CreateFolderDialogButton />,
+    name: <CreateFolderDialogButton inPath={dirPath} />,
     url: null,
     path: null,
   });
