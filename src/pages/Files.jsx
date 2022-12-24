@@ -9,6 +9,8 @@ import useResolvedPreviewSearchParam from '../hooks/resolved-preview-search-para
 import * as icons from '../icons';
 import * as routes from '../routes';
 
+import Empty from '../components/ui/Empty';
+
 import BreadcrumbDropdown from '../components/BreadcrumbDropdown';
 import CreateFolderDialogProvider, {
   useCreateFolderDialog,
@@ -75,9 +77,19 @@ function CreateFolderDialogButton({ inPath }) {
 
 CreateFolderDialogButton.propTypes = {};
 
-function Files() {
+function EmptyContainer() {
   const { t } = useTranslation();
 
+  const icon = <icons.Collection className="h-12 w-12 text-gray-400 dark:text-zinc-500" />;
+  const title = t('This folder is empty');
+  const description = t('Drag and drop files to upload');
+
+  return <Empty icon={icon} title={title} description={description} />;
+}
+
+EmptyContainer.propTypes = {};
+
+function Files() {
   const dirPath = useDirPath();
   const pathToPreview = useResolvedPreviewSearchParam();
   const isLaptop = useIsLaptop();
@@ -116,9 +128,7 @@ function Files() {
           <BrowserContainer
             path={dirPath}
             breadcrumbs={breadcrumbs}
-            emptyIcon={<icons.Collection className="h-12 w-12 text-gray-400 dark:text-zinc-500" />}
-            emptyTitle={t('This folder is empty')}
-            emptyDescription={t('Drag and drop files to upload')}
+            emptyView={<EmptyContainer />}
             droppable
           />
         </div>

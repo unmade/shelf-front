@@ -10,14 +10,7 @@ import { BreadcrumbShape } from '../types';
 
 import Browser from '../components/Browser';
 
-function BrowserContainer({
-  breadcrumbs,
-  droppable,
-  emptyDescription,
-  emptyIcon,
-  emptyTitle,
-  path,
-}) {
+function BrowserContainer({ breadcrumbs, emptyView, droppable, path }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -37,19 +30,15 @@ function BrowserContainer({
       selectById={selectById}
       breadcrumbs={breadcrumbs}
       droppable={droppable}
-      emptyIcon={emptyIcon}
-      emptyTitle={emptyTitle}
-      emptyDescription={emptyDescription}
+      emptyView={emptyView}
     />
   );
 }
 
 BrowserContainer.propTypes = {
   breadcrumbs: PropTypes.arrayOf(BreadcrumbShape).isRequired,
+  emptyView: PropTypes.element.isRequired,
   droppable: PropTypes.bool,
-  emptyDescription: PropTypes.string.isRequired,
-  emptyIcon: PropTypes.element.isRequired,
-  emptyTitle: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
 };
 

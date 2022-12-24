@@ -10,6 +10,7 @@ import useResolvedPreviewSearchParam from '../../hooks/resolved-preview-search-p
 import * as routes from '../../routes';
 
 import Button from '../../components/ui/Button';
+import Empty from '../../components/ui/Empty';
 import Listbox from '../../components/ui/Listbox';
 
 import DuplicateList from './DuplicateList';
@@ -123,9 +124,7 @@ function DuplicatesResult({ dirPath, onFolderChange }) {
           {duplicates?.length ? (
             <DuplicateList data={data} itemRenderer={DuplicateListItem} />
           ) : (
-            <div className="flex h-full items-center justify-center">
-              <p className="font-medium">{t('duplicates:emptyResult')}</p>
-            </div>
+            <Empty title={t('duplicates:emptyResult')} />
           )}
         </div>
       </div>

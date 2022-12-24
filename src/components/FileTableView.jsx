@@ -53,52 +53,26 @@ function TableHeader({ items }) {
   );
 }
 
-function FileTableView({
-  className,
-  emptyIcon,
-  emptyTitle,
-  emptyDescription,
-  items,
-  loading,
-  scrollKey,
-  itemRender,
-}) {
+function FileTableView({ className, items, loading, scrollKey, itemRender }) {
   const fileDropBorder = 'transition ease-in-out duration-75 rounded-lg';
   return (
     <div className="flex h-full flex-col">
       <TableHeader items={items} />
-      <div className="flex-1">
-        {items.length || loading ? (
-          <FileTableList
-            itemCount={items.length}
-            itemData={items}
-            itemRender={itemRender}
-            itemHeight={72}
-            className={`${fileDropBorder} ${className}`}
-            scrollKey={scrollKey}
-            loading={loading}
-          />
-        ) : (
-          <div
-            className={`flex h-full flex-col items-center justify-center ${fileDropBorder} ${className}`}
-          >
-            {emptyIcon}
-            <p className="mt-4 text-lg font-semibold text-gray-800 dark:text-zinc-200">
-              {emptyTitle}
-            </p>
-            <p className="text-sm text-gray-600 dark:text-zinc-400">{emptyDescription}</p>
-          </div>
-        )}
-      </div>
+      <FileTableList
+        itemCount={items.length}
+        itemData={items}
+        itemRender={itemRender}
+        itemHeight={72}
+        className={`${fileDropBorder} ${className}`}
+        scrollKey={scrollKey}
+        loading={loading}
+      />
     </div>
   );
 }
 
 FileTableView.propTypes = {
   className: PropTypes.string,
-  emptyIcon: PropTypes.element.isRequired,
-  emptyTitle: PropTypes.string.isRequired,
-  emptyDescription: PropTypes.string,
   items: PropTypes.arrayOf(PropTypes.string).isRequired,
   loading: PropTypes.bool,
   scrollKey: PropTypes.string.isRequired,
@@ -108,7 +82,6 @@ FileTableView.propTypes = {
 FileTableView.defaultProps = {
   className: '',
   loading: true,
-  emptyDescription: '',
 };
 
 export default FileTableView;

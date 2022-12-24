@@ -7,25 +7,15 @@ import BrowserDataProvider from './BrowserDataProvider';
 import StatusBar from './StatusBar';
 import TableView from './TableView';
 
-function Browser({
-  breadcrumbs,
-  droppable,
-  emptyIcon,
-  emptyTitle,
-  emptyDescription,
-  ids,
-  loading,
-  selectById,
-}) {
+function Browser({ breadcrumbs, droppable, emptyView, ids, loading, selectById }) {
+  if (ids?.length != null && ids?.length === 0 && !loading) {
+    return emptyView;
+  }
+
   return (
     <BrowserDataProvider ids={ids} loading={loading} selectById={selectById}>
       <div className="flex h-full flex-row overflow-scroll pt-4">
-        <TableView
-          droppable={droppable}
-          emptyIcon={emptyIcon}
-          emptyTitle={emptyTitle}
-          emptyDescription={emptyDescription}
-        />
+        <TableView droppable={droppable} />
       </div>
       <StatusBar breadcrumbs={breadcrumbs} />
     </BrowserDataProvider>
@@ -35,9 +25,7 @@ function Browser({
 Browser.propTypes = {
   breadcrumbs: PropTypes.arrayOf(BreadcrumbShape).isRequired,
   droppable: PropTypes.bool,
-  emptyIcon: PropTypes.element.isRequired,
-  emptyTitle: PropTypes.string.isRequired,
-  emptyDescription: PropTypes.string.isRequired,
+  emptyView: PropTypes.element.isRequired,
 };
 
 Browser.defaultProps = {

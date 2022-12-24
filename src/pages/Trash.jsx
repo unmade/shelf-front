@@ -11,6 +11,7 @@ import * as icons from '../icons';
 import * as routes from '../routes';
 
 import Button from '../components/ui/Button';
+import Empty from '../components/ui/Empty';
 
 import BreadcrumbDropdown from '../components/BreadcrumbDropdown';
 import EmptyTrashDialogProvider, {
@@ -41,9 +42,27 @@ function EmptyTrashDialogButton() {
   );
 }
 
-function Trash() {
+function EmptyContainer({ path }) {
   const { t } = useTranslation();
 
+  const icon = <icons.Collection className="h-12 w-12 text-gray-400 dark:text-zinc-500" />;
+
+  let title;
+  let description;
+  if (path === TRASH_FOLDER_NAME) {
+    title = t('Trash folder is empty');
+    description = t('Deleted file will appear here');
+  } else {
+    title = t('This folder is empty');
+    description = null;
+  }
+
+  return <Empty icon={icon} title={title} description={description} />;
+}
+
+EmptyContainer.propTypes = {};
+
+function Trash() {
   let dirPath = useDirPath();
   dirPath = dirPath === '.' ? TRASH_FOLDER_NAME : routes.join(TRASH_FOLDER_NAME, dirPath);
   const pathToPreview = useResolvedPreviewSearchParam();
@@ -55,16 +74,6 @@ function Trash() {
   }
 
   const title = routes.folderName(dirPath);
-
-  let emptyTitle;
-  let emptyDescription;
-  if (dirPath === TRASH_FOLDER_NAME) {
-    emptyTitle = t('Trash folder is empty');
-    emptyDescription = t('Deleted file will appear here');
-  } else {
-    emptyTitle = t('This folder is empty');
-    emptyDescription = '';
-  }
 
   return (
     <EmptyTrashDialogProvider>
@@ -90,11 +99,7 @@ function Trash() {
               <BrowserContainer
                 breadcrumbs={breadcrumbs}
                 path={dirPath}
-                emptyIcon={
-                  <icons.Collection className="h-12 w-12 text-gray-400 dark:text-zinc-500" />
-                }
-                emptyTitle={emptyTitle}
-                emptyDescription={emptyDescription}
+                emptyView={<EmptyContainer path={dirPath} />}
               />
             </div>
           )}

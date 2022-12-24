@@ -17,7 +17,7 @@ import FileTableView from '../FileTableView';
 import { useBrowserData } from './BrowserDataProvider';
 import SidePreview from './SidePreview';
 
-function FileTableViewContainer({ droppable, emptyIcon, emptyTitle, emptyDescription }) {
+function FileTableViewContainer({ droppable }) {
   const { pathname } = useLocation();
 
   const path = useSelector(selectCurrentPath);
@@ -29,9 +29,6 @@ function FileTableViewContainer({ droppable, emptyIcon, emptyTitle, emptyDescrip
       loading={loading}
       scrollKey={pathname}
       itemRender={FileTableCell}
-      emptyIcon={emptyIcon}
-      emptyTitle={emptyTitle}
-      emptyDescription={emptyDescription}
     />
   );
 
@@ -55,23 +52,15 @@ function FileTableViewContainer({ droppable, emptyIcon, emptyTitle, emptyDescrip
 
 FileTableViewContainer.propTypes = {
   droppable: PropTypes.bool.isRequired,
-  emptyIcon: PropTypes.element.isRequired,
-  emptyTitle: PropTypes.string.isRequired,
-  emptyDescription: PropTypes.string.isRequired,
 };
 
-function TableView({ droppable, emptyIcon, emptyTitle, emptyDescription }) {
+function TableView({ droppable }) {
   const withSidePreview = useSidePreview();
 
   return (
     <>
       <div className={`easy-in-out h-full duration-500 ${withSidePreview ? 'w-7/12' : 'w-full'}`}>
-        <FileTableViewContainer
-          droppable={droppable}
-          emptyIcon={emptyIcon}
-          emptyTitle={emptyTitle}
-          emptyDescription={emptyDescription}
-        />
+        <FileTableViewContainer droppable={droppable} />
       </div>
       <Transition
         className="w-5/12 overflow-scroll"
@@ -91,14 +80,10 @@ function TableView({ droppable, emptyIcon, emptyTitle, emptyDescription }) {
 
 TableView.propTypes = {
   droppable: PropTypes.bool,
-  emptyIcon: PropTypes.element.isRequired,
-  emptyTitle: PropTypes.string.isRequired,
-  emptyDescription: PropTypes.string,
 };
 
 TableView.defaultProps = {
   droppable: false,
-  emptyDescription: '',
 };
 
 export default TableView;

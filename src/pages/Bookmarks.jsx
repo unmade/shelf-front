@@ -8,6 +8,8 @@ import useResolvedPreviewSearchParam from '../hooks/resolved-preview-search-para
 
 import * as icons from '../icons';
 
+import Empty from '../components/ui/Empty';
+
 import Browser from '../components/Browser';
 import DeleteDialogProvider from '../components/DeleteDialogProvider';
 import FilePreview from '../components/FilePreview';
@@ -52,10 +54,14 @@ function BookmarksBrowserContainer() {
       loading={loading}
       selectById={selectBookmarkedFileById}
       breadcrumbs={breadcrumbs}
-      emptyIcon={
-        <icons.BookmarkAltOutlined className="h-12 w-12 text-gray-400 dark:text-zinc-500" />
+      emptyView={
+        <Empty
+          icon={
+            <icons.BookmarkAltOutlined className="h-12 w-12 text-gray-400 dark:text-zinc-500" />
+          }
+          title={t('Bookmarks will appear here')}
+        />
       }
-      emptyTitle={t('Bookmarks will appear here')}
     />
   );
 }
