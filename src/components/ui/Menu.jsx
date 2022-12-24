@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { useFloating, flip, offset } from '@floating-ui/react-dom';
 import { Menu as UIMenu, Transition } from '@headlessui/react';
 
-function Menu({ buttonClassName, children, items, panelClassName, itemRender: Render }) {
+function Menu({ buttonClassName, children, items, panelClassName, placement, itemRender: Render }) {
   const { x, y, reference, floating, strategy } = useFloating({
-    placement: 'bottom-center',
+    placement,
     middleware: [offset(5), flip()],
   });
 
@@ -62,12 +62,14 @@ Menu.propTypes = {
   children: PropTypes.element.isRequired,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   panelClassName: PropTypes.string,
+  placement: PropTypes.oneOf(['bottom-end', 'bottom-center']),
   itemRender: PropTypes.elementType.isRequired,
 };
 
 Menu.defaultProps = {
   buttonClassName: '',
   panelClassName: '',
+  placement: 'bottom-end',
 };
 
 export default Menu;
