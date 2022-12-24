@@ -9,23 +9,20 @@ import useResolvedPreviewSearchParam from '../hooks/resolved-preview-search-para
 import * as icons from '../icons';
 import * as routes from '../routes';
 
-import FilePreviewContainer from '../containers/FilePreviewContainer';
-
 import BreadcrumbDropdown from '../components/BreadcrumbDropdown';
-import Browser from '../components/Browser';
 import CreateFolderDialogProvider, {
   useCreateFolderDialog,
 } from '../components/CreateFolderDialogProvider';
 import DeleteDialogProvider from '../components/DeleteDialogProvider';
 import GoBackButton from '../components/GoBackButton';
-import ListFolderDataProvider, {
-  ListFolderDataContext,
-} from '../components/ListFolderDataProvider';
 import MoveDialogProvider from '../components/MoveDialogProvider';
 import PageHeader from '../components/PageHeader';
 import RenameFileDialogProvider from '../components/RenameFileDialogProvider';
 import SearchButton from '../components/SearchButton';
 import Uploader from '../components/Uploader';
+
+import BrowserContainer from '../containers/BrowserContainer';
+import FilePreviewContainer from '../containers/FilePreviewContainer';
 
 function DialogsProvider({ children }) {
   return (
@@ -116,15 +113,13 @@ function Files() {
             </PageHeader.Actions>
           </PageHeader>
 
-          <Browser
+          <BrowserContainer
+            path={dirPath}
             breadcrumbs={breadcrumbs}
-            dirPath={dirPath}
-            droppable
-            dataProvider={ListFolderDataProvider}
-            dataContext={ListFolderDataContext}
             emptyIcon={<icons.Collection className="h-12 w-12 text-gray-400 dark:text-zinc-500" />}
             emptyTitle={t('This folder is empty')}
             emptyDescription={t('Drag and drop files to upload')}
+            droppable
           />
         </div>
       )}

@@ -1,9 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-
-import { useDispatch } from 'react-redux';
-
-import { fileBrowserPathChanged } from '../../store/browser';
 
 import { BreadcrumbShape } from '../../types';
 
@@ -13,46 +9,31 @@ import TableView from './TableView';
 
 function Browser({
   breadcrumbs,
-  dirPath,
   droppable,
-  dataProvider: DataProvider,
-  dataContext,
   emptyIcon,
   emptyTitle,
   emptyDescription,
+  ids,
+  loading,
+  selectById,
 }) {
-  const dispatch = useDispatch();
-
-  const path = dirPath ?? '.';
-
-  useEffect(() => {
-    dispatch(fileBrowserPathChanged({ path }));
-  }, [path]);
-
   return (
-    <DataProvider>
-      <BrowserDataProvider dataContext={dataContext}>
-        <div className="flex h-full flex-col">
-          <div className="flex h-full flex-row overflow-scroll pt-4">
-            <TableView
-              droppable={droppable}
-              emptyIcon={emptyIcon}
-              emptyTitle={emptyTitle}
-              emptyDescription={emptyDescription}
-            />
-          </div>
-          <StatusBar breadcrumbs={breadcrumbs} />
-        </div>
-      </BrowserDataProvider>
-    </DataProvider>
+    <BrowserDataProvider ids={ids} loading={loading} selectById={selectById}>
+      <div className="flex h-full flex-row overflow-scroll pt-4">
+        <TableView
+          droppable={droppable}
+          emptyIcon={emptyIcon}
+          emptyTitle={emptyTitle}
+          emptyDescription={emptyDescription}
+        />
+      </div>
+      <StatusBar breadcrumbs={breadcrumbs} />
+    </BrowserDataProvider>
   );
 }
 
-export default Browser;
-
 Browser.propTypes = {
   breadcrumbs: PropTypes.arrayOf(BreadcrumbShape).isRequired,
-  dirPath: PropTypes.string,
   droppable: PropTypes.bool,
   emptyIcon: PropTypes.element.isRequired,
   emptyTitle: PropTypes.string.isRequired,
@@ -60,6 +41,7 @@ Browser.propTypes = {
 };
 
 Browser.defaultProps = {
-  dirPath: null,
   droppable: false,
 };
+
+export default Browser;

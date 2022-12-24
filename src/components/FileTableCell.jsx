@@ -20,7 +20,7 @@ import FileSize from './ui/FileSize';
 import TimeAgo from './ui/TimeAgo';
 
 import BookmarkButton from './BookmarkButton';
-import { useBrowserDataContext } from './Browser/BrowserDataProvider';
+import { useBrowserData } from './Browser/BrowserDataProvider';
 import FileLink from './FileLink';
 import FileTableCellActions from './FileTableCellActions';
 import Thumbnail from './Thumbnail';
@@ -147,7 +147,7 @@ function FileTableCellContainer({ data, index, style }) {
   const selected = useSelector((state) => selectAllSelectedFileIds(state).has(itemId));
   const hasSelection = useSelector((state) => selectAllSelectedFileIds(state).size !== 0);
 
-  const { selectById } = useBrowserDataContext();
+  const { selectById } = useBrowserData();
   const file = useSelector((state) => selectById(state, itemId));
   if (file == null) {
     return null;

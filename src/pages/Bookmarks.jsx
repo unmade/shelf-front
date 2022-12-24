@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+import React from 'react';
 
 import { useTranslation } from 'react-i18next';
 
@@ -8,8 +8,7 @@ import useResolvedPreviewSearchParam from '../hooks/resolved-preview-search-para
 
 import * as icons from '../icons';
 
-import BrowserDataProvider from '../components/Browser/BrowserDataProvider';
-import TableView from '../components/Browser/TableView';
+import Browser from '../components/Browser';
 import DeleteDialogProvider from '../components/DeleteDialogProvider';
 import FilePreview from '../components/FilePreview';
 import MoveDialogProvider from '../components/MoveDialogProvider';
@@ -26,40 +25,44 @@ function FilePreviewContainer() {
 
 FilePreviewContainer.propTypes = {};
 
-const BookmarksDataContext = createContext(null);
+function BookmarksBrowserContainer() {
+  const { t } = useTranslation();
 
-function BookmarksDataProvider({ children }) {
+  const breadcrumbs = [
+    {
+      key: 'bookmarks',
+      name: (
+        <span className="flex space-x-2 text-gray-500 dark:text-zinc-400">
+          <icons.Bookmark className="h-4 w-4 shrink-0 text-gray-300 dark:text-zinc-600" />
+          <p>{t('Bookmarks')}</p>
+        </span>
+      ),
+      url: null,
+      path: null,
+    },
+  ];
+
   const { ids, isFetching: loading } = useListBookmarkedFilesQuery(undefined, {
     selectFromResult: ({ data, isFetching }) => ({ ids: data?.ids, isFetching }),
   });
 
   return (
-    <BookmarksDataContext.Provider value={{ ids, loading, selectById: selectBookmarkedFileById }}>
-      {children}
-    </BookmarksDataContext.Provider>
+    <Browser
+      ids={ids}
+      loading={loading}
+      selectById={selectBookmarkedFileById}
+      breadcrumbs={breadcrumbs}
+      emptyIcon={
+        <icons.BookmarkAltOutlined className="h-12 w-12 text-gray-400 dark:text-zinc-500" />
+      }
+      emptyTitle={t('Bookmarks will appear here')}
+    />
   );
 }
 
-function BookmarkList() {
-  const { t } = useTranslation();
+BookmarksBrowserContainer.propTypes = {};
 
-  return (
-    <BookmarksDataProvider>
-      <BrowserDataProvider dataContext={BookmarksDataContext}>
-        <TableView
-          emptyIcon={
-            <icons.BookmarkAltOutlined className="h-12 w-12 text-gray-400 dark:text-zinc-500" />
-          }
-          emptyTitle={t('Bookmarks will appear here')}
-        />
-      </BrowserDataProvider>
-    </BookmarksDataProvider>
-  );
-}
-
-BookmarkList.propTypes = {};
-
-function BookmarksContainer() {
+function Bookmarks() {
   const { t } = useTranslation();
 
   const pathToPreview = useResolvedPreviewSearchParam();
@@ -69,32 +72,23 @@ function BookmarksContainer() {
   }
 
   return (
-    <div className="flex h-full flex-col">
-      <PageHeader title={t('Bookmarks')}>
-        <PageHeader.Title
-          icon={
-            <icons.BookmarkOutlined className="ml-2 h-7 w-7 text-gray-400 dark:text-zinc-500" />
-          }
-        >
-          {t('Bookmarks')}
-        </PageHeader.Title>
-        <PageHeader.Actions />
-      </PageHeader>
-      <div className="flex h-full flex-row overflow-scroll pt-4">
-        <BookmarkList />
-      </div>
-    </div>
-  );
-}
-
-BookmarksContainer.propTypes = {};
-
-function Bookmarks() {
-  return (
     <DeleteDialogProvider>
       <MoveDialogProvider>
         <RenameFileDialogProvider>
-          <BookmarksContainer />
+          <div className="flex h-full flex-col">
+            <PageHeader title={t('Bookmarks')}>
+              <PageHeader.Title
+                icon={
+                  <icons.BookmarkOutlined className="ml-2 h-7 w-7 text-gray-400 dark:text-zinc-500" />
+                }
+              >
+                {t('Bookmarks')}
+              </PageHeader.Title>
+              <PageHeader.Actions />
+            </PageHeader>
+
+            <BookmarksBrowserContainer />
+          </div>
         </RenameFileDialogProvider>
       </MoveDialogProvider>
     </DeleteDialogProvider>

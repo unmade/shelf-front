@@ -20,7 +20,7 @@ import FileLink from '../FileLink';
 import Thumbnail from '../Thumbnail';
 import FileInfoTabs from '../FileInfoTabs';
 
-import { useBrowserDataContext } from './BrowserDataProvider';
+import { useBrowserData } from './BrowserDataProvider';
 import SidePreviewActions from './SidePreviewActions';
 
 function getFontSizeFromText(text) {
@@ -48,7 +48,7 @@ function SingleFilePreview({ fileId }) {
 
   const dispatch = useDispatch();
 
-  const { selectById } = useBrowserDataContext();
+  const { selectById } = useBrowserData();
   const file = useSelector((state) => selectById(state, fileId));
 
   React.useEffect(() => {
@@ -119,7 +119,7 @@ function MultiFilePreview({ fileIds }) {
 
   const dispatch = useDispatch();
 
-  const { selectById } = useBrowserDataContext();
+  const { selectById } = useBrowserData();
   const files = useSelector(
     (state) => fileIds.map((id) => selectById(state, id)).filter((file) => file != null),
     shallowEqual

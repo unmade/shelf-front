@@ -10,22 +10,19 @@ import { TRASH_FOLDER_NAME } from '../constants';
 import * as icons from '../icons';
 import * as routes from '../routes';
 
-import FilePreviewContainer from '../containers/FilePreviewContainer';
-
 import Button from '../components/ui/Button';
 
 import BreadcrumbDropdown from '../components/BreadcrumbDropdown';
-import Browser from '../components/Browser';
 import EmptyTrashDialogProvider, {
   useEmptyTrashDialog,
 } from '../components/EmptyTrashDialogProvider';
 import DeleteImmediatelyDialogProvider from '../components/DeleteImmediatelyDialogProvider';
 import GoBackButton from '../components/GoBackButton';
 import MoveDialogProvider from '../components/MoveDialogProvider';
-import ListFolderDataProvider, {
-  ListFolderDataContext,
-} from '../components/ListFolderDataProvider';
 import PageHeader from '../components/PageHeader';
+
+import BrowserContainer from '../containers/BrowserContainer';
+import FilePreviewContainer from '../containers/FilePreviewContainer';
 
 function EmptyTrashDialogButton() {
   const { t } = useTranslation();
@@ -90,17 +87,14 @@ function Trash() {
                 </PageHeader.Actions>
               </PageHeader>
 
-              <Browser
-                actionButton={EmptyTrashDialogButton}
+              <BrowserContainer
                 breadcrumbs={breadcrumbs}
-                dirPath={dirPath}
+                path={dirPath}
                 emptyIcon={
                   <icons.Collection className="h-12 w-12 text-gray-400 dark:text-zinc-500" />
                 }
                 emptyTitle={emptyTitle}
                 emptyDescription={emptyDescription}
-                dataProvider={ListFolderDataProvider}
-                dataContext={ListFolderDataContext}
               />
             </div>
           )}

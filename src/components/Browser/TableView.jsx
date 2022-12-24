@@ -14,14 +14,14 @@ import FileDrop from '../../containers/FileDrop';
 import FileTableCell from '../FileTableCell';
 import FileTableView from '../FileTableView';
 
-import { useBrowserDataContext } from './BrowserDataProvider';
+import { useBrowserData } from './BrowserDataProvider';
 import SidePreview from './SidePreview';
 
 function FileTableViewContainer({ droppable, emptyIcon, emptyTitle, emptyDescription }) {
   const { pathname } = useLocation();
 
   const path = useSelector(selectCurrentPath);
-  const { ids, loading } = useBrowserDataContext();
+  const { ids, loading } = useBrowserData();
 
   const fileTableView = (
     <FileTableView
