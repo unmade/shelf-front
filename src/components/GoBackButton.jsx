@@ -30,8 +30,12 @@ function GoBackButton({ to, disabled }) {
 }
 
 GoBackButton.propTypes = {
-  to: PropTypes.string.isRequired,
+  to: PropTypes.string,
   disabled: PropTypes.bool.isRequired,
+};
+
+GoBackButton.defaultProps = {
+  to: null,
 };
 
 export default GoBackButton;

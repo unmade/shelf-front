@@ -79,6 +79,9 @@ export function folderName(path) {
 }
 
 export function parent(path) {
+  if (path === '.') {
+    return null;
+  }
   const end = path.lastIndexOf('/');
   if (end < 0) {
     return '.';
