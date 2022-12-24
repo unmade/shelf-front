@@ -17,7 +17,7 @@ function BrowserContainer({ breadcrumbs, emptyView, path }) {
   return (
     <Browser
       ids={ids}
-      loading={loading}
+      loading={loading && ids == null}
       selectById={selectById}
       breadcrumbs={breadcrumbs}
       emptyView={emptyView}
