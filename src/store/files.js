@@ -147,6 +147,7 @@ const filesApi = apiSlice.injectEndpoints({
           ? { data: filesAdapter.setAll(initialState, result.data.items) }
           : { error: result.error };
       },
+      providesTags: () => [{ type: 'Files', id: 'listBookmarkedFiles' }],
     }),
     listFolder: builder.query({
       query: (path) => ({

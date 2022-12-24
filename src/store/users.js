@@ -1,6 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 import apiSlice from './apiSlice';
+import { filesAdapter } from './files';
 
 export const usersApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -22,6 +23,7 @@ export const usersApi = apiSlice.injectEndpoints({
           patchResult.undo();
         }
       },
+      invalidatesTags: () => [{ type: 'Files', id: 'listBookmarkedFiles' }],
     }),
     listBookmarks: builder.query({
       query: () => '/users/bookmarks/list',
@@ -39,10 +41,16 @@ export const usersApi = apiSlice.injectEndpoints({
             draft.filter((id) => id !== fileId)
           )
         );
+        const patchResult2 = dispatch(
+          apiSlice.util.updateQueryData('listBookmarkedFiles', undefined, (draft) =>
+            filesAdapter.removeOne(draft, fileId)
+          )
+        );
         try {
           await queryFulfilled;
         } catch {
           patchResult.undo();
+          patchResult2.undo();
         }
       },
     }),
