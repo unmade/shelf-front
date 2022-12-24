@@ -1,20 +1,5 @@
 import { combineReducers, createSelector, createSlice } from '@reduxjs/toolkit';
 
-const currentPath = createSlice({
-  name: 'currentPath',
-  initialState: '.',
-  reducers: {
-    fileBrowserPathChanged(_state, action) {
-      const { path } = action.payload;
-      return path;
-    },
-  },
-});
-
-export const { fileBrowserPathChanged } = currentPath.actions;
-
-export const selectCurrentPath = (state) => state.browser.currentPath;
-
 const selectionInitialState = [];
 
 const selection = createSlice({
@@ -61,7 +46,6 @@ export const { scrollOffsetChanged: fileBrowserScrollOffsetChanged } = scrollOff
 export const selectScrollOffset = (state, key) => state.browser.scrollOffset[key] ?? 0;
 
 export default combineReducers({
-  [currentPath.name]: currentPath.reducer,
   [selection.name]: selection.reducer,
   [scrollOffset.name]: scrollOffset.reducer,
 });

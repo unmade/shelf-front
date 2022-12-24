@@ -58,15 +58,17 @@ function FileTableView({ className, items, loading, scrollKey, itemRender }) {
   return (
     <div className="flex h-full flex-col">
       <TableHeader items={items} />
-      <FileTableList
-        itemCount={items.length}
-        itemData={items}
-        itemRender={itemRender}
-        itemHeight={72}
-        className={`${fileDropBorder} ${className}`}
-        scrollKey={scrollKey}
-        loading={loading}
-      />
+      <div className="h-full">
+        <FileTableList
+          itemCount={items.length}
+          itemData={items}
+          itemRender={itemRender}
+          itemHeight={72}
+          className={`${fileDropBorder} ${className}`}
+          scrollKey={scrollKey}
+          loading={loading}
+        />
+      </div>
     </div>
   );
 }

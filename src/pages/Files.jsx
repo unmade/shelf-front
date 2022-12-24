@@ -24,6 +24,7 @@ import SearchButton from '../components/SearchButton';
 import Uploader from '../components/Uploader';
 
 import BrowserContainer from '../containers/BrowserContainer';
+import FileDrop from '../containers/FileDrop';
 import FilePreviewContainer from '../containers/FilePreviewContainer';
 
 function DialogsProvider({ children }) {
@@ -107,6 +108,10 @@ function Files() {
 
   const title = routes.folderName(dirPath);
 
+  const browser = (
+    <BrowserContainer path={dirPath} breadcrumbs={breadcrumbs} emptyView={<EmptyContainer />} />
+  );
+
   return (
     <DialogsProvider>
       {pathToPreview ? (
@@ -125,11 +130,21 @@ function Files() {
             </PageHeader.Actions>
           </PageHeader>
 
-          <BrowserContainer
-            path={dirPath}
-            breadcrumbs={breadcrumbs}
-            emptyView={<EmptyContainer />}
-            droppable
+          <FileDrop
+            className="h-full"
+            uploadTo={dirPath}
+            render={({ dragging }) => (
+              <div className="relative flex h-full w-full flex-col">
+                <div
+                  className={`${
+                    dragging ? 'block' : 'hidden'
+                  } absolute z-10 h-full w-full px-2 pb-10`}
+                >
+                  <div className="h-full w-full rounded-2xl border-4 border-dashed border-teal-200 dark:border-teal-600" />
+                </div>
+                {browser}
+              </div>
+            )}
           />
         </div>
       )}

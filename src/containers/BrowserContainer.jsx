@@ -1,22 +1,13 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import { useDispatch } from 'react-redux';
-
-import { fileBrowserPathChanged } from '../store/browser';
 import { selectFileByIdInPath, useListFolderQuery } from '../store/files';
 
 import { BreadcrumbShape } from '../types';
 
 import Browser from '../components/Browser';
 
-function BrowserContainer({ breadcrumbs, emptyView, droppable, path }) {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fileBrowserPathChanged({ path }));
-  }, [path]);
-
+function BrowserContainer({ breadcrumbs, emptyView, path }) {
   const { ids, isFetching: loading } = useListFolderQuery(path, {
     selectFromResult: ({ data, isFetching }) => ({ ids: data?.ids, isFetching }),
   });
@@ -29,7 +20,6 @@ function BrowserContainer({ breadcrumbs, emptyView, droppable, path }) {
       loading={loading}
       selectById={selectById}
       breadcrumbs={breadcrumbs}
-      droppable={droppable}
       emptyView={emptyView}
     />
   );
@@ -38,12 +28,7 @@ function BrowserContainer({ breadcrumbs, emptyView, droppable, path }) {
 BrowserContainer.propTypes = {
   breadcrumbs: PropTypes.arrayOf(BreadcrumbShape).isRequired,
   emptyView: PropTypes.element.isRequired,
-  droppable: PropTypes.bool,
   path: PropTypes.string.isRequired,
-};
-
-BrowserContainer.defaultProps = {
-  droppable: false,
 };
 
 export default BrowserContainer;

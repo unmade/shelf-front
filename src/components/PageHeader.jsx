@@ -58,7 +58,7 @@ Actions.defaultProps = {
 
 function PageHeader({ children }) {
   return (
-    <div className="flex flex-row items-center justify-between px-6 py-7 sm:pl-5 sm:pr-8">
+    <div className="mb-4 flex flex-row items-center justify-between px-6 py-7 sm:pl-5 sm:pr-8">
       {children}
     </div>
   );

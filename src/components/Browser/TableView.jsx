@@ -1,15 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { Transition } from '@headlessui/react';
-import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
-import { selectCurrentPath } from '../../store/browser';
-
 import useSidePreview from '../../hooks/preview-available';
-
-import FileDrop from '../../containers/FileDrop';
 
 import FileTableCell from '../FileTableCell';
 import FileTableView from '../FileTableView';
@@ -17,13 +11,12 @@ import FileTableView from '../FileTableView';
 import { useBrowserData } from './BrowserDataProvider';
 import SidePreview from './SidePreview';
 
-function FileTableViewContainer({ droppable }) {
+function FileTableViewContainer() {
   const { pathname } = useLocation();
 
-  const path = useSelector(selectCurrentPath);
   const { ids, loading } = useBrowserData();
 
-  const fileTableView = (
+  return (
     <FileTableView
       items={ids ?? []}
       loading={loading}
@@ -31,36 +24,17 @@ function FileTableViewContainer({ droppable }) {
       itemRender={FileTableCell}
     />
   );
-
-  return droppable ? (
-    <FileDrop
-      className="h-full"
-      uploadTo={path}
-      render={({ dragging }) => (
-        <div className="relative h-full w-full">
-          <div className={`${dragging ? 'block' : 'hidden'} absolute z-10 h-full w-full px-2 pb-2`}>
-            <div className="h-full w-full rounded-2xl border-4 border-dashed border-teal-200 dark:border-teal-600" />
-          </div>
-          {fileTableView}
-        </div>
-      )}
-    />
-  ) : (
-    fileTableView
-  );
 }
 
-FileTableViewContainer.propTypes = {
-  droppable: PropTypes.bool.isRequired,
-};
+FileTableViewContainer.propTypes = {};
 
-function TableView({ droppable }) {
+function TableView() {
   const withSidePreview = useSidePreview();
 
   return (
-    <>
+    <div className="flex h-full flex-row">
       <div className={`easy-in-out h-full duration-500 ${withSidePreview ? 'w-7/12' : 'w-full'}`}>
-        <FileTableViewContainer droppable={droppable} />
+        <FileTableViewContainer />
       </div>
       <Transition
         className="w-5/12 overflow-scroll"
@@ -74,16 +48,10 @@ function TableView({ droppable }) {
       >
         <SidePreview />
       </Transition>
-    </>
+    </div>
   );
 }
 
-TableView.propTypes = {
-  droppable: PropTypes.bool,
-};
-
-TableView.defaultProps = {
-  droppable: false,
-};
+TableView.propTypes = {};
 
 export default TableView;
