@@ -25,7 +25,7 @@ const dropzoneClass = [
   'duration-75',
 ].join(' ');
 
-function Dropzone({ dragging, uploadTo }) {
+function Dropzone({ innerRef, dragging, uploadTo }) {
   const { t } = useTranslation(['translation', 'uploads']);
 
   let bg;
@@ -41,7 +41,7 @@ function Dropzone({ dragging, uploadTo }) {
     textSecondary = 'text-gray-400 dark:text-zinc-500';
   }
   return (
-    <div className={`${dropzoneClass} ${bg}`}>
+    <div ref={innerRef} className={`${dropzoneClass} ${bg}`}>
       <icons.CloudUploadOutlined className={`h-12 w-12 ${textSecondary}`} />
       <div className="flex flex-col space-y-1 text-center text-sm font-semibold">
         <p className={textPrimary}>{t('uploads:dropzone.title')}</p>
@@ -69,7 +69,9 @@ function Overlay({ uploadTo }) {
       <FileDrop
         uploadTo={uploadTo}
         className="w-full"
-        render={({ dragging }) => <Dropzone dragging={dragging} uploadTo={uploadTo} />}
+        render={({ innerRef, dragging }) => (
+          <Dropzone innerRef={innerRef} dragging={dragging} uploadTo={uploadTo} />
+        )}
       />
       <RecentUploads />
     </div>

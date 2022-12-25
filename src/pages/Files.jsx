@@ -133,9 +133,10 @@ function Files() {
           <FileDrop
             className="h-full"
             uploadTo={dirPath}
-            render={({ dragging }) => (
+            render={({ innerRef, dragging }) => (
               <div className="relative flex h-full w-full flex-col">
                 <div
+                  ref={innerRef}
                   className={`${
                     dragging ? 'block' : 'hidden'
                   } absolute z-10 h-full w-full px-2 pb-10`}

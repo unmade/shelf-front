@@ -1,32 +1,38 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import PropType from 'prop-types';
 
 import getFileEntries from '../../filereader';
 
 function Dropzone({ className, render: View, uploadTo, onDrop }) {
-  const [dragging, setDragging] = React.useState(false);
+  const [dragging, setDragging] = useState(false);
+
+  const dropRef = useRef(null);
 
   const handleDragOver = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    setDragging(true);
+    if (event.target !== dropRef.current) {
+      setDragging(true);
+    }
   };
 
   const handleDragLeave = (event) => {
     event.preventDefault();
-    setDragging(false);
+    event.stopPropagation();
+    if (dropRef.current?.contains(event.target)) {
+      setDragging(false);
+    }
   };
 
-  const handleDrop = (event) => {
+  const handleDrop = async (event) => {
     event.preventDefault();
     setDragging(false);
 
     const { items } = event.dataTransfer;
-    getFileEntries(items).then((files) => {
-      if (onDrop) {
-        onDrop({ files, uploadTo });
-      }
-    });
+    const files = await getFileEntries(items);
+    if (onDrop) {
+      onDrop({ files, uploadTo });
+    }
   };
 
   return (
@@ -36,7 +42,7 @@ function Dropzone({ className, render: View, uploadTo, onDrop }) {
       onDrop={handleDrop}
       className={className}
     >
-      <View dragging={dragging} />
+      <View innerRef={dropRef} dragging={dragging} />
     </div>
   );
 }
