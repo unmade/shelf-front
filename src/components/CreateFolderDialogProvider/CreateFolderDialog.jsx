@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
+import { useNavigate, resolvePath } from 'react-router-dom';
 
 import * as icons from '../../icons';
+import * as routes from '../../routes';
 
 import { useCreateFolderMutation } from '../../store/files';
 
@@ -13,26 +15,28 @@ import Input from '../ui/Input';
 function CreateFolderDialog({ inPath, visible, onClose }) {
   const { t } = useTranslation();
 
+  const navigate = useNavigate();
+
   const [createFolder, { isLoading: loading }] = useCreateFolderMutation();
 
-  const [error, setError] = React.useState(null);
+  const [errorMessage, setErrorMessage] = React.useState(null);
   const [folderName, setFolderName] = React.useState(null);
 
   React.useEffect(() => {
     if (!visible) {
-      if (error !== null && error !== undefined) {
-        setError(null);
+      if (errorMessage != null) {
+        setErrorMessage(null);
       }
-      if (folderName !== null && folderName !== undefined) {
+      if (folderName != null) {
         setFolderName(null);
       }
     }
-  }, [visible, error, folderName, setError, setFolderName]);
+  }, [visible, errorMessage, folderName, setErrorMessage, setFolderName]);
 
   const onNameChange = (event) => {
     setFolderName(event.target.value);
-    if (error !== null && error !== undefined) {
-      setError(null);
+    if (errorMessage != null) {
+      setErrorMessage(null);
     }
   };
 
@@ -42,10 +46,13 @@ function CreateFolderDialog({ inPath, visible, onClose }) {
 
   const onConfirm = async () => {
     if (folderName === null || folderName === '') {
-      setError(t('Name cannot be empty.'));
+      setErrorMessage(t('Name cannot be empty.'));
     } else {
-      await createFolder({ name: folderName, inPath });
+      const { data, error } = await createFolder({ name: folderName, inPath });
       closeDialog();
+      if (error == null) {
+        navigate(resolvePath(data.path, routes.FILES.prefix));
+      }
     }
   };
 
@@ -71,7 +78,7 @@ function CreateFolderDialog({ inPath, visible, onClose }) {
           label={t('Name')}
           placeholder={t('Folder name')}
           size="sm"
-          error={error}
+          error={errorMessage}
           onChange={onNameChange}
         />
       </form>
