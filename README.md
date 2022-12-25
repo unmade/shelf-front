@@ -2,9 +2,9 @@
 
 This is frontend for a shelf project - a self-hosted file storage.
 
-![App Preview Light Theme](https://i.imgur.com/VPREFxb.png#gh-light-mode-only)
+![App Preview Light Theme](https://i.imgur.com/VhuwK4G.png)
 
-![App Preview Dark Theme](https://i.imgur.com/4A8XD0P.png#gh-dark-mode-only)
+![App Preview Dark Theme](https://i.imgur.com/tE9vn4i.png)
 
 ## Demo
 
