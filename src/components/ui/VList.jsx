@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 
-import * as icons from '../../icons';
+import Spinner from './Spinner';
 
 function VList({
   className,
@@ -33,34 +33,26 @@ function VList({
     [initialScrollOffset, onScrollOffsetChange, timeout]
   );
 
+  if (loading) {
+    return <Spinner className="h-full w-full" />;
+  }
+
   return (
     <AutoSizer>
-      {({ height, width }) => {
-        if (loading) {
-          return (
-            <div
-              className={`flex flex-col items-center justify-center ${className}`}
-              style={{ height: height - heightOffset, width }}
-            >
-              <icons.Spinner className="h-7 w-7 animate-spin text-gray-600 dark:text-zinc-300" />
-            </div>
-          );
-        }
-        return (
-          <FixedSizeList
-            initialScrollOffset={itemHeight * initialScrollOffset}
-            height={height - heightOffset}
-            itemCount={itemCount}
-            itemData={itemData}
-            itemSize={itemHeight}
-            width={width}
-            className={className}
-            onItemsRendered={shouldTrackScrolling ? onItemsRendered : null}
-          >
-            {View}
-          </FixedSizeList>
-        );
-      }}
+      {({ height, width }) => (
+        <FixedSizeList
+          initialScrollOffset={itemHeight * initialScrollOffset}
+          height={height - heightOffset}
+          itemCount={itemCount}
+          itemData={itemData}
+          itemSize={itemHeight}
+          width={width}
+          className={className}
+          onItemsRendered={shouldTrackScrolling ? onItemsRendered : null}
+        >
+          {View}
+        </FixedSizeList>
+      )}
     </AutoSizer>
   );
 }

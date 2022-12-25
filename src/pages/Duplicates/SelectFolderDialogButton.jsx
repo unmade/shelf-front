@@ -58,13 +58,12 @@ function SelectFolderDialogButton({ type, children, dirPath, icon, onSelectFolde
         onConfirm={onConfirm}
         onCancel={hideDialog}
       >
-        <div className="mt-4 h-96 w-full sm:w-96">
-          <FolderPicker
-            emptyTitle={t('duplicates:folderPickerEmptyTitle')}
-            initialPath={dirPath}
-            onPathChange={onPathChange}
-          />
-        </div>
+        <FolderPicker
+          className="flex min-h-[40vh] flex-col sm:w-96"
+          emptyTitle={t('duplicates:folderPickerEmptyTitle')}
+          initialPath={dirPath}
+          onPathChange={onPathChange}
+        />
       </Dialog>
     </>
   );

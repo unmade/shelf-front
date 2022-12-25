@@ -14,10 +14,6 @@ import Dialog from '../ui/Dialog';
 
 import FolderPicker from '../FolderPicker';
 
-const styles = {
-  height: '40vh',
-};
-
 function MoveDialog({ files, visible, onClose }) {
   const { t } = useTranslation();
 
@@ -62,14 +58,13 @@ function MoveDialog({ files, visible, onClose }) {
       onConfirm={onConfirm}
       onCancel={onCancel}
     >
-      <div className="w-full sm:w-96" style={styles}>
-        <FolderPicker
-          emptyTitle={t('Nothing here yet')}
-          emptyDescription={t('Press "Move" button to move file here')}
-          excludeIds={files.map((file) => file.id)}
-          onPathChange={onPathChange}
-        />
-      </div>
+      <FolderPicker
+        className="flex min-h-[40vh] flex-col sm:w-96"
+        emptyTitle={t('Nothing here yet')}
+        emptyDescription={t('Press "Move" button to move file here')}
+        excludeIds={files.map((file) => file.id)}
+        onPathChange={onPathChange}
+      />
     </Dialog>
   );
 }

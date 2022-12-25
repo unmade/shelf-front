@@ -1,13 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { MediaType } from '../constants';
-import { FileShape } from '../types';
+import { useSelector } from 'react-redux';
 
-import Thumbnail from './Thumbnail';
+import { MediaType } from '../../constants';
+
+import Thumbnail from '../Thumbnail';
+import { selectFileByIdInPath } from '../../store/files';
 
 function FolderPickerItem({ data, index, style }) {
-  const item = data.items[index];
+  const { path, items, onClick } = data;
+  const itemId = items[index];
+
+  const item = useSelector((state) => selectFileByIdInPath(state, { path, id: itemId }));
+  if (item == null) {
+    return null;
+  }
 
   const primaryText = item.hidden
     ? 'text-gray-500 dark:text-zinc-400'
@@ -20,7 +28,7 @@ function FolderPickerItem({ data, index, style }) {
       <button
         type="button"
         className="h-full w-full rounded-lg px-4 focus:outline-none"
-        onClick={data.onClick(item.path)}
+        onClick={onClick(item.path)}
         disabled={!MediaType.isFolder(item.mediatype)}
       >
         <div
@@ -38,7 +46,8 @@ function FolderPickerItem({ data, index, style }) {
 
 FolderPickerItem.propTypes = {
   data: PropTypes.shape({
-    items: PropTypes.arrayOf(FileShape).isRequired,
+    items: PropTypes.arrayOf(PropTypes.string).isRequired,
+    path: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
   }).isRequired,
   index: PropTypes.number.isRequired,
