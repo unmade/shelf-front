@@ -25,6 +25,7 @@ function Input({
   label,
   name,
   placeholder,
+  readOnly,
   size,
   type,
   onChange,
@@ -33,13 +34,13 @@ function Input({
     ? 'border-red-400 focus:border-red-400 focus:ring-red-200 dark:border-rose-500 dark:focus:border-rose-300 dark:focus:ring-rose-500'
     : 'border-gray-300 focus:ring-blue-100 focus:border-blue-300 dark:border-zinc-600 dark:focus:ring-indigo-500 dark:focus:border-indigo-300';
   const inputProps = {};
-  if (placeholder !== null && placeholder !== undefined) {
+  if (placeholder != null) {
     inputProps.placeholder = placeholder;
   }
-  if (defaultValue !== null && defaultValue !== undefined) {
+  if (defaultValue != null) {
     inputProps.defaultValue = defaultValue;
   }
-  if (name !== null) {
+  if (name != null) {
     inputProps.name = name;
   }
   return (
@@ -57,6 +58,7 @@ function Input({
         <input
           id={id}
           type={type}
+          readOnly={readOnly}
           className={`w-full ${paddings[size]} text-gray-800 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-400 ${fontSizes[size].input} border ${borderColor} rounded-xl focus:outline-none focus:ring`}
           // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus={autoFocus}
@@ -80,6 +82,7 @@ Input.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string,
   placeholder: PropTypes.string,
+  readOnly: PropTypes.bool,
   size: PropTypes.oneOf(['sm', 'base']),
   type: PropTypes.string,
   onChange: PropTypes.func.isRequired,
@@ -92,6 +95,7 @@ Input.defaultProps = {
   label: null,
   name: null,
   placeholder: null,
+  readOnly: false,
   size: 'base',
   type: 'text',
 };
