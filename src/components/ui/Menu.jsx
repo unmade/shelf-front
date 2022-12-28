@@ -4,7 +4,14 @@ import PropTypes from 'prop-types';
 import { useFloating, flip, offset } from '@floating-ui/react-dom';
 import { Menu as UIMenu, Transition } from '@headlessui/react';
 
-function Menu({ buttonClassName, children, items, panelClassName, placement, itemRender: Render }) {
+function Menu({
+  buttonClassName,
+  children,
+  groups,
+  panelClassName,
+  placement,
+  itemRender: Render,
+}) {
   const { x, y, reference, floating, strategy } = useFloating({
     placement,
     middleware: [offset(5), flip()],
@@ -36,7 +43,7 @@ function Menu({ buttonClassName, children, items, panelClassName, placement, ite
           >
             <UIMenu.Items
               static
-              className={`${panelClassName} flex flex-col rounded-xl bg-white p-2 shadow focus:outline-none dark:bg-zinc-800 dark:shadow-zinc-900/70`}
+              className={`${panelClassName} divide-y divide-gray-100 rounded-xl bg-white px-1 shadow focus:outline-none dark:divide-zinc-700 dark:bg-zinc-800 dark:shadow-zinc-900/70`}
               ref={floating}
               style={{
                 position: strategy,
@@ -44,10 +51,14 @@ function Menu({ buttonClassName, children, items, panelClassName, placement, ite
                 left: x ?? 0,
               }}
             >
-              {items.map((item) => (
-                <UIMenu.Item key={item.path || item.name}>
-                  {({ active }) => <Render active={active} item={item} />}
-                </UIMenu.Item>
+              {groups.map((group) => (
+                <div key={group.key} className="py-1">
+                  {group.items.map((item) => (
+                    <UIMenu.Item key={item.key}>
+                      {({ active }) => <Render active={active} item={item} />}
+                    </UIMenu.Item>
+                  ))}
+                </div>
               ))}
             </UIMenu.Items>
           </Transition>
@@ -60,7 +71,12 @@ function Menu({ buttonClassName, children, items, panelClassName, placement, ite
 Menu.propTypes = {
   buttonClassName: PropTypes.string,
   children: PropTypes.element.isRequired,
-  items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  groups: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      items: PropTypes.arrayOf(PropTypes.object),
+    })
+  ).isRequired,
   panelClassName: PropTypes.string,
   placement: PropTypes.oneOf(['bottom-end', 'bottom-center']),
   itemRender: PropTypes.elementType.isRequired,

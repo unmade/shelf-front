@@ -28,6 +28,7 @@ function useDeleteAction(files) {
   }
   if (trashedFiles.length > 0) {
     return {
+      key: 'delete-immediately',
       name: t('Delete Immediately'),
       icon: <icons.TrashOutlined className="h-4 w-4" />,
       danger: true,
@@ -37,6 +38,7 @@ function useDeleteAction(files) {
     };
   }
   return {
+    key: 'delete',
     name: t('Delete'),
     icon: <icons.TrashOutlined className="h-4 w-4" />,
     danger: true,
@@ -52,6 +54,7 @@ function useDownloadAction(files) {
 
   if (files.length === 1 && !isTrashed(files[0].path)) {
     return {
+      key: 'download',
       name: t('Download'),
       icon: <icons.Download className="h-4 w-4" />,
       danger: false,
@@ -69,6 +72,7 @@ function useMoveAction(files) {
   const openMoveDialog = useMoveDialog();
 
   return {
+    key: 'move',
     name: t('Move'),
     icon: <icons.Move className="h-4 w-4" />,
     danger: false,
@@ -83,6 +87,7 @@ function useRenameAction(files) {
   const openRenameDialog = useRenameFileDialog();
   if (files.length === 1 && !isTrashed(files[0].path)) {
     return {
+      key: 'rename',
       name: t('Rename'),
       icon: <icons.ICursor className="h-4 w-4" />,
       danger: false,

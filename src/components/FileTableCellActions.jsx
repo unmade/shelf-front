@@ -18,6 +18,7 @@ const ActionButton = React.forwardRef(({ item }, ref) => (
       item.onClick();
     }}
     danger={item.danger}
+    full
   >
     <div className="my-1 flex w-full flex-row items-center justify-between whitespace-nowrap">
       <div>{item.name}</div>
@@ -28,8 +29,9 @@ const ActionButton = React.forwardRef(({ item }, ref) => (
 
 function FileTableCellActions({ item }) {
   const menu = useFileActions([item]);
+  const groups = [{ key: 'acitons', items: menu }];
   return (
-    <Menu items={menu} itemRender={ActionButton}>
+    <Menu groups={groups} itemRender={ActionButton}>
       <Button
         as="div"
         type="text"
