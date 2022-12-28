@@ -106,7 +106,9 @@ const shapes = {
   },
   round: {
     xs: ['rounded-md'],
-    sm: ['rounded-lg'],
+    sm: [
+      'rounded-lg group-last/input:rounded-l-none group-last/input:rounded-r-lg group-last/input:focus:z-20',
+    ],
     base: ['rounded-xl'],
     lg: ['rounded-xl'],
   },
