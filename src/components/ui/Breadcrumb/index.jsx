@@ -37,7 +37,7 @@ function Breadcrumb({
   const collapsed = shouldCollapse ? (
     <Menu
       panelClassName="max-w-xs"
-      items={toCollapse}
+      groups={[{ key: 'collapsed', items: toCollapse }]}
       itemRender={({ item }) => (
         <RenderCollapsed name={item.name} url={item.url} path={item.path} />
       )}
