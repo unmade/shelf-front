@@ -44,7 +44,7 @@ function Input({
     inputProps.name = name;
   }
   return (
-    <div>
+    <div className="w-full">
       {label && (
         // eslint-disable-next-line jsx-a11y/label-has-associated-control
         <label
@@ -54,12 +54,12 @@ function Input({
           {label}
         </label>
       )}
-      <div className="relative rounded-xl shadow-sm">
+      <div className="relative shadow-sm">
         <input
           id={id}
           type={type}
           readOnly={readOnly}
-          className={`w-full ${paddings[size]} text-gray-800 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-400 ${fontSizes[size].input} border ${borderColor} rounded-xl focus:outline-none focus:ring`}
+          className={`group-first/input:rounded-l-lg group-first/input:rounded-r-none w-full rounded-xl ${paddings[size]} text-gray-800 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-400 ${fontSizes[size].input} border ${borderColor} focus:outline-none focus:ring`}
           // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus={autoFocus}
           onChange={onChange}
