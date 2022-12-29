@@ -55,7 +55,7 @@ function ImageThumbnail({ className, file, size }) {
   );
 
   const { data, isFetching: loading } = useGetThumbnailQuery(
-    { fileId: id, size, mtime },
+    { url: file.thumbnail_url, size, mtime },
     { skip: shouldSkip }
   );
 

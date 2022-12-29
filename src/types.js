@@ -16,6 +16,7 @@ export const FileShape = PropTypes.shape({
   size: PropTypes.number.isRequired,
   mtime: PropTypes.number.isRequired,
   hidden: PropTypes.bool.isRequired,
+  thumbnail_url: PropTypes.string,
 });
 
 export const ToastShape = PropTypes.shape({

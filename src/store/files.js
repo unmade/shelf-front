@@ -116,8 +116,8 @@ const filesApi = apiSlice.injectEndpoints({
       }),
     }),
     getThumbnail: builder.query({
-      query: ({ fileId, size, mtime }) => ({
-        url: `/files/get_thumbnail/${fileId}`,
+      query: ({ url, size, mtime }) => ({
+        url,
         params: { size, mtime },
         responseHandler: (response) => response.blob(),
       }),
