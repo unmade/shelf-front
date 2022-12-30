@@ -67,7 +67,7 @@ function RecentUploads() {
         size="sm"
         tabs={tabs.map(({ name, visibilityFilter }) => ({
           name,
-          render: <UploadsPanel visibilityFilter={visibilityFilter} />,
+          renderer: <UploadsPanel visibilityFilter={visibilityFilter} />,
         }))}
       />
     </div>
