@@ -35,7 +35,7 @@ function Tabs({ tabs, size }) {
         ))}
       </UITab.List>
       <UITab.Panels className="mt-2">
-        {tabs.map(({ name, render }) => (
+        {tabs.map(({ name, renderer }) => (
           <UITab.Panel
             key={name}
             className={classNames(
@@ -43,7 +43,7 @@ function Tabs({ tabs, size }) {
               'ring-offset-2 focus:outline-none focus:ring-2 dark:focus:ring-zinc-700 dark:focus:ring-offset-zinc-800'
             )}
           >
-            {render}
+            {renderer}
           </UITab.Panel>
         ))}
       </UITab.Panels>
@@ -57,7 +57,7 @@ Tabs.propTypes = {
   tabs: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
-      render: PropTypes.element.isRequired,
+      renderer: PropTypes.element.isRequired,
     }).isRequired
   ).isRequired,
   size: PropTypes.oneOf(['sm', 'base']),

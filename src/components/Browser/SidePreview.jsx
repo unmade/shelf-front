@@ -17,8 +17,8 @@ import TimeAgo from '../ui/TimeAgo';
 
 import BookmarkButton from '../BookmarkButton';
 import FileLink from '../FileLink';
+import FileTabs from '../FileTabs';
 import Thumbnail from '../Thumbnail';
-import FileInfoTabs from '../FileInfoTabs';
 
 import { useBrowserData } from './BrowserDataProvider';
 import SidePreviewActions from './SidePreviewActions';
@@ -100,7 +100,7 @@ function SingleFilePreview({ fileId }) {
         </div>
 
         <div className="mt-2 p-2">
-          <FileInfoTabs file={file} />
+          <FileTabs file={file} />
         </div>
       </div>
     </>

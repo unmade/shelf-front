@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { FileShape } from '../../types';
+
 import TimeAgo from '../ui/TimeAgo';
 
 import SidePreviewActions from '../Browser/SidePreviewActions';
 
 import BookmarkButton from '../BookmarkButton';
-import FileInfoTabs from '../FileInfoTabs';
-import { FileShape } from '../../types';
+import FileTabs from '../FileTabs';
 
 function Info({ className, file }) {
   return (
@@ -33,7 +34,7 @@ function Info({ className, file }) {
       </div>
 
       <div className="mt-4">
-        <FileInfoTabs file={file} />
+        <FileTabs file={file} />
       </div>
     </div>
   );
