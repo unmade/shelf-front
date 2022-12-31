@@ -184,7 +184,6 @@ function FilePreview({ ids, loading, selectById }) {
       currentIndex={currentIndex}
       total={ids.length}
       loading={loading}
-      pathToPreview={pathToPreview}
     />
   );
 }
