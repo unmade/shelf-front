@@ -11,6 +11,7 @@ import { featuresApi } from './store/features';
 
 import * as routes from './routes';
 
+import SharedLinkFile from './pages/SharedLinkFile';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 
@@ -35,6 +36,7 @@ root.render(
           <Routes>
             <Route path={routes.SIGNIN.route} element={<SignIn />} />
             <Route path={routes.SIGNUP.route} element={<SignUp />} />
+            <Route path={routes.SHARED_LINK_FILE.route} element={<SharedLinkFile />} />
             <Route
               path="/*"
               element={

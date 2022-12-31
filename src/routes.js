@@ -15,6 +15,11 @@ export const FILES = {
   route: '/files/*',
 };
 
+export const SHARED_LINK_FILE = {
+  prefix: '/s',
+  route: '/s/:token/:filename',
+};
+
 export const SIGNIN = {
   prefix: '/signin',
   route: '/signin',
