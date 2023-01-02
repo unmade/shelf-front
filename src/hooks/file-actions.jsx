@@ -8,6 +8,7 @@ import { download } from '../store/files';
 import { TRASH_FOLDER_NAME } from '../constants';
 import * as icons from '../icons';
 
+import { useCopyLinkDialog } from '../components/CopyLinkDialogProvider';
 import { useDeleteDialog } from '../components/DeleteDialogProvider';
 import { useDeleteImmediatelyDialog } from '../components/DeleteImmediatelyDialogProvider';
 import { useMoveDialog } from '../components/MoveDialogProvider';
@@ -17,7 +18,25 @@ function isTrashed(path) {
   return path.toLowerCase().startsWith(`${TRASH_FOLDER_NAME.toLowerCase()}/`);
 }
 
-function useDeleteAction(files) {
+export function useCopyLinkAction(files) {
+  const { t } = useTranslation();
+  const openCopyLinkDialog = useCopyLinkDialog();
+
+  if (files.length === 1 && !isTrashed(files[0].path)) {
+    return {
+      key: 'copy-link',
+      name: t('Copy Link'),
+      icon: <icons.LinkOutlined className="h-4 w-4" />,
+      danger: false,
+      onClick: () => {
+        openCopyLinkDialog(files[0]);
+      },
+    };
+  }
+  return null;
+}
+
+export function useDeleteAction(files) {
   const { t } = useTranslation();
   const openDeleteDialog = useDeleteDialog();
   const openDeleteImmediatelyDialog = useDeleteImmediatelyDialog();
@@ -48,7 +67,7 @@ function useDeleteAction(files) {
   };
 }
 
-function useDownloadAction(files) {
+export function useDownloadAction(files) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -66,7 +85,7 @@ function useDownloadAction(files) {
   return null;
 }
 
-function useMoveAction(files) {
+export function useMoveAction(files) {
   const { t } = useTranslation();
 
   const openMoveDialog = useMoveDialog();
@@ -82,7 +101,7 @@ function useMoveAction(files) {
   };
 }
 
-function useRenameAction(files) {
+export function useRenameAction(files) {
   const { t } = useTranslation();
   const openRenameDialog = useRenameFileDialog();
   if (files.length === 1 && !isTrashed(files[0].path)) {
@@ -100,12 +119,13 @@ function useRenameAction(files) {
 }
 
 function useFileActions(files) {
+  const copyLinkAction = useCopyLinkAction(files);
   const deleteAction = useDeleteAction(files);
   const downloadAction = useDownloadAction(files);
   const moveAction = useMoveAction(files);
   const renameAction = useRenameAction(files);
 
-  const actions = [downloadAction, renameAction, moveAction, deleteAction];
+  const actions = [downloadAction, copyLinkAction, renameAction, moveAction, deleteAction];
   return actions.filter((action) => action != null);
 }
 

@@ -22,7 +22,7 @@ function NoPreview({ file, reason, token }) {
   const { name, mediatype, hidden, size, mtime } = file;
 
   const onDownload = () => {
-    dispatch(downloadSharedLinkFile({ token }));
+    dispatch(downloadSharedLinkFile({ token, filename: name }));
   };
 
   return (

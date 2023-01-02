@@ -13,13 +13,13 @@ import TimeAgo from '../../../components/ui/TimeAgo';
 
 import FileTabs from './FileTabs';
 
-function DownloadButton({ token }) {
+function DownloadButton({ filename, token }) {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
 
   const onClick = () => {
-    dispatch(downloadSharedLinkFile({ token }));
+    dispatch(downloadSharedLinkFile({ token, filename }));
   };
 
   return (
@@ -30,6 +30,7 @@ function DownloadButton({ token }) {
 }
 
 DownloadButton.propTypes = {
+  filename: PropTypes.string.isRequired,
   token: PropTypes.string.isRequired,
 };
 
@@ -46,7 +47,7 @@ function Info({ className, file, token }) {
       </div>
 
       <div className="mt-4 flex justify-between py-3">
-        <DownloadButton token={token} />
+        <DownloadButton filename={file.name} token={token} />
       </div>
 
       <div className="mt-4">
