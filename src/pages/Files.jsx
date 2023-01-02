@@ -12,6 +12,7 @@ import * as routes from '../routes';
 import Empty from '../components/ui/Empty';
 
 import BreadcrumbDropdown from '../components/BreadcrumbDropdown';
+import CopyLinkDialogProvider from '../components/CopyLinkDialogProvider';
 import CreateFolderDialogProvider, {
   useCreateFolderDialog,
 } from '../components/CreateFolderDialogProvider';
@@ -29,13 +30,15 @@ import FilePreviewContainer from '../containers/FilePreviewContainer';
 
 function DialogsProvider({ children }) {
   return (
-    <CreateFolderDialogProvider>
-      <DeleteDialogProvider>
-        <MoveDialogProvider>
-          <RenameFileDialogProvider>{children}</RenameFileDialogProvider>
-        </MoveDialogProvider>
-      </DeleteDialogProvider>
-    </CreateFolderDialogProvider>
+    <CopyLinkDialogProvider>
+      <CreateFolderDialogProvider>
+        <DeleteDialogProvider>
+          <MoveDialogProvider>
+            <RenameFileDialogProvider>{children}</RenameFileDialogProvider>
+          </MoveDialogProvider>
+        </DeleteDialogProvider>
+      </CreateFolderDialogProvider>
+    </CopyLinkDialogProvider>
   );
 }
 

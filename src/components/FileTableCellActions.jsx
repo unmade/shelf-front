@@ -1,12 +1,43 @@
 import React from 'react';
 
-import useFileActions from '../hooks/file-actions';
+import {
+  useCopyLinkAction,
+  useDeleteAction,
+  useDownloadAction,
+  useMoveAction,
+  useRenameAction,
+} from '../hooks/file-actions';
 
 import * as icons from '../icons';
 import { FileShape } from '../types';
 
 import Button from './ui/Button';
 import Menu from './ui/Menu';
+
+function useFileActionGroups(files) {
+  const copyLinkAction = useCopyLinkAction(files);
+  const deleteAction = useDeleteAction(files);
+  const downloadAction = useDownloadAction(files);
+  const moveAction = useMoveAction(files);
+  const renameAction = useRenameAction(files);
+
+  const groups = [
+    {
+      key: 'sharing',
+      items: [downloadAction, copyLinkAction].filter((action) => action != null),
+    },
+    {
+      key: 'moving',
+      items: [renameAction, moveAction].filter((action) => action != null),
+    },
+    {
+      key: 'deleting',
+      items: [deleteAction].filter((action) => action != null),
+    },
+  ];
+
+  return groups.filter((group) => group.items.length > 0);
+}
 
 const ActionButton = React.forwardRef(({ item }, ref) => (
   <Button
@@ -28,8 +59,7 @@ const ActionButton = React.forwardRef(({ item }, ref) => (
 ));
 
 function FileTableCellActions({ item }) {
-  const menu = useFileActions([item]);
-  const groups = [{ key: 'acitons', items: menu }];
+  const groups = useFileActionGroups([item]);
   return (
     <Menu groups={groups} itemRender={ActionButton}>
       <Button

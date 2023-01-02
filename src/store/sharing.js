@@ -6,7 +6,7 @@ import { MediaType } from '../constants';
 
 export const downloadSharedLinkFile = createAsyncThunk(
   'sharing/downloadSharedLinkFile',
-  async ({ token }) => {
+  async ({ token, filename }) => {
     const url = `${API_BASE_URL}/sharing/get_shared_link_download_url`;
     const options = {
       method: 'POST',
@@ -17,7 +17,7 @@ export const downloadSharedLinkFile = createAsyncThunk(
       }),
       body: JSON.stringify({
         token,
-        filename: '123',
+        filename,
       }),
     };
 
@@ -38,14 +38,21 @@ export const downloadSharedLinkFile = createAsyncThunk(
 
 const sharingApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    createSharedLink: builder.mutation({
+      query: (path) => ({
+        url: '/sharing/create_shared_link',
+        method: 'POST',
+        body: { path },
+      }),
+    }),
     downloadSharedLinkContent: builder.query({
-      async queryFn(token, _queryApi, _extraOptions, fetchWithBQ) {
+      async queryFn({ token, filename }, _queryApi, _extraOptions, fetchWithBQ) {
         const getDownloadUrlResult = await fetchWithBQ({
           url: '/sharing/get_shared_link_download_url',
           method: 'POST',
           body: {
             token,
-            filename: '123',
+            filename,
           },
         });
         if (getDownloadUrlResult.error) {
@@ -84,4 +91,8 @@ const sharingApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useDownloadSharedLinkContentQuery, useGetSharingLinkFileQuery } = sharingApi;
+export const {
+  useCreateSharedLinkMutation,
+  useDownloadSharedLinkContentQuery,
+  useGetSharingLinkFileQuery,
+} = sharingApi;
