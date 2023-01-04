@@ -32,6 +32,8 @@ function rootReducer(state, action) {
   return reducers(state, action);
 }
 
+const ignoredErrorCodes = new Set([422, 'SHARED_LINK_NOT_FOUND']);
+
 export const errorsMiddleware =
   ({ dispatch }) =>
   (next) =>
@@ -40,7 +42,7 @@ export const errorsMiddleware =
       const { payload } = action;
       if (payload.data != null) {
         const { code, code_verbose: title, message: description } = payload.data;
-        if (code !== 422 && title != null && description != null) {
+        if (!ignoredErrorCodes.has(code) && title != null && description != null) {
           dispatch(addToast({ title, description }));
         }
       } else {

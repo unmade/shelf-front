@@ -20,6 +20,7 @@ const paddings = {
 function Input({
   autoFocus,
   defaultValue,
+  disabled,
   error,
   id,
   label,
@@ -59,6 +60,7 @@ function Input({
           id={id}
           type={type}
           readOnly={readOnly}
+          disabled={disabled}
           className={`group-first/input:rounded-l-lg group-first/input:rounded-r-none w-full rounded-xl ${paddings[size]} text-gray-800 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-400 ${fontSizes[size].input} border ${borderColor} focus:outline-none focus:ring`}
           // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus={autoFocus}
@@ -77,6 +79,7 @@ function Input({
 Input.propTypes = {
   autoFocus: PropTypes.bool,
   defaultValue: PropTypes.string,
+  disabled: PropTypes.bool,
   error: PropTypes.string,
   id: PropTypes.string.isRequired,
   label: PropTypes.string,
@@ -91,6 +94,7 @@ Input.propTypes = {
 Input.defaultProps = {
   autoFocus: false,
   defaultValue: null,
+  disabled: false,
   error: null,
   label: null,
   name: null,

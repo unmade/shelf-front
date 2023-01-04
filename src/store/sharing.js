@@ -44,6 +44,10 @@ const sharingApi = apiSlice.injectEndpoints({
         method: 'POST',
         body: { path },
       }),
+      async onQueryStarted(path, { dispatch, queryFulfilled }) {
+        const { data } = await queryFulfilled;
+        dispatch(apiSlice.util.updateQueryData('getSharedLink', path, () => data));
+      },
     }),
     downloadSharedLinkContent: builder.query({
       async queryFn({ token, filename }, _queryApi, _extraOptions, fetchWithBQ) {
@@ -81,12 +85,36 @@ const sharingApi = apiSlice.injectEndpoints({
         URL.revokeObjectURL(data?.content);
       },
     }),
-    getSharingLinkFile: builder.query({
+    getSharedLink: builder.query({
+      query: (path) => ({
+        url: '/sharing/get_shared_link',
+        method: 'POST',
+        body: { path },
+      }),
+    }),
+    getSharedLinkFile: builder.query({
       query: ({ token, filename }) => ({
         url: '/sharing/get_shared_link_file',
         method: 'POST',
         body: { token, filename },
       }),
+    }),
+    revokeSharedLink: builder.mutation({
+      query: ({ token, filename }) => ({
+        url: '/sharing/revoke_shared_link',
+        method: 'POST',
+        body: { token, filename },
+      }),
+      async onQueryStarted({ path }, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          apiSlice.util.updateQueryData('getSharedLink', path, () => null)
+        );
+        try {
+          await queryFulfilled;
+        } catch (e) {
+          patchResult.undo();
+        }
+      },
     }),
   }),
 });
@@ -94,5 +122,7 @@ const sharingApi = apiSlice.injectEndpoints({
 export const {
   useCreateSharedLinkMutation,
   useDownloadSharedLinkContentQuery,
-  useGetSharingLinkFileQuery,
+  useGetSharedLinkQuery,
+  useGetSharedLinkFileQuery,
+  useRevokeSharedLinkMutation,
 } = sharingApi;

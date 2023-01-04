@@ -14,7 +14,7 @@ const apiSlice = createApi({
       return headers;
     },
   }),
-  tagTypes: ['Auth', 'Files'],
+  tagTypes: ['Auth', 'Files', 'Sharing'],
   endpoints: () => ({}),
 });
 
