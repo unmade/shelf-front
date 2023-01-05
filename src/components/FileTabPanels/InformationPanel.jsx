@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
 
-import { FileShape } from '../../types';
+import { FileShape, SharedLinkFileShape } from '../../types';
 
 import FileSize from '../ui/FileSize';
 import TimeAgo from '../ui/TimeAgo';
@@ -28,7 +29,7 @@ function InformationPanel({ file }) {
 }
 
 InformationPanel.propTypes = {
-  file: FileShape.isRequired,
+  file: PropTypes.oneOfType([FileShape, SharedLinkFileShape]).isRequired,
 };
 
 export default InformationPanel;

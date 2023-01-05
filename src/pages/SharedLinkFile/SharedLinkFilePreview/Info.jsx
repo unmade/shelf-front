@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 
 import { downloadSharedLinkFile } from '../../../store/sharing';
 
-import { FileShape } from '../../../types';
+import { SharedLinkFileShape } from '../../../types';
 
 import Button from '../../../components/ui/Button';
 import TimeAgo from '../../../components/ui/TimeAgo';
@@ -59,7 +59,7 @@ function Info({ className, file, token }) {
 
 Info.propTypes = {
   className: PropTypes.string,
-  file: FileShape.isRequired,
+  file: SharedLinkFileShape.isRequired,
   token: PropTypes.string.isRequired,
 };
 

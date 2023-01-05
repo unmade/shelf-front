@@ -7,12 +7,12 @@ import { useDispatch } from 'react-redux';
 import { downloadSharedLinkFile } from '../../../../store/sharing';
 
 import * as icons from '../../../../icons';
+import { SharedLinkFileShape } from '../../../../types';
 
 import Button from '../../../../components/ui/Button';
+import FileIcon from '../../../../components/FileIcon';
 import FileSize from '../../../../components/ui/FileSize';
 import TimeAgo from '../../../../components/ui/TimeAgo';
-
-import FileIcon from '../../../../components/FileIcon';
 
 function NoPreview({ file, reason, token }) {
   const { t } = useTranslation(['translation', 'filePreview']);
@@ -59,14 +59,7 @@ function NoPreview({ file, reason, token }) {
 }
 
 NoPreview.propTypes = {
-  file: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    path: PropTypes.string.isRequired,
-    size: PropTypes.number.isRequired,
-    mtime: PropTypes.number.isRequired,
-    mediatype: PropTypes.string.isRequired,
-    hidden: PropTypes.bool.isRequired,
-  }).isRequired,
+  file: SharedLinkFileShape.isRequired,
   reason: PropTypes.string,
   token: PropTypes.string.isRequired,
 };

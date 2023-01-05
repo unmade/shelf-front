@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { ThumbnailSize } from '../../../../constants';
 import { MEGABYTE } from '../../../../filesize';
-import { FileShape } from '../../../../types';
+import { SharedLinkFileShape } from '../../../../types';
 
 import Thumbnail from '../../../../components/Thumbnail';
 
@@ -63,7 +63,7 @@ function ImagePreview({ file }) {
 }
 
 ImagePreview.propTypes = {
-  file: FileShape.isRequired,
+  file: SharedLinkFileShape.isRequired,
 };
 
 export default ImagePreview;

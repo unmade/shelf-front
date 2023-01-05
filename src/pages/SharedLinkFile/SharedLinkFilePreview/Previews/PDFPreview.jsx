@@ -10,6 +10,7 @@ import { useDownloadSharedLinkContentQuery } from '../../../../store/sharing';
 import Spinner from '../../../../components/ui/Spinner';
 
 import NoPreview from './NoPreview';
+import { SharedLinkFileShape } from '../../../../types';
 
 const MAX_SIZE = 9 * MEGABYTE;
 
@@ -41,10 +42,7 @@ function PDFPreview({ file, token }) {
 }
 
 PDFPreview.propTypes = {
-  file: PropTypes.shape({
-    path: PropTypes.string.isRequired,
-    size: PropTypes.number.isRequired,
-  }).isRequired,
+  file: SharedLinkFileShape.isRequired,
   token: PropTypes.string.isRequired,
 };
 

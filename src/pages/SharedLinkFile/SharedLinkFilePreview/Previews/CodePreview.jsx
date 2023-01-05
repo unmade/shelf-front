@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 
 import { useDownloadSharedLinkContentQuery } from '../../../../store/sharing';
 
-import { MEGABYTE } from '../../../../filesize';
 import usePrefersColorScheme from '../../../../hooks/prefers-color-scheme';
+
+import { MEGABYTE } from '../../../../filesize';
+import { SharedLinkFileShape } from '../../../../types';
 
 import Highlight from '../../../../components/ui/Highlight';
 import Spinner from '../../../../components/ui/Spinner';
@@ -79,10 +81,7 @@ function CodePreview({ file, token }) {
 }
 
 CodePreview.propTypes = {
-  file: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    mediatype: PropTypes.string.isRequired,
-  }).isRequired,
+  file: SharedLinkFileShape.isRequired,
   token: PropTypes.string.isRequired,
 };
 

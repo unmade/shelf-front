@@ -19,6 +19,15 @@ export const FileShape = PropTypes.shape({
   thumbnail_url: PropTypes.string,
 });
 
+export const SharedLinkFileShape = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  size: PropTypes.number.isRequired,
+  mtime: PropTypes.number.isRequired,
+  hidden: PropTypes.bool.isRequired,
+  thumbnail_url: PropTypes.string,
+});
+
 export const ToastShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
