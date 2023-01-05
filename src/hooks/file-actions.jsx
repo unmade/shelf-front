@@ -5,8 +5,8 @@ import { useDispatch } from 'react-redux';
 
 import { download } from '../store/files';
 
-import { TRASH_FOLDER_NAME } from '../constants';
 import * as icons from '../icons';
+import * as routes from '../routes';
 
 import { useCopyLinkDialog } from '../components/CopyLinkDialogProvider';
 import { useDeleteDialog } from '../components/DeleteDialogProvider';
@@ -14,15 +14,11 @@ import { useDeleteImmediatelyDialog } from '../components/DeleteImmediatelyDialo
 import { useMoveDialog } from '../components/MoveDialogProvider';
 import { useRenameFileDialog } from '../components/RenameFileDialogProvider';
 
-function isTrashed(path) {
-  return path.toLowerCase().startsWith(`${TRASH_FOLDER_NAME.toLowerCase()}/`);
-}
-
 export function useCopyLinkAction(files) {
   const { t } = useTranslation();
   const openCopyLinkDialog = useCopyLinkDialog();
 
-  if (files.length === 1 && !isTrashed(files[0].path)) {
+  if (files.length === 1 && !routes.isTrashed(files[0].path)) {
     return {
       key: 'copy-link',
       name: t('Copy Link'),
@@ -41,7 +37,7 @@ export function useDeleteAction(files) {
   const openDeleteDialog = useDeleteDialog();
   const openDeleteImmediatelyDialog = useDeleteImmediatelyDialog();
 
-  const trashedFiles = files.filter((file) => isTrashed(file.path));
+  const trashedFiles = files.filter((file) => routes.isTrashed(file.path));
   if (trashedFiles.length > 0 && files.length !== trashedFiles.length) {
     return null;
   }
@@ -71,7 +67,7 @@ export function useDownloadAction(files) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  if (files.length === 1 && !isTrashed(files[0].path)) {
+  if (files.length === 1 && !routes.isTrashed(files[0].path)) {
     return {
       key: 'download',
       name: t('Download'),
@@ -104,7 +100,7 @@ export function useMoveAction(files) {
 export function useRenameAction(files) {
   const { t } = useTranslation();
   const openRenameDialog = useRenameFileDialog();
-  if (files.length === 1 && !isTrashed(files[0].path)) {
+  if (files.length === 1 && !routes.isTrashed(files[0].path)) {
     return {
       key: 'rename',
       name: t('Rename'),
