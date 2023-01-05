@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useTranslation } from 'react-i18next';
 
-import { FileShape } from '../../../types';
+import { SharedLinkFileShape } from '../../../types';
 
 import Tabs from '../../../components/ui/Tabs';
 
@@ -22,7 +22,7 @@ function FileTabs({ file }) {
 }
 
 FileTabs.propTypes = {
-  file: FileShape.isRequired,
+  file: SharedLinkFileShape.isRequired,
 };
 
 export default FileTabs;

@@ -11,7 +11,7 @@ import {
 
 import { MediaType, ThumbnailSize, thumbnailSizes } from '../constants';
 import { MEGABYTE } from '../filesize';
-import { FileShape } from '../types';
+import { FileShape, SharedLinkFileShape } from '../types';
 
 import Spinner from './ui/Spinner';
 
@@ -74,7 +74,7 @@ function ImageThumbnail({ className, file, size }) {
 
 ImageThumbnail.propTypes = {
   className: PropTypes.string,
-  file: FileShape.isRequired,
+  file: PropTypes.oneOfType([FileShape.isRequired, SharedLinkFileShape]).isRequired,
   size: PropTypes.oneOf(thumbnailSizes),
 };
 
@@ -98,7 +98,7 @@ function Thumbnail({ className, file, size }) {
 
 Thumbnail.propTypes = {
   className: PropTypes.string,
-  file: FileShape.isRequired,
+  file: PropTypes.oneOfType([FileShape, SharedLinkFileShape]).isRequired,
   size: PropTypes.oneOf(thumbnailSizes),
 };
 

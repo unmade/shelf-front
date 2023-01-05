@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 
 import { MediaType } from '../../../constants';
-import { FileShape } from '../../../types';
+import { SharedLinkFileShape } from '../../../types';
 
 import Spinner from '../../../components/ui/Spinner';
 
@@ -83,7 +83,7 @@ function SharedLinkFilePreview({ file, loading, token }) {
 }
 
 SharedLinkFilePreview.propTypes = {
-  file: FileShape,
+  file: SharedLinkFileShape,
   loading: PropTypes.bool,
   token: PropTypes.string.isRequired,
 };
