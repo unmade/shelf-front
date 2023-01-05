@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { createRoot } from 'react-dom/client';
+import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
@@ -31,23 +32,25 @@ store.dispatch(featuresApi.endpoints.listFeatures.initiate());
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ToastListContainer>
-        <BrowserRouter>
-          <Routes>
-            <Route path={routes.SIGNIN.route} element={<SignIn />} />
-            <Route path={routes.SIGNUP.route} element={<SignUp />} />
-            <Route path={routes.SHARED_LINK_FILE.route} element={<SharedLinkFile />} />
-            <Route
-              path="/*"
-              element={
-                <RequireAuth redirectTo={routes.SIGNIN.route}>
-                  <App />
-                </RequireAuth>
-              }
-            />
-          </Routes>
-        </BrowserRouter>
-      </ToastListContainer>
+      <HelmetProvider>
+        <ToastListContainer>
+          <BrowserRouter>
+            <Routes>
+              <Route path={routes.SIGNIN.route} element={<SignIn />} />
+              <Route path={routes.SIGNUP.route} element={<SignUp />} />
+              <Route path={routes.SHARED_LINK_FILE.route} element={<SharedLinkFile />} />
+              <Route
+                path="/*"
+                element={
+                  <RequireAuth redirectTo={routes.SIGNIN.route}>
+                    <App />
+                  </RequireAuth>
+                }
+              />
+            </Routes>
+          </BrowserRouter>
+        </ToastListContainer>
+      </HelmetProvider>
     </Provider>
   </React.StrictMode>
 );

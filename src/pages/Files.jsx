@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
 import useDirPath from '../hooks/dir-path';
@@ -118,39 +119,51 @@ function Files() {
   return (
     <DialogsProvider>
       {pathToPreview ? (
-        <FilePreviewContainer dirPath={dirPath} />
+        <>
+          <Helmet>
+            <title>{routes.basename(pathToPreview)}</title>
+          </Helmet>
+          <FilePreviewContainer dirPath={dirPath} />
+        </>
       ) : (
-        <div className="flex h-full flex-col">
-          <PageHeader>
-            <PageHeader.Title
-              icon={<GoBackButton to={routes.parent(dirPath)} disabled={routes.isRoot(dirPath)} />}
-            >
-              {isLaptop ? title : <BreadcrumbDropdown items={breadcrumbs} />}
-            </PageHeader.Title>
-            <PageHeader.Actions>
-              <SearchButton />
-              <Uploader uploadTo={dirPath} />
-            </PageHeader.Actions>
-          </PageHeader>
+        <>
+          <Helmet>
+            <title>{dirPath === '.' ? 'Shelf' : `${dirPath} - Shelf`}</title>
+          </Helmet>
+          <div className="flex h-full flex-col">
+            <PageHeader>
+              <PageHeader.Title
+                icon={
+                  <GoBackButton to={routes.parent(dirPath)} disabled={routes.isRoot(dirPath)} />
+                }
+              >
+                {isLaptop ? title : <BreadcrumbDropdown items={breadcrumbs} />}
+              </PageHeader.Title>
+              <PageHeader.Actions>
+                <SearchButton />
+                <Uploader uploadTo={dirPath} />
+              </PageHeader.Actions>
+            </PageHeader>
 
-          <FileDrop
-            className="h-full"
-            uploadTo={dirPath}
-            render={({ innerRef, dragging }) => (
-              <div className="relative flex h-full w-full flex-col">
-                <div
-                  ref={innerRef}
-                  className={`${
-                    dragging ? 'block' : 'hidden'
-                  } absolute z-10 h-full w-full px-2 pb-10`}
-                >
-                  <div className="h-full w-full rounded-2xl border-4 border-dashed border-teal-200 dark:border-teal-600" />
+            <FileDrop
+              className="h-full"
+              uploadTo={dirPath}
+              render={({ innerRef, dragging }) => (
+                <div className="relative flex h-full w-full flex-col">
+                  <div
+                    ref={innerRef}
+                    className={`${
+                      dragging ? 'block' : 'hidden'
+                    } absolute z-10 h-full w-full px-2 pb-10`}
+                  >
+                    <div className="h-full w-full rounded-2xl border-4 border-dashed border-teal-200 dark:border-teal-600" />
+                  </div>
+                  {browser}
                 </div>
-                {browser}
-              </div>
-            )}
-          />
-        </div>
+              )}
+            />
+          </div>
+        </>
       )}
     </DialogsProvider>
   );

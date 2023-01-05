@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
@@ -17,6 +18,9 @@ function SignUp() {
 
   return (
     <>
+      <Helmet>
+        <title>{t('Sign Up')} - Shelf</title>
+      </Helmet>
       <div className="flex min-h-screen items-end justify-center bg-gray-100 pb-20 dark:bg-zinc-900 sm:items-center sm:p-0">
         <div className="flex-flex-col m-4 w-full max-w-md">
           <div className="w-full rounded-2xl bg-white px-6 pb-8 pt-12 shadow dark:bg-zinc-800 sm:m-0">

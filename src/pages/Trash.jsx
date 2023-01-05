@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
 import useDirPath from '../hooks/dir-path';
@@ -63,6 +64,8 @@ function EmptyContainer({ path }) {
 EmptyContainer.propTypes = {};
 
 function Trash() {
+  const { t } = useTranslation();
+
   let dirPath = useDirPath();
   dirPath = dirPath === '.' ? TRASH_FOLDER_NAME : routes.join(TRASH_FOLDER_NAME, dirPath);
   const pathToPreview = useResolvedPreviewSearchParam();
@@ -76,36 +79,41 @@ function Trash() {
   const title = routes.folderName(dirPath);
 
   return (
-    <EmptyTrashDialogProvider>
-      <DeleteImmediatelyDialogProvider>
-        <MoveDialogProvider>
-          {pathToPreview ? (
-            <FilePreviewContainer dirPath={dirPath} />
-          ) : (
-            <div className="flex h-full flex-col">
-              <PageHeader>
-                <PageHeader.Title
-                  icon={
-                    <GoBackButton to={routes.parent(dirPath)} disabled={routes.isRoot(dirPath)} />
-                  }
-                >
-                  {isLaptop ? title : <BreadcrumbDropdown items={breadcrumbs} />}
-                </PageHeader.Title>
-                <PageHeader.Actions>
-                  <EmptyTrashDialogButton />
-                </PageHeader.Actions>
-              </PageHeader>
+    <>
+      <Helmet>
+        <title>{t('Trash')} - Shelf</title>
+      </Helmet>
+      <EmptyTrashDialogProvider>
+        <DeleteImmediatelyDialogProvider>
+          <MoveDialogProvider>
+            {pathToPreview ? (
+              <FilePreviewContainer dirPath={dirPath} />
+            ) : (
+              <div className="flex h-full flex-col">
+                <PageHeader>
+                  <PageHeader.Title
+                    icon={
+                      <GoBackButton to={routes.parent(dirPath)} disabled={routes.isRoot(dirPath)} />
+                    }
+                  >
+                    {isLaptop ? title : <BreadcrumbDropdown items={breadcrumbs} />}
+                  </PageHeader.Title>
+                  <PageHeader.Actions>
+                    <EmptyTrashDialogButton />
+                  </PageHeader.Actions>
+                </PageHeader>
 
-              <BrowserContainer
-                breadcrumbs={breadcrumbs}
-                path={dirPath}
-                emptyView={<EmptyContainer path={dirPath} />}
-              />
-            </div>
-          )}
-        </MoveDialogProvider>
-      </DeleteImmediatelyDialogProvider>
-    </EmptyTrashDialogProvider>
+                <BrowserContainer
+                  breadcrumbs={breadcrumbs}
+                  path={dirPath}
+                  emptyView={<EmptyContainer path={dirPath} />}
+                />
+              </div>
+            )}
+          </MoveDialogProvider>
+        </DeleteImmediatelyDialogProvider>
+      </EmptyTrashDialogProvider>
+    </>
   );
 }
 
