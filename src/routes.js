@@ -98,6 +98,10 @@ export function isRoot(path) {
   return path === '.' || path.toLowerCase() === 'trash';
 }
 
+export function isTrashed(path) {
+  return path.toLowerCase().startsWith('trash/');
+}
+
 const breadcrumbsAliases = {
   files: {
     key: '.',
