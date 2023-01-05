@@ -73,9 +73,9 @@ function SharedLinkSetting({ file }) {
     <div className="my-4 min-w-[20rem]">
       <div className="flex mb-4 space-x-4 items-center justify-between">
         <div className="text-left">
-          <p className="font-semibold text-sm">Public link is on</p>
+          <p className="font-semibold text-sm">{t('Public link is on')}</p>
           <p className="text-xs">
-            <Trans i18nKey="copy_link_dialog_text" t={t}>
+            <Trans i18nKey="Anyone with this link can view" t={t}>
               Anyone with this link <b>can view</b>
             </Trans>
           </p>
