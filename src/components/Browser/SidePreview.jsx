@@ -3,11 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
-import {
-  fileSelectionToggled,
-  filesSelectionChanged,
-  selectAllSelectedFileIds,
-} from '../../store/browser';
+import { filesSelectionChanged, selectAllSelectedFileIds } from '../../store/browser';
 
 import { MediaType, ThumbnailSize } from '../../constants';
 
@@ -53,7 +49,7 @@ function SingleFilePreview({ fileId }) {
 
   React.useEffect(() => {
     if (file == null) {
-      dispatch(fileSelectionToggled({ id: fileId }));
+      dispatch(filesSelectionChanged({ ids: [] }));
     }
   }, [file, dispatch]);
 
