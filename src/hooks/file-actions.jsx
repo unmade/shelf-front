@@ -113,16 +113,3 @@ export function useRenameAction(files) {
   }
   return null;
 }
-
-function useFileActions(files) {
-  const copyLinkAction = useCopyLinkAction(files);
-  const deleteAction = useDeleteAction(files);
-  const downloadAction = useDownloadAction(files);
-  const moveAction = useMoveAction(files);
-  const renameAction = useRenameAction(files);
-
-  const actions = [downloadAction, copyLinkAction, renameAction, moveAction, deleteAction];
-  return actions.filter((action) => action != null);
-}
-
-export default useFileActions;
