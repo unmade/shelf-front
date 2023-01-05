@@ -21,7 +21,7 @@ export function useCopyLinkAction(files) {
   if (files.length === 1 && !routes.isTrashed(files[0].path)) {
     return {
       key: 'copy-link',
-      name: t('Copy Link'),
+      name: t('Share Link'),
       icon: <icons.LinkOutlined className="h-4 w-4" />,
       danger: false,
       onClick: () => {
