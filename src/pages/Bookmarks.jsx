@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
 import { selectBookmarkedFileById, useListBookmarkedFilesQuery } from '../store/files';
@@ -78,26 +79,31 @@ function Bookmarks() {
   }
 
   return (
-    <DeleteDialogProvider>
-      <MoveDialogProvider>
-        <RenameFileDialogProvider>
-          <div className="flex h-full flex-col">
-            <PageHeader title={t('Bookmarks')}>
-              <PageHeader.Title
-                icon={
-                  <icons.BookmarkOutlined className="ml-2 h-7 w-7 text-gray-400 dark:text-zinc-500" />
-                }
-              >
-                {t('Bookmarks')}
-              </PageHeader.Title>
-              <PageHeader.Actions />
-            </PageHeader>
+    <>
+      <Helmet>
+        <title>{t('Bookmarks')} - Shelf</title>
+      </Helmet>
+      <DeleteDialogProvider>
+        <MoveDialogProvider>
+          <RenameFileDialogProvider>
+            <div className="flex h-full flex-col">
+              <PageHeader title={t('Bookmarks')}>
+                <PageHeader.Title
+                  icon={
+                    <icons.BookmarkOutlined className="ml-2 h-7 w-7 text-gray-400 dark:text-zinc-500" />
+                  }
+                >
+                  {t('Bookmarks')}
+                </PageHeader.Title>
+                <PageHeader.Actions />
+              </PageHeader>
 
-            <BookmarksBrowserContainer />
-          </div>
-        </RenameFileDialogProvider>
-      </MoveDialogProvider>
-    </DeleteDialogProvider>
+              <BookmarksBrowserContainer />
+            </div>
+          </RenameFileDialogProvider>
+        </MoveDialogProvider>
+      </DeleteDialogProvider>
+    </>
   );
 }
 

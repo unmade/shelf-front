@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -29,6 +30,9 @@ function Duplicates() {
   if (targetFolderPath == null) {
     return (
       <>
+        <Helmet>
+          <title>{t('Duplicates finder')} - Shelf</title>
+        </Helmet>
         {/* desktop */}
         <div className="hidden h-full flex-col items-center justify-center lg:flex">
           <div>
@@ -60,9 +64,14 @@ function Duplicates() {
   }
 
   return (
-    <DeleteDialogProvider>
-      <DuplicatesResult dirPath={targetFolderPath} onFolderChange={setTargetFolderPath} />
-    </DeleteDialogProvider>
+    <>
+      <Helmet>
+        <title>{t('Duplicates finder')} - Shelf</title>
+      </Helmet>
+      <DeleteDialogProvider>
+        <DuplicatesResult dirPath={targetFolderPath} onFolderChange={setTargetFolderPath} />
+      </DeleteDialogProvider>
+    </>
   );
 }
 
