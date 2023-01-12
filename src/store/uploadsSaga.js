@@ -7,7 +7,7 @@ import { MediaType } from '../constants';
 import * as routes from '../routes';
 
 import apiSlice, { API_BASE_URL } from './apiSlice';
-import { selectAccessToken } from './auth';
+import { selectAccessToken } from './authSlice';
 import { selectFeatureValue } from './features';
 import { filesAdapter } from './files';
 import {

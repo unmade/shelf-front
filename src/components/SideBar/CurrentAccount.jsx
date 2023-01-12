@@ -2,12 +2,14 @@ import React from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { useGetCurrentAccountQuery } from '../../store/accounts';
-import { signedOut } from '../../store/auth';
+import { signedOut } from '../../store/authSlice';
 import { appearanceChanged, selectAppearance } from '../../store/ui';
 
 import * as icons from '../../icons';
+import * as routes from '../../routes';
 
 import Avatar from '../ui/Avatar';
 import Button from '../ui/Button';
@@ -53,10 +55,13 @@ function Overlay() {
 
   const dispatch = useDispatch();
 
+  const navigate = useNavigate();
+
   const { data: account } = useGetCurrentAccountQuery();
   const { username } = account;
 
   const onSignOut = () => {
+    navigate(routes.SIGNIN.route);
     dispatch(signedOut());
   };
 

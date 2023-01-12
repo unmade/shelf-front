@@ -18,7 +18,6 @@ import Duplicates from './pages/Duplicates';
 import Files from './pages/Files';
 import Trash from './pages/Trash';
 import UserManagement from './pages/admin/UserManagement';
-import { authApi } from './store/auth';
 
 function App() {
   const dispatch = useDispatch();
@@ -26,10 +25,8 @@ function App() {
   usePrefersColorScheme();
 
   React.useEffect(() => {
-    const refreshTokenResult = dispatch(authApi.endpoints.refreshToken.initiate());
     const listBookmarksResult = dispatch(usersApi.endpoints.listBookmarks.initiate());
     return () => {
-      refreshTokenResult.unsubscribe();
       listBookmarksResult.unsubscribe();
     };
   }, []);

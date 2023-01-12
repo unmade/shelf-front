@@ -4,7 +4,7 @@ import { all } from 'redux-saga/effects';
 
 import apiSlice from './apiSlice';
 
-import auth, { signedOut, saveAuthState, loadAuthState } from './auth';
+import auth, { signedOut, saveAuthState, loadAuthState } from './authSlice';
 import browser from './browser';
 import tasks from './tasks';
 import toasts, { addToast } from './toasts';
@@ -32,7 +32,7 @@ function rootReducer(state, action) {
   return reducers(state, action);
 }
 
-const ignoredErrorCodes = new Set([422, 'SHARED_LINK_NOT_FOUND']);
+const ignoredErrorCodes = new Set([422, 'SHARED_LINK_NOT_FOUND', 'INVALID_TOKEN', 'MISSING_TOKEN']);
 
 export const errorsMiddleware =
   ({ dispatch }) =>
