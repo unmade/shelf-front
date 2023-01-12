@@ -16,10 +16,10 @@ import SharedLinkFile from './pages/SharedLinkFile';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 
-import App from './App';
-
-import RequireAuth from './components/RequireAuth';
+import RequireAccount from './components/RequireAccount';
 import ToastListContainer from './components/ui/Toast/ToastListContainer';
+
+import App from './App';
 
 import './index.css';
 import './tailwind.css';
@@ -42,9 +42,9 @@ root.render(
               <Route
                 path="/*"
                 element={
-                  <RequireAuth redirectTo={routes.SIGNIN.route}>
+                  <RequireAccount redirectTo={routes.SIGNIN.route}>
                     <App />
-                  </RequireAuth>
+                  </RequireAccount>
                 }
               />
             </Routes>
