@@ -13,6 +13,6 @@ const accountsApi = apiSlice.injectEndpoints({
 
 export const { useGetCurrentAccountQuery, useGetSpaceUsageQuery } = accountsApi;
 
-const selectGetCurrentAccountResult = accountsApi.endpoints.getCurrentAccount.select();
+export const selectGetCurrentAccountResult = accountsApi.endpoints.getCurrentAccount.select();
 
 export const selectIsAdmin = (state) => selectGetCurrentAccountResult(state)?.superuser ?? false;

@@ -27,6 +27,7 @@ function SignInFormContainer() {
     }
 
     const redirectUrl = new URLSearchParams(location.search).get('next');
+    console.log(redirectUrl);
     if (redirectUrl) {
       navigate(redirectUrl);
     } else {

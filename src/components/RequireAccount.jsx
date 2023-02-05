@@ -2,16 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Navigate, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import { useGetCurrentAccountQuery } from '../store/accounts';
+import { selectAccessToken } from '../store/authSlice';
+
 import Spinner from './ui/Spinner';
 
 export default function RequireAccount({ children, redirectTo }) {
   const { pathname } = useLocation();
 
-  const { currentData, isLoading: loading } = useGetCurrentAccountQuery();
+  const { currentData, isFetching, isLoading } = useGetCurrentAccountQuery();
 
-  if (loading) {
+  const accessToken = useSelector(selectAccessToken);
+
+  const loading = isFetching || isLoading;
+  if (loading || (accessToken != null && currentData == null)) {
     return <Spinner className="h-screen" />;
   }
 
