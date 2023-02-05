@@ -70,7 +70,7 @@ function SharedLinkSetting({ file }) {
   const link = makeLink(token, file?.name);
 
   return (
-    <div className="my-4 min-w-[20rem]">
+    <>
       <div className="flex mb-4 space-x-4 items-center justify-between">
         <div className="text-left">
           <p className="font-semibold text-sm">{t('Public link is on')}</p>
@@ -97,7 +97,7 @@ function SharedLinkSetting({ file }) {
           <CopyToClipboardButton text={link} disabled={link == null} />
         </InputGroup>
       </div>
-    </div>
+    </>
   );
 }
 

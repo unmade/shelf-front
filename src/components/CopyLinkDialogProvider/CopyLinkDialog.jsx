@@ -31,7 +31,9 @@ function CopyLinkDialog({ file, visible, onClose }) {
       onConfirm={onConfirm}
       onCancel={closeDialog}
     >
-      <SharedLinkSetting file={file} />
+      <div className="my-4 lg:min-w-[20rem]">
+        <SharedLinkSetting file={file} />
+      </div>
     </Dialog>
   );
 }
