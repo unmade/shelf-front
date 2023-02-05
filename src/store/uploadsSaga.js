@@ -20,11 +20,19 @@ import {
 
 const MAX_PARALLEL_UPLOADS = 1;
 
-function* updateListFolderCache({ file, updates }) {
-  const cacheOptimisticUpdates = [file, ...updates].map((update) =>
+function* updateListFolderCache({ path, size }) {
+  const { selectAll } = filesAdapter.getSelectors();
+  const cacheOptimisticUpdates = [path, ...routes.parents(path)].map((pathToUpdate) =>
     put(
-      apiSlice.util.updateQueryData('listFolder', routes.parent(update.path), (draft) => {
-        filesAdapter.upsertOne(draft, update);
+      apiSlice.util.updateQueryData('listFolder', routes.parent(pathToUpdate), (draft) => {
+        // we can calculate parents, but we don't know the ID of the parent, so just loop.
+        // on average there shouldn't be a lot of files to loop through.
+        const entries = selectAll(draft);
+        Object.values(entries).forEach((value) => {
+          if (value.path === pathToUpdate) {
+            filesAdapter.updateOne(draft, { id: value.id, changes: { size: value.size + size } });
+          }
+        });
       })
     )
   );
@@ -106,8 +114,8 @@ function* uploadFile(upload, file) {
       return;
     }
     if (response) {
-      yield put(uploadFulfilled({ upload, response }));
-      yield updateListFolderCache(response);
+      yield put(uploadFulfilled({ upload }));
+      yield updateListFolderCache(response.file ?? response);
       return;
     }
     const progressCeiled = Math.ceil(100 * progress);

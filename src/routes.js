@@ -94,6 +94,14 @@ export function parent(path) {
   return path.substring(0, end);
 }
 
+export function parents(path) {
+  const items = [];
+  for (let parentPath = path; parentPath !== null; parentPath = parent(parentPath)) {
+    items.push(parentPath);
+  }
+  return items;
+}
+
 export function isRoot(path) {
   return path === '.' || path.toLowerCase() === 'trash';
 }
