@@ -39,6 +39,7 @@ function MoveDialog({ files, visible, onClose }) {
         itemsCount: relocations.length,
       })
     );
+    setToPath('.');
     onClose();
   };
 

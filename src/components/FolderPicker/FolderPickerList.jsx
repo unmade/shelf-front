@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { useListFolderQuery } from '../../store/files';
 
+import Spinner from '../ui/Spinner';
 import VList from '../ui/VList';
 
 import FolderPickerItem from './FolderPickerItem';
@@ -15,7 +16,7 @@ function FolderPickerList({ className, emptyView, path, excludeIds, onItemClick 
   const items = React.useMemo(() => {
     if (excludeIds.length) {
       const idsToExclude = new Set(excludeIds);
-      return ids.filter((id) => !idsToExclude.has(id));
+      return ids?.filter((id) => !idsToExclude.has(id));
     }
     return ids;
   }, [ids, excludeIds]);
@@ -26,6 +27,10 @@ function FolderPickerList({ className, emptyView, path, excludeIds, onItemClick 
     onClick: onItemClick,
   };
 
+  if (loading) {
+    return <Spinner className="flex-1" />;
+  }
+
   if (!loading && ids != null && ids.length === 0) {
     return emptyView;
   }
@@ -33,7 +38,7 @@ function FolderPickerList({ className, emptyView, path, excludeIds, onItemClick 
   return (
     <VList
       className={className}
-      itemCount={items.length}
+      itemCount={items?.length ?? 0}
       itemData={data}
       loading={loading}
       itemRender={FolderPickerItem}
