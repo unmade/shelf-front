@@ -32,7 +32,13 @@ function rootReducer(state, action) {
   return reducers(state, action);
 }
 
-const ignoredErrorCodes = new Set([422, 'SHARED_LINK_NOT_FOUND', 'INVALID_TOKEN', 'MISSING_TOKEN']);
+const ignoredErrorCodes = new Set([
+  422,
+  'CONTENT_METADATA_NOT_FOUND',
+  'INVALID_TOKEN',
+  'MISSING_TOKEN',
+  'SHARED_LINK_NOT_FOUND',
+]);
 
 export const errorsMiddleware =
   ({ dispatch }) =>

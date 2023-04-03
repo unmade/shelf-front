@@ -58,9 +58,12 @@ function CodePreview({ file, token }) {
   const scheme = usePrefersColorScheme();
 
   const shouldSkip = file.size > MAX_SIZE;
-  const { data, isLoading: loading } = useDownloadSharedLinkContentQuery(token, {
-    skip: shouldSkip,
-  });
+  const { data, isLoading: loading } = useDownloadSharedLinkContentQuery(
+    { token, filename: file.name },
+    {
+      skip: shouldSkip,
+    }
+  );
 
   if (shouldSkip) {
     return <NoPreview file={file} token={token} />;

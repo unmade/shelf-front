@@ -100,14 +100,6 @@ const filesApi = apiSlice.injectEndpoints({
       }),
       transformResponse: (data) => data.items,
     }),
-    getBatch: builder.query({
-      query: (ids) => ({
-        url: '/files/get_batch',
-        method: 'POST',
-        body: { ids },
-      }),
-      transformResponse: (data) => filesAdapter.setAll(initialState, data.items),
-    }),
     getContentMetadata: builder.query({
       query: (path) => ({
         url: '/files/get_content_metadata',
@@ -191,7 +183,6 @@ export const {
   useDownloadContentQuery,
   useEmptyTrashMutation,
   useFindDuplicatesQuery,
-  useGetBatchQuery,
   useGetContentMetadataQuery,
   useGetThumbnailQuery,
   useListBookmarkedFilesQuery,

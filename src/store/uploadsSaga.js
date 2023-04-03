@@ -20,9 +20,10 @@ import {
 
 const MAX_PARALLEL_UPLOADS = 1;
 
-function* updateListFolderCache({ path, size }) {
+function* updateListFolderCache(file) {
+  const { path, size } = file;
   const { selectAll } = filesAdapter.getSelectors();
-  const cacheOptimisticUpdates = [path, ...routes.parents(path)].map((pathToUpdate) =>
+  const cacheOptimisticUpdates = routes.parents(path).map((pathToUpdate) =>
     put(
       apiSlice.util.updateQueryData('listFolder', routes.parent(pathToUpdate), (draft) => {
         // we can calculate parents, but we don't know the ID of the parent, so just loop.
@@ -33,6 +34,13 @@ function* updateListFolderCache({ path, size }) {
             filesAdapter.updateOne(draft, { id: value.id, changes: { size: value.size + size } });
           }
         });
+      })
+    )
+  );
+  cacheOptimisticUpdates.push(
+    put(
+      apiSlice.util.updateQueryData('listFolder', routes.parent(path), (draft) => {
+        filesAdapter.upsertOne(draft, file);
       })
     )
   );
