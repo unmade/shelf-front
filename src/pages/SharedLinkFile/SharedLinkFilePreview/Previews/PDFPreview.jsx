@@ -18,9 +18,12 @@ function PDFPreview({ file, token }) {
   const { t } = useTranslation(['filePreview']);
 
   const shouldSkip = file.size > MAX_SIZE;
-  const { data, isLoading: loading } = useDownloadSharedLinkContentQuery(token, {
-    skip: shouldSkip,
-  });
+  const { data, isLoading: loading } = useDownloadSharedLinkContentQuery(
+    { token, filename: file.name },
+    {
+      skip: shouldSkip,
+    }
+  );
 
   if (shouldSkip) {
     return <NoPreview token={token} file={file} reason={t('filePreview:fileTooLarge')} />;
