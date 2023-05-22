@@ -5,7 +5,7 @@ import * as icons from '../icons';
 
 import { MediaType } from '../constants';
 
-function FileIcon({ className, hidden, mediatype }) {
+function FileIcon({ className, hidden, mediatype, shared }) {
   let color;
   if (mediatype === MediaType.FOLDER) {
     color = hidden ? 'text-blue-200 dark:text-blue-500/50' : 'text-blue-400';
@@ -13,7 +13,7 @@ function FileIcon({ className, hidden, mediatype }) {
     color = hidden ? 'text-gray-300 dark:text-zinc-600' : 'text-gray-400 dark:text-zinc-500';
   }
 
-  const Icon = icons.getIcon(mediatype);
+  const Icon = icons.getIcon(mediatype, shared);
   return <Icon className={`${color} ${className}`} />;
 }
 

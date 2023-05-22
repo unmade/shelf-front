@@ -93,7 +93,14 @@ function Thumbnail({ className, file, size }) {
   if (MediaType.isSVG(mediatype)) {
     return <SVGThumbnail className={className} file={file} />;
   }
-  return <FileIcon className={className} mediatype={mediatype} hidden={hidden} />;
+  return (
+    <FileIcon
+      className={className}
+      mediatype={mediatype}
+      hidden={hidden}
+      shared={file.mount_point}
+    />
+  );
 }
 
 Thumbnail.propTypes = {
