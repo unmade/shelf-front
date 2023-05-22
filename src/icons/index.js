@@ -7,10 +7,11 @@ import * as si from 'react-icons/si';
 import * as hiSolid from '@heroicons/react/solid';
 import * as hiOutline from '@heroicons/react/outline';
 
-import { MediaType } from './constants';
+import { MediaType } from '../constants';
 
 import AppLogoIcon from './AppLogo';
 import FolderSolid from './FolderIcon';
+import SharedFolderSolid from './SharedFolderIcon';
 
 export const AppLogo = AppLogoIcon;
 export const ArrowLeft = hiSolid.ArrowLeftIcon;
@@ -109,9 +110,12 @@ const FUZZY_MAP = {
   video: hiSolid.FilmIcon,
 };
 
-export function getIcon(mediaType) {
+export function getIcon(mediaType, shared) {
   if (mediaType === null || mediaType === undefined) {
     return File;
+  }
+  if (mediaType === MediaType.FOLDER && shared) {
+    return SharedFolderSolid;
   }
   if (PRECISE_MAP[mediaType]) {
     return PRECISE_MAP[mediaType];
