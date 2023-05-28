@@ -32,12 +32,12 @@ function TableView() {
   const withSidePreview = useSidePreview();
 
   return (
-    <div className="flex h-full flex-row">
+    <div className="flex h-full flex-row overflow-y-auto">
       <div className={`easy-in-out h-full duration-500 ${withSidePreview ? 'w-7/12' : 'w-full'}`}>
         <FileTableViewContainer />
       </div>
       <Transition
-        className="w-5/12 overflow-scroll"
+        className="w-5/12 overflow-y-auto"
         show={withSidePreview}
         enter="transform transition-all ease-in-out duration-500"
         enterFrom="w-0 translate-x-full"
