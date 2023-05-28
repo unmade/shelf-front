@@ -130,7 +130,7 @@ function Files() {
           <Helmet>
             <title>{dirPath === '.' ? 'Shelf' : `${dirPath} - Shelf`}</title>
           </Helmet>
-          <div className="flex h-full flex-col">
+          <div className="flex h-screen flex-col">
             <PageHeader>
               <PageHeader.Title
                 icon={
@@ -146,7 +146,7 @@ function Files() {
             </PageHeader>
 
             <FileDrop
-              className="h-full"
+              className="h-full overflow-y-auto"
               uploadTo={dirPath}
               render={({ innerRef, dragging }) => (
                 <div className="relative flex h-full w-full flex-col">
