@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const fontSizes = {
+const fontBySize = {
+  xs: {
+    label: 'text-xs sm:text-xs',
+    input: 'text-sm sm: text-xs',
+  },
   sm: {
     label: 'text-sm sm:text-xs',
     input: 'text-base sm:text-sm',
@@ -12,9 +16,20 @@ const fontSizes = {
   },
 };
 
-const paddings = {
+const paddingsBySize = {
   sm: 'px-3 py-2',
   base: 'px-3 py-2',
+};
+
+const borderByVariant = {
+  default: '',
+  filled: 'border-none',
+};
+
+const colorsByVariant = {
+  default: 'text-gray-800 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-400',
+  filled:
+    'text-gray-900 bg-gray-100 dark:text-zinc-400 dark:bg-zinc-900 dark:placeholder:text-zinc-500',
 };
 
 function Input({
@@ -29,11 +44,15 @@ function Input({
   readOnly,
   size,
   type,
+  variant,
   onChange,
 }) {
+  const colors = colorsByVariant[variant];
+  const border = borderByVariant[variant];
   const borderColor = error
     ? 'border-red-400 focus:border-red-400 focus:ring-red-200 dark:border-rose-500 dark:focus:border-rose-300 dark:focus:ring-rose-500'
     : 'border-gray-300 focus:ring-blue-100 focus:border-blue-300 dark:border-zinc-600 dark:focus:ring-indigo-500 dark:focus:border-indigo-300';
+
   const inputProps = {};
   if (placeholder != null) {
     inputProps.placeholder = placeholder;
@@ -50,18 +69,18 @@ function Input({
         // eslint-disable-next-line jsx-a11y/label-has-associated-control
         <label
           htmlFor={id}
-          className={`mb-1 block text-left font-medium text-gray-700 dark:text-zinc-200 ${fontSizes[size].label}`}
+          className={`mb-1 block text-left font-medium text-gray-700 dark:text-zinc-200 ${fontBySize[size].label}`}
         >
           {label}
         </label>
       )}
-      <div className="relative shadow-sm">
+      <div className="relative">
         <input
           id={id}
           type={type}
           readOnly={readOnly}
           disabled={disabled}
-          className={`group-first/input:rounded-l-lg group-first/input:rounded-r-none w-full rounded-xl ${paddings[size]} text-gray-800 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-400 ${fontSizes[size].input} border ${borderColor} focus:outline-none focus:ring`}
+          className={`group-first/input:rounded-l-lg group-first/input:rounded-r-none w-full rounded-lg ${paddingsBySize[size]} ${colors} ${fontBySize[size].input} ${border} ${borderColor} focus:outline-none focus:ring`}
           // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus={autoFocus}
           onChange={onChange}
@@ -88,6 +107,7 @@ Input.propTypes = {
   readOnly: PropTypes.bool,
   size: PropTypes.oneOf(['sm', 'base']),
   type: PropTypes.string,
+  variant: PropTypes.oneOf(['default', 'filled']),
   onChange: PropTypes.func.isRequired,
 };
 
@@ -102,6 +122,7 @@ Input.defaultProps = {
   readOnly: false,
   size: 'base',
   type: 'text',
+  variant: 'default',
 };
 
 export default Input;

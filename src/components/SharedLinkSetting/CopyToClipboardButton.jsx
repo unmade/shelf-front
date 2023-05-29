@@ -37,9 +37,9 @@ function CopyToClipboardButton({ text, disabled }) {
 
   const icon =
     state === COPIED ? (
-      <icons.Check className="h-5 w-7 shrink-0 text-teal-400 dark:text-teal-500" />
+      <icons.Check className="h-4 w-4 shrink-0 text-teal-400 dark:text-teal-500" />
     ) : (
-      <icons.ClipboardCopyOutlined className="h-5 w-7 shrink-0 text-gray-400 dark:text-zinc-400" />
+      <icons.Duplicate className="h-4 w-4 shrink-0 text-gray-400 dark:text-zinc-500" />
     );
 
   const borders =
@@ -50,8 +50,8 @@ function CopyToClipboardButton({ text, disabled }) {
   return (
     <Button
       title={t('Copy to clipboard')}
-      className={borders}
-      type="default"
+      className={`${borders} bg-gray-100 dark:bg-zinc-900`}
+      type="text"
       icon={icon}
       onClick={onClick}
       disabled={disabled || navigator.clipboard == null}
