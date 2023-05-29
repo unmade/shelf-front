@@ -78,9 +78,9 @@ function LoginForm({ loading, onSubmit }) {
       />
       <div className="w-full pt-5">
         <Button
-          htmlType="submit"
+          type="submit"
           title={t('signin:form.buttonTitle')}
-          type="primary"
+          variant="primary"
           size="base"
           onClick={submit}
           loading={loading}

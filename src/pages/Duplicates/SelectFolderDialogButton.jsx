@@ -41,7 +41,7 @@ function SelectFolderDialogButton({ type, children, dirPath, icon, onSelectFolde
     <>
       <Button
         className="relative"
-        type={type}
+        variant={type}
         title={t('duplicates:action.selectFolder')}
         size="base"
         icon={icon}

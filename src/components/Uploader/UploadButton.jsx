@@ -35,7 +35,7 @@ function UploadButton({ children, full, icon, uploadTo }) {
         onChange={setUploadFiles}
         multiple
       />
-      <Button type="primary" size="sm" icon={icon} onClick={openUpload} full={full}>
+      <Button variant="primary" size="sm" icon={icon} onClick={openUpload} full={full}>
         {children}
       </Button>
     </form>

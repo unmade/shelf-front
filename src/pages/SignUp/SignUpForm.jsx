@@ -190,9 +190,9 @@ function SignUpForm({ loading, onSubmit }) {
       </div>
       <div className="w-full pt-2">
         <Button
-          htmlType="submit"
+          type="submit"
           title={t('signup:form.button.title')}
-          type="primary"
+          variant="primary"
           size="base"
           onClick={submit}
           loading={loading}

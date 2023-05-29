@@ -16,7 +16,7 @@ function UserManagement() {
         <div className="ml-6 flex items-center space-x-8 text-2xl">
           <Button
             as="div"
-            type="primary"
+            variant="primary"
             title="Uploads"
             size="lg"
             icon={<icons.Plus className="h-5 w-5 shrink-0" />}

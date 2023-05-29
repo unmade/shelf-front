@@ -23,7 +23,7 @@ function DownloadButton({ filename, token }) {
   };
 
   return (
-    <Button type="default" onClick={onClick}>
+    <Button variant="default" onClick={onClick}>
       {t('Download')}
     </Button>
   );

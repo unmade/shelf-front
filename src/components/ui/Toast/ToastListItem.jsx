@@ -38,7 +38,7 @@ function ToastListItem({ item, onClose }) {
 
       <div>
         <Button
-          type="text"
+          variant="text"
           icon={<icons.Close className="h-4 w-4 text-gray-600 dark:text-zinc-400" />}
           title="Close"
           onClick={close}

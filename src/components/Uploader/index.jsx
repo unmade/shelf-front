@@ -27,7 +27,7 @@ const DropdownButton = React.forwardRef(({ uploading }, ref) => (
     innerRef={ref}
     className={uploading ? buttonClasses : ''}
     as="div"
-    type="primary"
+    variant="primary"
     title="Uploads"
     size="lg"
     icon={<icons.CloudUpload className="h-5 w-5 shrink-0" />}
@@ -66,7 +66,7 @@ function UploaderDialog({ uploadTo }) {
     <>
       <Button
         as="div"
-        type="primary"
+        variant="primary"
         title="Uploads"
         size="base"
         icon={<icons.CloudUpload className="h-5 w-5 shrink-0" />}

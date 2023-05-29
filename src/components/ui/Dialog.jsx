@@ -88,8 +88,8 @@ function Dialog({
                       {onConfirm !== null && (
                         <Button
                           className="rounded-xl"
-                          type="primary"
-                          danger={confirmDanger}
+                          variant="primary"
+                          color={confirmDanger ? 'danger' : 'primary'}
                           loading={confirmLoading}
                           onClick={onConfirm}
                           full
@@ -102,7 +102,7 @@ function Dialog({
                   )}
                   {onCancel && (
                     <div className="mt-3 w-full lg:mt-0 lg:ml-3 lg:w-auto">
-                      <Button type="default" onClick={onCancel} full>
+                      <Button variant="default" onClick={onCancel} full>
                         {t('Cancel')}
                       </Button>
                     </div>

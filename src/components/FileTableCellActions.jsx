@@ -43,12 +43,12 @@ const ActionButton = React.forwardRef(({ item }, ref) => (
   <Button
     innerRef={ref}
     key={item.name}
-    type="text"
+    variant="text"
+    color={item.danger ? 'danger' : 'primary'}
     onClick={(event) => {
       event.stopPropagation();
       item.onClick();
     }}
-    danger={item.danger}
     full
   >
     <div className="my-1 flex w-full flex-row items-center justify-between whitespace-nowrap">
@@ -64,7 +64,7 @@ function FileTableCellActions({ item }) {
     <Menu groups={groups} itemRender={ActionButton}>
       <Button
         as="div"
-        type="text"
+        variant="text"
         size="lg"
         icon={<icons.MoreOutlined className="h-4 w-4 dark:text-zinc-400" />}
       />

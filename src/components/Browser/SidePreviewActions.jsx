@@ -29,11 +29,11 @@ function SidePreviewActions({ files }) {
       {menu.map((item) => (
         <Button
           key={item.name}
-          type="text"
+          variant="text"
+          color={item.danger ? 'danger' : 'primary'}
           size="lg"
           icon={item.icon}
           title={item.name}
-          danger={item.danger}
           onClick={item.onClick}
         />
       ))}
