@@ -11,21 +11,26 @@ const classNamesByType = {
 
 const colors = {
   default: {
-    [false]: [
+    primary: [
       'bg-white dark:bg-zinc-700',
       'text-gray-700 dark:text-zinc-200',
       'border-gray-300 dark:border-zinc-600',
       'hover:text-gray-600 dark:hover:text-zinc-300',
       'dark:focus:ring-zinc-700',
     ],
-    [true]: [
-      'bg-white dark:bg-zinc-700',
-      'text-red-600 dark:text-rose-300',
+    danger: [
+      'bg-white dark:bg-transparent',
+      'text-red-600 dark:text-rose-500',
       'border-red-400 dark:border-rose-500',
+    ],
+    success: [
+      'bg-white dark:bg-transparent',
+      'text-emerald-600 dark:text-teal-500',
+      'border-emerald-400 dark:border-teal-500',
     ],
   },
   primary: {
-    [false]: [
+    primary: [
       'bg-gradient-to-br',
       'from-blue-400 dark:from-blue-500/90',
       'to-indigo-400 dark:to-indigo-500/90',
@@ -35,7 +40,7 @@ const colors = {
       'shadow',
       'dark:focus:ring-indigo-700',
     ],
-    [true]: [
+    danger: [
       'bg-gradient-to-br',
       'from-red-400 dark:from-rose-500/90',
       'to-rose-400 dark:to-red-500/90',
@@ -45,26 +50,42 @@ const colors = {
       'shadow',
       'ring-rose-300 dark:focus:ring-rose-700',
     ],
+    success: [
+      'text-emerald-50',
+      'bg-gradient-to-br from-teal-300 to-emerald-400',
+      'hover:bg-gray-100 hover:from-teal-300/90 hover:to-emerald-400/90',
+      'dark:from-teal-500 dark:to-emerald-600',
+      'dark:hover:from-teal-500 dark:hover:to-emerald-500',
+      'shadow',
+      'dark:focus:ring-teal-700',
+    ],
   },
   text: {
-    [false]: [
+    primary: [
       'text-gray-700',
       'hover:bg-gray-50',
       'dark:text-zinc-300',
       'dark:hover:bg-zinc-700/30',
       'dark:focus:ring-zinc-700',
     ],
-    [true]: [
+    danger: [
       'text-red-600',
       'hover:bg-red-50',
       'dark:text-rose-500',
       'dark:hover:bg-rose-700/30',
       'dark:focus:ring-rose-800',
     ],
+    success: [
+      'text-emerald-600',
+      'hover:bg-emerald-50',
+      'dark:text-teal-500',
+      'dark:hover:bg-teal-700/30',
+      'dark:focus:ring-teal-800',
+    ],
   },
 };
 
-const fontSizes = {
+const fontBySize = {
   xs: 'text-sm sm:text-xs',
   sm: 'text-base sm:text-sm',
   base: 'text-lg sm:text-base',
@@ -118,10 +139,9 @@ function Button({
   as: RenderAs,
   children,
   className,
-  danger,
+  color,
   disabled,
   full,
-  htmlType,
   icon,
   innerRef,
   loading,
@@ -129,12 +149,13 @@ function Button({
   size,
   title,
   type,
+  variant,
   onClick,
 }) {
   const buttonProps = { disabled };
   const classNames = [
     className,
-    fontSizes[size],
+    fontBySize[size],
     'focus:outline-none',
     'focus:ring',
     'focus:ring-offset-2',
@@ -166,8 +187,8 @@ function Button({
   }
 
   classNames.push(...shapes[shape][size]);
-  classNames.push(...classNamesByType[type]);
-  classNames.push(...colors[type][danger]);
+  classNames.push(...classNamesByType[variant]);
+  classNames.push(...colors[variant][color]);
   buttonProps.className = classNames.join(' ');
   if (loading) {
     buttonProps.disabled = true;
@@ -175,7 +196,7 @@ function Button({
     return (
       <button
         // eslint-disable-next-line react/button-has-type
-        type={htmlType}
+        type={type}
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...buttonProps}
       >
@@ -200,10 +221,9 @@ Button.propTypes = {
   as: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   className: PropTypes.string,
-  danger: PropTypes.bool,
+  color: PropTypes.oneOf(['primary', 'danger']),
   disabled: PropTypes.bool,
   full: PropTypes.bool,
-  htmlType: PropTypes.oneOf(['button', 'submit']),
   icon: PropTypes.element,
   innerRef: PropTypes.oneOfType([
     PropTypes.func,
@@ -213,7 +233,8 @@ Button.propTypes = {
   shape: PropTypes.oneOf(['circle', 'round']),
   size: PropTypes.oneOf(['xs', 'sm', 'base', 'lg']),
   title: PropTypes.string,
-  type: PropTypes.oneOf(['primary', 'default', 'text']),
+  type: PropTypes.oneOf(['button', 'submit']),
+  variant: PropTypes.oneOf(['primary', 'default', 'text', 'success']),
   onclick: PropTypes.func,
 };
 
@@ -221,17 +242,17 @@ Button.defaultProps = {
   as: 'button',
   children: null,
   className: '',
+  color: 'primary',
   disabled: false,
-  danger: false,
   full: false,
-  htmlType: 'button',
   icon: null,
   innerRef: null,
   loading: false,
   shape: 'round',
   size: 'sm',
   title: null,
-  type: 'default',
+  type: 'button',
+  variant: 'default',
   onclick: null,
 };
 

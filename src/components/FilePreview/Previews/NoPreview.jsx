@@ -46,7 +46,7 @@ function NoPreview({ file, reason }) {
           {reason || t('filePreview:previewNotAvailable')}
         </p>
         <Button
-          type="primary"
+          variant="primary"
           size="base"
           icon={<icons.Download className="h-5 w-5" />}
           onClick={onDownload}

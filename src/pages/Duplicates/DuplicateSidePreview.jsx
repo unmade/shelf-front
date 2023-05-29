@@ -64,7 +64,7 @@ function DuplicateSidePreview({ file }) {
           <FileLink path={file.path} preview prefix={routes.DUPLICATES.prefix}>
             <Button
               as="div"
-              type="text"
+              variant="text"
               className="font-semibold text-blue-500 dark:text-indigo-400"
               icon={<icons.EyeOutlined className=" h-4 w-4 text-blue-500 dark:text-indigo-400" />}
             >
@@ -72,9 +72,9 @@ function DuplicateSidePreview({ file }) {
             </Button>
           </FileLink>
           <Button
-            type="primary"
+            variant="primary"
+            color="danger"
             icon={<icons.TrashOutlined className="h-4 w-4" />}
-            danger
             onClick={onDelete}
           >
             {t('file:delete')}

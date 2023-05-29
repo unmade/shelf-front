@@ -33,12 +33,12 @@ function EmptyTrashDialogButton() {
 
   return (
     <Button
-      type="primary"
+      variant="primary"
+      color="danger"
       title={t('Empty Trash')}
       size="base"
       onClick={openEmptyTrashDialog}
       icon={<icons.TrashOutlined className="h-5 w-5 shrink-0" />}
-      danger
     />
   );
 }

@@ -51,7 +51,7 @@ function CopyToClipboardButton({ text, disabled }) {
     <Button
       title={t('Copy to clipboard')}
       className={`${borders} bg-gray-100 dark:bg-zinc-900`}
-      type="text"
+      variant="text"
       icon={icon}
       onClick={onClick}
       disabled={disabled || navigator.clipboard == null}

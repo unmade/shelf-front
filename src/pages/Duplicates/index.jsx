@@ -55,7 +55,7 @@ function Duplicates() {
         {/* mobile */}
         <div className="flex h-full flex-col items-center justify-center space-y-6 lg:hidden">
           <p>{t('duplicates:pageNotAvailableOnMobile')}</p>
-          <Button onClick={goBack} type="primary">
+          <Button onClick={goBack} variant="primary">
             {t('duplicates:goBack')}
           </Button>
         </div>

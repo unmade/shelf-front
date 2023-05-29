@@ -84,7 +84,7 @@ function SingleFilePreview({ fileId }) {
 
         <div className="flex items-center justify-between py-2 pl-2 pr-0.5">
           <div>
-            <Button type="primary">
+            <Button variant="primary">
               <FileLink path={file.path} preview={file.mediatype !== MediaType.FOLDER}>
                 {t('Open')}
               </FileLink>
@@ -176,7 +176,7 @@ function MultiFilePreview({ fileIds }) {
 
         <div className="flex items-center justify-between py-2 pl-2 pr-1">
           <div>
-            <Button type="primary">{t('Download')}</Button>
+            <Button variant="primary">{t('Download')}</Button>
           </div>
           <div className="flex flex-row justify-center space-x-4">
             <SidePreviewActions files={files} />

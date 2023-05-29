@@ -11,7 +11,7 @@ function GoBackButton({ to, disabled }) {
   const button = (
     <Button
       disabled={disabled}
-      type="text"
+      variant="text"
       icon={
         <icons.ArrowLeft
           className={`h-7 w-7 ${disabled ? 'text-gray-400 dark:text-zinc-500' : ''}`}

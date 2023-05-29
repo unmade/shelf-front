@@ -18,7 +18,7 @@ function Forbidden() {
       <div className="flex min-h-screen flex-col items-center justify-center space-y-8">
         <h1 className="text-3xl">Forbidden</h1>
         <Button
-          type="text"
+          variant="text"
           size="lg"
           icon={<icons.ArrowNarrowLeft />}
           title="Go back"

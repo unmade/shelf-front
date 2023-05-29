@@ -41,7 +41,7 @@ function PreferredAppearance() {
       placement="right-end"
       onOptionChange={onOptionChange}
     >
-      <Button full type="text" icon={<icons.MoonOutlined className="h-5 w-5" />}>
+      <Button full variant="text" icon={<icons.MoonOutlined className="h-5 w-5" />}>
         <div className="my-1">
           {t('Appearance')}: {currentOption.name.toLowerCase()}
         </div>
@@ -78,11 +78,11 @@ function Overlay() {
       <div className="space-y-1">
         <Button
           full
-          type="text"
+          variant="text"
+          color="danger"
           title={t('Sign Out')}
           icon={<icons.LogoutOutlined className="h-5 w-5" />}
           onClick={onSignOut}
-          danger
         >
           <div className="my-1">{t('Sign Out')}</div>
         </Button>

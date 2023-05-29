@@ -44,7 +44,7 @@ function Breadcrumb({
     >
       <Button
         as="div"
-        type="text"
+        variant="text"
         size="xs"
         icon={<icons.DotsHorizontal className="h-4 w-4 dark:text-zinc-600" />}
       />

@@ -13,7 +13,7 @@ function SideBarModal() {
   return (
     <>
       <Button
-        type="text"
+        variant="text"
         size="base"
         icon={<icons.Menu className="h-5 w-5 shrink-0" />}
         onClick={() => setVisible(true)}

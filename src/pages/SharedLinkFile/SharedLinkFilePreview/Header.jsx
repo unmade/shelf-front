@@ -30,13 +30,13 @@ function Header({ name, onInfo }) {
           </Button>
         </Link>
         <Link to={routes.SIGNUP.prefix} className="ml-4">
-          <Button as="div" type="primary">
+          <Button as="div" variant="primary">
             {t('Sign Up')}
           </Button>
         </Link>
         <Button
           className="hidden sm:block ml-8"
-          type="text"
+          variant="text"
           size="base"
           icon={<icons.InformationCircleOutlined className="h-5 w-5" />}
           onClick={onInfo}

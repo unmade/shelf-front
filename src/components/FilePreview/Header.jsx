@@ -10,7 +10,7 @@ function Header({ idx, total, name, onGoBack, onNext, onPrev, onInfo }) {
     <div className="flex flex-row items-center justify-between px-4 py-3">
       <div className="flex flex-row sm:w-48">
         <Button
-          type="text"
+          variant="text"
           size="base"
           icon={<icons.ChevronLeftOutlined className="h-5 w-5" />}
           onClick={onGoBack}
@@ -23,7 +23,7 @@ function Header({ idx, total, name, onGoBack, onNext, onPrev, onInfo }) {
 
       <div className="flex min-w-max flex-row items-center justify-end space-x-2 text-gray-800 dark:text-zinc-200 sm:w-48">
         <Button
-          type="text"
+          variant="text"
           size="base"
           icon={<icons.ArrowNarrowLeftOutlined className="h-5 w-5" />}
           onClick={onPrev}
@@ -36,7 +36,7 @@ function Header({ idx, total, name, onGoBack, onNext, onPrev, onInfo }) {
         </div>
 
         <Button
-          type="text"
+          variant="text"
           size="base"
           icon={<icons.ArrowNarrowRightOutlined className="h-5 w-5" />}
           onClick={onNext}
@@ -44,7 +44,7 @@ function Header({ idx, total, name, onGoBack, onNext, onPrev, onInfo }) {
 
         <Button
           className="hidden sm:block"
-          type="text"
+          variant="text"
           size="base"
           icon={<icons.InformationCircleOutlined className="h-5 w-5" />}
           onClick={onInfo}
