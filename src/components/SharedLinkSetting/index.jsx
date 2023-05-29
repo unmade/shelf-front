@@ -13,7 +13,6 @@ import * as routes from '../../routes';
 import { FileShape } from '../../types';
 
 import Input from '../ui/Input';
-import InputGroup from '../ui/InputGroup';
 import Switch from '../ui/Switch';
 
 import CopyToClipboardButton from './CopyToClipboardButton';
@@ -22,7 +21,8 @@ function makeLink(token, filename) {
   if (token == null || filename == null) {
     return null;
   }
-  const pathParams = { token, filename: routes.encodePath(filename) };
+  // const pathParams = { token, filename: routes.encodePath(filename) };
+  const pathParams = { token, filename: '' };
   const pathname = generatePath(routes.SHARED_LINK_FILE.route, pathParams);
   return `${window.location.origin}${pathname}`;
 }
@@ -71,31 +71,34 @@ function SharedLinkSetting({ file }) {
 
   return (
     <>
-      <div className="flex mb-4 space-x-4 items-center justify-between">
+      <div className="flex mb-2 space-x-4 items-center justify-between">
         <div className="text-left">
           <p className="font-semibold text-sm">{t('Public link is on')}</p>
-          <p className="text-xs">
+          <p className="text-xs text-gray-500 dark:text-zinc-400">
             <Trans i18nKey="Anyone with this link can view" t={t}>
               Anyone with this link <b>can view</b>
             </Trans>
           </p>
         </div>
-        <Switch enabled={enabled} setEnabled={toggleLink} />
+        <Switch size="sm" enabled={enabled} setEnabled={toggleLink} />
       </div>
-      <div>
-        <InputGroup>
+      <div className="relative">
+        <div>
           <Input
             id="link"
             key={link ?? ''}
+            variant="filled"
             placeholder={`${window.location.origin}/s/...`}
             defaultValue={link ?? ''}
-            size="sm"
+            size="xs"
             onChange={() => {}}
             disabled={link == null}
             readOnly
           />
+        </div>
+        <span className="absolute inset-y-0 right-0 ml-3 flex items-center pr-1">
           <CopyToClipboardButton text={link} disabled={link == null} />
-        </InputGroup>
+        </span>
       </div>
     </>
   );

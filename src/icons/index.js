@@ -39,6 +39,7 @@ export const DocumentSearchOutlined = hiOutline.DocumentSearchIcon;
 export const DotsHorizontal = hiOutline.DotsHorizontalIcon;
 export const DotsVerticalOutlined = hiOutline.DotsVerticalIcon;
 export const Download = hiOutline.DownloadIcon;
+export const Duplicate = hiOutline.DuplicateIcon;
 export const Edit = hiOutline.PencilIcon;
 export const ExclamationCircle = hiSolid.ExclamationCircleIcon;
 export const ExternalLink = hiOutline.ExternalLinkIcon;
