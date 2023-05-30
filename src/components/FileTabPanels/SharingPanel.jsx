@@ -9,7 +9,7 @@ function SharingPanel({ file }) {
   return (
     <>
       <SharedLinkSetting file={file} />
-      <ShareSetting />
+      <ShareSetting fileId={file.id} />
     </>
   );
 }
