@@ -22,7 +22,7 @@ const paddingsBySize = {
 };
 
 const borderByVariant = {
-  default: '',
+  default: 'group-first/input:border-r-0 border',
   filled: 'border-none',
 };
 
@@ -105,7 +105,7 @@ Input.propTypes = {
   name: PropTypes.string,
   placeholder: PropTypes.string,
   readOnly: PropTypes.bool,
-  size: PropTypes.oneOf(['sm', 'base']),
+  size: PropTypes.oneOf(['xs', 'sm', 'base']),
   type: PropTypes.string,
   variant: PropTypes.oneOf(['default', 'filled']),
   onChange: PropTypes.func.isRequired,

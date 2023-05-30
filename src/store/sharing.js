@@ -1,4 +1,4 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
 
 import apiSlice, { API_BASE_URL } from './apiSlice';
 
@@ -36,8 +36,26 @@ export const downloadSharedLinkFile = createAsyncThunk(
   }
 );
 
+const fileMembersAdapter = createEntityAdapter();
+const initialState = fileMembersAdapter.getInitialState();
+
 const sharingApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    addMember: builder.mutation({
+      query: ({ fileId, username }) => ({
+        url: '/sharing/add_member',
+        method: 'POST',
+        body: { file_id: fileId, username },
+      }),
+      async onQueryStarted({ fileId }, { dispatch, queryFulfilled }) {
+        const { data } = await queryFulfilled;
+        dispatch(
+          apiSlice.util.updateQueryData('listMembers', fileId, (draft) =>
+            fileMembersAdapter.addOne(draft, data)
+          )
+        );
+      },
+    }),
     createSharedLink: builder.mutation({
       query: (path) => ({
         url: '/sharing/create_shared_link',
@@ -99,6 +117,14 @@ const sharingApi = apiSlice.injectEndpoints({
         body: { token, filename },
       }),
     }),
+    listMembers: builder.query({
+      query: (fileId) => ({
+        url: '/sharing/list_members',
+        method: 'POST',
+        body: { id: fileId },
+      }),
+      transformResponse: (data) => fileMembersAdapter.setAll(initialState, data.members),
+    }),
     revokeSharedLink: builder.mutation({
       query: ({ token, filename }) => ({
         url: '/sharing/revoke_shared_link',
@@ -120,9 +146,11 @@ const sharingApi = apiSlice.injectEndpoints({
 });
 
 export const {
+  useAddMemberMutation,
   useCreateSharedLinkMutation,
   useDownloadSharedLinkContentQuery,
   useGetSharedLinkQuery,
   useGetSharedLinkFileQuery,
+  useListMembersQuery,
   useRevokeSharedLinkMutation,
 } = sharingApi;

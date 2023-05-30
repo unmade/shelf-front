@@ -52,8 +52,8 @@ const colors = {
     ],
     success: [
       'text-emerald-50',
-      'bg-gradient-to-br from-teal-300 to-emerald-400',
-      'hover:bg-gray-100 hover:from-teal-300/90 hover:to-emerald-400/90',
+      'bg-gradient-to-br from-teal-400 to-emerald-500',
+      'hover:bg-gray-100 hover:from-teal-400/90 hover:to-emerald-500/90',
       'dark:from-teal-500 dark:to-emerald-600',
       'dark:hover:from-teal-500 dark:hover:to-emerald-500',
       'shadow',
@@ -221,7 +221,7 @@ Button.propTypes = {
   as: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   className: PropTypes.string,
-  color: PropTypes.oneOf(['primary', 'danger']),
+  color: PropTypes.oneOf(['primary', 'danger', 'success']),
   disabled: PropTypes.bool,
   full: PropTypes.bool,
   icon: PropTypes.element,
@@ -234,7 +234,7 @@ Button.propTypes = {
   size: PropTypes.oneOf(['xs', 'sm', 'base', 'lg']),
   title: PropTypes.string,
   type: PropTypes.oneOf(['button', 'submit']),
-  variant: PropTypes.oneOf(['primary', 'default', 'text', 'success']),
+  variant: PropTypes.oneOf(['primary', 'default', 'text']),
   onclick: PropTypes.func,
 };
 
