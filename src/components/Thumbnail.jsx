@@ -84,7 +84,7 @@ ImageThumbnail.defaultProps = {
 };
 
 function Thumbnail({ className, file, size }) {
-  const { mediatype, hidden, thumbnail_url: thumbnailUrl } = file;
+  const { mediatype, hidden, shared, thumbnail_url: thumbnailUrl } = file;
 
   if (thumbnailUrl != null) {
     return <ImageThumbnail className={className} file={file} size={size} />;
@@ -93,14 +93,7 @@ function Thumbnail({ className, file, size }) {
   if (MediaType.isSVG(mediatype)) {
     return <SVGThumbnail className={className} file={file} />;
   }
-  return (
-    <FileIcon
-      className={className}
-      mediatype={mediatype}
-      hidden={hidden}
-      shared={file.mount_point}
-    />
-  );
+  return <FileIcon className={className} mediatype={mediatype} hidden={hidden} shared={shared} />;
 }
 
 Thumbnail.propTypes = {
