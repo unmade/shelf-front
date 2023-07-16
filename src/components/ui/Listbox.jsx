@@ -86,13 +86,13 @@ export default Listbox;
 Listbox.propTypes = {
   children: PropTypes.element.isRequired,
   initial: PropTypes.shape({
-    name: PropTypes.string.isRequired,
+    name: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     value: PropTypes.any.isRequired,
   }).isRequired,
   options: PropTypes.arrayOf(
     PropTypes.shape({
-      name: PropTypes.string.isRequired,
+      name: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
       // eslint-disable-next-line react/forbid-prop-types
       value: PropTypes.any.isRequired,
     }).isRequired
