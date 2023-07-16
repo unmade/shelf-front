@@ -41,7 +41,7 @@ const initialState = fileMembersAdapter.getInitialState();
 
 const sharingApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    addMember: builder.mutation({
+    addFileMember: builder.mutation({
       query: ({ fileId, username }) => ({
         url: '/sharing/add_member',
         method: 'POST',
@@ -117,13 +117,32 @@ const sharingApi = apiSlice.injectEndpoints({
         body: { token, filename },
       }),
     }),
-    listMembers: builder.query({
+    listFileMembers: builder.query({
       query: (fileId) => ({
         url: '/sharing/list_members',
         method: 'POST',
         body: { id: fileId },
       }),
       transformResponse: (data) => fileMembersAdapter.setAll(initialState, data.members),
+    }),
+    removeFileMember: builder.mutation({
+      query: ({ fileId, memberId }) => ({
+        url: '/sharing/remove_member',
+        method: 'POST',
+        body: { file_id: fileId, member_id: memberId },
+      }),
+      async onQueryStarted({ fileId, memberId }, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          apiSlice.util.updateQueryData('listFileMembers', fileId, (draft) =>
+            fileMembersAdapter.removeOne(draft, memberId)
+          )
+        );
+        try {
+          await queryFulfilled;
+        } catch (e) {
+          patchResult.undo();
+        }
+      },
     }),
     revokeSharedLink: builder.mutation({
       query: ({ token, filename }) => ({
@@ -142,15 +161,39 @@ const sharingApi = apiSlice.injectEndpoints({
         }
       },
     }),
+    setFileMemberAccessLevel: builder.mutation({
+      query: ({ fileId, memberId, accessLevel }) => ({
+        url: '/sharing/set_member_access_level',
+        method: 'POST',
+        body: { file_id: fileId, member_id: memberId, access_level: accessLevel },
+      }),
+      async onQueryStarted({ fileId, memberId, accessLevel }, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          apiSlice.util.updateQueryData('listFileMembers', fileId, (draft) =>
+            fileMembersAdapter.updateOne(draft, {
+              id: memberId,
+              changes: { access_level: accessLevel },
+            })
+          )
+        );
+        try {
+          await queryFulfilled;
+        } catch (e) {
+          patchResult.undo();
+        }
+      },
+    }),
   }),
 });
 
 export const {
-  useAddMemberMutation,
+  useAddFileMemberMutation,
   useCreateSharedLinkMutation,
   useDownloadSharedLinkContentQuery,
   useGetSharedLinkQuery,
   useGetSharedLinkFileQuery,
-  useListMembersQuery,
+  useListFileMembersQuery,
+  useRemoveFileMemberMutation,
   useRevokeSharedLinkMutation,
+  useSetFileMemberAccessLevelMutation,
 } = sharingApi;

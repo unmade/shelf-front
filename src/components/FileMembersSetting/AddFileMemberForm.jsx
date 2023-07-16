@@ -1,53 +1,20 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
 
-import { useAddMemberMutation, useListMembersQuery } from '../../store/sharing';
+import { useAddFileMemberMutation } from '../../store/sharing';
 
-import Avatar from '../ui/Avatar';
 import Button from '../ui/Button';
 import Input from '../ui/Input';
 import InputGroup from '../ui/InputGroup';
 
-function ShareMemberItem({ fileId, memberId }) {
-  const { member } = useListMembersQuery(fileId, {
-    selectFromResult: ({ data }) => ({ member: data.entities[memberId] }),
-  });
-  const { display_name: displayName } = member;
-
-  return (
-    <div className="py-3 flex items-center justify-between text-sm font-medium">
-      <div className="flex items-center mr-2">
-        <Avatar username={displayName} className="w-9 h-9" />
-        <p className="ml-2">{displayName}</p>
-      </div>
-      <div>
-        <p>can edit</p>
-      </div>
-    </div>
-  );
-}
-
-function ShareMembers({ fileId }) {
-  const { ids } = useListMembersQuery(fileId, {
-    selectFromResult: ({ data, isFetching }) => ({ ids: data?.ids, isFetching }),
-  });
-
-  return (
-    <div className="mt-3 divide-y divide-gray-100 dark:divide-zinc-700">
-      {ids?.map((memberId) => (
-        <ShareMemberItem key={memberId} fileId={fileId} memberId={memberId} />
-      ))}
-    </div>
-  );
-}
-
-function AddMemberForm({ fileId }) {
+function AddFileMemberForm({ fileId }) {
   const { t } = useTranslation(['translation']);
 
   const [username, setUsername] = React.useState(null);
   const [error, setError] = React.useState(null);
-  const [addMember, { isLoading: loading }] = useAddMemberMutation();
+  const [addMember, { isLoading: loading }] = useAddFileMemberMutation();
 
   const onUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -104,19 +71,8 @@ function AddMemberForm({ fileId }) {
   );
 }
 
-function ShareSetting({ fileId }) {
-  return (
-    <>
-      <div>
-        <p className="mt-6 mb-1 text-sm font-semibold">Share with members</p>
-      </div>
-      <div>
-        <AddMemberForm fileId={fileId} />
-      </div>
+AddFileMemberForm.propTypes = {
+  fileId: PropTypes.string.isRequired,
+};
 
-      <ShareMembers fileId={fileId} />
-    </>
-  );
-}
-
-export default ShareSetting;
+export default AddFileMemberForm;
