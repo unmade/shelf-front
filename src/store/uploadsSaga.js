@@ -3,13 +3,15 @@ import { nanoid } from '@reduxjs/toolkit';
 import { END, buffers, channel, eventChannel } from 'redux-saga';
 import { all, call, fork, put, select, take } from 'redux-saga/effects';
 
+import { matchPath } from 'react-router-dom';
+
 import { MediaType } from '../constants';
 import * as routes from '../routes';
 
 import apiSlice, { API_BASE_URL } from './apiSlice';
 import { selectAccessToken } from './authSlice';
 import { selectFeatureValue } from './features';
-import { filesAdapter } from './files';
+import { filesAdapter, selectListFolderData } from './files';
 import {
   fileEntriesAdded,
   uploadsAdded,
@@ -23,6 +25,26 @@ const MAX_PARALLEL_UPLOADS = 1;
 function* updateListFolderCache(file) {
   const { path, size } = file;
   const { selectAll } = filesAdapter.getSelectors();
+
+  // when uploading a folder we need to re-fetch files in the current path for the folder to appear
+  const match = matchPath(routes.FILES.route, window.location.pathname);
+  if (match != null) {
+    const { '*': dirPath } = match.params;
+    const currentPath = dirPath === '' ? '.' : dirPath;
+    const files = yield select((state) => {
+      const { selectAll: s } = filesAdapter.getSelectors((state_) =>
+        selectListFolderData(state_, currentPath)
+      );
+      return s(state);
+    });
+    const paths = new Set(Object.values(files).map((entry) => entry.path.toLowerCase()));
+    paths.add(file.name.toLowerCase());
+    const existingPath = routes.parents(path).filter((entry) => paths.has(entry.toLowerCase()));
+    if (existingPath.length === 0) {
+      yield put(apiSlice.util.invalidateTags([{ type: 'Files', id: currentPath }]));
+    }
+  }
+
   const cacheOptimisticUpdates = routes.parents(path).map((pathToUpdate) =>
     put(
       apiSlice.util.updateQueryData('listFolder', routes.parent(pathToUpdate), (draft) => {
