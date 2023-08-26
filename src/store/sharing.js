@@ -50,7 +50,7 @@ const sharingApi = apiSlice.injectEndpoints({
       async onQueryStarted({ fileId }, { dispatch, queryFulfilled }) {
         const { data } = await queryFulfilled;
         dispatch(
-          apiSlice.util.updateQueryData('listMembers', fileId, (draft) =>
+          apiSlice.util.updateQueryData('listFileMembers', fileId, (draft) =>
             fileMembersAdapter.addOne(draft, data)
           )
         );
