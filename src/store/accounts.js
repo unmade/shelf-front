@@ -15,4 +15,5 @@ export const { useGetCurrentAccountQuery, useGetSpaceUsageQuery } = accountsApi;
 
 export const selectGetCurrentAccountResult = accountsApi.endpoints.getCurrentAccount.select();
 
-export const selectIsAdmin = (state) => selectGetCurrentAccountResult(state)?.superuser ?? false;
+export const selectIsAdmin = (state) =>
+  selectGetCurrentAccountResult(state)?.data.superuser ?? false;

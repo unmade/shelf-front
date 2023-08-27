@@ -1,6 +1,10 @@
 import React from 'react';
 
+import { useSelector } from 'react-redux';
+
 import { useTranslation } from 'react-i18next';
+
+import { selectGetCurrentAccountResult } from '../../store/accounts';
 
 import {
   useRemoveFileMemberMutation,
@@ -27,6 +31,8 @@ function FileMemberAccessLevel({ member }) {
   const [setMemberAccessLevel] = useSetFileMemberAccessLevelMutation();
   const [removeMember] = useRemoveFileMemberMutation();
 
+  const account = useSelector((state) => selectGetCurrentAccountResult(state).data);
+
   const { access_level: accessLevel, permissions } = member;
   const { can_change_access_level: canChangeAccessLevel, can_remove: canRemove } = permissions;
 
@@ -38,8 +44,10 @@ function FileMemberAccessLevel({ member }) {
     );
   }
 
+  const isCurrentUser = account.username === member.username;
+
   const options = [];
-  if (canChangeAccessLevel || accessLevel === 'viewer') {
+  if ((!isCurrentUser && canChangeAccessLevel) || accessLevel === 'viewer') {
     options.push({
       name: (
         <AccessOptionItem
@@ -51,7 +59,7 @@ function FileMemberAccessLevel({ member }) {
       value: 'viewer',
     });
   }
-  if (canChangeAccessLevel || accessLevel === 'editor') {
+  if ((!isCurrentUser && canChangeAccessLevel) || accessLevel === 'editor') {
     options.push({
       name: (
         <AccessOptionItem
