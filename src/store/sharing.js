@@ -1,8 +1,11 @@
 import { createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
 
-import apiSlice, { API_BASE_URL } from './apiSlice';
+import { matchPath } from 'react-router-dom';
 
 import { MediaType } from '../constants';
+import * as routes from '../routes';
+
+import apiSlice, { API_BASE_URL } from './apiSlice';
 
 export const downloadSharedLinkFile = createAsyncThunk(
   'sharing/downloadSharedLinkFile',
@@ -132,15 +135,27 @@ const sharingApi = apiSlice.injectEndpoints({
         body: { file_id: fileId, member_id: memberId },
       }),
       async onQueryStarted({ fileId, memberId }, { dispatch, queryFulfilled }) {
-        const patchResult = dispatch(
+        let listFolderPatchResult = null;
+        const fileMemberPatchResult = dispatch(
           apiSlice.util.updateQueryData('listFileMembers', fileId, (draft) =>
             fileMembersAdapter.removeOne(draft, memberId)
           )
         );
+        const match = matchPath(routes.FILES.route, window.location.pathname);
+        if (match != null) {
+          const { '*': dirPath } = match.params;
+          const currentPath = dirPath === '' ? '.' : dirPath;
+          listFolderPatchResult = dispatch(
+            apiSlice.util.updateQueryData('listFolder', currentPath, (draft) =>
+              fileMembersAdapter.removeOne(draft, fileId)
+            )
+          );
+        }
         try {
           await queryFulfilled;
         } catch (e) {
-          patchResult.undo();
+          fileMemberPatchResult.undo();
+          listFolderPatchResult?.undo();
         }
       },
     }),
