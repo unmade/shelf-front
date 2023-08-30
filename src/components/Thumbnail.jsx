@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { useSelector } from 'react-redux';
 
+import { selectFeatureValue } from '../store/features';
 import {
   selectFallbackThumbnail,
   useDownloadContentQuery,
@@ -85,6 +86,14 @@ ImageThumbnail.defaultProps = {
 
 function Thumbnail({ className, file, size }) {
   const { mediatype, hidden, shared, thumbnail_url: thumbnailUrl } = file;
+  const maxSize = useSelector((state) => selectFeatureValue(state, 'max_file_size_to_thumbnail'));
+  const fileIcon = (
+    <FileIcon className={className} mediatype={mediatype} hidden={hidden} shared={shared} />
+  );
+
+  if (file.size > maxSize) {
+    return fileIcon;
+  }
 
   if (thumbnailUrl != null) {
     return <ImageThumbnail className={className} file={file} size={size} />;
@@ -93,7 +102,8 @@ function Thumbnail({ className, file, size }) {
   if (MediaType.isSVG(mediatype)) {
     return <SVGThumbnail className={className} file={file} />;
   }
-  return <FileIcon className={className} mediatype={mediatype} hidden={hidden} shared={shared} />;
+
+  return fileIcon;
 }
 
 Thumbnail.propTypes = {
