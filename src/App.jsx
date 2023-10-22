@@ -16,6 +16,7 @@ import SideBar from './components/SideBar';
 import Bookmarks from './pages/Bookmarks';
 import Duplicates from './pages/Duplicates';
 import Files from './pages/Files';
+import Sharing from './pages/Sharing';
 import Trash from './pages/Trash';
 import UserManagement from './pages/admin/UserManagement';
 
@@ -43,6 +44,7 @@ function App() {
         <div className="my-0 min-w-0 flex-1 bg-white shadow-sm dark:bg-zinc-800">
           <Routes>
             <Route path={routes.BOOKMARKS.route} element={<Bookmarks />} />
+            <Route path={routes.SHARING.route} element={<Sharing />} />
             <Route path={routes.DUPLICATES.route} element={<Duplicates />} />
             <Route path={routes.FILES.route} element={<Files />} />
             <Route path={routes.TRASH.route} element={<Trash />} />

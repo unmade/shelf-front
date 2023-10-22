@@ -70,6 +70,7 @@ export const Redo = hiOutline.RefreshIcon;
 export const SearchOutlined = hiOutline.SearchIcon;
 export const Selector = hiSolid.SelectorIcon;
 export const SelectorOutlined = hiOutline.SelectorIcon;
+export const ShareOutlined = hiOutline.ShareIcon;
 export const Spinner = cg.CgSpinner;
 export const Trash = hiSolid.TrashIcon;
 export const TrashOutlined = hiOutline.TrashIcon;
