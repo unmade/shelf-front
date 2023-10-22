@@ -25,9 +25,15 @@ const menu = [
     desktopOnly: false,
   },
   {
-    path: '/duplicates',
+    path: routes.DUPLICATES.prefix,
     title: i18n.t('Duplicates'),
     icon: <icons.DocumentSearchOutlined className={iconClassName} />,
+    desktopOnly: true,
+  },
+  {
+    path: routes.SHARING.prefix,
+    title: i18n.t('Sharing'),
+    icon: <icons.ShareOutlined className={iconClassName} />,
     desktopOnly: true,
   },
   {
@@ -50,7 +56,8 @@ i18n.on('languageChanged init', () => {
   menu[0].title = i18n.t('Home');
   menu[1].title = i18n.t('Saved');
   menu[2].title = i18n.t('Duplicates');
-  menu[3].title = i18n.t('Trash');
+  menu[3].title = i18n.t('Sharing');
+  menu[4].title = i18n.t('Trash');
   adminMenu[0].title = i18n.t('Users');
 });
 
