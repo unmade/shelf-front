@@ -1,3 +1,5 @@
+export const REFRESH_ACCESS_TOKEN_ON_UPLOAD_DELTA =
+  import.meta.env.SNOWPACK_PUBLIC_REFRESH_ACCESS_TOKEN_ON_UPLOAD_DELTA ?? 10 * 60_000; // default to 10 minutes
 export const TRASH_FOLDER_NAME = import.meta.env.SNOWPACK_PUBLIC_TRASH_FOLDER_NAME ?? 'Trash';
 
 export const MediaType = {
