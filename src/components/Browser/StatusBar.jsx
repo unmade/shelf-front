@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 import { selectAllSelectedFileIds } from '../../store/browser';
 import { scopes, selectCounterByScope } from '../../store/tasks';
-import { selectIsUploading, selectVisibleUploadsLength } from '../../store/uploads';
+import { selectIsUploading, selectVisibleUploadsLength } from '../../store/uploads/slice';
 
 import { useIsLaptop } from '../../hooks/media-query';
 

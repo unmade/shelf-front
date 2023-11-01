@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { selectUploadById } from '../../store/uploads';
+import { selectUploadById } from '../../store/uploads/slice';
 
 import FileIcon from '../FileIcon';
 

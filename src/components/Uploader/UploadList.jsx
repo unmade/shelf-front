@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { useSelector } from 'react-redux';
 
-import { selectVisibleUploads } from '../../store/uploads';
+import { selectVisibleUploads } from '../../store/uploads/slice';
 
 import VList from '../ui/VList';
 

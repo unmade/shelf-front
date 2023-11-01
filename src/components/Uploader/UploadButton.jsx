@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { useDispatch } from 'react-redux';
 
-import { fileEntriesAdded } from '../../store/uploads';
+import { fileEntriesAdded } from '../../store/uploads/slice';
 
 import { Children } from '../../types';
 
