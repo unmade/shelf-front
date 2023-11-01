@@ -79,13 +79,10 @@ const totalProgressSlice = createSlice({
     builder.addCase(uploadsAdded, (state, action) => {
       const { uploads } = action.payload;
       state.uploadsCount += uploads.length;
-      state.totalProgress /= uploads.length;
     });
     builder.addCase(uploadProgressed, (state, action) => {
       const { progress } = action.payload;
-      const offset = state.finished * Math.floor((1 / state.uploadsCount) * 100);
-      const relativeProgress = Math.ceil((1 / state.uploadsCount) * (progress / 100) * 100);
-      state.totalProgress = offset + relativeProgress;
+      state.totalProgress += progress;
       if (progress === 100) {
         state.finished += 1;
       }
@@ -93,7 +90,8 @@ const totalProgressSlice = createSlice({
   },
 });
 
-export const selectUploadsTotalProgress = (state) => state.uploads.progress.totalProgress;
+export const selectUploadsTotalProgress = (state) =>
+  Math.floor(state.uploads.progress.totalProgress / state.uploads.progress.uploadsCount);
 
 export default combineReducers({
   [uploadsSlice.name]: uploadsSlice.reducer,
