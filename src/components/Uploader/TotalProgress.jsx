@@ -7,7 +7,7 @@ import {
   selectIsUploading,
   selectUploadsTotalProgress,
   selectVisibleUploadsLength,
-} from '../../store/uploads';
+} from '../../store/uploads/slice';
 
 import ProgressBar from '../ui/ProgressBar';
 

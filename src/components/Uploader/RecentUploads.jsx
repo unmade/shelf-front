@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { selectVisibleUploadsLength } from '../../store/uploads';
+import { selectVisibleUploadsLength } from '../../store/uploads/slice';
 
 import * as icons from '../../icons';
 

@@ -1,6 +1,9 @@
-import { combineReducers, configureStore, isRejectedWithValue } from '@reduxjs/toolkit';
-import createSagaMiddleware from 'redux-saga';
-import { all } from 'redux-saga/effects';
+import {
+  combineReducers,
+  configureStore,
+  isRejectedWithValue,
+  createListenerMiddleware,
+} from '@reduxjs/toolkit';
 
 import apiSlice from './apiSlice';
 
@@ -9,11 +12,9 @@ import browser from './browser';
 import tasks from './tasks';
 import toasts, { addToast } from './toasts';
 import { appearance, loadAppearanceState, saveAppearanceState } from './ui';
-import uploads, { fileEntriesAdded } from './uploads';
+import uploads, { fileEntriesAdded } from './uploads/slice';
 
-import uploadsSaga from './uploadsSaga';
-
-const sagaMiddleware = createSagaMiddleware();
+import listenFileEntriesAdded from './uploads/listeners';
 
 const reducers = combineReducers({
   [apiSlice.reducerPath]: apiSlice.reducer,
@@ -40,7 +41,7 @@ const ignoredErrorCodes = new Set([
   'SHARED_LINK_NOT_FOUND',
 ]);
 
-export const errorsMiddleware =
+const errorsMiddleware =
   ({ dispatch }) =>
   (next) =>
   (action) => {
@@ -59,6 +60,12 @@ export const errorsMiddleware =
     return next(action);
   };
 
+const listenerMiddleware = createListenerMiddleware();
+listenerMiddleware.startListening({
+  actionCreator: fileEntriesAdded,
+  effect: listenFileEntriesAdded,
+});
+
 const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
@@ -67,7 +74,7 @@ const store = configureStore({
         ignoredActions: [fileEntriesAdded.type],
       },
     })
-      .concat(sagaMiddleware)
+      .prepend(listenerMiddleware.middleware)
       .concat(apiSlice.middleware)
       .concat(errorsMiddleware),
   devTools: import.meta.env.SNOWPACK_PUBLIC_MODE !== 'production',
@@ -78,11 +85,5 @@ store.subscribe(() => {
   saveAuthState(store.getState());
   saveAppearanceState(store.getState());
 });
-
-function* rootSaga() {
-  yield all([...uploadsSaga]);
-}
-
-sagaMiddleware.run(rootSaga);
 
 export default store;

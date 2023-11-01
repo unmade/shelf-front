@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { selectUploadById } from '../../store/uploads';
+import { selectUploadById } from '../../store/uploads/slice';
 
 import * as icons from '../../icons';
 
