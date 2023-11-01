@@ -4,11 +4,17 @@ import { matchPath } from 'react-router-dom';
 import { Mutex } from 'async-mutex';
 import axios from 'axios';
 
-import { MediaType } from '../../constants';
+import { MediaType, REFRESH_ACCESS_TOKEN_ON_UPLOAD_DELTA } from '../../constants';
 import * as routes from '../../routes';
 
 import apiSlice, { API_BASE_URL } from '../apiSlice';
-import { selectAccessToken } from '../authSlice';
+import {
+  selectAccessToken,
+  selectAccessTokenRefreshedAt,
+  selectRefreshToken,
+  signedOut,
+  tokenRefreshed,
+} from '../authSlice';
 import { selectFeatureValue } from '../features';
 import { filesAdapter, selectListFolderData } from '../files';
 import { uploadsAdded, uploadRejected, uploadFulfilled, uploadProgressed } from './slice';
@@ -104,12 +110,37 @@ function updateListFolderCache(file, { dispatch, getState }) {
   );
 }
 
-async function uploadFile(upload, fileObj, { dispatch, getState }) {
-  const accessToken = selectAccessToken(getState());
+async function refreshAccessToken(refreshToken) {
+  try {
+    const { data } = await axios.post(`${API_BASE_URL}/auth/refresh_token`, null, {
+      headers: {
+        'x-shelf-refresh-token': refreshToken,
+      },
+    });
+    const { access_token: accessToken, refresh_token: nextRefreshToken } = data;
+    return { accessToken, refreshToken: nextRefreshToken };
+  } catch (e) {
+    return null;
+  }
+}
 
+async function uploadFile(upload, fileObj, { dispatch, getState }) {
   await mutex.waitForUnlock();
   const release = await mutex.acquire();
 
+  const accessTokenRefreshedAt = selectAccessTokenRefreshedAt(getState());
+  if (new Date() - accessTokenRefreshedAt > REFRESH_ACCESS_TOKEN_ON_UPLOAD_DELTA) {
+    const refreshToken = selectRefreshToken(getState());
+    const tokens = await refreshAccessToken(refreshToken);
+    if (tokens == null) {
+      release();
+      dispatch(signedOut());
+      return;
+    }
+    dispatch(tokenRefreshed(tokens));
+  }
+
+  const accessToken = selectAccessToken(getState());
   const url = `${API_BASE_URL}/files/upload`;
   const body = new FormData();
   body.append('file', fileObj);
@@ -154,7 +185,7 @@ async function uploadFile(upload, fileObj, { dispatch, getState }) {
   updateListFolderCache(data, { dispatch, getState });
 }
 
-export default async function listenFileEntriesAdded(action, listenerApi) {
+async function listenFileEntriesAdded(action, listenerApi) {
   const { files, uploadTo } = action.payload;
   const maxUploadSize = selectFeatureValue(listenerApi.getState(), 'upload_file_max_size');
 
@@ -174,3 +205,5 @@ export default async function listenFileEntriesAdded(action, listenerApi) {
     });
   }
 }
+
+export default listenFileEntriesAdded;

@@ -2,11 +2,11 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const slice = createSlice({
   name: 'auth',
-  initialState: { accessToken: null, refreshToken: null },
+  initialState: { accessToken: null, refreshToken: null, refreshedAt: null },
   reducers: {
     tokenRefreshed: (_, action) => {
       const { accessToken, refreshToken } = action.payload;
-      return { accessToken, refreshToken };
+      return { accessToken, refreshToken, refreshedAt: new Date() };
     },
     signedOut: () => slice.initialState,
   },
@@ -16,6 +16,7 @@ export const { tokenRefreshed, signedOut } = slice.actions;
 export default slice.reducer;
 
 export const selectAccessToken = (state) => state.auth.accessToken;
+export const selectAccessTokenRefreshedAt = (state) => state.auth.refreshedAt;
 export const selectRefreshToken = (state) => state.auth.refreshToken;
 
 const KEY = 'state.auth';
