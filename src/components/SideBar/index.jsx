@@ -17,30 +17,48 @@ const menu = [
     title: i18n.t('Home'),
     icon: <icons.HomeOutlined className={iconClassName} />,
     desktopOnly: false,
+    items: null,
   },
   {
     path: routes.BOOKMARKS.prefix,
     title: i18n.t('Saved'),
     icon: <icons.BookmarkOutlined className={iconClassName} />,
     desktopOnly: false,
+    items: null,
   },
   {
     path: routes.DUPLICATES.prefix,
     title: i18n.t('Duplicates'),
     icon: <icons.DocumentSearchOutlined className={iconClassName} />,
     desktopOnly: true,
+    items: null,
   },
   {
-    path: routes.SHARING.prefix,
-    title: i18n.t('Sharing'),
+    path: null,
+    title: i18n.t('Shared'),
     icon: <icons.ShareOutlined className={iconClassName} />,
     desktopOnly: true,
+    items: [
+      {
+        path: routes.SHARED_IN_APP.prefix,
+        title: i18n.t('In app'),
+        icon: null,
+        desktopOnly: false,
+      },
+      {
+        path: routes.SHARED_VIA_LINK.prefix,
+        title: i18n.t('Links'),
+        icon: null,
+        desktopOnly: false,
+      },
+    ],
   },
   {
     path: routes.TRASH.prefix,
     title: i18n.t('Trash'),
     icon: <icons.TrashOutlined className={iconClassName} />,
     desktopOnly: false,
+    items: null,
   },
 ];
 
@@ -56,7 +74,7 @@ i18n.on('languageChanged init', () => {
   menu[0].title = i18n.t('Home');
   menu[1].title = i18n.t('Saved');
   menu[2].title = i18n.t('Duplicates');
-  menu[3].title = i18n.t('Sharing');
+  menu[3].title = i18n.t('Shared');
   menu[4].title = i18n.t('Trash');
   adminMenu[0].title = i18n.t('Users');
 });

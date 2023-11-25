@@ -15,9 +15,14 @@ export const FILES = {
   route: '/files/*',
 };
 
-export const SHARING = {
-  prefix: '/sharing',
-  route: '/sharing',
+export const SHARED_IN_APP = {
+  prefix: '/shared-in-app',
+  route: '/shared-in-app',
+};
+
+export const SHARED_VIA_LINK = {
+  prefix: '/shared-via-link',
+  route: '/shared-via-link',
 };
 
 export const SHARED_LINK_FILE = {
