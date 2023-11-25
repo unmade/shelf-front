@@ -25,10 +25,16 @@ function SharedItem({ name, path, mediatype }) {
       <div className="flex items-center text-center space-x-4 md:w-2/5 lg:w-1/3">
         {/* members */}
         <div className="w-36 flex items-center justify-end -space-x-2 text-right">
-          <Avatar className="w-8 h-8 ring-2 ring-zinc-800" username="johndoe" />
-          <Avatar className="w-8 h-8 ring-2 ring-zinc-800" username="nathanielsmith" />
-          <Avatar className="w-8 h-8 ring-2 ring-zinc-800" username="guidovanrossum" />
-          <Avatar className="w-8 h-8 ring-2 ring-zinc-800" username="+2" />
+          <Avatar className="w-8 h-8 ring-2 ring-white dark:ring-zinc-800" username="johndoe" />
+          <Avatar
+            className="w-8 h-8 ring-2 ring-white dark:ring-zinc-800"
+            username="nathanielsmith"
+          />
+          <Avatar
+            className="w-8 h-8 ring-2 ring-white dark:ring-zinc-800"
+            username="guidovanrossum"
+          />
+          <Avatar className="w-8 h-8 ring-2 ring-white dark:ring-zinc-800" username="+2" />
         </div>
 
         {/* owner */}
