@@ -1,4 +1,4 @@
-import { createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
+import { createAsyncThunk, createEntityAdapter, createSelector } from '@reduxjs/toolkit';
 
 import { matchPath } from 'react-router-dom';
 
@@ -40,7 +40,10 @@ export const downloadSharedLinkFile = createAsyncThunk(
 );
 
 const fileMembersAdapter = createEntityAdapter();
-const initialState = fileMembersAdapter.getInitialState();
+const fileMembersinitialState = fileMembersAdapter.getInitialState();
+
+const sharedFilesAdapter = createEntityAdapter();
+const sharedFilesInitialState = sharedFilesAdapter.getInitialState();
 
 const sharingApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -126,7 +129,41 @@ const sharingApi = apiSlice.injectEndpoints({
         method: 'POST',
         body: { id: fileId },
       }),
-      transformResponse: (data) => fileMembersAdapter.setAll(initialState, data.members),
+      transformResponse: (data) => fileMembersAdapter.setAll(fileMembersinitialState, data.members),
+    }),
+    listSharedFiles: builder.query({
+      async queryFn(arg, _queryApi, _extraOptions, fetchWithBQ) {
+        const sharedFilesResult = await fetchWithBQ('/sharing/list_shared_files');
+        if (sharedFilesResult.error) {
+          return { error: sharedFilesResult.error };
+        }
+        const { items: sharedFiles } = sharedFilesResult.data;
+        const state = sharedFilesAdapter.setAll(sharedFilesInitialState, sharedFiles);
+
+        const fileIds = sharedFiles.map((item) => item.id);
+        const result = await fetchWithBQ({
+          url: '/sharing/list_members_batch',
+          method: 'POST',
+          body: { ids: fileIds },
+        });
+
+        if (result.error) {
+          return { error: result.error };
+        }
+
+        return {
+          data: sharedFilesAdapter.updateMany(
+            state,
+            result.data.items.map((item) => ({
+              id: item.file_id,
+              changes: {
+                members: item.members.filter((member) => member.access_level !== 'owner'),
+                owner: item.members.filter((member) => member.access_level === 'owner')[0],
+              },
+            }))
+          ),
+        };
+      },
     }),
     removeFileMember: builder.mutation({
       query: ({ fileId, memberId }) => ({
@@ -208,7 +245,19 @@ export const {
   useGetSharedLinkQuery,
   useGetSharedLinkFileQuery,
   useListFileMembersQuery,
+  useListSharedFilesQuery,
   useRemoveFileMemberMutation,
   useRevokeSharedLinkMutation,
   useSetFileMemberAccessLevelMutation,
 } = sharingApi;
+
+const selectListSharedFilesResult = sharingApi.endpoints.listSharedFiles.select();
+
+const selectListSharedFilesResultData = createSelector(
+  selectListSharedFilesResult,
+  (listBookmarkedFilesResult) => listBookmarkedFilesResult.data
+);
+
+export const { selectById: selectSharedFileById } = sharedFilesAdapter.getSelectors(
+  (state) => selectListSharedFilesResultData(state) ?? sharedFilesInitialState
+);

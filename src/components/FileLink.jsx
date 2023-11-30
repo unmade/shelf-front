@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Link, useResolvedPath } from 'react-router-dom';
+import { Link, resolvePath, useLocation, useResolvedPath } from 'react-router-dom';
 
 import useDirPath from '../hooks/dir-path';
 import * as routes from '../routes';
@@ -10,8 +10,13 @@ import usePreviewSearchParam from '../hooks/preview-search-param';
 const trashPrefix = 'trash/';
 
 function FolderLink({ children, className, path, replace }) {
-  const { pathname } = useResolvedPath(routes.encodePath(path));
-  const url = pathname.replace(routes.BOOKMARKS.prefix, routes.FILES.prefix);
+  const location = useLocation();
+  let url;
+  if (location.pathname.startsWith(routes.TRASH.prefix)) {
+    url = useResolvedPath(routes.encodePath(path));
+  } else {
+    url = resolvePath(routes.encodePath(path), routes.FILES.prefix);
+  }
 
   return (
     <Link to={url} className={className} replace={replace}>
