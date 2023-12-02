@@ -70,14 +70,14 @@ function LinkSharing() {
   return (
     <>
       <Helmet>
-        <title>{t('Sharing')} - Shelf</title>
+        <title>{t('Shared')} - Shelf</title>
       </Helmet>
       <div className="flex h-full flex-col">
         <PageHeader title={t('Shared via link')}>
           <PageHeader.Title
             icon={<icons.ShareOutlined className="ml-2 h-7 w-7 text-gray-400 dark:text-zinc-500" />}
           >
-            {t('Shared via Link')}
+            {t('Shared via link')}
           </PageHeader.Title>
           <PageHeader.Actions />
         </PageHeader>

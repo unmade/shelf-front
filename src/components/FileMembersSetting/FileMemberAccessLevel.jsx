@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { selectGetCurrentAccountResult } from '../../store/accounts';
-
 import {
   useRemoveFileMemberMutation,
   useSetFileMemberAccessLevelMutation,
@@ -26,7 +25,7 @@ function AccessOptionItem({ title, description }) {
 }
 
 function FileMemberAccessLevel({ member }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('fileMembersSetting');
 
   const [setMemberAccessLevel] = useSetFileMemberAccessLevelMutation();
   const [removeMember] = useRemoveFileMemberMutation();
@@ -39,7 +38,9 @@ function FileMemberAccessLevel({ member }) {
   if (accessLevel === 'owner') {
     return (
       <div className="px-4">
-        <p className="text-gray-700 dark:text-zinc-300">{t('Owner')}</p>
+        <p className="text-gray-700 dark:text-zinc-300">
+          {t('accessLevel.owner.title', { defaultValue: 'Owner' })}
+        </p>
       </div>
     );
   }
@@ -51,11 +52,13 @@ function FileMemberAccessLevel({ member }) {
     options.push({
       name: (
         <AccessOptionItem
-          title={t('Can view')}
-          description={t('Member can view and download the files')}
+          title={t('accessLevel.canView.title', { defaultValue: 'Can view' })}
+          description={t('accessLevel.canView.description', {
+            defaultValue: 'Member can view and download the files',
+          })}
         />
       ),
-      shortName: t('Can view'),
+      shortName: t('accessLevel.canView.title', { defaultValue: 'Can view' }),
       value: 'viewer',
     });
   }
@@ -63,18 +66,28 @@ function FileMemberAccessLevel({ member }) {
     options.push({
       name: (
         <AccessOptionItem
-          title={t('Can edit')}
-          description={t('Member can edit, delete and add the files')}
+          title={t('accessLevel.canEdit.title', { defaultValue: 'Can edit' })}
+          description={t('accessLevel.canEdit.description', {
+            defaultValue: 'Member can edit, delete and add the files',
+          })}
         />
       ),
-      shortName: t('Can edit'),
+      shortName: t('accessLevel.canEdit.title', { defaultValue: 'Can edit' }),
       value: 'editor',
     });
   }
   if (canRemove) {
     options.push({
-      name: <AccessOptionItem title={<span className="text-red-500">{t('Remove')}</span>} />,
-      shortName: t('Remove'),
+      name: (
+        <AccessOptionItem
+          title={
+            <span className="text-red-500">
+              {t('removeMemberBtn.title', { defaultValue: 'Remove' })}
+            </span>
+          }
+        />
+      ),
+      shortName: t('removeMemberBtn.title', { defaultValue: 'Remove' }),
       value: 'remove',
     });
   }

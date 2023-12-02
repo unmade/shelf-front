@@ -1,0 +1,12 @@
+{
+  "colMembers.membersCount_one": "{{ count }} участник",
+  "colMembers.membersCount_few": "{{ count }} участника",
+  "colMembers.membersCount_many": "{{ count }} участников",
+  "colMembers.membersCount_other": "{{ count }} участника",
+  "colMembers.title": "Участники",
+  "colMembers.userIsTheOnlyMember": "Только вы",
+  "colName.title": "Имя",
+  "colOwner.title": "Владелец",
+  "pageTitle": "Общий доступ",
+  "tabTitle": "Общий доступ"
+}

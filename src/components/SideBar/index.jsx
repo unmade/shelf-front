@@ -14,40 +14,40 @@ const iconClassName = 'mr-3 h-5 w-5 shrink-0 lg:mx-auto lg:h-6 lg:w-6 xl:mr-3 xl
 const menu = [
   {
     path: routes.FILES.prefix,
-    title: i18n.t('Home'),
+    title: i18n.t('Home', { defaultValue: 'Home' }),
     icon: <icons.HomeOutlined className={iconClassName} />,
     desktopOnly: false,
     items: null,
   },
   {
     path: routes.BOOKMARKS.prefix,
-    title: i18n.t('Saved'),
+    title: i18n.t('Saved', { defaultValue: 'Saved' }),
     icon: <icons.BookmarkOutlined className={iconClassName} />,
     desktopOnly: false,
     items: null,
   },
   {
     path: routes.DUPLICATES.prefix,
-    title: i18n.t('Duplicates'),
+    title: i18n.t('Duplicates', { defaultValue: 'Duplicates' }),
     icon: <icons.DocumentSearchOutlined className={iconClassName} />,
     desktopOnly: true,
     items: null,
   },
   {
     path: null,
-    title: i18n.t('Shared'),
+    title: i18n.t('Shared', { defaultValue: 'Shared' }),
     icon: <icons.ShareOutlined className={iconClassName} />,
     desktopOnly: true,
     items: [
       {
         path: routes.SHARED_IN_APP.prefix,
-        title: i18n.t('In app'),
+        title: i18n.t('In app', { defaultValue: 'In app' }),
         icon: null,
         desktopOnly: false,
       },
       {
         path: routes.SHARED_VIA_LINK.prefix,
-        title: i18n.t('Links'),
+        title: i18n.t('Links', { defaultValue: 'Links' }),
         icon: null,
         desktopOnly: false,
       },
@@ -55,7 +55,7 @@ const menu = [
   },
   {
     path: routes.TRASH.prefix,
-    title: i18n.t('Trash'),
+    title: i18n.t('Trash', { defaultValue: 'Trash' }),
     icon: <icons.TrashOutlined className={iconClassName} />,
     desktopOnly: false,
     items: null,
@@ -75,6 +75,8 @@ i18n.on('languageChanged init', () => {
   menu[1].title = i18n.t('Saved');
   menu[2].title = i18n.t('Duplicates');
   menu[3].title = i18n.t('Shared');
+  menu[3].items[0].title = i18n.t('In app');
+  menu[3].items[1].title = i18n.t('Links');
   menu[4].title = i18n.t('Trash');
   adminMenu[0].title = i18n.t('Users');
 });

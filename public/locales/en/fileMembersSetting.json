@@ -1,0 +1,9 @@
+{
+  "accessLevel.canEdit.description": "Member can edit, delete and add the files",
+  "accessLevel.canEdit.title": "Can edit",
+  "accessLevel.canView.description": "Member can view and download the files",
+  "accessLevel.canView.title": "Can view",
+  "accessLevel.owner.title": "Owner",
+  "removeMemberBtn.title": "Remove",
+  "title": "Share with members"
+}

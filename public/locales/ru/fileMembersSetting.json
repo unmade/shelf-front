@@ -1,0 +1,9 @@
+{
+  "accessLevel.canEdit.description": "Пользователь может редактировать, удалять и добавлять файлы",
+  "accessLevel.canEdit.title": "Может редактировать",
+  "accessLevel.canView.description": "Пользователь может только просматривать и скачивать файлы",
+  "accessLevel.canView.title": "Может смотреть",
+  "accessLevel.owner.title": "Владелец",
+  "removeMemberBtn.title": "Удалить",
+  "title": "Поделиться с другими пользователями"
+}

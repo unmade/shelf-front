@@ -9,7 +9,7 @@ import Spinner from '../../../components/ui/Spinner';
 import SharedItem from './SharedFileListItem';
 
 function SharedFileList() {
-  const { t } = useTranslation();
+  const { t } = useTranslation('sharedInApp');
 
   const { ids, isFetching: loading } = useListSharedFilesQuery(undefined, {
     selectFromResult: ({ data, isFetching }) => ({ ids: data?.ids, isFetching }),
@@ -20,11 +20,15 @@ function SharedFileList() {
       {/* header */}
       <div className="show-on-hover-trigger mb-1 flex flex-row items-center border-l border-r border-transparent px-9 py-2 text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-zinc-400">
         <div className="flex w-full md:w-3/5 lg:w-2/3">
-          <div className="ml-3">{t('Name')}</div>
+          <div className="ml-3">{t('colName.title', { defaultValue: 'Name' })}</div>
         </div>
         <div className="hidden items-center space-x-4 md:flex md:w-2/5 lg:w-1/3">
-          <div className="w-36 md:block text-right">{t('Members')}</div>
-          <div className="w-28 md:block text-right">{t('Owner')}</div>
+          <div className="w-36 md:block text-right">
+            {t('colMembers.title', { defaultValue: 'Members' })}
+          </div>
+          <div className="w-28 md:block text-right">
+            {t('colOwner.title', { defaultValue: 'Owner' })}
+          </div>
         </div>
       </div>
 
