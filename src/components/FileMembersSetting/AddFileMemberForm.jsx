@@ -10,7 +10,7 @@ import Input from '../ui/Input';
 import InputGroup from '../ui/InputGroup';
 
 function AddFileMemberForm({ fileId }) {
-  const { t } = useTranslation(['translation']);
+  const { t } = useTranslation(['translation', 'signup']);
 
   const [username, setUsername] = React.useState(null);
   const [error, setError] = React.useState(null);

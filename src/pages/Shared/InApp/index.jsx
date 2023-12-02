@@ -10,19 +10,19 @@ import PageHeader from '../../../components/PageHeader';
 import SharedFileList from './SharedFileList';
 
 function InAppSharing() {
-  const { t } = useTranslation();
+  const { t } = useTranslation('sharedInApp');
 
   return (
     <>
       <Helmet>
-        <title>{t('Sharing')} - Shelf</title>
+        <title>{t('tabTitle', { defaultValue: 'Shared' })} - Shelf</title>
       </Helmet>
       <div className="flex h-full flex-col">
-        <PageHeader title={t('In-app Sharing')}>
+        <PageHeader title={t('pageTitle', { defaultValue: 'Shared with others' })}>
           <PageHeader.Title
             icon={<icons.ShareOutlined className="ml-2 h-7 w-7 text-gray-400 dark:text-zinc-500" />}
           >
-            {t('Shared Inside App')}
+            {t('pageTitle', { defaultValue: 'Shared with others' })}
           </PageHeader.Title>
           <PageHeader.Actions />
         </PageHeader>

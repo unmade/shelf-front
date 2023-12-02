@@ -4,17 +4,18 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
+import { selectGetCurrentAccountResult } from '../../../store/accounts';
 import { selectSharedFileById } from '../../../store/sharing';
 
 import { MediaType } from '../../../constants';
 
-import Avatar from '../../../components/ui/Avatar';
 import FileIcon from '../../../components/FileIcon';
 import FileLink from '../../../components/FileLink';
 
 function SharedFileListItem({ fileId }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('sharedInApp');
 
+  const account = useSelector(selectGetCurrentAccountResult);
   const item = useSelector((state) => selectSharedFileById(state, fileId));
   const { name, path, mediatype } = item;
 
@@ -34,16 +35,15 @@ function SharedFileListItem({ fileId }) {
       <div className="flex items-center text-center space-x-4 md:w-2/5 lg:w-1/3">
         {/* members */}
         <div className="w-36 flex items-center justify-end -space-x-2 text-right text-gray-600 dark:text-zinc-300">
-          {!item.members?.length ? (
-            <p>{t('Only you')}</p>
+          {!item.members?.length === 1 && item.members[0].username === account.username ? (
+            <p>{t('colMembers.userIsTheOnlyMember', { defaultValue: 'Only you' })}</p>
           ) : (
-            item.members?.map((member) => (
-              <Avatar
-                key={member.id}
-                className="w-8 h-8 ring-2 ring-white group-even:ring-gray-50 dark:ring-zinc-800 dark:group-even:ring-zinc-800"
-                username={member.username}
-              />
-            ))
+            <p>
+              {t('colMembers.membersCount', {
+                defaultValue: '{{ count }} member(s)',
+                count: item.members?.length ?? 0,
+              })}
+            </p>
           )}
         </div>
 

@@ -29,7 +29,7 @@ function makeLink(token, filename) {
 const initialState = { enabled: false, link: null };
 
 function SharedLinkSetting({ file }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('sharedLinkSetting');
 
   const { currentData: sharedLink } = useGetSharedLinkQuery(file?.path, { skip: file == null });
   const [createSharedLink] = useCreateSharedLinkMutation();
@@ -72,9 +72,11 @@ function SharedLinkSetting({ file }) {
     <>
       <div className="flex mb-2 space-x-4 items-center justify-between">
         <div className="text-left">
-          <p className="font-semibold text-sm">{t('Public link')}</p>
+          <p className="font-semibold text-sm">
+            {t('publicLink', { defaultValue: 'Public link' })}
+          </p>
           <p className="text-xs text-gray-500 dark:text-zinc-400">
-            <Trans i18nKey="Anyone with this link can view" t={t}>
+            <Trans i18nKey="anyoneCanViewLink" t={t}>
               Anyone with this link <b>can view</b>
             </Trans>
           </p>

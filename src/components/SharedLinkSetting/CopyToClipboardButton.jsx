@@ -49,7 +49,7 @@ function CopyToClipboardButton({ text, disabled }) {
 
   return (
     <Button
-      title={t('Copy to clipboard')}
+      title={t('copyToClipboard', { defaultValue: 'Copy to clipboard' })}
       className={`${borders} bg-gray-100 dark:bg-zinc-900`}
       variant="text"
       icon={icon}

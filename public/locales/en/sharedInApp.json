@@ -1,0 +1,10 @@
+{
+  "colMembers.membersCount_one": "{{ count }} member",
+  "colMembers.membersCount_other": "{{ count }} members",
+  "colMembers.title": "Members",
+  "colMembers.userIsTheOnlyMember": "Only you",
+  "colName.title": "Name",
+  "colOwner.title": "Owner",
+  "pageTitle": "Shared with others",
+  "tabTitle": "Shared"
+}
