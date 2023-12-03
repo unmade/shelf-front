@@ -20,14 +20,14 @@ function LinkSharing() {
       <div className="flex h-full flex-col">
         <PageHeader title={t('pageTitle', { defaultValue: 'Shared via link' })}>
           <PageHeader.Title
-            icon={<icons.ShareOutlined className="ml-2 h-7 w-7 text-gray-400 dark:text-zinc-500" />}
+            icon={<icons.LinkOutlined className="ml-2 h-7 w-7 text-gray-400 dark:text-zinc-500" />}
           >
             {t('pageTitle', { defaultValue: 'Shared via link' })}
           </PageHeader.Title>
           <PageHeader.Actions />
         </PageHeader>
 
-        <div className="px-4">
+        <div className="px-4 flex flex-col flex-1">
           <SharedLinkList />
         </div>
       </div>

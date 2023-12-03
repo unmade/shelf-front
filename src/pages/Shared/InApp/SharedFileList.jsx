@@ -4,6 +4,9 @@ import { useTranslation } from 'react-i18next';
 
 import { useListSharedFilesQuery } from '../../../store/sharing';
 
+import * as icons from '../../../icons';
+
+import Empty from '../../../components/ui/Empty';
 import Spinner from '../../../components/ui/Spinner';
 
 import SharedItem from './SharedFileListItem';
@@ -14,6 +17,18 @@ function SharedFileList() {
   const { ids, isFetching: loading } = useListSharedFilesQuery(undefined, {
     selectFromResult: ({ data, isFetching }) => ({ ids: data?.ids, isFetching }),
   });
+
+  const empty = ids?.length === 0 && !loading;
+  if (empty) {
+    return (
+      <Empty
+        icon={<icons.LinkOutlined className="h-12 w-12 text-gray-400 dark:text-zinc-500" />}
+        title={t('emptyTitle', {
+          defaultValue: 'Files shared with you and other member will appear here',
+        })}
+      />
+    );
+  }
 
   return (
     <div>

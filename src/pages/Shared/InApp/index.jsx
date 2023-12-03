@@ -27,7 +27,7 @@ function InAppSharing() {
           <PageHeader.Actions />
         </PageHeader>
 
-        <div className="px-4">
+        <div className="px-4 flex flex-col flex-1">
           <SharedFileList />
         </div>
       </div>
