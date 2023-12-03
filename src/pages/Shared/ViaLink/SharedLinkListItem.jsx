@@ -6,14 +6,16 @@ import { useSelector } from 'react-redux';
 import { selectFileSharedViaLinkById } from '../../../store/sharing';
 
 import { MediaType } from '../../../constants';
-import * as icons from '../../../icons';
 
 import FileIcon from '../../../components/FileIcon';
 import FileLink from '../../../components/FileLink';
+import useSharedLink from '../../../hooks/shared-link';
+import CopyToClipboardButton from '../../../components/CopyToClipboardButton';
 
 function SharedLinkListItem({ fileId }) {
   const item = useSelector((state) => selectFileSharedViaLinkById(state, fileId));
-  const { name, path, mediatype } = item;
+  const { name, path, mediatype, token } = item;
+  const sharedLink = useSharedLink({ token, filename: name });
 
   return (
     <div className="px-12 h-[72px] flex items-center w-full dark:bg-zinc-700/30 rounded-xl">
@@ -31,13 +33,7 @@ function SharedLinkListItem({ fileId }) {
       <div className="flex items-center text-center space-x-4 md:w-2/5 lg:w-1/3">
         {/* link */}
         <div className="w-20">
-          <button
-            type="button"
-            className={`p-2 rounded-xl w-8 h-8 transition-colors focus:outline-none  ring-orange-300 ring-offset-2 dark:ring-orange-700 dark:ring-offset-zinc-800 `}
-            onClick={() => {}}
-          >
-            <icons.Plus />
-          </button>
+          <CopyToClipboardButton text={sharedLink} disabled={sharedLink == null} />
         </div>
       </div>
     </div>

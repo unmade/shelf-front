@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
 
-import * as icons from '../../icons';
+import * as icons from '../icons';
 
-import Button from '../ui/Button';
+import Button from './ui/Button';
 
 const PENDING = 'pending';
 const COPIED = 'copied';

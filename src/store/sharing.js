@@ -71,6 +71,7 @@ const sharingApi = apiSlice.injectEndpoints({
         method: 'POST',
         body: { path },
       }),
+      invalidatesTags: [{ type: 'Sharing', id: 'listFilesSharedViaLink' }],
       async onQueryStarted(path, { dispatch, queryFulfilled }) {
         const { data } = await queryFulfilled;
         dispatch(apiSlice.util.updateQueryData('getSharedLink', path, () => data));
@@ -202,6 +203,7 @@ const sharingApi = apiSlice.injectEndpoints({
           ),
         };
       },
+      providesTags: [{ type: 'Sharing', id: 'listFilesSharedViaLink' }],
     }),
     removeFileMember: builder.mutation({
       query: ({ fileId, memberId }) => ({
@@ -240,6 +242,7 @@ const sharingApi = apiSlice.injectEndpoints({
         method: 'POST',
         body: { token, filename },
       }),
+      invalidatesTags: [{ type: 'Sharing', id: 'listFilesSharedViaLink' }],
       async onQueryStarted({ path }, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
           apiSlice.util.updateQueryData('getSharedLink', path, () => null)

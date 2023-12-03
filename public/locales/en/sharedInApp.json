@@ -5,6 +5,7 @@
   "colMembers.userIsTheOnlyMember": "Only you",
   "colName.title": "Name",
   "colOwner.title": "Owner",
+  "emptyTitle": "Files shared with you and other member will appear here",
   "pageTitle": "Shared with others",
   "tabTitle": "Shared"
 }

@@ -1,7 +1,8 @@
 import React from 'react';
 
 import { Trans, useTranslation } from 'react-i18next';
-import { generatePath } from 'react-router-dom';
+
+import useSharedLink from '../../hooks/shared-link';
 
 import {
   useCreateSharedLinkMutation,
@@ -9,22 +10,12 @@ import {
   useRevokeSharedLinkMutation,
 } from '../../store/sharing';
 
-import * as routes from '../../routes';
 import { FileShape } from '../../types';
 
 import Input from '../ui/Input';
 import Switch from '../ui/Switch';
 
-import CopyToClipboardButton from './CopyToClipboardButton';
-
-function makeLink(token, filename) {
-  if (token == null || filename == null) {
-    return null;
-  }
-  const pathParams = { token, filename: routes.encodePath(filename) };
-  const pathname = generatePath(routes.SHARED_LINK_FILE.route, pathParams);
-  return `${window.location.origin}${pathname}`;
-}
+import CopyToClipboardButton from '../CopyToClipboardButton';
 
 const initialState = { enabled: false, link: null };
 
@@ -66,7 +57,7 @@ function SharedLinkSetting({ file }) {
   }, [state.token, file?.name, file?.path]);
 
   const { enabled, token } = state;
-  const link = makeLink(token, file?.name);
+  const link = useSharedLink({ token, filename: file?.name });
 
   return (
     <>
