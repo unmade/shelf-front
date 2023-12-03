@@ -45,6 +45,9 @@ const fileMembersinitialState = fileMembersAdapter.getInitialState();
 const sharedFilesAdapter = createEntityAdapter();
 const sharedFilesInitialState = sharedFilesAdapter.getInitialState();
 
+const filesSharedViaLinkAdapter = createEntityAdapter();
+const filesSharedViaLinkInitialState = filesSharedViaLinkAdapter.getInitialState();
+
 const sharingApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     addFileMember: builder.mutation({
@@ -165,6 +168,41 @@ const sharingApi = apiSlice.injectEndpoints({
         };
       },
     }),
+    listFilesSharedViaLink: builder.query({
+      async queryFn(arg, _queryApi, _extraOptions, fetchWithBQ) {
+        const sharedLinksResult = await fetchWithBQ('/sharing/list_shared_links');
+        if (sharedLinksResult.error) {
+          return { error: sharedLinksResult.error };
+        }
+        const { items: sharedLinks } = sharedLinksResult.data;
+
+        const fileIds = sharedLinks.map((item) => item.file_id);
+        const result = await fetchWithBQ({
+          url: '/files/get_batch',
+          method: 'POST',
+          body: { ids: fileIds },
+        });
+
+        if (result.error) {
+          return { error: result.error };
+        }
+
+        const files = result.data.items;
+        const state = filesSharedViaLinkAdapter.setAll(filesSharedViaLinkInitialState, files);
+
+        return {
+          data: filesSharedViaLinkAdapter.updateMany(
+            state,
+            sharedLinks.map((item) => ({
+              id: item.file_id,
+              changes: {
+                token: item.token,
+              },
+            }))
+          ),
+        };
+      },
+    }),
     removeFileMember: builder.mutation({
       query: ({ fileId, memberId }) => ({
         url: '/sharing/remove_member',
@@ -246,6 +284,7 @@ export const {
   useGetSharedLinkFileQuery,
   useListFileMembersQuery,
   useListSharedFilesQuery,
+  useListFilesSharedViaLinkQuery,
   useRemoveFileMemberMutation,
   useRevokeSharedLinkMutation,
   useSetFileMemberAccessLevelMutation,
@@ -255,9 +294,20 @@ const selectListSharedFilesResult = sharingApi.endpoints.listSharedFiles.select(
 
 const selectListSharedFilesResultData = createSelector(
   selectListSharedFilesResult,
-  (listBookmarkedFilesResult) => listBookmarkedFilesResult.data
+  (result) => result.data
 );
 
 export const { selectById: selectSharedFileById } = sharedFilesAdapter.getSelectors(
   (state) => selectListSharedFilesResultData(state) ?? sharedFilesInitialState
+);
+
+const selectListFilesSharedViaLinkResult = sharingApi.endpoints.listFilesSharedViaLink.select();
+
+const selectListFilesSharedViaLinkResultData = createSelector(
+  selectListFilesSharedViaLinkResult,
+  (result) => result.data
+);
+
+export const { selectById: selectFileSharedViaLinkById } = filesSharedViaLinkAdapter.getSelectors(
+  (state) => selectListFilesSharedViaLinkResultData(state) ?? filesSharedViaLinkInitialState
 );
