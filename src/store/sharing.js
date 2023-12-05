@@ -5,7 +5,9 @@ import { matchPath } from 'react-router-dom';
 import { MediaType } from '../constants';
 import * as routes from '../routes';
 
+import { selectGetCurrentAccountResult } from './accounts';
 import apiSlice, { API_BASE_URL } from './apiSlice';
+import { filesAdapter } from './files';
 
 export const downloadSharedLinkFile = createAsyncThunk(
   'sharing/downloadSharedLinkFile',
@@ -39,7 +41,9 @@ export const downloadSharedLinkFile = createAsyncThunk(
   }
 );
 
-const fileMembersAdapter = createEntityAdapter();
+const fileMembersAdapter = createEntityAdapter({
+  sortComparer: (a) => (a.access_level === 'owner' ? 1 : 0),
+});
 const fileMembersinitialState = fileMembersAdapter.getInitialState();
 
 const sharedFilesAdapter = createEntityAdapter();
@@ -56,13 +60,24 @@ const sharingApi = apiSlice.injectEndpoints({
         method: 'POST',
         body: { file_id: fileId, username },
       }),
+      invalidatesTags: (_result, _error, { fileId }) => [{ type: 'fileMembers', id: fileId }],
       async onQueryStarted({ fileId }, { dispatch, queryFulfilled }) {
-        const { data } = await queryFulfilled;
-        dispatch(
-          apiSlice.util.updateQueryData('listFileMembers', fileId, (draft) =>
-            fileMembersAdapter.addOne(draft, data)
-          )
-        );
+        let listFolderPatchResult = null;
+        const match = matchPath(routes.FILES.route, window.location.pathname);
+        if (match != null) {
+          const { '*': dirPath } = match.params;
+          const currentPath = dirPath === '' ? '.' : dirPath;
+          listFolderPatchResult = dispatch(
+            apiSlice.util.updateQueryData('listFolder', currentPath, (draft) =>
+              filesAdapter.updateOne(draft, { id: fileId, changes: { shared: true } })
+            )
+          );
+        }
+        try {
+          await queryFulfilled;
+        } catch (e) {
+          listFolderPatchResult?.undo();
+        }
       },
     }),
     createSharedLink: builder.mutation({
@@ -133,6 +148,7 @@ const sharingApi = apiSlice.injectEndpoints({
         method: 'POST',
         body: { id: fileId },
       }),
+      providesTags: (_result, _error, fileId) => [{ type: 'fileMembers', id: fileId }],
       transformResponse: (data) => fileMembersAdapter.setAll(fileMembersinitialState, data.members),
     }),
     listSharedFiles: builder.query({
@@ -211,20 +227,22 @@ const sharingApi = apiSlice.injectEndpoints({
         method: 'POST',
         body: { file_id: fileId, member_id: memberId },
       }),
-      async onQueryStarted({ fileId, memberId }, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ fileId, memberId }, { dispatch, queryFulfilled, getState }) {
         let listFolderPatchResult = null;
         const fileMemberPatchResult = dispatch(
           apiSlice.util.updateQueryData('listFileMembers', fileId, (draft) =>
             fileMembersAdapter.removeOne(draft, memberId)
           )
         );
+        const account = selectGetCurrentAccountResult(getState());
+        const currentUserIsRemovedMember = account.user.id === memberId;
         const match = matchPath(routes.FILES.route, window.location.pathname);
-        if (match != null) {
+        if (currentUserIsRemovedMember && match != null) {
           const { '*': dirPath } = match.params;
           const currentPath = dirPath === '' ? '.' : dirPath;
           listFolderPatchResult = dispatch(
             apiSlice.util.updateQueryData('listFolder', currentPath, (draft) =>
-              fileMembersAdapter.removeOne(draft, fileId)
+              filesAdapter.removeOne(draft, fileId)
             )
           );
         }
