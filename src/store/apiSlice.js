@@ -69,7 +69,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: baseQueryWithReauth,
-  tagTypes: ['Files', 'Sharing'],
+  tagTypes: ['Files', 'Sharing', 'fileMembers'],
   endpoints: () => ({}),
 });
 
