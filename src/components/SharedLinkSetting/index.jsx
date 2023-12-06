@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { Trans, useTranslation } from 'react-i18next';
 
@@ -9,8 +10,6 @@ import {
   useGetSharedLinkQuery,
   useRevokeSharedLinkMutation,
 } from '../../store/sharing';
-
-import { FileShape } from '../../types';
 
 import Input from '../ui/Input';
 import Switch from '../ui/Switch';
@@ -97,7 +96,10 @@ function SharedLinkSetting({ file }) {
 }
 
 SharedLinkSetting.propTypes = {
-  file: FileShape,
+  file: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    path: PropTypes.string.isRequired,
+  }),
 };
 
 SharedLinkSetting.defaultProps = {

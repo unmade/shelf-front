@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import * as icons from '../../../icons';
 
+import CopyLinkDialogProvider from '../../../components/CopyLinkDialogProvider';
 import PageHeader from '../../../components/PageHeader';
 
 import SharedLinkList from './SharedLinkList';
@@ -13,7 +14,7 @@ function LinkSharing() {
   const { t } = useTranslation('sharedViaLink');
 
   return (
-    <>
+    <CopyLinkDialogProvider>
       <Helmet>
         <title>{t('tabTitle', { defaultValue: 'Shared' })} - Shelf</title>
       </Helmet>
@@ -31,7 +32,7 @@ function LinkSharing() {
           <SharedLinkList />
         </div>
       </div>
-    </>
+    </CopyLinkDialogProvider>
   );
 }
 
