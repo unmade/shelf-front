@@ -22,7 +22,7 @@ function SharedFileList() {
   if (empty) {
     return (
       <Empty
-        icon={<icons.LinkOutlined className="h-12 w-12 text-gray-400 dark:text-zinc-500" />}
+        icon={<icons.ShareOutlined className="h-12 w-12 text-gray-400 dark:text-zinc-500" />}
         title={t('emptyTitle', {
           defaultValue: 'Files shared with you and other member will appear here',
         })}

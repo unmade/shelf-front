@@ -10,7 +10,7 @@ import Button from './ui/Button';
 const PENDING = 'pending';
 const COPIED = 'copied';
 
-function CopyToClipboardButton({ text, disabled }) {
+function CopyToClipboardButton({ className, text, disabled }) {
   const { t } = useTranslation();
 
   const [state, setState] = React.useState(PENDING);
@@ -50,7 +50,7 @@ function CopyToClipboardButton({ text, disabled }) {
   return (
     <Button
       title={t('copyToClipboard', { defaultValue: 'Copy to clipboard' })}
-      className={`${borders} bg-gray-100 dark:bg-zinc-900`}
+      className={`${className} ${borders} bg-gray-100 dark:bg-zinc-900`}
       variant="text"
       icon={icon}
       onClick={onClick}
@@ -60,11 +60,13 @@ function CopyToClipboardButton({ text, disabled }) {
 }
 
 CopyToClipboardButton.propTypes = {
+  className: PropTypes.string,
   text: PropTypes.string,
   disabled: PropTypes.bool,
 };
 
 CopyToClipboardButton.defaultProps = {
+  className: '',
   text: null,
   disabled: true,
 };

@@ -214,6 +214,7 @@ const sharingApi = apiSlice.injectEndpoints({
               id: item.file_id,
               changes: {
                 token: item.token,
+                sharedAt: item.created_at,
               },
             }))
           ),
