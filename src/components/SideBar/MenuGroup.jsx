@@ -49,8 +49,8 @@ function MenuGroup({ items }) {
 
 const MenuItemType = PropTypes.shape({
   title: PropTypes.string.isRequired,
-  path: PropTypes.string.isRequired,
-  icon: PropTypes.element.isRequired,
+  path: PropTypes.string,
+  icon: PropTypes.element,
   desktopOnly: PropTypes.bool.isRequired,
 });
 MenuItemType.items = PropTypes.arrayOf(MenuItemType);
