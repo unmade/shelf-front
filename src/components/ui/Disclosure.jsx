@@ -41,7 +41,7 @@ function Disclosure({ className, title, panel }) {
 Disclosure.propTypes = {
   className: PropTypes.string.isRequired,
   panel: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
 };
 
 export default Disclosure;
