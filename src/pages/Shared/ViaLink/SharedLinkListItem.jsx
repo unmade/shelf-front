@@ -24,24 +24,26 @@ function SharedLinkListItem({ fileId }) {
   const { name, path, token } = item;
   const sharedLink = useSharedLink({ token, filename: name });
   const parentPath = routes.parent(path);
-  const sharedAt = new Date(item.sharedAt).getTime();
+  const createdAt = new Date(item.created_at).getTime();
 
   const openCopyLinkDialog = useCopyLinkDialog();
 
   return (
-    <div className="show-on-hover-trigger px-12 h-[72px] flex items-center w-full dark:bg-zinc-700/30 rounded-xl">
+    <div className="show-on-hover-trigger even:ring-gray-50 even:bg-gray-50 even:dark:bg-zinc-700/30 px-12 h-[72px] flex items-center w-full rounded-xl">
       {/* file icon and name */}
-      <div className="md:w-3/5 lg:w-3/4 flex text-gray-900 dark:text-zinc-100 w-full">
-        <div className="flex w-full items-center space-x-3">
+      <div className="md:w-3/4 lg:w-3/4 flex text-gray-900 dark:text-zinc-100 w-full">
+        <div className="flex w-full min-w-0 items-center space-x-3">
           <Thumbnail className="h-12 w-12" file={item} />
-          <FileLink path={item.path} preview={item.mediatype !== MediaType.FOLDER}>
-            <div>
-              <p>{name}</p>
-              {parentPath !== '.' && (
-                <p className="text-xs text-gray-600 dark:text-zinc-400">{parentPath}</p>
-              )}
-            </div>
-          </FileLink>
+          <span className="truncate">
+            <FileLink path={item.mediatype === MediaType.FOLDER ? item.path : parentPath}>
+              <div>
+                <p className="truncate">{name}</p>
+                {parentPath !== '.' && (
+                  <p className="text-xs truncate text-gray-600 dark:text-zinc-400">{parentPath}</p>
+                )}
+              </div>
+            </FileLink>
+          </span>
         </div>
         <div className="ml-2 flex items-center space-x-4">
           <CopyToClipboardButton
@@ -59,9 +61,9 @@ function SharedLinkListItem({ fileId }) {
         </div>
       </div>
 
-      <div className="ml-6 flex items-center text-left space-x-4 md:w-2/5 lg:w-1/4">
+      <div className="ml-6 flex items-center text-left space-x-4 md:w-1/4">
         <div className="w-48">
-          <TimeAgo mtime={sharedAt} />
+          <TimeAgo mtime={createdAt} />
         </div>
       </div>
     </div>

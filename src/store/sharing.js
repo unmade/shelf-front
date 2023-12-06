@@ -60,7 +60,10 @@ const sharingApi = apiSlice.injectEndpoints({
         method: 'POST',
         body: { file_id: fileId, username },
       }),
-      invalidatesTags: (_result, _error, { fileId }) => [{ type: 'fileMembers', id: fileId }],
+      invalidatesTags: (_result, _error, { fileId }) => [
+        { type: 'fileMembers', id: fileId },
+        { type: 'Sharing', id: 'listSharedFiles' },
+      ],
       async onQueryStarted({ fileId }, { dispatch, queryFulfilled }) {
         let listFolderPatchResult = null;
         const match = matchPath(routes.FILES.route, window.location.pathname);
@@ -152,6 +155,7 @@ const sharingApi = apiSlice.injectEndpoints({
       transformResponse: (data) => fileMembersAdapter.setAll(fileMembersinitialState, data.members),
     }),
     listSharedFiles: builder.query({
+      providesTags: [{ type: 'Sharing', id: 'listSharedFiles' }],
       async queryFn(arg, _queryApi, _extraOptions, fetchWithBQ) {
         const sharedFilesResult = await fetchWithBQ('/sharing/list_shared_files');
         if (sharedFilesResult.error) {
@@ -171,22 +175,24 @@ const sharingApi = apiSlice.injectEndpoints({
           return { error: result.error };
         }
 
-        return {
-          data: sharedFilesAdapter.updateMany(
-            state,
-            result.data.items.map((item) => ({
-              id: item.file_id,
-              changes: {
-                members: item.members.filter((member) => member.access_level !== 'owner'),
-                owner: item.members.filter((member) => member.access_level === 'owner')[0],
-              },
-            }))
-          ),
-        };
+        const data = sharedFilesAdapter.updateMany(
+          state,
+          result.data.items.map((item) => ({
+            id: item.file_id,
+            changes: {
+              shared: true,
+              members: item.members.filter((member) => member.access_level !== 'owner'),
+              owner: item.members.filter((member) => member.access_level === 'owner')[0],
+            },
+          }))
+        );
+
+        return { data };
       },
     }),
     listFilesSharedViaLink: builder.query({
-      async queryFn(arg, _queryApi, _extraOptions, fetchWithBQ) {
+      providesTags: [{ type: 'Sharing', id: 'listFilesSharedViaLink' }],
+      async queryFn(arg, queryApi, _extraOptions, fetchWithBQ) {
         const sharedLinksResult = await fetchWithBQ('/sharing/list_shared_links');
         if (sharedLinksResult.error) {
           return { error: sharedLinksResult.error };
@@ -207,20 +213,30 @@ const sharingApi = apiSlice.injectEndpoints({
         const files = result.data.items;
         const state = filesSharedViaLinkAdapter.setAll(filesSharedViaLinkInitialState, files);
 
-        return {
-          data: filesSharedViaLinkAdapter.updateMany(
-            state,
-            sharedLinks.map((item) => ({
-              id: item.file_id,
-              changes: {
-                token: item.token,
-                sharedAt: item.created_at,
-              },
-            }))
-          ),
-        };
+        const data = filesSharedViaLinkAdapter.updateMany(
+          state,
+          sharedLinks.map((item) => ({
+            id: item.file_id,
+            changes: {
+              token: item.token,
+              created_at: item.created_at,
+            },
+          }))
+        );
+
+        const { selectAll } = filesSharedViaLinkAdapter.getSelectors();
+        selectAll(data).forEach((entity) => {
+          queryApi.dispatch(
+            apiSlice.util.upsertQueryData('getSharedLink', entity.path, {
+              file_id: entity.id,
+              token: entity.token,
+              created_at: entity.created_at,
+            })
+          );
+        });
+
+        return { data };
       },
-      providesTags: [{ type: 'Sharing', id: 'listFilesSharedViaLink' }],
     }),
     removeFileMember: builder.mutation({
       query: ({ fileId, memberId }) => ({
