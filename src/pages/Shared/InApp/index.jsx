@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import * as icons from '../../../icons';
 
+import FileMembersDialogProvider from '../../../components/FileMembersDialogProvider';
 import PageHeader from '../../../components/PageHeader';
 
 import SharedFileList from './SharedFileList';
@@ -13,7 +14,7 @@ function InAppSharing() {
   const { t } = useTranslation('sharedInApp');
 
   return (
-    <>
+    <FileMembersDialogProvider>
       <Helmet>
         <title>{t('tabTitle', { defaultValue: 'Shared' })} - Shelf</title>
       </Helmet>
@@ -31,7 +32,7 @@ function InAppSharing() {
           <SharedFileList />
         </div>
       </div>
-    </>
+    </FileMembersDialogProvider>
   );
 }
 
