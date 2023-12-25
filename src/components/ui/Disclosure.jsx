@@ -11,7 +11,7 @@ function Disclosure({ className, title, panel }) {
       {({ open }) => (
         <>
           <UIDisclosure.Button className={className}>
-            <div className="flex w-full justify-between">
+            <div className="flex w-full justify-between items-center">
               {title}
               {open ? (
                 <icons.ChevronDown className="w-5 h-5 lg:hidden xl:block" />
