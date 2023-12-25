@@ -42,14 +42,10 @@ const menu = [
       {
         path: routes.SHARED_IN_APP.prefix,
         title: i18n.t('In app', { defaultValue: 'In app' }),
-        icon: null,
-        desktopOnly: false,
       },
       {
         path: routes.SHARED_VIA_LINK.prefix,
         title: i18n.t('Links', { defaultValue: 'Links' }),
-        icon: null,
-        desktopOnly: false,
       },
     ],
   },
