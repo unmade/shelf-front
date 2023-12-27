@@ -1,4 +1,6 @@
 {
   "anyoneCanViewLink": "Anyone with this link <1>can view</1>",
+  "copyToClipboardBtn.text": "Copy link",
+  "copyToClipboardBtn.title": "Copy to clipboard",
   "publicLink": "Public link"
 }

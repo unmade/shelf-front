@@ -1,18 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { useTranslation } from 'react-i18next';
-
 import * as icons from '../icons';
+import { Children } from '../types';
 
 import Button from './ui/Button';
 
 const PENDING = 'pending';
 const COPIED = 'copied';
 
-function CopyToClipboardButton({ className, text, disabled }) {
-  const { t } = useTranslation();
-
+function CopyToClipboardButton({ children, className, disabled, title, value }) {
   const [state, setState] = React.useState(PENDING);
 
   React.useEffect(() => {
@@ -29,8 +26,8 @@ function CopyToClipboardButton({ className, text, disabled }) {
 
   const onClick = (event) => {
     event.preventDefault();
-    if (text != null && text !== '') {
-      navigator.clipboard?.writeText(text);
+    if (value != null && value !== '') {
+      navigator.clipboard?.writeText(value);
     }
     setState(COPIED);
   };
@@ -49,26 +46,32 @@ function CopyToClipboardButton({ className, text, disabled }) {
 
   return (
     <Button
-      title={t('copyToClipboard', { defaultValue: 'Copy to clipboard' })}
+      title={title}
       className={`${className} ${borders} bg-gray-100 dark:bg-zinc-900`}
       variant="text"
       icon={icon}
       onClick={onClick}
       disabled={disabled || navigator.clipboard == null}
-    />
+    >
+      {children}
+    </Button>
   );
 }
 
 CopyToClipboardButton.propTypes = {
+  children: Children,
   className: PropTypes.string,
-  text: PropTypes.string,
   disabled: PropTypes.bool,
+  value: PropTypes.string,
+  title: PropTypes.string,
 };
 
 CopyToClipboardButton.defaultProps = {
+  children: null,
   className: '',
-  text: null,
   disabled: true,
+  value: null,
+  title: null,
 };
 
 export default CopyToClipboardButton;

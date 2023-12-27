@@ -88,7 +88,11 @@ function SharedLinkSetting({ file }) {
           />
         </div>
         <span className="absolute inset-y-0 right-0 ml-3 flex items-center pr-1">
-          <CopyToClipboardButton text={link} disabled={link == null} />
+          <CopyToClipboardButton
+            title={t('copyToClipboardBtn.title', { defaultValue: 'Copy to clipboard' })}
+            value={link}
+            disabled={link == null}
+          />
         </span>
       </div>
     </>

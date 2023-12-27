@@ -1,4 +1,6 @@
 {
   "anyoneCanViewLink": "Любой у кого есть ссылка <1>может смотреть</1>",
+  "copyToClipboardBtn.text": "Ссылка",
+  "copyToClipboardBtn.title": "Скопировать",
   "publicLink": "Публичная ссылка"
 }
