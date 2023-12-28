@@ -30,9 +30,7 @@ function FileMembersDialog({ fileId, visible, onClose }) {
       onConfirm={onConfirm}
       onCancel={closeDialog}
     >
-      <div className="my-4 lg:min-w-[20rem]">
-        {fileId && <FileMembersSetting fileId={fileId} />}
-      </div>
+      <div className="my-4 max-w-md">{fileId && <FileMembersSetting fileId={fileId} />}</div>
     </Dialog>
   );
 }

@@ -38,7 +38,7 @@ function FileMemberAccessLevel({ member }) {
   if (accessLevel === 'owner') {
     return (
       <div className="px-4">
-        <p className="text-gray-700 dark:text-zinc-300">
+        <p className="text-gray-500 dark:text-zinc-400">
           {t('accessLevel.owner.title', { defaultValue: 'Owner' })}
         </p>
       </div>
@@ -111,8 +111,10 @@ function FileMemberAccessLevel({ member }) {
       onOptionChange={onOptionChange}
     >
       <Button full variant="text">
-        {currentOption.shortName}
-        <icons.ChevronDown className="ml-1 h-5 w-5 inline" />
+        <div className="flex items-center text-gray-500 dark:text-zinc-400 text-xs md:text-sm">
+          <span>{currentOption.shortName}</span>
+          <icons.ChevronDown className="ml-1 h-5 w-5 inline" />
+        </div>
       </Button>
     </Listbox>
   );

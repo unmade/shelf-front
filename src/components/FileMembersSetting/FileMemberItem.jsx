@@ -14,10 +14,10 @@ function FileMemberItem({ fileId, memberId }) {
   const { display_name: displayName } = member;
 
   return (
-    <div className="py-3 flex items-center justify-between text-sm font-medium">
-      <div className="flex items-center mr-2">
-        <Avatar username={displayName} className="w-9 h-9" />
-        <p className="ml-2">{displayName}</p>
+    <div className="py-3 flex items-center justify-between text-sm font-medium dark:text-zinc-200">
+      <div className="flex items-center mr-2 min-w-0">
+        <Avatar username={displayName} className="w-9 h-9 shrink-0" />
+        <p className="ml-2 truncate">{displayName}</p>
       </div>
       <div>
         <FileMemberAccessLevel member={member} />

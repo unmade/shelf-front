@@ -61,7 +61,7 @@ function Dialog({
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <div className="inline-block w-full max-w-lg transform overflow-hidden rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-zinc-800 lg:my-8 lg:w-auto lg:align-middle">
+            <div className="inline-block w-full max-w-lg transform overflow-hidden rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-zinc-800 lg:my-8 lg:w-auto lg:max-w-xl lg:align-middle">
               <div className="bg-white px-4 pt-5 pb-4 dark:bg-zinc-800 lg:flex lg:items-start lg:p-6 lg:pb-4">
                 {icon && (
                   <div
