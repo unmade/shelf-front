@@ -12,7 +12,7 @@ function FileMembersSetting({ fileId }) {
   return (
     <>
       <div>
-        <p className="mt-6 mb-1 text-sm font-semibold">
+        <p className="mt-6 mb-1 text-sm font-semibold dark:text-zinc-200">
           {t('title', { defaultValue: 'Share with members' })}
         </p>
       </div>

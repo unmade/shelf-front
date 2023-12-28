@@ -37,7 +37,7 @@ const menu = [
     path: null,
     title: i18n.t('Shared', { defaultValue: 'Shared' }),
     icon: <icons.ShareOutlined className={iconClassName} />,
-    desktopOnly: true,
+    desktopOnly: false,
     items: [
       {
         path: routes.SHARED_IN_APP.prefix,
