@@ -44,7 +44,7 @@ function SharedFileList() {
       </div>
 
       {/* table */}
-      <div className="pt-4 text-sm">
+      <div className="pt-4 text-sm overflow-scroll max-h-[calc(100vh-160px)]">
         {loading ? (
           <Spinner className="pt-48 h-full w-full flex-1" />
         ) : (
