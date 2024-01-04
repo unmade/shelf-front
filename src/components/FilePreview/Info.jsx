@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { FileShape } from '../../types';
+import { useSelector } from 'react-redux';
 
 import TimeAgo from '../ui/TimeAgo';
 
@@ -10,7 +10,9 @@ import SidePreviewActions from '../Browser/SidePreviewActions';
 import BookmarkButton from '../BookmarkButton';
 import FileTabs from '../FileTabs';
 
-function Info({ className, file }) {
+function Info({ className, fileId, selectById }) {
+  const file = useSelector((state) => selectById(state, fileId));
+
   return (
     <div className={className}>
       <div className="flex">
@@ -42,7 +44,8 @@ function Info({ className, file }) {
 
 Info.propTypes = {
   className: PropTypes.string,
-  file: FileShape.isRequired,
+  fileId: PropTypes.string.isRequired,
+  selectById: PropTypes.func.isRequired,
 };
 
 Info.defaultProps = {
