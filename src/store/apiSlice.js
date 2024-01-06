@@ -19,8 +19,19 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-function isTokenError(error) {
-  const code = error?.data?.code;
+async function isTokenError(error) {
+  let code;
+  if (error?.data instanceof Blob) {
+    try {
+      const text = await error?.data.text();
+      const data = JSON.parse(text);
+      code = data.code;
+    } catch (err) {
+      // just skip silently for now
+    }
+  } else {
+    code = error?.data?.code;
+  }
   return code === 'INVALID_TOKEN' || code === 'MISSING_TOKEN';
 }
 
@@ -29,7 +40,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
   await mutex.waitForUnlock();
   let result = await baseQuery(args, api, extraOptions);
   const refreshToken = selectRefreshToken(api.getState());
-  if (refreshToken && isTokenError(result.error)) {
+  if (refreshToken && (await isTokenError(result.error))) {
     // checking whether the mutex is locked
     if (!mutex.isLocked()) {
       const release = await mutex.acquire();

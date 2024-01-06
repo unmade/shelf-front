@@ -21,7 +21,7 @@ function FilePreview({ ids, selectById, loading }) {
 
   const { currentIndex, files, setPrevFile, setNextFile } = useFiles({ ids, selectById });
   const { prevFile, file, nextFile } = files;
-  const total = ids.length;
+  const total = ids?.length ?? 0;
 
   React.useEffect(() => () => {
     if (navigate.action === 'POP') {
@@ -91,7 +91,7 @@ function FilePreview({ ids, selectById, loading }) {
                 onSwipeRight={setNextFile}
               />
               {infoVisible && (
-                <div className="sm:min-w-80 xl:min-w-96 hidden sm:block">
+                <div className="w-96 xl:w-[32rem] hidden sm:block">
                   <Info
                     className="h-full border-t bg-white px-5 py-6 shadow dark:border-zinc-700 dark:bg-zinc-800 dark:shadow-zinc-900/70"
                     fileId={file.id}

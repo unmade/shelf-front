@@ -19,7 +19,7 @@ import PageHeader from '../components/PageHeader';
 import RenameFileDialogProvider from '../components/RenameFileDialogProvider';
 
 function FilePreviewContainer() {
-  const { ids, isFetching: loading } = useListBookmarkedFilesQuery(undefined, {
+  const { ids = [], isFetching: loading } = useListBookmarkedFilesQuery(undefined, {
     selectFromResult: ({ data, isFetching }) => ({ ids: data?.ids, isFetching }),
   });
 
