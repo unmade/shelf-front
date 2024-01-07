@@ -5,7 +5,7 @@ import { Navigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { useGetCurrentAccountQuery } from '../store/accounts';
-import { selectAccessToken } from '../store/authSlice';
+import { selectAccessToken, selectRefreshToken } from '../store/authSlice';
 
 import Spinner from './ui/Spinner';
 
@@ -14,7 +14,13 @@ export default function RequireAccount({ children, redirectTo }) {
 
   const { currentData, isFetching, isLoading } = useGetCurrentAccountQuery();
 
+  const to = `${redirectTo}?next=${pathname}`;
+
   const accessToken = useSelector(selectAccessToken);
+  const refreshToken = useSelector(selectRefreshToken);
+  if (accessToken == null && refreshToken == null) {
+    return <Navigate to={to} replace />;
+  }
 
   const loading = isFetching || isLoading;
   if (loading || (accessToken != null && currentData == null)) {
@@ -22,7 +28,6 @@ export default function RequireAccount({ children, redirectTo }) {
   }
 
   if (currentData == null) {
-    const to = `${redirectTo}?next=${pathname}`;
     return <Navigate to={to} replace />;
   }
 
