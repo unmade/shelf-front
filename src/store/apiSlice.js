@@ -29,6 +29,13 @@ async function isTokenError(error) {
     } catch (err) {
       // just skip silently for now
     }
+  } else if (typeof error?.data === 'string') {
+    try {
+      const data = JSON.parse(error.data);
+      code = data.code;
+    } catch (err) {
+      // just skip silently
+    }
   } else {
     code = error?.data?.code;
   }
