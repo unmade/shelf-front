@@ -18,6 +18,7 @@ import Duplicates from './pages/Duplicates';
 import Files from './pages/Files';
 import InAppSharing from './pages/Shared/InApp';
 import LinkSharing from './pages/Shared/ViaLink';
+import Photos from './pages/Photos';
 import Trash from './pages/Trash';
 import UserManagement from './pages/admin/UserManagement';
 
@@ -49,6 +50,7 @@ function App() {
             <Route path={routes.SHARED_VIA_LINK.route} element={<LinkSharing />} />
             <Route path={routes.DUPLICATES.route} element={<Duplicates />} />
             <Route path={routes.FILES.route} element={<Files />} />
+            <Route path={routes.PHOTOS.route} element={<Photos />} />
             <Route path={routes.TRASH.route} element={<Trash />} />
             <Route
               path={routes.USER_MANAGEMENT.route}
