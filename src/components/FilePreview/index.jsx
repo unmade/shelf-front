@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import useFiles from './hooks/useFiles';
+import useKeyUp from '../../hooks/key-up';
 
 import Spinner from '../ui/Spinner';
 
@@ -32,26 +33,13 @@ function FilePreview({ ids, selectById, loading }) {
     }
   });
 
-  React.useEffect(() => {
-    const onKeyUp = ({ keyCode }) => {
-      switch (keyCode) {
-        case 37: // left arrow
-          setPrevFile();
-          break;
-        case 39: // right arrow
-          setNextFile();
-          break;
-        case 27: // escape
-          navigate(-1);
-          break;
-        default:
-      }
-    };
-    window.addEventListener('keyup', onKeyUp);
-    return () => {
-      window.removeEventListener('keyup', onKeyUp);
-    };
-  }, [navigate, setPrevFile, setNextFile]);
+  useKeyUp({
+    handlers: {
+      ArrowLeft: setPrevFile,
+      ArrowRight: setNextFile,
+      Escape: () => navigate(-1),
+    },
+  });
 
   if (file == null) {
     return null;

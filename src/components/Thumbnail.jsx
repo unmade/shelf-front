@@ -37,7 +37,7 @@ SVGThumbnail.defaultProps = {
   className: '',
 };
 
-function ImageThumbnail({ className, file, size }) {
+function ImageThumbnail({ className, file, size, style }) {
   const [shouldSkip, setShouldSkip] = React.useState(true);
 
   React.useEffect(() => {
@@ -70,21 +70,32 @@ function ImageThumbnail({ className, file, size }) {
     return <Spinner className={className} />;
   }
 
-  return <img className={`object-scale-down ${className}`} src={data?.content} alt={name} />;
+  return (
+    <img
+      className={`object-scale-down ${className}`}
+      src={data?.content}
+      alt={name}
+      style={style}
+    />
+  );
 }
 
 ImageThumbnail.propTypes = {
   className: PropTypes.string,
   file: PropTypes.oneOfType([FileShape.isRequired, SharedLinkFileShape]).isRequired,
   size: PropTypes.oneOf(thumbnailSizes),
+  style: PropTypes.shape({
+    maxHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  }),
 };
 
 ImageThumbnail.defaultProps = {
   className: '',
   size: ThumbnailSize.xs,
+  style: null,
 };
 
-function Thumbnail({ className, file, size }) {
+function Thumbnail({ className, file, size, style }) {
   const { mediatype, hidden, shared, thumbnail_url: thumbnailUrl } = file;
   const maxSize = useSelector((state) => selectFeatureValue(state, 'max_file_size_to_thumbnail'));
   const fileIcon = (
@@ -96,7 +107,7 @@ function Thumbnail({ className, file, size }) {
   }
 
   if (thumbnailUrl != null) {
-    return <ImageThumbnail className={className} file={file} size={size} />;
+    return <ImageThumbnail className={className} file={file} size={size} style={style} />;
   }
 
   if (MediaType.isSVG(mediatype)) {

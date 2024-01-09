@@ -15,6 +15,11 @@ export const FILES = {
   route: '/files/*',
 };
 
+export const PHOTOS = {
+  prefix: '/photos',
+  route: '/photos',
+};
+
 export const SHARED_IN_APP = {
   prefix: '/shared-in-app',
   route: '/shared-in-app',
