@@ -2,10 +2,10 @@ import React from 'react';
 
 import { useSelector } from 'react-redux';
 
-import * as icons from '../../../icons';
-
-import { useSelection } from './SelectionProvider';
 import Thumbnail from '../../../components/Thumbnail';
+
+import GridItemMenu from './GridItemMenu';
+import { useSelection } from './SelectionProvider';
 
 function GridItem({ data, rowIndex, columnIndex, style }) {
   const itemStyle = { ...style, width: style.width - 20, height: style.width };
@@ -41,13 +41,7 @@ function GridItem({ data, rowIndex, columnIndex, style }) {
             size="lg"
           />
           <div className="hidden group-hover:block absolute top-1 right-2">
-            <button
-              type="button"
-              variant="text"
-              className="p-0.5 dark:bg-zinc-200 rounded-full dark:text-zinc-600"
-            >
-              <icons.More className="shrink-0 w-3 h-3" />
-            </button>
+            <GridItemMenu item={item} onOpen={() => select(item.id)} />
           </div>
         </span>
       </div>

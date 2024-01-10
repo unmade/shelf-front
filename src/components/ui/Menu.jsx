@@ -11,6 +11,7 @@ function Menu({
   panelClassName,
   placement,
   itemRender: Render,
+  onOpen,
 }) {
   const { x, y, reference, floating, strategy } = useFloating({
     placement,
@@ -26,6 +27,9 @@ function Menu({
             className={`${buttonClassName} rounded-xl focus:outline-none`}
             onClick={(event) => {
               event.stopPropagation();
+              if (onOpen) {
+                onOpen();
+              }
             }}
           >
             {children}
@@ -78,14 +82,16 @@ Menu.propTypes = {
     })
   ).isRequired,
   panelClassName: PropTypes.string,
-  placement: PropTypes.oneOf(['bottom-end', 'bottom-center']),
+  placement: PropTypes.oneOf(['bottom-center', 'bottom-end', 'bottom-start']),
   itemRender: PropTypes.elementType.isRequired,
+  onOpen: PropTypes.func,
 };
 
 Menu.defaultProps = {
   buttonClassName: '',
   panelClassName: '',
   placement: 'bottom-end',
+  onOpen: null,
 };
 
 export default Menu;

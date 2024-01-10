@@ -7,6 +7,8 @@ import FileDrop from '../../../containers/FileDrop';
 
 import VGrid from '../../../components/ui/VGrid';
 
+import CopyLinkDialogProvider from '../../../components/CopyLinkDialogProvider';
+import DeleteDialogProvider from '../../../components/DeleteDialogProvider';
 import PageHeader from '../../../components/PageHeader';
 import SearchButton from '../../../components/SearchButton';
 import Uploader from '../../../components/Uploader';
@@ -72,37 +74,41 @@ function Stream() {
     );
 
   return (
-    <>
-      <Helmet>
-        <title>Shelf Photos</title>
-      </Helmet>
-      <div className="h-full">
-        <PageHeader>
-          <PageHeader.Title>Photos</PageHeader.Title>
-          <PageHeader.Actions>
-            <SearchButton />
-            <Uploader uploadTo="Photos/Uploads" />
-          </PageHeader.Actions>
-        </PageHeader>
+    <CopyLinkDialogProvider>
+      <DeleteDialogProvider>
+        <Helmet>
+          <title>Shelf Photos</title>
+        </Helmet>
+        <div className="h-full">
+          <PageHeader>
+            <PageHeader.Title>Photos</PageHeader.Title>
+            <PageHeader.Actions>
+              <SearchButton />
+              <Uploader uploadTo="Photos/Uploads" />
+            </PageHeader.Actions>
+          </PageHeader>
 
-        {/* photo grid */}
-        <FileDrop
-          className={`h-[calc(100%-${headerHeight})] overflow-y-auto`}
-          uploadTo={uploadTo}
-          render={({ innerRef, dragging }) => (
-            <div className="relative h-full w-full">
-              <div
-                ref={innerRef}
-                className={`${dragging ? 'block' : 'hidden'} absolute z-10 h-full w-full px-2 pb-2`}
-              >
-                <div className="h-full w-full rounded-2xl border-4 border-dashed border-teal-200 dark:border-teal-600" />
+          {/* photo grid */}
+          <FileDrop
+            className={`h-[calc(100%-${headerHeight})] overflow-y-auto`}
+            uploadTo={uploadTo}
+            render={({ innerRef, dragging }) => (
+              <div className="relative h-full w-full">
+                <div
+                  ref={innerRef}
+                  className={`${
+                    dragging ? 'block' : 'hidden'
+                  } absolute z-10 h-full w-full px-2 pb-2`}
+                >
+                  <div className="h-full w-full rounded-2xl border-4 border-dashed border-teal-200 dark:border-teal-600" />
+                </div>
+                {content}
               </div>
-              {content}
-            </div>
-          )}
-        />
-      </div>
-    </>
+            )}
+          />
+        </div>
+      </DeleteDialogProvider>
+    </CopyLinkDialogProvider>
   );
 }
 
