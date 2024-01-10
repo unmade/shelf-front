@@ -14,7 +14,7 @@ import Sidebar from './Sidebar';
 
 function Gallery({ ids, selectById, initialIndex, onClose }) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const total = ids.length;
   const prevIndex = currentIndex - 1 < 0 ? ids.length - 1 : currentIndex - 1;
@@ -56,7 +56,7 @@ function Gallery({ ids, selectById, initialIndex, onClose }) {
             {sidebarOpen && (
               <div className="w-96 xl:w-[32rem] hidden sm:block">
                 <Sidebar
-                  className="h-full border-t bg-white px-5 py-6 shadow dark:border-zinc-700 dark:bg-zinc-800 dark:shadow-zinc-900/70"
+                  className="h-full border-t bg-white px-6 py-6 shadow dark:border-zinc-700 dark:bg-zinc-800 dark:shadow-zinc-900/70"
                   fileId={file.id}
                   selectById={selectById}
                 />
