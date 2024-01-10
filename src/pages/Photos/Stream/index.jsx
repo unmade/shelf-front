@@ -1,16 +1,27 @@
 import React from 'react';
 
+import { Helmet } from 'react-helmet-async';
 import { selectFileByIdInPath, useListFolderQuery } from '../../../store/files';
 
+import FileDrop from '../../../containers/FileDrop';
+
 import VGrid from '../../../components/ui/VGrid';
+
+import PageHeader from '../../../components/PageHeader';
+import SearchButton from '../../../components/SearchButton';
+import Uploader from '../../../components/Uploader';
 
 import Gallery from './Gallery';
 import GridItem from './GridItem';
 import SelectionProvider from './SelectionProvider';
+import Welcome from './Welcome';
 
 const columnCount = 5;
 
+const headerHeight = '108px';
+
 function Stream() {
+  const uploadTo = 'Photos/Uploads';
   const path = 'photobook';
 
   const { ids, isFetching: loading } = useListFolderQuery(path, {
@@ -27,7 +38,7 @@ function Stream() {
         selectById={selectById}
         initialIndex={initialIndex}
         onClose={() => setInitialIndex(null)}
-        path={path}
+        path={uploadTo}
       />
     );
   }
@@ -35,21 +46,19 @@ function Stream() {
   const data = {
     ids,
     selectById,
-    path,
+    path: uploadTo,
     columnCount,
     onDoubleClick: setInitialIndex,
   };
 
-  return (
-    <div className="px-4 h-full">
-      {/* header */}
-      <div className="px-2 py-8">
-        <h1 className="text-xl font-medium">9 Sep 2021</h1>
+  const content =
+    !ids?.length && !loading ? (
+      <div className={`h-[calc(100%-${headerHeight})] flex`}>
+        <Welcome />
       </div>
-
-      {/* photo grid */}
+    ) : (
       <SelectionProvider>
-        <div className="h-[calc(100%-92px)]">
+        <div className="h-full">
           <VGrid
             itemRenderer={GridItem}
             itemData={data}
@@ -60,7 +69,40 @@ function Stream() {
           />
         </div>
       </SelectionProvider>
-    </div>
+    );
+
+  return (
+    <>
+      <Helmet>
+        <title>Shelf Photos</title>
+      </Helmet>
+      <div className="h-full">
+        <PageHeader>
+          <PageHeader.Title>Photos</PageHeader.Title>
+          <PageHeader.Actions>
+            <SearchButton />
+            <Uploader uploadTo="Photos/Uploads" />
+          </PageHeader.Actions>
+        </PageHeader>
+
+        {/* photo grid */}
+        <FileDrop
+          className={`h-[calc(100%-${headerHeight})] overflow-y-auto`}
+          uploadTo={uploadTo}
+          render={({ innerRef, dragging }) => (
+            <div className="relative h-full w-full">
+              <div
+                ref={innerRef}
+                className={`${dragging ? 'block' : 'hidden'} absolute z-10 h-full w-full px-2 pb-2`}
+              >
+                <div className="h-full w-full rounded-2xl border-4 border-dashed border-teal-200 dark:border-teal-600" />
+              </div>
+              {content}
+            </div>
+          )}
+        />
+      </div>
+    </>
   );
 }
 

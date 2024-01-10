@@ -7,8 +7,8 @@ import * as icons from '../../icons';
 
 import FileDrop from '../../containers/FileDrop';
 
+import UploadButton from '../UploadButton';
 import RecentUploads from './RecentUploads';
-import UploadButton from './UploadButton';
 
 const dropzoneClass = [
   'p-4',
