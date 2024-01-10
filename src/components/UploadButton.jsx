@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 
 import { useDispatch } from 'react-redux';
 
-import { fileEntriesAdded } from '../../store/uploads/slice';
+import { fileEntriesAdded } from '../store/uploads/slice';
 
-import { Children } from '../../types';
+import { Children } from '../types';
 
-import Button from '../ui/Button';
+import Button from './ui/Button';
 
-function UploadButton({ children, full, icon, uploadTo }) {
+function UploadButton({ children, full, icon, size, uploadTo }) {
   const dispatch = useDispatch();
 
   const inputRef = useRef(null);
@@ -35,7 +35,7 @@ function UploadButton({ children, full, icon, uploadTo }) {
         onChange={setUploadFiles}
         multiple
       />
-      <Button variant="primary" size="sm" icon={icon} onClick={openUpload} full={full}>
+      <Button variant="primary" size={size} icon={icon} onClick={openUpload} full={full}>
         {children}
       </Button>
     </form>
@@ -48,6 +48,7 @@ UploadButton.propTypes = {
   children: Children,
   full: PropTypes.bool,
   icon: PropTypes.element,
+  size: PropTypes.oneOf(['xs', 'sm', 'base', 'lg']),
   uploadTo: PropTypes.string.isRequired,
 };
 
@@ -55,4 +56,5 @@ UploadButton.defaultProps = {
   children: null,
   icon: null,
   full: false,
+  size: 'sm',
 };

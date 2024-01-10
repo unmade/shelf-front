@@ -8,6 +8,8 @@ import { useSelection } from './SelectionProvider';
 import Thumbnail from '../../../components/Thumbnail';
 
 function GridItem({ data, rowIndex, columnIndex, style }) {
+  const itemStyle = { ...style, width: style.width - 20, height: style.width };
+
   const { columnCount, ids, onDoubleClick, selectById } = data;
   const idx = rowIndex * columnCount + columnIndex;
 
@@ -20,7 +22,7 @@ function GridItem({ data, rowIndex, columnIndex, style }) {
   const selected = isSelected(item.id);
 
   return (
-    <div style={{ ...style, height: style.width }} className="px-2">
+    <div style={itemStyle} className="pl-[20px]">
       <div className="group h-full flex items-center justify-center">
         {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
         <span

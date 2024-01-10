@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import * as icons from '../../icons';
 
-import UploadButton from './UploadButton';
+import UploadButton from '../UploadButton';
 
 import Dialog from '../ui/Dialog';
 
