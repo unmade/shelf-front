@@ -2,12 +2,42 @@ import React from 'react';
 
 import { useSelector } from 'react-redux';
 
+import { useFavouriteAction } from '../../../hooks/file-actions';
 import { useTouchDevice } from '../../../hooks/media-query';
 
 import Thumbnail from '../../../components/Thumbnail';
 
 import GridItemMenu from './GridItemMenu';
 import { useSelection } from './SelectionProvider';
+
+function FavouriteButton({ file, touch }) {
+  const { key, title, Icon, onClick } = useFavouriteAction([file]);
+  const favourite = key === 'unfavourite';
+
+  if (touch) {
+    if (favourite) {
+      return (
+        <div>
+          <Icon className="shrink-0 w-4 h-4 drop-shadow-md" />
+        </div>
+      );
+    }
+    return null;
+  }
+
+  return (
+    <button
+      title={title}
+      type="button"
+      className={`p-0.5 rounded-full text-gray-50 dark:text-zinc-100 drop-shadow-md ${
+        favourite ? 'block' : 'hidden group-hover:block'
+      }`}
+      onClick={onClick}
+    >
+      <Icon className="shrink-0 w-4 h-4 drop-shadow-md" />
+    </button>
+  );
+}
 
 function GridItem({ data, rowIndex, columnIndex, style }) {
   const touch = useTouchDevice();
@@ -55,8 +85,15 @@ function GridItem({ data, rowIndex, columnIndex, style }) {
             file={item}
             size="lg"
           />
-          <div className={`hidden ${!touch ? 'group-hover:block' : ''} absolute top-1 right-2`}>
+          <div
+            className={`${!touch && selected ? '' : 'hidden'} ${
+              !touch ? 'group-hover:block' : ''
+            } absolute top-1 right-2`}
+          >
             <GridItemMenu item={item} onOpen={() => select(item.id)} />
+          </div>
+          <div className="absolute bottom-1 left-2">
+            <FavouriteButton file={item} touch={touch} />
           </div>
         </span>
       </div>

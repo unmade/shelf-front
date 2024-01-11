@@ -4,12 +4,28 @@ import { useDispatch } from 'react-redux';
 
 import { download } from '../../../../store/files';
 
+import { useFavouriteAction } from '../../../../hooks/file-actions';
+
 import * as icons from '../../../../icons';
 
 import Button from '../../../../components/ui/Button';
 import TimeAgo from '../../../../components/ui/TimeAgo';
 
 import { useDeleteDialog } from '../../../../components/DeleteDialogProvider';
+
+function FavouriteButton({ file }) {
+  const { title, Icon, onClick } = useFavouriteAction([file]);
+
+  return (
+    <Button
+      title={title}
+      variant="text"
+      size="base"
+      icon={<Icon className="shrink-0 h-5 w-5" />}
+      onClick={onClick}
+    />
+  );
+}
 
 function DownloadButton({ path }) {
   const dispatch = useDispatch();
@@ -61,6 +77,7 @@ function Header({ file, idx, total, onGoBack, onInfo }) {
       </div>
 
       <div className="flex min-w-max flex-row items-center justify-end space-x-2 text-gray-800 dark:text-zinc-200 sm:w-48">
+        <FavouriteButton file={file} />
         <DownloadButton path={file.path} />
         <DeleteButton file={file} />
         <Button
