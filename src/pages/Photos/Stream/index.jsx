@@ -33,6 +33,7 @@ function useGridLayout() {
 
 function Stream() {
   const [initialIndex, setInitialIndex] = React.useState(null);
+  const [scrollIndex, setScrollIndex] = React.useState(null);
   const { columnCount } = useGridLayout();
 
   const path = 'photobook';
@@ -41,30 +42,30 @@ function Stream() {
   });
   const selectById = (state, id) => selectFileByIdInPath(state, { path, id });
 
-  const uploadTo = 'Photos/Uploads';
-  if (initialIndex != null) {
-    return (
-      <DeleteDialogProvider>
-        <Helmet>
-          <title>Shelf Photos</title>
-        </Helmet>
-        <Gallery
-          ids={ids}
-          selectById={selectById}
-          initialIndex={initialIndex}
-          onClose={() => setInitialIndex(null)}
-          path={uploadTo}
-        />
-      </DeleteDialogProvider>
-    );
-  }
+  const onClose = ({ currentIndex }) => {
+    setScrollIndex(Math.floor(currentIndex / columnCount));
+    setInitialIndex(null);
+  };
 
+  const scrollToItem = React.useCallback(
+    (el) => {
+      if (scrollIndex != null) {
+        el?.scrollToItem({
+          align: 'center',
+          rowIndex: scrollIndex,
+        });
+      }
+    },
+    [scrollIndex]
+  );
+
+  const uploadTo = 'Photos/Uploads';
   const data = {
     ids,
     selectById,
     path: uploadTo,
     columnCount,
-    onDoubleClick: setInitialIndex,
+    onClick: setInitialIndex,
   };
 
   const content =
@@ -74,8 +75,18 @@ function Stream() {
       </div>
     ) : (
       <SelectionProvider>
+        {initialIndex != null && (
+          <Gallery
+            ids={ids}
+            selectById={selectById}
+            initialIndex={initialIndex}
+            onClose={onClose}
+            path={uploadTo}
+          />
+        )}
         <div className="h-full">
           <VGrid
+            innerRef={scrollToItem}
             itemRenderer={GridItem}
             itemData={data}
             columnCount={columnCount}
