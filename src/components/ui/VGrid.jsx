@@ -9,6 +9,7 @@ import Spinner from './Spinner';
 function VGrid({
   className,
   columnCount,
+  innerRef,
   initialScrollOffset,
   itemData,
   loading,
@@ -41,11 +42,11 @@ function VGrid({
     <AutoSizer>
       {({ height, width }) => (
         <FixedSizeGrid
+          ref={innerRef}
           className={className}
           columnCount={columnCount}
           columnWidth={width / columnCount}
           height={height}
-          // initialScrollOffset={rowHeight * initialScrollOffset}
           itemData={itemData}
           rowCount={rowCount}
           rowHeight={width / columnCount + rowHeightOffset}

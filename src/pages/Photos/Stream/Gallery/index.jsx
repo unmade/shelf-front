@@ -30,18 +30,20 @@ function Gallery({ ids, selectById, initialIndex, onClose }) {
   const prev = () => setCurrentIndex(prevIndex);
   const next = () => setCurrentIndex(nextIndex);
 
+  const goBack = () => onClose({ currentIndex });
+
   useKeyUp({
     handlers: {
       ArrowLeft: prev,
       ArrowRight: next,
-      Escape: onClose,
+      Escape: goBack,
     },
   });
 
   return createPortal(
     <div className="fixed inset-0 bottom-0 dark:bg-zinc-900 dark:text-zinc-200">
       <div className="flex h-full flex-col bg-white dark:bg-zinc-800">
-        <Header file={file} idx={currentIndex} total={total} onGoBack={onClose} onInfo={onInfo} />
+        <Header file={file} idx={currentIndex} total={total} onGoBack={goBack} onInfo={onInfo} />
         <div className="h-full overflow-scroll bg-gray-200 dark:bg-zinc-900/50">
           <div className="flex">
             <Carousel files={files} onSwipeLeft={prev} onSwipeRight={next} />

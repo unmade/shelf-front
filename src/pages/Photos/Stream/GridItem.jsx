@@ -14,10 +14,10 @@ function GridItem({ data, rowIndex, columnIndex, style }) {
 
   const itemStyle = { ...style, width: style.width - 20, height: style.width };
 
-  const { columnCount, ids, onDoubleClick, selectById } = data;
+  const { columnCount, ids, onClick, selectById } = data;
   const idx = rowIndex * columnCount + columnIndex;
 
-  const { select, toggleSelection, isSelected } = useSelection();
+  const { select, isSelected } = useSelection();
   const item = useSelector((state) => selectById(state, ids[idx]));
   if (item == null) {
     return null;
@@ -25,19 +25,15 @@ function GridItem({ data, rowIndex, columnIndex, style }) {
 
   const selected = isSelected(item.id);
 
-  const onSelect = ({ metaKey }) => {
+  const onSelect = () => {
     if (touch) {
-      onDoubleClick(idx);
-      return;
-    }
-    if (metaKey) {
-      toggleSelection(item.id);
+      onClick(idx);
     } else {
       select(item.id);
     }
   };
   const onOpen = () => {
-    if (!touch) onDoubleClick(idx);
+    if (!touch) onClick(idx);
   };
 
   return (
