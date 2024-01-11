@@ -51,13 +51,9 @@ function GridItemMenu({ item, onOpen }) {
   const groups = useFileActionGroups([item]);
   return (
     <Menu groups={groups} itemRender={ActionButton} placement="bottom-start" onOpen={onOpen}>
-      <button
-        type="button"
-        variant="text"
-        className="p-0.5 dark:hover:bg-zinc-100 dark:bg-zinc-200 rounded-full dark:text-zinc-600"
-      >
+      <div className="p-0.5 dark:hover:bg-zinc-100 dark:bg-zinc-200 rounded-full dark:text-zinc-600">
         <icons.More className="shrink-0 w-3 h-3" />
-      </button>
+      </div>
     </Menu>
   );
 }

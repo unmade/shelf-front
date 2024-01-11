@@ -2,12 +2,16 @@ import React from 'react';
 
 import { useSelector } from 'react-redux';
 
+import { useTouchDevice } from '../../../hooks/media-query';
+
 import Thumbnail from '../../../components/Thumbnail';
 
 import GridItemMenu from './GridItemMenu';
 import { useSelection } from './SelectionProvider';
 
 function GridItem({ data, rowIndex, columnIndex, style }) {
+  const touch = useTouchDevice();
+
   const itemStyle = { ...style, width: style.width - 20, height: style.width };
 
   const { columnCount, ids, onDoubleClick, selectById } = data;
@@ -21,6 +25,21 @@ function GridItem({ data, rowIndex, columnIndex, style }) {
 
   const selected = isSelected(item.id);
 
+  const onSelect = ({ metaKey }) => {
+    if (touch) {
+      onDoubleClick(idx);
+      return;
+    }
+    if (metaKey) {
+      toggleSelection(item.id);
+    } else {
+      select(item.id);
+    }
+  };
+  const onOpen = () => {
+    if (!touch) onDoubleClick(idx);
+  };
+
   return (
     <div style={itemStyle} className="pl-[20px]">
       <div className="group h-full flex items-center justify-center">
@@ -31,8 +50,8 @@ function GridItem({ data, rowIndex, columnIndex, style }) {
               ? 'm-2 ring-2 rounded-lg ring-offset-4 ring-offset-zinc-800 ring-indigo-500'
               : ''
           }`}
-          onClick={({ metaKey }) => (metaKey ? toggleSelection(item.id) : select(item.id))}
-          onDoubleClick={() => onDoubleClick(idx)}
+          onClick={onSelect}
+          onDoubleClick={onOpen}
         >
           <Thumbnail
             className="rounded-lg"
@@ -40,7 +59,7 @@ function GridItem({ data, rowIndex, columnIndex, style }) {
             file={item}
             size="lg"
           />
-          <div className="hidden group-hover:block absolute top-1 right-2">
+          <div className={`hidden ${!touch ? 'group-hover:block' : ''} absolute top-1 right-2`}>
             <GridItemMenu item={item} onOpen={() => select(item.id)} />
           </div>
         </span>

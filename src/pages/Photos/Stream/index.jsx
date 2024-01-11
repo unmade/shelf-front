@@ -1,7 +1,10 @@
 import React from 'react';
 
 import { Helmet } from 'react-helmet-async';
+
 import { selectFileByIdInPath, useListFolderQuery } from '../../../store/files';
+
+import { Breakpoint, useBreakpoint } from '../../../hooks/media-query';
 
 import FileDrop from '../../../containers/FileDrop';
 
@@ -18,30 +21,41 @@ import GridItem from './GridItem';
 import SelectionProvider from './SelectionProvider';
 import Welcome from './Welcome';
 
-const columnCount = 5;
-
 const headerHeight = '108px';
 
-function Stream() {
-  const uploadTo = 'Photos/Uploads';
-  const path = 'photobook';
+function useGridLayout() {
+  const breakpoint = useBreakpoint();
+  if (breakpoint === Breakpoint.base) {
+    return { columnCount: 3 };
+  }
+  return { columnCount: 5 };
+}
 
+function Stream() {
+  const [initialIndex, setInitialIndex] = React.useState(null);
+  const { columnCount } = useGridLayout();
+
+  const path = 'photobook';
   const { ids, isFetching: loading } = useListFolderQuery(path, {
     selectFromResult: ({ data, isFetching }) => ({ ids: data?.ids, isFetching }),
   });
-
-  const [initialIndex, setInitialIndex] = React.useState(null);
   const selectById = (state, id) => selectFileByIdInPath(state, { path, id });
 
+  const uploadTo = 'Photos/Uploads';
   if (initialIndex != null) {
     return (
-      <Gallery
-        ids={ids}
-        selectById={selectById}
-        initialIndex={initialIndex}
-        onClose={() => setInitialIndex(null)}
-        path={uploadTo}
-      />
+      <DeleteDialogProvider>
+        <Helmet>
+          <title>Shelf Photos</title>
+        </Helmet>
+        <Gallery
+          ids={ids}
+          selectById={selectById}
+          initialIndex={initialIndex}
+          onClose={() => setInitialIndex(null)}
+          path={uploadTo}
+        />
+      </DeleteDialogProvider>
     );
   }
 
@@ -56,7 +70,7 @@ function Stream() {
   const content =
     !ids?.length && !loading ? (
       <div className={`h-[calc(100%-${headerHeight})] flex`}>
-        <Welcome />
+        <Welcome uploadTo={uploadTo} />
       </div>
     ) : (
       <SelectionProvider>
