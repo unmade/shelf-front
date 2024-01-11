@@ -1,7 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { useCopyLinkAction, useDeleteAction, useDownloadAction } from '../../../hooks/file-actions';
+import {
+  useCopyLinkAction,
+  useDeleteAction,
+  useDownloadAction,
+  useFavouriteAction,
+} from '../../../hooks/file-actions';
 
 import * as icons from '../../../icons';
 import { FileShape } from '../../../types';
@@ -10,11 +15,16 @@ import Button from '../../../components/ui/Button';
 import Menu from '../../../components/ui/Menu';
 
 function useFileActionGroups(files) {
+  const toggleFavourite = useFavouriteAction(files);
   const copyLinkAction = useCopyLinkAction(files);
   const deleteAction = useDeleteAction(files);
   const downloadAction = useDownloadAction(files);
 
   const groups = [
+    {
+      key: 'favourite',
+      items: [toggleFavourite].filter((action) => action != null),
+    },
     {
       key: 'sharing',
       items: [downloadAction, copyLinkAction].filter((action) => action != null),
