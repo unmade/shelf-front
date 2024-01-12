@@ -13,6 +13,7 @@ import { FileShape } from '../types';
 
 import Button from './ui/Button';
 import Menu from './ui/Menu';
+import MenuItem from './ui/MenuItem';
 
 function useFileActionGroups(files) {
   const copyLinkAction = useCopyLinkAction(files);
@@ -39,29 +40,10 @@ function useFileActionGroups(files) {
   return groups.filter((group) => group.items.length > 0);
 }
 
-const ActionButton = React.forwardRef(({ item }, ref) => (
-  <Button
-    innerRef={ref}
-    key={item.name}
-    variant="text"
-    color={item.danger ? 'danger' : 'primary'}
-    onClick={(event) => {
-      event.stopPropagation();
-      item.onClick();
-    }}
-    full
-  >
-    <div className="my-1 flex w-full flex-row items-center justify-between whitespace-nowrap">
-      <div>{item.name}</div>
-      <div className="ml-6">{item.icon}</div>
-    </div>
-  </Button>
-));
-
 function FileTableCellActions({ item }) {
   const groups = useFileActionGroups([item]);
   return (
-    <Menu groups={groups} itemRender={ActionButton}>
+    <Menu panelClassName="min-w-[160px]" groups={groups} itemRenderer={MenuItem}>
       <Button
         as="div"
         variant="text"
