@@ -38,7 +38,7 @@ function Breadcrumb({
     <Menu
       panelClassName="max-w-xs"
       groups={[{ key: 'collapsed', items: toCollapse }]}
-      itemRender={({ item }) => (
+      itemRenderer={({ item }) => (
         <RenderCollapsed name={item.name} url={item.url} path={item.path} />
       )}
     >

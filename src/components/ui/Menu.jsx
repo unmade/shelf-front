@@ -10,7 +10,7 @@ function Menu({
   groups,
   panelClassName,
   placement,
-  itemRender: Render,
+  itemRenderer: Render,
   onOpen,
 }) {
   const { x, y, reference, floating, strategy } = useFloating({
@@ -83,7 +83,7 @@ Menu.propTypes = {
   ).isRequired,
   panelClassName: PropTypes.string,
   placement: PropTypes.oneOf(['bottom-center', 'bottom-end', 'bottom-start']),
-  itemRender: PropTypes.elementType.isRequired,
+  itemRenderer: PropTypes.elementType.isRequired,
   onOpen: PropTypes.func,
 };
 
