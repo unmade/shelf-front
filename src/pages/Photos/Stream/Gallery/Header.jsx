@@ -21,6 +21,20 @@ import MenuItem from '../../../../components/ui/MenuItem';
 import TimeAgo from '../../../../components/ui/TimeAgo';
 
 import { useDeleteDialog } from '../../../../components/DeleteDialogProvider';
+import { useInformationDialogContext } from './InformationDialogProvider';
+
+function useInformationAction(file) {
+  const openInformationDialog = useInformationDialogContext();
+  return {
+    key: 'info',
+    name: 'Info',
+    icon: <icons.InformationCircleOutlined className="h-4 w-4" />,
+    danger: false,
+    onClick: () => {
+      openInformationDialog(file);
+    },
+  };
+}
 
 function FavouriteButton({ className, file }) {
   const { title, Icon, onClick } = useFavouriteAction([file]);
@@ -68,11 +82,16 @@ function DeleteButton({ className, file }) {
 }
 
 function MoreButton({ className, file }) {
+  const infoAction = useInformationAction(file);
   const copyLinkAction = useCopyLinkAction([file]);
   const deleteAction = useDeleteAction([file]);
   const downloadAction = useDownloadAction([file]);
 
   const groups = [
+    {
+      key: 'common',
+      items: [infoAction],
+    },
     {
       key: 'sharing',
       items: [downloadAction, copyLinkAction].filter((action) => action != null),

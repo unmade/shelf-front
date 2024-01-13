@@ -9,6 +9,7 @@ import Carousel from '../../../../components/FilePreview/Carousel';
 
 import Header from './Header';
 import Sidebar from './Sidebar';
+import InformationDialogProvider from './InformationDialogProvider';
 
 function Gallery({ ids, selectById, initialIndex, onClose }) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
@@ -41,25 +42,27 @@ function Gallery({ ids, selectById, initialIndex, onClose }) {
   });
 
   return createPortal(
-    <div className="fixed inset-0 bottom-0 dark:bg-zinc-900 dark:text-zinc-200">
-      <div className="flex h-full flex-col bg-white dark:bg-zinc-800">
-        <Header file={file} idx={currentIndex} total={total} onGoBack={goBack} onInfo={onInfo} />
-        <div className="h-full overflow-scroll bg-gray-200 dark:bg-zinc-900/50">
-          <div className="flex">
-            <Carousel files={files} onSwipeLeft={prev} onSwipeRight={next} />
-            {sidebarOpen && (
-              <div className="w-96 xl:w-[32rem] hidden sm:block">
-                <Sidebar
-                  className="h-full border-t bg-white px-6 py-6 shadow dark:border-zinc-700 dark:bg-zinc-800 dark:shadow-zinc-900/70"
-                  fileId={file.id}
-                  selectById={selectById}
-                />
-              </div>
-            )}
+    <InformationDialogProvider>
+      <div className="fixed inset-0 bottom-0 dark:bg-zinc-900 dark:text-zinc-200">
+        <div className="flex h-full flex-col bg-white dark:bg-zinc-800">
+          <Header file={file} idx={currentIndex} total={total} onGoBack={goBack} onInfo={onInfo} />
+          <div className="h-full overflow-scroll bg-gray-200 dark:bg-zinc-900/50">
+            <div className="flex">
+              <Carousel files={files} onSwipeLeft={prev} onSwipeRight={next} />
+              {sidebarOpen && (
+                <div className="hidden sm:block">
+                  <Sidebar
+                    className="hidden sm:block sm:w-80 xl:w-96 h-full border-t bg-white px-6 py-6 shadow dark:border-zinc-700 dark:bg-zinc-800 dark:shadow-zinc-900/70"
+                    fileId={file.id}
+                    selectById={selectById}
+                  />
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>,
+    </InformationDialogProvider>,
     document.body
   );
 }

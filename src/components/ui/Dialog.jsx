@@ -73,7 +73,7 @@ function Dialog({
                 <div className="mt-3 text-center lg:mt-0 lg:ml-4 lg:text-left">
                   <UIDialog.Title
                     as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900 dark:text-zinc-100"
+                    className="truncate text-lg font-medium leading-6 text-gray-900 dark:text-zinc-100"
                   >
                     {title}
                   </UIDialog.Title>

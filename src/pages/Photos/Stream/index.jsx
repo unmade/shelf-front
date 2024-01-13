@@ -22,6 +22,9 @@ import SelectionProvider from './SelectionProvider';
 import Welcome from './Welcome';
 
 const headerHeight = '108px';
+const contentStyle = {
+  height: `calc(100% - ${headerHeight})`,
+};
 
 function useGridLayout() {
   const breakpoint = useBreakpoint();
@@ -36,7 +39,7 @@ function Stream() {
   const [scrollIndex, setScrollIndex] = React.useState(null);
   const { columnCount } = useGridLayout();
 
-  const path = 'photobook';
+  const path = 'exif';
   const { ids, isFetching: loading } = useListFolderQuery(path, {
     selectFromResult: ({ data, isFetching }) => ({ ids: data?.ids, isFetching }),
   });
@@ -70,7 +73,7 @@ function Stream() {
 
   const content =
     !ids?.length && !loading ? (
-      <div className={`h-[calc(100%-${headerHeight})] flex`}>
+      <div className="flex" style={contentStyle}>
         <Welcome uploadTo={uploadTo} />
       </div>
     ) : (
@@ -115,7 +118,8 @@ function Stream() {
 
           {/* photo grid */}
           <FileDrop
-            className={`h-[calc(100%-${headerHeight})] overflow-y-auto`}
+            className="overflow-y-auto"
+            style={contentStyle}
             uploadTo={uploadTo}
             render={({ innerRef, dragging }) => (
               <div className="relative h-full w-full">
