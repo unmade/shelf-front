@@ -21,7 +21,7 @@ function SignUp() {
       <Helmet>
         <title>{t('Sign Up')} - Shelf</title>
       </Helmet>
-      <div className="flex min-h-screen items-end justify-center bg-gray-100 pb-20 dark:bg-zinc-900 sm:items-center sm:p-0">
+      <div className="flex min-h-svh items-end justify-center bg-gray-100 pb-20 dark:bg-zinc-900 sm:items-center sm:p-0">
         <div className="flex-flex-col m-4 w-full max-w-md">
           <div className="w-full rounded-2xl bg-white px-6 pb-8 pt-12 shadow dark:bg-zinc-800 sm:m-0">
             <div className="relative inline-flex w-full items-center space-x-4">

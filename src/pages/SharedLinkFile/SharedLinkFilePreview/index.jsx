@@ -17,7 +17,7 @@ import NoPreview from './Previews/NoPreview';
 import PDFPreview from './Previews/PDFPreview';
 
 const height = {
-  height: `calc(100vh - 65px)`,
+  height: `calc(100svh - 65px)`,
 };
 
 function getPreview(mediatype) {
@@ -78,7 +78,7 @@ function SharedLinkFilePreview({ file, loading, token }) {
         </div>
       )}
     </div>,
-    document.body
+    document.body,
   );
 }
 
@@ -89,6 +89,7 @@ SharedLinkFilePreview.propTypes = {
 };
 
 SharedLinkFilePreview.defaultProps = {
+  file: null,
   loading: false,
 };
 

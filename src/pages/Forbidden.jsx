@@ -15,7 +15,7 @@ function Forbidden() {
 
   return (
     <div className="fixed inset-0 z-50 bg-white">
-      <div className="flex min-h-screen flex-col items-center justify-center space-y-8">
+      <div className="flex min-h-svh flex-col items-center justify-center space-y-8">
         <h1 className="text-3xl">Forbidden</h1>
         <Button
           variant="text"

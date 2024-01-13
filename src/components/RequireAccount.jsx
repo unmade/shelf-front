@@ -24,7 +24,7 @@ export default function RequireAccount({ children, redirectTo }) {
 
   const loading = isFetching || isLoading;
   if (loading || (accessToken != null && currentData == null)) {
-    return <Spinner className="h-screen" />;
+    return <Spinner className="h-svh" />;
   }
 
   if (currentData == null) {

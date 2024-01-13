@@ -39,7 +39,7 @@ function App() {
       <Helmet>
         <title>Shelf</title>
       </Helmet>
-      <div className="flex h-screen bg-gray-100 dark:bg-zinc-900 dark:text-zinc-200">
+      <div className="flex h-svh bg-gray-100 dark:bg-zinc-900 dark:text-zinc-200">
         <div className="hidden lg:block xl:w-64">
           <SideBar />
         </div>
