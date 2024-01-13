@@ -3,7 +3,7 @@ import PropType from 'prop-types';
 
 import getFileEntries from '../../filereader';
 
-function Dropzone({ className, render: View, uploadTo, onDrop }) {
+function Dropzone({ className, render: View, style, uploadTo, onDrop }) {
   const [dragging, setDragging] = useState(false);
 
   const dropRef = useRef(null);
@@ -41,6 +41,7 @@ function Dropzone({ className, render: View, uploadTo, onDrop }) {
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       className={className}
+      style={style}
     >
       <View innerRef={dropRef} dragging={dragging} />
     </div>
@@ -52,12 +53,16 @@ Dropzone.propTypes = {
   className: PropType.string,
   onDrop: PropType.func,
   render: PropType.func.isRequired,
+  style: PropType.shape({
+    height: PropType.string,
+  }),
 };
 
 Dropzone.defaultProps = {
   uploadTo: '',
   className: '',
   onDrop: null,
+  style: null,
 };
 
 export default Dropzone;
