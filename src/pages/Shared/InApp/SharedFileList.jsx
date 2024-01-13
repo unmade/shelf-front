@@ -44,9 +44,9 @@ function SharedFileList() {
       </div>
 
       {/* table */}
-      <div className="pt-4 text-sm overflow-scroll max-h-[calc(100vh-160px)]">
+      <div className="max-h-[calc(100svh-160px)] overflow-scroll pt-4 text-sm">
         {loading ? (
-          <Spinner className="pt-48 h-full w-full flex-1" />
+          <Spinner className="h-full w-full flex-1 pt-48" />
         ) : (
           ids?.map((id) => <SharedItem key={id} fileId={id} />)
         )}

@@ -18,16 +18,16 @@ function Carousel({ files, onSwipeLeft, onSwipeRight }) {
     <div
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...handlers}
-      className="overflow-hidden w-full"
+      className="w-full overflow-hidden"
     >
-      <div style={{ ...style }} className="relative h-[calc(100vh-60px)] flex overflow-x-scroll">
+      <div style={{ ...style }} className="relative flex h-[calc(100svh-60px)] overflow-x-scroll">
         {files.map(
           (f) =>
             f != null && (
-              <div key={f.path} className="p-4 shrink-0 w-1/3">
+              <div key={f.path} className="w-1/3 shrink-0 p-4">
                 <Preview file={f} />
               </div>
-            )
+            ),
         )}
       </div>
     </div>
