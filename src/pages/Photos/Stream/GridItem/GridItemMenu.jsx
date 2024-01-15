@@ -1,20 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import * as icons from '../../../../icons';
+import { MediaItemShape } from '../../../../types';
+
 import {
   useCopyLinkAction,
   useDeleteAction,
   useDownloadAction,
   useFavouriteAction,
-} from '../../../hooks/file-actions';
+} from '../../../../hooks/file-actions';
 
-import * as icons from '../../../icons';
-import { FileShape } from '../../../types';
+import useFileFromMediaItem from '../../hooks/file-from-media-item';
 
-import Menu from '../../../components/ui/Menu';
-import MenuItem from '../../../components/ui/MenuItem';
+import Menu from '../../../../components/ui/Menu';
+import MenuItem from '../../../../components/ui/MenuItem';
 
-function useFileActionGroups(files) {
+function useMediaItemActionGroups(item) {
+  const files = [useFileFromMediaItem(item)];
+
   const toggleFavourite = useFavouriteAction(files);
   const copyLinkAction = useCopyLinkAction(files);
   const deleteAction = useDeleteAction(files);
@@ -38,19 +42,19 @@ function useFileActionGroups(files) {
   return groups.filter((group) => group.items.length > 0);
 }
 
-function GridItemMenu({ item, onOpen }) {
-  const groups = useFileActionGroups([item]);
+function GridItemMenu({ mediaItem, onOpen }) {
+  const groups = useMediaItemActionGroups(mediaItem);
   return (
     <Menu groups={groups} itemRenderer={MenuItem} placement="bottom-start" onOpen={onOpen}>
-      <div className="p-0.5 dark:hover:bg-zinc-100 dark:bg-zinc-200 rounded-full dark:text-zinc-600">
-        <icons.More className="shrink-0 w-3 h-3" />
+      <div className="rounded-full p-0.5 dark:bg-zinc-200 dark:text-zinc-600 dark:hover:bg-zinc-100">
+        <icons.More className="h-3 w-3 shrink-0" />
       </div>
     </Menu>
   );
 }
 
 GridItemMenu.propTypes = {
-  item: FileShape.isRequired,
+  mediaItem: MediaItemShape.isRequired,
   onOpen: PropTypes.func,
 };
 

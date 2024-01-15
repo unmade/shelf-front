@@ -23,7 +23,9 @@ const selectListFeaturesResult = featuresApi.endpoints.listFeatures.select();
 const selectListFeaturesData = createSelector(selectListFeaturesResult, (result) => result.data);
 
 const { selectById } = featuresAdapter.getSelectors(
-  (state) => selectListFeaturesData(state) ?? initialState
+  (state) => selectListFeaturesData(state) ?? initialState,
 );
 
 export const selectFeatureValue = (state, name) => selectById(state, name)?.value;
+
+export const selectPhotosLibraryPath = (state) => selectFeatureValue(state, 'photos_library_path');

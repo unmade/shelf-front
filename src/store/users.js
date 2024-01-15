@@ -15,7 +15,7 @@ export const usersApi = apiSlice.injectEndpoints({
         const patchResult = dispatch(
           apiSlice.util.updateQueryData('listBookmarks', undefined, (draft) => {
             draft.push(fileId);
-          })
+          }),
         );
         try {
           await queryFulfilled;
@@ -36,21 +36,21 @@ export const usersApi = apiSlice.injectEndpoints({
         body: { id: fileId },
       }),
       async onQueryStarted(fileId, { dispatch, queryFulfilled }) {
-        const patchResult = dispatch(
+        const patchListBookmarksResult = dispatch(
           apiSlice.util.updateQueryData('listBookmarks', undefined, (draft) =>
-            draft.filter((id) => id !== fileId)
-          )
+            draft.filter((id) => id !== fileId),
+          ),
         );
-        const patchResult2 = dispatch(
+        const patchListBookmarkedFilesResult = dispatch(
           apiSlice.util.updateQueryData('listBookmarkedFiles', undefined, (draft) =>
-            filesAdapter.removeOne(draft, fileId)
-          )
+            filesAdapter.removeOne(draft, fileId),
+          ),
         );
         try {
           await queryFulfilled;
         } catch {
-          patchResult.undo();
-          patchResult2.undo();
+          patchListBookmarksResult.undo();
+          patchListBookmarkedFilesResult.undo();
         }
       },
     }),
@@ -64,7 +64,7 @@ const selectBookmarksFromResult = usersApi.endpoints.listBookmarks.select();
 const empty = new Set();
 
 export const selectAllBookmarks = createSelector(selectBookmarksFromResult, (bookmarksResult) =>
-  bookmarksResult?.data ? new Set(bookmarksResult.data) : empty
+  bookmarksResult?.data ? new Set(bookmarksResult.data) : empty,
 );
 
 export const selectIsBookmarked = (state, id) => selectAllBookmarks(state).has(id);
