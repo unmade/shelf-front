@@ -1,8 +1,10 @@
 import React from 'react';
 
 import { Helmet } from 'react-helmet-async';
+import { useSelector } from 'react-redux';
 
-import { selectFileByIdInPath, useListFolderQuery } from '../../../store/files';
+import { selectPhotosLibraryPath } from '../../../store/features';
+import { useListMediaItemsQuery } from '../../../store/photos';
 
 import { Breakpoint, useBreakpoint } from '../../../hooks/media-query';
 
@@ -39,11 +41,11 @@ function Stream() {
   const [scrollIndex, setScrollIndex] = React.useState(null);
   const { columnCount } = useGridLayout();
 
-  const path = 'exif';
-  const { ids, isFetching: loading } = useListFolderQuery(path, {
+  const libraryPath = useSelector(selectPhotosLibraryPath);
+
+  const { ids, isFetching: loading } = useListMediaItemsQuery(undefined, {
     selectFromResult: ({ data, isFetching }) => ({ ids: data?.ids, isFetching }),
   });
-  const selectById = (state, id) => selectFileByIdInPath(state, { path, id });
 
   const onClose = ({ currentIndex }) => {
     setScrollIndex(Math.floor(currentIndex / columnCount));
@@ -59,14 +61,11 @@ function Stream() {
         });
       }
     },
-    [scrollIndex]
+    [scrollIndex],
   );
 
-  const uploadTo = 'Photos/Uploads';
   const data = {
     ids,
-    selectById,
-    path: uploadTo,
     columnCount,
     onClick: setInitialIndex,
   };
@@ -74,18 +73,12 @@ function Stream() {
   const content =
     !ids?.length && !loading ? (
       <div className="flex" style={contentStyle}>
-        <Welcome uploadTo={uploadTo} />
+        <Welcome uploadTo={libraryPath} />
       </div>
     ) : (
       <SelectionProvider>
         {initialIndex != null && (
-          <Gallery
-            ids={ids}
-            selectById={selectById}
-            initialIndex={initialIndex}
-            onClose={onClose}
-            path={uploadTo}
-          />
+          <Gallery ids={ids} initialIndex={initialIndex} onClose={onClose} />
         )}
         <div className="h-full">
           <VGrid
@@ -112,7 +105,7 @@ function Stream() {
             <PageHeader.Title>Photos</PageHeader.Title>
             <PageHeader.Actions>
               <SearchButton />
-              <Uploader uploadTo="Photos/Uploads" />
+              <Uploader uploadTo={libraryPath} />
             </PageHeader.Actions>
           </PageHeader>
 
@@ -120,7 +113,7 @@ function Stream() {
           <FileDrop
             className="overflow-y-auto"
             style={contentStyle}
-            uploadTo={uploadTo}
+            uploadTo={libraryPath}
             render={({ innerRef, dragging }) => (
               <div className="relative h-full w-full">
                 <div

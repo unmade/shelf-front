@@ -61,7 +61,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
             },
           },
           api,
-          extraOptions
+          extraOptions,
         );
         if (refreshResult.data) {
           const { access_token: accessToken, refresh_token: nextRefreshToken } = refreshResult.data;
@@ -87,7 +87,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: baseQueryWithReauth,
-  tagTypes: ['Files', 'Sharing', 'fileMembers'],
+  tagTypes: ['Files', 'Sharing', 'fileMembers', 'MediaItems'],
   endpoints: () => ({}),
 });
 
