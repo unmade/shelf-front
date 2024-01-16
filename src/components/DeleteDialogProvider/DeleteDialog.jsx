@@ -28,8 +28,9 @@ function DeleteDialog({ files, visible, onClose }) {
       waitForBackgroundTaskToComplete({
         taskId,
         scope: scopes.movingToTrash,
+        files,
         itemsCount: paths.length,
-      })
+      }),
     );
     onClose();
   };

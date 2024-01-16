@@ -14,7 +14,9 @@ function toMediaItem(item) {
   };
 }
 
-export const mediaItemsAdapter = createEntityAdapter();
+export const mediaItemsAdapter = createEntityAdapter({
+  sortComparer: (a, b) => (a.mtime > b.mtime ? -1 : 1),
+});
 const initialState = mediaItemsAdapter.getInitialState();
 
 const photosApi = apiSlice.injectEndpoints({
