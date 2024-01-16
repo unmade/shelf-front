@@ -17,6 +17,8 @@ import {
 } from '../authSlice';
 import { selectFeatureValue } from '../features';
 import { filesAdapter, selectListFolderData } from '../files';
+import { mediaItemsAdapter } from '../photos';
+
 import { uploadsAdded, uploadRejected, uploadFulfilled, uploadProgressed } from './slice';
 
 const mutex = new Mutex();
@@ -40,6 +42,7 @@ async function normalize(file, uploadTo, maxUploadSize) {
   if (fullPath != null) {
     // must be FileSystemFileEntry
     try {
+      // eslint-disable-next-line no-promise-executor-return
       fileObj = await new Promise((resolve, reject) => file.file(resolve, reject));
       upload.uploadPath = `${uploadTo}${fullPath}`;
       upload.mediatype = fileObj.type;
@@ -64,7 +67,11 @@ async function normalize(file, uploadTo, maxUploadSize) {
 function updateListFolderCache(file, { dispatch, getState }) {
   const { path, size } = file;
 
-  // when uploading a folder we need to re-fetch files in the current path for the folder to appear
+  // When uploading a folder we need to re-fetch files in the current path for the folder to appear.
+  // Consider the case when user uploads a `Scans/img.jpeg` to the `Documents` folder. Thus,
+  // we need to add 'Scans' folder to the `listFolder('Documents')` cache. But the upload endpoint
+  // returns data about uploaded file. So, we need to re-fetch files in the current path in order
+  // for missing folders to appear.
   const invalidatesTags = [];
   const match = matchPath(routes.FILES.route, window.location.pathname);
   if (match != null) {
@@ -99,14 +106,40 @@ function updateListFolderCache(file, { dispatch, getState }) {
             filesAdapter.updateOne(draft, { id: value.id, changes: { size: value.size + size } });
           }
         });
-      })
-    )
+      }),
+    ),
   );
 
   dispatch(
     apiSlice.util.updateQueryData('listFolder', routes.parent(path), (draft) => {
-      filesAdapter.upsertOne(draft, file);
-    })
+      if (draft != null) {
+        filesAdapter.upsertOne(draft, file);
+      }
+    }),
+  );
+}
+
+function updateListMediaItemsCache(file, { dispatch }) {
+  // when uploading a folder we need to re-fetch files in the current path for the folder to appear
+  const match = matchPath(routes.PHOTOS.route, window.location.pathname);
+  if (match == null) {
+    return;
+  }
+
+  const mediaItem = {
+    id: file.id,
+    fileId: file.id,
+    name: file.name,
+    size: file.size,
+    mtime: file.mtime,
+    mediatype: file.mediatype,
+    thumbnailUrl: file.thumbnail_url,
+  };
+
+  dispatch(
+    apiSlice.util.updateQueryData('listMediaItems', undefined, (draft) => {
+      mediaItemsAdapter.addOne(draft, mediaItem);
+    }),
   );
 }
 
@@ -189,6 +222,7 @@ async function uploadFile(upload, fileObj, { dispatch, getState }) {
 
   dispatch(uploadFulfilled({ upload }));
   updateListFolderCache(data, { dispatch, getState });
+  updateListMediaItemsCache(data, { dispatch });
 }
 
 async function listenFileEntriesAdded(action, listenerApi) {
@@ -197,7 +231,7 @@ async function listenFileEntriesAdded(action, listenerApi) {
 
   const uploads = await Promise.all(
     // eslint-disable-next-line no-return-await
-    files.map(async (file) => await normalize(file, uploadTo, maxUploadSize))
+    files.map(async (file) => await normalize(file, uploadTo, maxUploadSize)),
   );
 
   listenerApi.dispatch(uploadsAdded({ uploads: uploads.map(([upload]) => upload) }));
