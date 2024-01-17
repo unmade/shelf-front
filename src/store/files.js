@@ -101,10 +101,10 @@ const filesApi = apiSlice.injectEndpoints({
       transformResponse: (data) => data.items,
     }),
     getContentMetadata: builder.query({
-      query: (path) => ({
+      query: (fileId) => ({
         url: '/files/get_content_metadata',
         method: 'POST',
-        body: { path },
+        body: { id: fileId },
       }),
     }),
     getThumbnail: builder.query({
@@ -193,28 +193,28 @@ export const {
 
 export const selectListFolderData = createSelector(
   (state, path) => filesApi.endpoints.listFolder.select(path)(state),
-  (result) => result.data ?? initialState
+  (result) => result.data ?? initialState,
 );
 
 export const selectFileByIdInPath = createSelector(
   (state, { path, id }) => {
     const { selectById } = filesAdapter.getSelectors((state_) =>
-      selectListFolderData(state_, path)
+      selectListFolderData(state_, path),
     );
     return selectById(state, id);
   },
-  (entity) => entity
+  (entity) => entity,
 );
 
 const selectListBookmarkedFilesResult = filesApi.endpoints.listBookmarkedFiles.select();
 
 const selectListBookmarkedFilesData = createSelector(
   selectListBookmarkedFilesResult,
-  (listBookmarkedFilesResult) => listBookmarkedFilesResult.data
+  (listBookmarkedFilesResult) => listBookmarkedFilesResult.data,
 );
 
 export const { selectById: selectBookmarkedFileById } = filesAdapter.getSelectors(
-  (state) => selectListBookmarkedFilesData(state) ?? initialState
+  (state) => selectListBookmarkedFilesData(state) ?? initialState,
 );
 
 export const selectFallbackThumbnail = (state, { fileId, size, mtime }) => {

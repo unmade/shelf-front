@@ -26,7 +26,7 @@ function Sidebar({ className, mediaItemId }) {
       </div>
 
       <div className="pt-8">
-        <Exif path={file.path} />
+        <Exif fileId={file.id} />
       </div>
     </div>
   );
