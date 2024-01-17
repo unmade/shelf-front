@@ -4,13 +4,8 @@ import { Helmet } from 'react-helmet-async';
 import { useSelector } from 'react-redux';
 
 import { selectPhotosLibraryPath } from '../../../store/features';
-import { useListMediaItemsQuery } from '../../../store/photos';
-
-import { Breakpoint, useBreakpoint } from '../../../hooks/media-query';
 
 import FileDrop from '../../../containers/FileDrop';
-
-import VGrid from '../../../components/ui/VGrid';
 
 import CopyLinkDialogProvider from '../../../components/CopyLinkDialogProvider';
 import DeleteDialogProvider from '../../../components/DeleteDialogProvider';
@@ -18,81 +13,15 @@ import PageHeader from '../../../components/PageHeader';
 import SearchButton from '../../../components/SearchButton';
 import Uploader from '../../../components/Uploader';
 
-import Gallery from './Gallery';
-import GridItem from './GridItem';
-import SelectionProvider from './SelectionProvider';
-import Welcome from './Welcome';
+import Grid from './Grid';
 
 const headerHeight = '108px';
 const contentStyle = {
   height: `calc(100% - ${headerHeight})`,
 };
 
-function useGridLayout() {
-  const breakpoint = useBreakpoint();
-  if (breakpoint === Breakpoint.base) {
-    return { columnCount: 3 };
-  }
-  return { columnCount: 5 };
-}
-
 function Stream() {
-  const [initialIndex, setInitialIndex] = React.useState(null);
-  const [scrollIndex, setScrollIndex] = React.useState(null);
-  const { columnCount } = useGridLayout();
-
   const libraryPath = useSelector(selectPhotosLibraryPath);
-
-  const { ids, isFetching: loading } = useListMediaItemsQuery(undefined, {
-    selectFromResult: ({ data, isFetching }) => ({ ids: data?.ids, isFetching }),
-  });
-
-  const onClose = ({ currentIndex }) => {
-    setScrollIndex(Math.floor(currentIndex / columnCount));
-    setInitialIndex(null);
-  };
-
-  const scrollToItem = React.useCallback(
-    (el) => {
-      if (scrollIndex != null) {
-        el?.scrollToItem({
-          align: 'center',
-          rowIndex: scrollIndex,
-        });
-      }
-    },
-    [scrollIndex],
-  );
-
-  const data = {
-    ids,
-    columnCount,
-    onClick: setInitialIndex,
-  };
-
-  const content =
-    !ids?.length && !loading ? (
-      <div className="flex" style={contentStyle}>
-        <Welcome uploadTo={libraryPath} />
-      </div>
-    ) : (
-      <SelectionProvider>
-        {initialIndex != null && (
-          <Gallery ids={ids} initialIndex={initialIndex} onClose={onClose} />
-        )}
-        <div className="h-full">
-          <VGrid
-            innerRef={scrollToItem}
-            itemRenderer={GridItem}
-            itemData={data}
-            columnCount={columnCount}
-            rowCount={Math.ceil((ids?.length ?? 0) / columnCount)}
-            rowHeightOffset={24}
-            loading={loading}
-          />
-        </div>
-      </SelectionProvider>
-    );
 
   return (
     <CopyLinkDialogProvider>
@@ -124,7 +53,7 @@ function Stream() {
                 >
                   <div className="h-full w-full rounded-2xl border-4 border-dashed border-teal-200 dark:border-teal-600" />
                 </div>
-                {content}
+                <Grid />
               </div>
             )}
           />
@@ -133,5 +62,7 @@ function Stream() {
     </CopyLinkDialogProvider>
   );
 }
+
+Stream.propTypes = {};
 
 export default Stream;

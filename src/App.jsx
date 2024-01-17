@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
+import { featuresApi } from './store/features';
 import { usersApi } from './store/users';
 
 import * as routes from './routes';
@@ -29,8 +30,10 @@ function App() {
 
   React.useEffect(() => {
     const listBookmarksResult = dispatch(usersApi.endpoints.listBookmarks.initiate());
+    const listFeaturesResult = dispatch(featuresApi.endpoints.listFeatures.initiate());
     return () => {
       listBookmarksResult.unsubscribe();
+      listFeaturesResult.unsubscribe();
     };
   }, []);
 
