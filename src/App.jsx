@@ -7,12 +7,16 @@ import { useDispatch } from 'react-redux';
 import { featuresApi } from './store/features';
 import { usersApi } from './store/users';
 
+import filesMenu from './filesMenu';
+import * as icons from './icons';
+import photosMenu from './photosMenu';
 import * as routes from './routes';
 
 import usePrefersColorScheme from './hooks/prefers-color-scheme';
 
 import RequireAdmin from './components/RequireAdmin';
 import SideBar from './components/SideBar';
+import SidebarProvider from './components/SideBar/SidebarProvider';
 
 import Bookmarks from './pages/Bookmarks';
 import Duplicates from './pages/Duplicates';
@@ -22,6 +26,50 @@ import LinkSharing from './pages/Shared/ViaLink';
 import Photos from './pages/Photos';
 import Trash from './pages/Trash';
 import UserManagement from './pages/admin/UserManagement';
+
+function FilesApp() {
+  return (
+    <SidebarProvider appTitle="shelf" appLogo={icons.AppLogo} menu={filesMenu}>
+      <div className="hidden lg:block xl:w-64">
+        <SideBar />
+      </div>
+      <div className="my-0 min-w-0 flex-1 bg-white shadow-sm dark:bg-zinc-800">
+        <Routes>
+          <Route path={routes.BOOKMARKS.route} element={<Bookmarks />} />
+          <Route path={routes.SHARED_IN_APP.route} element={<InAppSharing />} />
+          <Route path={routes.SHARED_VIA_LINK.route} element={<LinkSharing />} />
+          <Route path={routes.DUPLICATES.route} element={<Duplicates />} />
+          <Route path={routes.FILES.route} element={<Files />} />
+          <Route path={routes.TRASH.route} element={<Trash />} />
+          <Route
+            path={routes.USER_MANAGEMENT.route}
+            element={
+              <RequireAdmin>
+                <UserManagement />
+              </RequireAdmin>
+            }
+          />
+          <Route path="/" element={<Navigate to={routes.FILES.prefix} replace />} />
+        </Routes>
+      </div>
+    </SidebarProvider>
+  );
+}
+
+function PhotosApp() {
+  return (
+    <SidebarProvider appTitle="my moments" appLogo={icons.AppLogo} menu={photosMenu}>
+      <div className="hidden lg:block xl:w-64">
+        <SideBar />
+      </div>
+      <div className="my-0 min-w-0 flex-1 bg-white shadow-sm dark:bg-zinc-800">
+        <Routes>
+          <Route path="/*" element={<Photos />} />
+        </Routes>
+      </div>
+    </SidebarProvider>
+  );
+}
 
 function App() {
   const dispatch = useDispatch();
@@ -43,29 +91,10 @@ function App() {
         <title>Shelf</title>
       </Helmet>
       <div className="flex h-svh bg-gray-100 dark:bg-zinc-900 dark:text-zinc-200">
-        <div className="hidden lg:block xl:w-64">
-          <SideBar />
-        </div>
-        <div className="my-0 min-w-0 flex-1 bg-white shadow-sm dark:bg-zinc-800">
-          <Routes>
-            <Route path={routes.BOOKMARKS.route} element={<Bookmarks />} />
-            <Route path={routes.SHARED_IN_APP.route} element={<InAppSharing />} />
-            <Route path={routes.SHARED_VIA_LINK.route} element={<LinkSharing />} />
-            <Route path={routes.DUPLICATES.route} element={<Duplicates />} />
-            <Route path={routes.FILES.route} element={<Files />} />
-            <Route path={routes.PHOTOS.route} element={<Photos />} />
-            <Route path={routes.TRASH.route} element={<Trash />} />
-            <Route
-              path={routes.USER_MANAGEMENT.route}
-              element={
-                <RequireAdmin>
-                  <UserManagement />
-                </RequireAdmin>
-              }
-            />
-            <Route path="/" element={<Navigate to={routes.FILES.prefix} replace />} />
-          </Routes>
-        </div>
+        <Routes>
+          <Route path={`${routes.PHOTOS.route}/*`} element={<PhotosApp />} />
+          <Route path="/*" element={<FilesApp />} />
+        </Routes>
       </div>
     </>
   );

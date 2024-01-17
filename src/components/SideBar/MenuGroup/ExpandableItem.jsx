@@ -10,7 +10,7 @@ import Item from './Item';
 
 function Overlay({ items }) {
   return (
-    <div className="ml-3 px-4 py-3 rounded-2xl dark:bg-zinc-900 text-base">
+    <div className="ml-3 rounded-2xl px-4 py-3 text-base dark:bg-zinc-900">
       {items.map((item) => (
         <NavLink key={item.path} to={item.path}>
           {({ isActive }) => (
@@ -27,7 +27,7 @@ Overlay.propTypes = {
     PropTypes.shape({
       title: PropTypes.string.isRequired,
       path: PropTypes.string.isRequired,
-    })
+    }),
   ).isRequired,
 };
 
@@ -50,7 +50,7 @@ function ExpandableItem({ title, icon, items }) {
         }
       />
       <div className="hidden lg:block xl:hidden">
-        <Dropdown placement="right" overlay={() => <Overlay items={items} />}>
+        <Dropdown placement="right" overlay={<Overlay items={items} />}>
           <div>
             <Item title={title} icon={icon} />
           </div>
@@ -62,12 +62,12 @@ function ExpandableItem({ title, icon, items }) {
 
 ExpandableItem.propTypes = {
   title: PropTypes.string.isRequired,
-  icon: PropTypes.element.isRequired,
+  icon: PropTypes.elementType.isRequired,
   items: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,
       path: PropTypes.string.isRequired,
-    })
+    }),
   ).isRequired,
 };
 
