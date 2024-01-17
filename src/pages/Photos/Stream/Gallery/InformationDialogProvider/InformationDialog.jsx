@@ -21,10 +21,10 @@ function InformationDialog({ file, visible, onClose }) {
       </div>
 
       <div className="pt-4">
-        <p className=" px-2 text-gray-800 dark:text-zinc-100 text-left">
-          <TimeAgo mtime={file?.mtime * 1000} format="LLLL" />
+        <p className=" px-2 text-left text-gray-800 dark:text-zinc-100">
+          <TimeAgo mtime={file?.mtime ?? 0 * 1000} format="LLLL" />
         </p>
-        {file && <Exif path={file.path} />}
+        {file && <Exif fileId={file.id} />}
       </div>
     </Dialog>
   );

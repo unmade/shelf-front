@@ -27,7 +27,7 @@ function FileTabs({ file }) {
   if (MediaType.isImage(file.mediatype) && thumbnailUrl != null) {
     tabs.push({
       name: t('file:exif'),
-      renderer: <ExifPanelContainer path={path} thumbnailUrl={thumbnailUrl} />,
+      renderer: <ExifPanelContainer fileId={file.id} thumbnailUrl={thumbnailUrl} />,
     });
   }
 

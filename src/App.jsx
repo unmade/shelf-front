@@ -58,7 +58,7 @@ function FilesApp() {
 
 function PhotosApp() {
   return (
-    <SidebarProvider appTitle="my moments" appLogo={icons.AppLogo} menu={photosMenu}>
+    <SidebarProvider appTitle="shelf" appLogo={icons.AppLogo} menu={photosMenu}>
       <div className="hidden lg:block xl:w-64">
         <SideBar />
       </div>

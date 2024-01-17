@@ -28,8 +28,8 @@ ExifProperty.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
 };
 
-function Exif({ path }) {
-  const { data, isFetching: loading, isError } = useGetContentMetadataQuery(path);
+function Exif({ fileId }) {
+  const { data, isFetching: loading, isError } = useGetContentMetadataQuery(fileId);
   const meta = data?.data;
 
   if (loading || meta == null || isError) {
@@ -43,10 +43,10 @@ function Exif({ path }) {
   const iso = getISO(meta);
 
   return (
-    <div className="px-3 py-2 bg-gray-100 dark:bg-zinc-900/50 text-gray-900 dark:text-zinc-100 rounded-lg sm:text-sm">
-      <div className="py-1 border-b-2 dark:border-zinc-800">
+    <div className="rounded-lg bg-gray-100 px-3 py-2 text-gray-900 dark:bg-zinc-900/50 dark:text-zinc-100 sm:text-sm">
+      <div className="border-b-2 py-1 dark:border-zinc-800">
         <div className="flex justify-between">
-          <p className="font-medium text-left text-base">
+          <p className="text-left text-base font-medium">
             {getCameraModel(meta) ?? 'No camera information'}
           </p>
         </div>
@@ -86,7 +86,7 @@ function Exif({ path }) {
 }
 
 Exif.propTypes = {
-  path: PropTypes.string.isRequired,
+  fileId: PropTypes.string.isRequired,
 };
 
 export default Exif;
