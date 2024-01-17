@@ -17,8 +17,10 @@ import Header from './Header';
 import InformationDialogProvider from './InformationDialogProvider';
 import Sidebar from './Sidebar';
 
-function Gallery({ ids, initialIndex, onClose }) {
-  const [currentIndex, setCurrentIndex] = useState(initialIndex);
+function Gallery({ ids, initialFileId, onClose }) {
+  const idx = ids.findIndex((id) => id === initialFileId);
+
+  const [currentIndex, setCurrentIndex] = useState(idx);
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const total = ids.length;
@@ -86,7 +88,7 @@ function Gallery({ ids, initialIndex, onClose }) {
 
 Gallery.propTypes = {
   ids: PropTypes.arrayOf(PropTypes.string),
-  initialIndex: PropTypes.number.isRequired,
+  initialFileId: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 
