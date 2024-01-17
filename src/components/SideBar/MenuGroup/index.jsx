@@ -3,21 +3,10 @@ import PropTypes from 'prop-types';
 
 import { NavLink } from 'react-router-dom';
 
+import { SidebarMenuItemShape } from '../../../types';
+
 import ExpandableItem from './ExpandableItem';
 import Item from './Item';
-
-const MenuItemType = PropTypes.shape({
-  path: PropTypes.string,
-  title: PropTypes.string.isRequired,
-  icon: PropTypes.element,
-  desktopOnly: PropTypes.bool.isRequired,
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      path: PropTypes.string,
-      title: PropTypes.string.isRequired,
-    })
-  ),
-});
 
 function MenuGroupItem({ item }) {
   const { title, path, icon, items } = item;
@@ -33,7 +22,7 @@ function MenuGroupItem({ item }) {
 }
 
 MenuGroupItem.propTypes = {
-  item: MenuItemType.isRequired,
+  item: SidebarMenuItemShape.isRequired,
 };
 
 function MenuGroup({ items }) {
@@ -47,7 +36,7 @@ function MenuGroup({ items }) {
 }
 
 MenuGroup.propTypes = {
-  items: PropTypes.arrayOf(MenuItemType).isRequired,
+  items: PropTypes.arrayOf(SidebarMenuItemShape).isRequired,
 };
 
 export default MenuGroup;

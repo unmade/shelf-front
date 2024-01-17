@@ -30,6 +30,19 @@ export const MediaItemShape = PropTypes.shape({
   thumbnailUrl: PropTypes.string,
 });
 
+export const SidebarMenuItemShape = PropTypes.shape({
+  path: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  icon: PropTypes.elementType,
+  desktopOnly: PropTypes.bool.isRequired,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      path: PropTypes.string,
+      title: PropTypes.string.isRequired,
+    }),
+  ),
+});
+
 export const SharedLinkFileShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,

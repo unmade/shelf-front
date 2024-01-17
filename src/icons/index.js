@@ -11,7 +11,10 @@ import { MediaType } from '../constants';
 
 import AppLogoIcon from './AppLogo';
 import FolderSolid from './FolderIcon';
+import HeartOutlinedIcon from './HeartOutlinedIcon';
+import HeartSolidIcon from './HeartSolidIcon';
 import SharedFolderSolid from './SharedFolderIcon';
+import UsersOutlinedIcon from './UsersOutlinedIcon';
 
 export const AppLogo = AppLogoIcon;
 export const ArrowLeft = hiSolid.ArrowLeftIcon;
@@ -51,8 +54,8 @@ export const FileImage = hiOutline.PhotographIcon;
 export const FileText = hiOutline.DocumentTextIcon;
 export const Filter = hiSolid.FilterIcon;
 export const Folder = FolderSolid;
-export const Heart = hiSolid.HeartIcon;
-export const HeartOutlined = hiOutline.HeartIcon;
+export const Heart = HeartSolidIcon;
+export const HeartOutlined = HeartOutlinedIcon;
 export const Home = hiSolid.HomeIcon;
 export const HomeOutlined = hiOutline.HomeIcon;
 export const ICursor = hiOutline.PencilIcon;
@@ -67,6 +70,7 @@ export const MoonOutlined = hiOutline.MoonIcon;
 export const More = hiSolid.DotsHorizontalIcon;
 export const MoreOutlined = hiOutline.DotsHorizontalIcon;
 export const Move = hiOutline.DocumentDuplicateIcon;
+export const PhotographOutlined = hiOutline.PhotographIcon;
 export const Plus = hiSolid.PlusIcon;
 export const Redo = hiOutline.RefreshIcon;
 export const SearchOutlined = hiOutline.SearchIcon;
@@ -77,7 +81,7 @@ export const Spinner = cg.CgSpinner;
 export const Trash = hiSolid.TrashIcon;
 export const TrashOutlined = hiOutline.TrashIcon;
 export const Upload = hiSolid.UploadIcon;
-export const UsersOutline = hiOutline.UsersIcon;
+export const UsersOutlined = UsersOutlinedIcon;
 export const UserRemoveOutlined = hiOutline.UserRemoveIcon;
 
 const PRECISE_MAP = {

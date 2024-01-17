@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { isValidElement } from 'react';
 import PropTypes from 'prop-types';
 
 import { useFloating, flip, offset } from '@floating-ui/react-dom';
 import { Popover, Transition } from '@headlessui/react';
+
+import { Children } from '../../types';
 
 function OverlayWrapper({ children, open, onOpenChange }) {
   React.useEffect(() => {
@@ -15,8 +17,7 @@ function OverlayWrapper({ children, open, onOpenChange }) {
 }
 
 OverlayWrapper.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element])
-    .isRequired,
+  children: Children.isRequired,
   open: PropTypes.bool.isRequired,
   onOpenChange: PropTypes.func,
 };
@@ -62,7 +63,7 @@ function Dropdown({ children, overlay: Overlay, placement, onOpenChange }) {
               }}
             >
               <OverlayWrapper open={open} onOpenChange={onOpenChange}>
-                <Overlay />
+                {isValidElement(Overlay) ? Overlay : <Overlay />}
               </OverlayWrapper>
             </Popover.Panel>
           </Transition>
@@ -74,7 +75,7 @@ function Dropdown({ children, overlay: Overlay, placement, onOpenChange }) {
 
 Dropdown.propTypes = {
   children: PropTypes.element.isRequired,
-  overlay: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
+  overlay: PropTypes.oneOfType([PropTypes.element, PropTypes.elementType]).isRequired,
   placement: PropTypes.oneOf(['start-end', 'bottom-end', 'right', 'right-end', 'top-end']),
   onOpenChange: PropTypes.func,
 };
