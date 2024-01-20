@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { shallowEqual, useSelector } from 'react-redux';
 
+import { ThumbnailSize } from '../../../../constants';
 import { MediaItemShape } from '../../../../types';
 
 import { useTouchDevice } from '../../../../hooks/media-query';
@@ -48,7 +49,7 @@ function GridItem({ mediaItem, touch, width, onClick }) {
           className="rounded-lg"
           style={{ maxHeight: width - (selected ? 12 : 0) }}
           file={file}
-          size="lg"
+          size={ThumbnailSize.lg}
         />
         <div
           className={`${!touch && selected ? '' : 'hidden'} ${
