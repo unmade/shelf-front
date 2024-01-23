@@ -21,7 +21,7 @@ function AdjustButton({ fileId }) {
           openDialog(fileId);
         }}
       >
-        <span className="font-medium dark:text-indigo-500">Adjust</span>
+        <span className="font-medium text-blue-500 dark:text-indigo-500">Adjust</span>
       </Button>
       <Button
         className="hidden md:block"
@@ -30,7 +30,7 @@ function AdjustButton({ fileId }) {
           openDialog(fileId);
         }}
       >
-        <span className="font-medium dark:text-indigo-500">Adjust</span>
+        <span className="font-medium text-blue-500 dark:text-indigo-500">Adjust</span>
       </Button>
     </>
   );
@@ -42,7 +42,9 @@ AdjustButton.propTypes = {
 
 function CategoryListItem({ name }) {
   return (
-    <div className="mr-2 mt-2 flex items-center rounded-lg px-3 py-1 dark:bg-zinc-700">{name}</div>
+    <div className="mr-2 mt-2 flex items-center rounded-lg bg-gray-100 px-3 py-1 text-gray-800 dark:bg-zinc-700 dark:text-zinc-200">
+      {name}
+    </div>
   );
 }
 
@@ -63,7 +65,7 @@ function CategoryList({ fileId }) {
   }
 
   if (!categories?.length) {
-    return <p className="mt-1 italic dark:text-zinc-400">No categories provided</p>;
+    return <p className="mt-1 italic text-gray-500 dark:text-zinc-400">No categories provided</p>;
   }
 
   return categories?.map(({ name }) => <CategoryListItem key={name} name={name} />);

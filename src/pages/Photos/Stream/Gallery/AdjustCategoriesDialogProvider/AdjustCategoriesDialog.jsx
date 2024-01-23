@@ -13,12 +13,12 @@ import useMediaItemCategories from '../../../hooks/media-item-categories';
 import Dialog from '../../../../../components/ui/Dialog';
 
 const selectedClassNames =
-  'ring-2 ring-inset dark:bg-teal-700 dark:text-teal-200 dark:ring-teal-500';
+  'ring-2 ring-inset text-orange-800 bg-orange-50 ring-orange-200 dark:bg-amber-900/50 dark:ring-amber-800 dark:text-amber-100';
 
 function CategoryItem({ displayName, name, selected, onClick }) {
   return (
     <button
-      className={`mt-1 rounded-lg p-2 text-center capitalize dark:bg-zinc-700 md:px-3 ${selected ? selectedClassNames : ''}`}
+      className={`mt-1 rounded-lg p-2 text-center capitalize md:px-3 ${selected ? selectedClassNames : 'bg-gray-100 text-gray-800 dark:bg-zinc-700 dark:text-zinc-200'}`}
       type="button"
       key={name}
       onClick={() => onClick(name)}
