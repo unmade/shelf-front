@@ -8,6 +8,7 @@ import FileSize from '../../../../../components/ui/FileSize';
 import TimeAgo from '../../../../../components/ui/TimeAgo';
 
 import Exif from '../../../../../components/Exif';
+import Categories from '../Categories';
 
 function InformationDialog({ file, visible, onClose }) {
   return (
@@ -21,10 +22,11 @@ function InformationDialog({ file, visible, onClose }) {
       </div>
 
       <div className="pt-4">
-        <p className=" px-2 text-left text-gray-800 dark:text-zinc-100">
+        <p className="mb-1 px-2 text-left text-gray-800 dark:text-zinc-100">
           <TimeAgo mtime={file?.mtime ?? 0 * 1000} format="LLLL" />
         </p>
         {file && <Exif fileId={file.id} />}
+        <div className="mt-6">{file && <Categories fileId={file.id} />}</div>
       </div>
     </Dialog>
   );
