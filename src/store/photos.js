@@ -30,10 +30,37 @@ const photosApi = apiSlice.injectEndpoints({
       transformResponse: (data) =>
         mediaItemsAdapter.setAll(initialState, data.items.map(toMediaItem)),
     }),
+    listMediaItemCategories: builder.query({
+      query: (fileId) => ({
+        url: '/photos/list_media_item_categories',
+        method: 'POST',
+        body: { file_id: fileId },
+      }),
+    }),
+    setMediaItemCategories: builder.mutation({
+      query: ({ fileId, categories }) => ({
+        url: '/photos/set_media_item_categories',
+        method: 'POST',
+        body: { file_id: fileId, categories },
+      }),
+      async onQueryStarted({ fileId, categories }, { dispatch, queryFulfilled }) {
+        await queryFulfilled;
+        dispatch(
+          apiSlice.util.updateQueryData('listMediaItemCategories', fileId, () => ({
+            fileId,
+            categories: categories.map((name) => ({ name })),
+          })),
+        );
+      },
+    }),
   }),
 });
 
-export const { useListMediaItemsQuery } = photosApi;
+export const {
+  useListMediaItemsQuery,
+  useListMediaItemCategoriesQuery,
+  useSetMediaItemCategoriesMutation,
+} = photosApi;
 
 const selectListMediaItemsResult = photosApi.endpoints.listMediaItems.select();
 

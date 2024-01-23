@@ -3,12 +3,15 @@ import PropTypes from 'prop-types';
 
 import { useSelector } from 'react-redux';
 
+import useFileFromMediaItem from '../../hooks/file-from-media-item';
+
 import { selectMediaItemById } from '../../../../store/photos';
 
 import FileSize from '../../../../components/ui/FileSize';
 
 import Exif from '../../../../components/Exif';
-import useFileFromMediaItem from '../../hooks/file-from-media-item';
+
+import Categories from './Categories';
 
 function Sidebar({ className, mediaItemId }) {
   const mediaItem = useSelector((state) => selectMediaItemById(state, mediaItemId));
@@ -27,6 +30,9 @@ function Sidebar({ className, mediaItemId }) {
 
       <div className="pt-8">
         <Exif fileId={file.id} />
+      </div>
+      <div className="pt-8">
+        <Categories fileId={file.id} />
       </div>
     </div>
   );

@@ -45,7 +45,7 @@ export const MediaType = {
 export const ThumbnailSize = {
   xs: 'xs',
   lg: 'lg',
-  xxl: '2xl',
+  xxl: 'xxl',
 };
 
 export const thumbnailSizes = [ThumbnailSize.xs, ThumbnailSize.lg, ThumbnailSize.xxl];
