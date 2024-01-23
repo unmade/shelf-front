@@ -40,7 +40,9 @@ function GridItem({ mediaItem, touch, width, onClick }) {
       {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <span
         className={`relative ${
-          selected ? 'm-2 rounded-lg ring-2 ring-indigo-500 ring-offset-4 ring-offset-zinc-800' : ''
+          selected
+            ? 'm-2 rounded-lg ring-2 ring-blue-600 ring-offset-2 ring-offset-white dark:ring-indigo-500 dark:ring-offset-4 dark:ring-offset-zinc-800'
+            : ''
         }`}
         onClick={onSelect}
         onDoubleClick={onOpen}
