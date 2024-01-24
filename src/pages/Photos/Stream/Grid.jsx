@@ -2,17 +2,17 @@ import React, { useCallback, useState } from 'react';
 
 import { useSelector } from 'react-redux';
 
-import { selectPhotosLibraryPath } from '../../../store/features';
-import { useListMediaItemsQuery } from '../../../store/photos';
+import VGrid from 'components/ui/VGrid';
 
-import { Breakpoint, useBreakpoint } from '../../../hooks/media-query';
+import { Breakpoint, useBreakpoint } from 'hooks/media-query';
 
-import VGrid from '../../../components/ui/VGrid';
+import { selectPhotosLibraryPath } from 'store/features';
+import { useListMediaItemsQuery } from 'store/photos';
 
 import Gallery from './Gallery';
 import GridItem from './GridItem';
-import Welcome from './Welcome';
 import SelectionProvider from './SelectionProvider';
+import Welcome from './Welcome';
 
 const headerHeight = '108px';
 const contentStyle = {
