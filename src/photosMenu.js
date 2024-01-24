@@ -18,9 +18,9 @@ const menu = [
     items: null,
   },
   {
-    path: '/photos/faces',
-    title: i18n.t('People', { defaultValue: 'People' }),
-    icon: icons.UsersOutlined,
+    path: '/photos/categories',
+    title: i18n.t('Categories', { defaultValue: 'Categories' }),
+    icon: icons.ColorSwatchOutlined,
     desktopOnly: true,
     items: null,
   },
@@ -43,7 +43,7 @@ const menu = [
 i18n.on('languageChanged init', () => {
   menu[0].title = i18n.t('Library');
   menu[1].title = i18n.t('Favourites');
-  menu[2].title = i18n.t('People');
+  menu[2].title = i18n.t('Categories');
   menu[3].title = i18n.t('Shared links');
   menu[4].title = i18n.t('Deleted');
 });

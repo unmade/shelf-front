@@ -32,6 +32,7 @@ async function normalize(file, uploadTo, maxUploadSize) {
     parentPath: '',
     progress: 0,
     thumbnail: null,
+    mtime: null,
     error: null,
     done: false,
   };
@@ -44,17 +45,19 @@ async function normalize(file, uploadTo, maxUploadSize) {
     try {
       // eslint-disable-next-line no-promise-executor-return
       fileObj = await new Promise((resolve, reject) => file.file(resolve, reject));
-      upload.uploadPath = `${uploadTo}${fullPath}`;
-      upload.mediatype = fileObj.type;
     } catch (e) {
       upload.error = { code: 'badFile' };
     }
 
-    if (MediaType.isImage(upload.mediatype)) {
-      upload.thumbnail = URL.createObjectURL(fileObj);
-    }
+    upload.uploadPath = `${uploadTo}${fullPath}`;
+  }
 
-    upload.parentPath = routes.parent(fullPath);
+  upload.parentPath = routes.parent(upload.uploadPath);
+  upload.mediatype = fileObj.type;
+  upload.mtime = fileObj.lastModified;
+
+  if (MediaType.isImage(upload.mediatype)) {
+    upload.thumbnail = URL.createObjectURL(fileObj);
   }
 
   if (fileObj.size > maxUploadSize) {
@@ -184,6 +187,7 @@ async function uploadFile(upload, fileObj, { dispatch, getState }) {
   const body = new FormData();
   body.append('file', fileObj);
   body.append('path', upload.uploadPath);
+  body.append('mtime', upload.mtime / 1000);
 
   let prevProgressCeiled = 0;
 
