@@ -14,8 +14,24 @@ module.exports = {
   plugins: ['react', 'prettier'],
   ignorePatterns: ['build/**/*'],
   rules: {
+    'no-param-reassign': ['error', { props: true, ignorePropertyModificationsFor: ['state'] }],
     'prettier/prettier': 'error',
     'react/prop-types': 0,
-    'no-param-reassign': ['error', { props: true, ignorePropertyModificationsFor: ['state'] }],
+  },
+  settings: {
+    'import/resolver': {
+      alias: {
+        map: [
+          ['components', './src/components'],
+          ['constants', './src/constants.js'],
+          ['hooks', './src/hooks'],
+          ['icons', './src/icons'],
+          ['routes', './src/routes'],
+          ['store', './src/store'],
+          ['types', './src/types.js'],
+        ],
+        extensions: ['.ts', '.js', '.jsx', '.json'],
+      },
+    },
   },
 };

@@ -1,5 +1,14 @@
 /** @type {import("snowpack").SnowpackUserConfig } */
 export default {
+  alias: {
+    components: './src/components',
+    constants: './src/constants.js',
+    hooks: './src/hooks',
+    icons: './src/icons',
+    routes: './src/routes',
+    store: './src/store',
+    types: './src/types.js',
+  },
   mount: {
     public: { url: '/', static: true },
     src: { url: '/dist' },

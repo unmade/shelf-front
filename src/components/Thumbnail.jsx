@@ -52,12 +52,12 @@ function ImageThumbnail({ className, file, size, style }) {
   const { id, name, mtime } = file;
 
   const fallbackThumbnail = useSelector((state) =>
-    selectFallbackThumbnail(state, { fileId: id, size, mtime })
+    selectFallbackThumbnail(state, { fileId: id, size, mtime }),
   );
 
   const { data, isFetching: loading } = useGetThumbnailQuery(
     { url: file.thumbnail_url, size, mtime },
-    { skip: shouldSkip }
+    { skip: shouldSkip },
   );
 
   if (fallbackThumbnail?.content != null && data?.content == null) {
@@ -76,6 +76,7 @@ function ImageThumbnail({ className, file, size, style }) {
       src={data?.content}
       alt={name}
       style={style}
+      loading="lazy"
     />
   );
 }
