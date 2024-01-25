@@ -29,8 +29,8 @@
     "react-responsive": "^9.0.0-beta.8",
     "react-router-dom": "^6.6.2",
     "react-swipeable": "^7.0.1",
-    "react-virtualized-auto-sizer": "^1.0.6",
-    "react-window": "^1.8.7",
+    "react-virtualized-auto-sizer": "^1.0.21",
+    "react-window": "^1.8.10",
     "tailwindcss": "^3.4.1",
     "validator": "^13.7.0"
   },
@@ -40,20 +40,28 @@
     "format": "prettier --write .",
     "lint": "eslint ./",
     "test": "web-test-runner \"src/**/*.test.jsx\"",
-    "makelocales": "i18next \"src/**/*.{js,jsx}\" -c i18next-parser.config.js",
+    "makelocales": "i18next \"src/**/*.{js,jsx,ts,tsx}\" -c i18next-parser.config.js",
     "prepare": "husky install"
   },
   "devDependencies": {
     "@snowpack/plugin-postcss": "^1.4.3",
     "@snowpack/plugin-react-refresh": "^2.5.0",
+    "@snowpack/plugin-typescript": "^1.2.1",
     "@snowpack/web-test-runner-plugin": "^0.2.2",
     "@testing-library/react": "^11.2.6",
+    "@types/react": "^18.2.48",
+    "@types/react-dom": "^18.2.18",
+    "@types/react-virtualized-auto-sizer": "^1.0.4",
+    "@types/react-window": "^1.8.8",
+    "@typescript-eslint/eslint-plugin": "^6.19.1",
+    "@typescript-eslint/parser": "^6.19.1",
     "@web/test-runner": "^0.13.3",
     "chai": "^4.3.4",
     "eslint": "^8.56.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jsx-a11y": "^6.8.0",
     "eslint-plugin-prettier": "^5.1.3",
@@ -64,14 +72,19 @@
     "lint-staged": "^15.2.0",
     "prettier": "^3.1.1",
     "prettier-plugin-tailwindcss": "^0.5.11",
-    "snowpack": "3.8.8"
+    "snowpack": "3.8.8",
+    "typescript": "^5.3.3"
   },
   "resolutions": {
-    "strip-ansi": "6.0.1"
+    "strip-ansi": "6.0.1",
+    "@types/react": "18.2.48",
+    "@types/react-dom": "18.2.18"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown",
     "*.js": "eslint",
-    "*.jsx": "eslint"
+    "*.jsx": "eslint",
+    "*.ts": "eslint",
+    "*.tsx": "eslint"
   }
 }
