@@ -16,11 +16,13 @@ function TimeAgo({ className, format, mtime }) {
 }
 
 TimeAgo.propTypes = {
+  className: PropTypes.string,
   format: PropTypes.string,
   mtime: PropTypes.number.isRequired,
 };
 
 TimeAgo.defaultProps = {
+  className: '',
   format: null,
 };
 

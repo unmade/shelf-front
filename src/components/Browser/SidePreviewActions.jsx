@@ -1,16 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import * as routes from 'routes';
+
 import {
   useDeleteAction,
+  useDeleteImmediatelyAction,
   useDownloadAction,
   useMoveAction,
   useRenameAction,
-} from '../../hooks/file-actions';
+} from 'hooks/file-actions';
 
-import { FileShape } from '../../types';
+import { FileShape } from 'types';
 
 import Button from '../ui/Button';
+
+function useTrashedFileActions(files) {
+  const moveAction = useMoveAction(files);
+  const deleteImmediatelyAction = useDeleteImmediatelyAction(files);
+
+  const actions = [moveAction, deleteImmediatelyAction];
+  return actions.filter((action) => action != null);
+}
 
 function useFileActions(files) {
   const deleteAction = useDeleteAction(files);
@@ -22,8 +33,7 @@ function useFileActions(files) {
   return actions.filter((action) => action != null);
 }
 
-function SidePreviewActions({ files }) {
-  const menu = useFileActions(files);
+function FileMenu({ menu }) {
   return (
     <>
       {menu.map((item) => (
@@ -39,6 +49,24 @@ function SidePreviewActions({ files }) {
       ))}
     </>
   );
+}
+
+function TrashedFileActions({ files }) {
+  const menu = useTrashedFileActions(files);
+  return <FileMenu menu={menu} />;
+}
+
+function FileActions({ files }) {
+  const menu = useFileActions(files);
+  return <FileMenu menu={menu} />;
+}
+
+function SidePreviewActions({ files }) {
+  const trashedFiles = files.filter((file) => routes.isTrashed(file.path));
+  if (trashedFiles.length) {
+    return <TrashedFileActions files={files} />;
+  }
+  return <FileActions files={files} />;
 }
 
 SidePreviewActions.propTypes = {

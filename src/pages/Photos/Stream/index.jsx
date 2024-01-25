@@ -13,7 +13,7 @@ import PageHeader from '../../../components/PageHeader';
 import SearchButton from '../../../components/SearchButton';
 import Uploader from '../../../components/Uploader';
 
-import Grid from './Grid';
+import Content from './Content';
 
 const headerHeight = '108px';
 const contentStyle = {
@@ -53,7 +53,7 @@ function Stream() {
                 >
                   <div className="h-full w-full rounded-2xl border-4 border-dashed border-teal-200 dark:border-teal-600" />
                 </div>
-                <Grid />
+                <Content />
               </div>
             )}
           />

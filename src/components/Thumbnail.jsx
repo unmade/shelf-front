@@ -18,6 +18,8 @@ import Spinner from './ui/Spinner';
 
 import FileIcon from './FileIcon';
 
+export { ThumbnailSize } from '../constants';
+
 function SVGThumbnail({ className, file }) {
   const { hidden, mediatype, name, path, size } = file;
   const { data } = useDownloadContentQuery(path, { skip: size > MEGABYTE });
