@@ -33,7 +33,7 @@ FileProperty.propTypes = {
 function DuplicateSidePreview({ file }) {
   const { t } = useTranslation('file');
 
-  const openDeleteDialog = useDeleteDialog();
+  const { openDialog: openDeleteDialog } = useDeleteDialog();
 
   const onDelete = () => {
     openDeleteDialog([file]);

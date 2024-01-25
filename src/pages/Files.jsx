@@ -48,7 +48,7 @@ function CreateFolderDialogButton({ inPath }) {
 
   const isLaptop = useIsLaptop();
 
-  const openCreateFolderDialog = useCreateFolderDialog();
+  const { openDialog: openCreateFolderDialog } = useCreateFolderDialog();
 
   if (isLaptop) {
     return (

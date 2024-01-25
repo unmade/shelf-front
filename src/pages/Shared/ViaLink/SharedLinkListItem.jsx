@@ -29,12 +29,12 @@ function SharedLinkListItem({ fileId }) {
   const parentPath = routes.parent(path);
   const createdAt = new Date(item.created_at).getTime();
 
-  const openCopyLinkDialog = useCopyLinkDialog();
+  const { openDialog: openCopyLinkDialog } = useCopyLinkDialog();
 
   return (
-    <div className="group/row even:ring-gray-50 even:bg-gray-50 even:dark:bg-zinc-700/30 px-12 h-[72px] flex items-center w-full rounded-xl">
+    <div className="group/row flex h-[72px] w-full items-center rounded-xl px-12 even:bg-gray-50 even:ring-gray-50 even:dark:bg-zinc-700/30">
       {/* file icon and name */}
-      <div className="md:w-3/4 flex text-gray-900 dark:text-zinc-100 w-full">
+      <div className="flex w-full text-gray-900 dark:text-zinc-100 md:w-3/4">
         <div className="flex w-full min-w-0 items-center space-x-3">
           <Thumbnail className="h-12 w-12" file={item} />
           <span className="truncate">
@@ -42,7 +42,7 @@ function SharedLinkListItem({ fileId }) {
               <div>
                 <p className="truncate">{name}</p>
                 {parentPath !== '.' && (
-                  <p className="text-xs truncate text-gray-600 dark:text-zinc-400">{parentPath}</p>
+                  <p className="truncate text-xs text-gray-600 dark:text-zinc-400">{parentPath}</p>
                 )}
               </div>
             </FileLink>
@@ -62,14 +62,14 @@ function SharedLinkListItem({ fileId }) {
           <div className="flex items-center">
             <Button
               variant="text"
-              icon={<icons.MoreOutlined className="w-4 h-4" />}
+              icon={<icons.MoreOutlined className="h-4 w-4" />}
               onClick={() => openCopyLinkDialog(item)}
             />
           </div>
         </div>
       </div>
 
-      <div className="ml-6 hidden md:flex items-center text-left space-x-4 md:w-1/4">
+      <div className="ml-6 hidden items-center space-x-4 text-left md:flex md:w-1/4">
         <div className="w-48">
           <TimeAgo mtime={createdAt} />
         </div>

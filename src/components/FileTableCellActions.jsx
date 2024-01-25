@@ -3,17 +3,27 @@ import React from 'react';
 import {
   useCopyLinkAction,
   useDeleteAction,
+  useDeleteImmediatelyAction,
   useDownloadAction,
   useMoveAction,
   useRenameAction,
-} from '../hooks/file-actions';
+} from 'hooks/file-actions';
 
-import * as icons from '../icons';
-import { FileShape } from '../types';
+import * as icons from 'icons';
+import * as routes from 'routes';
+import { FileShape } from 'types';
 
 import Button from './ui/Button';
 import Menu from './ui/Menu';
 import MenuItem from './ui/MenuItem';
+
+function useTrashedFileActionGroups(files) {
+  const moveAction = useMoveAction(files);
+  const deleteImmediatelyAction = useDeleteImmediatelyAction(files);
+
+  const actions = [moveAction, deleteImmediatelyAction];
+  return actions.filter((action) => action != null);
+}
 
 function useFileActionGroups(files) {
   const copyLinkAction = useCopyLinkAction(files);
@@ -40,8 +50,7 @@ function useFileActionGroups(files) {
   return groups.filter((group) => group.items.length > 0);
 }
 
-function FileTableCellActions({ item }) {
-  const groups = useFileActionGroups([item]);
+function FileMenu({ groups }) {
   return (
     <Menu panelClassName="min-w-[160px]" groups={groups} itemRenderer={MenuItem}>
       <Button
@@ -52,6 +61,23 @@ function FileTableCellActions({ item }) {
       />
     </Menu>
   );
+}
+
+function TrashedFileActions({ item }) {
+  const groups = useTrashedFileActionGroups([item]);
+  return <FileMenu groups={groups} />;
+}
+
+function FileActions({ item }) {
+  const groups = useFileActionGroups([item]);
+  return <FileMenu groups={groups} />;
+}
+
+function FileTableCellActions({ item }) {
+  if (routes.isTrashed(item.path)) {
+    return <TrashedFileActions item={item} />;
+  }
+  return <FileActions item={item} />;
 }
 
 FileTableCellActions.propTypes = {
