@@ -9,13 +9,13 @@ import ExpandableItem from './ExpandableItem';
 import Item from './Item';
 
 function MenuGroupItem({ item }) {
-  const { title, path, icon, items } = item;
+  const { title, path, icon, items, end } = item;
   if (items) {
     return <ExpandableItem title={title} icon={icon} items={items} />;
   }
 
   return (
-    <NavLink to={path}>
+    <NavLink to={path} end={end}>
       {({ isActive }) => <Item title={title} icon={icon} active={isActive} />}
     </NavLink>
   );

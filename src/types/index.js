@@ -41,6 +41,7 @@ export const SidebarMenuItemShape = PropTypes.shape({
       title: PropTypes.string.isRequired,
     }),
   ),
+  end: PropTypes.bool.isRequired,
 });
 
 export const SharedLinkFileShape = PropTypes.shape({

@@ -9,6 +9,7 @@ const menu = [
     icon: icons.PhotographOutlined,
     desktopOnly: false,
     items: null,
+    end: true,
   },
   {
     path: '/photos/favourites',
@@ -16,6 +17,7 @@ const menu = [
     icon: icons.HeartOutlined,
     desktopOnly: false,
     items: null,
+    end: false,
   },
   {
     path: '/photos/categories',
@@ -23,6 +25,7 @@ const menu = [
     icon: icons.ColorSwatchOutlined,
     desktopOnly: true,
     items: null,
+    end: false,
   },
   {
     path: '/photos/shared-links',
@@ -30,6 +33,7 @@ const menu = [
     icon: icons.LinkOutlined,
     desktopOnly: false,
     items: null,
+    end: false,
   },
   {
     path: '/photos/deleted',
@@ -37,6 +41,7 @@ const menu = [
     icon: icons.TrashOutlined,
     desktopOnly: false,
     items: null,
+    end: false,
   },
 ];
 

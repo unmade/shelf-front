@@ -2,6 +2,7 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import apiSlice from './apiSlice';
 import { filesAdapter } from './files';
+import { mediaItemsAdapter } from './photos';
 
 export const usersApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -23,7 +24,10 @@ export const usersApi = apiSlice.injectEndpoints({
           patchResult.undo();
         }
       },
-      invalidatesTags: () => [{ type: 'Files', id: 'listBookmarkedFiles' }],
+      invalidatesTags: () => [
+        { type: 'Files', id: 'listBookmarkedFiles' },
+        { type: 'MediaItems', id: 'listFavourites' },
+      ],
     }),
     listBookmarks: builder.query({
       query: () => '/users/bookmarks/list',
@@ -46,11 +50,17 @@ export const usersApi = apiSlice.injectEndpoints({
             filesAdapter.removeOne(draft, fileId),
           ),
         );
+        const patchListMediaItemsResult = dispatch(
+          apiSlice.util.updateQueryData('listMediaItems', { favourites: true }, (draft) =>
+            mediaItemsAdapter.removeOne(draft, fileId),
+          ),
+        );
         try {
           await queryFulfilled;
         } catch {
           patchListBookmarksResult.undo();
           patchListBookmarkedFilesResult.undo();
+          patchListMediaItemsResult.undo();
         }
       },
     }),

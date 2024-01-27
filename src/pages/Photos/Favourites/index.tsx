@@ -20,7 +20,7 @@ const contentStyle = {
   height: `calc(100% - ${headerHeight})`,
 };
 
-export default function Stream() {
+export default function Favourites() {
   const libraryPath = useSelector(selectPhotosLibraryPath);
 
   return (
@@ -31,7 +31,7 @@ export default function Stream() {
         </Helmet>
         <div className="h-full">
           <PageHeader>
-            <PageHeader.Title>Photos</PageHeader.Title>
+            <PageHeader.Title>Favourites</PageHeader.Title>
             <PageHeader.Actions>
               <SearchButton />
               <Uploader uploadTo={libraryPath} />
