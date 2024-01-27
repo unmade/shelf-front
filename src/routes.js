@@ -20,6 +20,11 @@ export const PHOTOS = {
   route: '/photos',
 };
 
+export const PHOTOS_FAVOURITES = {
+  prefix: '/favourites',
+  route: '/favourites',
+};
+
 export const SHARED_IN_APP = {
   prefix: '/shared-in-app',
   route: '/shared-in-app',

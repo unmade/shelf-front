@@ -26,6 +26,7 @@ import LinkSharing from './pages/Shared/ViaLink';
 import Photos from './pages/Photos';
 import Trash from './pages/Trash';
 import UserManagement from './pages/admin/UserManagement';
+import Favourites from './pages/Photos/Favourites';
 
 function FilesApp() {
   return (
@@ -64,6 +65,7 @@ function PhotosApp() {
       </div>
       <div className="my-0 min-w-0 flex-1 bg-white shadow-sm dark:bg-zinc-800">
         <Routes>
+          <Route path={routes.PHOTOS_FAVOURITES.route} element={<Favourites />} />
           <Route path="/*" element={<Photos />} />
         </Routes>
       </div>

@@ -21,6 +21,10 @@ interface IMediaItemCategorySchema {
   probability: number;
 }
 
+interface IListMediaItemFilters {
+  favourites: boolean;
+}
+
 interface IListMediaItemCategoriesResponse {
   file_id: string;
   categories: IMediaItemCategorySchema[];
@@ -45,12 +49,15 @@ const initialState = mediaItemsAdapter.getInitialState();
 
 const photosApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    listMediaItems: builder.query<EntityState<IMediaItem>, undefined>({
-      query: () => ({
+    listMediaItems: builder.query<EntityState<IMediaItem>, IListMediaItemFilters | undefined>({
+      query: (filters) => ({
         url: '/photos/list_media_items',
         method: 'GET',
+        params: { favourites: filters?.favourites ?? false },
       }),
-      providesTags: (_result, _error, arg) => [{ type: 'MediaItems', id: arg }],
+      providesTags: (_result, _error, arg) => [
+        { type: 'MediaItems', id: arg?.favourites ? 'listFavourites' : 'list' },
+      ],
       transformResponse: (data: { items: IMediaItemSchema[] }) =>
         mediaItemsAdapter.setAll(initialState, data.items.map(toMediaItem)),
     }),
@@ -86,13 +93,28 @@ export const {
   useSetMediaItemCategoriesMutation,
 } = photosApi;
 
-const selectListMediaItemsResult = photosApi.endpoints.listMediaItems.select(undefined);
-
 const selectListMediaItemsData = createSelector(
-  selectListMediaItemsResult,
-  (result) => result.data,
+  (state: RootState, filters: IListMediaItemFilters | undefined) =>
+    photosApi.endpoints.listMediaItems.select(filters)(state),
+  (result) => result.data ?? initialState,
 );
 
-export const { selectById: selectMediaItemById } = mediaItemsAdapter.getSelectors(
-  (state: RootState) => selectListMediaItemsData(state) ?? initialState,
+const createSelectMediaItemByIdSelector = createSelector(
+  (filters: IListMediaItemFilters | undefined) => filters,
+  (filters) => {
+    const { selectById } = mediaItemsAdapter.getSelectors((state_: RootState) =>
+      selectListMediaItemsData(state_, filters),
+    );
+    return selectById;
+  },
+);
+
+export const selectMediaItemById = createSelector(
+  [
+    (state: RootState) => state,
+    (_state: RootState, arg: { id: string; filters?: IListMediaItemFilters }) =>
+      createSelectMediaItemByIdSelector(arg.filters),
+    (_state: RootState, arg: { id: string; filters?: IListMediaItemFilters | undefined }) => arg.id,
+  ],
+  (state, selectById, id) => selectById(state, id),
 );

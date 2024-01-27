@@ -10,6 +10,7 @@ const menu = [
     icon: icons.HomeOutlined,
     desktopOnly: false,
     items: null,
+    end: false,
   },
   {
     path: routes.BOOKMARKS.prefix,
@@ -17,6 +18,7 @@ const menu = [
     icon: icons.BookmarkOutlined,
     desktopOnly: false,
     items: null,
+    end: false,
   },
   {
     path: routes.DUPLICATES.prefix,
@@ -24,6 +26,7 @@ const menu = [
     icon: icons.DocumentSearchOutlined,
     desktopOnly: true,
     items: null,
+    end: false,
   },
   {
     path: null,
@@ -40,6 +43,7 @@ const menu = [
         title: i18n.t('Links', { defaultValue: 'Links' }),
       },
     ],
+    end: false,
   },
   {
     path: routes.TRASH.prefix,
@@ -47,6 +51,7 @@ const menu = [
     icon: icons.TrashOutlined,
     desktopOnly: false,
     items: null,
+    end: false,
   },
 ];
 
