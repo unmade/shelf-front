@@ -10,11 +10,11 @@ import { useTouchDevice } from 'hooks/media-query';
 import { ItemRendererProps } from 'components/ui/VGrid';
 
 import { useSelection } from 'components/SelectionProvider';
-import { ItemDataProps } from 'components/GridView';
 import Thumbnail, { ThumbnailSize } from 'components/Thumbnail';
 
 import useFileFromMediaItem from '../hooks/file-from-media-item';
 
+import { ItemDataProps } from '../MediaItemGridView';
 import MediaItemMenu from '../MediaItemMenu';
 import { useMediaItemsData } from '../MediaItemsProvider';
 
