@@ -8,6 +8,7 @@ import * as routes from '../routes';
 import { selectGetCurrentAccountResult } from './accounts';
 import apiSlice, { API_BASE_URL } from './apiSlice';
 import { filesAdapter } from './files';
+import { sharedLinkAdapter as mediaItemsSharedLinksAdapter } from './photos';
 
 export const downloadSharedLinkFile = createAsyncThunk(
   'sharing/downloadSharedLinkFile',
@@ -38,7 +39,7 @@ export const downloadSharedLinkFile = createAsyncThunk(
         link.parentNode?.removeChild(link);
       }
     }
-  }
+  },
 );
 
 const fileMembersAdapter = createEntityAdapter({
@@ -72,8 +73,8 @@ const sharingApi = apiSlice.injectEndpoints({
           const currentPath = dirPath === '' ? '.' : dirPath;
           listFolderPatchResult = dispatch(
             apiSlice.util.updateQueryData('listFolder', currentPath, (draft) =>
-              filesAdapter.updateOne(draft, { id: fileId, changes: { shared: true } })
-            )
+              filesAdapter.updateOne(draft, { id: fileId, changes: { shared: true } }),
+            ),
           );
         }
         try {
@@ -89,7 +90,10 @@ const sharingApi = apiSlice.injectEndpoints({
         method: 'POST',
         body: { path },
       }),
-      invalidatesTags: [{ type: 'Sharing', id: 'listFilesSharedViaLink' }],
+      invalidatesTags: [
+        { type: 'Sharing', id: 'listFilesSharedViaLink' },
+        { type: 'MediaItems', id: 'listSharedLinks' },
+      ],
       async onQueryStarted(path, { dispatch, queryFulfilled }) {
         const { data } = await queryFulfilled;
         dispatch(apiSlice.util.updateQueryData('getSharedLink', path, () => data));
@@ -184,7 +188,7 @@ const sharingApi = apiSlice.injectEndpoints({
               members: item.members.filter((member) => member.access_level !== 'owner'),
               owner: item.members.filter((member) => member.access_level === 'owner')[0],
             },
-          }))
+          })),
         );
 
         return { data };
@@ -221,7 +225,7 @@ const sharingApi = apiSlice.injectEndpoints({
               token: item.token,
               created_at: item.created_at,
             },
-          }))
+          })),
         );
 
         const { selectAll } = filesSharedViaLinkAdapter.getSelectors();
@@ -231,7 +235,7 @@ const sharingApi = apiSlice.injectEndpoints({
               file_id: entity.id,
               token: entity.token,
               created_at: entity.created_at,
-            })
+            }),
           );
         });
 
@@ -248,8 +252,8 @@ const sharingApi = apiSlice.injectEndpoints({
         let listFolderPatchResult = null;
         const fileMemberPatchResult = dispatch(
           apiSlice.util.updateQueryData('listFileMembers', fileId, (draft) =>
-            fileMembersAdapter.removeOne(draft, memberId)
-          )
+            fileMembersAdapter.removeOne(draft, memberId),
+          ),
         );
         const account = selectGetCurrentAccountResult(getState());
         const currentUserIsRemovedMember = account.user.id === memberId;
@@ -259,8 +263,8 @@ const sharingApi = apiSlice.injectEndpoints({
           const currentPath = dirPath === '' ? '.' : dirPath;
           listFolderPatchResult = dispatch(
             apiSlice.util.updateQueryData('listFolder', currentPath, (draft) =>
-              filesAdapter.removeOne(draft, fileId)
-            )
+              filesAdapter.removeOne(draft, fileId),
+            ),
           );
         }
         try {
@@ -278,14 +282,20 @@ const sharingApi = apiSlice.injectEndpoints({
         body: { token, filename },
       }),
       invalidatesTags: [{ type: 'Sharing', id: 'listFilesSharedViaLink' }],
-      async onQueryStarted({ path }, { dispatch, queryFulfilled }) {
-        const patchResult = dispatch(
-          apiSlice.util.updateQueryData('getSharedLink', path, () => null)
+      async onQueryStarted({ fileId, path }, { dispatch, queryFulfilled }) {
+        const getSharedLinkPatchResult = dispatch(
+          apiSlice.util.updateQueryData('getSharedLink', path, () => null),
+        );
+        const listMediaItemSharedLinksPatchResult = dispatch(
+          apiSlice.util.updateQueryData('listMediaItemSharedLinks', undefined, (draft) =>
+            mediaItemsSharedLinksAdapter.removeOne(draft, fileId),
+          ),
         );
         try {
           await queryFulfilled;
         } catch (e) {
-          patchResult.undo();
+          getSharedLinkPatchResult.undo();
+          listMediaItemSharedLinksPatchResult.undo();
         }
       },
     }),
@@ -301,8 +311,8 @@ const sharingApi = apiSlice.injectEndpoints({
             fileMembersAdapter.updateOne(draft, {
               id: memberId,
               changes: { access_level: accessLevel },
-            })
-          )
+            }),
+          ),
         );
         try {
           await queryFulfilled;
@@ -332,20 +342,20 @@ const selectListSharedFilesResult = sharingApi.endpoints.listSharedFiles.select(
 
 const selectListSharedFilesResultData = createSelector(
   selectListSharedFilesResult,
-  (result) => result.data
+  (result) => result.data,
 );
 
 export const { selectById: selectSharedFileById } = sharedFilesAdapter.getSelectors(
-  (state) => selectListSharedFilesResultData(state) ?? sharedFilesInitialState
+  (state) => selectListSharedFilesResultData(state) ?? sharedFilesInitialState,
 );
 
 const selectListFilesSharedViaLinkResult = sharingApi.endpoints.listFilesSharedViaLink.select();
 
 const selectListFilesSharedViaLinkResultData = createSelector(
   selectListFilesSharedViaLinkResult,
-  (result) => result.data
+  (result) => result.data,
 );
 
 export const { selectById: selectFileSharedViaLinkById } = filesSharedViaLinkAdapter.getSelectors(
-  (state) => selectListFilesSharedViaLinkResultData(state) ?? filesSharedViaLinkInitialState
+  (state) => selectListFilesSharedViaLinkResultData(state) ?? filesSharedViaLinkInitialState,
 );

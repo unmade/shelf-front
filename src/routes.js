@@ -25,6 +25,11 @@ export const PHOTOS_FAVOURITES = {
   route: '/favourites',
 };
 
+export const PHOTOS_SHARED_VIA_LINK = {
+  prefix: '/shared-links',
+  route: '/shared-links',
+};
+
 export const SHARED_IN_APP = {
   prefix: '/shared-in-app',
   route: '/shared-in-app',
