@@ -235,7 +235,7 @@ Button.propTypes = {
   title: PropTypes.string,
   type: PropTypes.oneOf(['button', 'submit']),
   variant: PropTypes.oneOf(['primary', 'default', 'text']),
-  onclick: PropTypes.func,
+  onClick: PropTypes.func,
 };
 
 Button.defaultProps = {
@@ -253,7 +253,7 @@ Button.defaultProps = {
   title: null,
   type: 'button',
   variant: 'default',
-  onclick: null,
+  onClick: null,
 };
 
 export default Button;

@@ -1,6 +1,6 @@
 import { EntityState, createEntityAdapter, createSelector } from '@reduxjs/toolkit';
 
-import { IMediaItem } from 'types/photos';
+import { IMediaItem, IMediaItemSharedLink } from 'types/photos';
 
 import { RootState } from 'store/store';
 
@@ -21,6 +21,12 @@ interface IMediaItemCategorySchema {
   probability: number;
 }
 
+interface ISharedLinkSchema {
+  token: string;
+  created_at: string;
+  item: IMediaItemSchema;
+}
+
 interface IListMediaItemFilters {
   favourites: boolean;
 }
@@ -30,15 +36,23 @@ interface IListMediaItemCategoriesResponse {
   categories: IMediaItemCategorySchema[];
 }
 
-function toMediaItem(item: IMediaItemSchema): IMediaItem {
+function toMediaItem(schema: IMediaItemSchema): IMediaItem {
   return {
-    id: item.file_id,
-    fileId: item.file_id,
-    name: item.name,
-    size: item.size,
-    mtime: item.mtime,
-    mediatype: item.mediatype,
-    thumbnailUrl: item.thumbnail_url,
+    id: schema.file_id,
+    fileId: schema.file_id,
+    name: schema.name,
+    size: schema.size,
+    mtime: schema.mtime,
+    mediatype: schema.mediatype,
+    thumbnailUrl: schema.thumbnail_url,
+  };
+}
+
+function toSharedLink(schema: ISharedLinkSchema): IMediaItemSharedLink {
+  return {
+    token: schema.token,
+    createdAt: schema.created_at,
+    item: toMediaItem(schema.item),
   };
 }
 
@@ -46,6 +60,11 @@ export const mediaItemsAdapter = createEntityAdapter<IMediaItem>({
   sortComparer: (a, b) => (a.mtime > b.mtime ? -1 : 1),
 });
 const initialState = mediaItemsAdapter.getInitialState();
+
+export const sharedLinkAdapter = createEntityAdapter<IMediaItemSharedLink>({
+  selectId: (entity) => entity.item.fileId,
+});
+const sharedLinksInitialState = sharedLinkAdapter.getInitialState();
 
 const photosApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -67,6 +86,15 @@ const photosApi = apiSlice.injectEndpoints({
         method: 'POST',
         body: { file_id: fileId },
       }),
+    }),
+    listMediaItemSharedLinks: builder.query<EntityState<IMediaItemSharedLink>, undefined>({
+      query: () => ({
+        url: 'photos/list_shared_links',
+        method: 'GET',
+      }),
+      providesTags: () => [{ type: 'MediaItems', id: 'listSharedLinks' }],
+      transformResponse: (data: { items: ISharedLinkSchema[] }) =>
+        sharedLinkAdapter.setAll(sharedLinksInitialState, data.items.map(toSharedLink)),
     }),
     setMediaItemCategories: builder.mutation({
       query: ({ fileId, categories }: { fileId: string; categories: string[] }) => ({
@@ -90,6 +118,7 @@ const photosApi = apiSlice.injectEndpoints({
 export const {
   useListMediaItemsQuery,
   useListMediaItemCategoriesQuery,
+  useListMediaItemSharedLinksQuery,
   useSetMediaItemCategoriesMutation,
 } = photosApi;
 
@@ -117,4 +146,11 @@ export const selectMediaItemById = createSelector(
     (_state: RootState, arg: { id: string; filters?: IListMediaItemFilters | undefined }) => arg.id,
   ],
   (state, selectById, id) => selectById(state, id),
+);
+
+const createListSharedLinksDataSelector =
+  photosApi.endpoints.listMediaItemSharedLinks.select(undefined);
+
+export const { selectById: selectMediaItemSharedLink } = sharedLinkAdapter.getSelectors(
+  (state: RootState) => createListSharedLinksDataSelector(state).data ?? sharedLinksInitialState,
 );

@@ -45,6 +45,7 @@ function SharedLinkSetting({ file }) {
         setState({ enabled: false, token: state.token });
         await revokeSharedLink({
           token: state.token,
+          fileId: file?.id,
           filename: file?.name,
           path: file?.path,
         }).unwrap();
@@ -60,9 +61,9 @@ function SharedLinkSetting({ file }) {
 
   return (
     <>
-      <div className="flex mb-2 space-x-4 items-center justify-between">
+      <div className="mb-2 flex items-center justify-between space-x-4">
         <div className="text-left">
-          <p className="font-semibold text-sm">
+          <p className="text-sm font-semibold">
             {t('publicLink', { defaultValue: 'Public link' })}
           </p>
           <p className="text-xs text-gray-500 dark:text-zinc-400">

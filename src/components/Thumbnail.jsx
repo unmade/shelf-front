@@ -124,6 +124,8 @@ Thumbnail.propTypes = {
   className: PropTypes.string,
   file: PropTypes.oneOfType([FileShape, SharedLinkFileShape]).isRequired,
   size: PropTypes.oneOf(thumbnailSizes),
+  // eslint-disable-next-line react/forbid-prop-types
+  style: PropTypes.object,
 };
 
 Thumbnail.defaultProps = {
