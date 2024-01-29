@@ -74,6 +74,7 @@ export const Move = hiOutline.DocumentDuplicateIcon;
 export const PhotographOutlined = hiOutline.PhotographIcon;
 export const Plus = hiSolid.PlusIcon;
 export const Redo = hiOutline.RefreshIcon;
+export const ReplyOutlined = hiOutline.ReplyIcon;
 export const SearchOutlined = hiOutline.SearchIcon;
 export const Selector = hiSolid.SelectorIcon;
 export const SelectorOutlined = hiOutline.SelectorIcon;

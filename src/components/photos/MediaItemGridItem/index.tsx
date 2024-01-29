@@ -14,6 +14,7 @@ import Thumbnail, { ThumbnailSize } from 'components/Thumbnail';
 
 import useFileFromMediaItem from '../hooks/file-from-media-item';
 
+import DeletedMediaItemMenu from '../DeletedMediaItemMenu';
 import { ItemDataProps } from '../MediaItemGridView';
 import MediaItemMenu from '../MediaItemMenu';
 import { useMediaItemsData } from '../MediaItemsProvider';
@@ -42,8 +43,12 @@ function GridItem({ mediaItem, touch, width, onClick }: GridItemProps) {
   };
 
   const onOpen = () => {
-    if (!touch) onClick(mediaItem.id);
+    if (!touch) {
+      onClick(mediaItem.id);
+    }
   };
+
+  const Menu = mediaItem.deletedAt ? DeletedMediaItemMenu : MediaItemMenu;
 
   return (
     <div className="group flex h-full items-center justify-center">
@@ -68,11 +73,13 @@ function GridItem({ mediaItem, touch, width, onClick }: GridItemProps) {
             !touch ? 'group-hover:block' : ''
           } absolute right-2 top-1`}
         >
-          <MediaItemMenu mediaItem={mediaItem} onOpen={() => select(mediaItem.id)} />
+          <Menu mediaItem={mediaItem} onOpen={() => select(mediaItem.id)} />
         </div>
-        <div className="absolute bottom-1 left-2">
-          <FavouriteButton mediaItem={mediaItem} touch={touch} />
-        </div>
+        {!mediaItem.deletedAt && (
+          <div className="absolute bottom-1 left-2">
+            <FavouriteButton mediaItem={mediaItem} touch={touch} />
+          </div>
+        )}
       </span>
     </div>
   );

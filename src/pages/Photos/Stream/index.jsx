@@ -3,15 +3,16 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useSelector } from 'react-redux';
 
-import { selectPhotosLibraryPath } from '../../../store/features';
+import { selectPhotosLibraryPath } from 'store/features';
 
-import FileDrop from '../../../containers/FileDrop';
+import FileDrop from 'containers/FileDrop';
 
-import CopyLinkDialogProvider from '../../../components/CopyLinkDialogProvider';
-import DeleteDialogProvider from '../../../components/DeleteDialogProvider';
-import PageHeader from '../../../components/PageHeader';
-import SearchButton from '../../../components/SearchButton';
-import Uploader from '../../../components/Uploader';
+import CopyLinkDialogProvider from 'components/CopyLinkDialogProvider';
+import PageHeader from 'components/PageHeader';
+import SearchButton from 'components/SearchButton';
+import Uploader from 'components/Uploader';
+
+import DeleteMediaItemsDialogProvider from 'components/photos/DeleteMediaItemsDialogProvider';
 
 import Content from './Content';
 
@@ -25,7 +26,7 @@ export default function Stream() {
 
   return (
     <CopyLinkDialogProvider>
-      <DeleteDialogProvider>
+      <DeleteMediaItemsDialogProvider>
         <Helmet>
           <title>Shelf Photos</title>
         </Helmet>
@@ -58,7 +59,7 @@ export default function Stream() {
             )}
           />
         </div>
-      </DeleteDialogProvider>
+      </DeleteMediaItemsDialogProvider>
     </CopyLinkDialogProvider>
   );
 }

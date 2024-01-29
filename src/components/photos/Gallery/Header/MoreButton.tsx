@@ -1,12 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import * as icons from 'icons';
-import { MediaItemShape } from 'types';
 import { IFile } from 'types/files';
 import { IMediaItem } from 'types/photos';
 
-import { useCopyLinkAction, useDeleteAction, useDownloadAction } from 'hooks/file-actions';
+import { useCopyLinkAction, useDownloadAction } from 'hooks/file-actions';
+import { useDeleteAction } from 'components/photos/hooks/media-item-actions';
 
 import Button from 'components/ui/Button';
 import Menu from 'components/ui/Menu';
@@ -39,7 +38,7 @@ function MoreButton({ className, mediaItem }: Props) {
 
   const infoAction = useInformationAction(file);
   const copyLinkAction = useCopyLinkAction([file]);
-  const deleteAction = useDeleteAction([file]);
+  const deleteAction = useDeleteAction([mediaItem]);
   const downloadAction = useDownloadAction([file]);
 
   const groups = [
@@ -74,14 +73,5 @@ function MoreButton({ className, mediaItem }: Props) {
     </Menu>
   );
 }
-
-MoreButton.propTypes = {
-  className: PropTypes.string,
-  mediaItem: MediaItemShape.isRequired,
-};
-
-MoreButton.defaultProps = {
-  className: '',
-};
 
 export default MoreButton;

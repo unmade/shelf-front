@@ -33,7 +33,7 @@ export default function Sidebar({ className, mediaItem }: Props) {
         <Exif fileId={file.id} />
       </div>
       <div className="pt-8">
-        <Categories fileId={file.id} />
+        <Categories fileId={file.id} readOnly={!!mediaItem.deletedAt} />
       </div>
     </div>
   );

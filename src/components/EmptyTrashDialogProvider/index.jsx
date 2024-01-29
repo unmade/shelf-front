@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useMemo, useState } from 'react';
 
-import EmptyTrashDialog from './EmptyTrashDialog';
+import EmptyTrashDialogContainer from './EmptyTrashDialogContainer';
 
 export const EmptyTrashDialogContext = createContext({ openDialog: () => {} });
 
@@ -15,9 +15,11 @@ function EmptyTrashDialogProvider({ children }) {
     setVisible(false);
   };
 
+  const value = useMemo(() => ({ openDialog }));
+
   return (
-    <EmptyTrashDialogContext.Provider value={{ openDialog }}>
-      <EmptyTrashDialog visible={visible} onClose={closeDialog} />
+    <EmptyTrashDialogContext.Provider value={value}>
+      <EmptyTrashDialogContainer visible={visible} onClose={closeDialog} />
       {children}
     </EmptyTrashDialogContext.Provider>
   );

@@ -20,14 +20,6 @@ const menu = [
     end: false,
   },
   {
-    path: '/photos/categories',
-    title: i18n.t('Categories', { defaultValue: 'Categories' }),
-    icon: icons.ColorSwatchOutlined,
-    desktopOnly: true,
-    items: null,
-    end: false,
-  },
-  {
     path: '/photos/shared-links',
     title: i18n.t('Shared links', { defaultValue: 'Shared links' }),
     icon: icons.LinkOutlined,
@@ -36,8 +28,8 @@ const menu = [
     end: false,
   },
   {
-    path: '/photos/deleted',
-    title: i18n.t('Deleted', { defaultValue: 'Deleted' }),
+    path: '/photos/trash',
+    title: i18n.t('Trash', { defaultValue: 'Trash' }),
     icon: icons.TrashOutlined,
     desktopOnly: false,
     items: null,
@@ -48,9 +40,8 @@ const menu = [
 i18n.on('languageChanged init', () => {
   menu[0].title = i18n.t('Library');
   menu[1].title = i18n.t('Favourites');
-  menu[2].title = i18n.t('Categories');
-  menu[3].title = i18n.t('Shared links');
-  menu[4].title = i18n.t('Deleted');
+  menu[2].title = i18n.t('Shared links');
+  menu[3].title = i18n.t('Trash');
 });
 
 export default menu;

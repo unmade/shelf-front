@@ -17,7 +17,7 @@ import { useDeleteImmediatelyDialog } from 'components/DeleteImmediatelyDialogPr
 import { useMoveDialog } from 'components/MoveDialogProvider';
 import { useRenameFileDialog } from 'components/RenameFileDialogProvider';
 
-interface Action {
+export interface IAction {
   key: string;
   name: string;
   Icon: React.ElementType;
@@ -26,7 +26,7 @@ interface Action {
   onClick: () => void;
 }
 
-export function useFavouriteAction(files: IFile[]): Action {
+export function useFavouriteAction(files: IFile[]): IAction {
   const { t } = useTranslation();
 
   const bookmarked = useSelector((state) => selectIsBookmarked(state, files[0]?.id));
@@ -58,7 +58,7 @@ export function useFavouriteAction(files: IFile[]): Action {
   };
 }
 
-export function useCopyLinkAction(files: IFile[]): Action | null {
+export function useCopyLinkAction(files: IFile[]): IAction | null {
   const { t } = useTranslation();
   const { openDialog } = useCopyLinkDialog();
 
@@ -77,7 +77,7 @@ export function useCopyLinkAction(files: IFile[]): Action | null {
   return null;
 }
 
-export function useDeleteAction(files: IFile[]): Action | null {
+export function useDeleteAction(files: IFile[]): IAction | null {
   const { t } = useTranslation();
   const { openDialog: openDeleteDialog } = useDeleteDialog();
 
@@ -93,11 +93,13 @@ export function useDeleteAction(files: IFile[]): Action | null {
   };
 }
 
-export function useDeleteImmediatelyAction(files: IFile[]): Action | null {
+export function useDeleteImmediatelyAction(files: IFile[]): IAction | null {
   const { t } = useTranslation();
   const { openDialog: openDeleteImmediatelyDialog } = useDeleteImmediatelyDialog();
 
-  const trashedFiles = files.filter((file) => routes.isTrashed(file.path));
+  const trashedFiles = files.filter(
+    (file) => routes.isTrashed(file.path) || file.deleted_at != null,
+  );
   if (trashedFiles.length > 0 && files.length !== trashedFiles.length) {
     return null;
   }
@@ -116,7 +118,7 @@ export function useDeleteImmediatelyAction(files: IFile[]): Action | null {
   return null;
 }
 
-export function useDownloadAction(files: IFile[]): Action | null {
+export function useDownloadAction(files: IFile[]): IAction | null {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
@@ -135,7 +137,7 @@ export function useDownloadAction(files: IFile[]): Action | null {
   return null;
 }
 
-export function useMoveAction(files: IFile[]): Action | null {
+export function useMoveAction(files: IFile[]): IAction | null {
   const { t } = useTranslation();
 
   const { openDialog: openMoveDialog } = useMoveDialog();
@@ -152,7 +154,7 @@ export function useMoveAction(files: IFile[]): Action | null {
   };
 }
 
-export function useRenameAction(files: IFile[]): Action | null {
+export function useRenameAction(files: IFile[]): IAction | null {
   const { t } = useTranslation();
   const { openDialog: openRenameDialog } = useRenameFileDialog();
   if (files.length === 1 && !routes.isTrashed(files[0].path)) {

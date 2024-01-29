@@ -1,32 +1,32 @@
 import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
 
-import { IFile } from 'types/files';
+import { IMediaItem } from 'types/photos';
 
 import DeleteDialogContainer from './DeleteDialogContainer';
 
 interface ContextValue {
-  openDialog: (files: IFile[]) => void;
+  openDialog: (mediaItems: IMediaItem[]) => void;
 }
 
-export const DeleteDialogContext = createContext<ContextValue | null>(null);
+const DeleteDialogContext = createContext<ContextValue | null>(null);
 
 interface Props {
   children: React.ReactNode;
 }
 
 interface State {
-  files: IFile[];
+  mediaItems: IMediaItem[];
   visible: boolean;
 }
 
-const initialState: State = { files: [], visible: false };
+const initialState: State = { mediaItems: [], visible: false };
 
-function DeleteDialogProvider({ children }: Props) {
+export default function DeleteMediaItemsDialogProvider({ children }: Props) {
   const [state, setState] = useState<State>(initialState);
 
   const openDialog = useCallback(
-    (files: IFile[]) => {
-      setState({ files, visible: true });
+    (mediaItems: IMediaItem[]) => {
+      setState({ mediaItems, visible: true });
     },
     [setState],
   );
@@ -35,24 +35,24 @@ function DeleteDialogProvider({ children }: Props) {
     setState(initialState);
   };
 
-  const { files, visible } = state;
+  const { mediaItems, visible } = state;
 
   const value = useMemo(() => ({ openDialog }), [openDialog]);
 
   return (
     <DeleteDialogContext.Provider value={value}>
-      <DeleteDialogContainer visible={visible} files={files} onClose={closeDialog} />
+      <DeleteDialogContainer visible={visible} mediaItems={mediaItems} onClose={closeDialog} />
       {children}
     </DeleteDialogContext.Provider>
   );
 }
 
-export default DeleteDialogProvider;
-
-export function useDeleteDialog(): ContextValue {
+export function useDeleteMediaItemsDialog(): ContextValue {
   const value = useContext(DeleteDialogContext);
   if (value == null) {
-    throw new Error('`useDeleteDialog` must be used within a `DeleteDialogProvider`');
+    throw new Error(
+      '`useDeleteMediaItemsDialog` must be used within a `DeleteMediaItemsDialogProvider`',
+    );
   }
   return value;
 }

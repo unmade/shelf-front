@@ -3,15 +3,12 @@ import React from 'react';
 import * as icons from 'icons';
 import { IMediaItem } from 'types/photos';
 
-import {
-  useCopyLinkAction,
-  useDeleteAction,
-  useDownloadAction,
-  useFavouriteAction,
-} from 'hooks/file-actions';
+import { useCopyLinkAction, useDownloadAction, useFavouriteAction } from 'hooks/file-actions';
 
 import Menu from 'components/ui/Menu';
 import MenuItem from 'components/ui/MenuItem';
+
+import { useDeleteAction } from '../hooks/media-item-actions';
 
 import useFileFromMediaItem from '../hooks/file-from-media-item';
 
@@ -20,7 +17,7 @@ function useMediaItemActionGroups(item: IMediaItem) {
 
   const toggleFavourite = useFavouriteAction(files);
   const copyLinkAction = useCopyLinkAction(files);
-  const deleteAction = useDeleteAction(files);
+  const deleteAction = useDeleteAction([item]);
   const downloadAction = useDownloadAction(files);
 
   const groups = [

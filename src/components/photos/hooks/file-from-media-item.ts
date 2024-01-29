@@ -14,6 +14,7 @@ export function makeFileFromMediaItem(mediaItem: IMediaItem, libraryPath: string
     hidden: false,
     mediatype: mediaItem.mediatype,
     thumbnail_url: mediaItem.thumbnailUrl,
+    deleted_at: mediaItem.deletedAt,
   };
 }
 

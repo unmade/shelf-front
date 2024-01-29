@@ -11,6 +11,8 @@ import DeleteButton from './DeleteButton';
 import DownloadButton from './DownloadButton';
 import FavouriteButton from './FavouriteButton';
 import MoreButton from './MoreButton';
+import RestoreButton from './RestoreButton';
+import DeleteImmediatelyButton from './DeleteImmediatelyButton';
 
 interface Props {
   idx: number;
@@ -43,17 +45,26 @@ export default function Header({ idx, mediaItem, total, onGoBack, onInfo }: Prop
       </div>
 
       <div className="flex min-w-max flex-row items-center justify-end space-x-2 text-gray-800 dark:text-zinc-200 sm:w-48">
-        <FavouriteButton mediaItem={mediaItem} />
-        <DownloadButton className="hidden sm:block" mediaItem={mediaItem} />
-        <DeleteButton className="hidden sm:block" mediaItem={mediaItem} />
-        <Button
-          className="hidden sm:block"
-          variant="text"
-          size="base"
-          icon={<icons.InformationCircleOutlined className="h-5 w-5" />}
-          onClick={onInfo}
-        />
-        <MoreButton className="sm:hidden" mediaItem={mediaItem} />
+        {mediaItem.deletedAt ? (
+          <>
+            <RestoreButton mediaItem={mediaItem} />
+            <DeleteImmediatelyButton mediaItem={mediaItem} />
+          </>
+        ) : (
+          <>
+            <FavouriteButton mediaItem={mediaItem} />
+            <DownloadButton className="hidden sm:block" mediaItem={mediaItem} />
+            <DeleteButton className="hidden sm:block" mediaItem={mediaItem} />
+            <Button
+              className="hidden sm:block"
+              variant="text"
+              size="base"
+              icon={<icons.InformationCircleOutlined className="h-5 w-5" />}
+              onClick={onInfo}
+            />
+            <MoreButton className="sm:hidden" mediaItem={mediaItem} />
+          </>
+        )}
       </div>
     </div>
   );
