@@ -30,6 +30,11 @@ export const PHOTOS_SHARED_VIA_LINK = {
   route: '/shared-links',
 };
 
+export const PHOTOS_TRASH = {
+  prefix: '/trash',
+  route: '/trash',
+};
+
 export const SHARED_IN_APP = {
   prefix: '/shared-in-app',
   route: '/shared-in-app',

@@ -29,6 +29,7 @@ import UserManagement from './pages/admin/UserManagement';
 import Photos from './pages/Photos';
 import PhotosFavourites from './pages/Photos/Favourites';
 import PhotosSharedLinks from './pages/Photos/SharedLinks';
+import PhotosTrash from './pages/Photos/Trash';
 
 function FilesApp() {
   return (
@@ -69,6 +70,7 @@ function PhotosApp() {
         <Routes>
           <Route path={routes.PHOTOS_FAVOURITES.route} element={<PhotosFavourites />} />
           <Route path={routes.PHOTOS_SHARED_VIA_LINK.route} element={<PhotosSharedLinks />} />
+          <Route path={routes.TRASH.route} element={<PhotosTrash />} />
           <Route path="/*" element={<Photos />} />
         </Routes>
       </div>

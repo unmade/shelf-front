@@ -52,6 +52,7 @@ module.exports = {
         map: [
           ['components', './src/components'],
           ['constants', './src/constants.ts'],
+          ['containers', './src/contrainers'],
           ['hooks', './src/hooks'],
           ['icons', './src/icons'],
           ['routes', './src/routes'],

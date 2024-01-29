@@ -6,4 +6,5 @@ export interface IMediaItem {
   mtime: number;
   mediatype: string;
   thumbnailUrl?: string;
+  deletedAt: string | null;
 }

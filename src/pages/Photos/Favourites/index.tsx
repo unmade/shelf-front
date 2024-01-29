@@ -2,9 +2,10 @@ import React from 'react';
 
 import { Helmet } from 'react-helmet-async';
 
-import CopyLinkDialogProvider from '../../../components/CopyLinkDialogProvider';
-import DeleteDialogProvider from '../../../components/DeleteDialogProvider';
-import PageHeader from '../../../components/PageHeader';
+import CopyLinkDialogProvider from 'components/CopyLinkDialogProvider';
+import PageHeader from 'components/PageHeader';
+
+import DeleteMediaItemsDialogProvider from 'components/photos/DeleteMediaItemsDialogProvider';
 
 import Content from './Content';
 
@@ -16,7 +17,7 @@ const contentStyle = {
 export default function Favourites() {
   return (
     <CopyLinkDialogProvider>
-      <DeleteDialogProvider>
+      <DeleteMediaItemsDialogProvider>
         <Helmet>
           <title>Shelf Photos</title>
         </Helmet>
@@ -29,7 +30,7 @@ export default function Favourites() {
             <Content />
           </div>
         </div>
-      </DeleteDialogProvider>
+      </DeleteMediaItemsDialogProvider>
     </CopyLinkDialogProvider>
   );
 }

@@ -1,32 +1,32 @@
 import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
 
-import { IFile } from 'types/files';
+import { IMediaItem } from 'types/photos';
 
 import DeleteImmediatelyDialogContainer from './DeleteImmediatelyDialogContainer';
 
 interface ContextValue {
-  openDialog: (files: IFile[]) => void;
+  openDialog: (mediaItems: IMediaItem[]) => void;
 }
 
-export const DeleteImmediatelyDialogContext = createContext<ContextValue | null>(null);
+const DeleteImmediatelyDialogContext = createContext<ContextValue | null>(null);
 
 interface Props {
   children: React.ReactNode;
 }
 
 interface State {
-  files: IFile[];
+  mediaItems: IMediaItem[];
   visible: boolean;
 }
 
-const initialState: State = { files: [], visible: false };
+const initialState: State = { mediaItems: [], visible: false };
 
-function DeleteImmediatelyDialogProvider({ children }: Props) {
+export default function DeleteMediaItemsImmediatelyDialogProvider({ children }: Props) {
   const [state, setState] = useState<State>(initialState);
 
   const openDialog = useCallback(
-    (files: IFile[]) => {
-      setState({ files, visible: true });
+    (mediaItems: IMediaItem[]) => {
+      setState({ mediaItems, visible: true });
     },
     [setState],
   );
@@ -35,25 +35,27 @@ function DeleteImmediatelyDialogProvider({ children }: Props) {
     setState(initialState);
   };
 
-  const { visible, files } = state;
+  const { mediaItems, visible } = state;
 
   const value = useMemo(() => ({ openDialog }), [openDialog]);
 
   return (
     <DeleteImmediatelyDialogContext.Provider value={value}>
-      <DeleteImmediatelyDialogContainer visible={visible} files={files} onClose={closeDialog} />
+      <DeleteImmediatelyDialogContainer
+        visible={visible}
+        mediaItems={mediaItems}
+        onClose={closeDialog}
+      />
       {children}
     </DeleteImmediatelyDialogContext.Provider>
   );
 }
 
-export default DeleteImmediatelyDialogProvider;
-
-export function useDeleteImmediatelyDialog(): ContextValue {
+export function useDeleteMediaItemsImmediatelyDialog(): ContextValue {
   const value = useContext(DeleteImmediatelyDialogContext);
   if (value == null) {
     throw new Error(
-      '`useDeleteImmediatelyDialog` must be used within a `DeleteImmediatelyDialogProvider`',
+      '`useDeleteMediaItemsImmediatelyDialog` must be used within a `DeleteMediaItemsImmediatelyDialogProvider`',
     );
   }
   return value;

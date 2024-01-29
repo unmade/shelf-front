@@ -3,19 +3,20 @@ import React from 'react';
 import * as icons from 'icons';
 import { IMediaItem } from 'types/photos';
 
-import { useCopyLinkAction, useDeleteAction, useDownloadAction } from 'hooks/file-actions';
+import { useCopyLinkAction, useDownloadAction } from 'hooks/file-actions';
 
 import Button from 'components/ui/Button';
 import Menu from 'components/ui/Menu';
 import MenuItem from 'components/ui/MenuItem';
 
 import useFileFromMediaItem from 'components/photos/hooks/file-from-media-item';
+import { useDeleteAction } from 'components/photos/hooks/media-item-actions';
 
 function useMediaItemActionGroups(item: IMediaItem) {
   const files = [useFileFromMediaItem(item)];
 
   const copyLinkAction = useCopyLinkAction(files);
-  const deleteAction = useDeleteAction(files);
+  const deleteAction = useDeleteAction([item]);
   const downloadAction = useDownloadAction(files);
 
   const groups = [

@@ -3,6 +3,7 @@ export default {
   alias: {
     components: './src/components',
     constants: './src/constants.ts',
+    containers: './src/containers',
     hooks: './src/hooks',
     icons: './src/icons',
     routes: './src/routes',

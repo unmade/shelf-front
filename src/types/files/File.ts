@@ -7,4 +7,5 @@ export interface IFile {
   hidden: boolean;
   mediatype: string;
   thumbnail_url?: string;
+  deleted_at: string | null;
 }

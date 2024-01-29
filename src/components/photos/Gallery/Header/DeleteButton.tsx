@@ -6,9 +6,7 @@ import * as icons from 'icons';
 
 import Button from 'components/ui/Button';
 
-import { useDeleteDialog } from 'components/DeleteDialogProvider';
-
-import useFileFromMediaItem from '../../hooks/file-from-media-item';
+import { useDeleteMediaItemsDialog } from 'components/photos/DeleteMediaItemsDialogProvider';
 
 interface Props {
   className: string;
@@ -16,8 +14,7 @@ interface Props {
 }
 
 export default function DeleteButton({ className = '', mediaItem }: Props) {
-  const file = useFileFromMediaItem(mediaItem);
-  const { openDialog: openDeleteDialog } = useDeleteDialog();
+  const { openDialog: openDeleteDialog } = useDeleteMediaItemsDialog();
 
   return (
     <Button
@@ -27,7 +24,7 @@ export default function DeleteButton({ className = '', mediaItem }: Props) {
       size="base"
       icon={<icons.TrashOutlined className="h-5 w-5" />}
       color="danger"
-      onClick={() => openDeleteDialog([file])}
+      onClick={() => openDeleteDialog([mediaItem])}
     />
   );
 }
