@@ -15,7 +15,7 @@ import {
   signedOut,
   tokenRefreshed,
 } from '../authSlice';
-import { selectFeatureValue } from '../features';
+import { selectFeatureUploadFileMaxSize } from '../features';
 import { filesAdapter, selectListFolderData } from '../files';
 import { mediaItemsAdapter } from '../photos';
 
@@ -122,7 +122,7 @@ function updateListFolderCache(file, { dispatch, getState }) {
   );
 }
 
-function updateListMediaItemsCache(file, { dispatch }) {
+function updateListMediaItemsCache(file, upload, { dispatch }) {
   // when uploading a folder we need to re-fetch files in the current path for the folder to appear
   const match = matchPath(routes.PHOTOS.route, window.location.pathname);
   if (match == null) {
@@ -136,7 +136,7 @@ function updateListMediaItemsCache(file, { dispatch }) {
     size: file.size,
     mtime: file.mtime,
     mediatype: file.mediatype,
-    thumbnailUrl: file.thumbnail_url,
+    thumbnailUrl: upload.thumbnail ?? file.thumbnail_url,
   };
 
   dispatch(
@@ -226,12 +226,12 @@ async function uploadFile(upload, fileObj, { dispatch, getState }) {
 
   dispatch(uploadFulfilled({ upload }));
   updateListFolderCache(data, { dispatch, getState });
-  updateListMediaItemsCache(data, { dispatch });
+  updateListMediaItemsCache(data, upload, { dispatch });
 }
 
 async function listenFileEntriesAdded(action, listenerApi) {
   const { files, uploadTo } = action.payload;
-  const maxUploadSize = selectFeatureValue(listenerApi.getState(), 'upload_file_max_size');
+  const maxUploadSize = selectFeatureUploadFileMaxSize(listenerApi.getState());
 
   const uploads = await Promise.all(
     // eslint-disable-next-line no-return-await

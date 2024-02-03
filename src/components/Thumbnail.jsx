@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 
 import { useSelector } from 'react-redux';
 
-import { selectFeatureValue } from '../store/features';
+import { selectFeatureMaxFileSizeToThumbnail } from 'store/features';
 import {
   selectFallbackThumbnail,
   useDownloadContentQuery,
   useGetThumbnailQuery,
-} from '../store/files';
+} from 'store/files';
 
-import { MediaType, ThumbnailSize, thumbnailSizes } from '../constants';
+import { MediaType, ThumbnailSize, thumbnailSizes } from 'constants';
 import { MEGABYTE } from '../filesize';
 import { FileShape, SharedLinkFileShape } from '../types';
 
@@ -59,8 +59,20 @@ function ImageThumbnail({ className, file, size, style }) {
 
   const { data, isFetching: loading } = useGetThumbnailQuery(
     { url: file.thumbnail_url, size, mtime },
-    { skip: shouldSkip },
+    { skip: shouldSkip || file.thumbnail_url?.startsWith('blob:') },
   );
+
+  if (file.thumbnail_url?.startsWith('blob:')) {
+    return (
+      <img
+        className={`object-scale-down ${className}`}
+        src={file.thumbnail_url}
+        alt={name}
+        style={style}
+        loading="lazy"
+      />
+    );
+  }
 
   if (fallbackThumbnail?.content != null && data?.content == null) {
     return (
@@ -100,7 +112,7 @@ ImageThumbnail.defaultProps = {
 
 function Thumbnail({ className, file, size, style }) {
   const { mediatype, hidden, shared, thumbnail_url: thumbnailUrl } = file;
-  const maxSize = useSelector((state) => selectFeatureValue(state, 'max_file_size_to_thumbnail'));
+  const maxSize = useSelector(selectFeatureMaxFileSizeToThumbnail);
   const fileIcon = (
     <FileIcon className={className} mediatype={mediatype} hidden={hidden} shared={shared} />
   );
