@@ -20,20 +20,20 @@ export default function Sidebar({ className, mediaItem }: Props) {
 
   return (
     <div className={className}>
-      <div className="flex">
-        <div className="mr-4 w-full min-w-0 text-gray-800 dark:text-zinc-200">
-          <p className="truncate text-lg font-semibold">{mediaItem.name}</p>
-          <p className="text-xs font-medium text-gray-500 dark:text-zinc-400">
-            <FileSize size={mediaItem.size} />
-          </p>
+      <div className="space-y-8">
+        <div className="flex">
+          <div className="mr-4 w-full min-w-0 text-gray-800 dark:text-zinc-200">
+            <p className="truncate text-lg font-semibold">{mediaItem.name}</p>
+            <p className="text-xs font-medium text-gray-500 dark:text-zinc-400">
+              <FileSize size={mediaItem.size} />
+            </p>
+          </div>
         </div>
-      </div>
 
-      <div className="pt-8">
         <Exif fileId={file.id} />
-      </div>
-      <div className="pt-8">
-        <Categories fileId={file.id} readOnly={!!mediaItem.deletedAt} />
+        <div>
+          <Categories fileId={file.id} readOnly={!!mediaItem.deletedAt} />
+        </div>
       </div>
     </div>
   );
