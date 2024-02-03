@@ -38,5 +38,8 @@ const { selectById } = featuresAdapter.getSelectors(
 export const selectFeatureValue: Selector<RootState, FeatureValue | undefined> = (state, name) =>
   selectById(state, name)?.value;
 
-export const selectPhotosLibraryPath: Selector<RootState, string> = (state) =>
+export const selectFeatureMaxFileSizeToThumbnail: Selector<RootState, number> = (state) =>
+  selectFeatureValue(state, 'max_file_size_to_thumbnail') as number;
+
+export const selectPhotosLibraryPath = (state: RootState) =>
   (selectFeatureValue(state, 'photos_library_path') as string | undefined) ?? '.';

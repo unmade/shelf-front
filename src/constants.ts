@@ -5,12 +5,14 @@ export const TRASH_FOLDER_NAME = import.meta.env.SNOWPACK_PUBLIC_TRASH_FOLDER_NA
 export const MediaType = {
   FOLDER: 'application/directory',
   IMAGES: new Set([
+    'image/bmp',
     'image/gif',
     'image/heic',
     'image/heif',
     'image/jpeg',
     'image/png',
     'image/svg+xml',
+    'image/tiff',
     'image/webp',
     'image/x-icon',
   ]),

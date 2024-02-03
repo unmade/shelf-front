@@ -2,15 +2,15 @@ import React from 'react';
 
 import { useTranslation } from 'react-i18next';
 
-import { ThumbnailSize } from '../../../constants';
-import { MEGABYTE } from '../../../filesize';
-import { FileShape } from '../../../types';
+import { IFile } from 'types/files';
 
-import Thumbnail from '../../Thumbnail';
+import { useAppSelector } from 'hooks';
+
+import { selectFeatureMaxFileSizeToThumbnail } from 'store/features';
+
+import Thumbnail, { ThumbnailSize } from 'components/Thumbnail';
 
 import NoPreview from './NoPreview';
-
-const MAX_SIZE = 20 * MEGABYTE;
 
 function isHiDPI() {
   return (
@@ -25,7 +25,7 @@ function isHiDPI() {
   );
 }
 
-function getSize({ width, height }) {
+function getSize({ width, height }: { width: number; height: number }): string {
   let pixelSize = Math.max(width, height);
   if (isHiDPI()) {
     pixelSize *= 2;
@@ -39,19 +39,18 @@ function getSize({ width, height }) {
   return ThumbnailSize.xxl;
 }
 
-function ImagePreview({ file }) {
-  const { t } = useTranslation(['filePreview']);
+interface Props {
+  file: IFile;
+}
 
-  if (file.size > MAX_SIZE) {
+export default function ImagePreview({ file }: Props) {
+  const { t } = useTranslation(['filePreview']);
+  const maxSize = useAppSelector(selectFeatureMaxFileSizeToThumbnail);
+
+  if (file.size > maxSize) {
     return <NoPreview file={file} reason={t('filePreview:fileTooLarge')} />;
   }
 
   const size = getSize(window.screen);
   return <Thumbnail className="h-full w-full" file={file} size={size} />;
 }
-
-ImagePreview.propTypes = {
-  file: FileShape.isRequired,
-};
-
-export default ImagePreview;
