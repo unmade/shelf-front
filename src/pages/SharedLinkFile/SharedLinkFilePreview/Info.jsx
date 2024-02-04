@@ -41,7 +41,7 @@ function Info({ className, file, token }) {
         <div className="mr-4 w-full min-w-0 text-gray-800 dark:text-zinc-200">
           <p className="truncate text-lg font-semibold">{file.name}</p>
           <p className="text-xs font-medium text-gray-500 dark:text-zinc-400">
-            <TimeAgo mtime={file.mtime * 1000} />
+            <TimeAgo value={file.modified_at} />
           </p>
         </div>
       </div>

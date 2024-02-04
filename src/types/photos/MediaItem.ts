@@ -3,7 +3,7 @@ export interface IMediaItem {
   fileId: string;
   name: string;
   size: number;
-  mtime: number;
+  modifiedAt: string;
   mediatype: string;
   thumbnailUrl?: string;
   deletedAt: string | null;

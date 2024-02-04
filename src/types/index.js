@@ -14,7 +14,7 @@ export const FileShape = PropTypes.shape({
   name: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
   size: PropTypes.number.isRequired,
-  mtime: PropTypes.number.isRequired,
+  modified_at: PropTypes.string.isRequired,
   hidden: PropTypes.bool.isRequired,
   mediatype: PropTypes.string.isRequired,
   thumbnail_url: PropTypes.string,
@@ -25,7 +25,7 @@ export const MediaItemShape = PropTypes.shape({
   fileId: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   size: PropTypes.number.isRequired,
-  mtime: PropTypes.number.isRequired,
+  modified_at: PropTypes.string.isRequired,
   mediatype: PropTypes.string.isRequired,
   thumbnailUrl: PropTypes.string,
 });
@@ -48,7 +48,7 @@ export const SharedLinkFileShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   size: PropTypes.number.isRequired,
-  mtime: PropTypes.number.isRequired,
+  modified_at: PropTypes.string.isRequired,
   hidden: PropTypes.bool.isRequired,
   thumbnail_url: PropTypes.string,
 });

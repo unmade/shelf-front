@@ -71,7 +71,7 @@ function SingleFilePreview({ fileId }) {
           <p className="text-xs text-gray-600 dark:text-zinc-400">
             <FileSize size={file.size} />
             <span className="px-1">&bull;</span>
-            <TimeAgo mtime={file.mtime * 1000} />
+            <TimeAgo value={file.modified_at} />
           </p>
         </div>
         <BookmarkButton
@@ -135,8 +135,9 @@ function MultiFilePreview({ fileIds }) {
     }
   });
 
-  const minMtime = files.reduce((prev, curr) => (prev.mtime < curr.mtime ? prev : curr), 0);
-  const maxMtime = files.reduce((prev, curr) => (prev.mtime > curr.mtime ? prev : curr), 0);
+  const sorted = files.sort((a, b) => Date.parse(a) - Date.parse(b));
+  const minModifiedAt = sorted[0]?.modified_at;
+  const maxModifiedAt = sorted[sorted.length - 1]?.modified_at;
 
   return (
     <div className="flex flex-col px-4 pb-2">
@@ -192,17 +193,17 @@ function MultiFilePreview({ fileIds }) {
           <div className="flex justify-between py-2">
             <p className="text-gray-500 dark:text-zinc-400">{t('Created')}</p>
             <p>
-              <TimeAgo mtime={minMtime.mtime * 1000} format="ll" />
+              <TimeAgo value={minModifiedAt} format="ll" />
               &nbsp;-&nbsp;
-              <TimeAgo mtime={maxMtime.mtime * 1000} format="ll" />
+              <TimeAgo value={maxModifiedAt} format="ll" />
             </p>
           </div>
           <div className="flex justify-between py-2">
             <p className="text-gray-500 dark:text-zinc-400">{t('Modified')}</p>
             <p>
-              <TimeAgo mtime={minMtime.mtime * 1000} format="ll" />
+              <TimeAgo value={minModifiedAt} format="ll" />
               &nbsp;-&nbsp;
-              <TimeAgo mtime={maxMtime.mtime * 1000} format="ll" />
+              <TimeAgo value={maxModifiedAt} format="ll" />
             </p>
           </div>
         </div>

@@ -19,7 +19,7 @@ function NoPreview({ file, reason, token }) {
 
   const dispatch = useDispatch();
 
-  const { name, mediatype, hidden, size, mtime } = file;
+  const { name, mediatype, hidden, size, modified_at: modifiedAt } = file;
 
   const onDownload = () => {
     dispatch(downloadSharedLinkFile({ token, filename: name }));
@@ -37,7 +37,7 @@ function NoPreview({ file, reason, token }) {
         <div className="text-xs text-gray-600 dark:text-zinc-400">
           <FileSize size={size} />
           <span> &bull; </span>
-          <TimeAgo mtime={mtime * 1000} />
+          <TimeAgo value={modifiedAt} />
         </div>
       </div>
 

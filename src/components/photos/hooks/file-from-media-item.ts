@@ -10,7 +10,7 @@ export function makeFileFromMediaItem(mediaItem: IMediaItem, libraryPath: string
     name: mediaItem.name,
     path: `${libraryPath}/${mediaItem.name}`,
     size: mediaItem.size,
-    mtime: mediaItem.mtime,
+    modified_at: mediaItem.modifiedAt,
     hidden: false,
     mediatype: mediaItem.mediatype,
     thumbnail_url: mediaItem.thumbnailUrl,

@@ -18,11 +18,11 @@ function InformationPanel({ file }) {
       <Property name={t('file:size')} value={<FileSize size={file.size} />} />
       <Property
         name={t('file:created')}
-        value={<TimeAgo mtime={file.mtime * 1000} format="LLL" />}
+        value={<TimeAgo value={file.modified_at} format="LLL" />}
       />
       <Property
         name={t('file:modified')}
-        value={<TimeAgo mtime={file.mtime * 1000} format="LLL" />}
+        value={<TimeAgo value={file.modified_at} format="LLL" />}
       />
     </div>
   );

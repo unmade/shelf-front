@@ -21,8 +21,13 @@ function useTrashedFileActionGroups(files) {
   const moveAction = useMoveAction(files);
   const deleteImmediatelyAction = useDeleteImmediatelyAction(files);
 
-  const actions = [moveAction, deleteImmediatelyAction];
-  return actions.filter((action) => action != null);
+  const actions = [
+    {
+      key: 'deleting',
+      items: [moveAction, deleteImmediatelyAction],
+    },
+  ];
+  return actions.filter((action) => action.items.length != null);
 }
 
 function useFileActionGroups(files) {

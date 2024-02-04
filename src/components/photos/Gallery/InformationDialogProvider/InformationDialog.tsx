@@ -29,7 +29,7 @@ export default function InformationDialog({ file, visible, onClose }: Props) {
 
       <div className="pt-4">
         <p className="mb-1 px-2 text-left text-gray-800 dark:text-zinc-100">
-          <TimeAgo mtime={file?.mtime ?? 0 * 1000} format="LLLL" />
+          <TimeAgo value={file?.modified_at ?? 0} format="LLLL" />
         </p>
         {file && <Exif fileId={file.id} />}
         <div className="mt-6">{file && <Categories fileId={file.id} />}</div>

@@ -56,7 +56,7 @@ export default function SharedLinkListItem({ fileId }: Props) {
 
       <div className="ml-6 hidden items-center space-x-4 text-left dark:text-zinc-400 md:flex md:w-1/4">
         <div className="w-48">
-          <TimeAgo mtime={new Date(createdAt).getTime()} />
+          <TimeAgo value={createdAt} />
         </div>
       </div>
     </div>

@@ -57,7 +57,7 @@ function DuplicateSidePreview({ file }) {
           <FileProperty header={t('file:size')} value={<FileSize size={file.size} />} />
           <FileProperty
             header={t('file:modified')}
-            value={<TimeAgo mtime={file.mtime * 1000} format="LLL" />}
+            value={<TimeAgo value={file.modified_at} format="LLL" />}
           />
         </div>
         <div className="flex flex-col space-y-4">

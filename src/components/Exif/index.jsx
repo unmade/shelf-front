@@ -68,12 +68,12 @@ function Exif({ fileId }) {
               <>
                 <TimeAgo
                   className="sm:hidden xl:inline-block"
-                  mtime={meta.dt_original * 1000}
+                  value={meta.dt_original * 1000}
                   format="LLL"
                 />
                 <TimeAgo
                   className="hidden sm:block xl:hidden"
-                  mtime={meta.dt_original * 1000}
+                  value={meta.dt_original * 1000}
                   format="lll"
                 />
               </>

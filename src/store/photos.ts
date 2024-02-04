@@ -10,7 +10,7 @@ interface IMediaItemSchema {
   file_id: string;
   name: string;
   size: number;
-  mtime: number;
+  modified_at: string;
   mediatype: string;
   thumbnail_url: string;
   deleted_at: string;
@@ -43,7 +43,7 @@ function toMediaItem(schema: IMediaItemSchema): IMediaItem {
     fileId: schema.file_id,
     name: schema.name,
     size: schema.size,
-    mtime: schema.mtime,
+    modifiedAt: schema.modified_at,
     mediatype: schema.mediatype,
     deletedAt: schema.deleted_at ?? null,
     thumbnailUrl: schema.thumbnail_url,
@@ -59,7 +59,7 @@ function toSharedLink(schema: ISharedLinkSchema): IMediaItemSharedLink {
 }
 
 export const mediaItemsAdapter = createEntityAdapter<IMediaItem>({
-  sortComparer: (a, b) => (a.mtime > b.mtime ? -1 : 1),
+  sortComparer: (a, b) => Date.parse(a.modifiedAt) - Date.parse(b.modifiedAt),
 });
 const initialState = mediaItemsAdapter.getInitialState();
 

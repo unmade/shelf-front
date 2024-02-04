@@ -12,12 +12,12 @@ function ExifPanel({ meta, loading }) {
   const { t } = useTranslation(['exif']);
 
   if (loading) {
-    return <Spinner className="py-3 h-full w-full" />;
+    return <Spinner className="h-full w-full py-3" />;
   }
 
   if (meta == null) {
     return (
-      <div className="text-center py-3 text-gray-500 dark:text-zinc-400">
+      <div className="py-3 text-center text-gray-500 dark:text-zinc-400">
         <p>{t('exif:notAvailable')}</p>
       </div>
     );
@@ -33,13 +33,13 @@ function ExifPanel({ meta, loading }) {
       {meta.dt_digitized && (
         <Property
           name={t('exif:dateTimeDigitized')}
-          value={<TimeAgo mtime={meta.dt_digitized * 1000} format="LLL" />}
+          value={<TimeAgo value={meta.dt_digitized * 1000} format="LLL" />}
         />
       )}
       {meta.dt_original && (
         <Property
           name={t('exif:dateTimeOriginal')}
-          value={<TimeAgo mtime={meta.dt_original * 1000} format="LLL" />}
+          value={<TimeAgo value={meta.dt_original * 1000} format="LLL" />}
         />
       )}
       {meta.fnumber && <Property name={t('exif:aperture')} value={`ƒ/${meta.fnumber}`} />}

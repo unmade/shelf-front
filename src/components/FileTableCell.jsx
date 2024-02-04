@@ -116,7 +116,7 @@ function FileTableCell({ className, even, item, selected, hasSelection }) {
       >
         <div className="hidden flex-row items-center justify-evenly space-x-4 md:flex md:w-2/5 lg:w-1/3">
           <div className={`hidden w-32 text-left md:block ${!hasSelection ? secondaryText : ''}`}>
-            <TimeAgo mtime={item.mtime * 1000} />
+            <TimeAgo value={item.modified_at} />
           </div>
           <div className={`hidden w-24 text-right md:block ${secondaryText}`}>
             <FileSize size={item.size} />

@@ -51,7 +51,8 @@ function ImageThumbnail({ className, file, size, style }) {
       setShouldSkip(true);
     };
   }, [setShouldSkip]);
-  const { id, name, mtime } = file;
+  const { id, name, modified_at: modifiedAt } = file;
+  const mtime = new Date(modifiedAt).getTime();
 
   const fallbackThumbnail = useSelector((state) =>
     selectFallbackThumbnail(state, { fileId: id, size, mtime }),

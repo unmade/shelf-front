@@ -3,7 +3,7 @@ export interface IFile {
   name: string;
   path: string;
   size: number;
-  mtime: number;
+  modified_at: string;
   hidden: boolean;
   mediatype: string;
   thumbnail_url?: string;

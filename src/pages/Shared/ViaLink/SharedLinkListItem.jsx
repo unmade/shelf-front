@@ -71,7 +71,7 @@ function SharedLinkListItem({ fileId }) {
 
       <div className="ml-6 hidden items-center space-x-4 text-left md:flex md:w-1/4">
         <div className="w-48">
-          <TimeAgo mtime={createdAt} />
+          <TimeAgo value={createdAt} />
         </div>
       </div>
     </div>

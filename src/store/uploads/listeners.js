@@ -134,7 +134,7 @@ function updateListMediaItemsCache(file, upload, { dispatch }) {
     fileId: file.id,
     name: file.name,
     size: file.size,
-    mtime: file.mtime,
+    modifiedAt: file.modified_at,
     mediatype: file.mediatype,
     thumbnailUrl: upload.thumbnail ?? file.thumbnail_url,
   };

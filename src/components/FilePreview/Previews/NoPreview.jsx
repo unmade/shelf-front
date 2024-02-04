@@ -19,7 +19,7 @@ function NoPreview({ file, reason }) {
 
   const dispatch = useDispatch();
 
-  const { name, path, mediatype, hidden, size, mtime } = file;
+  const { name, path, mediatype, hidden, size, modified_at: modifiedAt } = file;
 
   const onDownload = () => {
     dispatch(download(path));
@@ -37,7 +37,7 @@ function NoPreview({ file, reason }) {
         <div className="text-xs text-gray-600 dark:text-zinc-400">
           <FileSize size={size} />
           <span> &bull; </span>
-          <TimeAgo mtime={mtime * 1000} />
+          <TimeAgo value={modifiedAt} />
         </div>
       </div>
 
@@ -63,7 +63,7 @@ NoPreview.propTypes = {
     name: PropTypes.string.isRequired,
     path: PropTypes.string.isRequired,
     size: PropTypes.number.isRequired,
-    mtime: PropTypes.number.isRequired,
+    modified_at: PropTypes.string.isRequired,
     mediatype: PropTypes.string.isRequired,
     hidden: PropTypes.bool.isRequired,
   }).isRequired,

@@ -37,8 +37,8 @@ export default function Header({ idx, mediaItem, total, onGoBack, onInfo }: Prop
 
       <div className="w-full min-w-0 px-4 text-center sm:px-8">
         <div className="truncate text-sm font-medium">
-          <TimeAgo className="hidden sm:block" mtime={mediaItem.mtime * 1000} format="LLLL" />
-          <TimeAgo className="sm:hidden" mtime={mediaItem.mtime * 1000} format="LLL" />
+          <TimeAgo className="hidden sm:block" value={mediaItem.modifiedAt} format="LLLL" />
+          <TimeAgo className="sm:hidden" value={mediaItem.modifiedAt} format="LLL" />
         </div>
         <p className="text-xs dark:text-zinc-400">
           {idx + 1} of {total}
