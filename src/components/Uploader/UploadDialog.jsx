@@ -11,7 +11,7 @@ import Dialog from '../ui/Dialog';
 
 import RecentUploads from './RecentUploads';
 
-function UploadDialog({ uploadTo, visible, onCancel }) {
+function UploadDialog({ allowedMediaTypes = null, uploadTo, visible, onCancel }) {
   const { t } = useTranslation();
 
   return (
@@ -19,11 +19,11 @@ function UploadDialog({ uploadTo, visible, onCancel }) {
       title={t('Uploads')}
       icon={<icons.CloudUploadOutlined className="h-6 w-6" />}
       confirmTitle={t('Browse')}
-      confirmRender={() => (
-        <UploadButton uploadTo={uploadTo} full>
+      confirmRender={
+        <UploadButton allowedMediaTypes={allowedMediaTypes} uploadTo={uploadTo} full>
           {t('Browse')}
         </UploadButton>
-      )}
+      }
       visible={visible}
       onCancel={onCancel}
     >
@@ -33,6 +33,7 @@ function UploadDialog({ uploadTo, visible, onCancel }) {
 }
 
 UploadDialog.propTypes = {
+  allowedMediaTypes: PropTypes.arrayOf(PropTypes.string),
   visible: PropTypes.bool,
   onCancel: PropTypes.func,
 };

@@ -14,6 +14,7 @@
   "totalUploadingCount_few": "Загружается {{count}} файла",
   "totalUploadingCount_many": "Загружается {{count}} файлов",
   "totalUploadingCount_other": "Загружается {{count}} файлов",
+  "unsupportedMediaType": "Файл не поддерживается",
   "uploadButton.title": "Выбрать",
   "uploadError": "Загрузка не удалась",
   "uploadTooLarge": "Файл слишком большой"

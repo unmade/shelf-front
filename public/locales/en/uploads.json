@@ -10,6 +10,7 @@
   "totalUploadedCount_other": "Uploaded {{count}} files out of {{totalCount}}",
   "totalUploadingCount_one": "Uploading {{count}} file...",
   "totalUploadingCount_other": "Uploading {{count}} files...",
+  "unsupportedMediaType": "Unsupported file format",
   "uploadButton.title": "Browse",
   "uploadError": "Upload failed",
   "uploadTooLarge": "File size is too large"

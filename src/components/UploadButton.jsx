@@ -9,7 +9,7 @@ import { Children } from '../types';
 
 import Button from './ui/Button';
 
-function UploadButton({ children, full, icon, size, uploadTo }) {
+function UploadButton({ children, allowedMediaTypes = null, full, icon, size, uploadTo }) {
   const dispatch = useDispatch();
 
   const inputRef = useRef(null);
@@ -21,7 +21,7 @@ function UploadButton({ children, full, icon, size, uploadTo }) {
 
   const setUploadFiles = (event) => {
     const { files } = event.target;
-    dispatch(fileEntriesAdded({ files: [...files], uploadTo }));
+    dispatch(fileEntriesAdded({ allowedMediaTypes, files: [...files], uploadTo }));
     inputRef.current.value = '';
   };
 
@@ -30,6 +30,7 @@ function UploadButton({ children, full, icon, size, uploadTo }) {
       <input
         ref={inputRef}
         type="file"
+        accept={allowedMediaTypes?.join(',')}
         name="file"
         className="hidden"
         onChange={setUploadFiles}
@@ -45,6 +46,7 @@ function UploadButton({ children, full, icon, size, uploadTo }) {
 export default UploadButton;
 
 UploadButton.propTypes = {
+  allowedMediaTypes: PropTypes.arrayOf(PropTypes.string),
   children: Children,
   full: PropTypes.bool,
   icon: PropTypes.element,

@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 
 import { useSelector } from 'react-redux';
 
-import { selectIsUploading, selectVisibleUploadsLength } from '../../store/uploads/slice';
+import * as icons from 'icons';
 
-import { useIsLaptop } from '../../hooks/media-query';
+import { selectIsUploading, selectVisibleUploadsLength } from 'store/uploads/slice';
 
-import * as icons from '../../icons';
+import { useIsLaptop } from 'hooks/media-query';
 
-import Button from '../ui/Button';
-import Dropdown from '../ui/Dropdown';
+import Button from 'components/ui/Button';
+import Dropdown from 'components/ui/Dropdown';
 
 import Overlay from './Overlay';
 import UploadDialog from './UploadDialog';
@@ -36,7 +36,7 @@ const DropdownButton = React.forwardRef(({ uploading }, ref) => (
 
 DropdownButton.propTypes = {};
 
-function UploaderDropdown({ uploadTo }) {
+function UploaderDropdown({ allowedMediaTypes = undefined, uploadTo }) {
   const [open, setOpen] = React.useState(false);
   const uploading = useSelector(selectIsUploading);
   const uploadCounter = useSelector((state) => selectVisibleUploadsLength(state, 'all'));
@@ -49,17 +49,21 @@ function UploaderDropdown({ uploadTo }) {
   }, [uploadCounter]);
 
   return (
-    <Dropdown overlay={() => <Overlay uploadTo={uploadTo} />} onOpenChange={setOpen}>
+    <Dropdown
+      overlay={<Overlay allowedMediaTypes={allowedMediaTypes} uploadTo={uploadTo} />}
+      onOpenChange={setOpen}
+    >
       <DropdownButton uploading={uploading} ref={buttonRef} />
     </Dropdown>
   );
 }
 
 UploaderDropdown.propTypes = {
+  allowedMediaTypes: PropTypes.arrayOf(PropTypes.string),
   uploadTo: PropTypes.string.isRequired,
 };
 
-function UploaderDialog({ uploadTo }) {
+function UploaderDialog({ allowedMediaTypes = null, uploadTo }) {
   const [visible, setVisible] = React.useState(false);
 
   return (
@@ -75,6 +79,7 @@ function UploaderDialog({ uploadTo }) {
         }}
       />
       <UploadDialog
+        allowedMediaTypes={allowedMediaTypes}
         uploadTo={uploadTo}
         visible={visible}
         onCancel={() => {
@@ -86,19 +91,21 @@ function UploaderDialog({ uploadTo }) {
 }
 
 UploaderDialog.propTypes = {
+  allowedMediaTypes: PropTypes.arrayOf(PropTypes.string),
   uploadTo: PropTypes.string.isRequired,
 };
 
-function Uploader({ uploadTo }) {
+function Uploader({ allowedMediaTypes, uploadTo }) {
   const isLaptop = useIsLaptop();
 
   if (isLaptop) {
-    return <UploaderDropdown uploadTo={uploadTo} />;
+    return <UploaderDropdown allowedMediaTypes={allowedMediaTypes} uploadTo={uploadTo} />;
   }
-  return <UploaderDialog uploadTo={uploadTo} />;
+  return <UploaderDialog allowedMediaTypes={allowedMediaTypes} uploadTo={uploadTo} />;
 }
 
 Uploader.propTypes = {
+  allowedMediaTypes: PropTypes.arrayOf(PropTypes.string),
   uploadTo: PropTypes.string.isRequired,
 };
 

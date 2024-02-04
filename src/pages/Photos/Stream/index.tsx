@@ -5,17 +5,19 @@ import { useSelector } from 'react-redux';
 
 import { selectPhotosLibraryPath } from 'store/features';
 
-import FileDrop from 'containers/FileDrop';
-
 import CopyLinkDialogProvider from 'components/CopyLinkDialogProvider';
+import FileDrop from 'components/FileDrop';
 import PageHeader from 'components/PageHeader';
 import SearchButton from 'components/SearchButton';
 import Uploader from 'components/Uploader';
 
 import DeleteMediaItemsDialogProvider from 'components/photos/DeleteMediaItemsDialogProvider';
 
+import { MediaType } from '../../../constants';
+
 import Content from './Content';
 
+const allowedMediaTypes = [...MediaType.IMAGES];
 const headerHeight = '108px';
 const contentStyle = {
   height: `calc(100% - ${headerHeight})`,
@@ -35,14 +37,14 @@ export default function Stream() {
             <PageHeader.Title>Photos</PageHeader.Title>
             <PageHeader.Actions>
               <SearchButton />
-              <Uploader uploadTo={libraryPath} />
+              <Uploader allowedMediaTypes={allowedMediaTypes} uploadTo={libraryPath} />
             </PageHeader.Actions>
           </PageHeader>
 
-          {/* photo grid */}
           <FileDrop
             className="overflow-y-auto"
             style={contentStyle}
+            allowedMediaTypes={allowedMediaTypes}
             uploadTo={libraryPath}
             render={({ innerRef, dragging }) => (
               <div className="relative h-full w-full">
