@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { isValidElement } from 'react';
 import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
@@ -97,7 +97,9 @@ function Dialog({
                           {confirmTitle}
                         </Button>
                       )}
-                      {RenderConfirm !== null && <RenderConfirm />}
+                      {RenderConfirm &&
+                        (isValidElement(RenderConfirm) ? RenderConfirm : <RenderConfirm />)}
+                      {/* {RenderConfirm !== null && <RenderConfirm />} */}
                     </div>
                   )}
                   {onCancel && (
@@ -125,7 +127,7 @@ Dialog.propTypes = {
   icon: PropTypes.element,
   title: PropTypes.string.isRequired,
   visible: PropTypes.bool,
-  confirmRender: PropTypes.func,
+  confirmRender: PropTypes.oneOfType([PropTypes.element, PropTypes.elementType]),
   onConfirm: PropTypes.func,
   onCancel: PropTypes.func,
 };

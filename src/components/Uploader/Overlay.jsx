@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
 
-import * as icons from '../../icons';
+import * as icons from 'icons';
 
-import FileDrop from '../../containers/FileDrop';
+import FileDrop from 'components/FileDrop';
 
 import UploadButton from '../UploadButton';
 import RecentUploads from './RecentUploads';
@@ -25,7 +25,7 @@ const dropzoneClass = [
   'duration-75',
 ].join(' ');
 
-function Dropzone({ innerRef, dragging, uploadTo }) {
+function Dropzone({ allowedMediaTypes, innerRef, dragging, uploadTo }) {
   const { t } = useTranslation(['translation', 'uploads']);
 
   let bg;
@@ -46,7 +46,11 @@ function Dropzone({ innerRef, dragging, uploadTo }) {
       <div className="flex flex-col space-y-1 text-center text-sm font-semibold">
         <p className={textPrimary}>{t('uploads:dropzone.title')}</p>
         <p className={textSecondary}>{t('or')}</p>
-        <UploadButton uploadTo={uploadTo} icon={<icons.Upload />}>
+        <UploadButton
+          allowedMediaTypes={allowedMediaTypes}
+          uploadTo={uploadTo}
+          icon={<icons.Upload />}
+        >
           {t('uploads:uploadButton.title')}
         </UploadButton>
       </div>
@@ -63,14 +67,20 @@ Dropzone.defaultProps = {
   dragging: false,
 };
 
-function Overlay({ uploadTo }) {
+function Overlay({ allowedMediaTypes = null, uploadTo }) {
   return (
     <div className="w-96 rounded-2xl bg-white p-4 text-gray-700 shadow dark:bg-zinc-800 dark:text-gray-200 dark:shadow-zinc-900/70">
       <FileDrop
+        allowedMediaTypes={allowedMediaTypes}
         uploadTo={uploadTo}
         className="w-full"
         render={({ innerRef, dragging }) => (
-          <Dropzone innerRef={innerRef} dragging={dragging} uploadTo={uploadTo} />
+          <Dropzone
+            allowedMediaTypes={allowedMediaTypes}
+            innerRef={innerRef}
+            dragging={dragging}
+            uploadTo={uploadTo}
+          />
         )}
       />
       <RecentUploads />
@@ -79,6 +89,7 @@ function Overlay({ uploadTo }) {
 }
 
 Overlay.propTypes = {
+  allowedMediaTypes: PropTypes.arrayOf(PropTypes.string),
   uploadTo: PropTypes.string.isRequired,
 };
 

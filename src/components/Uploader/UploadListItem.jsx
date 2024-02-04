@@ -43,11 +43,14 @@ function getStatus({ error, done }) {
 
 function useUploadError(code) {
   const { t } = useTranslation(['uploads']);
+
   switch (code) {
-    case 'uploadTooLarge':
-      return t('uploads:uploadTooLarge');
     case 'badFile':
       return t('uploads:badFile');
+    case 'unsupportedMediaType':
+      return t('uploads:unsupportedMediaType');
+    case 'uploadTooLarge':
+      return t('uploads:uploadTooLarge');
     case 'uploadError':
       return t('uploads:uploadError');
     default:

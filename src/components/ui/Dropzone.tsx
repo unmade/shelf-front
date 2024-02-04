@@ -1,14 +1,27 @@
 import React, { useRef, useState } from 'react';
-import PropType from 'prop-types';
 
 import getFileEntries from '../../filereader';
 
-function Dropzone({ className, render: View, style, uploadTo, onDrop }) {
+export interface DropzoneProps {
+  className?: string;
+  render: React.ElementType;
+  style: React.CSSProperties;
+  uploadTo: string;
+  onDrop: ({ files, uploadTo }: { files: FileSystemFileEntry[]; uploadTo: string }) => void;
+}
+
+export default function Dropzone({
+  className = '',
+  render: View,
+  style,
+  uploadTo = '',
+  onDrop,
+}: DropzoneProps) {
   const [dragging, setDragging] = useState(false);
 
-  const dropRef = useRef(null);
+  const dropRef = useRef<HTMLDivElement>(null);
 
-  const handleDragOver = (event) => {
+  const handleDragOver = (event: React.DragEvent<HTMLElement>) => {
     event.preventDefault();
     event.stopPropagation();
     if (event.target !== dropRef.current) {
@@ -16,15 +29,15 @@ function Dropzone({ className, render: View, style, uploadTo, onDrop }) {
     }
   };
 
-  const handleDragLeave = (event) => {
+  const handleDragLeave = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     event.stopPropagation();
-    if (dropRef.current?.contains(event.target)) {
+    if (dropRef.current?.contains(event.relatedTarget as Node)) {
       setDragging(false);
     }
   };
 
-  const handleDrop = async (event) => {
+  const handleDrop = async (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setDragging(false);
 
@@ -47,22 +60,3 @@ function Dropzone({ className, render: View, style, uploadTo, onDrop }) {
     </div>
   );
 }
-
-Dropzone.propTypes = {
-  uploadTo: PropType.string,
-  className: PropType.string,
-  onDrop: PropType.func,
-  render: PropType.func.isRequired,
-  style: PropType.shape({
-    height: PropType.string,
-  }),
-};
-
-Dropzone.defaultProps = {
-  uploadTo: '',
-  className: '',
-  onDrop: null,
-  style: null,
-};
-
-export default Dropzone;

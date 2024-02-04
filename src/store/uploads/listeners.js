@@ -23,7 +23,7 @@ import { uploadsAdded, uploadRejected, uploadFulfilled, uploadProgressed } from 
 
 const mutex = new Mutex();
 
-async function normalize(file, uploadTo, maxUploadSize) {
+async function normalize(file, uploadTo, maxUploadSize, allowedMediaTypes) {
   const upload = {
     id: nanoid(),
     name: file.name,
@@ -43,8 +43,9 @@ async function normalize(file, uploadTo, maxUploadSize) {
   if (fullPath != null) {
     // must be FileSystemFileEntry
     try {
-      // eslint-disable-next-line no-promise-executor-return
-      fileObj = await new Promise((resolve, reject) => file.file(resolve, reject));
+      fileObj = await new Promise((resolve, reject) => {
+        file.file(resolve, reject);
+      });
     } catch (e) {
       upload.error = { code: 'badFile' };
     }
@@ -56,7 +57,13 @@ async function normalize(file, uploadTo, maxUploadSize) {
   upload.mediatype = fileObj.type;
   upload.mtime = fileObj.lastModified;
 
-  if (MediaType.isImage(upload.mediatype)) {
+  if (allowedMediaTypes) {
+    if (!allowedMediaTypes.includes(upload.mediatype)) {
+      upload.error = { code: 'unsupportedMediaType' };
+    }
+  }
+
+  if (!upload.error && MediaType.isImage(upload.mediatype)) {
     upload.thumbnail = URL.createObjectURL(fileObj);
   }
 
@@ -162,7 +169,7 @@ async function refreshAccessToken(refreshToken) {
 
 async function uploadFile(upload, fileObj, { dispatch, getState }) {
   if (upload.error) {
-    dispatch(uploadRejected(upload, null, upload.error));
+    dispatch(uploadRejected({ upload, error: upload.error }));
     return;
   }
 
@@ -230,12 +237,12 @@ async function uploadFile(upload, fileObj, { dispatch, getState }) {
 }
 
 async function listenFileEntriesAdded(action, listenerApi) {
-  const { files, uploadTo } = action.payload;
+  const { allowedMediaTypes, files, uploadTo } = action.payload;
   const maxUploadSize = selectFeatureUploadFileMaxSize(listenerApi.getState());
 
   const uploads = await Promise.all(
     // eslint-disable-next-line no-return-await
-    files.map(async (file) => await normalize(file, uploadTo, maxUploadSize)),
+    files.map(async (file) => await normalize(file, uploadTo, maxUploadSize, allowedMediaTypes)),
   );
 
   listenerApi.dispatch(uploadsAdded({ uploads: uploads.map(([upload]) => upload) }));
