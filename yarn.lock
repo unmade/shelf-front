@@ -206,7 +206,7 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.12.0", "@babel/runtime@^7.14.5", "@babel/runtime@^7.14.6", "@babel/runtime@^7.15.4":
+"@babel/runtime@^7.12.0", "@babel/runtime@^7.15.4":
   version "7.16.7"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.16.7.tgz#03ff99f64106588c9c403c6ecb8c3bafbbdff1fa"
   integrity sha512-9E9FJowqAsytyOY6LG+1KuueckRL+aQW+mKvXRXnuFGyRAyepJPmEo9vgMfXUA6O9u3IeEdv9MAkppFcaQwogQ==
@@ -224,6 +224,13 @@
   version "7.23.8"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.23.8.tgz#8ee6fe1ac47add7122902f257b8ddf55c898f650"
   integrity sha512-Y7KbAP984rn1VGMbGqKmBLio9V7y5Je9GvU4rQPCPinCyNfUcToxIXl06d59URp/F3LwinvODxab5N/G6qggkw==
+  dependencies:
+    regenerator-runtime "^0.14.0"
+
+"@babel/runtime@^7.23.9":
+  version "7.23.9"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.23.9.tgz#47791a15e4603bb5f905bc0753801cf21d6345f7"
+  integrity sha512-0CX6F+BI2s9dkUqr08KFrAIZgNFj75rdBU/DjCyYLIaV/quFjkk6T+EJ2LkZHyZTbEV4L5p97mNkUsHl2wLFAw==
   dependencies:
     regenerator-runtime "^0.14.0"
 
@@ -2377,12 +2384,12 @@ cosmiconfig@^7.0.0:
     path-type "^4.0.0"
     yaml "^1.10.0"
 
-cross-fetch@3.1.5:
-  version "3.1.5"
-  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.1.5.tgz#e1389f44d9e7ba767907f7af8454787952ab534f"
-  integrity sha512-lvb1SBsI0Z7GDwmuid+mU3kWVBwTVUbe7S0H52yaaAdQOXq2YktTCZdlAcNKFzE6QtRz0snpw9bNiPeOIkkQvw==
+cross-fetch@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-4.0.0.tgz#f037aef1580bb3a1a35164ea2a848ba81b445983"
+  integrity sha512-e4a5N8lVvuLgAWgnCrLr2PP0YyDOTHa9H/Rj54dirp61qXnNq46m82bRhNqIA5VccJtWBvPTFRV3TtvHUKPB1g==
   dependencies:
-    node-fetch "2.6.7"
+    node-fetch "^2.6.12"
 
 cross-spawn@^7.0.0, cross-spawn@^7.0.2, cross-spawn@^7.0.3:
   version "7.0.3"
@@ -3986,7 +3993,7 @@ hosted-git-info@^4.0.1:
   dependencies:
     lru-cache "^6.0.0"
 
-html-escaper@^2.0.0, html-escaper@^2.0.2:
+html-escaper@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/html-escaper/-/html-escaper-2.0.2.tgz#dfd60027da36a36dfcbe236262c00a5822681453"
   integrity sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==
@@ -4119,19 +4126,19 @@ hyphenate-style-name@^1.0.0:
   resolved "https://registry.yarnpkg.com/hyphenate-style-name/-/hyphenate-style-name-1.0.4.tgz#691879af8e220aea5750e8827db4ef62a54e361d"
   integrity sha512-ygGZLjmXfPHj+ZWh6LwbC37l43MhfztxetbFCoYTM2VjkIUpeHgSNn7QIyVFj7YQ1Wl9Cbw5sholVJPzWvC2MQ==
 
-i18next-browser-languagedetector@^6.1.2:
-  version "6.1.2"
-  resolved "https://registry.yarnpkg.com/i18next-browser-languagedetector/-/i18next-browser-languagedetector-6.1.2.tgz#68565a28b929cbc98ab6a56826ef2faf0e927ff8"
-  integrity sha512-YDzIGHhMRvr7M+c8B3EQUKyiMBhfqox4o1qkFvt4QXuu5V2cxf74+NCr+VEkUuU0y+RwcupA238eeolW1Yn80g==
+i18next-browser-languagedetector@^7.2.0:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/i18next-browser-languagedetector/-/i18next-browser-languagedetector-7.2.0.tgz#de0321cba6881be37d82e20e4d6f05aa75f6e37f"
+  integrity sha512-U00DbDtFIYD3wkWsr2aVGfXGAj2TgnELzOX9qv8bT0aJtvPV9CRO77h+vgmHFBMe7LAxdwvT/7VkCWGya6L3tA==
   dependencies:
-    "@babel/runtime" "^7.14.6"
+    "@babel/runtime" "^7.23.2"
 
-i18next-http-backend@^1.3.2:
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/i18next-http-backend/-/i18next-http-backend-1.3.2.tgz#ce6aff7aa60b6170e006d62b8f9cc1b3de55413e"
-  integrity sha512-SfcoUmsSWnc2LYsDsCq5TCg18cxJXvXymX9N37V+qqMKQY8Gf0rWkjOnRd20sMK633Dq4NF9tvqPbOiFJ49Kbw==
+i18next-http-backend@^2.4.3:
+  version "2.4.3"
+  resolved "https://registry.yarnpkg.com/i18next-http-backend/-/i18next-http-backend-2.4.3.tgz#be9a0aaff5f34542f1f9c1f7bd03eb96d8476dbd"
+  integrity sha512-jo2M03O6n1/DNb51WSQ8PsQ0xEELzLZRdYUTbf17mLw3rVwnJF9hwNgMXvEFSxxb+N8dT+o0vtigA6s5mGWyPA==
   dependencies:
-    cross-fetch "3.1.5"
+    cross-fetch "4.0.0"
 
 i18next-parser@^5.4.0:
   version "5.4.0"
@@ -4157,12 +4164,19 @@ i18next-parser@^5.4.0:
     vinyl-fs "^3.0.2"
     vue-template-compiler "^2.6.11"
 
-i18next@^21.2.0, i18next@^21.6.7:
+i18next@^21.2.0:
   version "21.6.7"
   resolved "https://registry.yarnpkg.com/i18next/-/i18next-21.6.7.tgz#062560decbabcdb691885e6401f2843ec25c3c10"
   integrity sha512-26dTDa2gBz+vMk6WPf1pxTx3S5HIAptbyODmni/JsN6R1W2WNkGVFXBusUK7T6y1wLeJi5CIrqmQ2gl18vdh3A==
   dependencies:
     "@babel/runtime" "^7.12.0"
+
+i18next@^23.8.2:
+  version "23.8.2"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-23.8.2.tgz#f3ff6ea929e0927d9717f0ed195ae46d05919900"
+  integrity sha512-Z84zyEangrlERm0ZugVy4bIt485e/H8VecGUZkZWrH7BDePG6jT73QdL9EA1tRTTVVMpry/MgWIP1FjEn0DRXA==
+  dependencies:
+    "@babel/runtime" "^7.23.2"
 
 iconv-lite@0.4.24:
   version "0.4.24"
@@ -5467,10 +5481,10 @@ node-fetch@2.6.1:
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
   integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
 
-node-fetch@2.6.7:
-  version "2.6.7"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.7.tgz#24de9fba827e3b4ae44dc8b20256a379160052ad"
-  integrity sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==
+node-fetch@^2.6.12:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.7.0.tgz#d0f0fa6e3e2dc1d27efcd8ad99d550bda94d187d"
+  integrity sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==
   dependencies:
     whatwg-url "^5.0.0"
 
@@ -6404,13 +6418,12 @@ react-helmet-async@^1.3.0:
     react-fast-compare "^3.2.0"
     shallowequal "^1.1.0"
 
-react-i18next@^11.15.3:
-  version "11.15.3"
-  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-11.15.3.tgz#7608fb3cacc02ac75a62fc2d68b579f140b198dd"
-  integrity sha512-RSUEM4So3Tu2JHV0JsZ5Yje+4nz66YViMfPZoywxOy0xyn3L7tE2CHvJ7Y9LUsrTU7vGmZ5bwb8PpjnkatdIxg==
+react-i18next@^14.0.2:
+  version "14.0.2"
+  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-14.0.2.tgz#eb775bc0febb737629ec2c1c28493d712a9360ba"
+  integrity sha512-YOB/H1IgXveEWeTsCHez18QjDXImzVZOcF9/JroSbjYoN1LOfCoARFJUQQ8VNow0TnGOtHq9SwTmismm78CTTA==
   dependencies:
-    "@babel/runtime" "^7.14.5"
-    html-escaper "^2.0.2"
+    "@babel/runtime" "^7.23.9"
     html-parse-stringify "^3.0.1"
 
 react-icons@^4.2.0:

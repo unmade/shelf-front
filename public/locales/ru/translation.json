@@ -45,6 +45,8 @@
   "Empty Trash": "Очистить Корзину",
   "empty_trash_dialog_text_styled": "Вы уверены, что хотите удалить <1>все</1> файлы в Корзине?",
   "Enter a username": "Введите ник пользователя",
+  "Favourite": "Избранное",
+  "Favourites": "Избранные",
   "Folder name": "Имя папки",
   "folders_count_one": "{{count}} папка",
   "folders_count_few": "{{count}} папки",
@@ -57,6 +59,7 @@
   "items_count_few": "{{count}} объекта",
   "items_count_many": "{{count}} объектов",
   "items_count_other": "{{count}} объектов",
+  "Library": "Медиатека",
   "Light": "Светлое",
   "Links": "Ссылки",
   "Modified": "Дата изменения",
@@ -86,6 +89,7 @@
   "Share read-only link": "Поделиться ссылкой",
   "Share with other members": "Общий доступ",
   "Shared": "Общий доступ",
+  "Shared links": "Публичные ссылки",
   "Sign In": "Войти",
   "Sign Out": "Выйти",
   "Sign Up": "Регистрация",
@@ -108,7 +112,7 @@
   "This folder is empty": "Эта папка пуста",
   "Trash": "Корзина",
   "Trash folder is empty": "Корзина пуста",
+  "Unfavourite": "Из избранного",
   "Uploads": "Загрузки",
-  "Username": "Имя пользователя",
-  "Users": "Аккаунты"
+  "Username": "Имя пользователя"
 }

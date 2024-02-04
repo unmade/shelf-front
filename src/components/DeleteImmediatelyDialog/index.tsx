@@ -28,12 +28,11 @@ export default function DeleteImmediatelyDialog({
 
   const dialogText =
     names.length === 1 ? (
-      <Trans i18nKey="delete_immediately_dialog_text" t={t} fileName={fileName}>
+      <Trans i18nKey="delete_immediately_dialog_text" t={t} values={{ fileName }}>
         Are you sure you want to
         <b>permanently</b>
         delete
-        {/* @ts-expect-error: need to update react-i18n */}
-        <b className="text-gray-700 dark:text-zinc-200">{{ fileName }}</b>?
+        <b className="text-gray-700 dark:text-zinc-200">{fileName}</b>?
       </Trans>
     ) : (
       <Trans i18nKey="delete_immediately_dialog_batch_text" t={t} count={count}>

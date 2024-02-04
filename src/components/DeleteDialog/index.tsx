@@ -22,10 +22,9 @@ export default function DeleteDialog({ names, loading, visible, onConfirm, onCan
 
   const dialogText =
     names.length === 1 ? (
-      <Trans i18nKey="delete_dialog_text" t={t} fileName={fileName}>
+      <Trans i18nKey="delete_dialog_text" t={t} values={{ fileName }}>
         Are you sure you want to move
-        {/* @ts-expect-error: need to update react-i18n */}
-        <b className="text-gray-700 dark:text-zinc-200">{{ fileName }}</b>
+        <b className="text-gray-700 dark:text-zinc-200">{fileName}</b>
         to trash?
       </Trans>
     ) : (

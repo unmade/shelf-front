@@ -35,6 +35,8 @@
   "Empty Trash": "Empty Trash",
   "empty_trash_dialog_text_styled": "Are you sure you want to delete <1>all</1> files in the Trash?",
   "Enter a username": "Enter a username",
+  "Favourite": "Favourite",
+  "Favourites": "Favourites",
   "Folder name": "Folder name",
   "folders_count_one": "{{count}} folder",
   "folders_count_other": "{{count}} folders",
@@ -43,6 +45,7 @@
   "Information": "Information",
   "items_count_one": "{{count}} item",
   "items_count_other": "{{count}} items",
+  "Library": "Library",
   "Light": "Light",
   "Links": "Links",
   "Modified": "Modified",
@@ -70,6 +73,7 @@
   "Share read-only link": "Share read-only link",
   "Share with other members": "Share",
   "Shared": "Shared",
+  "Shared links": "Shared links",
   "Sign In": "Sign In",
   "Sign Out": "Sign Out",
   "Sign Up": "Sign Up",
@@ -86,7 +90,7 @@
   "This folder is empty": "This folder is empty",
   "Trash": "Trash",
   "Trash folder is empty": "Trash folder is empty",
+  "Unfavourite": "Unfavourite",
   "Uploads": "Uploads",
-  "Username": "Username",
-  "Users": "Users"
+  "Username": "Username"
 }
