@@ -1,14 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
+import { IUploadError } from 'types/files';
 
-import { selectUploadById } from '../../store/uploads/slice';
+import { useAppSelector } from 'hooks';
 
-import * as icons from '../../icons';
+import { selectUploadById } from 'store/uploads/slice';
+
+import useUploadError from './hooks/upload-error';
 
 import UploadThumbnail from './UploadThumbnail';
+import Progress from './UploadListItemProgress';
 
 const textColors = {
   completed: {
@@ -31,7 +32,7 @@ const bgColors = {
   inProgress: 'bg-blue-400/25 dark:bg-blue-500/25',
 };
 
-function getStatus({ error, done }) {
+function getStatus({ error, done }: { error: IUploadError | null; done: boolean }) {
   if (error != null) {
     return 'failed';
   }
@@ -41,48 +42,15 @@ function getStatus({ error, done }) {
   return 'inProgress';
 }
 
-function useUploadError(code) {
-  const { t } = useTranslation(['uploads']);
-
-  switch (code) {
-    case 'badFile':
-      return t('uploads:badFile');
-    case 'unsupportedMediaType':
-      return t('uploads:unsupportedMediaType');
-    case 'uploadTooLarge':
-      return t('uploads:uploadTooLarge');
-    case 'uploadError':
-      return t('uploads:uploadError');
-    default:
-      return null;
-  }
+interface UploadListItemProps {
+  uploadId: string;
+  style: React.CSSProperties;
 }
 
-function Progress({ done, error, progress }) {
-  const status = getStatus({ error, done });
-  const textColor = textColors[status];
+function UploadListItem({ uploadId, style }: UploadListItemProps) {
+  const item = useAppSelector((state) => selectUploadById(state, uploadId));
 
-  if (error) {
-    return <icons.ExclamationCircle className={`z-10 mr-2 h-5 w-5 ${textColor.secondary}`} />;
-  }
-  if (done) {
-    return <icons.CheckCircle className={`z-10 mr-2 h-5 w-5 ${textColor.secondary}`} />;
-  }
-  if (progress === 100 && !done) {
-    return <icons.Spinner className="z-10 mr-2 h-5 w-5 animate-spin text-blue-500" />;
-  }
-  return <div className={`mr-2 font-medium ${textColor.secondary}`}>{progress}%</div>;
-}
-
-Progress.propTypes = {
-  done: PropTypes.bool.isRequired,
-  progress: PropTypes.number.isRequired,
-};
-
-function UploadListItem({ uploadId, style }) {
-  const item = useSelector((state) => selectUploadById(state, uploadId));
-
-  const { id, name, parentPath, progress, error, done } = item;
+  const { id, name, parentPath, progress, error, done } = item!;
 
   const fillerStyles = {
     height: 'calc(100% - 0.25rem)',
@@ -90,7 +58,7 @@ function UploadListItem({ uploadId, style }) {
     transition: 'width 0.3s ease-in-out',
   };
 
-  const status = getStatus(item);
+  const status = getStatus({ error, done });
   const errorText = useUploadError(error?.code);
   const textColor = textColors[status];
   const bgColor = bgColors[status];
@@ -111,7 +79,7 @@ function UploadListItem({ uploadId, style }) {
             </div>
 
             <div className="text-right text-sm">
-              <Progress error={error} done={done} progress={progress} />
+              <Progress className={textColor.secondary} status={status} progress={progress} />
             </div>
           </div>
         </div>
@@ -120,7 +88,13 @@ function UploadListItem({ uploadId, style }) {
   );
 }
 
-function UploadListItemContainer({ data, index, style }) {
+interface UploadListItemContainerProps {
+  data: string[];
+  index: number;
+  style: React.CSSProperties;
+}
+
+function UploadListItemContainer({ data, index, style }: UploadListItemContainerProps) {
   return <UploadListItem uploadId={data[index]} style={style} />;
 }
 

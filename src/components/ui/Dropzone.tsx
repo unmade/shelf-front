@@ -5,7 +5,7 @@ import getFileEntries from '../../filereader';
 export interface DropzoneProps {
   className?: string;
   render: React.ElementType;
-  style: React.CSSProperties;
+  style?: React.CSSProperties;
   uploadTo: string;
   onDrop: ({ files, uploadTo }: { files: FileSystemFileEntry[]; uploadTo: string }) => void;
 }

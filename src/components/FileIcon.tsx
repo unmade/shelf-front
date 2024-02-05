@@ -1,11 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import * as icons from '../icons';
 
 import { MediaType } from '../constants';
 
-function FileIcon({ className, hidden, mediatype, shared }) {
+interface Props {
+  className?: string;
+  hidden?: boolean;
+  mediatype: string | null;
+  shared?: boolean;
+}
+
+export default function FileIcon({ className, hidden = false, mediatype, shared = false }: Props) {
   let color;
   if (mediatype === MediaType.FOLDER) {
     color = hidden ? 'text-blue-200 dark:text-blue-500/50' : 'text-blue-400';
@@ -16,17 +22,3 @@ function FileIcon({ className, hidden, mediatype, shared }) {
   const Icon = icons.getIcon(mediatype, shared);
   return <Icon className={`${color} ${className}`} />;
 }
-
-FileIcon.propTypes = {
-  className: PropTypes.string,
-  hidden: PropTypes.bool,
-  mediatype: PropTypes.string,
-};
-
-FileIcon.defaultProps = {
-  className: '',
-  hidden: false,
-  mediatype: null,
-};
-
-export default FileIcon;

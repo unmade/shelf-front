@@ -1,17 +1,23 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
 
-import * as icons from '../../icons';
+import * as icons from 'icons';
 
-import UploadButton from '../UploadButton';
+import Dialog from 'components/ui/Dialog';
 
-import Dialog from '../ui/Dialog';
+import UploadButton from 'components/UploadButton';
 
-import RecentUploads from './RecentUploads';
+import RecentUploads from '../RecentUploads';
 
-function UploadDialog({ allowedMediaTypes = null, uploadTo, visible, onCancel }) {
+interface Props {
+  allowedMediaTypes?: string[];
+  uploadTo: string;
+  visible: boolean;
+  onCancel: () => void;
+}
+
+export default function UploadDialog({ allowedMediaTypes, uploadTo, visible, onCancel }: Props) {
   const { t } = useTranslation();
 
   return (
@@ -31,16 +37,3 @@ function UploadDialog({ allowedMediaTypes = null, uploadTo, visible, onCancel })
     </Dialog>
   );
 }
-
-UploadDialog.propTypes = {
-  allowedMediaTypes: PropTypes.arrayOf(PropTypes.string),
-  visible: PropTypes.bool,
-  onCancel: PropTypes.func,
-};
-
-UploadDialog.defaultProps = {
-  visible: false,
-  onCancel: null,
-};
-
-export default UploadDialog;
