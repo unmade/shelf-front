@@ -10,13 +10,13 @@ import { shallowEqual } from 'react-redux';
 import { RootState } from 'store/store';
 import { IUpload, IUploadError } from 'types/files';
 
-type Filter = 'all' | 'inProgress' | 'failed';
+export type UploadsFilter = 'all' | 'inProgress' | 'failed';
 
 const uploadsAdapter = createEntityAdapter<IUpload>();
 
 interface IFileEntriesAddedArg {
   allowedMediaTypes?: string[];
-  files: FileSystemFileEntry[];
+  files: FileSystemFileEntry[] | File[];
   uploadTo: string;
 }
 
@@ -56,8 +56,8 @@ export const {
 
 export const selectVisibleUploads = createSelector(
   selectAllUploads,
-  (_state: RootState, props: { filter: Filter }) => props.filter,
-  (uploads: IUpload[], filter: Filter) => {
+  (_state: RootState, props: { filter: UploadsFilter }) => props.filter,
+  (uploads: IUpload[], filter: UploadsFilter) => {
     switch (filter) {
       case 'all':
         return uploads.map((upload) => upload.id);
@@ -80,7 +80,7 @@ export const selectVisibleUploads = createSelector(
   },
 );
 
-export const selectVisibleUploadsLength = (state: RootState, filter: Filter) =>
+export const selectVisibleUploadsLength = (state: RootState, filter: UploadsFilter) =>
   selectVisibleUploads(state, { filter }).length;
 
 export const selectIsUploading = (state: RootState) =>

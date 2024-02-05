@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { RefObject } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
@@ -7,8 +6,9 @@ import * as icons from 'icons';
 
 import FileDrop from 'components/FileDrop';
 
-import UploadButton from '../UploadButton';
-import RecentUploads from './RecentUploads';
+import UploadButton from 'components/UploadButton';
+
+import RecentUploads from '../RecentUploads';
 
 const dropzoneClass = [
   'p-4',
@@ -25,7 +25,14 @@ const dropzoneClass = [
   'duration-75',
 ].join(' ');
 
-function Dropzone({ allowedMediaTypes, innerRef, dragging, uploadTo }) {
+interface DropzoneProps {
+  allowedMediaTypes?: string[];
+  dragging: boolean;
+  innerRef: RefObject<HTMLDivElement>;
+  uploadTo: string;
+}
+
+function Dropzone({ allowedMediaTypes, dragging, innerRef, uploadTo }: DropzoneProps) {
   const { t } = useTranslation(['translation', 'uploads']);
 
   let bg;
@@ -58,16 +65,12 @@ function Dropzone({ allowedMediaTypes, innerRef, dragging, uploadTo }) {
   );
 }
 
-Dropzone.propTypes = {
-  dragging: PropTypes.bool,
-  uploadTo: PropTypes.string.isRequired,
-};
+interface Props {
+  allowedMediaTypes?: string[];
+  uploadTo: string;
+}
 
-Dropzone.defaultProps = {
-  dragging: false,
-};
-
-function Overlay({ allowedMediaTypes = null, uploadTo }) {
+export default function Overlay({ allowedMediaTypes, uploadTo }: Props) {
   return (
     <div className="w-96 rounded-2xl bg-white p-4 text-gray-700 shadow dark:bg-zinc-800 dark:text-gray-200 dark:shadow-zinc-900/70">
       <FileDrop
@@ -87,10 +90,3 @@ function Overlay({ allowedMediaTypes = null, uploadTo }) {
     </div>
   );
 }
-
-Overlay.propTypes = {
-  allowedMediaTypes: PropTypes.arrayOf(PropTypes.string),
-  uploadTo: PropTypes.string.isRequired,
-};
-
-export default Overlay;
