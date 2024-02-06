@@ -1,5 +1,8 @@
 {
   "dontHaveAnAccount": "Don't have an account?",
-  "form.buttonTitle": "Sign in",
+  "form.button.signin.title": "Sign In",
+  "form.inputs.login.label": "Login",
+  "form.inputs.login.placeholder": "Email or username",
+  "form.inputs.password.label": "Password",
   "signUpNow": "Sign up now"
 }

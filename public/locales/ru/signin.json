@@ -1,5 +1,8 @@
 {
   "dontHaveAnAccount": "Еще нет аккаунта?",
-  "form.buttonTitle": "Войти",
+  "form.button.signin.title": "Войти",
+  "form.inputs.login.label": "Логин",
+  "form.inputs.login.placeholder": "Электронный адрес почты или имя пользователя",
+  "form.inputs.password.label": "Пароль",
   "signUpNow": "Зарегистрироваться"
 }

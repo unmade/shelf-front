@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
 
-import Button from '../../components/ui/Button';
-import Input from '../../components/ui/Input';
+import Button from 'components/ui/Button';
+import Input from 'components/ui/Input';
 
 function LoginForm({ loading, onSubmit }) {
   const { t } = useTranslation(['translation', 'signin']);
 
   const [inputs, setInputs] = React.useState({
-    username: null,
+    login: null,
     password: null,
   });
   const [errors, setErrors] = React.useState({});
@@ -46,8 +46,8 @@ function LoginForm({ loading, onSubmit }) {
 
   const submit = () => {
     if (isValid()) {
-      const { username, password } = inputs;
-      onSubmit(username, password);
+      const { login, password } = inputs;
+      onSubmit(login, password);
     }
   };
 
@@ -60,10 +60,12 @@ function LoginForm({ loading, onSubmit }) {
       }}
     >
       <Input
-        id="username"
-        name="username"
-        label={t('Username')}
-        placeholder={t('Username')}
+        id="login"
+        name="login"
+        label={t('signin:form.inputs.login.label', { defaultValue: 'Login' })}
+        placeholder={t('signin:form.inputs.login.placeholder', {
+          defaultValue: 'Email or username',
+        })}
         error={errors && errors.username}
         onChange={onInputChange}
       />
@@ -71,7 +73,7 @@ function LoginForm({ loading, onSubmit }) {
         id="password"
         name="password"
         type="password"
-        label={t('Password')}
+        label={t('signin:form.inputs.password.label', { defaultValue: 'Password' })}
         placeholder="********"
         error={errors && errors.password}
         onChange={onInputChange}
@@ -79,14 +81,14 @@ function LoginForm({ loading, onSubmit }) {
       <div className="w-full pt-5">
         <Button
           type="submit"
-          title={t('signin:form.buttonTitle')}
+          title={t('signin:form.button.signin.title', 'Sign In')}
           variant="primary"
           size="base"
           onClick={submit}
           loading={loading}
           full
         >
-          {t('signin:form.buttonTitle')}
+          {t('signin:form.button.signin.title', { defaultValue: 'Sign In' })}
         </Button>
       </div>
     </form>
