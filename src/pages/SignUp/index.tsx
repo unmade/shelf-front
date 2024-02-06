@@ -4,14 +4,14 @@ import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
-import * as icons from '../../icons';
-import * as routes from '../../routes';
+import * as icons from 'icons';
+import * as routes from 'routes';
 
-import usePrefersColorScheme from '../../hooks/prefers-color-scheme';
+import usePrefersColorScheme from 'hooks/prefers-color-scheme';
 
 import SignUpFormContainer from './SignUpFormContainer';
 
-function SignUp() {
+export default function SignUp() {
   const { t } = useTranslation(['translation', 'signup']);
 
   usePrefersColorScheme();
@@ -49,7 +49,3 @@ function SignUp() {
     </>
   );
 }
-
-export default SignUp;
-
-SignUp.propTypes = {};

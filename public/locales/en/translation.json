@@ -8,7 +8,6 @@
   "Browse": "Browse",
   "button_create_folder_title": "Create folder",
   "Cancel": "Cancel",
-  "Confirm Password": "Confirm password",
   "Create": "Create",
   "Created": "Created",
   "Dark": "Dark",
@@ -60,7 +59,6 @@
   "Nothing here yet": "Nothing here yet",
   "Open": "Open",
   "or": "or",
-  "Password": "Password",
   "Press \"Move\" button to move file here": "Press \"Move\" button to move file here",
   "Quick search": "Quick search",
   "Remove from Saved": "Remove from Saved",
@@ -91,6 +89,5 @@
   "Trash": "Trash",
   "Trash folder is empty": "Trash folder is empty",
   "Unfavourite": "Unfavourite",
-  "Uploads": "Uploads",
-  "Username": "Username"
+  "Uploads": "Uploads"
 }

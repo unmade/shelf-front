@@ -8,7 +8,6 @@
   "Browse": "Выбрать",
   "button_create_folder_title": "Создать папку",
   "Cancel": "Отменить",
-  "Confirm Password": "Подтверждение пароля",
   "Create": "Создать",
   "Created": "Дата создания",
   "Dark": "Темное",
@@ -76,7 +75,6 @@
   "Nothing here yet": "Здесь пока пусто",
   "Open": "Открыть",
   "or": "или",
-  "Password": "Пароль",
   "Press \"Move\" button to move file here": "Нажмите \"Переместить\" чтобы переместить файл",
   "Quick search": "Быстрый поиск",
   "Remove from Saved": "Убрать из закладок",
@@ -113,6 +111,5 @@
   "Trash": "Корзина",
   "Trash folder is empty": "Корзина пуста",
   "Unfavourite": "Из избранного",
-  "Uploads": "Загрузки",
-  "Username": "Имя пользователя"
+  "Uploads": "Загрузки"
 }

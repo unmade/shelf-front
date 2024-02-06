@@ -59,7 +59,7 @@ function toSharedLink(schema: ISharedLinkSchema): IMediaItemSharedLink {
 }
 
 export const mediaItemsAdapter = createEntityAdapter<IMediaItem>({
-  sortComparer: (a, b) => Date.parse(a.modifiedAt) - Date.parse(b.modifiedAt),
+  sortComparer: (a, b) => Date.parse(b.modifiedAt) - Date.parse(a.modifiedAt),
 });
 const initialState = mediaItemsAdapter.getInitialState();
 

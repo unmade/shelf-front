@@ -1,5 +1,10 @@
 import apiSlice from './apiSlice';
 
+interface TokenSchema {
+  access_token: string;
+  refresh_token: string;
+}
+
 export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     signIn: builder.mutation({
@@ -14,18 +19,18 @@ export const authApi = apiSlice.injectEndpoints({
           password,
         }),
       }),
-      transformResponse: (responseData) => ({
+      transformResponse: (responseData: TokenSchema) => ({
         accessToken: responseData.access_token,
         refreshToken: responseData.refresh_token,
       }),
     }),
     signUp: builder.mutation({
-      query: ({ username, password, confirmPassword }) => ({
+      query: ({ email, name, password, confirmPassword }) => ({
         url: '/auth/sign_up',
         method: 'POST',
-        body: { username, password, confirm_password: confirmPassword },
+        body: { email, display_name: name, password, confirm_password: confirmPassword },
       }),
-      transformResponse: (responseData) => ({
+      transformResponse: (responseData: TokenSchema) => ({
         accessToken: responseData.access_token,
         refreshToken: responseData.refresh_token,
       }),

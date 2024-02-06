@@ -3,22 +3,22 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { useSignUpMutation } from '../../store/auth';
-import { tokenRefreshed } from '../../store/authSlice';
+import * as routes from 'routes';
 
-import * as routes from '../../routes';
+import { useSignUpMutation } from 'store/auth';
+import { tokenRefreshed } from 'store/authSlice';
 
-import SignUpForm from './SignUpForm';
+import SignUpForm, { IOnSubmitArg } from './SignUpForm';
 
-function SignUpFormContainer() {
+export default function SignUpFormContainer() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [signUp, { isLoading: loading }] = useSignUpMutation();
 
-  const onSubmit = async (username, password, confirmPassword) => {
+  const onSubmit = async ({ email, name, password, confirmPassword }: IOnSubmitArg) => {
     try {
-      const data = await signUp({ username, password, confirmPassword }).unwrap();
+      const data = await signUp({ email, name, password, confirmPassword }).unwrap();
       dispatch(tokenRefreshed(data));
     } catch (err) {
       return;
@@ -28,7 +28,3 @@ function SignUpFormContainer() {
 
   return <SignUpForm onSubmit={onSubmit} loading={loading} />;
 }
-
-export default SignUpFormContainer;
-
-SignUpFormContainer.propTypes = {};
