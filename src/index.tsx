@@ -12,6 +12,7 @@ import { featuresApi } from './store/features';
 
 import * as routes from './routes';
 
+import OTPVerification from './pages/EmailVerification';
 import SharedLinkFile from './pages/SharedLinkFile';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
@@ -54,6 +55,14 @@ root.render(
               <Route path={routes.SIGNIN.route} element={<SignIn />} />
               <Route path={routes.SIGNUP.route} element={<SignUp />} />
               <Route path={routes.SHARED_LINK_FILE.route} element={<SharedLinkFile />} />
+              <Route
+                path={routes.EMAIL_VERIFICATION.route}
+                element={
+                  <RequireAccount redirectTo={routes.SIGNIN.route}>
+                    <OTPVerification />
+                  </RequireAccount>
+                }
+              />
               <Route
                 path="/*"
                 element={

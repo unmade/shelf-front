@@ -20,7 +20,7 @@ export const filesAdapter = createEntityAdapter({
 });
 const initialState = filesAdapter.getInitialState();
 
-const filesApi = apiSlice.injectEndpoints({
+export const filesApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     createFolder: builder.mutation({
       query: ({ name, inPath }) => ({

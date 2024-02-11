@@ -10,6 +10,7 @@ import { IFile } from 'types/files';
 
 import { selectIsBookmarked, useAddBookmarkMutation, useRemoveBookmarkMutation } from 'store/users';
 import { download } from 'store/files';
+import { RootState } from 'store/store';
 
 import { useCopyLinkDialog } from 'components/CopyLinkDialogProvider';
 import { useDeleteDialog } from 'components/DeleteDialogProvider';
@@ -29,7 +30,7 @@ export interface IAction {
 export function useFavouriteAction(files: IFile[]): IAction {
   const { t } = useTranslation();
 
-  const bookmarked = useSelector((state) => selectIsBookmarked(state, files[0]?.id));
+  const bookmarked = useSelector((state: RootState) => selectIsBookmarked(state, files[0]?.id));
 
   const [addBookmark] = useAddBookmarkMutation();
   const [removeBookmark] = useRemoveBookmarkMutation();

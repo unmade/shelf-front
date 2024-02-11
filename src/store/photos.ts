@@ -68,7 +68,7 @@ export const sharedLinkAdapter = createEntityAdapter<IMediaItemSharedLink>({
 });
 const sharedLinksInitialState = sharedLinkAdapter.getInitialState();
 
-const photosApi = apiSlice.injectEndpoints({
+export const photosApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     deleteMediaItems: builder.mutation({
       query: (fileIds) => ({

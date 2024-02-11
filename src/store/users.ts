@@ -1,12 +1,13 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 import apiSlice from './apiSlice';
-import { filesAdapter } from './files';
-import { mediaItemsAdapter } from './photos';
+import { filesAdapter, filesApi } from './files';
+import { mediaItemsAdapter, photosApi } from './photos';
+import { RootState } from './store';
 
 export const usersApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    addBookmark: builder.mutation({
+    addBookmark: builder.mutation<null, string>({
       query: (fileId) => ({
         url: '/users/bookmarks/add',
         method: 'POST',
@@ -14,7 +15,7 @@ export const usersApi = apiSlice.injectEndpoints({
       }),
       async onQueryStarted(fileId, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
-          apiSlice.util.updateQueryData('listBookmarks', undefined, (draft) => {
+          usersApi.util.updateQueryData('listBookmarks', undefined, (draft) => {
             draft.push(fileId);
           }),
         );
@@ -29,29 +30,30 @@ export const usersApi = apiSlice.injectEndpoints({
         { type: 'MediaItems', id: 'listFavourites' },
       ],
     }),
-    listBookmarks: builder.query({
+    listBookmarks: builder.query<string[], undefined>({
       query: () => '/users/bookmarks/list',
-      transformResponse: (response) => response.items,
+      transformResponse: (response: { items: string[] }) => response.items,
     }),
-    removeBookmark: builder.mutation({
+    removeBookmark: builder.mutation<undefined, string>({
       query: (fileId) => ({
         url: '/users/bookmarks/remove',
         method: 'POST',
         body: { id: fileId },
       }),
-      async onQueryStarted(fileId, { dispatch, queryFulfilled }) {
+      async onQueryStarted(fileId: string, { dispatch, queryFulfilled }) {
         const patchListBookmarksResult = dispatch(
-          apiSlice.util.updateQueryData('listBookmarks', undefined, (draft) =>
+          usersApi.util.updateQueryData('listBookmarks', undefined, (draft) =>
             draft.filter((id) => id !== fileId),
           ),
         );
         const patchListBookmarkedFilesResult = dispatch(
-          apiSlice.util.updateQueryData('listBookmarkedFiles', undefined, (draft) =>
+          filesApi.util.updateQueryData('listBookmarkedFiles', undefined, (draft) =>
+            // @ts-expect-error waiting for files.js to be rewritten in typescript
             filesAdapter.removeOne(draft, fileId),
           ),
         );
         const patchListMediaItemsResult = dispatch(
-          apiSlice.util.updateQueryData('listMediaItems', { favourites: true }, (draft) =>
+          photosApi.util.updateQueryData('listMediaItems', { favourites: true }, (draft) =>
             mediaItemsAdapter.removeOne(draft, fileId),
           ),
         );
@@ -64,17 +66,36 @@ export const usersApi = apiSlice.injectEndpoints({
         }
       },
     }),
+    sendEmailVerificationCode: builder.mutation<undefined, undefined>({
+      query: () => ({
+        url: '/users/send_email_verification_code',
+        method: 'POST',
+      }),
+    }),
+    verifyEmail: builder.mutation<{ verified: boolean }, string>({
+      query: (code) => ({
+        url: '/users/verify_email',
+        method: 'POST',
+        body: { code },
+      }),
+    }),
   }),
 });
 
-export const { useAddBookmarkMutation, useListBookmarksQuery, useRemoveBookmarkMutation } =
-  usersApi;
+export const {
+  useAddBookmarkMutation,
+  useListBookmarksQuery,
+  useRemoveBookmarkMutation,
+  useSendEmailVerificationCodeMutation,
+  useVerifyEmailMutation,
+} = usersApi;
 
-const selectBookmarksFromResult = usersApi.endpoints.listBookmarks.select();
+const selectBookmarksFromResult = usersApi.endpoints.listBookmarks.select(undefined);
 const empty = new Set();
 
 export const selectAllBookmarks = createSelector(selectBookmarksFromResult, (bookmarksResult) =>
   bookmarksResult?.data ? new Set(bookmarksResult.data) : empty,
 );
 
-export const selectIsBookmarked = (state, id) => selectAllBookmarks(state).has(id);
+export const selectIsBookmarked = (state: RootState, id: string) =>
+  selectAllBookmarks(state).has(id);
