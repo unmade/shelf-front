@@ -37,6 +37,7 @@ function rootReducer(state, action) {
 
 const ignoredErrorCodes = new Set([
   422,
+  'EMAIL_ALREADY_TAKEN',
   'CONTENT_METADATA_NOT_FOUND',
   'INVALID_TOKEN',
   'MISSING_TOKEN',

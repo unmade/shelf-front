@@ -12,7 +12,11 @@ import { useAppDispatch } from 'hooks';
 
 import OTPForm from 'components/OTPForm';
 
-export default function OTPFormContainer() {
+interface Props {
+  onSubmit: () => void;
+}
+
+export default function VerifyEmailForm({ onSubmit }: Props) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -30,11 +34,11 @@ export default function OTPFormContainer() {
     navigate(routes.PHOTOS.prefix);
   }
 
-  const onSubmit = async (code: string) => {
+  const handleSubmit = async (code: string) => {
     try {
       const { verified: success } = await verifyEmail(code).unwrap();
       if (success) {
-        navigate(routes.PHOTOS.prefix);
+        onSubmit();
       } else {
         dispatch(
           addToast({
@@ -47,7 +51,7 @@ export default function OTPFormContainer() {
       /* empty */
     }
   };
-  const onResend = async () => {
+  const handleResend = async () => {
     try {
       await sendCode(undefined).unwrap();
     } catch (err) {
@@ -60,8 +64,8 @@ export default function OTPFormContainer() {
       submitting={submitting}
       resending={resending}
       email={email!}
-      onSubmit={onSubmit}
-      onResend={onResend}
+      onSubmit={handleSubmit}
+      onResend={handleResend}
     />
   );
 }

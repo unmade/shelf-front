@@ -71,7 +71,7 @@ export default function OTPForm({ email, resending, submitting, onResend, onSubm
   };
 
   return (
-    <div className="text-center">
+    <div className="text-center text-gray-700 dark:text-zinc-200">
       <div className="text-2xl font-semibold">Email verification</div>
       <div className="mt-2">
         We&apos;ve sent a code to{' '}

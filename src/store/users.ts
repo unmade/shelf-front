@@ -72,12 +72,14 @@ export const usersApi = apiSlice.injectEndpoints({
         method: 'POST',
       }),
     }),
+
     verifyEmail: builder.mutation<{ verified: boolean }, string>({
       query: (code) => ({
         url: '/users/verify_email',
         method: 'POST',
         body: { code },
       }),
+      invalidatesTags: [{ type: 'Accounts', id: 'getCurrentAccount' }],
     }),
   }),
 });
