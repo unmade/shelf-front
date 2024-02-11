@@ -5,15 +5,37 @@ interface ICurrentAccountSchema {
   id: string;
   username: string;
   email: string | null;
-  email_verified: boolean;
   display_name: string;
+  verified: boolean;
   superuser: boolean;
 }
 
 const accountsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    changeEmailComplete: builder.mutation<{ completed: boolean }, string>({
+      query: (code) => ({
+        url: '/accounts/change_email/complete',
+        method: 'POST',
+        body: { code },
+      }),
+      invalidatesTags: [{ type: 'Accounts', id: 'getCurrentAccount' }],
+    }),
+    changeEmailResendCode: builder.mutation<undefined, undefined>({
+      query: () => ({
+        url: '/accounts/change_email/resend_code',
+        method: 'POST',
+      }),
+    }),
+    changeEmailStart: builder.mutation<undefined, string>({
+      query: (email) => ({
+        url: '/accounts/change_email/start',
+        method: 'POST',
+        body: { email },
+      }),
+    }),
     getCurrentAccount: builder.query<ICurrentAccountSchema, undefined>({
       query: () => 'accounts/get_current',
+      providesTags: [{ type: 'Accounts', id: 'getCurrentAccount' }],
     }),
     getSpaceUsage: builder.query({
       query: () => '/accounts/get_space_usage',
@@ -21,10 +43,18 @@ const accountsApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetCurrentAccountQuery, useGetSpaceUsageQuery } = accountsApi;
+export const {
+  useChangeEmailCompleteMutation,
+  useChangeEmailStartMutation,
+  useChangeEmailResendCodeMutation,
+  useGetCurrentAccountQuery,
+  useGetSpaceUsageQuery,
+} = accountsApi;
 
 export const selectGetCurrentAccountResult =
   accountsApi.endpoints.getCurrentAccount.select(undefined);
+
+export const selectCurrentAccount = (state: RootState) => selectGetCurrentAccountResult(state).data;
 
 export const selectIsAdmin = (state: RootState) =>
   selectGetCurrentAccountResult(state).data?.superuser ?? false;

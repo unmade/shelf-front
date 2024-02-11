@@ -39,13 +39,7 @@ export default function ResendButton({ debounce = 60, disabled, loading, onClick
   };
 
   return (
-    <Button
-      variant="text"
-      className="text-indigo-600 dark:text-indigo-400"
-      loading={loading}
-      disabled={disabled || clicked}
-      onClick={handleClick}
-    >
+    <Button variant="text" loading={loading} disabled={disabled || clicked} onClick={handleClick}>
       Resend code{secondsLeft ? ` in ${secondsLeft} seconds` : ''}
     </Button>
   );

@@ -7,11 +7,14 @@ import { Dialog as UIDialog, Transition } from '@headlessui/react';
 
 import Button from './Button';
 
+const defaultOnCancel = () => {};
+
 function Dialog({
   children,
   confirmDanger,
   confirmLoading,
   confirmTitle,
+  hideActions,
   icon,
   title,
   visible,
@@ -32,7 +35,7 @@ function Dialog({
         className="fixed inset-0 z-10 overflow-y-auto"
         static
         open={visible}
-        onClose={onCancel}
+        onClose={onCancel ?? defaultOnCancel}
       >
         <div className="flex min-h-svh items-end justify-center px-4 pb-20 pt-4 text-center lg:block lg:p-0">
           <Transition.Child
@@ -81,11 +84,11 @@ function Dialog({
                 </div>
               </div>
 
-              {(onCancel !== null || onConfirm !== null || RenderConfirm !== null) && (
+              {!hideActions && (
                 <div className="bg-gray-100 px-4 py-3 dark:bg-zinc-700/30 lg:flex lg:flex-row-reverse lg:px-6">
-                  {(onConfirm !== null || RenderConfirm !== null) && (
+                  {(onConfirm != null || RenderConfirm != null) && (
                     <div className="w-full lg:ml-3 lg:w-auto">
-                      {onConfirm !== null && (
+                      {onConfirm != null && (
                         <Button
                           className="rounded-xl"
                           variant="primary"
@@ -99,7 +102,6 @@ function Dialog({
                       )}
                       {RenderConfirm &&
                         (isValidElement(RenderConfirm) ? RenderConfirm : <RenderConfirm />)}
-                      {/* {RenderConfirm !== null && <RenderConfirm />} */}
                     </div>
                   )}
                   {onCancel && (
@@ -124,12 +126,13 @@ Dialog.propTypes = {
   confirmDanger: PropTypes.bool,
   confirmLoading: PropTypes.bool,
   confirmTitle: PropTypes.string,
+  hideActions: PropTypes.bool,
   icon: PropTypes.element,
   title: PropTypes.string.isRequired,
   visible: PropTypes.bool,
   confirmRender: PropTypes.oneOfType([PropTypes.element, PropTypes.elementType]),
   onConfirm: PropTypes.func,
-  onCancel: PropTypes.func,
+  onCancel: PropTypes.func.isRequired,
 };
 
 Dialog.defaultProps = {
@@ -137,11 +140,11 @@ Dialog.defaultProps = {
   confirmDanger: false,
   confirmLoading: false,
   confirmTitle: 'OK',
+  hideActions: false,
   icon: null,
   visible: false,
   confirmRender: null,
   onConfirm: null,
-  onCancel: null,
 };
 
 export default Dialog;

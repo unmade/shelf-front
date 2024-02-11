@@ -46,3 +46,6 @@ export const selectPhotosLibraryPath = (state: RootState) =>
 
 export const selectFeatureUploadFileMaxSize: Selector<RootState, number> = (state) =>
   selectFeatureValue(state, 'upload_file_max_size') as number;
+
+export const selectFeatureVerificationRequired = (state: RootState) =>
+  selectFeatureValue(state, 'verification_required') as boolean;
