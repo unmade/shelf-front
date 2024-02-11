@@ -10,6 +10,11 @@ export const DUPLICATES = {
   route: '/duplicates/*',
 };
 
+export const EMAIL_VERIFICATION = {
+  prefix: '/email-verification',
+  route: '/email-verification/*',
+};
+
 export const FILES = {
   prefix: '/files',
   route: '/files/*',

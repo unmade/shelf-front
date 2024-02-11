@@ -23,7 +23,7 @@ export default function SignUpFormContainer() {
     } catch (err) {
       return;
     }
-    navigate(routes.FILES.prefix);
+    navigate(routes.EMAIL_VERIFICATION.prefix);
   };
 
   return <SignUpForm onSubmit={onSubmit} loading={loading} />;
