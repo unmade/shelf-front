@@ -2,8 +2,8 @@ import React, { createContext, useCallback, useContext, useMemo, useState } from
 
 import { useGetCurrentAccountQuery } from 'store/accounts';
 
-import UpdateEmailDialog from 'components/UpdateEmailDialog';
-import VerifyEmailDialog from 'components/VerifyEmailDialog';
+import ChangeEmailDialog from 'components/EmailChangeDialog';
+import VerifyEmailDialog from 'components/EmailVerifyDialog';
 
 interface ContextValue {
   openDialog: () => void;
@@ -45,7 +45,7 @@ export default function VerifyAccountDialogProvider({ children }: Props) {
 
   return (
     <Context.Provider value={value}>
-      {!email && <UpdateEmailDialog visible={visible} onClose={closeDialog} />}
+      {!email && <ChangeEmailDialog visible={visible} onClose={closeDialog} />}
       {email && !verified && <VerifyEmailDialog visible={visible} onClose={closeDialog} />}
       {children}
     </Context.Provider>

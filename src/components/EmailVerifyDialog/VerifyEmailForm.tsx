@@ -4,9 +4,12 @@ import { useNavigate } from 'react-router-dom';
 
 import * as routes from 'routes';
 
-import { useGetCurrentAccountQuery } from 'store/accounts';
+import {
+  useGetCurrentAccountQuery,
+  useVerifyEmailCompleteMutation,
+  useVerifyEmailSendCodeMutation,
+} from 'store/accounts';
 import { addToast } from 'store/toasts';
-import { useSendEmailVerificationCodeMutation, useVerifyEmailMutation } from 'store/users';
 
 import { useAppDispatch } from 'hooks';
 
@@ -27,8 +30,8 @@ export default function VerifyEmailForm({ onSubmit }: Props) {
     }),
   });
 
-  const [sendCode, { isLoading: resending }] = useSendEmailVerificationCodeMutation();
-  const [verifyEmail, { isLoading: submitting }] = useVerifyEmailMutation();
+  const [sendCode, { isLoading: resending }] = useVerifyEmailSendCodeMutation();
+  const [verifyEmail, { isLoading: submitting }] = useVerifyEmailCompleteMutation();
 
   if (verified) {
     navigate(routes.PHOTOS.prefix);
