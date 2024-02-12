@@ -22,7 +22,7 @@ const initialState: State = {
   verifyEmailStep: 'todo',
 };
 
-export default function UpdateEmailDialog({ visible, onClose }: Props) {
+export default function ChangeEmailDialog({ visible, onClose }: Props) {
   const [state, setState] = useState<State>(initialState);
 
   const onSetEmail = useCallback(

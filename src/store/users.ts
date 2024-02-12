@@ -66,31 +66,11 @@ export const usersApi = apiSlice.injectEndpoints({
         }
       },
     }),
-    sendEmailVerificationCode: builder.mutation<undefined, undefined>({
-      query: () => ({
-        url: '/users/send_email_verification_code',
-        method: 'POST',
-      }),
-    }),
-
-    verifyEmail: builder.mutation<{ verified: boolean }, string>({
-      query: (code) => ({
-        url: '/users/verify_email',
-        method: 'POST',
-        body: { code },
-      }),
-      invalidatesTags: [{ type: 'Accounts', id: 'getCurrentAccount' }],
-    }),
   }),
 });
 
-export const {
-  useAddBookmarkMutation,
-  useListBookmarksQuery,
-  useRemoveBookmarkMutation,
-  useSendEmailVerificationCodeMutation,
-  useVerifyEmailMutation,
-} = usersApi;
+export const { useAddBookmarkMutation, useListBookmarksQuery, useRemoveBookmarkMutation } =
+  usersApi;
 
 const selectBookmarksFromResult = usersApi.endpoints.listBookmarks.select(undefined);
 const empty = new Set();

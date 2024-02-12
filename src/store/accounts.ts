@@ -40,6 +40,20 @@ const accountsApi = apiSlice.injectEndpoints({
     getSpaceUsage: builder.query({
       query: () => '/accounts/get_space_usage',
     }),
+    verifyEmailComplete: builder.mutation<{ verified: boolean }, string>({
+      query: (code) => ({
+        url: '/accounts/verify_email/complete',
+        method: 'POST',
+        body: { code },
+      }),
+      invalidatesTags: [{ type: 'Accounts', id: 'getCurrentAccount' }],
+    }),
+    verifyEmailSendCode: builder.mutation<undefined, undefined>({
+      query: () => ({
+        url: '/accounts/verify_email/send_code',
+        method: 'POST',
+      }),
+    }),
   }),
 });
 
@@ -49,6 +63,8 @@ export const {
   useChangeEmailResendCodeMutation,
   useGetCurrentAccountQuery,
   useGetSpaceUsageQuery,
+  useVerifyEmailCompleteMutation,
+  useVerifyEmailSendCodeMutation,
 } = accountsApi;
 
 export const selectGetCurrentAccountResult =
