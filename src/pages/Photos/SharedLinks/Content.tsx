@@ -1,11 +1,10 @@
 import React from 'react';
 
-import * as icons from 'icons';
-
 import { useListMediaItemSharedLinksQuery } from 'store/photos';
 
-import Empty from 'components/ui/Empty';
 import Spinner from 'components/ui/Spinner';
+
+import Empty from 'components/photos/Empty';
 
 import SharedLinkList from './SharedLinkList';
 
@@ -20,12 +19,10 @@ export default function Content() {
   const empty = ids?.length === 0 && !loading;
   if (empty) {
     return (
-      <div className="flex h-full justify-center">
-        <Empty
-          icon={<icons.LinkOutlined className="h-12 w-12 text-gray-400 dark:text-zinc-500" />}
-          title="Files shared via link will appear here"
-        />
-      </div>
+      <Empty
+        title="No shared photos yet!"
+        description="All the photos you've shared will appear on that page"
+      />
     );
   }
 

@@ -1,15 +1,13 @@
 import React from 'react';
 
-import * as icons from 'icons';
-
 import {
   selectDeletedMediaItemById as selectById,
   useListDeletedMediaItemsQuery,
 } from 'store/photos';
 
-import Empty from 'components/ui/Empty';
 import Spinner from 'components/ui/Spinner';
 
+import Empty from 'components/photos/Empty';
 import MediaItemGridView from 'components/photos/MediaItemGridView';
 
 export default function Content() {
@@ -24,10 +22,7 @@ export default function Content() {
   if (empty) {
     return (
       <div className="flex h-full justify-center">
-        <Empty
-          icon={<icons.TrashOutlined className="h-12 w-12 text-gray-400 dark:text-zinc-500" />}
-          title="Deleted media items will appear here"
-        />
+        <Empty title="Trash bin" description="All your deleted photos appear here" />
       </div>
     );
   }

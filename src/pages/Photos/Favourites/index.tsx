@@ -24,6 +24,7 @@ export default function Favourites() {
         <div className="h-full">
           <PageHeader>
             <PageHeader.Title>Favourites</PageHeader.Title>
+            <PageHeader.Actions />
           </PageHeader>
 
           <div className="h-full w-full" style={contentStyle}>
