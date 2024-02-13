@@ -38,9 +38,11 @@ function rootReducer(state, action) {
 const ignoredErrorCodes = new Set([
   422,
   'EMAIL_ALREADY_TAKEN',
+  'EMAIL_UPDATE_LIMIT_REACHED',
   'CONTENT_METADATA_NOT_FOUND',
   'INVALID_TOKEN',
   'MISSING_TOKEN',
+  'OTP_CODE_ALREADY_SENT',
   'SHARED_LINK_NOT_FOUND',
 ]);
 

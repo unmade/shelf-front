@@ -19,6 +19,7 @@ export const featuresApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     listFeatures: builder.query<EntityState<Feature>, undefined>({
       query: () => '/features/list',
+      keepUnusedDataFor: Number.MAX_SAFE_INTEGER,
       transformResponse: (rawResult: { items: Feature[] }) =>
         featuresAdapter.setAll(initialState, rawResult.items),
     }),

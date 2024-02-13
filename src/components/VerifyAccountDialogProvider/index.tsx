@@ -35,9 +35,9 @@ export default function VerifyAccountDialogProvider({ children }: Props) {
     setState({ visible: true });
   }, [setState]);
 
-  const closeDialog = () => {
+  const closeDialog = useCallback(() => {
     setState(initialState);
-  };
+  }, [setState]);
 
   const { visible } = state;
 
@@ -45,8 +45,8 @@ export default function VerifyAccountDialogProvider({ children }: Props) {
 
   return (
     <Context.Provider value={value}>
-      {!email && <ChangeEmailDialog visible={visible} onClose={closeDialog} />}
-      {email && !verified && <VerifyEmailDialog visible={visible} onClose={closeDialog} />}
+      <ChangeEmailDialog visible={visible && !email} onClose={closeDialog} />
+      <VerifyEmailDialog visible={visible && !!email && !verified} onClose={closeDialog} />
       {children}
     </Context.Provider>
   );

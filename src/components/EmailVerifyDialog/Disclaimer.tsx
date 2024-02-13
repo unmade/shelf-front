@@ -16,14 +16,20 @@ export default function EmailVerificationDisclaimer({ onSkip, onSubmit }: Props)
       await sendCode(undefined).unwrap();
       onSubmit();
     } catch (err) {
-      // empty
+      const {
+        // @ts-expect-error no annotation for error
+        data: { code },
+      } = err;
+      if (code === 'OTP_CODE_ALREADY_SENT') {
+        onSubmit();
+      }
     }
   };
 
   return (
     <div className="text-center text-gray-700 dark:text-zinc-200 lg:min-w-80">
       <div className="text-2xl font-semibold">Email verification</div>
-      <div className="mt-2">Verify your email to access all features</div>
+      <div className="mt-2">Verify your email address to access all features</div>
 
       <div className="mt-6 space-y-6 text-left">
         <div className="w-full px-9">

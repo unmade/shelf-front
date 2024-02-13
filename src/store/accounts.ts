@@ -1,7 +1,7 @@
 import apiSlice from './apiSlice';
 import { RootState } from './store';
 
-interface ICurrentAccountSchema {
+export interface ICurrentAccountSchema {
   id: string;
   username: string;
   email: string | null;
@@ -10,15 +10,35 @@ interface ICurrentAccountSchema {
   superuser: boolean;
 }
 
+interface ChangeEmailCompleteArg {
+  email: string;
+  code: string;
+}
+
 const accountsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    changeEmailComplete: builder.mutation<{ completed: boolean }, string>({
-      query: (code) => ({
+    changeEmailComplete: builder.mutation<{ completed: boolean }, ChangeEmailCompleteArg>({
+      query: ({ code }) => ({
         url: '/accounts/change_email/complete',
         method: 'POST',
         body: { code },
       }),
-      invalidatesTags: [{ type: 'Accounts', id: 'getCurrentAccount' }],
+      async onQueryStarted({ email }, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          if (data.completed) {
+            dispatch(
+              accountsApi.util.updateQueryData('getCurrentAccount', undefined, (draft) => ({
+                ...draft,
+                email,
+                verified: true,
+              })),
+            );
+          }
+        } catch (err) {
+          // empty
+        }
+      },
     }),
     changeEmailResendCode: builder.mutation<undefined, undefined>({
       query: () => ({
@@ -40,13 +60,27 @@ const accountsApi = apiSlice.injectEndpoints({
     getSpaceUsage: builder.query({
       query: () => '/accounts/get_space_usage',
     }),
-    verifyEmailComplete: builder.mutation<{ verified: boolean }, string>({
+    verifyEmailComplete: builder.mutation<{ completed: boolean }, string>({
       query: (code) => ({
         url: '/accounts/verify_email/complete',
         method: 'POST',
         body: { code },
       }),
-      invalidatesTags: [{ type: 'Accounts', id: 'getCurrentAccount' }],
+      async onQueryStarted(code, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          if (data.completed) {
+            dispatch(
+              accountsApi.util.updateQueryData('getCurrentAccount', undefined, (draft) => ({
+                ...draft,
+                verified: true,
+              })),
+            );
+          }
+        } catch (err) {
+          // empty
+        }
+      },
     }),
     verifyEmailSendCode: builder.mutation<undefined, undefined>({
       query: () => ({

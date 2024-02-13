@@ -20,7 +20,7 @@ export default function VerifyEmailForm({ email, onSubmit }: Props) {
 
   const handleSubmit = async (code: string) => {
     try {
-      const { completed } = await complete(code).unwrap();
+      const { completed } = await complete({ email, code }).unwrap();
       if (completed) {
         onSubmit();
       } else {
@@ -35,12 +35,23 @@ export default function VerifyEmailForm({ email, onSubmit }: Props) {
       /* empty */
     }
   };
+
   const handleResend = async () => {
     try {
       await resendCode(undefined).unwrap();
       onSubmit();
     } catch (err) {
-      /* empty */
+      // @ts-expect-error no annotation for error
+      const { data } = err;
+      if (data.code === 'OTP_CODE_ALREADY_SENT') {
+        dispatch(
+          addToast({
+            title: 'OTP code sent',
+            description:
+              'Use code that was sent to you or wait until it expire and request a new one',
+          }),
+        );
+      }
     }
   };
 

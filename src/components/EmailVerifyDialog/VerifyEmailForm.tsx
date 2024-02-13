@@ -39,8 +39,8 @@ export default function VerifyEmailForm({ onSubmit }: Props) {
 
   const handleSubmit = async (code: string) => {
     try {
-      const { verified: success } = await verifyEmail(code).unwrap();
-      if (success) {
+      const { completed } = await verifyEmail(code).unwrap();
+      if (completed) {
         onSubmit();
       } else {
         dispatch(

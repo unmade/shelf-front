@@ -51,13 +51,16 @@ export default function SetEmailForm({ onSubmit, onSkip }: Props) {
       if (code === 'EMAIL_ALREADY_TAKEN') {
         setError('Account with that email already exists');
       }
+      if (code === 'EMAIL_UPDATE_LIMIT_REACHED') {
+        setError('Please wait at least 6 hours before changing email again');
+      }
     }
   };
 
   return (
     <div className="text-center text-gray-700 dark:text-zinc-200 lg:min-w-80">
       <div className="text-2xl font-semibold">Email verification</div>
-      <div className="mt-2">Verify your email to access all features</div>
+      <div className="mt-2">Verify your email address to access all features</div>
 
       <form className="mt-6 space-y-6 text-left" onSubmit={handleSubmit}>
         <Input
