@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
+import { useAppSelector } from 'hooks';
 import * as icons from 'icons';
+
+import { selectIsUploading } from 'store/uploads/slice';
 
 import Button from 'components/ui/Button';
 
@@ -13,6 +16,14 @@ interface Props {
 
 export default function UploaderDialog({ allowedMediaTypes, uploadTo }: Props) {
   const [visible, setVisible] = React.useState(false);
+
+  const uploading = useAppSelector(selectIsUploading);
+
+  useEffect(() => {
+    if (uploading && !visible) {
+      setVisible(true);
+    }
+  }, [uploading]);
 
   return (
     <>
