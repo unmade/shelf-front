@@ -204,8 +204,7 @@ async function uploadFile(upload, fileObj, { dispatch, getState }) {
       'Content-Type': 'multipart/form-data',
       'X-Request-ID': nanoid(),
     },
-    onUploadProgress: (progressEvent) => {
-      const progress = progressEvent.loaded / progressEvent.total;
+    onUploadProgress: ({ progress }) => {
       const progressCeiled = Math.ceil(100 * progress);
       if (progressCeiled !== prevProgressCeiled) {
         dispatch(uploadProgressed({ upload, progress: progressCeiled }));

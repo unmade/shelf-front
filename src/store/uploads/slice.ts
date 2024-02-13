@@ -1,10 +1,4 @@
-import {
-  combineReducers,
-  createAction,
-  createEntityAdapter,
-  createSelector,
-  createSlice,
-} from '@reduxjs/toolkit';
+import { createAction, createEntityAdapter, createSelector, createSlice } from '@reduxjs/toolkit';
 import { shallowEqual } from 'react-redux';
 
 import { RootState } from 'store/store';
@@ -45,6 +39,8 @@ const uploadsSlice = createSlice({
   },
 });
 
+export default uploadsSlice.reducer;
+
 export const { uploadsAdded, uploadProgressed, uploadFulfilled, uploadRejected } =
   uploadsSlice.actions;
 
@@ -52,7 +48,7 @@ export const {
   selectById: selectUploadById,
   selectIds: selectUploadIds,
   selectAll: selectAllUploads,
-} = uploadsAdapter.getSelectors((state: RootState) => state.uploads.uploads);
+} = uploadsAdapter.getSelectors((state: RootState) => state.uploads);
 
 export const selectVisibleUploads = createSelector(
   selectAllUploads,
@@ -86,29 +82,10 @@ export const selectVisibleUploadsLength = (state: RootState, filter: UploadsFilt
 export const selectIsUploading = (state: RootState) =>
   selectVisibleUploadsLength(state, 'inProgress') > 0;
 
-const totalProgressSlice = createSlice({
-  name: 'progress',
-  initialState: { uploadsCount: 0, totalProgress: 0, finished: 0 },
-  reducers: {},
-  extraReducers: (builder) => {
-    builder.addCase(uploadsAdded, (state, action) => {
-      const { uploads } = action.payload;
-      state.uploadsCount += uploads.length;
-    });
-    builder.addCase(uploadProgressed, (state, action) => {
-      const { progress } = action.payload;
-      state.totalProgress += progress;
-      if (progress === 100) {
-        state.finished += 1;
-      }
-    });
-  },
-});
-
-export const selectUploadsTotalProgress = (state: RootState) =>
-  Math.floor(state.uploads.progress.totalProgress / state.uploads.progress.uploadsCount);
-
-export default combineReducers({
-  [uploadsSlice.name]: uploadsSlice.reducer,
-  [totalProgressSlice.name]: totalProgressSlice.reducer,
-});
+export const selectUploadsTotalProgress = createSelector(
+  [
+    (state) => selectAllUploads(state).reduce((acc, upload) => acc + upload.progress, 0),
+    (state) => selectUploadIds(state).length,
+  ],
+  (totalProgress, uploadsCount) => Math.floor(totalProgress / uploadsCount),
+);
