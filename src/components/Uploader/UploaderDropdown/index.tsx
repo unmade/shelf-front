@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import * as icons from 'icons';
 
 import { useAppSelector } from 'hooks';
 
-import { selectIsUploading, selectVisibleUploadsLength } from 'store/uploads/slice';
+import { selectIsUploading } from 'store/uploads/slice';
 
 import Dropdown from 'components/ui/Dropdown';
 import Button from 'components/ui/Button';
@@ -27,15 +27,14 @@ export default function UploaderDropdown({ allowedMediaTypes = undefined, upload
   const [open, setOpen] = useState(false);
 
   const uploading = useAppSelector(selectIsUploading);
-  const uploadCounter = useAppSelector((state) => selectVisibleUploadsLength(state, 'all'));
 
   const buttonRef = React.useRef<HTMLDivElement>();
 
-  React.useEffect(() => {
-    if (uploadCounter > 0 && !open) {
+  useEffect(() => {
+    if (uploading && !open) {
       buttonRef.current?.click();
     }
-  }, [uploadCounter]);
+  }, [uploading]);
 
   return (
     <Dropdown
