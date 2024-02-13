@@ -1,8 +1,10 @@
 import React from 'react';
 
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 
 import * as icons from 'icons';
+import * as routes from 'routes';
 
 import usePrefersColorScheme from 'hooks/prefers-color-scheme';
 
@@ -26,6 +28,16 @@ export default function OTPVerification() {
             <div className="mt-6">
               <OTPFormContainer />
             </div>
+          </div>
+          <div className="mt-6 w-full text-gray-700 dark:text-zinc-200">
+            <p className="text-center text-sm">
+              <Link
+                to={routes.PHOTOS.route}
+                className="inline-flex items-center space-x-1 font-medium text-indigo-600 dark:text-indigo-400"
+              >
+                Skip for now
+              </Link>
+            </p>
           </div>
         </div>
       </div>

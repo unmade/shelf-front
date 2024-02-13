@@ -5,12 +5,19 @@ import Button from 'components/ui/Button';
 interface Props {
   debounce?: number;
   disabled: boolean;
+  initialDebounce?: boolean;
   loading: boolean;
   onClick: () => void;
 }
 
-export default function ResendButton({ debounce = 60, disabled, loading, onClick }: Props) {
-  const [clicked, setClicked] = useState(false);
+export default function ResendButton({
+  debounce = 60,
+  disabled,
+  initialDebounce = true,
+  loading,
+  onClick,
+}: Props) {
+  const [clicked, setClicked] = useState(initialDebounce);
   const [secondsLeft, setSecondsLeft] = useState(0);
 
   useEffect(() => {

@@ -6,11 +6,11 @@ import { useSelector } from 'react-redux';
 import { selectPhotosLibraryPath } from 'store/features';
 
 import CopyLinkDialogProvider from 'components/CopyLinkDialogProvider';
-import EmailVerificationDialogProvider from 'components/VerifyAccountDialogProvider';
 import FileDrop from 'components/FileDrop';
 import PageHeader from 'components/PageHeader';
 import SearchButton from 'components/SearchButton';
 import Uploader from 'components/Uploader';
+import VerifyAccountDialogProvider from 'components/VerifyAccountDialogProvider';
 
 import DeleteMediaItemsDialogProvider from 'components/photos/DeleteMediaItemsDialogProvider';
 
@@ -28,9 +28,9 @@ export default function Stream() {
   const libraryPath = useSelector(selectPhotosLibraryPath);
 
   return (
-    <CopyLinkDialogProvider>
-      <DeleteMediaItemsDialogProvider>
-        <EmailVerificationDialogProvider>
+    <VerifyAccountDialogProvider>
+      <CopyLinkDialogProvider>
+        <DeleteMediaItemsDialogProvider>
           <Helmet>
             <title>Shelf Photos</title>
           </Helmet>
@@ -63,8 +63,8 @@ export default function Stream() {
               )}
             />
           </div>
-        </EmailVerificationDialogProvider>
-      </DeleteMediaItemsDialogProvider>
-    </CopyLinkDialogProvider>
+        </DeleteMediaItemsDialogProvider>
+      </CopyLinkDialogProvider>
+    </VerifyAccountDialogProvider>
   );
 }

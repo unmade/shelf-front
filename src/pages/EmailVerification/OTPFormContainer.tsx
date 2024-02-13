@@ -35,7 +35,7 @@ export default function OTPFormContainer() {
 
   const onSubmit = async (code: string) => {
     try {
-      const { verified: success } = await verifyEmail(code).unwrap();
+      const { completed: success } = await verifyEmail(code).unwrap();
       if (success) {
         navigate(routes.PHOTOS.prefix);
       } else {
@@ -50,11 +50,22 @@ export default function OTPFormContainer() {
       /* empty */
     }
   };
+
   const onResend = async () => {
     try {
       await sendCode(undefined).unwrap();
     } catch (err) {
-      /* empty */
+      // @ts-expect-error no annotation for error
+      const { data } = err;
+      if (data.code === 'OTP_CODE_ALREADY_SENT') {
+        dispatch(
+          addToast({
+            title: 'OTP code sent',
+            description:
+              'Use code that was sent to you or wait until it expires and request a new one',
+          }),
+        );
+      }
     }
   };
 

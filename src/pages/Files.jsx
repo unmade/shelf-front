@@ -18,28 +18,31 @@ import CreateFolderDialogProvider, {
   useCreateFolderDialog,
 } from '../components/CreateFolderDialogProvider';
 import DeleteDialogProvider from '../components/DeleteDialogProvider';
+import FileDrop from '../components/FileDrop';
 import GoBackButton from '../components/GoBackButton';
 import MoveDialogProvider from '../components/MoveDialogProvider';
 import PageHeader from '../components/PageHeader';
 import RenameFileDialogProvider from '../components/RenameFileDialogProvider';
 import SearchButton from '../components/SearchButton';
 import Uploader from '../components/Uploader';
+import VerifyAccountDialogProvider from '../components/VerifyAccountDialogProvider';
 
 import BrowserContainer from '../containers/BrowserContainer';
-import FileDrop from '../containers/FileDrop';
 import FilePreviewContainer from '../containers/FilePreviewContainer';
 
 function DialogsProvider({ children }) {
   return (
-    <CopyLinkDialogProvider>
-      <CreateFolderDialogProvider>
-        <DeleteDialogProvider>
-          <MoveDialogProvider>
-            <RenameFileDialogProvider>{children}</RenameFileDialogProvider>
-          </MoveDialogProvider>
-        </DeleteDialogProvider>
-      </CreateFolderDialogProvider>
-    </CopyLinkDialogProvider>
+    <VerifyAccountDialogProvider>
+      <CopyLinkDialogProvider>
+        <CreateFolderDialogProvider>
+          <DeleteDialogProvider>
+            <MoveDialogProvider>
+              <RenameFileDialogProvider>{children}</RenameFileDialogProvider>
+            </MoveDialogProvider>
+          </DeleteDialogProvider>
+        </CreateFolderDialogProvider>
+      </CopyLinkDialogProvider>
+    </VerifyAccountDialogProvider>
   );
 }
 

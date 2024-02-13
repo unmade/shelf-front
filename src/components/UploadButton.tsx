@@ -1,10 +1,14 @@
 import React, { useRef } from 'react';
 
-import { useAppDispatch } from 'hooks';
+import { useAppDispatch, useAppSelector } from 'hooks';
 
-import { fileEntriesAdded } from '../store/uploads/slice';
+import { selectCurrentAccount } from 'store/accounts';
+import { selectFeatureVerificationRequired } from 'store/features';
+import { fileEntriesAdded } from 'store/uploads/slice';
 
-import Button from './ui/Button';
+import Button from 'components/ui/Button';
+
+import { useVerifyAccountDialog } from 'components/VerifyAccountDialogProvider';
 
 interface Props {
   children: React.ReactNode;
@@ -27,9 +31,18 @@ export default function UploadButton({
 
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const account = useAppSelector(selectCurrentAccount)!;
+  const verificationRequired = useAppSelector(selectFeatureVerificationRequired);
+
+  const { openDialog } = useVerifyAccountDialog();
+
   const openUpload = (event: React.FormEvent) => {
     event.preventDefault();
-    inputRef.current?.click();
+    if (verificationRequired && !account.verified) {
+      openDialog();
+    } else {
+      inputRef.current?.click();
+    }
   };
 
   const setUploadFiles = (event: React.ChangeEvent<HTMLInputElement>) => {
