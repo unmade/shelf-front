@@ -15,12 +15,14 @@ export default function OTPInput({ error, innerRef, onChange, onKeyDown }: Props
   return (
     <input
       ref={innerRef}
+      className={`h-12 w-12 appearance-none rounded-lg p-2 text-center text-gray-800 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-400 ${borderColor}`}
+      inputMode="numeric"
+      type="text"
+      pattern="[0-9]*"
+      minLength={1}
       maxLength={1}
       min="1"
-      minLength={1}
       max="1"
-      className={`h-12 w-12 appearance-none rounded-lg p-2 text-center text-gray-800 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-400 ${borderColor}`}
-      type="text"
       onChange={onChange}
       onKeyDown={onKeyDown}
     />
