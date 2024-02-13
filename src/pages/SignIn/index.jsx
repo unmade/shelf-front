@@ -2,11 +2,10 @@ import React from 'react';
 
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 
 import { Link } from 'react-router-dom';
 
-import { selectFeatureValue } from '../../store/features';
+import { useListFeaturesQuery } from '../../store/features';
 
 import * as icons from '../../icons';
 import * as routes from '../../routes';
@@ -20,7 +19,13 @@ function SignIn() {
 
   usePrefersColorScheme();
 
-  const signUpDisabled = useSelector((state) => selectFeatureValue(state, 'sign_up_disabled'));
+  // use useQuery because after sign out the store is completely empty and we need to re-fetch
+  // features.
+  const { entities } = useListFeaturesQuery(undefined, {
+    selectFromResult: ({ data }) => ({ entities: data?.entities ?? {} }),
+  });
+
+  const signUpDisabled = entities.sign_up_disabled?.value;
 
   return (
     <>
