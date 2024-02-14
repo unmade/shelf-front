@@ -4,7 +4,7 @@ import { matchPath } from 'react-router-dom';
 import { Mutex } from 'async-mutex';
 import axios from 'axios';
 
-import { MediaType, REFRESH_ACCESS_TOKEN_ON_UPLOAD_DELTA } from '../../constants';
+import { MediaType, MEDIA_TYPE_EXT, REFRESH_ACCESS_TOKEN_ON_UPLOAD_DELTA } from '../../constants';
 import * as routes from '../../routes';
 
 import apiSlice, { API_BASE_URL } from '../apiSlice';
@@ -22,6 +22,11 @@ import { mediaItemsAdapter } from '../photos';
 import { uploadsAdded, uploadRejected, uploadFulfilled, uploadProgressed } from './slice';
 
 const mutex = new Mutex();
+
+function hasExtension(name, extensions) {
+  const lowerCasedName = name.toLowerCase();
+  return extensions.some((extension) => lowerCasedName.endsWith(extension));
+}
 
 async function normalize(file, uploadTo, maxUploadSize, allowedMediaTypes) {
   const upload = {
@@ -58,7 +63,12 @@ async function normalize(file, uploadTo, maxUploadSize, allowedMediaTypes) {
   upload.mtime = fileObj.lastModified;
 
   if (allowedMediaTypes) {
-    if (!allowedMediaTypes.includes(upload.mediatype)) {
+    if (!upload.mediatype) {
+      const extensions = allowedMediaTypes.map((type) => MEDIA_TYPE_EXT[type]).flat();
+      if (!hasExtension(upload.name, extensions)) {
+        upload.error = { code: 'unsupportedMediaType' };
+      }
+    } else if (!allowedMediaTypes.includes(upload.mediatype)) {
       upload.error = { code: 'unsupportedMediaType' };
     }
   }

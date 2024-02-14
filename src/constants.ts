@@ -44,6 +44,19 @@ export const MediaType = {
   },
 };
 
+export const MEDIA_TYPE_EXT = {
+  'image/bmp': ['.bmp'],
+  'image/gif': ['.gif'],
+  'image/heic': ['.heic', '.heif'],
+  'image/heif': ['.heic', '.heif'],
+  'image/jpeg': ['.jpeg', '.jpg'],
+  'image/png': ['.png'],
+  'image/svg+xml': ['.svg'],
+  'image/tiff': ['.tiff'],
+  'image/webp': ['.webp'],
+  'image/x-icon': ['.ico'],
+};
+
 export const ThumbnailSize = {
   xs: 'xs',
   lg: 'lg',
