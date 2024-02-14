@@ -18,28 +18,36 @@ export default function Dropzone({
   onDrop,
 }: DropzoneProps) {
   const [dragging, setDragging] = useState(false);
+  const dragCounter = useRef(0);
 
-  const dropRef = useRef<HTMLDivElement>(null);
-
-  const handleDragOver = (event: React.DragEvent<HTMLElement>) => {
-    event.preventDefault();
-    event.stopPropagation();
-    if (event.target !== dropRef.current) {
+  const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dragCounter.current += 1;
+    if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
       setDragging(true);
     }
   };
 
-  const handleDragLeave = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    event.stopPropagation();
-    if (dropRef.current?.contains(event.relatedTarget as Node)) {
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dragCounter.current -= 1;
+    if (dragCounter.current < 1) {
       setDragging(false);
     }
   };
 
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
   const handleDrop = async (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    setDragging(false);
+    if (dragging) {
+      setDragging(false);
+    }
 
     const { items } = event.dataTransfer;
     const files = await getFileEntries(items);
@@ -50,13 +58,14 @@ export default function Dropzone({
 
   return (
     <div
+      onDragEnter={handleDragEnter}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       className={className}
       style={style}
     >
-      <View innerRef={dropRef} dragging={dragging} />
+      <View dragging={dragging} />
     </div>
   );
 }
