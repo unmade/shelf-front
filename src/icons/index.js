@@ -13,6 +13,7 @@ import AppLogoIcon from './AppLogo';
 import FolderSolid from './FolderIcon';
 import HeartOutlinedIcon from './HeartOutlinedIcon';
 import HeartSolidIcon from './HeartSolidIcon';
+import PhotoAppIcon from './PhotoAppIcon';
 import SharedFolderSolid from './SharedFolderIcon';
 import UsersOutlinedIcon from './UsersOutlinedIcon';
 
@@ -71,6 +72,7 @@ export const MoonOutlined = hiOutline.MoonIcon;
 export const More = hiSolid.DotsHorizontalIcon;
 export const MoreOutlined = hiOutline.DotsHorizontalIcon;
 export const Move = hiOutline.DocumentDuplicateIcon;
+export const PhotoApp = PhotoAppIcon;
 export const PhotographOutlined = hiOutline.PhotographIcon;
 export const Plus = hiSolid.PlusIcon;
 export const Redo = hiOutline.RefreshIcon;

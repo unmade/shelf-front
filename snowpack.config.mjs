@@ -42,6 +42,7 @@ export default {
     /* ... */
   },
   env: {
+    AVAILABLE_APPS: 'files,photos',
     TRASH_FOLDER_NAME: 'Trash',
   },
 };

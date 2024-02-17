@@ -30,7 +30,7 @@ function SignInFormContainer() {
     if (redirectUrl) {
       navigate(redirectUrl);
     } else {
-      navigate(routes.FILES.prefix);
+      navigate(routes.PHOTOS.prefix);
     }
   };
 

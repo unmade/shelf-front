@@ -2,17 +2,17 @@ import React from 'react';
 
 import { Helmet } from 'react-helmet-async';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 
-import { featuresApi } from './store/features';
-import { usersApi } from './store/users';
+import { useAppDispatch } from 'hooks';
+import usePrefersColorScheme from 'hooks/prefers-color-scheme';
 
-import filesMenu from './filesMenu';
-import * as icons from './icons';
-import photosMenu from './photosMenu';
+import { featuresApi } from 'store/features';
+import { usersApi } from 'store/users';
+
+import filesAppConfig from './filesApp';
+import photosAppConfig from './photosApp';
+
 import * as routes from './routes';
-
-import usePrefersColorScheme from './hooks/prefers-color-scheme';
 
 import RequireAdmin from './components/RequireAdmin';
 import SideBar from './components/SideBar';
@@ -33,7 +33,7 @@ import PhotosTrash from './pages/Photos/Trash';
 
 function FilesApp() {
   return (
-    <SidebarProvider appTitle="shelf" appLogo={icons.AppLogo} menu={filesMenu}>
+    <SidebarProvider app={filesAppConfig}>
       <div className="hidden lg:block xl:w-64">
         <SideBar />
       </div>
@@ -62,7 +62,7 @@ function FilesApp() {
 
 function PhotosApp() {
   return (
-    <SidebarProvider appTitle="shelf" appLogo={icons.AppLogo} menu={photosMenu}>
+    <SidebarProvider app={photosAppConfig}>
       <div className="hidden lg:block xl:w-64">
         <SideBar />
       </div>
@@ -79,13 +79,13 @@ function PhotosApp() {
 }
 
 function App() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   usePrefersColorScheme();
 
   React.useEffect(() => {
-    const listBookmarksResult = dispatch(usersApi.endpoints.listBookmarks.initiate());
-    const listFeaturesResult = dispatch(featuresApi.endpoints.listFeatures.initiate());
+    const listBookmarksResult = dispatch(usersApi.endpoints.listBookmarks.initiate(undefined));
+    const listFeaturesResult = dispatch(featuresApi.endpoints.listFeatures.initiate(undefined));
     return () => {
       listBookmarksResult.unsubscribe();
       listFeaturesResult.unsubscribe();

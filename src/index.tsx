@@ -33,6 +33,7 @@ declare global {
     };
     env: {
       MODE: string;
+      SNOWPACK_PUBLIC_AVAILABLE_APPS: string;
       SNOWPACK_PUBLIC_MODE: string;
       SNOWPACK_PUBLIC_REFRESH_ACCESS_TOKEN_ON_UPLOAD_DELTA: string;
       SNOWPACK_PUBLIC_TRASH_FOLDER_NAME: string;

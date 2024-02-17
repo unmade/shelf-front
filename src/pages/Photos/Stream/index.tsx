@@ -36,7 +36,7 @@ export default function Stream() {
           </Helmet>
           <div className="h-full">
             <PageHeader>
-              <PageHeader.Title>Photos</PageHeader.Title>
+              <PageHeader.Title>Library</PageHeader.Title>
               <PageHeader.Actions>
                 <SearchButton />
                 <Uploader allowedMediaTypes={allowedMediaTypes} uploadTo={libraryPath} />
