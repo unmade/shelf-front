@@ -45,6 +45,9 @@ export const selectFeatureMaxFileSizeToThumbnail: Selector<RootState, number> = 
 export const selectPhotosLibraryPath = (state: RootState) =>
   (selectFeatureValue(state, 'photos_library_path') as string | undefined) ?? '.';
 
+export const selectFeatureSharedLinksDisabled = (state: RootState) =>
+  selectFeatureValue(state, 'shared_links_disabled') as boolean;
+
 export const selectFeatureUploadFileMaxSize: Selector<RootState, number> = (state) =>
   selectFeatureValue(state, 'upload_file_max_size') as number;
 

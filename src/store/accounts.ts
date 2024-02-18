@@ -106,5 +106,5 @@ export const selectGetCurrentAccountResult =
 
 export const selectCurrentAccount = (state: RootState) => selectGetCurrentAccountResult(state).data;
 
-export const selectIsAdmin = (state: RootState) =>
+export const selectIsSuperuser = (state: RootState) =>
   selectGetCurrentAccountResult(state).data?.superuser ?? false;

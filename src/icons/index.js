@@ -64,6 +64,7 @@ export const ICursor = hiOutline.PencilIcon;
 export const Infinite = io.IoIosInfinite;
 export const InformationCircleOutlined = hiOutline.InformationCircleIcon;
 export const LinkOutlined = hiOutline.LinkIcon;
+export const LockClosedOutlined = hiOutline.LockClosedIcon;
 export const Logout = hiSolid.LogoutIcon;
 export const LogoutOutlined = hiOutline.LogoutIcon;
 export const NewFolder = hiSolid.FolderAddIcon;

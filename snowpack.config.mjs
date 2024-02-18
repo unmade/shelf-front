@@ -6,6 +6,7 @@ export default {
     containers: './src/containers',
     hooks: './src/hooks',
     icons: './src/icons',
+    pages: './src/pages',
     routes: './src/routes',
     store: './src/store',
     types: './src/types',

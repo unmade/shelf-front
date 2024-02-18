@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { useAppDispatch } from 'hooks';
@@ -81,6 +82,7 @@ function PhotosApp() {
 function App() {
   const dispatch = useAppDispatch();
 
+  useTranslation();
   usePrefersColorScheme();
 
   React.useEffect(() => {
