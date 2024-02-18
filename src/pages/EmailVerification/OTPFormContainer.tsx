@@ -2,7 +2,8 @@ import React from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import * as routes from 'routes';
+import { useAppDispatch } from 'hooks';
+import useDefaultApp from 'hooks/available-apps';
 
 import {
   useGetCurrentAccountQuery,
@@ -11,13 +12,13 @@ import {
 } from 'store/accounts';
 import { addToast } from 'store/toasts';
 
-import { useAppDispatch } from 'hooks';
-
 import OTPForm from 'components/OTPForm';
 
 export default function OTPFormContainer() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
+  const defaultApp = useDefaultApp();
 
   const { email, verified } = useGetCurrentAccountQuery(undefined, {
     selectFromResult: ({ data }) => ({
@@ -30,14 +31,14 @@ export default function OTPFormContainer() {
   const [verifyEmail, { isLoading: submitting }] = useVerifyEmailCompleteMutation();
 
   if (verified) {
-    navigate(routes.PHOTOS.prefix);
+    navigate(defaultApp.path);
   }
 
   const onSubmit = async (code: string) => {
     try {
       const { completed: success } = await verifyEmail(code).unwrap();
       if (success) {
-        navigate(routes.PHOTOS.prefix);
+        navigate(defaultApp.path);
       } else {
         dispatch(
           addToast({

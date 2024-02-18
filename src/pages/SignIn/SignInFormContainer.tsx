@@ -3,22 +3,24 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { useSignInMutation } from '../../store/auth';
-import { tokenRefreshed } from '../../store/authSlice';
+import useDefaultApp from 'hooks/available-apps';
 
-import * as routes from '../../routes';
+import { useSignInMutation } from 'store/auth';
+import { tokenRefreshed } from 'store/authSlice';
 
 import SignInForm from './SignInForm';
 
-function SignInFormContainer() {
+export default function SignInFormContainer() {
   const dispatch = useDispatch();
 
   const location = useLocation();
   const navigate = useNavigate();
 
+  const defaultApp = useDefaultApp();
+
   const [signIn, { isLoading: loading }] = useSignInMutation();
 
-  const onSubmit = async (username, password) => {
+  const onSubmit = async (username: string, password: string) => {
     try {
       const data = await signIn({ username, password }).unwrap();
       dispatch(tokenRefreshed(data));
@@ -30,13 +32,9 @@ function SignInFormContainer() {
     if (redirectUrl) {
       navigate(redirectUrl);
     } else {
-      navigate(routes.PHOTOS.prefix);
+      navigate(defaultApp.path);
     }
   };
 
   return <SignInForm onSubmit={onSubmit} loading={loading} />;
 }
-
-export default SignInFormContainer;
-
-SignInFormContainer.propTypes = {};

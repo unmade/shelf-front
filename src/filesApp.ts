@@ -8,6 +8,7 @@ import * as routes from './routes';
 const config: IAppConfig = {
   key: 'files',
   title: i18n.t('filesApp.title'),
+  path: routes.FILES.prefix,
   menu: [
     {
       path: routes.FILES.prefix,

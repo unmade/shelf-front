@@ -15,5 +15,6 @@ export interface IAppMenuItem {
 export interface IAppConfig {
   key: 'files' | 'photos';
   title: string;
+  path: string;
   menu: IAppMenuItem[];
 }

@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { useAppSelector } from 'hooks';
+import useDefaultApp from 'hooks/available-apps';
 import * as routes from 'routes';
 
 import { useVerifyEmailSendCodeMutation } from 'store/accounts';
@@ -16,6 +17,8 @@ import SignUpForm, { IOnSubmitArg } from './SignUpForm';
 export default function SignUpFormContainer() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const defaultApp = useDefaultApp();
 
   const verificationRequired = useAppSelector(selectFeatureVerificationRequired);
 
@@ -41,7 +44,7 @@ export default function SignUpFormContainer() {
     if (verificationRequired) {
       navigate(routes.EMAIL_VERIFICATION.prefix);
     } else {
-      navigate(routes.PHOTOS.prefix);
+      navigate(defaultApp.path);
     }
   };
 

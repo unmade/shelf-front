@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import * as routes from 'routes';
+import useDefaultApp from 'hooks/available-apps';
 
 import {
   useGetCurrentAccountQuery,
@@ -22,6 +22,7 @@ interface Props {
 export default function VerifyEmailForm({ onSubmit }: Props) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const defaultApp = useDefaultApp();
 
   const { email, verified } = useGetCurrentAccountQuery(undefined, {
     selectFromResult: ({ data }) => ({
@@ -34,7 +35,7 @@ export default function VerifyEmailForm({ onSubmit }: Props) {
   const [verifyEmail, { isLoading: submitting }] = useVerifyEmailCompleteMutation();
 
   if (verified) {
-    navigate(routes.PHOTOS.prefix);
+    navigate(defaultApp.path);
   }
 
   const handleSubmit = async (code: string) => {

@@ -3,10 +3,12 @@ import { IAppConfig } from 'types/AppConfig';
 import i18n from './i18n';
 
 import * as icons from './icons';
+import * as routes from './routes';
 
 const config: IAppConfig = {
   key: 'photos',
   title: i18n.t('photosApp.title'),
+  path: routes.PHOTOS.prefix,
   menu: [
     {
       path: '/photos',
