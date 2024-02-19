@@ -1,62 +1,61 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
+import { skipToken } from '@reduxjs/toolkit/query/react';
 import { Trans, useTranslation } from 'react-i18next';
 
-import useSharedLink from '../../hooks/shared-link';
+import useSharedLink from 'hooks/shared-link';
+
+import { IFile } from 'types/files';
 
 import {
   useCreateSharedLinkMutation,
   useGetSharedLinkQuery,
   useRevokeSharedLinkMutation,
-} from '../../store/sharing';
+} from 'store/sharedLinks';
 
-import Input from '../ui/Input';
-import Switch from '../ui/Switch';
+import Input from 'components/ui/Input';
+import Switch from 'components/ui/Switch';
 
-import CopyToClipboardButton from '../CopyToClipboardButton';
+import CopyToClipboardButton from 'components/CopyToClipboardButton';
+import Spinner from 'components/ui/Spinner';
 
-const initialState = { enabled: false, link: null };
+interface Props {
+  file: IFile | null;
+}
 
-function SharedLinkSetting({ file }) {
+export default function SharedLinkSetting({ file }: Props) {
   const { t } = useTranslation('sharedLinkSetting');
 
-  const { currentData: sharedLink } = useGetSharedLinkQuery(file?.path, { skip: file == null });
-  const [createSharedLink] = useCreateSharedLinkMutation();
-  const [revokeSharedLink] = useRevokeSharedLinkMutation();
+  const { data: sharedLink } = useGetSharedLinkQuery(file?.id ?? skipToken);
+  const [createSharedLink, { isLoading: creating }] = useCreateSharedLinkMutation();
+  const [revokeSharedLink, { isLoading: revoking }] = useRevokeSharedLinkMutation();
 
-  // ideally we would like to rely only on the `currentData`, but in some rare cases
-  // it is not being updated by `createSharedLink` mutation
-  const [state, setState] = React.useState(initialState);
-  React.useEffect(() => {
-    setState({
-      enabled: sharedLink?.token != null,
-      token: sharedLink?.token,
-    });
-  }, [sharedLink?.token, file?.name, setState]);
+  const enabled = sharedLink?.token != null;
 
   const toggleLink = React.useCallback(async () => {
-    if (state.token == null) {
-      setState({ enabled: true, token: null });
-      const { data: createdLink } = await createSharedLink(file?.path);
-      setState({ enabled: true, token: createdLink.token });
+    if (file?.id == null) {
+      return;
+    }
+    if (sharedLink?.token == null) {
+      try {
+        await createSharedLink(file!.id).unwrap();
+      } catch (err) {
+        // empty
+      }
     } else {
       try {
-        setState({ enabled: false, token: state.token });
         await revokeSharedLink({
-          token: state.token,
+          token: sharedLink.token,
           fileId: file?.id,
           filename: file?.name,
-          path: file?.path,
         }).unwrap();
-        setState({ enabled: false, token: null });
       } catch (err) {
-        //
+        // empty
       }
     }
-  }, [state.token, file?.name, file?.path]);
+  }, [sharedLink?.token, file?.name, file?.id]);
 
-  const { enabled, token } = state;
+  const token = sharedLink?.token;
   const link = useSharedLink({ token, filename: file?.name });
 
   return (
@@ -72,7 +71,11 @@ function SharedLinkSetting({ file }) {
             </Trans>
           </p>
         </div>
-        <Switch size="sm" enabled={enabled} setEnabled={toggleLink} />
+        {creating || revoking ? (
+          <Spinner />
+        ) : (
+          <Switch size="sm" enabled={enabled} setEnabled={toggleLink} />
+        )}
       </div>
       <div className="relative">
         <div>
@@ -99,16 +102,3 @@ function SharedLinkSetting({ file }) {
     </>
   );
 }
-
-SharedLinkSetting.propTypes = {
-  file: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    path: PropTypes.string.isRequired,
-  }),
-};
-
-SharedLinkSetting.defaultProps = {
-  file: null,
-};
-
-export default SharedLinkSetting;

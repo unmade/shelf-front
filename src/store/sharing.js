@@ -8,7 +8,6 @@ import * as routes from '../routes';
 import { selectGetCurrentAccountResult } from './accounts';
 import apiSlice, { API_BASE_URL } from './apiSlice';
 import { filesAdapter } from './files';
-import { sharedLinkAdapter as mediaItemsSharedLinksAdapter } from './photos';
 
 export const downloadSharedLinkFile = createAsyncThunk(
   'sharing/downloadSharedLinkFile',
@@ -84,21 +83,6 @@ const sharingApi = apiSlice.injectEndpoints({
         }
       },
     }),
-    createSharedLink: builder.mutation({
-      query: (path) => ({
-        url: '/sharing/create_shared_link',
-        method: 'POST',
-        body: { path },
-      }),
-      invalidatesTags: [
-        { type: 'Sharing', id: 'listFilesSharedViaLink' },
-        { type: 'MediaItems', id: 'listSharedLinks' },
-      ],
-      async onQueryStarted(path, { dispatch, queryFulfilled }) {
-        const { data } = await queryFulfilled;
-        dispatch(apiSlice.util.updateQueryData('getSharedLink', path, () => data));
-      },
-    }),
     downloadSharedLinkContent: builder.query({
       async queryFn({ token, filename }, _queryApi, _extraOptions, fetchWithBQ) {
         const getDownloadUrlResult = await fetchWithBQ({
@@ -134,13 +118,6 @@ const sharingApi = apiSlice.injectEndpoints({
         await cacheEntryRemoved;
         URL.revokeObjectURL(data?.content);
       },
-    }),
-    getSharedLink: builder.query({
-      query: (path) => ({
-        url: '/sharing/get_shared_link',
-        method: 'POST',
-        body: { path },
-      }),
     }),
     getSharedLinkFile: builder.query({
       query: ({ token, filename }) => ({
@@ -231,7 +208,7 @@ const sharingApi = apiSlice.injectEndpoints({
         const { selectAll } = filesSharedViaLinkAdapter.getSelectors();
         selectAll(data).forEach((entity) => {
           queryApi.dispatch(
-            apiSlice.util.upsertQueryData('getSharedLink', entity.path, {
+            apiSlice.util.upsertQueryData('getSharedLink', entity.id, {
               file_id: entity.id,
               token: entity.token,
               created_at: entity.created_at,
@@ -275,30 +252,6 @@ const sharingApi = apiSlice.injectEndpoints({
         }
       },
     }),
-    revokeSharedLink: builder.mutation({
-      query: ({ token, filename }) => ({
-        url: '/sharing/revoke_shared_link',
-        method: 'POST',
-        body: { token, filename },
-      }),
-      invalidatesTags: [{ type: 'Sharing', id: 'listFilesSharedViaLink' }],
-      async onQueryStarted({ fileId, path }, { dispatch, queryFulfilled }) {
-        const getSharedLinkPatchResult = dispatch(
-          apiSlice.util.updateQueryData('getSharedLink', path, () => null),
-        );
-        const listMediaItemSharedLinksPatchResult = dispatch(
-          apiSlice.util.updateQueryData('listMediaItemSharedLinks', undefined, (draft) =>
-            mediaItemsSharedLinksAdapter.removeOne(draft, fileId),
-          ),
-        );
-        try {
-          await queryFulfilled;
-        } catch (e) {
-          getSharedLinkPatchResult.undo();
-          listMediaItemSharedLinksPatchResult.undo();
-        }
-      },
-    }),
     setFileMemberAccessLevel: builder.mutation({
       query: ({ fileId, memberId, accessLevel }) => ({
         url: '/sharing/set_member_access_level',
@@ -326,15 +279,12 @@ const sharingApi = apiSlice.injectEndpoints({
 
 export const {
   useAddFileMemberMutation,
-  useCreateSharedLinkMutation,
   useDownloadSharedLinkContentQuery,
-  useGetSharedLinkQuery,
   useGetSharedLinkFileQuery,
   useListFileMembersQuery,
   useListSharedFilesQuery,
   useListFilesSharedViaLinkQuery,
   useRemoveFileMemberMutation,
-  useRevokeSharedLinkMutation,
   useSetFileMemberAccessLevelMutation,
 } = sharingApi;
 
