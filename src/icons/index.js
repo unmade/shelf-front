@@ -32,6 +32,7 @@ export const ChevronDown = hiSolid.ChevronDownIcon;
 export const ChevronLeft = hiSolid.ChevronLeftIcon;
 export const ChevronLeftOutlined = hiOutline.ChevronLeftIcon;
 export const ChevronRight = hiSolid.ChevronRightIcon;
+export const ChevronRightOutlined = hiOutline.ChevronRightIcon;
 export const ColorSwatchOutlined = hiOutline.ColorSwatchIcon;
 export const Clear = hiSolid.BanIcon;
 export const ClipboardCopyOutlined = hiOutline.ClipboardCopyIcon;

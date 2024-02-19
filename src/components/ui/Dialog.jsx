@@ -90,7 +90,6 @@ function Dialog({
                     <div className="w-full lg:ml-3 lg:w-auto">
                       {onConfirm != null && (
                         <Button
-                          className="rounded-xl"
                           variant="primary"
                           color={confirmDanger ? 'danger' : 'primary'}
                           loading={confirmLoading}

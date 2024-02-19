@@ -1,29 +1,64 @@
 // based on: https://blog.logrocket.com/building-carousel-component-react-hooks/
 
-import { useReducer, useEffect } from 'react';
+import { useReducer, useEffect, useMemo } from 'react';
 
-import { useSwipeable, LEFT, RIGHT } from 'react-swipeable';
+import { useSwipeable, LEFT, RIGHT, SwipeEventData, SwipeableHandlers } from 'react-swipeable';
 
-const initialCarouselState = {
+const transitionTime = 400;
+const elastic = `transform ${transitionTime}ms cubic-bezier(0.68, -0.55, 0.265, 1.55)`;
+const smooth = `transform ${transitionTime}ms ease`;
+
+interface CarouselState {
+  offset: number;
+  desired: number;
+  active: number;
+}
+
+const initialCarouselState: CarouselState = {
   offset: 0,
   desired: 1,
   active: 1,
 };
 
-function previous(length, current) {
+interface CarouselNextAction {
+  type: 'next';
+  length: number;
+}
+
+interface CarouselPrevAction {
+  type: 'prev';
+  length: number;
+}
+
+interface CarouselDoneAction {
+  type: 'done';
+}
+
+interface CarouselDragAction {
+  type: 'drag';
+  offset: number;
+}
+
+type CarouselAction =
+  | CarouselNextAction
+  | CarouselPrevAction
+  | CarouselDragAction
+  | CarouselDoneAction;
+
+function previous(length: number, current: number) {
   return (current - 1 + length) % length;
 }
 
-function next(length, current) {
+function next(length: number, current: number) {
   return (current + 1) % length;
 }
 
-function threshold(target) {
-  const width = target.clientWidth;
+function threshold(target: EventTarget) {
+  const width = (target as HTMLElement).clientWidth;
   return width / 3;
 }
 
-function carouselReducer(state, action) {
+function carouselReducer(state: CarouselState, action: CarouselAction) {
   switch (action.type) {
     case 'next':
       return {
@@ -52,8 +87,13 @@ function carouselReducer(state, action) {
   }
 }
 
-function swiped(e, dispatch, length, dir) {
-  const t = threshold(e.event.target);
+function swiped(
+  e: SwipeEventData,
+  dispatch: React.Dispatch<CarouselAction>,
+  length: number,
+  dir: 1 | -1,
+) {
+  const t = threshold(e.event.target!);
   const d = dir * e.deltaX;
 
   if (d >= t) {
@@ -69,12 +109,14 @@ function swiped(e, dispatch, length, dir) {
   }
 }
 
-const transitionTime = 400;
-const elastic = `transform ${transitionTime}ms cubic-bezier(0.68, -0.55, 0.265, 1.55)`;
-const smooth = `transform ${transitionTime}ms ease`;
-
-function useCarousel({ length, maxVisible = 3, onSwipeLeft, onSwipeRight }) {
+function useCarousel(
+  length: number,
+  onSwipeLeft: () => void,
+  onSwipeRight: () => void,
+): [SwipeableHandlers, React.CSSProperties] {
+  const maxVisible = 3;
   const [state, dispatch] = useReducer(carouselReducer, initialCarouselState);
+
   const handlers = useSwipeable({
     onSwiping(e) {
       dispatch({
@@ -108,7 +150,7 @@ function useCarousel({ length, maxVisible = 3, onSwipeLeft, onSwipeRight }) {
     return () => clearTimeout(id);
   }, [state.desired, state.active]);
 
-  const style = {
+  const style: React.CSSProperties = {
     transform: 'translateX(0)',
     width: `${100 * length}%`,
     left: `-${state.active * 100}%`,
@@ -129,7 +171,7 @@ function useCarousel({ length, maxVisible = 3, onSwipeLeft, onSwipeRight }) {
     }
   }
 
-  return [handlers, style];
+  return useMemo(() => [handlers, style], [handlers, style]);
 }
 
 export default useCarousel;

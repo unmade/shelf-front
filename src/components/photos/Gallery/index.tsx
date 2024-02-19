@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
-
-import { useSelector, shallowEqual } from 'react-redux';
 
 import { IMediaItem } from 'types/photos';
 
+import { useAppSelector } from 'hooks';
 import useKeyUp from 'hooks/key-up';
 
 import { RootState } from 'store/store';
@@ -35,27 +34,27 @@ function Gallery({ ids, initialFileId, selectById, onClose }: Props) {
   const total = ids.length;
   const prevIndex = currentIndex - 1 < 0 ? ids.length - 1 : currentIndex - 1;
   const nextIndex = currentIndex + 1 > ids.length - 1 ? 0 : currentIndex + 1;
+  const fileIds = [ids[prevIndex], ids[currentIndex], ids[nextIndex]];
 
-  const { libraryPath, mediaItems }: { libraryPath: string; mediaItems: IMediaItem[] } =
-    useSelector(
-      (state: RootState) => ({
-        libraryPath: selectPhotosLibraryPath(state),
-        mediaItems: [ids[prevIndex], ids[currentIndex], ids[nextIndex]].map(
-          (id) => selectById(state, id) as IMediaItem,
-        ),
-      }),
-      shallowEqual,
-    );
-  const mediaItem = mediaItems[1];
+  const libraryPath = useAppSelector(selectPhotosLibraryPath);
+  const prevMediaItem = useAppSelector((state) => selectById(state, fileIds[0])!);
+  const mediaItem = useAppSelector((state) => selectById(state, fileIds[1])!);
+  const nextMediaItem = useAppSelector((state) => selectById(state, fileIds[2])!);
 
-  const files = mediaItems.map((item) => makeFileFromMediaItem(item, libraryPath));
+  const files = useMemo(
+    () =>
+      [prevMediaItem, mediaItem, nextMediaItem].map((item) =>
+        makeFileFromMediaItem(item, libraryPath),
+      ),
+    [prevMediaItem, mediaItem, nextMediaItem],
+  );
 
   const onInfo = () => (sidebarOpen ? setSidebarOpen(false) : setSidebarOpen(true));
 
-  const prev = () => setCurrentIndex(prevIndex);
-  const next = () => setCurrentIndex(nextIndex);
+  const prev = useCallback(() => setCurrentIndex(prevIndex), [prevIndex]);
+  const next = useCallback(() => setCurrentIndex(nextIndex), [nextIndex]);
 
-  const goBack = () => onClose && onClose(currentIndex);
+  const goBack = useCallback(() => onClose && onClose(currentIndex), [currentIndex]);
 
   useKeyUp({
     handlers: {
