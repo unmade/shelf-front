@@ -16,6 +16,7 @@ interface Props {
 }
 
 export default function OTPForm({ email, resending, submitting, onResend, onSubmit }: Props) {
+  const [inputs, setInputs] = useState<string[]>(['', '', '', '', '', '']);
   const [errors, setErrors] = useState<Record<number, boolean>>({});
   const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
 
@@ -29,6 +30,10 @@ export default function OTPForm({ email, resending, submitting, onResend, onSubm
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const { value } = event.target;
+    const newInputs = [...inputs];
+    newInputs[index] = value;
+    setInputs(newInputs);
+
     if (value.length === 1 && errors[index]) {
       setErrors({ ...errors, [index]: false });
     }
@@ -40,6 +45,22 @@ export default function OTPForm({ email, resending, submitting, onResend, onSubm
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>, index: number) => {
     if (event.key === 'Backspace' && index > 0 && !inputsRef.current[index]?.value) {
       inputsRef.current[index - 1]?.focus();
+    }
+  };
+
+  const handlePaste = (event: React.ClipboardEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    const pastedText = event.clipboardData.getData('text');
+    const pastedDigits = pastedText.match(/\d/g);
+    if (pastedDigits) {
+      const newInputs = [...inputs];
+      pastedDigits.forEach((digit, index) => {
+        if (index < newInputs.length) {
+          newInputs[index] = digit;
+        }
+      });
+      setInputs(newInputs);
+      setErrors({});
     }
   };
 
@@ -85,10 +106,12 @@ export default function OTPForm({ email, resending, submitting, onResend, onSubm
           {[...Array(6).keys()].map((index) => (
             <OTPInput
               key={index}
+              value={inputs[index]}
               error={errors[index]}
               innerRef={(el) => makeRef(el, index)}
               onChange={(event) => handleChange(event, index)}
               onKeyDown={(event) => handleKeyDown(event, index)}
+              onPaste={handlePaste}
             />
           ))}
         </div>
