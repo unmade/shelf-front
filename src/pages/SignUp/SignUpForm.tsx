@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 
 import { Trans, useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { isAlpha, isEmail, isStrongPassword } from 'validator';
+import { isEmail, isStrongPassword } from 'validator';
 
 import Button from 'components/ui/Button';
 import Input from 'components/ui/Input';
+
+const nameRegEx = /^[\p{L} .'-]+$/u;
 
 const strongPasswordOptions = {
   minLength: 8,
@@ -180,7 +182,7 @@ function SignUpForm({ loading, onSubmit }: Props) {
     }
 
     const name = fields.name.trim();
-    if (!isAlpha(name, undefined, { ignore: " -.'" })) {
+    if (!nameRegEx.test(name)) {
       dispatch({
         type: 'errorSet',
         payload: {
