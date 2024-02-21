@@ -4,6 +4,8 @@ import { IMediaItem } from 'types/photos';
 
 import * as icons from 'icons';
 
+import { useCountMediaItemsQuery } from 'store/photos';
+
 import Button from 'components/ui/Button';
 import TimeAgo from 'components/ui/TimeAgo';
 
@@ -18,12 +20,15 @@ import ShareLinkButton from './ShareLinkButton';
 interface Props {
   idx: number;
   mediaItem: IMediaItem;
-  total: number;
   onGoBack: () => void;
   onInfo: () => void;
 }
 
-export default function Header({ idx, mediaItem, total, onGoBack, onInfo }: Props) {
+export default function Header({ idx, mediaItem, onGoBack, onInfo }: Props) {
+  const { total, deleted } = useCountMediaItemsQuery(undefined, {
+    selectFromResult: ({ data }) => ({ total: data?.total, deleted: data?.deleted }),
+  });
+
   return (
     <div className="flex flex-row items-center justify-between px-4 py-3">
       <div className="flex flex-row sm:w-48">
@@ -41,7 +46,7 @@ export default function Header({ idx, mediaItem, total, onGoBack, onInfo }: Prop
           <TimeAgo className="sm:hidden" value={mediaItem.modifiedAt} format="LLL" />
         </div>
         <p className="text-xs dark:text-zinc-400">
-          {idx + 1} of {total}
+          {idx + 1} of {mediaItem.deletedAt ? deleted : total}
         </p>
       </div>
 

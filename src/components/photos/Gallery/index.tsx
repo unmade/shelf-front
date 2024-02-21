@@ -31,7 +31,6 @@ function Gallery({ ids, initialFileId, selectById, onClose }: Props) {
   const [currentIndex, setCurrentIndex] = useState(idx);
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  const total = ids.length;
   const prevIndex = currentIndex - 1 < 0 ? null : currentIndex - 1;
   const nextIndex = currentIndex + 1 > ids.length - 1 ? null : currentIndex + 1;
 
@@ -87,13 +86,7 @@ function Gallery({ ids, initialFileId, selectById, onClose }: Props) {
       <InformationDialogProvider>
         <div className="fixed inset-0 bottom-0 dark:bg-zinc-900 dark:text-zinc-200">
           <div className="flex h-full flex-col bg-white dark:bg-zinc-800">
-            <Header
-              mediaItem={mediaItem}
-              idx={currentIndex}
-              total={total}
-              onGoBack={goBack}
-              onInfo={onInfo}
-            />
+            <Header mediaItem={mediaItem} idx={currentIndex} onGoBack={goBack} onInfo={onInfo} />
             <div className="h-full overflow-scroll bg-gray-200 dark:bg-zinc-900/50">
               <div className="flex">
                 <Carousel
