@@ -91,7 +91,6 @@ function ImageThumbnail({ className, file, size, style }) {
       src={data?.content}
       alt={name}
       style={style}
-      loading="lazy"
     />
   );
 }

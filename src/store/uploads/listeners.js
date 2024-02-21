@@ -15,7 +15,7 @@ import {
   signedOut,
   tokenRefreshed,
 } from '../authSlice';
-import { selectFeatureUploadFileMaxSize } from '../features';
+import { selectFeatureUploadFileMaxSize, selectPhotosLibraryPath } from '../features';
 import { filesAdapter, selectListFolderData } from '../files';
 import { mediaItemsAdapter } from '../photos';
 
@@ -28,7 +28,7 @@ function hasExtension(name, extensions) {
   return extensions.some((extension) => lowerCasedName.endsWith(extension));
 }
 
-async function normalize(file, uploadTo, maxUploadSize, allowedMediaTypes) {
+async function normalize(file, uploadTo, maxUploadSize, allowedMediaTypes, photosLibraryPath) {
   const upload = {
     id: nanoid(),
     name: file.name,
@@ -58,9 +58,17 @@ async function normalize(file, uploadTo, maxUploadSize, allowedMediaTypes) {
     upload.uploadPath = `${uploadTo}${fullPath}`;
   }
 
-  upload.parentPath = routes.parent(upload.uploadPath);
   upload.mediatype = fileObj.type;
   upload.mtime = fileObj.lastModified;
+
+  if (uploadTo === photosLibraryPath) {
+    const dt = upload.mtime ? new Date(upload.mtime) : new Date();
+    const year = dt.getUTCFullYear();
+    const month = `0${dt.getUTCMonth() + 1}`.slice(-2);
+    upload.uploadPath = `${uploadTo}/${year}/${month}/${upload.name}`;
+  }
+
+  upload.parentPath = routes.parent(upload.uploadPath);
 
   if (allowedMediaTypes) {
     if (!upload.mediatype) {
@@ -263,11 +271,15 @@ async function uploadFile(upload, fileObj, { dispatch, getState }) {
 
 async function listenFileEntriesAdded(action, listenerApi) {
   const { allowedMediaTypes, files, uploadTo } = action.payload;
+  const photosLibraryPath = selectPhotosLibraryPath(listenerApi.getState());
   const maxUploadSize = selectFeatureUploadFileMaxSize(listenerApi.getState());
 
   const uploads = await Promise.all(
-    // eslint-disable-next-line no-return-await
-    files.map(async (file) => await normalize(file, uploadTo, maxUploadSize, allowedMediaTypes)),
+    files.map(
+      async (file) =>
+        // eslint-disable-next-line no-return-await
+        await normalize(file, uploadTo, maxUploadSize, allowedMediaTypes, photosLibraryPath),
+    ),
   );
 
   listenerApi.dispatch(uploadsAdded({ uploads: uploads.map(([upload]) => upload) }));
