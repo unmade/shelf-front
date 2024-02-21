@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import { IMediaItem } from 'types/photos';
@@ -31,6 +31,14 @@ function Gallery({ ids, initialFileId, selectById, onClose }: Props) {
   const [currentIndex, setCurrentIndex] = useState(idx);
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
+  // hack: when deleting/restoring the last file in gallery, the currentIndex
+  // will be greater than ids.length, so just reset it to the last available
+  useEffect(() => {
+    if (currentIndex > ids.length - 1) {
+      setCurrentIndex(ids.length - 1);
+    }
+  }, [ids.length, currentIndex]);
+
   const prevIndex = currentIndex - 1 < 0 ? null : currentIndex - 1;
   const nextIndex = currentIndex + 1 > ids.length - 1 ? null : currentIndex + 1;
 
@@ -49,10 +57,10 @@ function Gallery({ ids, initialFileId, selectById, onClose }: Props) {
     fileIds[2] != null ? selectById(state, fileIds[2])! : null,
   );
 
-  const files = useMemo<CarouselFiles>(
+  const files = useMemo(
     () => [
       prevMediaItem ? makeFileFromMediaItem(prevMediaItem, libraryPath) : null,
-      makeFileFromMediaItem(mediaItem, libraryPath),
+      mediaItem ? makeFileFromMediaItem(mediaItem, libraryPath) : null,
       nextMediaItem ? makeFileFromMediaItem(nextMediaItem, libraryPath) : null,
     ],
     [prevMediaItem, mediaItem, nextMediaItem],
@@ -81,6 +89,10 @@ function Gallery({ ids, initialFileId, selectById, onClose }: Props) {
     },
   });
 
+  if (!mediaItem) {
+    return null;
+  }
+
   return createPortal(
     <AdjustCategoriesDialogProvider>
       <InformationDialogProvider>
@@ -90,7 +102,7 @@ function Gallery({ ids, initialFileId, selectById, onClose }: Props) {
             <div className="h-full overflow-scroll bg-gray-200 dark:bg-zinc-900/50">
               <div className="flex">
                 <Carousel
-                  files={files}
+                  files={files as CarouselFiles}
                   onSwipeLeft={prevIndex != null ? prev : undefined}
                   onSwipeRight={nextIndex != null ? next : undefined}
                 />
