@@ -5,6 +5,7 @@ import { FixedSizeGrid } from 'react-window';
 import useGridLayout from 'hooks/grid-layout';
 
 import { RootState } from 'store/store';
+import { IMediaItem } from 'types/photos';
 
 import Spinner from 'components/ui/Spinner';
 import VGrid from 'components/ui/VGrid';
@@ -14,7 +15,6 @@ import SelectionProvider from 'components/SelectionProvider';
 import Gallery from 'components/photos/Gallery';
 import MediaItemGridItem from 'components/photos/MediaItemGridItem';
 import MediaItemsProvider from 'components/photos/MediaItemsProvider';
-import { IMediaItem } from 'types/photos';
 
 export interface ItemDataProps {
   ids: string[];
@@ -23,6 +23,7 @@ export interface ItemDataProps {
 
 interface Props {
   ids: string[];
+  loadMore?: () => void;
   selectById: (state: RootState, id: string) => IMediaItem | undefined;
 }
 
@@ -33,7 +34,7 @@ interface State {
 
 const initialState = { initialFileId: null, scrollIndex: null };
 
-export default function MediaItemGridView({ ids, selectById }: Props) {
+export default function MediaItemGridView({ ids, loadMore, selectById }: Props) {
   const [{ scrollIndex, initialFileId }, setState] = useState<State>(initialState);
 
   const { columnCount, rowCount } = useGridLayout(ids);
@@ -61,16 +62,17 @@ export default function MediaItemGridView({ ids, selectById }: Props) {
           align: 'center',
           rowIndex: scrollIndex,
         });
+        setState((state) => ({ ...state, scrollIndex: null }));
       }
     },
-    [scrollIndex],
+    [scrollIndex, setState],
   );
 
   const onItemClick = useCallback(
     (fileId: string) => {
-      setState({ scrollIndex, initialFileId: fileId });
+      setState((state) => ({ ...state, initialFileId: fileId }));
     },
-    [initialFileId, scrollIndex, setState],
+    [setState],
   );
 
   if (!ids) {
@@ -97,9 +99,11 @@ export default function MediaItemGridView({ ids, selectById }: Props) {
             innerRef={scrollToItem}
             itemRenderer={MediaItemGridItem}
             itemData={data}
+            overscanRowCount={3}
             columnCount={columnCount}
             rowCount={rowCount}
             rowHeightOffset={24}
+            loadMore={loadMore}
           />
         </div>
       </MediaItemsProvider>

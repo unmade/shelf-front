@@ -111,8 +111,8 @@ function swiped(
 
 function useCarousel(
   length: number,
-  onSwipeLeft: () => void,
-  onSwipeRight: () => void,
+  onSwipeLeft?: () => void,
+  onSwipeRight?: () => void,
 ): [SwipeableHandlers, React.CSSProperties] {
   const maxVisible = 3;
   const [state, dispatch] = useReducer(carouselReducer, initialCarouselState);
@@ -140,10 +140,10 @@ function useCarousel(
     const id = setTimeout(() => {
       dispatch({ type: 'done' });
       const dir = Math.sign(state.desired - state.active);
-      if (dir === -1) {
+      if (dir === -1 && onSwipeLeft) {
         onSwipeLeft();
       }
-      if (dir === 1) {
+      if (dir === 1 && onSwipeRight) {
         onSwipeRight();
       }
     }, transitionTime);

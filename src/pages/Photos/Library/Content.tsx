@@ -3,26 +3,19 @@ import React from 'react';
 import { useAppSelector } from 'hooks';
 
 import { selectPhotosLibraryPath } from 'store/features';
-import { selectMediaItemById, useListMediaItemsQuery } from 'store/photos';
-import { RootState } from 'store/store';
 
 import Spinner from 'components/ui/Spinner';
+
+import usePaginatedMediaItemsQuery from 'components/photos/hooks/list-media-items';
 
 import MediaItemGridView from 'components/photos/MediaItemGridView';
 
 import Welcome from './Welcome';
 
-function selectById(state: RootState, id: string) {
-  return selectMediaItemById(state, { id });
-}
-
 export default function Content() {
   const libraryPath = useAppSelector(selectPhotosLibraryPath);
-  const { ids, isFetching: loading } = useListMediaItemsQuery(undefined, {
-    selectFromResult: ({ data, isFetching }) => ({
-      ids: data?.ids as string[] | undefined,
-      isFetching,
-    }),
+  const [{ ids, selectById, loadMore }, loading] = usePaginatedMediaItemsQuery({
+    favourites: false,
   });
 
   const empty = ids?.length != null && ids?.length === 0 && !loading;
@@ -34,7 +27,7 @@ export default function Content() {
     );
   }
 
-  if (!ids) {
+  if (!ids?.length) {
     return (
       <div className="flex h-full justify-center">
         <Spinner />
@@ -42,5 +35,5 @@ export default function Content() {
     );
   }
 
-  return <MediaItemGridView ids={ids} selectById={selectById} />;
+  return <MediaItemGridView ids={ids} selectById={selectById} loadMore={loadMore} />;
 }

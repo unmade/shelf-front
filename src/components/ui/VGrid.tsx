@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { FixedSizeGrid, GridChildComponentProps } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
+import { FixedSizeGrid, GridChildComponentProps } from 'react-window';
+import InfiniteLoader from 'react-window-infinite-loader';
 
 import Spinner from './Spinner';
 
@@ -13,9 +14,11 @@ interface Props<T> {
   innerRef?: React.Ref<FixedSizeGrid>;
   itemData: T;
   loading?: boolean;
+  overscanRowCount?: number;
   rowCount: number;
   rowHeightOffset: number;
   itemRenderer: React.FC<ItemRendererProps<T>>;
+  loadMore?: () => void;
 }
 
 export default function VGrid<T>({
@@ -24,9 +27,11 @@ export default function VGrid<T>({
   innerRef,
   itemData,
   loading = false,
+  overscanRowCount,
   rowCount,
   rowHeightOffset = 0,
   itemRenderer: View,
+  loadMore,
 }: Props<T>) {
   if (loading) {
     return <Spinner className="h-full w-full" />;
@@ -35,19 +40,53 @@ export default function VGrid<T>({
   return (
     <AutoSizer>
       {({ height, width }) => (
-        <FixedSizeGrid
-          ref={innerRef}
-          className={className}
-          columnCount={columnCount}
-          columnWidth={width / columnCount}
-          height={height}
-          itemData={itemData}
-          rowCount={rowCount}
-          rowHeight={width / columnCount + rowHeightOffset}
-          width={width}
+        <InfiniteLoader
+          threshold={overscanRowCount}
+          isItemLoaded={(index) => index < rowCount - 1}
+          itemCount={rowCount}
+          loadMoreItems={() => {
+            if (loadMore) {
+              loadMore();
+            }
+          }}
         >
-          {View}
-        </FixedSizeGrid>
+          {({ onItemsRendered, ref }) => (
+            <FixedSizeGrid
+              ref={(el: FixedSizeGrid) => {
+                ref(el);
+                if (innerRef) {
+                  if (typeof innerRef === 'function') {
+                    innerRef(el);
+                  }
+                }
+              }}
+              className={className}
+              columnCount={columnCount}
+              columnWidth={width / columnCount}
+              height={height}
+              itemData={itemData}
+              rowCount={rowCount}
+              rowHeight={width / columnCount + rowHeightOffset}
+              overscanRowCount={overscanRowCount}
+              width={width}
+              onItemsRendered={({
+                visibleRowStartIndex,
+                visibleRowStopIndex,
+                overscanRowStopIndex,
+                overscanRowStartIndex,
+              }) => {
+                onItemsRendered({
+                  overscanStartIndex: overscanRowStartIndex,
+                  overscanStopIndex: overscanRowStopIndex,
+                  visibleStartIndex: visibleRowStartIndex,
+                  visibleStopIndex: visibleRowStopIndex,
+                });
+              }}
+            >
+              {View}
+            </FixedSizeGrid>
+          )}
+        </InfiniteLoader>
       )}
     </AutoSizer>
   );
