@@ -1,4 +1,11 @@
-const makersToExclude = new Set(['canon', 'hp', 'htc', 'nikon corporation', 'pentax corporation']);
+const makersToExclude = new Set([
+  'canon',
+  'hp',
+  'htc',
+  'huawei',
+  'nikon corporation',
+  'pentax corporation',
+]);
 
 export function getCameraModel(meta) {
   const { make, model } = meta;

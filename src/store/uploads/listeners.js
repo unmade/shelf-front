@@ -139,7 +139,7 @@ function updateListFolderCache(file, { dispatch, getState }) {
   );
 }
 
-function updateListMediaItemsCache(file, upload, { dispatch }) {
+function updateMediaItemsCache(file, upload, { dispatch, getState }) {
   // when uploading a folder we need to re-fetch files in the current path for the folder to appear
   const match = matchPath(routes.PHOTOS.route, window.location.pathname);
   if (match == null) {
@@ -156,9 +156,25 @@ function updateListMediaItemsCache(file, upload, { dispatch }) {
     thumbnailUrl: upload.thumbnail ?? file.thumbnail_url,
   };
 
+  // eslint-disable-next-line no-restricted-syntax
+  for (const { endpointName, originalArgs } of apiSlice.util.selectInvalidatedBy(getState(), [
+    { type: 'MediaItems', id: 'list' },
+  ])) {
+    if (endpointName === 'listMediaItems') {
+      dispatch(
+        apiSlice.util.updateQueryData(endpointName, originalArgs, (draft) => {
+          mediaItemsAdapter.addOne(draft, mediaItem);
+        }),
+      );
+    }
+  }
+
   dispatch(
-    apiSlice.util.updateQueryData('listMediaItems', undefined, (draft) => {
-      mediaItemsAdapter.addOne(draft, mediaItem);
+    apiSlice.util.updateQueryData('countMediaItems', undefined, (draft) => {
+      if (draft.total != null) {
+        // eslint-disable-next-line no-param-reassign
+        draft.total += 1;
+      }
     }),
   );
 }
@@ -242,7 +258,7 @@ async function uploadFile(upload, fileObj, { dispatch, getState }) {
 
   dispatch(uploadFulfilled({ upload }));
   updateListFolderCache(data, { dispatch, getState });
-  updateListMediaItemsCache(data, upload, { dispatch });
+  updateMediaItemsCache(data, upload, { dispatch, getState });
 }
 
 async function listenFileEntriesAdded(action, listenerApi) {

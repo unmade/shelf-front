@@ -35,6 +35,11 @@ interface IListMediaItemFilters {
   pageSize?: number;
 }
 
+interface ICountMediaItemsResponse {
+  total: number;
+  deleted: number;
+}
+
 interface IListMediaItemCategoriesResponse {
   file_id: string;
   categories: IMediaItemCategorySchema[];
@@ -73,6 +78,13 @@ const sharedLinksInitialState = sharedLinkAdapter.getInitialState();
 
 export const photosApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    countMediaItems: builder.query<ICountMediaItemsResponse, undefined>({
+      query: () => ({
+        url: '/photos/count_media_items',
+        method: 'GET',
+      }),
+      keepUnusedDataFor: Number.MAX_SAFE_INTEGER,
+    }),
     deleteMediaItems: builder.mutation({
       query: (fileIds) => ({
         url: '/photos/delete_media_item_batch',
@@ -99,9 +111,23 @@ export const photosApi = apiSlice.injectEndpoints({
             );
           }
         }
-        const listSharedLinksPatchResult = dispatch(
-          photosApi.util.updateQueryData('listMediaItemSharedLinks', undefined, (draft) =>
-            sharedLinkAdapter.removeMany(draft, fileIds),
+        patches.push(
+          dispatch(
+            photosApi.util.updateQueryData('listMediaItemSharedLinks', undefined, (draft) =>
+              sharedLinkAdapter.removeMany(draft, fileIds),
+            ),
+          ),
+          dispatch(
+            photosApi.util.updateQueryData('countMediaItems', undefined, (draft) => {
+              if (draft.deleted != null) {
+                // eslint-disable-next-line no-param-reassign
+                draft.deleted += 1;
+              }
+              if (draft.total != null) {
+                // eslint-disable-next-line no-param-reassign
+                draft.total -= 1;
+              }
+            }),
           ),
         );
         try {
@@ -113,7 +139,6 @@ export const photosApi = apiSlice.injectEndpoints({
           );
         } catch {
           patches.forEach((patch) => patch.undo());
-          listSharedLinksPatchResult.undo();
         }
       },
     }),
@@ -124,15 +149,26 @@ export const photosApi = apiSlice.injectEndpoints({
         body: { file_ids: fileIds },
       }),
       async onQueryStarted(fileIds, { dispatch, queryFulfilled }) {
-        const listDeletedPatchResult = dispatch(
-          photosApi.util.updateQueryData('listDeletedMediaItems', undefined, (draft) =>
-            mediaItemsAdapter.removeMany(draft, fileIds),
+        const patches = [];
+        patches.push(
+          dispatch(
+            photosApi.util.updateQueryData('listDeletedMediaItems', undefined, (draft) =>
+              mediaItemsAdapter.removeMany(draft, fileIds),
+            ),
+          ),
+          dispatch(
+            photosApi.util.updateQueryData('countMediaItems', undefined, (draft) => {
+              if (draft.deleted != null) {
+                // eslint-disable-next-line no-param-reassign
+                draft.deleted -= 1;
+              }
+            }),
           ),
         );
         try {
           await queryFulfilled;
         } catch {
-          listDeletedPatchResult.undo();
+          patches.forEach((patch) => patch.undo());
         }
       },
     }),
@@ -213,9 +249,24 @@ export const photosApi = apiSlice.injectEndpoints({
         body: { file_ids: fileIds },
       }),
       async onQueryStarted(fileIds, { dispatch, queryFulfilled, getState }) {
-        const patchResult = dispatch(
-          photosApi.util.updateQueryData('listDeletedMediaItems', undefined, (draft) =>
-            mediaItemsAdapter.removeMany(draft, fileIds),
+        const patches = [];
+        patches.push(
+          dispatch(
+            photosApi.util.updateQueryData('listDeletedMediaItems', undefined, (draft) =>
+              mediaItemsAdapter.removeMany(draft, fileIds),
+            ),
+          ),
+          dispatch(
+            photosApi.util.updateQueryData('countMediaItems', undefined, (draft) => {
+              if (draft.deleted != null) {
+                // eslint-disable-next-line no-param-reassign
+                draft.deleted -= 1;
+              }
+              if (draft.total != null) {
+                // eslint-disable-next-line no-param-reassign
+                draft.total += 1;
+              }
+            }),
           ),
         );
         try {
@@ -238,7 +289,7 @@ export const photosApi = apiSlice.injectEndpoints({
             }
           }
         } catch {
-          patchResult.undo();
+          patches.forEach((patch) => patch.undo());
         }
       },
     }),
@@ -262,6 +313,7 @@ export const photosApi = apiSlice.injectEndpoints({
 });
 
 export const {
+  useCountMediaItemsQuery,
   useDeleteMediaItemsMutation,
   useDeleteMediaItemsImmediatelyMutation,
   useEmptyMediaItemsTrashMutation,
@@ -277,26 +329,6 @@ export const selectListMediaItemsData = createSelector(
   (state: RootState, filters: IListMediaItemFilters | undefined) =>
     photosApi.endpoints.listMediaItems.select(filters)(state),
   (result) => result.data ?? initialState,
-);
-
-const createSelectMediaItemByIdSelector = createSelector(
-  (filters: IListMediaItemFilters | undefined) => filters,
-  (filters) => {
-    const { selectById } = mediaItemsAdapter.getSelectors((state_: RootState) =>
-      selectListMediaItemsData(state_, filters),
-    );
-    return selectById;
-  },
-);
-
-export const selectMediaItemById = createSelector(
-  [
-    (state: RootState) => state,
-    (_state: RootState, arg: { id: string; filters?: IListMediaItemFilters }) =>
-      createSelectMediaItemByIdSelector(arg.filters),
-    (_state: RootState, arg: { id: string; filters?: IListMediaItemFilters | undefined }) => arg.id,
-  ],
-  (state, selectById, id) => selectById(state, id),
 );
 
 const createListSharedLinksDataSelector =
