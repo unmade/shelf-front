@@ -1,3 +1,3 @@
-import Stream from './Stream';
+import Library from './Library';
 
-export default Stream;
+export default Library;

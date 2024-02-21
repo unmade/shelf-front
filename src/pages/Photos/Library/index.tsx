@@ -24,7 +24,7 @@ const contentStyle = {
   height: `calc(100% - ${headerHeight})`,
 };
 
-export default function Stream() {
+export default function Library() {
   const libraryPath = useSelector(selectPhotosLibraryPath);
 
   return (

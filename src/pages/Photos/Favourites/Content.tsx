@@ -1,27 +1,14 @@
 import React from 'react';
 
-import { selectMediaItemById, useListMediaItemsQuery } from 'store/photos';
-import { RootState } from 'store/store';
-
 import Spinner from 'components/ui/Spinner';
+
+import usePaginatedMediaItemsQuery from 'components/photos/hooks/list-media-items';
 
 import Empty from 'components/photos/Empty';
 import MediaItemGridView from 'components/photos/MediaItemGridView';
 
-function selectById(state: RootState, id: string) {
-  return selectMediaItemById(state, { id, filters: { favourites: true } });
-}
-
 export default function Content() {
-  const { ids, isFetching: loading } = useListMediaItemsQuery(
-    { favourites: true },
-    {
-      selectFromResult: ({ data, isFetching }) => ({
-        ids: data?.ids as string[] | undefined,
-        isFetching,
-      }),
-    },
-  );
+  const [{ ids, selectById }, loading] = usePaginatedMediaItemsQuery({ favourites: true });
 
   const empty = ids?.length != null && ids?.length === 0 && !loading;
   if (empty) {

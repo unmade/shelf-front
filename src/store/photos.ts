@@ -1,4 +1,5 @@
 import { EntityState, createEntityAdapter, createSelector } from '@reduxjs/toolkit';
+import { defaultSerializeQueryArgs } from '@reduxjs/toolkit/query';
 
 import { IMediaItem, IMediaItemSharedLink } from 'types/photos';
 
@@ -29,7 +30,9 @@ interface ISharedLinkSchema {
 }
 
 interface IListMediaItemFilters {
-  favourites: boolean;
+  favourites?: boolean;
+  page?: number;
+  pageSize?: number;
 }
 
 interface IListMediaItemCategoriesResponse {
@@ -76,17 +79,26 @@ export const photosApi = apiSlice.injectEndpoints({
         method: 'POST',
         body: { file_ids: fileIds },
       }),
-      async onQueryStarted(fileIds, { dispatch, queryFulfilled }) {
-        const listMediaItemsPatchResult = dispatch(
-          photosApi.util.updateQueryData('listMediaItems', undefined, (draft) =>
-            mediaItemsAdapter.removeMany(draft, fileIds),
-          ),
-        );
-        const listFavouriteMediaItemsPatchResult = dispatch(
-          photosApi.util.updateQueryData('listMediaItems', { favourites: true }, (draft) =>
-            mediaItemsAdapter.removeMany(draft, fileIds),
-          ),
-        );
+      async onQueryStarted(fileIds, { dispatch, queryFulfilled, getState }) {
+        const patches = [];
+        // eslint-disable-next-line no-restricted-syntax
+        for (const { endpointName, originalArgs } of photosApi.util.selectInvalidatedBy(
+          getState(),
+          [
+            { type: 'MediaItems', id: 'list' },
+            { type: 'MediaItems', id: 'listFavourites' },
+          ],
+        )) {
+          if (endpointName === 'listMediaItems') {
+            patches.push(
+              dispatch(
+                photosApi.util.updateQueryData(endpointName, originalArgs, (draft) => {
+                  mediaItemsAdapter.removeMany(draft, fileIds);
+                }),
+              ),
+            );
+          }
+        }
         const listSharedLinksPatchResult = dispatch(
           photosApi.util.updateQueryData('listMediaItemSharedLinks', undefined, (draft) =>
             sharedLinkAdapter.removeMany(draft, fileIds),
@@ -100,8 +112,7 @@ export const photosApi = apiSlice.injectEndpoints({
             ),
           );
         } catch {
-          listMediaItemsPatchResult.undo();
-          listFavouriteMediaItemsPatchResult.undo();
+          patches.forEach((patch) => patch.undo());
           listSharedLinksPatchResult.undo();
         }
       },
@@ -155,8 +166,24 @@ export const photosApi = apiSlice.injectEndpoints({
       query: (filters) => ({
         url: '/photos/list_media_items',
         method: 'GET',
-        params: { favourites: filters?.favourites ?? false },
+        params: {
+          page: filters?.page,
+          page_size: filters?.pageSize,
+          favourites: filters?.favourites,
+        },
       }),
+      serializeQueryArgs: ({ endpointDefinition, endpointName, queryArgs }) => {
+        const args = queryArgs ? { ...queryArgs } : {};
+        delete args.page;
+        return defaultSerializeQueryArgs({ endpointDefinition, endpointName, queryArgs: args });
+      },
+      merge: (currentCache, newItems) => {
+        const { selectAll } = mediaItemsAdapter.getSelectors();
+        return mediaItemsAdapter.upsertMany(currentCache, selectAll(newItems));
+      },
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg;
+      },
       providesTags: (_result, _error, arg) => [
         { type: 'MediaItems', id: arg?.favourites ? 'listFavourites' : 'list' },
       ],
@@ -185,18 +212,31 @@ export const photosApi = apiSlice.injectEndpoints({
         method: 'POST',
         body: { file_ids: fileIds },
       }),
-      invalidatesTags: [
-        { type: 'MediaItems', id: 'list' },
-        { type: 'MediaItems', id: 'listFavourites' },
-      ],
-      async onQueryStarted(fileIds, { dispatch, queryFulfilled }) {
+      async onQueryStarted(fileIds, { dispatch, queryFulfilled, getState }) {
         const patchResult = dispatch(
           photosApi.util.updateQueryData('listDeletedMediaItems', undefined, (draft) =>
             mediaItemsAdapter.removeMany(draft, fileIds),
           ),
         );
         try {
-          await queryFulfilled;
+          const { data } = await queryFulfilled;
+          const items = data.items as IMediaItemSchema[];
+          // eslint-disable-next-line no-restricted-syntax
+          for (const { endpointName, originalArgs } of photosApi.util.selectInvalidatedBy(
+            getState(),
+            [
+              { type: 'MediaItems', id: 'list' },
+              { type: 'MediaItems', id: 'listFavourites' },
+            ],
+          )) {
+            if (endpointName === 'listMediaItems') {
+              dispatch(
+                photosApi.util.updateQueryData(endpointName, originalArgs, (draft) => {
+                  mediaItemsAdapter.upsertMany(draft, items.map(toMediaItem));
+                }),
+              );
+            }
+          }
         } catch {
           patchResult.undo();
         }
@@ -233,7 +273,7 @@ export const {
   useSetMediaItemCategoriesMutation,
 } = photosApi;
 
-const selectListMediaItemsData = createSelector(
+export const selectListMediaItemsData = createSelector(
   (state: RootState, filters: IListMediaItemFilters | undefined) =>
     photosApi.endpoints.listMediaItems.select(filters)(state),
   (result) => result.data ?? initialState,
