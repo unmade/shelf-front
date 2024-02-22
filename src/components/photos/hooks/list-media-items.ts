@@ -21,7 +21,7 @@ interface Args {
 
 export default function usePaginatedMediaItemsQuery({
   favourites = false,
-  pageSize = 100,
+  pageSize = 1000,
 }: Args): [Result, boolean] {
   // check if anything exists in cache to calculate initial page
   const currentData = useAppSelector((state) =>

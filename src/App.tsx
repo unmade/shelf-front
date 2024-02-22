@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { useAppDispatch } from 'hooks';
+import useDefaultApp from 'hooks/available-apps';
 import usePrefersColorScheme from 'hooks/prefers-color-scheme';
 
 import { featuresApi } from 'store/features';
@@ -54,7 +55,6 @@ function FilesApp() {
               </RequireAdmin>
             }
           />
-          <Route path="/" element={<Navigate to={routes.FILES.prefix} replace />} />
         </Routes>
       </div>
     </SidebarProvider>
@@ -82,6 +82,8 @@ function PhotosApp() {
 function App() {
   const dispatch = useAppDispatch();
 
+  const defaultApp = useDefaultApp();
+
   useTranslation();
   usePrefersColorScheme();
 
@@ -103,6 +105,12 @@ function App() {
         <Routes>
           <Route path={`${routes.PHOTOS.route}/*`} element={<PhotosApp />} />
           <Route path="/*" element={<FilesApp />} />
+          {defaultApp.key === 'files' && (
+            <Route path="/" element={<Navigate to={routes.FILES.prefix} replace />} />
+          )}
+          {defaultApp.key === 'photos' && (
+            <Route path="/" element={<Navigate to={routes.PHOTOS.prefix} replace />} />
+          )}
         </Routes>
       </div>
     </>
