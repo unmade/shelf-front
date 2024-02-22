@@ -8,6 +8,8 @@ import { isEmail, isStrongPassword } from 'validator';
 import Button from 'components/ui/Button';
 import Input from 'components/ui/Input';
 
+import { TERMS_AND_CONDITION_URL, PRIVACY_POLICY_URL } from '../../constants';
+
 const nameRegEx = /^[\p{L} .'-]+$/u;
 
 const strongPasswordOptions = {
@@ -354,11 +356,17 @@ function SignUpForm({ loading, onSubmit }: Props) {
           <span className="ml-2 dark:text-zinc-200">
             <Trans i18nKey="signup:form.iHaveReadAndAgreeToTermsAndConditions" t={t}>
               I agree to the {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-              <Link to="#" className="font-medium text-indigo-600 dark:text-indigo-400">
+              <Link
+                to={TERMS_AND_CONDITION_URL}
+                className="font-medium text-indigo-600 dark:text-indigo-400"
+              >
                 Shelf Terms
               </Link>{' '}
               and {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-              <Link to="#" className="font-medium text-indigo-600 dark:text-indigo-400">
+              <Link
+                to={PRIVACY_POLICY_URL}
+                className="font-medium text-indigo-600 dark:text-indigo-400"
+              >
                 Privacy Policy
               </Link>
             </Trans>
