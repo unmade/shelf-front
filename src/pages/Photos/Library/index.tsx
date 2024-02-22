@@ -8,7 +8,6 @@ import { selectPhotosLibraryPath } from 'store/features';
 import CopyLinkDialogProvider from 'components/CopyLinkDialogProvider';
 import FileDrop from 'components/FileDrop';
 import PageHeader from 'components/PageHeader';
-import SearchButton from 'components/SearchButton';
 import Uploader from 'components/Uploader';
 import VerifyAccountDialogProvider from 'components/VerifyAccountDialogProvider';
 
@@ -38,7 +37,6 @@ export default function Library() {
             <PageHeader>
               <PageHeader.Title>Library</PageHeader.Title>
               <PageHeader.Actions>
-                <SearchButton />
                 <Uploader allowedMediaTypes={allowedMediaTypes} uploadTo={libraryPath} />
               </PageHeader.Actions>
             </PageHeader>
