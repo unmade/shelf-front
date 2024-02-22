@@ -19,10 +19,10 @@ function NoPreview({ file, reason }) {
 
   const dispatch = useDispatch();
 
-  const { name, path, mediatype, hidden, size, modified_at: modifiedAt } = file;
+  const { id, name, mediatype, hidden, size, modified_at: modifiedAt } = file;
 
   const onDownload = () => {
-    dispatch(download(path));
+    dispatch(download(id));
   };
 
   return (

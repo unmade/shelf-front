@@ -19,7 +19,7 @@ interface Props {
 export default function DownloadButton({ className = '', mediaItem }: Props) {
   const dispatch = useAppDispatch();
 
-  const { path } = useFileFromMediaItem(mediaItem);
+  const { id } = useFileFromMediaItem(mediaItem);
 
   return (
     <Button
@@ -28,7 +28,7 @@ export default function DownloadButton({ className = '', mediaItem }: Props) {
       variant="text"
       size="base"
       icon={<icons.Download className="h-5 w-5" />}
-      onClick={() => dispatch(download(path))}
+      onClick={() => dispatch(download(id))}
     />
   );
 }

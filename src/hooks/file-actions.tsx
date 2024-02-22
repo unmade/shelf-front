@@ -131,7 +131,7 @@ export function useDownloadAction(files: IFile[]): IAction | null {
       icon: <icons.Download className="h-4 w-4" />,
       danger: false,
       onClick: () => {
-        dispatch(download(files[0].path));
+        dispatch(download(files[0].id));
       },
     };
   }
