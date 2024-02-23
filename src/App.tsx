@@ -99,7 +99,7 @@ function App() {
   return (
     <>
       <Helmet>
-        <title>Shelf</title>
+        <title>Shelf Cloud</title>
       </Helmet>
       <div className="flex h-svh bg-gray-100 dark:bg-zinc-900 dark:text-zinc-200">
         <Routes>

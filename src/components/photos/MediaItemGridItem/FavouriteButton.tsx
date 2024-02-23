@@ -21,7 +21,7 @@ function FavouriteButton({ mediaItem, touch }: Props) {
     if (favourite) {
       return (
         <div>
-          <Icon className="h-4 w-4 shrink-0 drop-shadow-md" />
+          <Icon className="h-4 w-4 shrink-0 text-gray-50 drop-shadow-md dark:text-zinc-100" />
         </div>
       );
     }

@@ -2,7 +2,6 @@ import React, { useReducer } from 'react';
 import PropTypes from 'prop-types';
 
 import { Trans, useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
 import { isEmail, isStrongPassword } from 'validator';
 
 import Button from 'components/ui/Button';
@@ -356,19 +355,19 @@ function SignUpForm({ loading, onSubmit }: Props) {
           <span className="ml-2 dark:text-zinc-200">
             <Trans i18nKey="signup:form.iHaveReadAndAgreeToTermsAndConditions" t={t}>
               I agree to the {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-              <Link
-                to={TERMS_AND_CONDITION_URL}
+              <a
+                href={TERMS_AND_CONDITION_URL}
                 className="font-medium text-indigo-600 dark:text-indigo-400"
               >
                 Shelf Terms
-              </Link>{' '}
+              </a>{' '}
               and {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-              <Link
-                to={PRIVACY_POLICY_URL}
+              <a
+                href={PRIVACY_POLICY_URL}
                 className="font-medium text-indigo-600 dark:text-indigo-400"
               >
                 Privacy Policy
-              </Link>
+              </a>
             </Trans>
           </span>
         </div>
