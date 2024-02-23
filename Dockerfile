@@ -23,6 +23,7 @@ COPY ./public /usr/src/app/public
 COPY ./src /usr/src/app/src
 COPY ./i18next-parser.config.js /usr/src/app/
 COPY ./LICENSE /usr/src/app/
+COPY ./tsconfig.json /usr/src/app/
 COPY ./postcss.config.js /usr/src/app/
 COPY ./snowpack.config.mjs /usr/src/app/
 COPY ./tailwind.config.js /usr/src/app/
