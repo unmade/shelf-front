@@ -1,5 +1,4 @@
 import { createAction, createEntityAdapter, createSelector, createSlice } from '@reduxjs/toolkit';
-import { shallowEqual } from 'react-redux';
 
 import { RootState } from 'store/store';
 import { IUpload, IUploadError } from 'types/files';
@@ -8,13 +7,13 @@ export type UploadsFilter = 'all' | 'inProgress' | 'failed';
 
 const uploadsAdapter = createEntityAdapter<IUpload>();
 
-interface IFileEntriesAddedArg {
+interface IFileEntriesAddedPayload {
   allowedMediaTypes?: string[];
   files: FileSystemFileEntry[] | File[];
   uploadTo: string;
 }
 
-export const fileEntriesAdded = createAction<IFileEntriesAddedArg>('uploads/fileEntriesAdded');
+export const fileEntriesAdded = createAction<IFileEntriesAddedPayload>('uploads/fileEntriesAdded');
 
 const uploadsSlice = createSlice({
   name: 'uploads',
@@ -51,8 +50,7 @@ export const {
 } = uploadsAdapter.getSelectors((state: RootState) => state.uploads);
 
 export const selectVisibleUploads = createSelector(
-  selectAllUploads,
-  (_state: RootState, props: { filter: UploadsFilter }) => props.filter,
+  [selectAllUploads, (_state: RootState, props: { filter: UploadsFilter }) => props.filter],
   (uploads: IUpload[], filter: UploadsFilter) => {
     switch (filter) {
       case 'all':
@@ -66,13 +64,6 @@ export const selectVisibleUploads = createSelector(
       default:
         throw new Error(`Unknown filter: ${filter}`);
     }
-  },
-  {
-    memoizeOptions: {
-      equalityCheck: (a, b) => a === b,
-      maxSize: 3,
-      resultEqualityCheck: shallowEqual,
-    },
   },
 );
 

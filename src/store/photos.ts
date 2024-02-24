@@ -71,7 +71,7 @@ export const mediaItemsAdapter = createEntityAdapter<IMediaItem>({
 });
 const initialState = mediaItemsAdapter.getInitialState();
 
-export const sharedLinkAdapter = createEntityAdapter<IMediaItemSharedLink>({
+export const sharedLinkAdapter = createEntityAdapter<IMediaItemSharedLink, string>({
   selectId: (entity) => entity.item.fileId,
 });
 const sharedLinksInitialState = sharedLinkAdapter.getInitialState();
@@ -190,7 +190,7 @@ export const photosApi = apiSlice.injectEndpoints({
         }
       },
     }),
-    listDeletedMediaItems: builder.query<EntityState<IMediaItem>, undefined>({
+    listDeletedMediaItems: builder.query<EntityState<IMediaItem, string>, undefined>({
       query: () => ({
         url: '/photos/list_deleted_media_items',
         method: 'GET',
@@ -198,7 +198,10 @@ export const photosApi = apiSlice.injectEndpoints({
       transformResponse: (data: { items: IMediaItemSchema[] }) =>
         mediaItemsAdapter.setAll(initialState, data.items.map(toMediaItem)),
     }),
-    listMediaItems: builder.query<EntityState<IMediaItem>, IListMediaItemFilters | undefined>({
+    listMediaItems: builder.query<
+      EntityState<IMediaItem, string>,
+      IListMediaItemFilters | undefined
+    >({
       query: (filters) => ({
         url: '/photos/list_media_items',
         method: 'GET',
@@ -233,7 +236,7 @@ export const photosApi = apiSlice.injectEndpoints({
         body: { file_id: fileId },
       }),
     }),
-    listMediaItemSharedLinks: builder.query<EntityState<IMediaItemSharedLink>, undefined>({
+    listMediaItemSharedLinks: builder.query<EntityState<IMediaItemSharedLink, string>, undefined>({
       query: () => ({
         url: 'photos/list_shared_links',
         method: 'GET',
@@ -326,9 +329,9 @@ export const {
 } = photosApi;
 
 export const selectListMediaItemsData = createSelector(
-  (state: RootState, filters: IListMediaItemFilters | undefined) =>
-    photosApi.endpoints.listMediaItems.select(filters)(state),
-  (result) => result.data ?? initialState,
+  [(state: RootState) => state, (state: RootState, filters: IListMediaItemFilters) => filters],
+  (state, filters) =>
+    photosApi.endpoints.listMediaItems.select(filters)(state).data ?? initialState,
 );
 
 const createListSharedLinksDataSelector =

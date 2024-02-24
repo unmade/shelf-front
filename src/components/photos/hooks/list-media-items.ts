@@ -48,7 +48,7 @@ export default function usePaginatedMediaItemsQuery({
 
   const result = useMemo(
     () => ({
-      ids: data ? (selectIds(data) as string[]) : null,
+      ids: data ? selectIds(data) : null,
       selectById,
       loadMore,
     }),

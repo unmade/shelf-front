@@ -11,7 +11,7 @@ import SharedLinkList from './SharedLinkList';
 export default function Content() {
   const { ids, isFetching: loading } = useListMediaItemSharedLinksQuery(undefined, {
     selectFromResult: ({ data, isFetching }) => ({
-      ids: data?.ids as string[] | undefined,
+      ids: data?.ids,
       isFetching,
     }),
   });

@@ -1,4 +1,4 @@
-import { PayloadAction, Selector, createAction, createSlice, nanoid } from '@reduxjs/toolkit';
+import { PayloadAction, createAction, createSlice, nanoid } from '@reduxjs/toolkit';
 import { RootState } from './store';
 
 const defaultCloseAfter = 10;
@@ -46,4 +46,4 @@ export const addToast = createAction(toastAdded.type, (toast: ToastData) => ({
   },
 }));
 
-export const selectToasts: Selector<RootState, Toast[]> = (state) => state.toasts ?? initialState;
+export const selectToasts = (state: RootState) => state.toasts ?? initialState;

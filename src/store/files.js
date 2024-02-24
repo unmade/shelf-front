@@ -166,18 +166,18 @@ export const {
 } = filesApi;
 
 export const selectListFolderData = createSelector(
-  (state, path) => filesApi.endpoints.listFolder.select(path)(state),
-  (result) => result.data ?? initialState,
+  [(state) => state, (_state, path) => path],
+  (state, path) => filesApi.endpoints.listFolder.select(path)(state).data ?? initialState,
 );
 
 export const selectFileByIdInPath = createSelector(
+  [(state) => state, (_state, arg) => arg],
   (state, { path, id }) => {
     const { selectById } = filesAdapter.getSelectors((state_) =>
       selectListFolderData(state_, path),
     );
     return selectById(state, id);
   },
-  (entity) => entity,
 );
 
 const selectListBookmarkedFilesResult = filesApi.endpoints.listBookmarkedFiles.select();

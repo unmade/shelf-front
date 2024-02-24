@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 
 import { shallowEqual } from 'react-redux';
+import { skipToken } from '@reduxjs/toolkit/query';
 
 import { useListMediaItemCategoriesQuery, useSetMediaItemCategoriesMutation } from 'store/photos';
 
@@ -17,12 +17,12 @@ interface Props {
   onClose: () => void;
 }
 
-function AdjustCategoriesDialog({ fileId, visible, onClose }: Props) {
+export default function AdjustCategoriesDialog({ fileId, visible, onClose }: Props) {
   const allCategories = useMediaItemCategories();
 
   const [setCategories, { isLoading: creating }] = useSetMediaItemCategoriesMutation();
 
-  const { categories: selectedCategories } = useListMediaItemCategoriesQuery(fileId as string, {
+  const { categories: selectedCategories } = useListMediaItemCategoriesQuery(fileId ?? skipToken, {
     selectFromResult: ({ data, isFetching }) => ({
       categories: data?.categories,
       isFetching,
@@ -82,16 +82,3 @@ function AdjustCategoriesDialog({ fileId, visible, onClose }: Props) {
     </Dialog>
   );
 }
-
-AdjustCategoriesDialog.propTypes = {
-  fileId: PropTypes.string,
-  visible: PropTypes.bool,
-  onClose: PropTypes.func.isRequired,
-};
-
-AdjustCategoriesDialog.defaultProps = {
-  fileId: null,
-  visible: false,
-};
-
-export default AdjustCategoriesDialog;

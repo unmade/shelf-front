@@ -1,4 +1,4 @@
-import { EntityState, Selector, createEntityAdapter, createSelector } from '@reduxjs/toolkit';
+import { EntityState, createEntityAdapter, createSelector } from '@reduxjs/toolkit';
 
 import apiSlice from './apiSlice';
 import { RootState } from './store';
@@ -10,14 +10,14 @@ interface Feature {
   value: FeatureValue;
 }
 
-const featuresAdapter = createEntityAdapter<Feature>({
+const featuresAdapter = createEntityAdapter<Feature, string>({
   selectId: (feature) => feature.name,
 });
 const initialState = featuresAdapter.getInitialState();
 
 export const featuresApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    listFeatures: builder.query<EntityState<Feature>, undefined>({
+    listFeatures: builder.query<EntityState<Feature, string>, undefined>({
       query: () => '/features/list',
       keepUnusedDataFor: Number.MAX_SAFE_INTEGER,
       transformResponse: (rawResult: { items: Feature[] }) =>
@@ -36,10 +36,10 @@ const { selectById } = featuresAdapter.getSelectors(
   (state: RootState) => selectListFeaturesData(state) ?? initialState,
 );
 
-export const selectFeatureValue: Selector<RootState, FeatureValue | undefined> = (state, name) =>
+export const selectFeatureValue = (state: RootState, name: string) =>
   selectById(state, name)?.value;
 
-export const selectFeatureMaxFileSizeToThumbnail: Selector<RootState, number> = (state) =>
+export const selectFeatureMaxFileSizeToThumbnail = (state: RootState) =>
   selectFeatureValue(state, 'max_file_size_to_thumbnail') as number;
 
 export const selectPhotosLibraryPath = (state: RootState) =>
@@ -48,7 +48,7 @@ export const selectPhotosLibraryPath = (state: RootState) =>
 export const selectFeatureSharedLinksDisabled = (state: RootState) =>
   selectFeatureValue(state, 'shared_links_disabled') as boolean;
 
-export const selectFeatureUploadFileMaxSize: Selector<RootState, number> = (state) =>
+export const selectFeatureUploadFileMaxSize = (state: RootState) =>
   selectFeatureValue(state, 'upload_file_max_size') as number;
 
 export const selectFeatureVerificationRequired = (state: RootState) =>

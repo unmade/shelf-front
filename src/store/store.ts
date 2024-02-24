@@ -35,6 +35,76 @@ function rootReducer(state, action) {
   return reducers(state, action);
 }
 
+interface RejectedWithAPIError {
+  payload: {
+    data: {
+      code: string | number;
+      code_verbose: string;
+      message: string;
+    };
+  };
+}
+
+function isRejectedWithApiError(action: unknown): action is RejectedWithAPIError {
+  if (action == null) {
+    return false;
+  }
+  if (typeof action !== 'object') {
+    return false;
+  }
+  if (!('payload' in action)) {
+    return false;
+  }
+
+  const { payload } = action;
+  if (payload == null) {
+    return false;
+  }
+
+  if (typeof payload !== 'object') {
+    return false;
+  }
+
+  if (!('data' in payload)) {
+    return false;
+  }
+
+  const { data } = payload;
+
+  if (data == null) {
+    return false;
+  }
+
+  if (typeof data !== 'object') {
+    return false;
+  }
+
+  if (!('code' in data)) {
+    return false;
+  }
+
+  if (!('code_verbose' in data)) {
+    return false;
+  }
+
+  if (!('message' in data)) {
+    return false;
+  }
+
+  const { code, code_verbose: codeVerbose, message } = data;
+  if (typeof code !== 'string' || typeof code !== 'number') {
+    return false;
+  }
+  if (typeof codeVerbose !== 'string') {
+    return false;
+  }
+  if (typeof message !== 'string') {
+    return false;
+  }
+
+  return true;
+}
+
 const ignoredErrorCodes = new Set([
   422,
   'EMAIL_ALREADY_TAKEN',
@@ -50,13 +120,11 @@ const errorsMiddleware: Middleware =
   ({ dispatch }) =>
   (next) =>
   (action) => {
-    if (isRejectedWithValue(action)) {
+    if (isRejectedWithValue(action) && isRejectedWithApiError(action)) {
       const { payload } = action;
-      if (payload.data != null) {
-        const { code, code_verbose: title, message: description } = payload.data;
-        if (!ignoredErrorCodes.has(code) && title != null && description != null) {
-          dispatch(addToast({ title, description }));
-        }
+      const { code, code_verbose: title, message: description } = payload.data;
+      if (!ignoredErrorCodes.has(code) && title != null && description != null) {
+        dispatch(addToast({ title, description }));
       } else {
         dispatch(addToast({ title: 'Server Error', description: 'Something went wrong' }));
       }

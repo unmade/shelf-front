@@ -13,7 +13,7 @@ import MediaItemGridView from 'components/photos/MediaItemGridView';
 export default function Content() {
   const { ids, isFetching: loading } = useListDeletedMediaItemsQuery(undefined, {
     selectFromResult: ({ data, isFetching }) => ({
-      ids: data?.ids as string[] | undefined,
+      ids: data?.ids,
       isFetching,
     }),
   });
