@@ -8,7 +8,7 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 ARG api_base_url=http://shelf-back
-ENV SNOWPACK_PUBLIC_API_BASE_URL $api_base_url
+ENV VITE_API_BASE_URL $api_base_url
 
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
@@ -21,11 +21,12 @@ RUN yarn install --frozen-lockfile --network-timeout 600000
 
 COPY ./public /usr/src/app/public
 COPY ./src /usr/src/app/src
+COPY ./index.html /usr/src/app/index.html
 COPY ./i18next-parser.config.js /usr/src/app/
 COPY ./LICENSE /usr/src/app/
 COPY ./tsconfig.json /usr/src/app/
 COPY ./postcss.config.js /usr/src/app/
-COPY ./snowpack.config.mjs /usr/src/app/
+COPY ./vite.config.mts /usr/src/app/
 COPY ./tailwind.config.js /usr/src/app/
 
 RUN yarn build

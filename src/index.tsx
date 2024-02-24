@@ -25,25 +25,6 @@ import App from './App';
 import './index.css';
 import './tailwind.css';
 
-declare global {
-  interface ImportMeta {
-    hot: {
-      accept: () => void;
-      dispose: () => void;
-    };
-    env: {
-      MODE: string;
-      SNOWPACK_PUBLIC_AVAILABLE_APPS: string;
-      SNOWPACK_PUBLIC_DEFAULT_APP: 'files' | 'photos';
-      SNOWPACK_PUBLIC_MODE: string;
-      SNOWPACK_PUBLIC_PRIVACY_POLICY_URL: string;
-      SNOWPACK_PUBLIC_REFRESH_ACCESS_TOKEN_ON_UPLOAD_DELTA: string;
-      SNOWPACK_PUBLIC_TRASH_FOLDER_NAME: string;
-      SNOWPACK_PUBLIC_TERMS_AND_CONDITION_URL: string;
-    };
-  }
-}
-
 const container = document.getElementById('root') as HTMLElement;
 const root = createRoot(container);
 

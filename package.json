@@ -7,7 +7,6 @@
     "@headlessui/react": "^1.7.4",
     "@heroicons/react": "^1.0.6",
     "@reduxjs/toolkit": "^2.2.1",
-    "@snowpack/plugin-dotenv": "^2.2.0",
     "@tailwindcss/forms": "^0.4.0",
     "async-mutex": "^0.4.0",
     "autoprefixer": "^10.4.2",
@@ -36,8 +35,9 @@
     "validator": "^13.7.0"
   },
   "scripts": {
-    "start": "snowpack dev",
-    "build": "snowpack build",
+    "start": "vite --port 8080",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
     "format": "prettier --write .",
     "lint": "eslint ./",
     "test": "web-test-runner \"src/**/*.test.jsx\"",
@@ -45,10 +45,6 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "@snowpack/plugin-postcss": "^1.4.3",
-    "@snowpack/plugin-react-refresh": "^2.5.0",
-    "@snowpack/plugin-typescript": "^1.2.1",
-    "@snowpack/web-test-runner-plugin": "^0.2.2",
     "@testing-library/react": "^11.2.6",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
@@ -58,6 +54,7 @@
     "@types/validator": "^13.11.9",
     "@typescript-eslint/eslint-plugin": "^6.19.1",
     "@typescript-eslint/parser": "^6.19.1",
+    "@vitejs/plugin-react": "^4.2.1",
     "@web/test-runner": "^0.13.3",
     "chai": "^4.3.4",
     "eslint": "^8.56.0",
@@ -75,8 +72,9 @@
     "lint-staged": "^15.2.0",
     "prettier": "^3.1.1",
     "prettier-plugin-tailwindcss": "^0.5.11",
-    "snowpack": "3.8.8",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "vite": "^5.1.4",
+    "vite-plugin-static-copy": "^1.0.1"
   },
   "resolutions": {
     "strip-ansi": "6.0.1",

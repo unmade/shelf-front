@@ -1,10 +1,7 @@
 import * as icons from 'icons';
 import * as routes from 'routes';
 
-const availableApps = import.meta.env.SNOWPACK_PUBLIC_AVAILABLE_APPS?.split(',') ?? [
-  'files',
-  'photos',
-];
+const availableApps = import.meta.env.VITE_AVAILABLE_APPS?.split(',') ?? ['files', 'photos'];
 
 export interface IAppItem {
   key: 'files' | 'photos';

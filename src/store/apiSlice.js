@@ -4,7 +4,7 @@ import { Mutex } from 'async-mutex';
 
 import { tokenRefreshed, signedOut, selectRefreshToken, selectAccessToken } from './authSlice';
 
-export const API_BASE_URL = import.meta.env.SNOWPACK_PUBLIC_API_BASE_URL ?? 'http://localhost:8000';
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000';
 
 const mutex = new Mutex();
 

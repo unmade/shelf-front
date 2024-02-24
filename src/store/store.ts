@@ -150,7 +150,7 @@ const store = configureStore({
       .prepend(listenerMiddleware.middleware)
       .concat(apiSlice.middleware)
       .concat(errorsMiddleware),
-  devTools: import.meta.env.SNOWPACK_PUBLIC_MODE !== 'production',
+  devTools: import.meta.env.MODE !== 'production',
   preloadedState: { ...loadAuthState(), ...loadAppearanceState() },
 });
 
