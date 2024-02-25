@@ -3,7 +3,11 @@ import { useCallback, useMemo, useState } from 'react';
 import { useAppSelector } from 'hooks';
 import { IMediaItem } from 'types/photos';
 
-import { mediaItemsAdapter, selectListMediaItemsData, useListMediaItemsQuery } from 'store/photos';
+import {
+  mediaItemsAdapter,
+  selectListMediaItemsData,
+  useListMediaItemsQuery,
+} from 'store/mediaItems';
 
 const initialState = mediaItemsAdapter.getInitialState();
 const { selectIds, selectById: selectMediaItemById } = mediaItemsAdapter.getSelectors();

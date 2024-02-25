@@ -6,7 +6,7 @@ import * as icons from 'icons';
 
 import { IAction } from 'hooks/file-actions';
 
-import { useRestoreMediaItemsMutation } from 'store/photos';
+import { useRestoreMediaItemsMutation } from 'store/mediaItems';
 
 import { useDeleteMediaItemsImmediatelyDialog } from '../DeleteMediaItemsImmediatelyDialogProvider';
 

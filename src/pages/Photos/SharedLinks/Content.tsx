@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useListMediaItemSharedLinksQuery } from 'store/photos';
+import { useListMediaItemSharedLinksQuery } from 'store/mediaItems';
 
 import Spinner from 'components/ui/Spinner';
 

@@ -3,7 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { shallowEqual } from 'react-redux';
 import { skipToken } from '@reduxjs/toolkit/query';
 
-import { useListMediaItemCategoriesQuery, useSetMediaItemCategoriesMutation } from 'store/photos';
+import {
+  useListMediaItemCategoriesQuery,
+  useSetMediaItemCategoriesMutation,
+} from 'store/mediaItems';
 
 import Dialog from 'components/ui/Dialog';
 

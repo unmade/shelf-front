@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import useSharedLink from 'hooks/shared-link';
 
 import { RootState } from 'store/store';
-import { selectMediaItemSharedLink } from 'store/photos';
+import { selectMediaItemSharedLink } from 'store/mediaItems';
 
 import TimeAgo from 'components/ui/TimeAgo';
 

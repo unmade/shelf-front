@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk, nanoid } from '@reduxjs/toolkit';
 import apiSlice, { API_BASE_URL, invalidateTags } from './apiSlice';
 import { selectAccessToken } from './authSlice';
 import { selectPhotosLibraryPath } from './features';
-import { mediaItemsAdapter } from './photos';
+import { mediaItemsAdapter } from './mediaItems';
 
 export const scopes = {
   deletingImmediatelyBatch: 'deletingImmediatelyBatch',

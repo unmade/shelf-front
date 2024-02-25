@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useEmptyMediaItemsTrashMutation } from 'store/photos';
+import { usePurgeMediaItemsMutation } from 'store/mediaItems';
 
 import EmptyTrashDialog from 'components/EmptyTrashDialog';
 
@@ -10,7 +10,7 @@ interface Props {
 }
 
 export default function EmptyTrashDialogContainer({ visible, onClose }: Props) {
-  const [emptyTrash, { isLoading: loading }] = useEmptyMediaItemsTrashMutation();
+  const [emptyTrash, { isLoading: loading }] = usePurgeMediaItemsMutation();
 
   const onConfirm = async () => {
     await emptyTrash(undefined);

@@ -1,6 +1,6 @@
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import apiSlice from './apiSlice';
-import { sharedLinkAdapter as mediaItemsSharedLinksAdapter, photosApi } from './photos';
+import { sharedLinkAdapter as mediaItemsSharedLinksAdapter, photosApi } from './mediaItems';
 
 interface ISharedLinkSchema {
   file_id: string;

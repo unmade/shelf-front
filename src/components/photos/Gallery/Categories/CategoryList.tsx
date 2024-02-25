@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useListMediaItemCategoriesQuery } from 'store/photos';
+import { useListMediaItemCategoriesQuery } from 'store/mediaItems';
 
 import Spinner from 'components/ui/Spinner';
 

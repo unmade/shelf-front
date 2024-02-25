@@ -3,7 +3,7 @@ import React from 'react';
 import {
   selectDeletedMediaItemById as selectById,
   useListDeletedMediaItemsQuery,
-} from 'store/photos';
+} from 'store/mediaItems';
 
 import Spinner from 'components/ui/Spinner';
 

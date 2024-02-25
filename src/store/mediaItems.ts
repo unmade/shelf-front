@@ -80,14 +80,15 @@ export const photosApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     countMediaItems: builder.query<ICountMediaItemsResponse, undefined>({
       query: () => ({
-        url: '/photos/count_media_items',
+        url: '/photos/media_items/count',
         method: 'GET',
       }),
       keepUnusedDataFor: Number.MAX_SAFE_INTEGER,
     }),
+
     deleteMediaItems: builder.mutation({
       query: (fileIds) => ({
-        url: '/photos/delete_media_item_batch',
+        url: '/photos/media_items/delete_batch',
         method: 'POST',
         body: { file_ids: fileIds },
       }),
@@ -142,9 +143,10 @@ export const photosApi = apiSlice.injectEndpoints({
         }
       },
     }),
+
     deleteMediaItemsImmediately: builder.mutation({
       query: (fileIds) => ({
-        url: '/photos/delete_media_item_immediately_batch',
+        url: '/photos/media_items/delete_immediately_batch',
         method: 'POST',
         body: { file_ids: fileIds },
       }),
@@ -172,38 +174,13 @@ export const photosApi = apiSlice.injectEndpoints({
         }
       },
     }),
-    emptyMediaItemsTrash: builder.mutation({
-      query: () => ({
-        url: '/photos/empty_trash',
-        method: 'POST',
-      }),
-      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-        const listDeletedPatchResult = dispatch(
-          photosApi.util.updateQueryData('listDeletedMediaItems', undefined, (draft) =>
-            mediaItemsAdapter.removeAll(draft),
-          ),
-        );
-        try {
-          await queryFulfilled;
-        } catch {
-          listDeletedPatchResult.undo();
-        }
-      },
-    }),
-    listDeletedMediaItems: builder.query<EntityState<IMediaItem, string>, undefined>({
-      query: () => ({
-        url: '/photos/list_deleted_media_items',
-        method: 'GET',
-      }),
-      transformResponse: (data: { items: IMediaItemSchema[] }) =>
-        mediaItemsAdapter.setAll(initialState, data.items.map(toMediaItem)),
-    }),
+
     listMediaItems: builder.query<
       EntityState<IMediaItem, string>,
       IListMediaItemFilters | undefined
     >({
       query: (filters) => ({
-        url: '/photos/list_media_items',
+        url: '/photos/media_items/list',
         method: 'GET',
         params: {
           page: filters?.page,
@@ -229,25 +206,56 @@ export const photosApi = apiSlice.injectEndpoints({
       transformResponse: (data: { items: IMediaItemSchema[] }) =>
         mediaItemsAdapter.setAll(initialState, data.items.map(toMediaItem)),
     }),
+
+    listDeletedMediaItems: builder.query<EntityState<IMediaItem, string>, undefined>({
+      query: () => ({
+        url: '/photos/media_items/list_deleted',
+        method: 'GET',
+      }),
+      transformResponse: (data: { items: IMediaItemSchema[] }) =>
+        mediaItemsAdapter.setAll(initialState, data.items.map(toMediaItem)),
+    }),
+
     listMediaItemCategories: builder.query<IListMediaItemCategoriesResponse, string>({
       query: (fileId) => ({
-        url: '/photos/list_media_item_categories',
+        url: '/photos/media_items/list_categories',
         method: 'POST',
         body: { file_id: fileId },
       }),
     }),
+
     listMediaItemSharedLinks: builder.query<EntityState<IMediaItemSharedLink, string>, undefined>({
       query: () => ({
-        url: 'photos/list_shared_links',
+        url: 'photos/media_items/list_shared_links',
         method: 'GET',
       }),
       providesTags: () => [{ type: 'MediaItems', id: 'listSharedLinks' }],
       transformResponse: (data: { items: ISharedLinkSchema[] }) =>
         sharedLinkAdapter.setAll(sharedLinksInitialState, data.items.map(toSharedLink)),
     }),
+
+    purgeMediaItems: builder.mutation({
+      query: () => ({
+        url: '/photos/media_items/purge',
+        method: 'POST',
+      }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        const listDeletedPatchResult = dispatch(
+          photosApi.util.updateQueryData('listDeletedMediaItems', undefined, (draft) =>
+            mediaItemsAdapter.removeAll(draft),
+          ),
+        );
+        try {
+          await queryFulfilled;
+        } catch {
+          listDeletedPatchResult.undo();
+        }
+      },
+    }),
+
     restoreMediaItems: builder.mutation({
       query: (fileIds) => ({
-        url: '/photos/restore_media_item_batch',
+        url: '/photos/media_items/restore_batch',
         method: 'POST',
         body: { file_ids: fileIds },
       }),
@@ -296,9 +304,10 @@ export const photosApi = apiSlice.injectEndpoints({
         }
       },
     }),
+
     setMediaItemCategories: builder.mutation({
       query: ({ fileId, categories }: { fileId: string; categories: string[] }) => ({
-        url: '/photos/set_media_item_categories',
+        url: '/photos/media_items/set_categories',
         method: 'POST',
         body: { file_id: fileId, categories },
       }),
@@ -319,11 +328,11 @@ export const {
   useCountMediaItemsQuery,
   useDeleteMediaItemsMutation,
   useDeleteMediaItemsImmediatelyMutation,
-  useEmptyMediaItemsTrashMutation,
   useListDeletedMediaItemsQuery,
   useListMediaItemsQuery,
   useListMediaItemCategoriesQuery,
   useListMediaItemSharedLinksQuery,
+  usePurgeMediaItemsMutation,
   useRestoreMediaItemsMutation,
   useSetMediaItemCategoriesMutation,
 } = photosApi;

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { IMediaItem } from 'types/photos';
 
-import { useDeleteMediaItemsImmediatelyMutation } from 'store/photos';
+import { useDeleteMediaItemsImmediatelyMutation } from 'store/mediaItems';
 
 import DeleteImmediatelyDialog from 'components/DeleteImmediatelyDialog';
 

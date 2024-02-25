@@ -2,7 +2,7 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import apiSlice from './apiSlice';
 import { filesAdapter, filesApi } from './files';
-import { mediaItemsAdapter, photosApi } from './photos';
+import { mediaItemsAdapter, photosApi } from './mediaItems';
 import { RootState } from './store';
 
 export const usersApi = apiSlice.injectEndpoints({

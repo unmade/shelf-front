@@ -17,7 +17,7 @@ import {
 } from '../authSlice';
 import { selectFeatureUploadFileMaxSize, selectPhotosLibraryPath } from '../features';
 import { filesAdapter, selectListFolderData } from '../files';
-import { mediaItemsAdapter } from '../photos';
+import { mediaItemsAdapter } from '../mediaItems';
 
 import { uploadsAdded, uploadRejected, uploadFulfilled, uploadProgressed } from './slice';
 

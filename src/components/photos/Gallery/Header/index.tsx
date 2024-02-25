@@ -4,7 +4,7 @@ import { IMediaItem } from 'types/photos';
 
 import * as icons from 'icons';
 
-import { useCountMediaItemsQuery } from 'store/photos';
+import { useCountMediaItemsQuery } from 'store/mediaItems';
 
 import Button from 'components/ui/Button';
 import TimeAgo from 'components/ui/TimeAgo';
