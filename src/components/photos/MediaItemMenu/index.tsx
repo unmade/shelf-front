@@ -3,21 +3,37 @@ import React from 'react';
 import * as icons from 'icons';
 import { IMediaItem } from 'types/photos';
 
+import { useAppSelector } from 'hooks';
 import { useCopyLinkAction, useDownloadAction, useFavouriteAction } from 'hooks/file-actions';
 
 import Menu from 'components/ui/Menu';
 import MenuItem from 'components/ui/MenuItem';
 
+import { useSelection } from 'components/SelectionProvider';
+
 import { useDeleteAction } from '../hooks/media-item-actions';
 
-import useFileFromMediaItem from '../hooks/file-from-media-item';
+import { makeFileFromMediaItem } from '../hooks/file-from-media-item';
+
+import { useMediaItemsData } from '../MediaItemsProvider';
+
+const EMPTY: IMediaItem[] = [];
 
 function useMediaItemActionGroups(item: IMediaItem) {
-  const files = [useFileFromMediaItem(item)];
+  const { selectById } = useMediaItemsData();
+  const { ids, isSelected } = useSelection();
+  const mediaItems = useAppSelector((state) => {
+    if (!isSelected(item.fileId)) {
+      return EMPTY;
+    }
+    return ids.map((id) => selectById(state, id)!);
+  });
+
+  const files = mediaItems.map((mediaItem) => makeFileFromMediaItem(mediaItem, ''));
 
   const toggleFavourite = useFavouriteAction(files);
   const copyLinkAction = useCopyLinkAction(files);
-  const deleteAction = useDeleteAction([item]);
+  const deleteAction = useDeleteAction(mediaItems);
   const downloadAction = useDownloadAction(files);
 
   const groups = [

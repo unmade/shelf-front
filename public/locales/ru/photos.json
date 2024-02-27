@@ -1,0 +1,14 @@
+{
+  "mediaItemMenu.actions.delete_one": "Удалить",
+  "mediaItemMenu.actions.delete_few": "Удалить {{count}} объекта",
+  "mediaItemMenu.actions.delete_many": "Удалить {{count}} объектов",
+  "mediaItemMenu.actions.delete_other": "Удалить",
+  "mediaItemMenu.actions.deleteImmediately_one": "Удалить безвозвратно",
+  "mediaItemMenu.actions.deleteImmediately_few": "Удалить {{count}} объекта безвозвратно",
+  "mediaItemMenu.actions.deleteImmediately_many": "Удалить {{count}} объектов безвозвратно",
+  "mediaItemMenu.actions.deleteImmediately_other": "Удалить {{count}} объектов безвозвратно",
+  "mediaItemMenu.actions.restore_one": "Восстановить",
+  "mediaItemMenu.actions.restore_few": "Восстановить {{count}} объекта",
+  "mediaItemMenu.actions.restore_many": "Восстановить {{count}} объектов",
+  "mediaItemMenu.actions.restore_other": "Восстановить {{count}} объектов"
+}

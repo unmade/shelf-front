@@ -31,12 +31,14 @@ interface GridItemProps {
 function GridItem({ mediaItem, touch, width, onClick }: GridItemProps) {
   const file = useFileFromMediaItem(mediaItem);
 
-  const { select, isSelected } = useSelection();
+  const { select, toggleSelection, isSelected } = useSelection();
   const selected = isSelected(mediaItem.id);
 
-  const onSelect = () => {
+  const onSelect = ({ metaKey }: React.MouseEvent<HTMLSpanElement>) => {
     if (touch) {
       onClick(mediaItem.id);
+    } else if (metaKey) {
+      toggleSelection(mediaItem.id);
     } else {
       select(mediaItem.id);
     }
@@ -45,6 +47,12 @@ function GridItem({ mediaItem, touch, width, onClick }: GridItemProps) {
   const onOpen = () => {
     if (!touch) {
       onClick(mediaItem.id);
+    }
+  };
+
+  const handleMenuOpen = () => {
+    if (!selected) {
+      select(mediaItem.id);
     }
   };
 
@@ -73,7 +81,7 @@ function GridItem({ mediaItem, touch, width, onClick }: GridItemProps) {
             !touch ? 'group-hover:block' : ''
           } absolute right-2 top-1`}
         >
-          <Menu mediaItem={mediaItem} onOpen={() => select(mediaItem.id)} />
+          <Menu mediaItem={mediaItem} onOpen={handleMenuOpen} />
         </div>
         {!mediaItem.deletedAt && (
           <div className="absolute bottom-1 left-2">
