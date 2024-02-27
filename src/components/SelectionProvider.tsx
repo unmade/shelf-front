@@ -6,15 +6,24 @@ interface Props {
 
 interface ContextValue {
   ids: string[];
+  clearSelection: () => void;
+  isSelected: (itemId: string) => boolean;
   toggleSelection: (itemId: string) => void;
   select: (itemId: string) => void;
-  isSelected: (itemId: string) => boolean;
 }
 
 const SelectionContext = createContext<ContextValue | null>(null);
 
 export default function SelectionProvider({ children }: Props) {
   const [state, setState] = useState<Record<string, boolean>>({});
+
+  const clearSelection = () => {
+    if (Object.keys(state).length) {
+      setState({});
+    }
+  };
+
+  const isSelected = (itemId: string) => state[itemId] != null && state[itemId];
 
   const select = (itemId: string) => {
     if (!state[itemId]) {
@@ -32,14 +41,18 @@ export default function SelectionProvider({ children }: Props) {
     }
   };
 
-  const isSelected = (itemId: string) => state[itemId] != null && state[itemId];
-
   const context = useMemo<ContextValue>(
-    () => ({ ids: Object.keys(state), select, toggleSelection, isSelected }),
+    () => ({ ids: Object.keys(state), clearSelection, isSelected, select, toggleSelection }),
     [state],
   );
 
-  return <SelectionContext.Provider value={context}>{children}</SelectionContext.Provider>;
+  return (
+    <SelectionContext.Provider value={context}>
+      <span onClick={() => clearSelection()} aria-hidden>
+        {children}
+      </span>
+    </SelectionContext.Provider>
+  );
 }
 
 export function useSelection(): ContextValue {
