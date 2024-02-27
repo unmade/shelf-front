@@ -12,12 +12,16 @@ import { useDeleteMediaItemsDialog } from '../DeleteMediaItemsDialogProvider';
 
 // eslint-disable-next-line import/prefer-default-export
 export function useDeleteAction(mediaItems: IMediaItem[]): IAction | null {
-  const { t } = useTranslation();
+  const { t } = useTranslation('photos');
+
   const { openDialog: openDeleteDialog } = useDeleteMediaItemsDialog();
 
   return {
     key: 'delete',
-    name: t('Delete'),
+    name: t('photos:mediaItemMenu.actions.delete', {
+      defaultValue: 'Delete',
+      count: mediaItems.length,
+    }),
     Icon: icons.TrashOutlined,
     icon: <icons.TrashOutlined className="h-4 w-4" />,
     danger: true,

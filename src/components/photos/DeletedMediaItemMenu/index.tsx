@@ -2,18 +2,34 @@ import React from 'react';
 
 import * as icons from 'icons';
 
+import { useAppSelector } from 'hooks';
+
 import { IMediaItem } from 'types/photos';
 
 import Menu from 'components/ui/Menu';
 import MenuItem from 'components/ui/MenuItem';
 
+import { useSelection } from 'components/SelectionProvider';
+
 import { useDeleteImmediatelyAction, useRestoreAction } from '../hooks/deleted-media-item-actions';
 
-function useMediaItemActionGroups(item: IMediaItem) {
-  const items = [item];
+import { useMediaItemsData } from '../MediaItemsProvider';
 
-  const restore = useRestoreAction(items);
-  const deleteImmediately = useDeleteImmediatelyAction(items);
+const EMPTY: IMediaItem[] = [];
+
+function useMediaItemActionGroups(item: IMediaItem) {
+  const { selectById } = useMediaItemsData();
+  const { ids, isSelected } = useSelection();
+
+  const mediaItems = useAppSelector((state) => {
+    if (!isSelected(item.fileId)) {
+      return EMPTY;
+    }
+    return ids.map((id) => selectById(state, id)!);
+  });
+
+  const restore = useRestoreAction(mediaItems);
+  const deleteImmediately = useDeleteImmediatelyAction(mediaItems);
 
   const groups = [
     {

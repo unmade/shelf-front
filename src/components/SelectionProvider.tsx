@@ -5,6 +5,7 @@ interface Props {
 }
 
 interface ContextValue {
+  ids: string[];
   toggleSelection: (itemId: string) => void;
   select: (itemId: string) => void;
   isSelected: (itemId: string) => boolean;
@@ -23,7 +24,9 @@ export default function SelectionProvider({ children }: Props) {
 
   const toggleSelection = (itemId: string) => {
     if (state[itemId]) {
-      setState({ ...state, [itemId]: false });
+      const nextState = { ...state };
+      delete nextState[itemId];
+      setState(nextState);
     } else {
       setState({ ...state, [itemId]: true });
     }
@@ -31,7 +34,10 @@ export default function SelectionProvider({ children }: Props) {
 
   const isSelected = (itemId: string) => state[itemId] != null && state[itemId];
 
-  const context = useMemo<ContextValue>(() => ({ select, toggleSelection, isSelected }), [state]);
+  const context = useMemo<ContextValue>(
+    () => ({ ids: Object.keys(state), select, toggleSelection, isSelected }),
+    [state],
+  );
 
   return <SelectionContext.Provider value={context}>{children}</SelectionContext.Provider>;
 }

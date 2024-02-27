@@ -27,13 +27,17 @@ export interface IAction {
   onClick: () => void;
 }
 
-export function useFavouriteAction(files: IFile[]): IAction {
+export function useFavouriteAction(files: IFile[]): IAction | null {
   const { t } = useTranslation();
 
   const bookmarked = useSelector((state: RootState) => selectIsBookmarked(state, files[0]?.id));
 
   const [addBookmark] = useAddBookmarkMutation();
   const [removeBookmark] = useRemoveBookmarkMutation();
+
+  if (files.length !== 1 || routes.isTrashed(files[0].path)) {
+    return null;
+  }
 
   if (bookmarked) {
     return {
