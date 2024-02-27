@@ -34,10 +34,12 @@ function GridItem({ mediaItem, touch, width, onClick }: GridItemProps) {
   const { select, toggleSelection, isSelected } = useSelection();
   const selected = isSelected(mediaItem.id);
 
-  const onSelect = ({ metaKey }: React.MouseEvent<HTMLSpanElement>) => {
+  const onSelect = (event: React.MouseEvent<HTMLSpanElement>) => {
+    event.stopPropagation();
+
     if (touch) {
       onClick(mediaItem.id);
-    } else if (metaKey) {
+    } else if (event.metaKey) {
       toggleSelection(mediaItem.id);
     } else {
       select(mediaItem.id);
