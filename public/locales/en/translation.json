@@ -34,7 +34,6 @@
   "Empty Trash": "Empty Trash",
   "empty_trash_dialog_text_styled": "Are you sure you want to delete <1>all</1> files in the Trash?",
   "Enter a username": "Enter a username",
-  "Favourite": "Favourite",
   "Favourites": "Favourites",
   "filesApp.title": "Files",
   "Folder name": "Folder name",
@@ -90,6 +89,5 @@
   "This folder is empty": "This folder is empty",
   "Trash": "Trash",
   "Trash folder is empty": "Trash folder is empty",
-  "Unfavourite": "Unfavourite",
   "Uploads": "Uploads"
 }

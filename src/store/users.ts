@@ -7,16 +7,16 @@ import { RootState } from './store';
 
 export const usersApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    addBookmark: builder.mutation<null, string>({
-      query: (fileId) => ({
-        url: '/users/bookmarks/add',
+    addBookmarkBatch: builder.mutation<null, string[]>({
+      query: (fileIds) => ({
+        url: '/users/bookmarks/add_batch',
         method: 'POST',
-        body: { id: fileId },
+        body: { file_ids: fileIds },
       }),
-      async onQueryStarted(fileId, { dispatch, queryFulfilled }) {
+      async onQueryStarted(fileIds, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
           usersApi.util.updateQueryData('listBookmarks', undefined, (draft) => {
-            draft.push(fileId);
+            draft.push(...fileIds);
           }),
         );
         try {
@@ -30,47 +30,53 @@ export const usersApi = apiSlice.injectEndpoints({
         { type: 'MediaItems', id: 'listFavourites' },
       ],
     }),
+
     listBookmarks: builder.query<string[], undefined>({
       query: () => '/users/bookmarks/list',
       transformResponse: (response: { items: string[] }) => response.items,
     }),
-    removeBookmark: builder.mutation<undefined, string>({
-      query: (fileId) => ({
-        url: '/users/bookmarks/remove',
+
+    removeBookmarkBatch: builder.mutation<undefined, string[]>({
+      query: (fileIds) => ({
+        url: '/users/bookmarks/remove_batch',
         method: 'POST',
-        body: { id: fileId },
+        body: { file_ids: fileIds },
       }),
-      async onQueryStarted(fileId: string, { dispatch, queryFulfilled }) {
-        const patchListBookmarksResult = dispatch(
-          usersApi.util.updateQueryData('listBookmarks', undefined, (draft) =>
-            draft.filter((id) => id !== fileId),
+      async onQueryStarted(fileIds, { dispatch, queryFulfilled }) {
+        const uniqueFileIds = new Set(fileIds);
+        const patches = [
+          dispatch(
+            usersApi.util.updateQueryData('listBookmarks', undefined, (draft) =>
+              draft.filter((id) => !uniqueFileIds.has(id)),
+            ),
           ),
-        );
-        const patchListBookmarkedFilesResult = dispatch(
-          filesApi.util.updateQueryData('listBookmarkedFiles', undefined, (draft) =>
-            // @ts-expect-error waiting for files.js to be rewritten in typescript
-            filesAdapter.removeOne(draft, fileId),
+          dispatch(
+            filesApi.util.updateQueryData('listBookmarkedFiles', undefined, (draft) =>
+              // @ts-expect-error waiting for files.js to be rewritten in typescript
+              filesAdapter.removeMany(draft, fileIds),
+            ),
           ),
-        );
-        const patchListMediaItemsResult = dispatch(
-          photosApi.util.updateQueryData('listMediaItems', { favourites: true }, (draft) =>
-            mediaItemsAdapter.removeOne(draft, fileId),
+          dispatch(
+            photosApi.util.updateQueryData('listMediaItems', { favourites: true }, (draft) =>
+              mediaItemsAdapter.removeMany(draft, fileIds),
+            ),
           ),
-        );
+        ];
         try {
           await queryFulfilled;
         } catch {
-          patchListBookmarksResult.undo();
-          patchListBookmarkedFilesResult.undo();
-          patchListMediaItemsResult.undo();
+          patches.forEach((patch) => patch.undo());
         }
       },
     }),
   }),
 });
 
-export const { useAddBookmarkMutation, useListBookmarksQuery, useRemoveBookmarkMutation } =
-  usersApi;
+export const {
+  useAddBookmarkBatchMutation,
+  useListBookmarksQuery,
+  useRemoveBookmarkBatchMutation,
+} = usersApi;
 
 const selectBookmarksFromResult = usersApi.endpoints.listBookmarks.select(undefined);
 const empty = new Set();

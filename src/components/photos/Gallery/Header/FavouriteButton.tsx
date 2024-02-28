@@ -2,11 +2,9 @@ import React from 'react';
 
 import { IMediaItem } from 'types/photos';
 
-import { useFavouriteAction } from 'hooks/file-actions';
+import { useFavouriteAction } from 'components/photos/hooks/media-item-actions';
 
 import Button from 'components/ui/Button';
-
-import useFileFromMediaItem from '../../hooks/file-from-media-item';
 
 interface Props {
   className?: string;
@@ -14,8 +12,7 @@ interface Props {
 }
 
 export default function FavouriteButton({ className = '', mediaItem }: Props) {
-  const file = useFileFromMediaItem(mediaItem);
-  const { name, Icon, onClick } = useFavouriteAction([file]);
+  const { name, Icon, onClick } = useFavouriteAction([mediaItem]);
 
   return (
     <Button

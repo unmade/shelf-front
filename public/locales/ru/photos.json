@@ -10,5 +10,13 @@
   "mediaItemMenu.actions.restore_one": "Восстановить",
   "mediaItemMenu.actions.restore_few": "Восстановить {{count}} объекта",
   "mediaItemMenu.actions.restore_many": "Восстановить {{count}} объектов",
-  "mediaItemMenu.actions.restore_other": "Восстановить {{count}} объектов"
+  "mediaItemMenu.actions.restore_other": "Восстановить {{count}} объектов",
+  "photos.mediaItemMenu.actions.favourite_one": "В избранное",
+  "photos.mediaItemMenu.actions.favourite_few": "В избранное {{count}} объекта",
+  "photos.mediaItemMenu.actions.favourite_many": "В избранное {{count}} объектов",
+  "photos.mediaItemMenu.actions.favourite_other": "В избранное {{count}} объектов",
+  "photos.mediaItemMenu.actions.unfavourite_one": "Из избранного",
+  "photos.mediaItemMenu.actions.unfavourite_few": "Из избранного {{count}} объекта",
+  "photos.mediaItemMenu.actions.unfavourite_many": "Из избранного {{count}} объектов",
+  "photos.mediaItemMenu.actions.unfavourite_other": "Из избранного {{count}} объектов"
 }

@@ -4,5 +4,9 @@
   "mediaItemMenu.actions.deleteImmediately_one": "Delete Immediately",
   "mediaItemMenu.actions.deleteImmediately_other": "Delete {{count}} Items Immediately",
   "mediaItemMenu.actions.restore_one": "Restore",
-  "mediaItemMenu.actions.restore_other": "Restore {{count}} Items"
+  "mediaItemMenu.actions.restore_other": "Restore {{count}} Items",
+  "photos.mediaItemMenu.actions.favourite_one": "Favourite",
+  "photos.mediaItemMenu.actions.favourite_other": "Favourite {{count}} Items",
+  "photos.mediaItemMenu.actions.unfavourite_one": "Unfavourite",
+  "photos.mediaItemMenu.actions.unfavourite_other": "Unfavourite {{count}} Items"
 }

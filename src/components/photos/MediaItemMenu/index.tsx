@@ -4,15 +4,14 @@ import * as icons from 'icons';
 import { IMediaItem } from 'types/photos';
 
 import { useAppSelector } from 'hooks';
-import { useCopyLinkAction, useDownloadAction, useFavouriteAction } from 'hooks/file-actions';
+import { useCopyLinkAction, useDownloadAction } from 'hooks/file-actions';
 
 import Menu from 'components/ui/Menu';
 import MenuItem from 'components/ui/MenuItem';
 
 import { useSelection } from 'components/SelectionProvider';
 
-import { useDeleteAction } from '../hooks/media-item-actions';
-
+import { useDeleteAction, useFavouriteAction } from '../hooks/media-item-actions';
 import { makeFileFromMediaItem } from '../hooks/file-from-media-item';
 
 import { useMediaItemsData } from '../MediaItemsProvider';
@@ -31,7 +30,7 @@ function useMediaItemActionGroups(item: IMediaItem) {
 
   const files = mediaItems.map((mediaItem) => makeFileFromMediaItem(mediaItem, ''));
 
-  const toggleFavourite = useFavouriteAction(files);
+  const toggleFavourite = useFavouriteAction(mediaItems);
   const copyLinkAction = useCopyLinkAction(files);
   const deleteAction = useDeleteAction(mediaItems);
   const downloadAction = useDownloadAction(files);
