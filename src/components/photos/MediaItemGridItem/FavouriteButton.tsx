@@ -2,9 +2,11 @@ import React from 'react';
 
 import { IMediaItem } from 'types/photos';
 
-import { useFavouriteAction } from 'hooks/file-actions';
+import { useAppSelector } from 'hooks';
 
-import useFileFromMediaItem from '../hooks/file-from-media-item';
+import { selectIsBookmarked } from 'store/users';
+
+import { useFavouriteAction } from '../hooks/media-item-actions';
 
 interface Props {
   mediaItem: IMediaItem;
@@ -12,10 +14,8 @@ interface Props {
 }
 
 function FavouriteButton({ mediaItem, touch }: Props) {
-  const file = useFileFromMediaItem(mediaItem);
-
-  const { key, name, Icon, onClick } = useFavouriteAction([file]);
-  const favourite = key === 'unfavourite';
+  const { name, Icon, onClick } = useFavouriteAction([mediaItem]);
+  const favourite = useAppSelector((state) => selectIsBookmarked(state, mediaItem.fileId));
 
   if (touch) {
     if (favourite) {

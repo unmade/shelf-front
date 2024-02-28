@@ -44,7 +44,6 @@
   "Empty Trash": "Очистить Корзину",
   "empty_trash_dialog_text_styled": "Вы уверены, что хотите удалить <1>все</1> файлы в Корзине?",
   "Enter a username": "Введите ник пользователя",
-  "Favourite": "Избранное",
   "Favourites": "Избранные",
   "filesApp.title": "Файлы",
   "Folder name": "Имя папки",
@@ -112,6 +111,5 @@
   "This folder is empty": "Эта папка пуста",
   "Trash": "Корзина",
   "Trash folder is empty": "Корзина пуста",
-  "Unfavourite": "Из избранного",
   "Uploads": "Загрузки"
 }

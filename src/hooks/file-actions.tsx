@@ -1,16 +1,13 @@
 import React from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 
 import { useAppDispatch } from 'hooks';
 import * as icons from 'icons';
 import * as routes from 'routes';
 import { IFile } from 'types/files';
 
-import { selectIsBookmarked, useAddBookmarkMutation, useRemoveBookmarkMutation } from 'store/users';
 import { download } from 'store/files';
-import { RootState } from 'store/store';
 
 import { useCopyLinkDialog } from 'components/CopyLinkDialogProvider';
 import { useDeleteDialog } from 'components/DeleteDialogProvider';
@@ -25,42 +22,6 @@ export interface IAction {
   icon: React.ReactElement;
   danger: boolean;
   onClick: () => void;
-}
-
-export function useFavouriteAction(files: IFile[]): IAction | null {
-  const { t } = useTranslation();
-
-  const bookmarked = useSelector((state: RootState) => selectIsBookmarked(state, files[0]?.id));
-
-  const [addBookmark] = useAddBookmarkMutation();
-  const [removeBookmark] = useRemoveBookmarkMutation();
-
-  if (files.length !== 1 || routes.isTrashed(files[0].path)) {
-    return null;
-  }
-
-  if (bookmarked) {
-    return {
-      key: 'unfavourite',
-      name: t('Unfavourite'),
-      Icon: icons.Heart,
-      icon: <icons.Heart className="h-4 w-4" />,
-      danger: false,
-      onClick: () => {
-        removeBookmark(files[0].id);
-      },
-    };
-  }
-  return {
-    key: 'favourite',
-    name: t('Favourite'),
-    Icon: icons.HeartOutlined,
-    icon: <icons.HeartOutlined className="h-4 w-4" />,
-    danger: false,
-    onClick: () => {
-      addBookmark(files[0].id);
-    },
-  };
 }
 
 export function useCopyLinkAction(files: IFile[]): IAction | null {
