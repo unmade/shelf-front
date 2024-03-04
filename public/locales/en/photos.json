@@ -3,6 +3,8 @@
   "mediaItemMenu.actions.delete_other": "Delete {{count}} Items",
   "mediaItemMenu.actions.deleteImmediately_one": "Delete Immediately",
   "mediaItemMenu.actions.deleteImmediately_other": "Delete {{count}} Items Immediately",
+  "mediaItemMenu.actions.downloadBatch_one": "Download",
+  "mediaItemMenu.actions.downloadBatch_other": "Download {{count}} Items",
   "mediaItemMenu.actions.restore_one": "Restore",
   "mediaItemMenu.actions.restore_other": "Restore {{count}} Items",
   "photos.mediaItemMenu.actions.favourite_one": "Favourite",

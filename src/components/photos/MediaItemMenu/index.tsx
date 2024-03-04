@@ -4,14 +4,18 @@ import * as icons from 'icons';
 import { IMediaItem } from 'types/photos';
 
 import { useAppSelector } from 'hooks';
-import { useCopyLinkAction, useDownloadAction } from 'hooks/file-actions';
+import { useCopyLinkAction } from 'hooks/file-actions';
 
 import Menu from 'components/ui/Menu';
 import MenuItem from 'components/ui/MenuItem';
 
 import { useSelection } from 'components/SelectionProvider';
 
-import { useDeleteAction, useFavouriteAction } from '../hooks/media-item-actions';
+import {
+  useDeleteAction,
+  useDownloadBatchAction,
+  useFavouriteAction,
+} from '../hooks/media-item-actions';
 import { makeFileFromMediaItem } from '../hooks/file-from-media-item';
 
 import { useMediaItemsData } from '../MediaItemsProvider';
@@ -33,7 +37,7 @@ function useMediaItemActionGroups(item: IMediaItem) {
   const toggleFavourite = useFavouriteAction(mediaItems);
   const copyLinkAction = useCopyLinkAction(files);
   const deleteAction = useDeleteAction(mediaItems);
-  const downloadAction = useDownloadAction(files);
+  const downloadBatchAction = useDownloadBatchAction(mediaItems);
 
   const groups = [
     {
@@ -42,7 +46,7 @@ function useMediaItemActionGroups(item: IMediaItem) {
     },
     {
       key: 'sharing',
-      items: [downloadAction, copyLinkAction].filter((action) => action != null),
+      items: [downloadBatchAction, copyLinkAction].filter((action) => action != null),
     },
     {
       key: 'deleting',

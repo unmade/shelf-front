@@ -1,11 +1,17 @@
-import { EntityState, createEntityAdapter, createSelector } from '@reduxjs/toolkit';
+import {
+  EntityState,
+  createAsyncThunk,
+  createEntityAdapter,
+  createSelector,
+  nanoid,
+} from '@reduxjs/toolkit';
 import { defaultSerializeQueryArgs } from '@reduxjs/toolkit/query';
 
 import { IMediaItem, IMediaItemSharedLink } from 'types/photos';
 
 import { RootState } from 'store/store';
 
-import apiSlice from './apiSlice';
+import apiSlice, { API_BASE_URL } from './apiSlice';
 
 interface IMediaItemSchema {
   file_id: string;
@@ -355,4 +361,35 @@ const createListDeletedMediaItemsSelector =
 
 export const { selectById: selectDeletedMediaItemById } = mediaItemsAdapter.getSelectors(
   (state: RootState) => createListDeletedMediaItemsSelector(state).data ?? initialState,
+);
+
+export const downloadMediaItemsBatch = createAsyncThunk(
+  'mediaItems/download_batch',
+  async (fileIds: string[], { getState }) => {
+    const { accessToken } = (getState() as RootState).auth;
+
+    const url = `${API_BASE_URL}/photos/media_items/get_download_url`;
+    const options: RequestInit = {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'default',
+      headers: new Headers({
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+        'X-Request-ID': nanoid(),
+      }),
+      body: JSON.stringify({ file_ids: fileIds }),
+    };
+
+    const response = await fetch(url, options);
+    const data = await response.json();
+
+    if (data != null) {
+      const link = document.createElement('a');
+      link.href = data.download_url;
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode?.removeChild(link);
+    }
+  },
 );
