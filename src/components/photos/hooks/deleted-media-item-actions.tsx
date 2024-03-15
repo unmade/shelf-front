@@ -19,7 +19,7 @@ export function useDeleteImmediatelyAction(mediaItems: IMediaItem[]): IAction | 
 
   return {
     key: 'delete_immediately',
-    name: t('photos:mediaItemMenu.actions.deleteImmediately', {
+    name: t('photos:mediaItem.actions.deleteImmediately', {
       defaultValue: 'Delete immediately',
       count: mediaItems.length,
     }),
@@ -41,7 +41,7 @@ export function useRestoreAction(mediaItems: IMediaItem[]): IAction {
 
   return {
     key: 'restore',
-    name: t('photos:mediaItemMenu.actions.restore', {
+    name: t('photos:mediaItem.actions.restore', {
       defaultValue: 'Restore',
       count: mediaItems.length,
     }),

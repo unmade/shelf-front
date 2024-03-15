@@ -30,7 +30,7 @@ function FavouriteButton({ mediaItem, touch }: Props) {
 
   return (
     <button
-      aria-label="Favourite"
+      aria-label={name}
       title={name}
       type="button"
       className={`rounded-full p-0.5 text-gray-50 drop-shadow-md dark:text-zinc-100 ${

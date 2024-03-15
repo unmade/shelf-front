@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
 
 import CopyLinkDialogProvider from 'components/CopyLinkDialogProvider';
 import PageHeader from 'components/PageHeader';
@@ -15,6 +16,10 @@ const contentStyle = {
 };
 
 export default function Favourites() {
+  const { t } = useTranslation('photos');
+
+  const title = t('photos:pages.favourite.title', { defaultValue: 'Favourites' });
+
   return (
     <CopyLinkDialogProvider>
       <DeleteMediaItemsDialogProvider>
@@ -23,7 +28,7 @@ export default function Favourites() {
         </Helmet>
         <div className="h-full">
           <PageHeader>
-            <PageHeader.Title>Favourites</PageHeader.Title>
+            <PageHeader.Title>{title}</PageHeader.Title>
             <PageHeader.Actions />
           </PageHeader>
 

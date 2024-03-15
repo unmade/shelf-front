@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useTranslation } from 'react-i18next';
+
 import {
   selectDeletedMediaItemById as selectById,
   useListDeletedMediaItemsQuery,
@@ -11,6 +13,13 @@ import Empty from 'components/photos/Empty';
 import MediaItemGridView from 'components/photos/MediaItemGridView';
 
 export default function Content() {
+  const { t } = useTranslation('photos');
+
+  const title = t('photos:pages.trash.emptyTitle', { defaultValue: 'Trash bin' });
+  const description = t('photos:pages.trash.emptyDescription', {
+    defaultValue: 'All your deleted photos appear here',
+  });
+
   const { ids, isFetching: loading } = useListDeletedMediaItemsQuery(undefined, {
     selectFromResult: ({ data, isFetching }) => ({
       ids: data?.ids,
@@ -22,7 +31,7 @@ export default function Content() {
   if (empty) {
     return (
       <div className="flex h-full justify-center">
-        <Empty title="Trash bin" description="All your deleted photos appear here" />
+        <Empty title={title} description={description} />
       </div>
     );
   }

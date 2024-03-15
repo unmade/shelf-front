@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import { selectPhotosLibraryPath } from 'store/features';
@@ -26,6 +27,9 @@ const contentStyle = {
 export default function Library() {
   const libraryPath = useSelector(selectPhotosLibraryPath);
 
+  const { t } = useTranslation('photos');
+  const title = t('photos:pages.library.title', { defaultValue: 'Library' });
+
   return (
     <VerifyAccountDialogProvider>
       <CopyLinkDialogProvider>
@@ -35,7 +39,7 @@ export default function Library() {
           </Helmet>
           <div className="h-full">
             <PageHeader>
-              <PageHeader.Title>Library</PageHeader.Title>
+              <PageHeader.Title>{title}</PageHeader.Title>
               <PageHeader.Actions>
                 <Uploader allowedMediaTypes={allowedMediaTypes} uploadTo={libraryPath} />
               </PageHeader.Actions>

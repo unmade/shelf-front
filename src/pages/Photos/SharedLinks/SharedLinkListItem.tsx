@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import useSharedLink from 'hooks/shared-link';
@@ -21,6 +22,11 @@ interface Props {
 }
 
 export default function SharedLinkListItem({ fileId }: Props) {
+  const { t } = useTranslation('photos');
+  const copyLinkButtonTitle = t('photos:mediaItem.actions.copyLink', {
+    defaultValue: 'Copy link',
+  });
+
   const link = useSelector((state: RootState) => selectMediaItemSharedLink(state, fileId));
   const { token, createdAt, item } = link!;
   const { name } = item;
@@ -43,11 +49,11 @@ export default function SharedLinkListItem({ fileId }: Props) {
           <div className="min-w-max">
             <CopyToClipboardButton
               className="invisible md:group-hover/row:visible"
-              title="Copy to clipboard"
+              title={copyLinkButtonTitle}
               value={sharedLink}
               disabled={sharedLink == null}
             >
-              Copy link
+              {copyLinkButtonTitle}
             </CopyToClipboardButton>
           </div>
           <SharedLinkListItemMenu mediaItem={item} />

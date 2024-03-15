@@ -25,7 +25,7 @@ export function useDeleteAction(mediaItems: IMediaItem[]): IAction | null {
 
   return {
     key: 'delete',
-    name: t('photos:mediaItemMenu.actions.delete', {
+    name: t('photos:mediaItem.actions.delete', {
       defaultValue: 'Delete',
       count: mediaItems.length,
     }),
@@ -45,7 +45,7 @@ export function useDownloadBatchAction(mediaItems: IMediaItem[]): IAction | null
 
   return {
     key: 'download',
-    name: t('photos:mediaItemMenu.actions.downloadBatch', {
+    name: t('photos:mediaItem.actions.downloadBatch', {
       defaultValue: 'Download',
       count: mediaItems.length,
     }),
@@ -72,7 +72,7 @@ export function useFavouriteAction(mediaItems: IMediaItem[]): IAction {
   if (!nonBookmarkedIds.length) {
     return {
       key: 'unfavourite',
-      name: t('photos.mediaItemMenu.actions.unfavourite', {
+      name: t('photos:mediaItem.actions.unfavourite', {
         defaultValue: 'Unfavourite',
         count: fileIds.length,
       }),
@@ -86,7 +86,7 @@ export function useFavouriteAction(mediaItems: IMediaItem[]): IAction {
   }
   return {
     key: 'favourite',
-    name: t('photos.mediaItemMenu.actions.favourite', {
+    name: t('photos:mediaItem.actions.favourite', {
       defaultValue: 'Favourite',
       count: fileIds.length,
     }),

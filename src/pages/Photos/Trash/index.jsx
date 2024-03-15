@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
 
 import PageHeader from 'components/PageHeader';
 
@@ -16,6 +17,10 @@ const contentStyle = {
 };
 
 export default function Trash() {
+  const { t } = useTranslation('photos');
+
+  const title = t('photos:pages.trash.title', { defaultValue: 'Trash' });
+
   return (
     <DeleteMediaItemsImmediatelyDialogProvider>
       <EmptyMediaItemsTrashDialogProvider>
@@ -24,7 +29,7 @@ export default function Trash() {
         </Helmet>
         <div className="h-full">
           <PageHeader>
-            <PageHeader.Title>Trash</PageHeader.Title>
+            <PageHeader.Title>{title}</PageHeader.Title>
             <PageHeader.Actions>
               <EmptyTrashDialogButton />
             </PageHeader.Actions>

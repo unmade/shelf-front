@@ -19,6 +19,7 @@ i18n
     },
     react: {
       useSuspense: false,
+      transSupportBasicHtmlNodes: true,
     },
   });
 

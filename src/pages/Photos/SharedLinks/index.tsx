@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
 
 import CopyLinkDialogProvider from 'components/CopyLinkDialogProvider';
 import PageHeader from 'components/PageHeader';
@@ -11,16 +12,20 @@ import DeleteMediaItemsImmediatelyDialogProvider from 'components/photos/DeleteM
 import Content from './Content';
 
 export default function SharedLinks() {
+  const { t } = useTranslation('photos');
+
+  const title = t('photos:pages.sharedViaLink.title', { defaultValue: 'Shared via link' });
+
   return (
     <CopyLinkDialogProvider>
       <DeleteMediaItemsDialogProvider>
         <DeleteMediaItemsImmediatelyDialogProvider>
           <Helmet>
-            <title>Shared - Shelf</title>
+            <title>Shelf Photos - Shared via link</title>
           </Helmet>
           <div className="flex h-full flex-col">
             <PageHeader>
-              <PageHeader.Title>Shared via link</PageHeader.Title>
+              <PageHeader.Title>{title}</PageHeader.Title>
               <PageHeader.Actions />
             </PageHeader>
 

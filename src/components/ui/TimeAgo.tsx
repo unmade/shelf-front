@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useTranslation } from 'react-i18next';
 
-import moment from 'moment';
+import moment from 'moment/min/moment-with-locales';
 
 interface Props {
   className?: string;
