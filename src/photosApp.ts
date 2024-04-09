@@ -19,6 +19,14 @@ const config: IAppConfig = {
       end: true,
     },
     {
+      path: '/photos/albums',
+      title: i18n.t('Albums', { defaultValue: 'Albums' }),
+      icon: icons.Collection,
+      desktopOnly: false,
+      items: null,
+      end: true,
+    },
+    {
       path: '/photos/favourites',
       title: i18n.t('Favourites', { defaultValue: 'Favourites' }),
       icon: icons.HeartOutlined,
@@ -48,9 +56,10 @@ const config: IAppConfig = {
 i18n.on('languageChanged init', () => {
   config.title = i18n.t('photosApp.title', { defaultValue: 'Photos' });
   config.menu[0].title = i18n.t('Library');
-  config.menu[1].title = i18n.t('Favourites');
-  config.menu[2].title = i18n.t('Shared links');
-  config.menu[3].title = i18n.t('Trash');
+  config.menu[1].title = i18n.t('Albums');
+  config.menu[2].title = i18n.t('Favourites');
+  config.menu[3].title = i18n.t('Shared links');
+  config.menu[4].title = i18n.t('Trash');
 });
 
 export default config;
