@@ -51,7 +51,7 @@ function CreateFolderDialog({ inPath, visible, onClose }) {
       const { data, error } = await createFolder({ name: folderName, inPath });
       closeDialog();
       if (error == null) {
-        navigate(resolvePath(data.path, routes.FILES.prefix));
+        navigate(resolvePath(routes.encodePath(data.path), routes.FILES.prefix));
       }
     }
   };
