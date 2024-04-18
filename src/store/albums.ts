@@ -38,6 +38,13 @@ const initialState = albumsAdapter.getInitialState();
 
 export const albumsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    createAlbum: builder.mutation<IAlbum, { title: string }>({
+      query: ({ title }) => ({
+        url: '/photos/albums/create',
+        method: 'POST',
+        body: { title },
+      }),
+    }),
     listAlbums: builder.query<EntityState<IAlbum, string>, IListAlbumsFilters | undefined>({
       query: (filters) => ({
         url: '/photos/albums/list',
@@ -66,7 +73,7 @@ export const albumsApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useListAlbumsQuery } = albumsApi;
+export const { useCreateAlbumMutation, useListAlbumsQuery } = albumsApi;
 
 export const selectListAlbumsData = createSelector(
   [(state: RootState) => state, (state: RootState, filters: IListAlbumsFilters) => filters],
