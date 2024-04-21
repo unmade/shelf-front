@@ -9,6 +9,7 @@ import { RootState } from './store';
 interface IAlbumsSchema {
   id: string;
   title: string;
+  items_count: number;
   created_at: string;
   cover: {
     file_id: string;
@@ -22,7 +23,7 @@ interface IListAlbumsFilters {
 }
 
 function toAlbum(schema: IAlbumsSchema): IAlbum {
-  const { id, title, created_at: createdAt } = schema;
+  const { id, title, items_count: itemsCount, created_at: createdAt } = schema;
   let cover = null;
   if (schema.cover != null) {
     cover = {
@@ -30,7 +31,7 @@ function toAlbum(schema: IAlbumsSchema): IAlbum {
       thumbnailUrl: schema.cover.thumbnail_url,
     };
   }
-  return { id, title, createdAt, cover };
+  return { id, title, cover, itemsCount, createdAt };
 }
 
 export const albumsAdapter = createEntityAdapter<IAlbum>();

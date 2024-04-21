@@ -6,7 +6,7 @@ import { IAlbum } from 'types/photos';
 import { albumsAdapter, selectListAlbumsData, useListAlbumsQuery } from 'store/albums';
 
 const initialState = albumsAdapter.getInitialState();
-const { selectIds, selectById: selectMediaItemById } = albumsAdapter.getSelectors();
+const { selectIds, selectById: selectAlbumById } = albumsAdapter.getSelectors();
 
 interface Result {
   ids: string[] | null;
@@ -35,7 +35,7 @@ export default function usePaginatedAlbumsQuery({ pageSize = 1000 }: Args): [Res
   );
 
   const selectById = useCallback(
-    (_state: unknown, id: string) => selectMediaItemById(data ?? initialState, id),
+    (_state: unknown, id: string) => selectAlbumById(data ?? initialState, id),
     [data],
   );
   const loadMore = useCallback(() => setPage((state) => state + 1), [setPage]);
