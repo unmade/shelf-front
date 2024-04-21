@@ -27,7 +27,7 @@ export const PHOTOS = {
 
 export const PHOTOS_ALBUMS = {
   prefix: '/albums',
-  route: '/albums/*',
+  route: '/albums',
 };
 
 export const PHOTOS_FAVOURITES = {

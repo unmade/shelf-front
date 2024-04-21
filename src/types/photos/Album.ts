@@ -6,6 +6,7 @@ export interface IAlbumCover {
 export interface IAlbum {
   id: string;
   title: string;
-  createdAt: string;
   cover: IAlbumCover | null;
+  itemsCount: number;
+  createdAt: string;
 }

@@ -2,12 +2,13 @@ import React from 'react';
 
 import Spinner from 'components/ui/Spinner';
 
+import AlbumGridView from 'components/photos/AlbumGridView';
 import usePaginatedAlbumsQuery from 'components/photos/hooks/list-albums';
 
 import Empty from './Empty';
 
 export default function Content() {
-  const [{ ids }, loading] = usePaginatedAlbumsQuery({});
+  const [{ ids, loadMore, selectById }, loading] = usePaginatedAlbumsQuery({ pageSize: 100 });
 
   const empty = ids?.length != null && ids?.length === 0 && !loading;
   if (empty) {
@@ -25,4 +26,5 @@ export default function Content() {
       </div>
     );
   }
+  return <AlbumGridView ids={ids} loadMore={loadMore} selectById={selectById} />;
 }
