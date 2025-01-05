@@ -11,6 +11,7 @@ import * as icons from 'icons';
 import { ItemRendererProps } from 'components/ui/VGrid';
 
 import { useSelection } from 'components/SelectionProvider';
+import Thumbnail, { ThumbnailSize } from 'components/Thumbnail';
 
 import { ItemDataProps } from '../AlbumGridView';
 
@@ -33,23 +34,41 @@ function GridItem({ album, width }: GridItemProps) {
     }
   };
 
+  const style = { width: width - (selected ? 40 : 24), height: width - (selected ? 40 : 24) };
+
   return (
-    <div className="group flex h-full flex-col items-center justify-center">
-      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
+    /* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
+    <div
+      className="group flex h-full cursor-default flex-col items-center justify-center"
+      onClick={onSelect}
+    >
       <span
         className={`relative ${
           selected
             ? 'm-2 rounded-lg ring-2 ring-blue-600 ring-offset-2 ring-offset-white dark:ring-indigo-500 dark:ring-offset-4 dark:ring-offset-zinc-800'
             : ''
         }`}
-        onClick={onSelect}
       >
-        <div
-          className="flex h-full w-full items-center justify-center rounded-xl bg-gray-100 dark:bg-zinc-700"
-          style={{ width: width - (selected ? 40 : 24), height: width - (selected ? 40 : 24) }}
-        >
-          <icons.PhotographOutlined className="h-12 w-12 dark:text-zinc-400" />
-        </div>
+        {(album.cover?.thumbnailUrl && (
+          <Thumbnail
+            className="h-56 w-56 rounded-lg"
+            style={style}
+            file={{
+              id: album.cover?.fileId,
+              thumbnail_url: album.cover?.thumbnailUrl,
+              modified_at: album.createdAt,
+            }}
+            size={ThumbnailSize.lg}
+            objectFit="cover"
+          />
+        )) || (
+          <div
+            className="flex items-center justify-center rounded-xl bg-gray-100 dark:bg-zinc-700"
+            style={style}
+          >
+            <icons.PhotographOutlined className="h-12 w-12 text-gray-500 dark:text-zinc-400" />
+          </div>
+        )}
       </span>
       <div className="pt-1 text-center">
         <p>{album.title}</p>
