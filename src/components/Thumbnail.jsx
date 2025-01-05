@@ -12,13 +12,18 @@ import {
 
 import { MediaType, ThumbnailSize, thumbnailSizes } from 'constants';
 import { MEGABYTE } from '../filesize';
-import { FileShape, SharedLinkFileShape } from '../types';
 
 import Spinner from './ui/Spinner';
 
 import FileIcon from './FileIcon';
 
 export { ThumbnailSize } from '../constants';
+
+const ThumbnailFileShape = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  thumbnail_url: PropTypes.string,
+  modified_at: PropTypes.string.isRequired,
+});
 
 function SVGThumbnail({ className, file }) {
   const { hidden, mediatype, name, path, size } = file;
@@ -32,14 +37,14 @@ function SVGThumbnail({ className, file }) {
 
 SVGThumbnail.propTypes = {
   className: PropTypes.string,
-  file: FileShape.isRequired,
+  file: ThumbnailFileShape.isRequired,
 };
 
 SVGThumbnail.defaultProps = {
   className: '',
 };
 
-function ImageThumbnail({ className, file, size, style }) {
+function ImageThumbnail({ className, file, size, style, objectFit }) {
   const [shouldSkip, setShouldSkip] = React.useState(true);
 
   React.useEffect(() => {
@@ -66,7 +71,7 @@ function ImageThumbnail({ className, file, size, style }) {
   if (file.thumbnail_url?.startsWith('blob:')) {
     return (
       <img
-        className={`object-scale-down ${className}`}
+        className={`object-${objectFit} ${className}`}
         src={file.thumbnail_url}
         alt={name}
         style={style}
@@ -87,7 +92,7 @@ function ImageThumbnail({ className, file, size, style }) {
 
   return (
     <img
-      className={`object-scale-down ${className}`}
+      className={`object-${objectFit} ${className}`}
       src={data?.content}
       alt={name}
       style={style}
@@ -97,20 +102,24 @@ function ImageThumbnail({ className, file, size, style }) {
 
 ImageThumbnail.propTypes = {
   className: PropTypes.string,
-  file: PropTypes.oneOfType([FileShape.isRequired, SharedLinkFileShape]).isRequired,
+  file: ThumbnailFileShape.isRequired,
   size: PropTypes.oneOf(thumbnailSizes),
   style: PropTypes.shape({
+    height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     maxHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   }),
+  objectFit: PropTypes.oneOf(['scale-down', 'contain', 'cover', 'fill', 'none']),
 };
 
 ImageThumbnail.defaultProps = {
   className: '',
   size: ThumbnailSize.xs,
   style: null,
+  objectFit: 'scale-down',
 };
 
-function Thumbnail({ className, file, size, style }) {
+function Thumbnail({ className, file, size, style, objectFit }) {
   const { mediatype, hidden, shared, thumbnail_url: thumbnailUrl } = file;
   const maxSize = useSelector(selectFeatureMaxFileSizeToThumbnail);
   const fileIcon = (
@@ -122,7 +131,15 @@ function Thumbnail({ className, file, size, style }) {
   }
 
   if (thumbnailUrl != null) {
-    return <ImageThumbnail className={className} file={file} size={size} style={style} />;
+    return (
+      <ImageThumbnail
+        className={className}
+        file={file}
+        size={size}
+        style={style}
+        objectFit={objectFit}
+      />
+    );
   }
 
   if (MediaType.isSVG(mediatype)) {
@@ -134,15 +151,17 @@ function Thumbnail({ className, file, size, style }) {
 
 Thumbnail.propTypes = {
   className: PropTypes.string,
-  file: PropTypes.oneOfType([FileShape, SharedLinkFileShape]).isRequired,
+  file: ThumbnailFileShape.isRequired,
   size: PropTypes.oneOf(thumbnailSizes),
   // eslint-disable-next-line react/forbid-prop-types
   style: PropTypes.object,
+  objectFit: PropTypes.oneOf(['scale-down', 'contain', 'cover', 'fill', 'none']),
 };
 
 Thumbnail.defaultProps = {
   className: '',
   size: ThumbnailSize.xs,
+  objectFit: 'scale-down',
 };
 
 export default Thumbnail;
