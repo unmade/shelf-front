@@ -26,8 +26,13 @@ export const PHOTOS = {
 };
 
 export const PHOTOS_ALBUMS = {
-  prefix: '/albums',
+  prefix: '/photos/albums',
   route: '/albums',
+};
+
+export const PHOTOS_ALBUMS_ALBUM = {
+  prefix: '/photos/albums',
+  route: '/albums/:albumId',
 };
 
 export const PHOTOS_FAVOURITES = {

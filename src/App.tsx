@@ -30,6 +30,7 @@ import UserManagement from './pages/admin/UserManagement';
 
 import Photos from './pages/Photos';
 import PhotosAlbums from './pages/Photos/Albums';
+import PhotosAlbum from './pages/Photos/Album';
 import PhotosFavourites from './pages/Photos/Favourites';
 import PhotosSharedLinks from './pages/Photos/SharedLinks';
 import PhotosTrash from './pages/Photos/Trash';
@@ -71,6 +72,7 @@ function PhotosApp() {
       <div className="my-0 min-w-0 flex-1 bg-white shadow-sm dark:bg-zinc-800">
         <Routes>
           <Route path={routes.PHOTOS_ALBUMS.route} element={<PhotosAlbums />} />
+          <Route path={routes.PHOTOS_ALBUMS_ALBUM.route} element={<PhotosAlbum />} />
           <Route path={routes.PHOTOS_FAVOURITES.route} element={<PhotosFavourites />} />
           <Route path={routes.PHOTOS_SHARED_VIA_LINK.route} element={<PhotosSharedLinks />} />
           <Route path={routes.TRASH.route} element={<PhotosTrash />} />

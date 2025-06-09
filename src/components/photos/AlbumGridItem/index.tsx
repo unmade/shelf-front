@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { shallowEqual } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { IAlbum } from 'types/photos';
 
@@ -21,6 +22,8 @@ interface GridItemProps {
 }
 
 function GridItem({ album, width }: GridItemProps) {
+  const navigate = useNavigate();
+
   const { select, toggleSelection, isSelected } = useSelection();
   const selected = isSelected(album.id);
 
@@ -34,6 +37,10 @@ function GridItem({ album, width }: GridItemProps) {
     }
   };
 
+  const openAlbum = () => {
+    navigate(album.slug);
+  };
+
   const style = { width: width - (selected ? 40 : 24), height: width - (selected ? 40 : 24) };
 
   return (
@@ -41,6 +48,7 @@ function GridItem({ album, width }: GridItemProps) {
     <div
       className="group flex h-full cursor-default flex-col items-center justify-center"
       onClick={onSelect}
+      onDoubleClick={openAlbum}
     >
       <span
         className={`relative ${
@@ -72,7 +80,7 @@ function GridItem({ album, width }: GridItemProps) {
       </span>
       <div className="pt-1 text-center">
         <p>{album.title}</p>
-        <p className="text-xs text-gray-500 dark:text-zinc-400">{0}</p>
+        <p className="text-xs text-gray-500 dark:text-zinc-400">{album.itemsCount}</p>
       </div>
     </div>
   );
