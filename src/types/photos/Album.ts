@@ -5,6 +5,7 @@ export interface IAlbumCover {
 
 export interface IAlbum {
   id: string;
+  slug: string;
   title: string;
   cover: IAlbumCover | null;
   itemsCount: number;
