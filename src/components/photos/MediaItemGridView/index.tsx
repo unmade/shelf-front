@@ -23,6 +23,7 @@ export interface ItemDataProps {
 
 interface Props {
   ids: string[];
+  itemsCount?: number;
   loadMore?: () => void;
   selectById: (state: RootState, id: string) => IMediaItem | undefined;
 }
@@ -34,7 +35,7 @@ interface State {
 
 const initialState = { initialFileId: null, scrollIndex: null };
 
-export default function MediaItemGridView({ ids, loadMore, selectById }: Props) {
+export default function MediaItemGridView({ ids, itemsCount, loadMore, selectById }: Props) {
   const [{ scrollIndex, initialFileId }, setState] = useState<State>(initialState);
 
   const { columnCount, rowCount } = useGridLayout(ids);
@@ -90,6 +91,7 @@ export default function MediaItemGridView({ ids, loadMore, selectById }: Props) 
           <Gallery
             ids={ids}
             initialFileId={initialFileId}
+            itemsCount={itemsCount}
             selectById={selectById}
             onClose={onClose}
           />

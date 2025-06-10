@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { IAlbum } from 'types/photos';
+
 import Spinner from 'components/ui/Spinner';
 
 import MediaItemGridView from 'components/photos/MediaItemGridView';
@@ -7,9 +9,13 @@ import usePaginatedAlbumItemsQuery from 'components/photos/hooks/list-album-item
 
 import Empty from './Empty';
 
-export default function Content({ albumSlug }: { albumSlug: string }) {
+interface Props {
+  album: IAlbum;
+}
+
+export default function Content({ album }: Props) {
   const [{ ids, loadMore, selectById }, loading] = usePaginatedAlbumItemsQuery({
-    albumSlug,
+    albumSlug: album.slug,
     pageSize: 100,
   });
 
@@ -30,5 +36,12 @@ export default function Content({ albumSlug }: { albumSlug: string }) {
     );
   }
 
-  return <MediaItemGridView ids={ids} selectById={selectById} loadMore={loadMore} />;
+  return (
+    <MediaItemGridView
+      ids={ids}
+      itemsCount={album.itemsCount}
+      selectById={selectById}
+      loadMore={loadMore}
+    />
+  );
 }
