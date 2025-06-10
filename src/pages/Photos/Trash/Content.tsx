@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import {
   selectDeletedMediaItemById as selectById,
+  useCountMediaItemsQuery,
   useListDeletedMediaItemsQuery,
 } from 'store/mediaItems';
 
@@ -18,6 +19,10 @@ export default function Content() {
   const title = t('photos:pages.trash.emptyTitle', { defaultValue: 'Trash bin' });
   const description = t('photos:pages.trash.emptyDescription', {
     defaultValue: 'All your deleted photos appear here',
+  });
+
+  const { itemsCount } = useCountMediaItemsQuery(undefined, {
+    selectFromResult: ({ data }) => ({ itemsCount: data?.deleted }),
   });
 
   const { ids, isFetching: loading } = useListDeletedMediaItemsQuery(undefined, {
@@ -44,5 +49,5 @@ export default function Content() {
     );
   }
 
-  return <MediaItemGridView ids={ids} selectById={selectById} />;
+  return <MediaItemGridView ids={ids} itemsCount={itemsCount} selectById={selectById} />;
 }

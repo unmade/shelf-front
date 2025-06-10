@@ -11,6 +11,8 @@ import { useGetAlbumQuery, selectListAlbumsData } from 'store/albums';
 
 import * as routes from 'routes';
 
+import Spinner from 'components/ui/Spinner';
+
 import CopyLinkDialogProvider from 'components/CopyLinkDialogProvider';
 import GoBackButton from 'components/GoBackButton';
 import PageHeader from 'components/PageHeader';
@@ -34,9 +36,7 @@ export default function Album() {
     (state) => selectListAlbumsData(state, { pageSize: 100 }).entities[albumId ?? '']?.title,
   );
 
-  const { data: album, isError } = useGetAlbumQuery(albumId ?? skipToken, {
-    skip: albumTitle != null,
-  });
+  const { data: album, isLoading, isError } = useGetAlbumQuery(albumId ?? skipToken);
 
   if (isError) {
     navigate(routes.PHOTOS_ALBUMS.prefix);
@@ -61,7 +61,7 @@ export default function Album() {
           </PageHeader>
 
           <div className="h-full w-full" style={contentStyle}>
-            <Content albumSlug={albumId!} />
+            {isLoading ? <Spinner /> : <Content album={album!} />}
           </div>
         </div>
       </DeleteMediaItemsDialogProvider>

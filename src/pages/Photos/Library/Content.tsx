@@ -3,6 +3,7 @@ import React from 'react';
 import { useAppSelector } from 'hooks';
 
 import { selectPhotosLibraryPath } from 'store/features';
+import { useCountMediaItemsQuery } from 'store/mediaItems';
 
 import Spinner from 'components/ui/Spinner';
 
@@ -14,6 +15,11 @@ import Welcome from './Welcome';
 
 export default function Content() {
   const libraryPath = useAppSelector(selectPhotosLibraryPath);
+
+  const { itemsCount } = useCountMediaItemsQuery(undefined, {
+    selectFromResult: ({ data }) => ({ itemsCount: data?.total }),
+  });
+
   const [{ ids, selectById, loadMore }, loading] = usePaginatedMediaItemsQuery({
     favourites: false,
   });
@@ -35,5 +41,12 @@ export default function Content() {
     );
   }
 
-  return <MediaItemGridView ids={ids} selectById={selectById} loadMore={loadMore} />;
+  return (
+    <MediaItemGridView
+      ids={ids}
+      itemsCount={itemsCount}
+      selectById={selectById}
+      loadMore={loadMore}
+    />
+  );
 }
