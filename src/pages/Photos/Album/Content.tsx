@@ -1,37 +1,45 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import { IAlbum } from 'types/photos';
 
-import Spinner from 'components/ui/Spinner';
+import { RootState } from 'store/store';
+import { useListAlbumItemsInfiniteQuery, albumItemsAdapter } from 'store/albums';
 
 import MediaItemGridView from 'components/photos/MediaItemGridView';
-import usePaginatedAlbumItemsQuery from 'components/photos/hooks/list-album-items';
 
 import Empty from './Empty';
+
+const initialState = albumItemsAdapter.getInitialState();
+const { selectIds, selectById } = albumItemsAdapter.getSelectors();
 
 interface Props {
   album: IAlbum;
 }
 
 export default function Content({ album }: Props) {
-  const [{ ids, loadMore, selectById }, loading] = usePaginatedAlbumItemsQuery({
-    albumSlug: album.slug,
-    pageSize: 100,
-  });
+  const { data, isSuccess, fetchNextPage } = useListAlbumItemsInfiniteQuery(
+    {
+      albumSlug: album.slug,
+    },
+    {
+      selectFromResult: ({ data: result, isSuccess: success }) => ({
+        data: albumItemsAdapter.setAll(initialState, result?.pages.flat() ?? []),
+        isSuccess: success,
+      }),
+    },
+  );
 
-  const empty = ids?.length != null && ids?.length === 0 && !loading;
-  if (empty) {
+  const selectByIdCallback = useCallback(
+    (_: RootState, itemId: string) => selectById(data, itemId),
+    [data],
+  );
+
+  const ids = selectIds(data);
+
+  if (isSuccess && !ids.length) {
     return (
       <div className="flex h-full">
         <Empty />
-      </div>
-    );
-  }
-
-  if (!ids?.length) {
-    return (
-      <div className="flex h-full justify-center">
-        <Spinner />
       </div>
     );
   }
@@ -40,8 +48,8 @@ export default function Content({ album }: Props) {
     <MediaItemGridView
       ids={ids}
       itemsCount={album.itemsCount}
-      selectById={selectById}
-      loadMore={loadMore}
+      selectById={selectByIdCallback}
+      loadMore={fetchNextPage}
     />
   );
 }

@@ -6,6 +6,8 @@ import { IAlbum, IMediaItem } from 'types/photos';
 import apiSlice from './apiSlice';
 import { RootState } from './store';
 
+const ALBUM_ITEMS_PAGE_SIZE = 250;
+
 interface IAlbumsSchema {
   id: string;
   slug: string;
@@ -33,7 +35,7 @@ interface IListAlbumsFilters {
   pageSize?: number;
 }
 
-interface IListAlbumItemsFilters {
+export interface IListAlbumItemsFilters {
   albumSlug: string;
   page?: number;
   pageSize?: number;
@@ -68,10 +70,9 @@ function toMediaItem(schema: IAlbumItemSchema): IMediaItem {
 export const albumsAdapter = createEntityAdapter({
   selectId: (album: IAlbum) => album.slug,
 });
-const initialState = albumsAdapter.getInitialState();
+const albumInitialState = albumsAdapter.getInitialState();
 
 export const albumItemsAdapter = createEntityAdapter<IMediaItem>({});
-const albumItemsInitialState = albumItemsAdapter.getInitialState();
 
 export const albumsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -115,34 +116,32 @@ export const albumsApi = apiSlice.injectEndpoints({
       },
       providesTags: [{ type: 'Albums', id: 'list' }],
       transformResponse: (data: { items: IAlbumsSchema[] }) =>
-        albumsAdapter.setAll(initialState, data.items.map(toAlbum)),
+        albumsAdapter.setAll(albumInitialState, data.items.map(toAlbum)),
     }),
 
-    listAlbumItems: builder.query<EntityState<IMediaItem, string>, IListAlbumItemsFilters>({
-      query: (filters) => ({
-        url: `/photos/albums/${filters.albumSlug}/items`,
+    listAlbumItems: builder.infiniteQuery<IMediaItem[], IListAlbumItemsFilters, number>({
+      infiniteQueryOptions: {
+        initialPageParam: 1,
+        getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams, queryArg) => {
+          if (!lastPage.length) {
+            return undefined;
+          }
+          if (lastPage.length < (queryArg.pageSize ?? ALBUM_ITEMS_PAGE_SIZE)) {
+            return undefined;
+          }
+          return lastPageParam + 1;
+        },
+      },
+      query: ({ queryArg, pageParam }) => ({
+        url: `/photos/albums/${queryArg.albumSlug}/items`,
         method: 'GET',
         params: {
-          page: filters?.page,
-          page_size: filters?.pageSize,
-          favourites: filters?.favourites,
+          page: pageParam,
+          page_size: queryArg?.pageSize ?? ALBUM_ITEMS_PAGE_SIZE,
+          favourites: queryArg?.favourites,
         },
       }),
-      serializeQueryArgs: ({ endpointDefinition, endpointName, queryArgs }) => {
-        const args: Partial<IListAlbumItemsFilters> = queryArgs ? { ...queryArgs } : {};
-        delete args.page;
-        return defaultSerializeQueryArgs({ endpointDefinition, endpointName, queryArgs: args });
-      },
-      merge: (currentCache, newItems) => {
-        const { selectAll } = albumItemsAdapter.getSelectors();
-        return albumItemsAdapter.upsertMany(currentCache, selectAll(newItems));
-      },
-      forceRefetch({ currentArg, previousArg }) {
-        return currentArg !== previousArg;
-      },
-      providesTags: (_result, _error, arg) => [{ type: 'AlbumItems', id: arg.albumSlug }],
-      transformResponse: (data: { items: IAlbumItemSchema[] }) =>
-        albumItemsAdapter.setAll(albumItemsInitialState, data.items.map(toMediaItem)),
+      transformResponse: (data: { items: IAlbumItemSchema[] }) => data.items.map(toMediaItem),
     }),
   }),
 });
@@ -151,16 +150,11 @@ export const {
   useCreateAlbumMutation,
   useGetAlbumQuery,
   useListAlbumsQuery,
-  useListAlbumItemsQuery,
+  useListAlbumItemsInfiniteQuery,
 } = albumsApi;
 
 export const selectListAlbumsData = createSelector(
   [(state: RootState) => state, (state: RootState, filters: IListAlbumsFilters) => filters],
-  (state, filters) => albumsApi.endpoints.listAlbums.select(filters)(state).data ?? initialState,
-);
-
-export const selectListAlbumItemsData = createSelector(
-  [(state: RootState) => state, (state: RootState, filters: IListAlbumItemsFilters) => filters],
-  (state, filters) =>
-    albumsApi.endpoints.listAlbumItems.select(filters)(state).data ?? initialState,
+  (state: RootState, filters: IListAlbumsFilters) =>
+    albumsApi.endpoints.listAlbums.select(filters)(state).data ?? albumInitialState,
 );
