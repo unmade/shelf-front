@@ -76,7 +76,7 @@ export default function MediaItemGridView({ ids, itemsCount, loadMore, selectByI
     [setState],
   );
 
-  if (!ids) {
+  if (!ids.length) {
     return (
       <div className="flex h-full justify-center">
         <Spinner />
