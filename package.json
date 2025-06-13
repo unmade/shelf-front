@@ -6,7 +6,7 @@
     "@floating-ui/react-dom": "^1.0.0",
     "@headlessui/react": "^1.7.4",
     "@heroicons/react": "^1.0.6",
-    "@reduxjs/toolkit": "^2.2.1",
+    "@reduxjs/toolkit": "^2.8.2",
     "@tailwindcss/forms": "^0.4.0",
     "async-mutex": "^0.4.0",
     "autoprefixer": "^10.4.2",
