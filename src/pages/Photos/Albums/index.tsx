@@ -8,6 +8,7 @@ import PageHeader from 'components/PageHeader';
 import CreateAlbumDialogProvider from 'components/photos/CreateAlbumDialogProvider';
 
 import Content from './Content';
+import CreateAlbumButton from './CreateAlbumButton';
 
 const headerHeight = '108px';
 const contentStyle = {
@@ -27,7 +28,9 @@ export default function Albums() {
       <div className="h-full">
         <PageHeader>
           <PageHeader.Title>{title}</PageHeader.Title>
-          <PageHeader.Actions />
+          <PageHeader.Actions>
+            <CreateAlbumButton />
+          </PageHeader.Actions>
         </PageHeader>
 
         <div className="h-full w-full" style={contentStyle}>
