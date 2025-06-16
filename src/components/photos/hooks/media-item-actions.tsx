@@ -17,6 +17,27 @@ import {
 } from 'store/users';
 
 import { useDeleteMediaItemsDialog } from '../DeleteMediaItemsDialogProvider';
+import { useAddToAlbumDialog } from '../AddToAlbumDialogProvider';
+
+export function useAddToAlbumAction(mediaItems: IMediaItem[]): IAction | null {
+  const { t } = useTranslation('photos');
+
+  const { openDialog } = useAddToAlbumDialog();
+
+  return {
+    key: 'add-to-album',
+    name: t('photos:mediaItem.actions.addToAlbum', {
+      defaultValue: 'Add to Album',
+      count: mediaItems.length,
+    }),
+    Icon: icons.Collection,
+    icon: <icons.Collection className="h-4 w-4" />,
+    danger: false,
+    onClick: () => {
+      openDialog(mediaItems);
+    },
+  };
+}
 
 export function useDeleteAction(mediaItems: IMediaItem[]): IAction | null {
   const { t } = useTranslation('photos');

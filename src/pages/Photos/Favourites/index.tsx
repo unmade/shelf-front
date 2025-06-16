@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import CopyLinkDialogProvider from 'components/CopyLinkDialogProvider';
 import PageHeader from 'components/PageHeader';
 
+import AddToAlbumDialogProvider from 'components/photos/AddToAlbumDialogProvider';
 import DeleteMediaItemsDialogProvider from 'components/photos/DeleteMediaItemsDialogProvider';
 
 import Content from './Content';
@@ -21,22 +22,24 @@ export default function Favourites() {
   const title = t('photos:pages.favourite.title', { defaultValue: 'Favourites' });
 
   return (
-    <CopyLinkDialogProvider>
-      <DeleteMediaItemsDialogProvider>
-        <Helmet>
-          <title>Shelf Photos</title>
-        </Helmet>
-        <div className="h-full">
-          <PageHeader>
-            <PageHeader.Title>{title}</PageHeader.Title>
-            <PageHeader.Actions />
-          </PageHeader>
+    <AddToAlbumDialogProvider>
+      <CopyLinkDialogProvider>
+        <DeleteMediaItemsDialogProvider>
+          <Helmet>
+            <title>Shelf Photos</title>
+          </Helmet>
+          <div className="h-full">
+            <PageHeader>
+              <PageHeader.Title>{title}</PageHeader.Title>
+              <PageHeader.Actions />
+            </PageHeader>
 
-          <div className="h-full w-full" style={contentStyle}>
-            <Content />
+            <div className="h-full w-full" style={contentStyle}>
+              <Content />
+            </div>
           </div>
-        </div>
-      </DeleteMediaItemsDialogProvider>
-    </CopyLinkDialogProvider>
+        </DeleteMediaItemsDialogProvider>
+      </CopyLinkDialogProvider>
+    </AddToAlbumDialogProvider>
   );
 }

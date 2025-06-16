@@ -12,6 +12,7 @@ import PageHeader from 'components/PageHeader';
 import Uploader from 'components/Uploader';
 import VerifyAccountDialogProvider from 'components/VerifyAccountDialogProvider';
 
+import AddToAlbumDialogProvider from 'components/photos/AddToAlbumDialogProvider';
 import DeleteMediaItemsDialogProvider from 'components/photos/DeleteMediaItemsDialogProvider';
 
 import { MediaType } from '../../../constants';
@@ -32,41 +33,43 @@ export default function Library() {
 
   return (
     <VerifyAccountDialogProvider>
-      <CopyLinkDialogProvider>
-        <DeleteMediaItemsDialogProvider>
-          <Helmet>
-            <title>Shelf Photos</title>
-          </Helmet>
-          <div className="h-full">
-            <PageHeader>
-              <PageHeader.Title>{title}</PageHeader.Title>
-              <PageHeader.Actions>
-                <Uploader allowedMediaTypes={allowedMediaTypes} uploadTo={libraryPath} />
-              </PageHeader.Actions>
-            </PageHeader>
+      <AddToAlbumDialogProvider>
+        <CopyLinkDialogProvider>
+          <DeleteMediaItemsDialogProvider>
+            <Helmet>
+              <title>Shelf Photos</title>
+            </Helmet>
+            <div className="h-full">
+              <PageHeader>
+                <PageHeader.Title>{title}</PageHeader.Title>
+                <PageHeader.Actions>
+                  <Uploader allowedMediaTypes={allowedMediaTypes} uploadTo={libraryPath} />
+                </PageHeader.Actions>
+              </PageHeader>
 
-            <FileDrop
-              className="overflow-y-auto"
-              style={contentStyle}
-              allowedMediaTypes={allowedMediaTypes}
-              uploadTo={libraryPath}
-              render={({ innerRef, dragging }) => (
-                <div className="relative h-full w-full">
-                  <div
-                    ref={innerRef}
-                    className={`${
-                      dragging ? 'block' : 'hidden'
-                    } absolute z-10 h-full w-full px-2 pb-2`}
-                  >
-                    <div className="h-full w-full rounded-2xl border-4 border-dashed border-teal-200 dark:border-teal-600" />
+              <FileDrop
+                className="overflow-y-auto"
+                style={contentStyle}
+                allowedMediaTypes={allowedMediaTypes}
+                uploadTo={libraryPath}
+                render={({ innerRef, dragging }) => (
+                  <div className="relative h-full w-full">
+                    <div
+                      ref={innerRef}
+                      className={`${
+                        dragging ? 'block' : 'hidden'
+                      } absolute z-10 h-full w-full px-2 pb-2`}
+                    >
+                      <div className="h-full w-full rounded-2xl border-4 border-dashed border-teal-200 dark:border-teal-600" />
+                    </div>
+                    <Content />
                   </div>
-                  <Content />
-                </div>
-              )}
-            />
-          </div>
-        </DeleteMediaItemsDialogProvider>
-      </CopyLinkDialogProvider>
+                )}
+              />
+            </div>
+          </DeleteMediaItemsDialogProvider>
+        </CopyLinkDialogProvider>
+      </AddToAlbumDialogProvider>
     </VerifyAccountDialogProvider>
   );
 }

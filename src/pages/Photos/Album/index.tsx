@@ -17,6 +17,7 @@ import CopyLinkDialogProvider from 'components/CopyLinkDialogProvider';
 import GoBackButton from 'components/GoBackButton';
 import PageHeader from 'components/PageHeader';
 
+import AddToAlbumDialogProvider from 'components/photos/AddToAlbumDialogProvider';
 import DeleteMediaItemsDialogProvider from 'components/photos/DeleteMediaItemsDialogProvider';
 
 import Content from './Content';
@@ -47,24 +48,26 @@ export default function Album() {
   });
 
   return (
-    <CopyLinkDialogProvider>
-      <DeleteMediaItemsDialogProvider>
-        <Helmet>
-          <title>Shelf Photos</title>
-        </Helmet>
-        <div className="h-full">
-          <PageHeader>
-            <PageHeader.Title icon={<GoBackButton to={routes.PHOTOS_ALBUMS.prefix} />}>
-              {title}
-            </PageHeader.Title>
-            <PageHeader.Actions />
-          </PageHeader>
+    <AddToAlbumDialogProvider>
+      <CopyLinkDialogProvider>
+        <DeleteMediaItemsDialogProvider>
+          <Helmet>
+            <title>Shelf Photos</title>
+          </Helmet>
+          <div className="h-full">
+            <PageHeader>
+              <PageHeader.Title icon={<GoBackButton to={routes.PHOTOS_ALBUMS.prefix} />}>
+                {title}
+              </PageHeader.Title>
+              <PageHeader.Actions />
+            </PageHeader>
 
-          <div className="h-full w-full" style={contentStyle}>
-            {isLoading ? <Spinner /> : <Content album={album!} />}
+            <div className="h-full w-full" style={contentStyle}>
+              {isLoading ? <Spinner /> : <Content album={album!} />}
+            </div>
           </div>
-        </div>
-      </DeleteMediaItemsDialogProvider>
-    </CopyLinkDialogProvider>
+        </DeleteMediaItemsDialogProvider>
+      </CopyLinkDialogProvider>
+    </AddToAlbumDialogProvider>
   );
 }
