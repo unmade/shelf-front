@@ -12,6 +12,7 @@ import MenuItem from 'components/ui/MenuItem';
 import { useSelection } from 'components/SelectionProvider';
 
 import {
+  useAddToAlbumAction,
   useDeleteAction,
   useDownloadBatchAction,
   useFavouriteAction,
@@ -34,6 +35,7 @@ function useMediaItemActionGroups(item: IMediaItem) {
 
   const files = mediaItems.map((mediaItem) => makeFileFromMediaItem(mediaItem, ''));
 
+  const addToAlbumAction = useAddToAlbumAction(mediaItems);
   const toggleFavourite = useFavouriteAction(mediaItems);
   const copyLinkAction = useCopyLinkAction(files);
   const deleteAction = useDeleteAction(mediaItems);
@@ -47,6 +49,10 @@ function useMediaItemActionGroups(item: IMediaItem) {
     {
       key: 'sharing',
       items: [downloadBatchAction, copyLinkAction].filter((action) => action != null),
+    },
+    {
+      key: 'album',
+      items: [addToAlbumAction].filter((action) => action != null),
     },
     {
       key: 'deleting',
