@@ -17,14 +17,6 @@ interface Props {
 export default function AddToAlbumDialog({ mediaItems, visible, onClose }: Props) {
   const { t } = useTranslation('photos');
 
-  // const [deleteMediaItems, { isLoading: loading }] = useDeleteMediaItemsMutation();
-
-  const onConfirm = async () => {
-    // const fileIds = mediaItems.map((item) => item.fileId);
-    // await deleteMediaItems(fileIds);
-    onClose();
-  };
-
   const onCancel = () => {
     onClose();
   };
@@ -36,12 +28,11 @@ export default function AddToAlbumDialog({ mediaItems, visible, onClose }: Props
         count: mediaItems.length,
       })}
       visible={visible}
-      confirmTitle={t('Move')}
-      // confirmLoading={loading}
-      onConfirm={onConfirm}
       onCancel={onCancel}
     >
-      <AlbumPicker />
+      <div className="flex min-h-[40vh] sm:w-96">
+        <AlbumPicker className="flex-1" />
+      </div>
     </Dialog>
   );
 }
