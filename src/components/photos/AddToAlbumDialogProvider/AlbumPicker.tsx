@@ -1,5 +1,16 @@
 import React from 'react';
 
-export default function AlbumPicker() {
-  return <div>List of Albums</div>;
+import usePaginatedAlbumsQuery from 'components/photos/hooks/list-albums';
+import AlbumListView from '../AlbumListView';
+
+interface Props {
+  className?: string;
+}
+
+export default function AlbumPicker({ className }: Props) {
+  const [{ ids, selectById }, loading] = usePaginatedAlbumsQuery({ pageSize: 100 });
+
+  return (
+    <AlbumListView className={className} loading={loading} ids={ids!} selectById={selectById} />
+  );
 }
