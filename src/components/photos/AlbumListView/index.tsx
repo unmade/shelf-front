@@ -10,6 +10,7 @@ import AlbumListItem from 'components/photos/AlbumListItem';
 
 export interface ItemDataProps {
   ids: string[];
+  onItemClick?: (id: string) => void;
   selectById: (state: RootState, id: string) => IAlbum | undefined;
 }
 
@@ -17,13 +18,21 @@ interface Props {
   className?: string;
   ids: string[];
   loading: boolean;
+  onItemClick?: (id: string) => void;
   selectById: (state: RootState, id: string) => IAlbum | undefined;
 }
 
-export default function AlbumListView({ className, ids, loading = false, selectById }: Props) {
+export default function AlbumListView({
+  className,
+  ids,
+  loading = false,
+  onItemClick,
+  selectById,
+}: Props) {
   const data: ItemDataProps = useMemo(
     () => ({
       ids: ids ?? [],
+      onItemClick,
       selectById,
     }),
     [ids],
