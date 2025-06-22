@@ -84,6 +84,32 @@ export const albumsApi = apiSlice.injectEndpoints({
           file_ids: fileIds,
         },
       }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        const { albumSlug, fileIds } = arg;
+        const listAlbumPatchResult = dispatch(
+          albumsApi.util.updateQueryData('listAlbums', { pageSize: 100 }, (draft) => {
+            const album = albumsAdapter.getSelectors().selectById(draft, albumSlug);
+            return albumsAdapter.updateOne(draft, {
+              id: albumSlug,
+              changes: { itemsCount: album.itemsCount + fileIds.length },
+            });
+          }),
+        );
+
+        const getAlbumPatchResult = dispatch(
+          albumsApi.util.updateQueryData('getAlbum', albumSlug, (draft) => {
+            // eslint-disable-next-line no-param-reassign
+            draft.itemsCount += fileIds.length;
+          }),
+        );
+
+        try {
+          await queryFulfilled;
+        } catch {
+          listAlbumPatchResult.undo();
+          getAlbumPatchResult.undo();
+        }
+      },
     }),
 
     createAlbum: builder.mutation<IAlbum, { title: string }>({
