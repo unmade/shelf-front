@@ -76,6 +76,16 @@ export const albumItemsAdapter = createEntityAdapter<IMediaItem>({});
 
 export const albumsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    addAlbumItems: builder.mutation<void, { albumSlug: string; fileIds: string[] }>({
+      query: ({ albumSlug, fileIds }) => ({
+        url: `/photos/albums/${albumSlug}/items`,
+        method: 'PUT',
+        body: {
+          file_ids: fileIds,
+        },
+      }),
+    }),
+
     createAlbum: builder.mutation<IAlbum, { title: string }>({
       query: ({ title }) => ({
         url: '/photos/albums',
@@ -147,6 +157,7 @@ export const albumsApi = apiSlice.injectEndpoints({
 });
 
 export const {
+  useAddAlbumItemsMutation,
   useCreateAlbumMutation,
   useGetAlbumQuery,
   useListAlbumsQuery,

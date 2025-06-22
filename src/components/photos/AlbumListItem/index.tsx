@@ -14,18 +14,28 @@ import Thumbnail, { ThumbnailSize } from 'components/Thumbnail';
 import { ItemDataProps } from '../AlbumListView';
 
 function AlbumListItem({ data, index, style }: ListChildComponentProps<ItemDataProps>) {
-  const { ids, selectById } = data;
+  const { ids, onItemClick, selectById } = data;
 
   const album = useAppSelector<IAlbum | undefined>(
     (state) => selectById(state, ids[index]),
     shallowEqual,
   );
 
+  const onClick = React.useCallback(() => {
+    if (onItemClick) {
+      onItemClick(album?.slug ?? '');
+    }
+  }, [album, onItemClick]);
+
   if (!album) return null;
 
   return (
     <div style={style} className="bg-white py-1 transition-colors dark:bg-zinc-800">
-      <div className="flex h-full w-full items-center rounded-xl bg-gray-50 px-3 py-3 dark:bg-zinc-900/50">
+      <button
+        type="button"
+        className="flex h-full w-full items-center justify-start rounded-xl bg-gray-50 px-3 py-3 text-left dark:bg-zinc-900/50"
+        onClick={onClick}
+      >
         <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg bg-gray-200 dark:bg-zinc-700">
           {(album.cover?.thumbnailUrl && (
             <Thumbnail
@@ -51,7 +61,7 @@ function AlbumListItem({ data, index, style }: ListChildComponentProps<ItemDataP
             {album.itemsCount} {album.itemsCount === 1 ? 'item' : 'items'}
           </span>
         </div>
-      </div>
+      </button>
     </div>
   );
 }
