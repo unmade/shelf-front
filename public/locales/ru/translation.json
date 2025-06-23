@@ -1,5 +1,6 @@
 {
   "Add to Saved": "Добавить в закладки",
+  "Albums": "Альбомы",
   "Appearance": "Оформление",
   "Auto": "Авто",
   "available": "доступно",
@@ -93,6 +94,7 @@
   "Sign Out": "Выйти",
   "Sign Up": "Регистрация",
   "Size": "Размер",
+  "Something went wrong.": "Что-то пошло не так.",
   "status_bar_deleting_task_one": "{{count}} объект удаляется",
   "status_bar_deleting_task_few": "{{count}} объекта удаляется",
   "status_bar_deleting_task_many": "{{count}} объектов удаляется",
