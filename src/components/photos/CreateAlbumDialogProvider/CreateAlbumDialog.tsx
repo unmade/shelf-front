@@ -64,7 +64,7 @@ export default function CreateAlbumDialog({ visible, onClose }: Props) {
 
   return (
     <Dialog
-      title={t('Create Album')}
+      title={t('photos:dialogs.createAlbum.title', { defaultValue: 'Create Album' })}
       icon={<icons.BookmarkAltOutlined className="h-6 w-6" />}
       visible={visible}
       confirmTitle={t('Create')}
@@ -81,7 +81,7 @@ export default function CreateAlbumDialog({ visible, onClose }: Props) {
       >
         <Input
           id="title"
-          placeholder={t('Album title')}
+          placeholder={t('photos:dialogs.createAlbum.input', { defaultValue: 'Album title' })}
           size="sm"
           error={errorMessage}
           onChange={onTitleChange}

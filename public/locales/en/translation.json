@@ -1,5 +1,6 @@
 {
   "Add to Saved": "Add to Saved",
+  "Albums": "Albums",
   "Appearance": "Appearance",
   "Auto": "Auto",
   "available": "available",
@@ -77,6 +78,7 @@
   "Sign Out": "Sign Out",
   "Sign Up": "Sign Up",
   "Size": "Size",
+  "Something went wrong.": "Something went wrong.",
   "status_bar_deleting_task_one": "Deleting {{count}} item",
   "status_bar_deleting_task_other": "Deleting {{count}} items",
   "status_bar_emptying_trash_task": "Emptying the Trash",

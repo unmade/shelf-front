@@ -28,7 +28,7 @@ export default function EmptyContainer() {
           <p>{description}</p>
           <div className="mt-8 lg:mt-3">
             <Button variant="primary" size="lg" onClick={openDialog}>
-              {t('photos.pages.albums.newAlbumButton', { defaultValue: 'Create Album' })}
+              {t('photos:pages.albums.newAlbumButton', { defaultValue: 'Create Album' })}
             </Button>
           </div>
         </>
