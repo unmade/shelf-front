@@ -10,6 +10,7 @@ import Spinner from 'components/ui/Spinner';
 import usePaginatedMediaItemsQuery from 'components/photos/hooks/list-media-items';
 
 import MediaItemGridView from 'components/photos/MediaItemGridView';
+import MediaItemMenu from 'components/photos/MediaItemMenu';
 
 import Welcome from './Welcome';
 
@@ -47,6 +48,7 @@ export default function Content() {
       itemsCount={itemsCount}
       selectById={selectById}
       loadMore={loadMore}
+      menuItemRenderer={MediaItemMenu}
     />
   );
 }

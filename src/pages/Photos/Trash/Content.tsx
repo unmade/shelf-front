@@ -12,6 +12,7 @@ import Spinner from 'components/ui/Spinner';
 
 import Empty from 'components/photos/Empty';
 import MediaItemGridView from 'components/photos/MediaItemGridView';
+import DeletedMediaItemMenu from 'components/photos/DeletedMediaItemMenu';
 
 export default function Content() {
   const { t } = useTranslation('photos');
@@ -49,5 +50,12 @@ export default function Content() {
     );
   }
 
-  return <MediaItemGridView ids={ids} itemsCount={itemsCount} selectById={selectById} />;
+  return (
+    <MediaItemGridView
+      ids={ids}
+      itemsCount={itemsCount}
+      selectById={selectById}
+      menuItemRenderer={DeletedMediaItemMenu}
+    />
+  );
 }
