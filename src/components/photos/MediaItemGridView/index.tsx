@@ -19,6 +19,7 @@ import MediaItemsProvider from 'components/photos/MediaItemsProvider';
 export interface ItemDataProps {
   ids: string[];
   columnCount: number;
+  menuItemRenderer: React.ComponentType<{ mediaItem: IMediaItem; onOpen: () => void }>;
 }
 
 interface Props {
@@ -26,6 +27,7 @@ interface Props {
   itemsCount?: number;
   loadMore?: () => void;
   selectById: (state: RootState, id: string) => IMediaItem | undefined;
+  menuItemRenderer: React.ComponentType<{ mediaItem: IMediaItem; onOpen: () => void }>;
 }
 
 interface State {
@@ -35,7 +37,13 @@ interface State {
 
 const initialState = { initialFileId: null, scrollIndex: null };
 
-export default function MediaItemGridView({ ids, itemsCount, loadMore, selectById }: Props) {
+export default function MediaItemGridView({
+  ids,
+  itemsCount,
+  loadMore,
+  selectById,
+  menuItemRenderer,
+}: Props) {
   const [{ scrollIndex, initialFileId }, setState] = useState<State>(initialState);
 
   const { columnCount, rowCount } = useGridLayout(ids);
@@ -44,8 +52,9 @@ export default function MediaItemGridView({ ids, itemsCount, loadMore, selectByI
     () => ({
       ids: ids ?? [],
       columnCount,
+      menuItemRenderer,
     }),
-    [ids, columnCount],
+    [ids, columnCount, menuItemRenderer],
   );
 
   const onClose = useCallback(

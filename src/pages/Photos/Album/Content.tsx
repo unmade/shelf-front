@@ -6,6 +6,7 @@ import { RootState } from 'store/store';
 import { useListAlbumItemsInfiniteQuery, albumItemsAdapter } from 'store/albums';
 
 import MediaItemGridView from 'components/photos/MediaItemGridView';
+import MediaItemMenu from 'components/photos/MediaItemMenu';
 
 import Empty from './Empty';
 
@@ -50,6 +51,7 @@ export default function Content({ album }: Props) {
       itemsCount={album.itemsCount}
       selectById={selectByIdCallback}
       loadMore={fetchNextPage}
+      menuItemRenderer={MediaItemMenu}
     />
   );
 }

@@ -14,9 +14,7 @@ import Thumbnail, { ThumbnailSize } from 'components/Thumbnail';
 
 import useFileFromMediaItem from '../hooks/file-from-media-item';
 
-import DeletedMediaItemMenu from '../DeletedMediaItemMenu';
 import { ItemDataProps } from '../MediaItemGridView';
-import MediaItemMenu from '../MediaItemMenu';
 import { useMediaItemsData } from '../MediaItemsProvider';
 
 import FavouriteButton from './FavouriteButton';
@@ -26,9 +24,10 @@ interface GridItemProps {
   touch: boolean;
   width: number;
   onClick: (id: string) => void;
+  menuItemRenderer: React.ComponentType<{ mediaItem: IMediaItem; onOpen: () => void }>;
 }
 
-function GridItem({ mediaItem, touch, width, onClick }: GridItemProps) {
+function GridItem({ mediaItem, touch, width, onClick, menuItemRenderer: Menu }: GridItemProps) {
   const file = useFileFromMediaItem(mediaItem);
 
   const { select, toggleSelection, isSelected } = useSelection();
@@ -57,8 +56,6 @@ function GridItem({ mediaItem, touch, width, onClick }: GridItemProps) {
       select(mediaItem.id);
     }
   };
-
-  const Menu = mediaItem.deletedAt ? DeletedMediaItemMenu : MediaItemMenu;
 
   return (
     <div className="group flex h-full items-center justify-center">
@@ -108,7 +105,7 @@ function GridItemContainer({
   const width = typeof style.width === 'number' ? style.width - 20 : style.width;
   const itemStyle = { ...style, width, height: style.width };
 
-  const { columnCount, ids } = data;
+  const { columnCount, ids, menuItemRenderer: Menu } = data;
   const idx = rowIndex * columnCount + columnIndex;
 
   const mediaItem = useAppSelector<IMediaItem | undefined>(
@@ -122,7 +119,13 @@ function GridItemContainer({
 
   return (
     <div style={itemStyle} className="pl-[20px]">
-      <GridItem mediaItem={mediaItem} width={width as number} touch={touch} onClick={onItemClick} />
+      <GridItem
+        mediaItem={mediaItem}
+        width={width as number}
+        touch={touch}
+        onClick={onItemClick}
+        menuItemRenderer={Menu}
+      />
     </div>
   );
 }
