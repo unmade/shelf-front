@@ -9,6 +9,7 @@ import * as icons from 'icons';
 import { useAppDispatch, useAppSelector } from 'hooks';
 import { IAction } from 'hooks/file-actions';
 
+import { useRemoveAlbumItemsMutation } from 'store/albums';
 import { downloadMediaItemsBatch } from 'store/mediaItems';
 import {
   selectIsBookmarked,
@@ -30,8 +31,8 @@ export function useAddToAlbumAction(mediaItems: IMediaItem[]): IAction | null {
       defaultValue: 'Add to Album',
       count: mediaItems.length,
     }),
-    Icon: icons.Collection,
-    icon: <icons.Collection className="h-4 w-4" />,
+    Icon: icons.FolderAddOutlined,
+    icon: <icons.FolderAddOutlined className="h-4 w-4" />,
     danger: false,
     onClick: () => {
       openDialog(mediaItems);
@@ -116,6 +117,26 @@ export function useFavouriteAction(mediaItems: IMediaItem[]): IAction {
     danger: false,
     onClick: () => {
       addBookmarkBatch(nonBookmarkedIds);
+    },
+  };
+}
+
+export function useRemoveFromAlbumAction(albumSlug: string, mediaItems: IMediaItem[]): IAction {
+  const { t } = useTranslation('photos');
+  const [removeAlbumItems] = useRemoveAlbumItemsMutation();
+  const fileIds = mediaItems.map((item) => item.fileId);
+
+  return {
+    key: 'remove-from-album',
+    name: t('photos:mediaItem.actions.removeFromAlbum', {
+      defaultValue: 'Remove from Album',
+      count: mediaItems.length,
+    }),
+    Icon: icons.FolderRemoveOutlined,
+    icon: <icons.FolderRemoveOutlined className="h-4 w-4" />,
+    danger: false,
+    onClick: () => {
+      removeAlbumItems({ albumSlug, fileIds });
     },
   };
 }

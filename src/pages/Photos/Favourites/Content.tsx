@@ -5,6 +5,7 @@ import Spinner from 'components/ui/Spinner';
 import usePaginatedMediaItemsQuery from 'components/photos/hooks/list-media-items';
 
 import MediaItemGridView from 'components/photos/MediaItemGridView';
+import MediaItemMenu from 'components/photos/MediaItemMenu';
 
 import Empty from './Empty';
 
@@ -28,5 +29,5 @@ export default function Content() {
     );
   }
 
-  return <MediaItemGridView ids={ids} selectById={selectById} />;
+  return <MediaItemGridView ids={ids} selectById={selectById} menuItemRenderer={MediaItemMenu} />;
 }
