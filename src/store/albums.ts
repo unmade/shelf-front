@@ -179,6 +179,54 @@ export const albumsApi = apiSlice.injectEndpoints({
       }),
       transformResponse: (data: { items: IAlbumItemSchema[] }) => data.items.map(toMediaItem),
     }),
+
+    removeAlbumItems: builder.mutation<void, { albumSlug: string; fileIds: string[] }>({
+      query: ({ albumSlug, fileIds }) => ({
+        url: `/photos/albums/${albumSlug}/items`,
+        method: 'DELETE',
+        body: {
+          file_ids: fileIds,
+        },
+      }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        const { albumSlug, fileIds } = arg;
+        const listAlbumPatchResult = dispatch(
+          albumsApi.util.updateQueryData('listAlbums', { pageSize: 100 }, (draft) => {
+            const album = albumsAdapter.getSelectors().selectById(draft, albumSlug);
+            return albumsAdapter.updateOne(draft, {
+              id: albumSlug,
+              changes: { itemsCount: Math.max(album.itemsCount - fileIds.length, 0) },
+            });
+          }),
+        );
+
+        const getAlbumPatchResult = dispatch(
+          albumsApi.util.updateQueryData('getAlbum', albumSlug, (draft) => {
+            // eslint-disable-next-line no-param-reassign
+            draft.itemsCount = Math.max(draft.itemsCount - fileIds.length, 0);
+          }),
+        );
+
+        const listAlbumItemsPatchResult = dispatch(
+          albumsApi.util.updateQueryData('listAlbumItems', { albumSlug }, (draft) => {
+            if (draft?.pages) {
+              // eslint-disable-next-line no-param-reassign
+              draft.pages = draft.pages.map((page: IMediaItem[]) =>
+                page.filter((item) => !fileIds.includes(item.fileId)),
+              );
+            }
+          }),
+        );
+
+        try {
+          await queryFulfilled;
+        } catch {
+          listAlbumPatchResult.undo();
+          getAlbumPatchResult.undo();
+          listAlbumItemsPatchResult.undo();
+        }
+      },
+    }),
   }),
 });
 
@@ -188,6 +236,7 @@ export const {
   useGetAlbumQuery,
   useListAlbumsQuery,
   useListAlbumItemsInfiniteQuery,
+  useRemoveAlbumItemsMutation,
 } = albumsApi;
 
 export const selectListAlbumsData = createSelector(

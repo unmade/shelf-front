@@ -16,6 +16,8 @@
   "mediaItem.actions.downloadBatch_other": "Download {{count}} Items",
   "mediaItem.actions.favourite_one": "Favourite",
   "mediaItem.actions.favourite_other": "Favourite {{count}} Items",
+  "mediaItem.actions.removeFromAlbum_one": "Remove from Album",
+  "mediaItem.actions.removeFromAlbum_other": "Remove {{count}} Items from  Album",
   "mediaItem.actions.restore_one": "Restore",
   "mediaItem.actions.restore_other": "Restore {{count}} Items",
   "mediaItem.actions.unfavourite_one": "Unfavourite",

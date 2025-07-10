@@ -16,10 +16,15 @@ import Gallery from 'components/photos/Gallery';
 import MediaItemGridItem from 'components/photos/MediaItemGridItem';
 import MediaItemsProvider from 'components/photos/MediaItemsProvider';
 
+export interface MenuItemRendererProps {
+  mediaItem: IMediaItem;
+  onOpen: () => void;
+}
+
 export interface ItemDataProps {
   ids: string[];
   columnCount: number;
-  menuItemRenderer: React.ComponentType<{ mediaItem: IMediaItem; onOpen: () => void }>;
+  menuItemRenderer: React.ComponentType<MenuItemRendererProps>;
 }
 
 interface Props {
@@ -27,7 +32,7 @@ interface Props {
   itemsCount?: number;
   loadMore?: () => void;
   selectById: (state: RootState, id: string) => IMediaItem | undefined;
-  menuItemRenderer: React.ComponentType<{ mediaItem: IMediaItem; onOpen: () => void }>;
+  menuItemRenderer: React.ComponentType<MenuItemRendererProps>;
 }
 
 interface State {

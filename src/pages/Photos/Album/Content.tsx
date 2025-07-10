@@ -5,8 +5,8 @@ import { IAlbum } from 'types/photos';
 import { RootState } from 'store/store';
 import { useListAlbumItemsInfiniteQuery, albumItemsAdapter } from 'store/albums';
 
-import MediaItemGridView from 'components/photos/MediaItemGridView';
-import MediaItemMenu from 'components/photos/MediaItemMenu';
+import MediaItemGridView, { MenuItemRendererProps } from 'components/photos/MediaItemGridView';
+import AlbumMediaItemMenu from 'components/photos/AlbumMediaItemMenu';
 
 import Empty from './Empty';
 
@@ -37,6 +37,13 @@ export default function Content({ album }: Props) {
 
   const ids = selectIds(data);
 
+  const menuItemRenderer = useCallback(
+    ({ mediaItem, onOpen }: MenuItemRendererProps) => (
+      <AlbumMediaItemMenu mediaItem={mediaItem} onOpen={onOpen} albumSlug={album.slug} />
+    ),
+    [album.slug],
+  );
+
   if (isSuccess && !ids.length) {
     return (
       <div className="flex h-full">
@@ -51,7 +58,7 @@ export default function Content({ album }: Props) {
       itemsCount={album.itemsCount}
       selectById={selectByIdCallback}
       loadMore={fetchNextPage}
-      menuItemRenderer={MediaItemMenu}
+      menuItemRenderer={menuItemRenderer}
     />
   );
 }
