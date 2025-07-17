@@ -19,6 +19,14 @@ import FileIcon from './FileIcon';
 
 export { ThumbnailSize } from '../constants';
 
+const objectFitClassNameMap = {
+  'scale-down': 'object-scale-down',
+  contain: 'object-contain',
+  cover: 'object-cover',
+  fill: 'object-fill',
+  none: 'object-none',
+};
+
 const ThumbnailFileShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
   thumbnail_url: PropTypes.string,
@@ -68,10 +76,11 @@ function ImageThumbnail({ className, file, size, style, objectFit }) {
     { skip: shouldSkip || file.thumbnail_url?.startsWith('blob:') },
   );
 
+  const objectFitClassName = objectFitClassNameMap[objectFit] || 'object-scale-down';
   if (file.thumbnail_url?.startsWith('blob:')) {
     return (
       <img
-        className={`object-${objectFit} ${className}`}
+        className={`${objectFitClassName} ${className}`}
         src={file.thumbnail_url}
         alt={name}
         style={style}
@@ -92,7 +101,7 @@ function ImageThumbnail({ className, file, size, style, objectFit }) {
 
   return (
     <img
-      className={`object-${objectFit} ${className}`}
+      className={`${objectFitClassName} ${className}`}
       src={data?.content}
       alt={name}
       style={style}
