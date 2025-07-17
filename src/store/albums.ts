@@ -76,7 +76,7 @@ export const albumItemsAdapter = createEntityAdapter<IMediaItem>({});
 
 export const albumsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    addAlbumItems: builder.mutation<void, { albumSlug: string; fileIds: string[] }>({
+    addAlbumItems: builder.mutation<IAlbum, { albumSlug: string; fileIds: string[] }>({
       query: ({ albumSlug, fileIds }) => ({
         url: `/photos/albums/${albumSlug}/items`,
         method: 'PUT',
@@ -84,30 +84,26 @@ export const albumsApi = apiSlice.injectEndpoints({
           file_ids: fileIds,
         },
       }),
+      invalidatesTags: (_result, _error, { albumSlug }) => [
+        { type: 'Albums', id: `albumItems:${albumSlug}` },
+      ],
+      transformResponse: (data: IAlbumsSchema) => toAlbum(data),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-        const { albumSlug, fileIds } = arg;
-        const listAlbumPatchResult = dispatch(
-          albumsApi.util.updateQueryData('listAlbums', { pageSize: 100 }, (draft) => {
-            const album = albumsAdapter.getSelectors().selectById(draft, albumSlug);
-            return albumsAdapter.updateOne(draft, {
-              id: albumSlug,
-              changes: { itemsCount: album.itemsCount + fileIds.length },
-            });
-          }),
-        );
-
-        const getAlbumPatchResult = dispatch(
-          albumsApi.util.updateQueryData('getAlbum', albumSlug, (draft) => {
-            // eslint-disable-next-line no-param-reassign
-            draft.itemsCount += fileIds.length;
-          }),
-        );
-
         try {
-          await queryFulfilled;
+          const { data } = await queryFulfilled;
+
+          dispatch(
+            albumsApi.util.updateQueryData('listAlbums', { pageSize: 100 }, (draft) =>
+              albumsAdapter.updateOne(draft, {
+                id: data.slug,
+                changes: data,
+              }),
+            ),
+          );
+
+          dispatch(albumsApi.util.updateQueryData('getAlbum', data.slug, () => data));
         } catch {
-          listAlbumPatchResult.undo();
-          getAlbumPatchResult.undo();
+          /* empty */
         }
       },
     }),
@@ -118,6 +114,7 @@ export const albumsApi = apiSlice.injectEndpoints({
         method: 'POST',
         body: { title },
       }),
+      transformResponse: (data: IAlbumsSchema) => toAlbum(data),
     }),
 
     getAlbum: builder.query<IAlbum, string>({
@@ -168,6 +165,7 @@ export const albumsApi = apiSlice.injectEndpoints({
           return lastPageParam + 1;
         },
       },
+
       query: ({ queryArg, pageParam }) => ({
         url: `/photos/albums/${queryArg.albumSlug}/items`,
         method: 'GET',
@@ -177,10 +175,13 @@ export const albumsApi = apiSlice.injectEndpoints({
           favourites: queryArg?.favourites,
         },
       }),
+      providesTags: (_result, _error, { albumSlug }) => [
+        { type: 'Albums', id: `albumItems:${albumSlug}` },
+      ],
       transformResponse: (data: { items: IAlbumItemSchema[] }) => data.items.map(toMediaItem),
     }),
 
-    removeAlbumItems: builder.mutation<void, { albumSlug: string; fileIds: string[] }>({
+    removeAlbumItems: builder.mutation<IAlbum, { albumSlug: string; fileIds: string[] }>({
       query: ({ albumSlug, fileIds }) => ({
         url: `/photos/albums/${albumSlug}/items`,
         method: 'DELETE',
@@ -188,25 +189,9 @@ export const albumsApi = apiSlice.injectEndpoints({
           file_ids: fileIds,
         },
       }),
+      transformResponse: (data: IAlbumsSchema) => toAlbum(data),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         const { albumSlug, fileIds } = arg;
-        const listAlbumPatchResult = dispatch(
-          albumsApi.util.updateQueryData('listAlbums', { pageSize: 100 }, (draft) => {
-            const album = albumsAdapter.getSelectors().selectById(draft, albumSlug);
-            return albumsAdapter.updateOne(draft, {
-              id: albumSlug,
-              changes: { itemsCount: Math.max(album.itemsCount - fileIds.length, 0) },
-            });
-          }),
-        );
-
-        const getAlbumPatchResult = dispatch(
-          albumsApi.util.updateQueryData('getAlbum', albumSlug, (draft) => {
-            // eslint-disable-next-line no-param-reassign
-            draft.itemsCount = Math.max(draft.itemsCount - fileIds.length, 0);
-          }),
-        );
-
         const listAlbumItemsPatchResult = dispatch(
           albumsApi.util.updateQueryData('listAlbumItems', { albumSlug }, (draft) => {
             if (draft?.pages) {
@@ -219,10 +204,17 @@ export const albumsApi = apiSlice.injectEndpoints({
         );
 
         try {
-          await queryFulfilled;
+          const { data } = await queryFulfilled;
+          dispatch(
+            albumsApi.util.updateQueryData('listAlbums', { pageSize: 100 }, (draft) =>
+              albumsAdapter.updateOne(draft, {
+                id: data.slug,
+                changes: data,
+              }),
+            ),
+          );
+          dispatch(albumsApi.util.updateQueryData('getAlbum', albumSlug, () => data));
         } catch {
-          listAlbumPatchResult.undo();
-          getAlbumPatchResult.undo();
           listAlbumItemsPatchResult.undo();
         }
       },
