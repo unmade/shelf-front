@@ -43,9 +43,12 @@ export default function Album() {
     navigate(routes.PHOTOS_ALBUMS.prefix);
   }
 
-  const title = t('photos:pages.albums.title', {
-    defaultValue: album?.title ?? albumTitle ?? 'Albums',
-  });
+  const title =
+    album?.title ??
+    albumTitle ??
+    t('photos:pages.albums.title', {
+      defaultValue: 'Albums',
+    });
 
   return (
     <AddToAlbumDialogProvider>
