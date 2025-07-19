@@ -15,6 +15,7 @@ import { useSelection } from 'components/SelectionProvider';
 import Thumbnail, { ThumbnailSize } from 'components/Thumbnail';
 
 import { ItemDataProps } from '../AlbumGridView';
+import AlbumMenu from '../AlbumMenu';
 
 interface GridItemProps {
   album: IAlbum;
@@ -39,6 +40,12 @@ function GridItem({ album, width }: GridItemProps) {
 
   const openAlbum = () => {
     navigate(album.slug);
+  };
+
+  const handleMenuOpen = () => {
+    if (!selected) {
+      select(album.id);
+    }
   };
 
   const style = { width: width - (selected ? 40 : 24), height: width - (selected ? 40 : 24) };
@@ -77,6 +84,11 @@ function GridItem({ album, width }: GridItemProps) {
             <icons.PhotographOutlined className="h-12 w-12 text-gray-500 dark:text-zinc-400" />
           </div>
         )}
+        <div
+          className={`${selected ? '' : 'hidden'} ${'group-hover:block'} absolute right-2 top-1.5`}
+        >
+          <AlbumMenu album={album} onOpen={handleMenuOpen} />
+        </div>
       </span>
       <div className="pt-1 text-center">
         <p>{album.title}</p>

@@ -1,10 +1,13 @@
 {
   "actions.emptyTrash": "Empty Trash",
   "actions.upload": "Upload",
+  "album.actions.delete": "Delete",
   "dialogs.addToAlbumDialog.title_one": "Add to Album",
   "dialogs.addToAlbumDialog.title_other": "Add {{count}} Items to Album",
   "dialogs.createAlbum.input": "Album title",
   "dialogs.createAlbum.title": "Create Album",
+  "dialogs.deleteAlbum.description": "Are you sure you want to delete",
+  "dialogs.deleteAlbum.title": "Delete Album",
   "mediaItem.actions.addToAlbum_one": "Add to Album",
   "mediaItem.actions.addToAlbum_other": "Add {{count}} Items to Album",
   "mediaItem.actions.copyLink": "Copy link",
