@@ -6,7 +6,7 @@ import { IAlbum } from 'types/photos';
 import Menu from 'components/ui/Menu';
 import MenuItem from 'components/ui/MenuItem';
 
-import { useDeleteAlbumAction } from '../hooks/album-actions';
+import { useDeleteAlbumAction, useRenameAlbumAction } from '../hooks/album-actions';
 
 interface Props {
   album: IAlbum;
@@ -14,8 +14,13 @@ interface Props {
 }
 
 function useAlbumActionGroups(album: IAlbum) {
+  const renameAction = useRenameAlbumAction(album);
   const deleteAction = useDeleteAlbumAction(album);
   const groups = [
+    {
+      key: 'main',
+      items: [renameAction],
+    },
     {
       key: 'deleting',
       items: [deleteAction],
