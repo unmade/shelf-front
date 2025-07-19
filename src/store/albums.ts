@@ -69,6 +69,7 @@ function toMediaItem(schema: IAlbumItemSchema): IMediaItem {
 
 export const albumsAdapter = createEntityAdapter({
   selectId: (album: IAlbum) => album.slug,
+  sortComparer: (a: IAlbum, b: IAlbum) => a.title.localeCompare(b.title),
 });
 const albumInitialState = albumsAdapter.getInitialState();
 
@@ -227,6 +228,40 @@ export const albumsApi = apiSlice.injectEndpoints({
         }
       },
     }),
+
+    updateAlbum: builder.mutation<IAlbum, { albumSlug: string; title: string }>({
+      query: ({ albumSlug, title }) => ({
+        url: `/photos/albums/${albumSlug}`,
+        method: 'PATCH',
+        body: { title },
+      }),
+      transformResponse: (data: IAlbumsSchema) => toAlbum(data),
+      invalidatesTags: (_result, _error, { albumSlug }) => [{ type: 'Albums', id: albumSlug }],
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        const { albumSlug, title } = arg;
+        const listAlbumsPatchResult = dispatch(
+          albumsApi.util.updateQueryData('listAlbums', { pageSize: 100 }, (draft) => {
+            albumsAdapter.updateOne(draft, {
+              id: albumSlug,
+              changes: { title },
+            });
+          }),
+        );
+
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(
+            albumsApi.util.updateQueryData('listAlbums', { pageSize: 100 }, (draft) => {
+              albumsAdapter.removeOne(draft, albumSlug);
+              albumsAdapter.addOne(draft, data);
+            }),
+          );
+          dispatch(albumsApi.util.updateQueryData('getAlbum', data.slug, () => data));
+        } catch {
+          listAlbumsPatchResult.undo();
+        }
+      },
+    }),
   }),
 });
 
@@ -238,6 +273,7 @@ export const {
   useListAlbumsQuery,
   useListAlbumItemsInfiniteQuery,
   useRemoveAlbumItemsMutation,
+  useUpdateAlbumMutation,
 } = albumsApi;
 
 export const selectListAlbumsData = createSelector(
