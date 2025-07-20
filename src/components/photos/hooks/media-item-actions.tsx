@@ -9,7 +9,7 @@ import * as icons from 'icons';
 import { useAppDispatch, useAppSelector } from 'hooks';
 import { IAction } from 'hooks/file-actions';
 
-import { useRemoveAlbumItemsMutation } from 'store/albums';
+import { useRemoveAlbumItemsMutation, useSetAlbumCoverMutation } from 'store/albums';
 import { downloadMediaItemsBatch } from 'store/mediaItems';
 import {
   selectIsBookmarked,
@@ -137,6 +137,33 @@ export function useRemoveFromAlbumAction(albumSlug: string, mediaItems: IMediaIt
     danger: false,
     onClick: () => {
       removeAlbumItems({ albumSlug, fileIds });
+    },
+  };
+}
+
+export function useSetAlbumCoverAction(
+  albumSlug: string,
+  mediaItems: IMediaItem[],
+): IAction | null {
+  const { t } = useTranslation('photos');
+  const [setAlbumCover] = useSetAlbumCoverMutation();
+
+  if (mediaItems.length !== 1) {
+    return null;
+  }
+
+  const mediaItem = mediaItems[0];
+
+  return {
+    key: 'set-cover',
+    name: t('photos:mediaItem.actions.setCover', {
+      defaultValue: 'Set as Album Cover',
+    }),
+    Icon: icons.PhotographOutlined,
+    icon: <icons.PhotographOutlined className="h-4 w-4" />,
+    danger: false,
+    onClick: () => {
+      setAlbumCover({ albumSlug, fileId: mediaItem.fileId });
     },
   };
 }
