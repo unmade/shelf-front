@@ -38,6 +38,7 @@ export default defineConfig({
       constants: '/src/constants.ts',
       containers: '/src/containers',
       hooks: '/src/hooks',
+      i18n: '/src/i18n',
       icons: '/src/icons',
       pages: '/src/pages',
       routes: '/src/routes',

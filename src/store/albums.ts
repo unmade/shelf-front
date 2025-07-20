@@ -118,9 +118,9 @@ export const albumsApi = apiSlice.injectEndpoints({
       transformResponse: (data: IAlbumsSchema) => toAlbum(data),
     }),
 
-    deleteAlbum: builder.mutation<IAlbum, undefined>({
-      query: () => ({
-        url: '/photos/albums',
+    deleteAlbum: builder.mutation<IAlbum, string>({
+      query: (albumSlug) => ({
+        url: `/photos/albums/${albumSlug}`,
         method: 'DELETE',
       }),
       transformResponse: (data: IAlbumsSchema) => toAlbum(data),

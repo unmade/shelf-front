@@ -1,3 +1,5 @@
+import i18n from 'i18n';
+
 import * as icons from 'icons';
 import * as routes from 'routes';
 
@@ -14,19 +16,24 @@ export interface IAppItem {
 const apps: IAppItem[] = [
   {
     key: 'files',
-    name: 'Files',
+    name: i18n.t('Files', { defaultValue: 'Files' }),
     path: routes.FILES.prefix,
     icon: icons.Folder,
     iconColor: 'text-blue-400',
   },
   {
     key: 'photos',
-    name: 'Photos',
+    name: i18n.t('Photos', { defaultValue: 'Photos' }),
     path: routes.PHOTOS.prefix,
     icon: icons.PhotoApp,
     iconColor: 'text-green-500',
   },
 ];
+
+i18n.on('languageChanged init', () => {
+  apps[0].name = i18n.t('Files');
+  apps[1].name = i18n.t('Photos');
+});
 
 export default function useAvailableApps() {
   return apps.filter((app) => availableApps.includes(app.key));

@@ -1,6 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useTranslation } from 'react-i18next';
+
+import { useGetContentMetadataQuery } from 'store/files';
+
+import TimeAgo from 'components/ui/TimeAgo';
+
 import {
   getCameraModel,
   getDimensions,
@@ -9,10 +15,6 @@ import {
   getFocalLength,
   getISO,
 } from './utils';
-
-import { useGetContentMetadataQuery } from '../../store/files';
-
-import TimeAgo from '../ui/TimeAgo';
 
 function ExifProperty({ title, value }) {
   return (
@@ -29,6 +31,7 @@ ExifProperty.propTypes = {
 };
 
 function Exif({ fileId }) {
+  const { t } = useTranslation(['exif']);
   const { data, isFetching: loading, isError } = useGetContentMetadataQuery(fileId);
   const meta = data?.data;
 
@@ -47,7 +50,8 @@ function Exif({ fileId }) {
       <div className="border-b-2 py-1 dark:border-zinc-800">
         <div className="flex justify-between">
           <p className="text-left text-base font-medium">
-            {getCameraModel(meta) ?? 'No camera information'}
+            {getCameraModel(meta) ??
+              t('exif:noCameraInformation', { defaultValue: 'No camera information' })}
           </p>
         </div>
         {(focalLength || fnumber || exposure || iso) && (
@@ -60,10 +64,15 @@ function Exif({ fileId }) {
         )}
       </div>
       <div>
-        {dimensions && <ExifProperty title="Dimensions" value={dimensions} />}
+        {dimensions && (
+          <ExifProperty
+            title={t('exif:dimensions', { defaultValue: 'Dimensions' })}
+            value={dimensions}
+          />
+        )}
         {meta.dt_original && (
           <ExifProperty
-            title="Date Taken"
+            title={t('exif:dateTaken', { defaultValue: 'Date Taken' })}
             value={
               <>
                 <TimeAgo

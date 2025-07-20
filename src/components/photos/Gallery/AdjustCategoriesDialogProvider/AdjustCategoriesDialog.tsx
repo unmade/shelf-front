@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import { useTranslation } from 'react-i18next';
 import { shallowEqual } from 'react-redux';
 import { skipToken } from '@reduxjs/toolkit/query';
 
@@ -21,6 +22,8 @@ interface Props {
 }
 
 export default function AdjustCategoriesDialog({ fileId, visible, onClose }: Props) {
+  const { t } = useTranslation(['photos']);
+
   const allCategories = useMediaItemCategories();
 
   const [setCategories, { isLoading: creating }] = useSetMediaItemCategoriesMutation();
@@ -62,16 +65,16 @@ export default function AdjustCategoriesDialog({ fileId, visible, onClose }: Pro
 
   return (
     <Dialog
-      title="Adjust categories"
+      title={t('photos:dialogs.adjustCategories.title', { defaultValue: 'Adjust categories' })}
       visible={visible}
       onConfirm={onConfirm}
-      confirmTitle="Save"
+      confirmTitle={t('photos:dialogs.adjustCategories.confirmTitle', { defaultValue: 'Save' })}
       confirmLoading={creating}
       onCancel={onClose}
     >
       {fileId && (
         <div className="grid grid-flow-col grid-rows-10 gap-x-2 gap-y-1 text-sm md:gap-3">
-          {allCategories.map(({ name, displayName }) => (
+          {Object.values(allCategories).map(({ name, displayName }) => (
             <CategoryItem
               key={name}
               name={name}
