@@ -1,5 +1,6 @@
 {
   "aperture": "Диафрагма",
+  "dateTaken": "Дата съемки",
   "dateTimeDigitized": "Дата и время оцифровки",
   "dateTimeOriginal": "Дата и время оригинала",
   "dimensions": "Размер",
@@ -7,5 +8,6 @@
   "ISO": "Фоточувствительность (ISO)",
   "make": "Производитель",
   "model": "Модель",
+  "noCameraInformation": "Нет информации о камере",
   "notAvailable": "Нет данных"
 }

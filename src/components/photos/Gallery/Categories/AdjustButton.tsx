@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useTranslation } from 'react-i18next';
+
 import Button from 'components/ui/Button';
 
 import { useAdjustCategoriesDialogContext } from '../AdjustCategoriesDialogProvider';
@@ -9,6 +11,12 @@ interface Props {
 }
 
 export default function AdjustButton({ fileId }: Props) {
+  const { t } = useTranslation(['photos']);
+
+  const adjustButtonText = t('photos:mediaItem.categories.adjustButton', {
+    defaultValue: 'Adjust',
+  });
+
   const { openDialog } = useAdjustCategoriesDialogContext();
 
   return (
@@ -21,7 +29,7 @@ export default function AdjustButton({ fileId }: Props) {
           openDialog(fileId);
         }}
       >
-        <span className="font-medium text-blue-500 dark:text-indigo-500">Adjust</span>
+        <span className="font-medium text-blue-500 dark:text-indigo-500">{adjustButtonText}</span>
       </Button>
       <Button
         className="hidden md:block"
@@ -30,7 +38,7 @@ export default function AdjustButton({ fileId }: Props) {
           openDialog(fileId);
         }}
       >
-        <span className="font-medium text-blue-500 dark:text-indigo-500">Adjust</span>
+        <span className="font-medium text-blue-500 dark:text-indigo-500">{adjustButtonText}</span>
       </Button>
     </>
   );

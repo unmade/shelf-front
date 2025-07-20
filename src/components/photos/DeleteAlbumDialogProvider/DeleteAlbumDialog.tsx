@@ -30,7 +30,7 @@ export default function DeleteAlbumDialog({ visible, album, onClose }: Props) {
   const onConfirm = async () => {
     if (!album) return;
     try {
-      await deleteAlbum(undefined).unwrap();
+      await deleteAlbum(album.slug).unwrap();
       onClose();
     } catch {
       setErrorMessage(t('Something went wrong.'));

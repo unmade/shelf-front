@@ -1,5 +1,6 @@
 {
   "aperture": "Aperture",
+  "dateTaken": "Date Taken",
   "dateTimeDigitized": "Date Time Digitized",
   "dateTimeOriginal": "Date Time Original",
   "dimensions": "Dimensions",
@@ -7,5 +8,6 @@
   "ISO": "ISO",
   "make": "Lens make",
   "model": "Lens model",
+  "noCameraInformation": "No camera information",
   "notAvailable": "Not available"
 }
