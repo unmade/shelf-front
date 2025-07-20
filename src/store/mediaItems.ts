@@ -322,7 +322,11 @@ export const photosApi = apiSlice.injectEndpoints({
         dispatch(
           photosApi.util.updateQueryData('listMediaItemCategories', fileId, () => ({
             file_id: fileId,
-            categories: categories.map((name) => ({ name, origin: 'user', probability: 100 })),
+            categories: categories.map((name) => ({
+              name,
+              origin: 'user' as const,
+              probability: 100,
+            })),
           })),
         );
       },
