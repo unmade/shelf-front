@@ -121,7 +121,7 @@ function GridItemContainer({
     <div style={itemStyle} className="pl-[20px]">
       <GridItem
         mediaItem={mediaItem}
-        width={width as number}
+        width={style.width as number}
         touch={touch}
         onClick={onItemClick}
         menuItemRenderer={Menu}
