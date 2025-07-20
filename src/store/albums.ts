@@ -190,6 +190,39 @@ export const albumsApi = apiSlice.injectEndpoints({
       transformResponse: (data: { items: IAlbumItemSchema[] }) => data.items.map(toMediaItem),
     }),
 
+    removeAlbumCover: builder.mutation<IAlbum, { albumSlug: string }>({
+      query: ({ albumSlug }) => ({
+        url: `/photos/albums/${albumSlug}/cover`,
+        method: 'DELETE',
+      }),
+      transformResponse: (data: IAlbumsSchema) => toAlbum(data),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        const { albumSlug } = arg;
+        const patchResult = dispatch(
+          albumsApi.util.updateQueryData('listAlbums', { pageSize: 100 }, (draft) =>
+            albumsAdapter.updateOne(draft, {
+              id: albumSlug,
+              changes: { cover: null },
+            }),
+          ),
+        );
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(
+            albumsApi.util.updateQueryData('listAlbums', { pageSize: 100 }, (draft) =>
+              albumsAdapter.updateOne(draft, {
+                id: data.slug,
+                changes: data,
+              }),
+            ),
+          );
+          dispatch(albumsApi.util.updateQueryData('getAlbum', data.slug, () => data));
+        } catch {
+          patchResult.undo();
+        }
+      },
+    }),
+
     removeAlbumItems: builder.mutation<IAlbum, { albumSlug: string; fileIds: string[] }>({
       query: ({ albumSlug, fileIds }) => ({
         url: `/photos/albums/${albumSlug}/items`,
@@ -229,6 +262,63 @@ export const albumsApi = apiSlice.injectEndpoints({
       },
     }),
 
+    setAlbumCover: builder.mutation<IAlbum, { albumSlug: string; fileId: string }>({
+      query: ({ albumSlug, fileId }) => ({
+        url: `/photos/albums/${albumSlug}/cover`,
+        method: 'PUT',
+        body: { file_id: fileId },
+      }),
+      transformResponse: (data: IAlbumsSchema) => toAlbum(data),
+      async onQueryStarted(arg, { dispatch, getState, queryFulfilled }) {
+        const { albumSlug, fileId } = arg;
+
+        let thumbnailUrl: string | null = null;
+        const albumItemsState = albumsApi.endpoints.listAlbumItems.select({ albumSlug })(
+          getState(),
+        );
+        if (albumItemsState?.data?.pages) {
+          const allItems = albumItemsState.data.pages.flat();
+          const mediaItem = allItems.find((item) => item.fileId === fileId);
+          if (mediaItem) {
+            thumbnailUrl = mediaItem.thumbnailUrl ?? null;
+          }
+        }
+
+        const patchResult = dispatch(
+          albumsApi.util.updateQueryData('listAlbums', { pageSize: 100 }, (draft) =>
+            albumsAdapter.updateOne(draft, {
+              id: albumSlug,
+              changes: { cover: { fileId, thumbnailUrl } },
+            }),
+          ),
+        );
+        const patchGetAlbumResult = dispatch(
+          albumsApi.util.updateQueryData('getAlbum', albumSlug, (draft) => {
+            if (draft) {
+              return { ...draft, cover: { fileId, thumbnailUrl } };
+            }
+            return draft;
+          }),
+        );
+
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(
+            albumsApi.util.updateQueryData('listAlbums', { pageSize: 100 }, (draft) =>
+              albumsAdapter.updateOne(draft, {
+                id: data.slug,
+                changes: data,
+              }),
+            ),
+          );
+          dispatch(albumsApi.util.updateQueryData('getAlbum', data.slug, () => data));
+        } catch {
+          patchResult.undo();
+          patchGetAlbumResult.undo();
+        }
+      },
+    }),
+
     updateAlbum: builder.mutation<IAlbum, { albumSlug: string; title: string }>({
       query: ({ albumSlug, title }) => ({
         url: `/photos/albums/${albumSlug}`,
@@ -240,12 +330,12 @@ export const albumsApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         const { albumSlug, title } = arg;
         const listAlbumsPatchResult = dispatch(
-          albumsApi.util.updateQueryData('listAlbums', { pageSize: 100 }, (draft) => {
+          albumsApi.util.updateQueryData('listAlbums', { pageSize: 100 }, (draft) =>
             albumsAdapter.updateOne(draft, {
               id: albumSlug,
               changes: { title },
-            });
-          }),
+            }),
+          ),
         );
 
         try {
@@ -272,7 +362,9 @@ export const {
   useGetAlbumQuery,
   useListAlbumsQuery,
   useListAlbumItemsInfiniteQuery,
+  useRemoveAlbumCoverMutation,
   useRemoveAlbumItemsMutation,
+  useSetAlbumCoverMutation,
   useUpdateAlbumMutation,
 } = albumsApi;
 

@@ -34,7 +34,7 @@ export default function AlbumGridView({ ids, loadMore, selectById }: Props) {
       columnCount,
       selectById,
     }),
-    [ids, columnCount],
+    [ids, columnCount, selectById],
   );
 
   if (!ids) {

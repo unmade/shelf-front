@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next';
 
 import { IAlbum } from 'types/photos';
 
+import { useRemoveAlbumCoverMutation } from 'store/albums';
+
 import * as icons from 'icons';
 
 import { IAction } from 'hooks/file-actions';
@@ -25,6 +27,24 @@ export function useDeleteAlbumAction(album: IAlbum): IAction {
     danger: true,
     onClick: () => {
       openDialog(album);
+    },
+  };
+}
+
+export function useRemoveAlbumCoverAction(album: IAlbum): IAction {
+  const { t } = useTranslation('photos');
+  const [removeAlbumCover] = useRemoveAlbumCoverMutation();
+
+  return {
+    key: 'remove-cover',
+    name: t('photos:album.actions.removeCover', {
+      defaultValue: 'Remove Cover',
+    }),
+    Icon: icons.Close,
+    icon: <icons.Close className="h-4 w-4" />,
+    danger: false,
+    onClick: () => {
+      removeAlbumCover({ albumSlug: album.slug });
     },
   };
 }

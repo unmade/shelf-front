@@ -17,6 +17,7 @@ import {
   useDownloadBatchAction,
   useFavouriteAction,
   useRemoveFromAlbumAction,
+  useSetAlbumCoverAction,
 } from '../hooks/media-item-actions';
 import { makeFileFromMediaItem } from '../hooks/file-from-media-item';
 
@@ -38,6 +39,7 @@ function useMediaItemActionGroups(item: IMediaItem, albumSlug: string) {
 
   const addToAlbumAction = useAddToAlbumAction(mediaItems);
   const removeFromAlbumAction = useRemoveFromAlbumAction(albumSlug, mediaItems);
+  const setAlbumCoverAction = useSetAlbumCoverAction(albumSlug, mediaItems);
   const toggleFavourite = useFavouriteAction(mediaItems);
   const copyLinkAction = useCopyLinkAction(files);
   const deleteAction = useDeleteAction(mediaItems);
@@ -54,7 +56,9 @@ function useMediaItemActionGroups(item: IMediaItem, albumSlug: string) {
     },
     {
       key: 'album',
-      items: [addToAlbumAction, removeFromAlbumAction].filter((action) => action != null),
+      items: [setAlbumCoverAction, addToAlbumAction, removeFromAlbumAction].filter(
+        (action) => action != null,
+      ),
     },
     {
       key: 'deleting',
