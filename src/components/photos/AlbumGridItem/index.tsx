@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { IAlbum } from 'types/photos';
 
 import { useAppSelector } from 'hooks';
+import { useTouchDevice } from 'hooks/media-query';
 
 import * as icons from 'icons';
 
@@ -25,11 +26,17 @@ interface GridItemProps {
 function GridItem({ album, width }: GridItemProps) {
   const navigate = useNavigate();
 
+  const touch = useTouchDevice();
+
   const { select, toggleSelection, isSelected } = useSelection();
   const selected = isSelected(album.id);
 
   const onSelect = (event: React.MouseEvent<HTMLSpanElement>) => {
     event.stopPropagation();
+
+    if (touch) {
+      navigate(album.slug);
+    }
 
     if (event.metaKey) {
       toggleSelection(album.id);
@@ -39,7 +46,9 @@ function GridItem({ album, width }: GridItemProps) {
   };
 
   const openAlbum = () => {
-    navigate(album.slug);
+    if (!touch) {
+      navigate(album.slug);
+    }
   };
 
   const handleMenuOpen = () => {
