@@ -1,11 +1,13 @@
 import React from 'react';
 
+import { useTranslation } from 'react-i18next';
+
 import * as icons from 'icons';
 import { IFile } from 'types/files';
 import { IMediaItem } from 'types/photos';
 
 import { useCopyLinkAction, useDownloadAction } from 'hooks/file-actions';
-import { useDeleteAction } from 'components/photos/hooks/media-item-actions';
+import { useAddToAlbumAction, useDeleteAction } from 'components/photos/hooks/media-item-actions';
 
 import Button from 'components/ui/Button';
 import Menu from 'components/ui/Menu';
@@ -16,10 +18,11 @@ import useFileFromMediaItem from '../../hooks/file-from-media-item';
 import { useInformationDialogContext } from '../InformationDialogProvider';
 
 function useInformationAction(file: IFile) {
+  const { t } = useTranslation('photos');
   const { openDialog } = useInformationDialogContext();
   return {
     key: 'info',
-    name: 'Info',
+    name: t('photos:mediaItem.actions.showInfo', { defaultValue: 'Info' }),
     icon: <icons.InformationCircleOutlined className="h-4 w-4" />,
     danger: false,
     onClick: () => {
@@ -36,10 +39,11 @@ interface Props {
 function MoreButton({ className, mediaItem }: Props) {
   const file = useFileFromMediaItem(mediaItem);
 
-  const infoAction = useInformationAction(file);
+  const addToAlbumAction = useAddToAlbumAction([mediaItem]);
   const copyLinkAction = useCopyLinkAction([file]);
   const deleteAction = useDeleteAction([mediaItem]);
   const downloadAction = useDownloadAction([file]);
+  const infoAction = useInformationAction(file);
 
   const groups = [
     {
@@ -49,6 +53,10 @@ function MoreButton({ className, mediaItem }: Props) {
     {
       key: 'sharing',
       items: [downloadAction, copyLinkAction].filter((action) => action != null),
+    },
+    {
+      key: 'album',
+      items: [addToAlbumAction].filter((action) => action != null),
     },
     {
       key: 'deleting',

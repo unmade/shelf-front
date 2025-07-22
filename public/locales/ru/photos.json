@@ -46,6 +46,7 @@
   "mediaItem.actions.restore_many": "Восстановить {{count}} объектов",
   "mediaItem.actions.restore_other": "Восстановить {{count}} объектов",
   "mediaItem.actions.setCover": "Сделать обложкой",
+  "mediaItem.actions.showInfo": "Информация",
   "mediaItem.actions.unfavourite_one": "Из избранного",
   "mediaItem.actions.unfavourite_few": "Из избранного {{count}} объекта",
   "mediaItem.actions.unfavourite_many": "Из избранного {{count}} объектов",

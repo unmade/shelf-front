@@ -30,6 +30,7 @@
   "mediaItem.actions.restore_one": "Restore",
   "mediaItem.actions.restore_other": "Restore {{count}} Items",
   "mediaItem.actions.setCover": "Set as Album Cover",
+  "mediaItem.actions.showInfo": "Info",
   "mediaItem.actions.unfavourite_one": "Unfavourite",
   "mediaItem.actions.unfavourite_other": "Unfavourite {{count}} Items",
   "mediaItem.categories.adjustButton": "Adjust",
