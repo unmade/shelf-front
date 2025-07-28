@@ -12,7 +12,7 @@
     "@tailwindcss/vite": "^4.1.11",
     "async-mutex": "^0.5.0",
     "axios": "^1.11.0",
-    "highlight.js": "^11.6.0",
+    "highlight.js": "^11.11.1",
     "i18next": "^23.8.2",
     "i18next-browser-languagedetector": "^7.2.0",
     "i18next-http-backend": "^2.4.3",
@@ -42,7 +42,7 @@
     "lint": "eslint ./",
     "test": "web-test-runner \"src/**/*.test.jsx\"",
     "makelocales": "i18next \"src/**/*.{js,jsx,ts,tsx}\" -c i18next-parser.config.js",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
