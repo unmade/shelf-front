@@ -23,7 +23,7 @@
     "react-helmet-async": "^2.0.5",
     "react-i18next": "^14.0.2",
     "react-icons": "^4.2.0",
-    "react-redux": "^8.0.2",
+    "react-redux": "^9.2.0",
     "react-responsive": "^10.0.1",
     "react-router-dom": "^6.6.2",
     "react-swipeable": "^7.0.2",
