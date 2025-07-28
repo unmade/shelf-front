@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 
 const defaultClassNames = 'block min-w-0 transition-colors duration-150';
 const defaultTextColors =

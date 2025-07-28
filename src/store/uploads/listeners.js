@@ -1,5 +1,5 @@
 import { nanoid } from '@reduxjs/toolkit';
-import { matchPath } from 'react-router-dom';
+import { matchPath } from 'react-router';
 
 import { Mutex } from 'async-mutex';
 import axios from 'axios';
@@ -51,7 +51,7 @@ async function normalize(file, uploadTo, maxUploadSize, allowedMediaTypes, photo
       fileObj = await new Promise((resolve, reject) => {
         file.file(resolve, reject);
       });
-    } catch (e) {
+    } catch {
       upload.error = { code: 'badFile' };
     }
 
@@ -196,7 +196,7 @@ async function refreshAccessToken(refreshToken) {
     });
     const { access_token: accessToken, refresh_token: nextRefreshToken } = data;
     return { accessToken, refreshToken: nextRefreshToken };
-  } catch (e) {
+  } catch {
     return null;
   }
 }
@@ -250,7 +250,7 @@ async function uploadFile(upload, fileObj, { dispatch, getState }) {
   let response;
   try {
     response = await axios.post(url, body, config);
-  } catch (e) {
+  } catch {
     dispatch(uploadRejected({ upload, error: { code: 'uploadError' } }));
     return;
   } finally {

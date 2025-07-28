@@ -1,6 +1,6 @@
 import { createAsyncThunk, createEntityAdapter, createSelector } from '@reduxjs/toolkit';
 
-import { matchPath } from 'react-router-dom';
+import { matchPath } from 'react-router';
 
 import { MediaType } from '../constants';
 import * as routes from '../routes';
@@ -78,7 +78,7 @@ const sharingApi = apiSlice.injectEndpoints({
         }
         try {
           await queryFulfilled;
-        } catch (e) {
+        } catch {
           listFolderPatchResult?.undo();
         }
       },
@@ -246,7 +246,7 @@ const sharingApi = apiSlice.injectEndpoints({
         }
         try {
           await queryFulfilled;
-        } catch (e) {
+        } catch {
           fileMemberPatchResult.undo();
           listFolderPatchResult?.undo();
         }
@@ -269,7 +269,7 @@ const sharingApi = apiSlice.injectEndpoints({
         );
         try {
           await queryFulfilled;
-        } catch (e) {
+        } catch {
           patchResult.undo();
         }
       },

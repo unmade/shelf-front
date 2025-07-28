@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Transition } from '@headlessui/react';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 
 import useSidePreview from '../../hooks/preview-available';
 

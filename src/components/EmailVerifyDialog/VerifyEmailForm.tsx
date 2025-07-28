@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import useDefaultApp from 'hooks/available-apps';
 
@@ -51,14 +51,14 @@ export default function VerifyEmailForm({ onSubmit }: Props) {
           }),
         );
       }
-    } catch (err) {
+    } catch {
       /* empty */
     }
   };
   const handleResend = async () => {
     try {
       await sendCode(undefined).unwrap();
-    } catch (err) {
+    } catch {
       /* empty */
     }
   };

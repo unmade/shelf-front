@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 
 import { useGetSharedLinkFileQuery } from '../../store/sharing';
 

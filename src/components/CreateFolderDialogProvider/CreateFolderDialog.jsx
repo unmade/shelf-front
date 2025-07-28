@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
-import { useNavigate, resolvePath } from 'react-router-dom';
+import { useNavigate, resolvePath } from 'react-router';
 
 import * as icons from '../../icons';
 import * as routes from '../../routes';

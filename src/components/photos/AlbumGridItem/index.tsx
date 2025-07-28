@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { shallowEqual } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import { IAlbum } from 'types/photos';
 
@@ -94,7 +94,7 @@ function GridItem({ album, width }: GridItemProps) {
           </div>
         )}
         <div
-          className={`${selected ? '' : 'hidden'} ${'group-hover:block'} absolute right-2 top-1.5`}
+          className={`${selected ? '' : 'hidden'} ${'group-hover:block'} absolute top-1.5 right-2`}
         >
           <AlbumMenu album={album} onOpen={handleMenuOpen} />
         </div>
