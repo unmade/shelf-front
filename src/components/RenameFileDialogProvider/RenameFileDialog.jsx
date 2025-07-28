@@ -64,7 +64,7 @@ function RenameFileDialog({ file, loading, visible, onRename, onCancel }) {
       }}
     >
       <form
-        className="w-full sm:min-w-1.5xs"
+        className="w-full sm:min-w-3xs"
         onSubmit={(e) => {
           e.preventDefault();
           onConfirm();

@@ -1,3 +1,25 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@plugin "@tailwindcss/forms";
+
+@theme {
+  --animate-toast-in-right: toast-in-right 0.3s ease-in-out;
+  @keyframes toast-in-right {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0%);
+    }
+  }
+
+  --animate-gradient: gradient 3s ease infinite;
+  @keyframes gradient {
+    0%,
+    100% {
+      backgroundposition: 0% 50%;
+    }
+    50% {
+      backgroundposition: 100% 50%;
+    }
+  }
+}

@@ -34,7 +34,7 @@ export default function Overlay({ fullName, email, username }: Props) {
   };
 
   return (
-    <div className="flex min-w-[12rem] flex-col space-y-2 rounded-xl bg-white p-2 shadow focus:outline-none dark:bg-zinc-800 dark:shadow-zinc-900/70">
+    <div className="flex min-w-48 flex-col space-y-2 rounded-xl bg-white p-2 shadow focus:outline-none dark:bg-zinc-800 dark:shadow-zinc-900/70">
       <div className="flex flex-row items-center p-1">
         <Avatar className="h-10 w-10 rounded-lg" username={displayName} />
         <div className="ml-2 flex flex-1 flex-col text-left text-gray-700 dark:text-gray-300">

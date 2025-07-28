@@ -36,7 +36,7 @@ function AlbumListItem({ data, index, style }: ListChildComponentProps<ItemDataP
         className="flex h-full w-full items-center justify-start rounded-xl bg-gray-50 px-3 py-3 text-left dark:bg-zinc-900/50"
         onClick={onClick}
       >
-        <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg bg-gray-200 dark:bg-zinc-700">
+        <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-gray-200 dark:bg-zinc-700">
           {(album.cover?.thumbnailUrl && (
             <Thumbnail
               file={{

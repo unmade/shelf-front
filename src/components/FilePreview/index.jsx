@@ -79,7 +79,7 @@ function FilePreview({ ids, selectById, loading }) {
                 onSwipeRight={setNextFile}
               />
               {infoVisible && (
-                <div className="w-96 xl:w-[32rem] hidden sm:block">
+                <div className="hidden w-96 sm:block xl:w-lg">
                   <Info
                     className="h-full border-t bg-white px-5 py-6 shadow dark:border-zinc-700 dark:bg-zinc-800 dark:shadow-zinc-900/70"
                     fileId={file.id}
@@ -92,7 +92,7 @@ function FilePreview({ ids, selectById, loading }) {
         </div>
       )}
     </div>,
-    document.body
+    document.body,
   );
 }
 
