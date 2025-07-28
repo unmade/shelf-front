@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Link, resolvePath, useLocation, useResolvedPath } from 'react-router-dom';
+import { Link, resolvePath, useLocation, useResolvedPath } from 'react-router';
 
 import useDirPath from '../hooks/dir-path';
 import * as routes from '../routes';

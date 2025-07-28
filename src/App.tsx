@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router';
 
 import { useAppDispatch } from 'hooks';
 import useDefaultApp from 'hooks/available-apps';

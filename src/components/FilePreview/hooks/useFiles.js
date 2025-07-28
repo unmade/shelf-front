@@ -1,5 +1,5 @@
 import { shallowEqual, useSelector } from 'react-redux';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 
 import usePreviewSearchParam from '../../../hooks/preview-search-param';
 import useResolvedPreviewSearchParam from '../../../hooks/resolved-preview-search-param';
@@ -25,7 +25,7 @@ function useFiles({ ids, selectById }) {
       file: selectById(state, ids[currentIndex]),
       nextFile: selectById(state, ids[nextIndex]),
     }),
-    shallowEqual
+    shallowEqual,
   );
 
   const prevFilePreview = usePreviewSearchParam(files.prevFile?.path ?? '');

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useDispatch } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 
 import useDefaultApp from 'hooks/available-apps';
 
@@ -24,7 +24,7 @@ export default function SignInFormContainer() {
     try {
       const data = await signIn({ username, password }).unwrap();
       dispatch(tokenRefreshed(data));
-    } catch (err) {
+    } catch {
       return;
     }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router';
 import { useSelector } from 'react-redux';
 
 import { useGetCurrentAccountQuery } from '../store/accounts';

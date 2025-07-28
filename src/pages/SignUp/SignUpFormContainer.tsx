@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import { useAppSelector } from 'hooks';
 import useDefaultApp from 'hooks/available-apps';
@@ -29,7 +29,7 @@ export default function SignUpFormContainer() {
     try {
       const data = await signUp({ email, name, password, confirmPassword }).unwrap();
       dispatch(tokenRefreshed(data));
-    } catch (err) {
+    } catch {
       return;
     }
 
@@ -37,7 +37,7 @@ export default function SignUpFormContainer() {
       if (verificationRequired) {
         await sendCode(undefined).unwrap();
       }
-    } catch (err) {
+    } catch {
       // empty
     }
 

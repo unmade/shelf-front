@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import { useAppDispatch } from 'hooks';
 import useDefaultApp from 'hooks/available-apps';
@@ -47,7 +47,7 @@ export default function OTPFormContainer() {
           }),
         );
       }
-    } catch (err) {
+    } catch {
       /* empty */
     }
   };
