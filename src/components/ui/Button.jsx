@@ -31,7 +31,7 @@ const colors = {
   },
   primary: {
     primary: [
-      'bg-gradient-to-br',
+      'bg-linear-to-br',
       'from-blue-400 dark:from-blue-500/90',
       'to-indigo-400 dark:to-indigo-500/90',
       'text-white',
@@ -41,7 +41,7 @@ const colors = {
       'dark:focus:ring-indigo-700',
     ],
     danger: [
-      'bg-gradient-to-br',
+      'bg-linear-to-br',
       'from-red-400 dark:from-rose-500/90',
       'to-rose-400 dark:to-red-500/90',
       'hover:from-red-300 dark:hover:from-rose-500',
@@ -52,7 +52,7 @@ const colors = {
     ],
     success: [
       'text-emerald-50',
-      'bg-gradient-to-br from-teal-400 to-emerald-500',
+      'bg-linear-to-br from-teal-400 to-emerald-500',
       'hover:bg-gray-100 hover:from-teal-400/90 hover:to-emerald-500/90',
       'dark:from-teal-500 dark:to-emerald-600',
       'dark:hover:from-teal-500 dark:hover:to-emerald-500',

@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const colorByVariant = {
-  danger: 'bg-gradient-to-r from-rose-500 to-rose-500',
-  idle: 'bg-gradient-to-r from-indigo-400 via-blue-400 to-teal-400',
-  info: 'bg-gradient-to-r from-blue-500 to-indigo-500',
-  success: 'bg-gradient-to-r from-teal-500 to-emerald-500',
-  warning: 'bg-gradient-to-r from-amber-500 to-orange-500',
+  danger: 'bg-linear-to-r from-rose-500 to-rose-500',
+  idle: 'bg-linear-to-r from-indigo-400 via-blue-400 to-teal-400',
+  info: 'bg-linear-to-r from-blue-500 to-indigo-500',
+  success: 'bg-linear-to-r from-teal-500 to-emerald-500',
+  warning: 'bg-linear-to-r from-amber-500 to-orange-500',
 };
 
 const DEFAULT_VARIANT = 'info';
@@ -25,7 +25,7 @@ function ProgressBar({ progress, danger, idle, info, success, warning }) {
     <div className="flex h-2 overflow-hidden rounded bg-gray-200 text-xs dark:bg-zinc-700">
       <div
         style={fillerStyles}
-        className={`flex flex-col justify-center whitespace-nowrap rounded text-center text-white shadow-none ${colorByVariant[variant]}`}
+        className={`flex flex-col justify-center rounded text-center whitespace-nowrap text-white shadow-none ${colorByVariant[variant]}`}
       />
     </div>
   );

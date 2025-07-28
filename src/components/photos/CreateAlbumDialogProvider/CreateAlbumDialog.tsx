@@ -73,7 +73,7 @@ export default function CreateAlbumDialog({ visible, onClose }: Props) {
       onCancel={closeDialog}
     >
       <form
-        className="w-full sm:min-w-1.5xs"
+        className="w-full sm:min-w-3xs"
         onSubmit={(e) => {
           e.preventDefault();
           onConfirm();

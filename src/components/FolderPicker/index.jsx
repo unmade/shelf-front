@@ -18,7 +18,7 @@ function BreadcrumbItem({ name, path, activePath, onClick }) {
   const Icon = iconsByPath[path];
   return (
     <Breadcrumb.Item active={path === activePath}>
-      <div className="flex max-w-2xs items-center truncate">
+      <div className="flex max-w-3xs items-center truncate">
         {Icon && (
           <span className="py-2 sm:py-1">
             <Icon className="mr-2 h-4 w-4 shrink-0 text-gray-300 dark:text-zinc-600" />

@@ -12,9 +12,9 @@ import Button from 'components/ui/Button';
 import Overlay from './Overlay';
 
 const buttonClasses = [
-  'animate-gradient bg-gradient-to-br',
+  'animate-gradient bg-linear-to-br',
   'from-indigo-400 via-purple-400 to-blue-400',
-  'bg-[length:400%_400%]',
+  'bg-size-[400%_400%]',
   'hover:from-indigo-300 hover:via-purple-300 hover:to-blue-300',
 ].join(' ');
 

@@ -23,13 +23,13 @@ function BackgroundTask({ className }) {
   const deletingFilesCounter = useSelector(
     (state) =>
       selectCounterByScope(state, scopes.deletingImmediatelyBatch) +
-      selectCounterByScope(state, scopes.movingToTrash)
+      selectCounterByScope(state, scopes.movingToTrash),
   );
   const emptyingTrash = useSelector(
-    (state) => selectCounterByScope(state, scopes.emptyingTrash) !== 0
+    (state) => selectCounterByScope(state, scopes.emptyingTrash) !== 0,
   );
   const movingFilesCounter = useSelector((state) =>
-    selectCounterByScope(state, scopes.movingBatch)
+    selectCounterByScope(state, scopes.movingBatch),
   );
 
   const uploading = useSelector(selectIsUploading);
@@ -103,7 +103,7 @@ function BreadcrumbItem({ name, url, path }) {
   const Icon = iconsByPath[path];
   return (
     <Breadcrumb.Item to={url}>
-      <span className="flex max-w-2xs items-center truncate">
+      <span className="flex max-w-3xs items-center truncate">
         {Icon && (
           <span className="py-2 sm:py-1">
             <Icon className="mr-2 h-4 w-4 shrink-0 text-gray-300 dark:text-zinc-600" />
@@ -132,7 +132,7 @@ function StatusBar({ breadcrumbs }) {
   const isLaptop = useIsLaptop();
 
   return (
-    <div className="bottom-0 flex min-h-[33px] w-full items-center justify-center border-t bg-gray-50 py-0.5 pl-6 pr-8 text-center text-xs text-gray-400 dark:border-zinc-700 dark:bg-zinc-700/30 dark:text-zinc-500 lg:justify-between">
+    <div className="bottom-0 flex min-h-[33px] w-full items-center justify-center border-t bg-gray-50 py-0.5 pr-8 pl-6 text-center text-xs text-gray-400 lg:justify-between dark:border-zinc-700 dark:bg-zinc-700/30 dark:text-zinc-500">
       {isLaptop && (
         <Breadcrumb
           items={breadcrumbs}
