@@ -25,7 +25,7 @@ export const { filesSelectionChanged, fileSelectionToggled } = selection.actions
 
 export const selectAllSelectedFileIds = createSelector(
   [(state) => state.browser.selection],
-  (items) => new Set(items)
+  (items) => new Set(items),
 );
 
 const scrollOffset = createSlice({

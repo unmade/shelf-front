@@ -22,14 +22,12 @@ function Switch({ enabled, size, setEnabled }) {
     <UISwitch
       checked={enabled}
       onChange={setEnabled}
-      className={`${enabled ? 'bg-teal-500 dark:bg-teal-600' : 'bg-gray-400 dark:bg-zinc-600'}
-       relative inline-flex ${outter} shrink-0 cursor-pointer rounded-lg border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
+      className={`${enabled ? 'bg-teal-500 dark:bg-teal-600' : 'bg-gray-400 dark:bg-zinc-600'} relative inline-flex ${outter} focus-visible:ring-opacity-75 shrink-0 cursor-pointer rounded-lg border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white`}
     >
       <span className="sr-only">Use setting</span>
       <span
         aria-hidden="true"
-        className={`${enabled ? translate : 'translate-x-0'}
-        pointer-events-none inline-block ${inner} transform rounded-md bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+        className={`${enabled ? translate : 'translate-x-0'} pointer-events-none inline-block ${inner} transform rounded-md bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
       />
     </UISwitch>
   );

@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 
 import { useAppSelector } from 'hooks';
-import { IAlbum } from 'types/photos';
+import type { IAlbum } from 'types/photos';
 
 import { albumsAdapter, selectListAlbumsData, useListAlbumsQuery } from 'store/albums';
 
@@ -38,7 +38,9 @@ export default function usePaginatedAlbumsQuery({ pageSize = 1000 }: Args): [Res
     (_state: unknown, id: string) => selectAlbumById(data ?? initialState, id),
     [data],
   );
-  const loadMore = useCallback(() => setPage((state) => state + 1), [setPage]);
+  const loadMore = useCallback(() => {
+    setPage((state) => state + 1);
+  }, [setPage]);
 
   const result = useMemo(
     () => ({

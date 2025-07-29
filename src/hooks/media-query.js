@@ -41,7 +41,6 @@ export function useBreakpoint() {
   return Breakpoint.base;
 }
 
-// eslint-disable-next-line import/prefer-default-export
 export function useIsLaptop() {
   return useMediaQuery({ query: BreakpointWidth.lg });
 }

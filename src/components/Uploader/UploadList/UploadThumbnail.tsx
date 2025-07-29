@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { useAppSelector } from 'hooks';
 
 import { selectUploadById } from 'store/uploads/slice';
@@ -14,7 +12,7 @@ interface Props {
 export default function UploadThumbnail({ className, uploadId }: Props) {
   const { name, mediatype, thumbnail } = useAppSelector((state) =>
     selectUploadById(state, uploadId),
-  )!;
+  );
   if (thumbnail != null) {
     return <img className={`object-scale-down ${className}`} src={thumbnail} alt={name} />;
   }

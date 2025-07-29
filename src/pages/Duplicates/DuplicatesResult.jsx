@@ -80,7 +80,7 @@ function DuplicatesResult({ dirPath, onFolderChange }) {
       <div className="flex w-1/3 flex-col">
         {/* header and title */}
         <div className="mx-6 pt-7">
-          <h2 className="text-xl font-medium text-gray-900 dark:text-zinc-200 sm:text-3xl">
+          <h2 className="text-xl font-medium text-gray-900 sm:text-3xl dark:text-zinc-200">
             {t('duplicates:resultTitle')}
           </h2>
         </div>

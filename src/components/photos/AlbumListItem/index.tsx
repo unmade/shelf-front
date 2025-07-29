@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { ListChildComponentProps } from 'react-window';
+import type { ListChildComponentProps } from 'react-window';
 import { shallowEqual } from 'react-redux';
 
-import { IAlbum } from 'types/photos';
+import type { IAlbum } from 'types/photos';
 
 import { useAppSelector } from 'hooks';
 
@@ -11,7 +11,7 @@ import * as icons from 'icons';
 
 import Thumbnail, { ThumbnailSize } from 'components/Thumbnail';
 
-import { ItemDataProps } from '../AlbumListView';
+import type { ItemDataProps } from '../AlbumListView';
 
 function AlbumListItem({ data, index, style }: ListChildComponentProps<ItemDataProps>) {
   const { ids, onItemClick, selectById } = data;

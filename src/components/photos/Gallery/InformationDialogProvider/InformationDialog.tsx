@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { IFile } from 'types/files';
+import type { IFile } from 'types/files';
 
 import Dialog from 'components/ui/Dialog';
 import FileSize from 'components/ui/FileSize';

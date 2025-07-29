@@ -47,7 +47,7 @@ function SideBarModal() {
             leaveTo="opacity-0 -translate-x-full"
           >
             <div className="pointer-events-none absolute inset-0 z-40 flex">
-              <div className="firefox:bg-opacity-90 pointer-events-auto min-w-0 max-w-sm flex-1 border-r border-gray-400 border-opacity-10 bg-gray-100/75 backdrop-blur backdrop-filter dark:bg-zinc-800/50">
+              <div className="firefox:bg-opacity-90 border-opacity-10 pointer-events-auto max-w-sm min-w-0 flex-1 border-r border-gray-400 bg-gray-100/75 backdrop-blur backdrop-filter dark:bg-zinc-800/50">
                 <SideBar />
               </div>
               <div className="pointer-events-none w-24" aria-hidden="true" />

@@ -11,7 +11,7 @@ function FileMembers({ fileId }) {
   });
 
   return (
-    <div className="mt-3 divide-y divide-gray-100 dark:divide-zinc-700 max-h-[50dvh] overflow-scroll">
+    <div className="mt-3 max-h-[50dvh] divide-y divide-gray-100 overflow-scroll dark:divide-zinc-700">
       {ids?.map((memberId) => (
         <FileMemberItem key={memberId} fileId={fileId} memberId={memberId} />
       ))}

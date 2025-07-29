@@ -1,8 +1,8 @@
 import { useSelector } from 'react-redux';
 
 import { selectPhotosLibraryPath } from 'store/features';
-import { IMediaItem } from 'types/photos';
-import { IFile } from 'types/files';
+import type { IMediaItem } from 'types/photos';
+import type { IFile } from 'types/files';
 
 export function makeFileFromMediaItem(mediaItem: IMediaItem, libraryPath: string): IFile {
   return {
@@ -20,9 +20,9 @@ export function makeFileFromMediaItem(mediaItem: IMediaItem, libraryPath: string
 
 // Function overload for when the argument is a string
 function useFileFromMediaItem(mediaItem: IMediaItem): IFile;
-// eslint-disable-next-line no-redeclare
+
 function useFileFromMediaItem(mediaItem: undefined): undefined;
-// eslint-disable-next-line no-redeclare
+
 function useFileFromMediaItem(mediaItem: IMediaItem | undefined): IFile | undefined {
   const libraryPath = useSelector(selectPhotosLibraryPath) ?? '';
   if (mediaItem == null) {

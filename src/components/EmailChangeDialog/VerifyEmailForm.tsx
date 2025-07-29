@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { useChangeEmailCompleteMutation, useChangeEmailResendCodeMutation } from 'store/accounts';
 import { addToast } from 'store/toasts';
 
@@ -31,7 +29,7 @@ export default function VerifyEmailForm({ email, onSubmit }: Props) {
           }),
         );
       }
-    } catch (err) {
+    } catch {
       /* empty */
     }
   };

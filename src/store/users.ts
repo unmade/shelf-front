@@ -3,7 +3,7 @@ import { createSelector } from '@reduxjs/toolkit';
 import apiSlice from './apiSlice';
 import { filesAdapter, filesApi } from './files';
 import { mediaItemsAdapter, photosApi } from './mediaItems';
-import { RootState } from './store';
+import type { RootState } from './store';
 
 export const usersApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -65,7 +65,9 @@ export const usersApi = apiSlice.injectEndpoints({
         try {
           await queryFulfilled;
         } catch {
-          patches.forEach((patch) => patch.undo());
+          patches.forEach((patch) => {
+            patch.undo();
+          });
         }
       },
     }),
@@ -82,7 +84,7 @@ const selectBookmarksFromResult = usersApi.endpoints.listBookmarks.select(undefi
 const empty = new Set();
 
 export const selectAllBookmarks = createSelector(selectBookmarksFromResult, (bookmarksResult) =>
-  bookmarksResult?.data ? new Set(bookmarksResult.data) : empty,
+  bookmarksResult.data ? new Set(bookmarksResult.data) : empty,
 );
 
 export const selectIsBookmarked = (state: RootState, id: string) =>

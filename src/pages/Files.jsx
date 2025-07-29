@@ -58,7 +58,7 @@ function CreateFolderDialogButton({ inPath }) {
       <button
         type="button"
         title={t('button_create_folder_title')}
-        className="group m-1 rounded-lg border border-gray-300 bg-white px-2 py-0.5 text-gray-600 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-1 dark:border-zinc-600 dark:bg-zinc-700 dark:text-zinc-400 dark:hover:border-zinc-500 dark:hover:bg-zinc-600 dark:hover:text-zinc-200 dark:focus:ring-zinc-700 dark:focus:ring-offset-zinc-800"
+        className="group m-1 rounded-lg border border-gray-300 bg-white px-2 py-0.5 text-gray-600 hover:text-gray-800 focus:ring-2 focus:ring-offset-1 focus:outline-none dark:border-zinc-600 dark:bg-zinc-700 dark:text-zinc-400 dark:hover:border-zinc-500 dark:hover:bg-zinc-600 dark:hover:text-zinc-200 dark:focus:ring-zinc-700 dark:focus:ring-offset-zinc-800"
         onClick={() => openCreateFolderDialog(inPath)}
       >
         <span className="flex space-x-2">

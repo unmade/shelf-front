@@ -1,4 +1,4 @@
-import React, { RefObject } from 'react';
+import type { RefObject } from 'react';
 
 import { useTranslation } from 'react-i18next';
 

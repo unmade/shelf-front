@@ -1,15 +1,10 @@
-import {
-  EntityState,
-  createAsyncThunk,
-  createEntityAdapter,
-  createSelector,
-  nanoid,
-} from '@reduxjs/toolkit';
+import type { EntityState } from '@reduxjs/toolkit';
+import { createAsyncThunk, createEntityAdapter, createSelector, nanoid } from '@reduxjs/toolkit';
 import { defaultSerializeQueryArgs } from '@reduxjs/toolkit/query';
 
-import { IMediaItem, IMediaItemSharedLink } from 'types/photos';
+import type { IMediaItem, IMediaItemSharedLink } from 'types/photos';
 
-import { RootState } from 'store/store';
+import type { RootState } from 'store/store';
 
 import apiSlice, { API_BASE_URL } from './apiSlice';
 
@@ -100,7 +95,7 @@ export const photosApi = apiSlice.injectEndpoints({
       }),
       async onQueryStarted(fileIds, { dispatch, queryFulfilled, getState }) {
         const patches = [];
-        // eslint-disable-next-line no-restricted-syntax
+
         for (const { endpointName, originalArgs } of photosApi.util.selectInvalidatedBy(
           getState(),
           [
@@ -127,11 +122,9 @@ export const photosApi = apiSlice.injectEndpoints({
           dispatch(
             photosApi.util.updateQueryData('countMediaItems', undefined, (draft) => {
               if (draft.deleted != null) {
-                // eslint-disable-next-line no-param-reassign
                 draft.deleted += 1;
               }
               if (draft.total != null) {
-                // eslint-disable-next-line no-param-reassign
                 draft.total -= 1;
               }
             }),
@@ -145,7 +138,9 @@ export const photosApi = apiSlice.injectEndpoints({
             ),
           );
         } catch {
-          patches.forEach((patch) => patch.undo());
+          patches.forEach((patch) => {
+            patch.undo();
+          });
         }
       },
     }),
@@ -167,7 +162,6 @@ export const photosApi = apiSlice.injectEndpoints({
           dispatch(
             photosApi.util.updateQueryData('countMediaItems', undefined, (draft) => {
               if (draft.deleted != null) {
-                // eslint-disable-next-line no-param-reassign
                 draft.deleted -= 1;
               }
             }),
@@ -176,7 +170,9 @@ export const photosApi = apiSlice.injectEndpoints({
         try {
           await queryFulfilled;
         } catch {
-          patches.forEach((patch) => patch.undo());
+          patches.forEach((patch) => {
+            patch.undo();
+          });
         }
       },
     }),
@@ -276,11 +272,9 @@ export const photosApi = apiSlice.injectEndpoints({
           dispatch(
             photosApi.util.updateQueryData('countMediaItems', undefined, (draft) => {
               if (draft.deleted != null) {
-                // eslint-disable-next-line no-param-reassign
                 draft.deleted -= 1;
               }
               if (draft.total != null) {
-                // eslint-disable-next-line no-param-reassign
                 draft.total += 1;
               }
             }),
@@ -289,7 +283,7 @@ export const photosApi = apiSlice.injectEndpoints({
         try {
           const { data } = await queryFulfilled;
           const items = data.items as IMediaItemSchema[];
-          // eslint-disable-next-line no-restricted-syntax
+
           for (const { endpointName, originalArgs } of photosApi.util.selectInvalidatedBy(
             getState(),
             [
@@ -306,7 +300,9 @@ export const photosApi = apiSlice.injectEndpoints({
             }
           }
         } catch {
-          patches.forEach((patch) => patch.undo());
+          patches.forEach((patch) => {
+            patch.undo();
+          });
         }
       },
     }),

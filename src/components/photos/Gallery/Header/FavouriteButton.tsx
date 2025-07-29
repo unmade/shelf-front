@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { IMediaItem } from 'types/photos';
+import type { IMediaItem } from 'types/photos';
 
 import { useFavouriteAction } from 'components/photos/hooks/media-item-actions';
 

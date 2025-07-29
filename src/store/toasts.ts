@@ -1,5 +1,6 @@
-import { PayloadAction, createAction, createSlice, nanoid } from '@reduxjs/toolkit';
-import { RootState } from './store';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { createAction, createSlice, nanoid } from '@reduxjs/toolkit';
+import type { RootState } from './store';
 
 const defaultCloseAfter = 10;
 
@@ -28,7 +29,7 @@ const toastsSlice = createSlice({
         closeAfter: closeAfter ?? defaultCloseAfter,
       });
     },
-    toastRemoved(state, action) {
+    toastRemoved(state, action: PayloadAction<{ toastId: string }>) {
       const { toastId } = action.payload;
       return state.filter((item) => item.id !== toastId);
     },

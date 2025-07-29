@@ -1,8 +1,6 @@
-import React from 'react';
-
 import { NavLink } from 'react-router';
 
-import { IAppItem } from '../hooks/available-apps';
+import type { IAppItem } from '../hooks/available-apps';
 
 const defaultClasses =
   'my-1 flex items-center rounded-lg px-2 hover:bg-gray-50 dark:hover:bg-zinc-700/50';

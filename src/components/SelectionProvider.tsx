@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useMemo, useState } from 'react';
+import type React from 'react';
+import { createContext, useContext, useMemo, useState } from 'react';
 
 interface Props {
   children: React.ReactNode;
@@ -48,7 +49,12 @@ export default function SelectionProvider({ children }: Props) {
 
   return (
     <SelectionContext.Provider value={context}>
-      <span onClick={() => clearSelection()} aria-hidden>
+      <span
+        onClick={() => {
+          clearSelection();
+        }}
+        aria-hidden
+      >
         {children}
       </span>
     </SelectionContext.Provider>

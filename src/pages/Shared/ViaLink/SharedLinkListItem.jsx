@@ -34,7 +34,7 @@ function SharedLinkListItem({ fileId }) {
   return (
     <div className="group/row flex h-[72px] w-full items-center rounded-xl px-12 even:bg-gray-50 even:ring-gray-50 even:dark:bg-zinc-700/30">
       {/* file icon and name */}
-      <div className="flex w-full text-gray-900 dark:text-zinc-100 md:w-3/4">
+      <div className="flex w-full text-gray-900 md:w-3/4 dark:text-zinc-100">
         <div className="flex w-full min-w-0 items-center space-x-3">
           <Thumbnail className="h-12 w-12" file={item} />
           <span className="truncate">

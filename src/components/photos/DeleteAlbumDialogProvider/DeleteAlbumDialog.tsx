@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useTranslation } from 'react-i18next';
 
-import { IAlbum } from 'types/photos';
+import type { IAlbum } from 'types/photos';
 
 import { useDeleteAlbumMutation } from 'store/albums';
 

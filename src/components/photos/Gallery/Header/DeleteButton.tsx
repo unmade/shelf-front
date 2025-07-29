@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { IMediaItem } from 'types/photos';
+import type { IMediaItem } from 'types/photos';
 
 import * as icons from 'icons';
 
@@ -24,7 +22,9 @@ export default function DeleteButton({ className = '', mediaItem }: Props) {
       size="base"
       icon={<icons.TrashOutlined className="h-5 w-5" />}
       color="danger"
-      onClick={() => openDeleteDialog([mediaItem])}
+      onClick={() => {
+        openDeleteDialog([mediaItem]);
+      }}
     />
   );
 }

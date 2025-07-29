@@ -35,7 +35,7 @@ function StorageUsed() {
   return (
     <>
       <div className="block space-y-2 lg:hidden xl:block">
-        <div className="flex items-center justify-between ">
+        <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <icons.Database className="h-4 w-4" />
             <p>{t('Storage')}</p>

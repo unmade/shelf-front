@@ -9,7 +9,6 @@ async function readEntries(directoryReader) {
       directoryReader.readEntries(resolve, reject);
     });
   } catch (err) {
-    // eslint-disable-next-line no-console
     console.error(err, err.stack);
     return [];
   }
@@ -21,7 +20,6 @@ async function readDirectoryEntries(directoryReader) {
   const allEntries = [];
   let entries;
   do {
-    // eslint-disable-next-line no-await-in-loop
     entries = await readEntries(directoryReader);
     allEntries.push(...entries);
   } while (entries.length > 0);
@@ -42,7 +40,6 @@ async function getFileEntries(dataTransferItemList) {
     if (entry.isFile) {
       fileEntries.push(entry);
     } else if (entry.isDirectory) {
-      // eslint-disable-next-line no-await-in-loop
       queue.push(...(await readDirectoryEntries(entry.createReader())));
     }
   }

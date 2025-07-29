@@ -1,4 +1,4 @@
-export type ExifMeta = {
+export interface ExifMeta {
   make?: string | null;
   model?: string | null;
   focal_length_35mm?: number | string | null;
@@ -8,7 +8,7 @@ export type ExifMeta = {
   iso?: number | string | null;
   width?: number | string | null;
   height?: number | string | null;
-};
+}
 
 const makersToExclude = new Set<string>([
   'canon',

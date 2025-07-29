@@ -1,4 +1,3 @@
-/* eslint-disable prefer-destructuring */
 import * as cg from 'react-icons/cg';
 import * as di from 'react-icons/di';
 import * as io from 'react-icons/io';

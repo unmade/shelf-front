@@ -111,9 +111,9 @@ function FileMemberAccessLevel({ member }) {
       onOptionChange={onOptionChange}
     >
       <Button full variant="text">
-        <div className="flex items-center text-gray-500 dark:text-zinc-400 text-xs md:text-sm">
+        <div className="flex items-center text-xs text-gray-500 md:text-sm dark:text-zinc-400">
           <span>{currentOption.shortName}</span>
-          <icons.ChevronDown className="ml-1 h-5 w-5 inline" />
+          <icons.ChevronDown className="ml-1 inline h-5 w-5" />
         </div>
       </Button>
     </Listbox>

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import * as icons from 'icons';
 
 import Dropdown from 'components/ui/Dropdown';
@@ -14,7 +12,7 @@ interface Props {
 
 function AppLogo() {
   return (
-    <div className="mr-3 flex items-center rounded-xl bg-white p-2 shadow-sm dark:bg-zinc-800 lg:mr-0 xl:mr-3">
+    <div className="mr-3 flex items-center rounded-xl bg-white p-2 shadow-sm lg:mr-0 xl:mr-3 dark:bg-zinc-800">
       <icons.AppLogo className="h-7 w-7 shrink-0" />
     </div>
   );

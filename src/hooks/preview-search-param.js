@@ -6,11 +6,9 @@ const trashPrefix = 'trash/';
 
 function usePreviewSearchParam(path) {
   if (path.toLowerCase().startsWith(trashPrefix)) {
-    // eslint-disable-next-line no-param-reassign
     path = path.slice(trashPrefix.length);
   }
   if (path.toLowerCase() === 'trash') {
-    // eslint-disable-next-line no-param-reassign
     path = '';
   }
 

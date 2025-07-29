@@ -26,7 +26,7 @@ function ToastListItem({ item, onClose }) {
   };
 
   return (
-    <div className="mb-4 flex animate-toast-in-right flex-row rounded-xl bg-white p-4 shadow-md dark:bg-zinc-800 dark:shadow-zinc-900/50">
+    <div className="animate-toast-in-right mb-4 flex flex-row rounded-xl bg-white p-4 shadow-md dark:bg-zinc-800 dark:shadow-zinc-900/50">
       <div className="p-1">
         <icons.CloseCirle className="h-5 w-5 text-rose-500" />
       </div>

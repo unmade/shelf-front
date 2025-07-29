@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 
-import { IAlbum } from 'types/photos';
+import type { IAlbum } from 'types/photos';
 
-import { RootState } from 'store/store';
+import type { RootState } from 'store/store';
 
 import VList from 'components/ui/VList';
 

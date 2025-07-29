@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { IUploadError } from 'types/files';
+import type { IUploadError } from 'types/files';
 
 import { useAppSelector } from 'hooks';
 
@@ -50,7 +50,7 @@ interface UploadListItemProps {
 function UploadListItem({ uploadId, style }: UploadListItemProps) {
   const item = useAppSelector((state) => selectUploadById(state, uploadId));
 
-  const { id, name, parentPath, progress, error, done } = item!;
+  const { id, name, parentPath, progress, error, done } = item;
 
   const fillerStyles = {
     height: 'calc(100% - 0.25rem)',

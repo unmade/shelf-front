@@ -16,7 +16,7 @@ function ToastListContainer({ children }) {
     (toastId) => {
       dispatch(toastRemoved({ toastId }));
     },
-    [dispatch]
+    [dispatch],
   );
 
   return (

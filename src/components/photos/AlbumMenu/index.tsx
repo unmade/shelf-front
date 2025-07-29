@@ -1,7 +1,5 @@
-import React from 'react';
-
 import * as icons from 'icons';
-import { IAlbum } from 'types/photos';
+import type { IAlbum } from 'types/photos';
 
 import Menu from 'components/ui/Menu';
 import MenuItem from 'components/ui/MenuItem';

@@ -11,12 +11,12 @@ function Disclosure({ className, title, panel }) {
       {({ open }) => (
         <>
           <UIDisclosure.Button className={className}>
-            <div className="flex w-full justify-between items-center">
+            <div className="flex w-full items-center justify-between">
               {title}
               {open ? (
-                <icons.ChevronDown className="w-5 h-5 lg:hidden xl:block" />
+                <icons.ChevronDown className="h-5 w-5 lg:hidden xl:block" />
               ) : (
-                <icons.ChevronRight className="w-5 h-5 lg:hidden xl:block" />
+                <icons.ChevronRight className="h-5 w-5 lg:hidden xl:block" />
               )}
             </div>
           </UIDisclosure.Button>

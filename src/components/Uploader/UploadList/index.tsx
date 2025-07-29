@@ -1,8 +1,7 @@
-import React from 'react';
-
 import { useAppSelector } from 'hooks';
 
-import { UploadsFilter, selectVisibleUploads } from 'store/uploads/slice';
+import type { UploadsFilter } from 'store/uploads/slice';
+import { selectVisibleUploads } from 'store/uploads/slice';
 
 import VList from 'components/ui/VList';
 

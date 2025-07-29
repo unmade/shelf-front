@@ -1,7 +1,8 @@
-import React from 'react';
+import type React from 'react';
 
 import AutoSizer from 'react-virtualized-auto-sizer';
-import { FixedSizeGrid, GridChildComponentProps } from 'react-window';
+import type { GridChildComponentProps } from 'react-window';
+import { FixedSizeGrid } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
 
 import Spinner from './Spinner';

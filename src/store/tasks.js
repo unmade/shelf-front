@@ -60,16 +60,14 @@ export const waitForBackgroundTaskToComplete = createAsyncThunk(
       body: JSON.stringify({ async_task_id: taskId }),
     };
 
-    // eslint-disable-next-line no-constant-condition
     while (true) {
-      // eslint-disable-next-line no-await-in-loop
       await new Promise((resolve) => {
         setTimeout(resolve, 1000);
       });
       dispatch(invalidateTags([{ type: 'Files', id: 'listFolder' }]));
-      // eslint-disable-next-line no-await-in-loop
+
       const response = await fetch(url, options);
-      // eslint-disable-next-line no-await-in-loop
+
       const data = await response.json();
       if (data.status === 'completed') {
         updateMediaItemsCache(scope, files, data, { dispatch, getState });

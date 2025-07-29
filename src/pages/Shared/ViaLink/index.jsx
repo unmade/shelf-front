@@ -28,7 +28,7 @@ function LinkSharing() {
           <PageHeader.Actions />
         </PageHeader>
 
-        <div className="px-4 flex flex-col flex-1">
+        <div className="flex flex-1 flex-col px-4">
           <SharedLinkList />
         </div>
       </div>

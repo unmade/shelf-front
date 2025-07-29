@@ -1,7 +1,8 @@
-import { EntityState, createEntityAdapter, createSelector } from '@reduxjs/toolkit';
+import type { EntityState } from '@reduxjs/toolkit';
+import { createEntityAdapter, createSelector } from '@reduxjs/toolkit';
 
 import apiSlice from './apiSlice';
-import { RootState } from './store';
+import type { RootState } from './store';
 
 type FeatureValue = number | string | boolean;
 

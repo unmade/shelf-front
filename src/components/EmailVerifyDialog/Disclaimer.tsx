@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Button from 'components/ui/Button';
 import { useVerifyEmailSendCodeMutation } from 'store/accounts';
 
@@ -27,7 +25,7 @@ export default function EmailVerificationDisclaimer({ onSkip, onSubmit }: Props)
   };
 
   return (
-    <div className="text-center text-gray-700 dark:text-zinc-200 lg:min-w-80">
+    <div className="text-center text-gray-700 lg:min-w-80 dark:text-zinc-200">
       <div className="text-2xl font-semibold">Email verification</div>
       <div className="mt-2">Verify your email address to access all features</div>
 

@@ -1,10 +1,11 @@
-import { EntityState, createEntityAdapter, createSelector } from '@reduxjs/toolkit';
+import type { EntityState } from '@reduxjs/toolkit';
+import { createEntityAdapter, createSelector } from '@reduxjs/toolkit';
 import { defaultSerializeQueryArgs } from '@reduxjs/toolkit/query';
 
-import { IAlbum, IMediaItem } from 'types/photos';
+import type { IAlbum, IMediaItem } from 'types/photos';
 
 import apiSlice from './apiSlice';
-import { RootState } from './store';
+import type { RootState } from './store';
 
 const ALBUM_ITEMS_PAGE_SIZE = 250;
 
@@ -237,7 +238,6 @@ export const albumsApi = apiSlice.injectEndpoints({
         const listAlbumItemsPatchResult = dispatch(
           albumsApi.util.updateQueryData('listAlbumItems', { albumSlug }, (draft) => {
             if (draft?.pages) {
-              // eslint-disable-next-line no-param-reassign
               draft.pages = draft.pages.map((page: IMediaItem[]) =>
                 page.filter((item) => !fileIds.includes(item.fileId)),
               );

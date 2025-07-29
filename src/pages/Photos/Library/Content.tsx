@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { useAppSelector } from 'hooks';
 
 import { selectPhotosLibraryPath } from 'store/features';

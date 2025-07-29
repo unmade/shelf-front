@@ -1,4 +1,4 @@
-import { IAppConfig } from 'types/AppConfig';
+import type { IAppConfig } from 'types/AppConfig';
 
 import i18n from './i18n';
 

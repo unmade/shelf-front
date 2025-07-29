@@ -164,7 +164,6 @@ function updateMediaItemsCache(file, upload, { dispatch, getState }) {
     thumbnailUrl: upload.thumbnail ?? file.thumbnail_url,
   };
 
-  // eslint-disable-next-line no-restricted-syntax
   for (const { endpointName, originalArgs } of apiSlice.util.selectInvalidatedBy(getState(), [
     { type: 'MediaItems', id: 'list' },
   ])) {
@@ -180,7 +179,6 @@ function updateMediaItemsCache(file, upload, { dispatch, getState }) {
   dispatch(
     apiSlice.util.updateQueryData('countMediaItems', undefined, (draft) => {
       if (draft.total != null) {
-        // eslint-disable-next-line no-param-reassign
         draft.total += 1;
       }
     }),
@@ -277,16 +275,13 @@ async function listenFileEntriesAdded(action, listenerApi) {
   const uploads = await Promise.all(
     files.map(
       async (file) =>
-        // eslint-disable-next-line no-return-await
         await normalize(file, uploadTo, maxUploadSize, allowedMediaTypes, photosLibraryPath),
     ),
   );
 
   listenerApi.dispatch(uploadsAdded({ uploads: uploads.map(([upload]) => upload) }));
 
-  // eslint-disable-next-line no-restricted-syntax
   for (const [upload, fileObj] of uploads) {
-    // eslint-disable-next-line no-await-in-loop
     await uploadFile(upload, fileObj, {
       dispatch: listenerApi.dispatch,
       getState: listenerApi.getState,

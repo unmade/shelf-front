@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { useIsLaptop } from 'hooks/media-query';
 
 import UploaderDialog from './UploaderDialog';

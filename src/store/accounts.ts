@@ -1,5 +1,5 @@
 import apiSlice from './apiSlice';
-import { RootState } from './store';
+import type { RootState } from './store';
 
 export interface ICurrentAccountSchema {
   id: string;
@@ -35,7 +35,7 @@ const accountsApi = apiSlice.injectEndpoints({
               })),
             );
           }
-        } catch (err) {
+        } catch {
           // empty
         }
       },
@@ -77,7 +77,7 @@ const accountsApi = apiSlice.injectEndpoints({
               })),
             );
           }
-        } catch (err) {
+        } catch {
           // empty
         }
       },

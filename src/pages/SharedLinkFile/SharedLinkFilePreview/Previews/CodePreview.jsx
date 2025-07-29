@@ -62,7 +62,7 @@ function CodePreview({ file, token }) {
     { token, filename: file.name },
     {
       skip: shouldSkip,
-    }
+    },
   );
 
   if (shouldSkip) {

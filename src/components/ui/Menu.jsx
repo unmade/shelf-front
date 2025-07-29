@@ -79,7 +79,7 @@ Menu.propTypes = {
     PropTypes.shape({
       key: PropTypes.string.isRequired,
       items: PropTypes.arrayOf(PropTypes.object),
-    })
+    }),
   ).isRequired,
   panelClassName: PropTypes.string,
   placement: PropTypes.oneOf(['bottom-center', 'bottom-end', 'bottom-start']),

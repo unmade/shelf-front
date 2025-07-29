@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { useGetCurrentAccountQuery } from 'store/accounts';
 
 import * as icons from 'icons';

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { useTranslation } from 'react-i18next';
 
 import { useListMediaItemCategoriesQuery } from 'store/mediaItems';
@@ -32,7 +30,7 @@ export default function CategoryList({ fileId }: Props) {
 
   if (!categories?.length) {
     return (
-      <p className="mt-1 italic text-gray-500 dark:text-zinc-400">
+      <p className="mt-1 text-gray-500 italic dark:text-zinc-400">
         {t('photos:mediaItem.categories.empty.title', { defaultValue: 'No categories provided' })}
       </p>
     );

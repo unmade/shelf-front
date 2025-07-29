@@ -67,7 +67,7 @@ function SingleFilePreview({ fileId }) {
 
       <div className="flex items-center justify-between py-2 pl-2">
         <div className="min-w-0 text-gray-800 dark:text-zinc-200">
-          <p className={`${fontSize} break-words font-semibold`}>{file.name}</p>
+          <p className={`${fontSize} font-semibold break-words`}>{file.name}</p>
           <p className="text-xs text-gray-600 dark:text-zinc-400">
             <FileSize size={file.size} />
             <span className="px-1">&bull;</span>
@@ -81,7 +81,7 @@ function SingleFilePreview({ fileId }) {
         />
       </div>
 
-      <div className="flex items-center justify-between py-2 pl-2 pr-0.5">
+      <div className="flex items-center justify-between py-2 pr-0.5 pl-2">
         <div>
           <Button variant="primary">
             <FileLink path={file.path} preview={file.mediatype !== MediaType.FOLDER}>
@@ -155,7 +155,7 @@ function MultiFilePreview({ fileIds }) {
       </div>
 
       <div className="p-2 text-gray-800 dark:text-zinc-200">
-        <p className="break-words text-lg font-semibold">
+        <p className="text-lg font-semibold break-words">
           {t('items_count', { count: files.length })}
         </p>
         <p className="text-xs text-gray-600 dark:text-zinc-400">
@@ -172,7 +172,7 @@ function MultiFilePreview({ fileIds }) {
         </p>
       </div>
 
-      <div className="flex items-center justify-between py-2 pl-2 pr-1">
+      <div className="flex items-center justify-between py-2 pr-1 pl-2">
         <div>
           <Button variant="primary">{t('Download')}</Button>
         </div>
@@ -219,7 +219,7 @@ function SidePreview() {
   const [fileId] = selectedIds;
 
   return (
-    <div className="mb-4 mr-4 min-w-[24rem] overflow-scroll rounded-lg border-4 border-transparent text-gray-800 dark:text-zinc-100">
+    <div className="mr-4 mb-4 min-w-[24rem] overflow-scroll rounded-lg border-4 border-transparent text-gray-800 dark:text-zinc-100">
       {fileId != null && selectedIds.size === 1 ? (
         <SingleFilePreview fileId={fileId} />
       ) : (

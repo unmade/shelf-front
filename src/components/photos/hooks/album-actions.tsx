@@ -1,18 +1,16 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { IAlbum } from 'types/photos';
+import type { IAlbum } from 'types/photos';
 
 import { useRemoveAlbumCoverMutation } from 'store/albums';
 
 import * as icons from 'icons';
 
-import { IAction } from 'hooks/file-actions';
+import type { IAction } from 'hooks/file-actions';
 
 import { useDeleteAlbumDialog } from '../DeleteAlbumDialogProvider';
 import { useRenameAlbumDialog } from '../RenameAlbumDialogProvider';
 
-// eslint-disable-next-line import/prefer-default-export
 export function useDeleteAlbumAction(album: IAlbum): IAction {
   const { t } = useTranslation('photos');
   const { openDialog } = useDeleteAlbumDialog();

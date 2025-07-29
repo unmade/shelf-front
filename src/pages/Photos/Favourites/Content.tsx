@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Spinner from 'components/ui/Spinner';
 
 import usePaginatedMediaItemsQuery from 'components/photos/hooks/list-media-items';

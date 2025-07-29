@@ -1,11 +1,12 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import type React from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
-import { FixedSizeGrid } from 'react-window';
+import type { FixedSizeGrid } from 'react-window';
 
 import useGridLayout from 'hooks/grid-layout';
 
-import { RootState } from 'store/store';
-import { IMediaItem } from 'types/photos';
+import type { RootState } from 'store/store';
+import type { IMediaItem } from 'types/photos';
 
 import Spinner from 'components/ui/Spinner';
 import VGrid from 'components/ui/VGrid';

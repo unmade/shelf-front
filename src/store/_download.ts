@@ -2,7 +2,7 @@ import { createAsyncThunk, nanoid } from '@reduxjs/toolkit';
 
 import { API_BASE_URL } from './apiSlice';
 
-import { RootState } from './store';
+import type { RootState } from './store';
 
 export const download = createAsyncThunk('files/download', async (fileId: string, { getState }) => {
   const { accessToken } = (getState() as RootState).auth;

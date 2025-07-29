@@ -31,7 +31,7 @@ function SharedLinkList() {
   return (
     <div>
       {/* header */}
-      <div className="mb-1 flex flex-row items-center border-l border-r border-transparent px-9 py-2 text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-zinc-400">
+      <div className="mb-1 flex flex-row items-center border-r border-l border-transparent px-9 py-2 text-xs font-medium tracking-wider text-gray-500 uppercase dark:text-zinc-400">
         <div className="flex w-full md:w-3/4">
           <div className="ml-3">{t('colName.title', { defaultValue: 'Name' })}</div>
         </div>

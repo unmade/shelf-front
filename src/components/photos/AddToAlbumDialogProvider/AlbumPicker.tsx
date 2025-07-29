@@ -1,5 +1,3 @@
-import React from 'react';
-
 import usePaginatedAlbumsQuery from 'components/photos/hooks/list-albums';
 
 import AlbumListView from '../AlbumListView';

@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { IMediaItem } from 'types/photos';
+import type { IMediaItem } from 'types/photos';
 
 import Button from 'components/ui/Button';
 
@@ -21,7 +19,9 @@ export default function DeleteImmediatelyButton({ className = '', mediaItem }: P
       variant="text"
       size="sm"
       color="danger"
-      onClick={() => openDialog([mediaItem])}
+      onClick={() => {
+        openDialog([mediaItem]);
+      }}
     >
       <span className="font-medium">Delete</span>
     </Button>

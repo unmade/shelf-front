@@ -3,19 +3,19 @@ import React from 'react';
 import { shallowEqual } from 'react-redux';
 import { useNavigate } from 'react-router';
 
-import { IAlbum } from 'types/photos';
+import type { IAlbum } from 'types/photos';
 
 import { useAppSelector } from 'hooks';
 import { useTouchDevice } from 'hooks/media-query';
 
 import * as icons from 'icons';
 
-import { ItemRendererProps } from 'components/ui/VGrid';
+import type { ItemRendererProps } from 'components/ui/VGrid';
 
 import { useSelection } from 'components/SelectionProvider';
 import Thumbnail, { ThumbnailSize } from 'components/Thumbnail';
 
-import { ItemDataProps } from '../AlbumGridView';
+import type { ItemDataProps } from '../AlbumGridView';
 import AlbumMenu from '../AlbumMenu';
 
 interface GridItemProps {
@@ -93,9 +93,7 @@ function GridItem({ album, width }: GridItemProps) {
             <icons.PhotographOutlined className="h-12 w-12 text-gray-500 dark:text-zinc-400" />
           </div>
         )}
-        <div
-          className={`${selected ? '' : 'hidden'} ${'group-hover:block'} absolute top-1.5 right-2`}
-        >
+        <div className={`${selected ? '' : 'hidden'} absolute top-1.5 right-2 group-hover:block`}>
           <AlbumMenu album={album} onOpen={handleMenuOpen} />
         </div>
       </span>
