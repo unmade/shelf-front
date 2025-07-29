@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import { Link, resolvePath, useLocation, useResolvedPath } from 'react-router';
 
-import useDirPath from '../hooks/dir-path';
 import * as routes from '../routes';
 import usePreviewSearchParam from '../hooks/preview-search-param';
 
@@ -26,13 +25,13 @@ function FolderLink({ children, className, path, replace }) {
 }
 
 function PreviewLink({ children, className, path, replace }) {
-  const dirPath = useDirPath();
+  const { pathname: dirPath } = useResolvedPath('.');
   const previewSearchParam = usePreviewSearchParam(path);
 
-  const url = `${routes.encodePath(dirPath)}?${previewSearchParam}`;
+  const url = `${dirPath}?${previewSearchParam}`;
 
   return (
-    <Link to={url} className={className} replace={replace}>
+    <Link to={`..${url}`} className={className} replace={replace}>
       {children}
     </Link>
   );
