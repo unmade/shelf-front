@@ -1,5 +1,5 @@
 import type React from 'react';
-import { createContext, useContext, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 
 interface Props {
   children: React.ReactNode;
@@ -18,33 +18,42 @@ const SelectionContext = createContext<ContextValue | null>(null);
 export default function SelectionProvider({ children }: Props) {
   const [state, setState] = useState<Record<string, boolean>>({});
 
-  const clearSelection = () => {
+  const clearSelection = useCallback(() => {
     if (Object.keys(state).length) {
       setState({});
     }
-  };
+  }, [state]);
 
-  const isSelected = (itemId: string) => state[itemId] != null && state[itemId];
+  const isSelected = useCallback(
+    (itemId: string) => state[itemId] != null && state[itemId],
+    [state],
+  );
 
-  const select = (itemId: string) => {
-    if (!state[itemId]) {
-      setState({ [itemId]: true });
-    }
-  };
+  const select = useCallback(
+    (itemId: string) => {
+      if (!state[itemId]) {
+        setState({ [itemId]: true });
+      }
+    },
+    [state],
+  );
 
-  const toggleSelection = (itemId: string) => {
-    if (state[itemId]) {
-      const nextState = { ...state };
-      delete nextState[itemId];
-      setState(nextState);
-    } else {
-      setState({ ...state, [itemId]: true });
-    }
-  };
+  const toggleSelection = useCallback(
+    (itemId: string) => {
+      if (state[itemId]) {
+        const nextState = { ...state };
+        delete nextState[itemId];
+        setState(nextState);
+      } else {
+        setState({ ...state, [itemId]: true });
+      }
+    },
+    [state],
+  );
 
   const context = useMemo<ContextValue>(
     () => ({ ids: Object.keys(state), clearSelection, isSelected, select, toggleSelection }),
-    [state],
+    [state, clearSelection, isSelected, select, toggleSelection],
   );
 
   return (

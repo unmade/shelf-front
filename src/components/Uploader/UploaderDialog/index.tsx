@@ -19,11 +19,13 @@ export default function UploaderDialog({ allowedMediaTypes, uploadTo }: Props) {
 
   const uploading = useAppSelector(selectIsUploading);
 
+  const shouldBeVisible = uploading && !visible;
+
   useEffect(() => {
-    if (uploading && !visible) {
+    if (shouldBeVisible) {
       setVisible(true);
     }
-  }, [uploading]);
+  }, [shouldBeVisible]);
 
   return (
     <>

@@ -1,6 +1,5 @@
-import React from 'react';
+import { useCallback } from 'react';
 
-import { skipToken } from '@reduxjs/toolkit/query/react';
 import { Trans, useTranslation } from 'react-i18next';
 
 import useSharedLink from 'hooks/shared-link';
@@ -19,26 +18,15 @@ import Switch from 'components/ui/Switch';
 import CopyToClipboardButton from 'components/CopyToClipboardButton';
 import Spinner from 'components/ui/Spinner';
 
-interface Props {
-  file: IFile | null;
-}
-
-export default function SharedLinkSetting({ file }: Props) {
-  const { t } = useTranslation('sharedLinkSetting');
-
-  const { data: sharedLink } = useGetSharedLinkQuery(file?.id ?? skipToken);
+function useToggleSharedLink(fileId: string) {
+  const { data: sharedLink } = useGetSharedLinkQuery(fileId);
   const [createSharedLink, { isLoading: creating }] = useCreateSharedLinkMutation();
   const [revokeSharedLink, { isLoading: revoking }] = useRevokeSharedLinkMutation();
 
-  const enabled = sharedLink?.token != null;
-
-  const toggleLink = React.useCallback(async () => {
-    if (file?.id == null) {
-      return;
-    }
+  const toggleLink = useCallback(async () => {
     if (sharedLink?.token == null) {
       try {
-        await createSharedLink(file.id).unwrap();
+        await createSharedLink(fileId).unwrap();
       } catch {
         // empty
       }
@@ -46,17 +34,33 @@ export default function SharedLinkSetting({ file }: Props) {
       try {
         await revokeSharedLink({
           token: sharedLink.token,
-          fileId: file?.id,
-          filename: file?.name,
+          fileId: fileId,
         }).unwrap();
       } catch {
         // empty
       }
     }
-  }, [sharedLink?.token, file?.name, file?.id]);
+  }, [sharedLink?.token, fileId, createSharedLink, revokeSharedLink]);
+
+  return {
+    sharedLink,
+    toggleLink,
+    loading: creating || revoking,
+  };
+}
+
+interface Props {
+  file: IFile;
+}
+
+export default function SharedLinkSetting({ file }: Props) {
+  const { t } = useTranslation('sharedLinkSetting');
+
+  const { sharedLink, toggleLink, loading } = useToggleSharedLink(file.id);
 
   const token = sharedLink?.token;
-  const link = useSharedLink({ token, filename: file?.name });
+  const enabled = token != null;
+  const link = useSharedLink({ token, filename: file.name });
 
   return (
     <>
@@ -71,11 +75,7 @@ export default function SharedLinkSetting({ file }: Props) {
             </Trans>
           </p>
         </div>
-        {creating || revoking ? (
-          <Spinner />
-        ) : (
-          <Switch size="sm" enabled={enabled} setEnabled={toggleLink} />
-        )}
+        {loading ? <Spinner /> : <Switch size="sm" enabled={enabled} setEnabled={toggleLink} />}
       </div>
       <div className="relative">
         <div>

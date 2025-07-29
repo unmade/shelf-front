@@ -25,15 +25,17 @@ export default function FileDrop(props: Props) {
 
   const { openDialog } = useVerifyAccountDialog();
 
+  const shouldVerify = verificationRequired && !account.verified;
+
   const onDrop = useCallback(
     (arg: { files: FileSystemFileEntry[]; uploadTo: string }) => {
-      if (verificationRequired && !account.verified) {
+      if (shouldVerify) {
         openDialog();
       } else {
         dispatch(fileEntriesAdded({ ...arg, allowedMediaTypes }));
       }
     },
-    [verificationRequired],
+    [shouldVerify, allowedMediaTypes, dispatch, openDialog],
   );
 
   return <Dropzone {...props} onDrop={onDrop} />;

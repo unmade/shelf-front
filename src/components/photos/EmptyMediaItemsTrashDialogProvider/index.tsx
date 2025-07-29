@@ -1,5 +1,5 @@
 import type React from 'react';
-import { createContext, useContext, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 
 import EmptyTrashDialogContainer from './EmptyTrashDialogContainer';
 
@@ -16,13 +16,13 @@ interface Props {
 export default function EmptyMediaItemsTrashDialogProvider({ children }: Props) {
   const [visible, setVisible] = useState<boolean>(false);
 
-  const openDialog = () => {
+  const openDialog = useCallback(() => {
     setVisible(true);
-  };
+  }, []);
 
-  const closeDialog = () => {
+  const closeDialog = useCallback(() => {
     setVisible(false);
-  };
+  }, []);
 
   const value = useMemo(() => ({ openDialog }), [openDialog]);
 

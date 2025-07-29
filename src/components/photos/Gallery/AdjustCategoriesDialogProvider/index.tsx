@@ -1,5 +1,5 @@
 import type React from 'react';
-import { createContext, useContext, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 
 import AdjustCategoriesDialog from './AdjustCategoriesDialog';
 
@@ -23,17 +23,17 @@ const initialState = { fileId: null, visible: false };
 export default function AdjustCategoriesDialogProvider({ children }: Props) {
   const [state, setState] = useState<State>(initialState);
 
-  const openDialog = (fileId: string) => {
+  const openDialog = useCallback((fileId: string) => {
     setState({ fileId, visible: true });
-  };
+  }, []);
 
-  const closeDialog = () => {
+  const closeDialog = useCallback(() => {
     setState(initialState);
-  };
+  }, []);
 
   const { visible, fileId } = state;
 
-  const value = useMemo(() => ({ openDialog }), [setState]);
+  const value = useMemo(() => ({ openDialog }), [openDialog]);
 
   return (
     <AdjustCategoriesDialogContext.Provider value={value}>
