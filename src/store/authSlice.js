@@ -30,7 +30,7 @@ export const saveAuthState = (state) => {
 };
 
 export const loadAuthState = () => {
-  const tokensState = JSON.parse(localStorage.getItem(KEY)) || {};
+  const tokensState = JSON.parse(localStorage.getItem(KEY)) ?? {};
   return {
     auth: {
       ...slice.initialState,

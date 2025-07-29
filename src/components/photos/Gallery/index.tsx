@@ -69,7 +69,11 @@ function Gallery({ ids, itemsCount, initialFileId, selectById, onClose }: Props)
   );
 
   const onInfo = () => {
-    sidebarOpen ? setSidebarOpen(false) : setSidebarOpen(true);
+    if (sidebarOpen) {
+      setSidebarOpen(false);
+    } else {
+      setSidebarOpen(true);
+    }
   };
 
   const prev = useCallback(() => {

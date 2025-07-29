@@ -108,7 +108,7 @@ Input.propTypes = {
   size: PropTypes.oneOf(['xs', 'sm', 'base']),
   type: PropTypes.string,
   variant: PropTypes.oneOf(['default', 'filled']),
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
 };
 
 Input.defaultProps = {

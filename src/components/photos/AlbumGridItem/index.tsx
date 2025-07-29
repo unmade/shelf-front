@@ -85,7 +85,7 @@ function GridItem({ album, width }: GridItemProps) {
             size={ThumbnailSize.lg}
             objectFit="cover"
           />
-        )) || (
+        )) ?? (
           <div
             className="flex items-center justify-center rounded-xl bg-gray-100 dark:bg-zinc-700"
             style={style}

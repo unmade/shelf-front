@@ -11,7 +11,7 @@ function usePrefersColorScheme() {
 
   useEffect(() => {
     if (typeof window.matchMedia !== 'function') {
-      return () => {};
+      return undefined;
     }
 
     const dark = window.matchMedia('(prefers-color-scheme: dark)');
