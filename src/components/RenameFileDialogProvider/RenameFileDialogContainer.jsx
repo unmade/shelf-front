@@ -26,7 +26,7 @@ function RenameFileDialogContainer({ file, visible, onClose }) {
         taskId,
         scope: scopes.movingBatch,
         itemsCount: relocations.length,
-      })
+      }),
     );
     onClose();
   };

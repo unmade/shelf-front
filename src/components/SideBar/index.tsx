@@ -1,5 +1,3 @@
-import React from 'react';
-
 import CurrentAccount from './CurrentAccount';
 import MenuGroup from './MenuGroup';
 import { useSidebarContext } from './SidebarProvider';
@@ -13,7 +11,7 @@ function SideBar() {
     <div className="flex h-full flex-col px-1 py-4">
       <AppTitle title={app.title} />
 
-      <div className="flex-1 pb-4 pt-2 text-sm text-gray-500 dark:text-zinc-500">
+      <div className="flex-1 pt-2 pb-4 text-sm text-gray-500 dark:text-zinc-500">
         <nav className="space-y-2 lg:space-y-4 xl:space-y-2">
           <MenuGroup items={app.menu} />
         </nav>

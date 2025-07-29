@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { usePurgeMediaItemsMutation } from 'store/mediaItems';
 
 import EmptyTrashDialog from 'components/EmptyTrashDialog';

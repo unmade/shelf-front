@@ -10,5 +10,5 @@ export default connect(
   }),
   {
     onScrollOffsetChange: fileBrowserScrollOffsetChanged,
-  }
+  },
 )(VList);

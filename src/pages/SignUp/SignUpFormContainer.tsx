@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 
@@ -12,7 +10,8 @@ import { useSignUpMutation } from 'store/auth';
 import { tokenRefreshed } from 'store/authSlice';
 import { selectFeatureVerificationRequired } from 'store/features';
 
-import SignUpForm, { IOnSubmitArg } from './SignUpForm';
+import type { IOnSubmitArg } from './SignUpForm';
+import SignUpForm from './SignUpForm';
 
 export default function SignUpFormContainer() {
   const dispatch = useDispatch();

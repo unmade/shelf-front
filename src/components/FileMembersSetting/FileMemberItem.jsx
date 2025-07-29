@@ -14,9 +14,9 @@ function FileMemberItem({ fileId, memberId }) {
   const { display_name: displayName } = member;
 
   return (
-    <div className="py-3 flex items-center justify-between text-sm font-medium dark:text-zinc-200">
-      <div className="flex items-center mr-2 min-w-0">
-        <Avatar username={displayName} className="w-9 h-9 shrink-0" />
+    <div className="flex items-center justify-between py-3 text-sm font-medium dark:text-zinc-200">
+      <div className="mr-2 flex min-w-0 items-center">
+        <Avatar username={displayName} className="h-9 w-9 shrink-0" />
         <p className="ml-2 truncate">{displayName}</p>
       </div>
       <div>

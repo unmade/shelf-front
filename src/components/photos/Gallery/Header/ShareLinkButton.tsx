@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { IMediaItem } from 'types/photos';
+import type { IMediaItem } from 'types/photos';
 
 import * as icons from 'icons';
 
@@ -26,7 +24,9 @@ export default function ShareLinkButton({ className = '', mediaItem }: Props) {
       variant="text"
       size="base"
       icon={<icons.LinkOutlined className="h-5 w-5" />}
-      onClick={() => openDialog(file)}
+      onClick={() => {
+        openDialog(file);
+      }}
     />
   );
 }

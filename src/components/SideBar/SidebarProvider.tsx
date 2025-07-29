@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useMemo } from 'react';
+import type React from 'react';
+import { createContext, useContext, useMemo } from 'react';
 
-import { IAppConfig } from 'types/AppConfig';
+import type { IAppConfig } from 'types/AppConfig';
 
 const SidebarContext = createContext<{ app: IAppConfig } | null>(null);
 

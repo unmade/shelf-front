@@ -14,7 +14,7 @@ function Title({ children, icon }) {
     return (
       <div className="flex min-w-0 flex-1 items-center">
         {icon}
-        <h2 className="ml-2 truncate text-xl font-medium text-gray-900 dark:text-zinc-100 sm:text-3xl">
+        <h2 className="ml-2 truncate text-xl font-medium text-gray-900 sm:text-3xl dark:text-zinc-100">
           {children}
         </h2>
       </div>
@@ -23,7 +23,7 @@ function Title({ children, icon }) {
   return (
     <>
       <SideBarModal />
-      <h2 className="ml-2 text-xl font-medium text-gray-900 dark:text-zinc-100 sm:text-3xl">
+      <h2 className="ml-2 text-xl font-medium text-gray-900 sm:text-3xl dark:text-zinc-100">
         {children}
       </h2>
     </>
@@ -58,7 +58,7 @@ Actions.defaultProps = {
 
 function PageHeader({ children }) {
   return (
-    <div className="mb-4 flex flex-row items-center justify-between px-6 py-7 sm:pl-5 sm:pr-8">
+    <div className="mb-4 flex flex-row items-center justify-between px-6 py-7 sm:pr-8 sm:pl-5">
       {children}
     </div>
   );

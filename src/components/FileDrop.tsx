@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 
 import { useAppDispatch, useAppSelector } from 'hooks';
 
@@ -6,7 +6,8 @@ import { selectCurrentAccount } from 'store/accounts';
 import { selectFeatureVerificationRequired } from 'store/features';
 import { fileEntriesAdded } from 'store/uploads/slice';
 
-import Dropzone, { DropzoneProps } from './ui/Dropzone';
+import type { DropzoneProps } from './ui/Dropzone';
+import Dropzone from './ui/Dropzone';
 
 import { useVerifyAccountDialog } from './VerifyAccountDialogProvider';
 
@@ -35,6 +36,5 @@ export default function FileDrop(props: Props) {
     [verificationRequired],
   );
 
-  // eslint-disable-next-line react/jsx-props-no-spreading
   return <Dropzone {...props} onDrop={onDrop} />;
 }

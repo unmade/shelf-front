@@ -1,13 +1,11 @@
-import React from 'react';
-
 import { useTranslation } from 'react-i18next';
 
-import { IMediaItem } from 'types/photos';
+import type { IMediaItem } from 'types/photos';
 
 import * as icons from 'icons';
 
 import { useAppDispatch, useAppSelector } from 'hooks';
-import { IAction } from 'hooks/file-actions';
+import type { IAction } from 'hooks/file-actions';
 
 import { useRemoveAlbumItemsMutation, useSetAlbumCoverMutation } from 'store/albums';
 import { downloadMediaItemsBatch } from 'store/mediaItems';

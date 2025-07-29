@@ -37,7 +37,7 @@ function MoveDialog({ files, visible, onClose }) {
         taskId,
         scope: scopes.movingBatch,
         itemsCount: relocations.length,
-      })
+      }),
     );
     setToPath('.');
     onClose();

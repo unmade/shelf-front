@@ -1,4 +1,4 @@
-import { IMediaItem } from './MediaItem';
+import type { IMediaItem } from './MediaItem';
 
 export interface IMediaItemSharedLink {
   token: string;

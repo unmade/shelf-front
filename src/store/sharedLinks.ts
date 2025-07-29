@@ -1,4 +1,4 @@
-import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import apiSlice from './apiSlice';
 import { sharedLinkAdapter as mediaItemsSharedLinksAdapter, photosApi } from './mediaItems';
 
@@ -74,7 +74,7 @@ export const sharedLinksApi = apiSlice.injectEndpoints({
         );
         try {
           await queryFulfilled;
-        } catch (e) {
+        } catch {
           getSharedLinkPatchResult.undo();
           listMediaItemSharedLinksPatchResult.undo();
         }

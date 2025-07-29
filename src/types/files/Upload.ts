@@ -12,5 +12,5 @@ export interface IUpload {
   thumbnail: string | null;
   mtime: number | null;
   error: IUploadError | null;
-  done: boolean | false;
+  done: boolean;
 }

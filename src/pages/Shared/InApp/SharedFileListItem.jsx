@@ -28,11 +28,11 @@ function SharedFileListItem({ fileId }) {
   const openFileMembersDialog = useFileMembersDialog();
 
   return (
-    <div className="group even:ring-gray-50 even:bg-gray-50 even:dark:bg-zinc-700/30 px-12 h-[72px] flex items-center w-full rounded-xl">
+    <div className="group flex h-[72px] w-full items-center rounded-xl px-12 even:bg-gray-50 even:ring-gray-50 even:dark:bg-zinc-700/30">
       {/* file icon and name */}
-      <div className=" flex text-gray-900 dark:text-zinc-100 w-full">
+      <div className="flex w-full text-gray-900 dark:text-zinc-100">
         <div className="flex w-full min-w-0 items-center space-x-3">
-          <Thumbnail className="w-12 h-12" file={item} />
+          <Thumbnail className="h-12 w-12" file={item} />
           <FileLink path={item.path} preview={item.mediatype !== MediaType.FOLDER}>
             <div>
               <p>{name}</p>
@@ -45,7 +45,7 @@ function SharedFileListItem({ fileId }) {
         <div className="flex items-center">
           <Button
             variant="text"
-            icon={<icons.MoreOutlined className="w-4 h-4" />}
+            icon={<icons.MoreOutlined className="h-4 w-4" />}
             onClick={() => {
               openFileMembersDialog(fileId);
             }}
@@ -53,9 +53,9 @@ function SharedFileListItem({ fileId }) {
         </div>
       </div>
 
-      <div className="ml-6 hidden md:flex items-center space-x-4">
+      <div className="ml-6 hidden items-center space-x-4 md:flex">
         {/* members */}
-        <div className="w-32 flex items-center justify-start text-gray-600 dark:text-zinc-300">
+        <div className="flex w-32 items-center justify-start text-gray-600 dark:text-zinc-300">
           {!item.members?.length === 1 && item.members[0].username === account.username ? (
             <p>{t('colMembers.userIsTheOnlyMember', { defaultValue: 'Only you' })}</p>
           ) : (
@@ -70,7 +70,7 @@ function SharedFileListItem({ fileId }) {
 
         {/* owner */}
         <div className="w-36">
-          <div className="text-gray-600 truncate dark:text-zinc-300">
+          <div className="truncate text-gray-600 dark:text-zinc-300">
             @{item.owner != null && item.owner.username}
           </div>
         </div>

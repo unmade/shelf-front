@@ -30,7 +30,7 @@ function VList({
         }
       }, 200);
     },
-    [initialScrollOffset, onScrollOffsetChange, timeout]
+    [initialScrollOffset, onScrollOffsetChange, timeout],
   );
 
   if (loading) {

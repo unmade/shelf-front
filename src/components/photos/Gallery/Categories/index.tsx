@@ -1,4 +1,3 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import AdjustButton from './AdjustButton';
@@ -14,7 +13,7 @@ export default function Categories({ fileId, readOnly = false }: Props) {
 
   return (
     <>
-      <div className="flex items-center justify-between dark:text-zinc-100 sm:text-sm">
+      <div className="flex items-center justify-between sm:text-sm dark:text-zinc-100">
         <h2 className="text-base font-medium">
           {t('photos:mediaItem.categories.title', { defaultValue: 'Categories' })}
         </h2>

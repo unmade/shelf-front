@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 
 import { useAppSelector } from 'hooks';
-import { IMediaItem } from 'types/photos';
+import type { IMediaItem } from 'types/photos';
 
 import {
   mediaItemsAdapter,
@@ -48,7 +48,9 @@ export default function usePaginatedMediaItemsQuery({
     (_state: unknown, id: string) => selectMediaItemById(data ?? initialState, id),
     [data],
   );
-  const loadMore = useCallback(() => setPage((state) => state + 1), [setPage]);
+  const loadMore = useCallback(() => {
+    setPage((state) => state + 1);
+  }, [setPage]);
 
   const result = useMemo(
     () => ({

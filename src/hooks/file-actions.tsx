@@ -1,11 +1,11 @@
-import React from 'react';
+import type React from 'react';
 
 import { useTranslation } from 'react-i18next';
 
 import { useAppDispatch } from 'hooks';
 import * as icons from 'icons';
 import * as routes from 'routes';
-import { IFile } from 'types/files';
+import type { IFile } from 'types/files';
 
 import { download } from 'store/files';
 

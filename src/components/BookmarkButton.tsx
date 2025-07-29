@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 
 import { useTranslation } from 'react-i18next';
 
@@ -60,7 +60,7 @@ export default function BookmarkButton({ className, fileId, size = 'base' }: Pro
       className={`p-2 ${bookmarked ? bookmarkedClass : nonBookmarkedClass} rounded-xl transition-colors focus:outline-none ${ringSizes[size]} ring-orange-300 ring-offset-2 dark:ring-orange-700 dark:ring-offset-zinc-800 ${className}`}
       onClick={onClick}
     >
-      <icons.BookmarkOutlined className={`${iconClasses}`} />
+      <icons.BookmarkOutlined className={iconClasses} />
     </button>
   );
 }

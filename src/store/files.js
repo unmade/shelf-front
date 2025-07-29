@@ -195,7 +195,6 @@ export const selectFallbackThumbnail = (state, { fileId, size, mtime }) => {
   const selector = filesApi.endpoints.getThumbnail.select;
   let thumbnail = null;
 
-  // eslint-disable-next-line no-restricted-syntax
   for (const fallbackSize of thumbnailSizes) {
     const { data } = selector({ fileId, size: fallbackSize, mtime })(state);
     if (data?.content != null) {

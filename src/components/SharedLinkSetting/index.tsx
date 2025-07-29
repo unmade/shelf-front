@@ -5,7 +5,7 @@ import { Trans, useTranslation } from 'react-i18next';
 
 import useSharedLink from 'hooks/shared-link';
 
-import { IFile } from 'types/files';
+import type { IFile } from 'types/files';
 
 import {
   useCreateSharedLinkMutation,
@@ -38,8 +38,8 @@ export default function SharedLinkSetting({ file }: Props) {
     }
     if (sharedLink?.token == null) {
       try {
-        await createSharedLink(file!.id).unwrap();
-      } catch (err) {
+        await createSharedLink(file.id).unwrap();
+      } catch {
         // empty
       }
     } else {
@@ -49,7 +49,7 @@ export default function SharedLinkSetting({ file }: Props) {
           fileId: file?.id,
           filename: file?.name,
         }).unwrap();
-      } catch (err) {
+      } catch {
         // empty
       }
     }

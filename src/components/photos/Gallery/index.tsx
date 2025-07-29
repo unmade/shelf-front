@@ -1,15 +1,16 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import { IMediaItem } from 'types/photos';
+import type { IMediaItem } from 'types/photos';
 
 import { useAppSelector } from 'hooks';
 import useKeyUp from 'hooks/key-up';
 
-import { RootState } from 'store/store';
+import type { RootState } from 'store/store';
 import { selectPhotosLibraryPath } from 'store/features';
 
-import Carousel, { CarouselFiles } from 'components/FilePreview/Carousel';
+import type { CarouselFiles } from 'components/FilePreview/Carousel';
+import Carousel from 'components/FilePreview/Carousel';
 
 import { makeFileFromMediaItem } from '../hooks/file-from-media-item';
 
@@ -67,7 +68,9 @@ function Gallery({ ids, itemsCount, initialFileId, selectById, onClose }: Props)
     [prevMediaItem, mediaItem, nextMediaItem],
   );
 
-  const onInfo = () => (sidebarOpen ? setSidebarOpen(false) : setSidebarOpen(true));
+  const onInfo = () => {
+    sidebarOpen ? setSidebarOpen(false) : setSidebarOpen(true);
+  };
 
   const prev = useCallback(() => {
     if (prevIndex != null) {
@@ -116,7 +119,7 @@ function Gallery({ ids, itemsCount, initialFileId, selectById, onClose }: Props)
                 {sidebarOpen && (
                   <div className="hidden sm:block">
                     <Sidebar
-                      className="hidden h-full border-t bg-white px-6 py-6 shadow dark:border-zinc-700 dark:bg-zinc-800 dark:shadow-zinc-900/70 sm:block sm:w-80 xl:w-96"
+                      className="hidden h-full border-t bg-white px-6 py-6 shadow sm:block sm:w-80 xl:w-96 dark:border-zinc-700 dark:bg-zinc-800 dark:shadow-zinc-900/70"
                       mediaItem={mediaItem}
                     />
                   </div>

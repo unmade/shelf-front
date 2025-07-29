@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Button from 'components/ui/Button';
 
@@ -21,8 +21,8 @@ export default function ResendButton({
   const [secondsLeft, setSecondsLeft] = useState(0);
 
   useEffect(() => {
-    let reset: NodeJS.Timeout;
-    let timer: NodeJS.Timeout;
+    let reset: ReturnType<typeof setTimeout>;
+    let timer: ReturnType<typeof setInterval>;
 
     if (clicked) {
       setSecondsLeft(debounce);

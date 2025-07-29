@@ -66,7 +66,7 @@ function DuplicateSidePreview({ file }) {
               as="div"
               variant="text"
               className="font-semibold text-blue-500 dark:text-indigo-400"
-              icon={<icons.EyeOutlined className=" h-4 w-4 text-blue-500 dark:text-indigo-400" />}
+              icon={<icons.EyeOutlined className="h-4 w-4 text-blue-500 dark:text-indigo-400" />}
             >
               {t('file:preview')}
             </Button>

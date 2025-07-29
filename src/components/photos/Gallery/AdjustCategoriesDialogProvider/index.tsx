@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useMemo, useState } from 'react';
+import type React from 'react';
+import { createContext, useContext, useMemo, useState } from 'react';
 
 import AdjustCategoriesDialog from './AdjustCategoriesDialog';
 

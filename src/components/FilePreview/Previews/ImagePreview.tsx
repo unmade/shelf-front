@@ -1,8 +1,6 @@
-import React from 'react';
-
 import { useTranslation } from 'react-i18next';
 
-import { IFile } from 'types/files';
+import type { IFile } from 'types/files';
 
 import { useAppSelector } from 'hooks';
 

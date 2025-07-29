@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useState, useMemo, useCallback } from 'react';
+import type React from 'react';
+import { createContext, useContext, useState, useMemo, useCallback } from 'react';
 
-import { IAlbum } from 'types/photos';
+import type { IAlbum } from 'types/photos';
 
 import DeleteAlbumDialog from './DeleteAlbumDialog';
 

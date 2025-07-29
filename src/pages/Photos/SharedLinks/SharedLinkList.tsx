@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { useTranslation } from 'react-i18next';
 
 import SharedLinkListItem from './SharedLinkListItem';
@@ -14,7 +12,7 @@ export default function SharedLinkList({ ids }: Props) {
   return (
     <div>
       {/* header */}
-      <div className="mb-1 flex flex-row items-center border-l border-r border-transparent px-9 py-2 text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-zinc-400">
+      <div className="mb-1 flex flex-row items-center border-r border-l border-transparent px-9 py-2 text-xs font-medium tracking-wider text-gray-500 uppercase dark:text-zinc-400">
         <div className="flex w-full md:w-3/4">
           <div className="ml-3">
             {t('photos:sharedLinkList.columns.name.title', { defaultValue: 'Name' })}
@@ -29,7 +27,9 @@ export default function SharedLinkList({ ids }: Props) {
 
       {/* table */}
       <div className="max-h-[calc(100svh-160px)] overflow-scroll pt-4 text-sm">
-        {ids?.map((id) => <SharedLinkListItem key={id} fileId={id} />)}
+        {ids?.map((id) => (
+          <SharedLinkListItem key={id} fileId={id} />
+        ))}
       </div>
     </div>
   );

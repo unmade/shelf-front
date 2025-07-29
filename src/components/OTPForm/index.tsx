@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import type React from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { shallowEqual } from 'react-redux';
 
@@ -108,9 +109,15 @@ export default function OTPForm({ email, resending, submitting, onResend, onSubm
               key={index}
               value={inputs[index]}
               error={errors[index]}
-              innerRef={(el) => makeRef(el, index)}
-              onChange={(event) => handleChange(event, index)}
-              onKeyDown={(event) => handleKeyDown(event, index)}
+              innerRef={(el) => {
+                makeRef(el, index);
+              }}
+              onChange={(event) => {
+                handleChange(event, index);
+              }}
+              onKeyDown={(event) => {
+                handleKeyDown(event, index);
+              }}
               onPaste={handlePaste}
             />
           ))}

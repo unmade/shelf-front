@@ -98,7 +98,7 @@ function App() {
       listBookmarksResult.unsubscribe();
       listFeaturesResult.unsubscribe();
     };
-  }, []);
+  });
 
   return (
     <>

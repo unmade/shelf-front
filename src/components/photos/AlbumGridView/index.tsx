@@ -1,10 +1,10 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 
-import { IAlbum } from 'types/photos';
+import type { IAlbum } from 'types/photos';
 
 import useGridLayout from 'hooks/grid-layout';
 
-import { RootState } from 'store/store';
+import type { RootState } from 'store/store';
 
 import Spinner from 'components/ui/Spinner';
 import VGrid from 'components/ui/VGrid';

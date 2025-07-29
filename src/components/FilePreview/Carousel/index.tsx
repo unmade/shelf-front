@@ -1,8 +1,6 @@
-import React from 'react';
-
 import * as icons from 'icons';
 
-import { IFile } from 'types/files';
+import type { IFile } from 'types/files';
 
 import Preview from '../Previews';
 
@@ -20,19 +18,14 @@ export default function Carousel({ files, onSwipeLeft, onSwipeRight }: Props) {
   const [handlers, style] = useCarousel(files.length, onSwipeLeft, onSwipeRight);
 
   return (
-    <div
-      // eslint-disable-next-line react/jsx-props-no-spreading
-      {...handlers}
-      className="w-full overflow-hidden"
-    >
+    <div {...handlers} className="w-full overflow-hidden">
       <div style={style} className="relative flex h-[calc(100svh-60px)] overflow-x-scroll">
         {files.map((f, idx) =>
           f != null ? (
-            // eslint-disable-next-line react/no-array-index-key
-            <div key={idx} className="relative w-1/3 shrink-0 select-none p-4">
+            <div key={idx} className="relative w-1/3 shrink-0 p-4 select-none">
               {onSwipeLeft && (
                 <div
-                  className="group/leftarrow absolute left-0 top-0 hidden h-full w-1/4 cursor-pointer pointer-fine:block"
+                  className="group/leftarrow absolute top-0 left-0 hidden h-full w-1/4 cursor-pointer pointer-fine:block"
                   onClick={onSwipeLeft ?? undefined}
                   aria-hidden
                 >
@@ -44,7 +37,7 @@ export default function Carousel({ files, onSwipeLeft, onSwipeRight }: Props) {
               <Preview file={f} />
               {onSwipeRight && (
                 <div
-                  className="group/rightarrow absolute right-0 top-0 hidden h-full w-1/4 cursor-pointer pointer-fine:block"
+                  className="group/rightarrow absolute top-0 right-0 hidden h-full w-1/4 cursor-pointer pointer-fine:block"
                   onClick={onSwipeRight ?? undefined}
                   aria-hidden
                 >
@@ -55,7 +48,6 @@ export default function Carousel({ files, onSwipeLeft, onSwipeRight }: Props) {
               )}
             </div>
           ) : (
-            // eslint-disable-next-line react/no-array-index-key
             <div key={idx} className="w-1/3" />
           ),
         )}

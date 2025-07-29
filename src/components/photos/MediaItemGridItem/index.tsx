@@ -2,19 +2,19 @@ import React from 'react';
 
 import { shallowEqual } from 'react-redux';
 
-import { IMediaItem } from 'types/photos';
+import type { IMediaItem } from 'types/photos';
 
 import { useAppSelector } from 'hooks';
 import { useTouchDevice } from 'hooks/media-query';
 
-import { ItemRendererProps } from 'components/ui/VGrid';
+import type { ItemRendererProps } from 'components/ui/VGrid';
 
 import { useSelection } from 'components/SelectionProvider';
 import Thumbnail, { ThumbnailSize } from 'components/Thumbnail';
 
 import useFileFromMediaItem from '../hooks/file-from-media-item';
 
-import { ItemDataProps } from '../MediaItemGridView';
+import type { ItemDataProps } from '../MediaItemGridView';
 import { useMediaItemsData } from '../MediaItemsProvider';
 
 import FavouriteButton from './FavouriteButton';
@@ -78,7 +78,7 @@ function GridItem({ mediaItem, touch, width, onClick, menuItemRenderer: Menu }: 
         <div
           className={`${!touch && selected ? '' : 'hidden'} ${
             !touch ? 'group-hover:block' : ''
-          } absolute right-2 top-1`}
+          } absolute top-1 right-2`}
         >
           <Menu mediaItem={mediaItem} onOpen={handleMenuOpen} />
         </div>

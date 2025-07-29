@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useTranslation } from 'react-i18next';
 
-import { IMediaItem } from 'types/photos';
+import type { IMediaItem } from 'types/photos';
 
 import { useAddAlbumItemsMutation } from 'store/albums';
 

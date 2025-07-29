@@ -11,7 +11,7 @@ function InputGroup({ children, error }) {
       </div>
 
       {error != null && (
-        <p className="mt-3 text-xs italic text-red-500 dark:text-rose-500">{error}</p>
+        <p className="mt-3 text-xs text-red-500 italic dark:text-rose-500">{error}</p>
       )}
     </>
   );

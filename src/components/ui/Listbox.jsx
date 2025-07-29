@@ -40,7 +40,7 @@ function Listbox({ children, initial, options, placement, onOptionChange }) {
             <UIListbox.Options
               static
               ref={floating}
-              className="max-h-60 rounded-xl bg-white p-2 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-zinc-800 dark:shadow-zinc-900/50 dark:ring-offset-zinc-800 sm:text-sm"
+              className="ring-opacity-5 max-h-60 rounded-xl bg-white p-2 text-base shadow-lg ring-1 ring-black focus:outline-none sm:text-sm dark:bg-zinc-800 dark:shadow-zinc-900/50 dark:ring-offset-zinc-800"
               style={{
                 position: strategy,
                 top: y ?? 0,
@@ -51,7 +51,7 @@ function Listbox({ children, initial, options, placement, onOptionChange }) {
                 <UIListbox.Option
                   key={option.value}
                   className={({ active }) =>
-                    `relative cursor-default select-none py-2 pl-10 pr-4 text-gray-900 dark:text-zinc-200 ${
+                    `relative cursor-default py-2 pr-4 pl-10 text-gray-900 select-none dark:text-zinc-200 ${
                       active ? 'rounded-lg bg-gray-50 dark:bg-zinc-700/30' : ''
                     }`
                   }
@@ -95,7 +95,7 @@ Listbox.propTypes = {
       name: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
       // eslint-disable-next-line react/forbid-prop-types
       value: PropTypes.any.isRequired,
-    }).isRequired
+    }).isRequired,
   ).isRequired,
   placement: PropTypes.oneOf(['start-end', 'bottom-end', 'right-end', 'top-end']),
   onOptionChange: PropTypes.func,

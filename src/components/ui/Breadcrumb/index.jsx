@@ -53,7 +53,7 @@ function Breadcrumb({
 
   return (
     <nav
-      className={`${className} flex items-center space-x-1 whitespace-nowrap font-medium text-gray-500 dark:text-zinc-400 sm:space-x-4`}
+      className={`${className} flex items-center space-x-1 font-medium whitespace-nowrap text-gray-500 sm:space-x-4 dark:text-zinc-400`}
     >
       <Render name={first.name} url={first.url} path={first.path} />
       {shouldCollapse && (

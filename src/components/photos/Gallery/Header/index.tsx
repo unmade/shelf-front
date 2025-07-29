@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { IMediaItem } from 'types/photos';
+import type { IMediaItem } from 'types/photos';
 
 import * as icons from 'icons';
 
@@ -45,7 +43,7 @@ export default function Header({ idx, mediaItem, itemsCount, onGoBack, onInfo }:
         </p>
       </div>
 
-      <div className="flex min-w-max flex-row items-center justify-end space-x-2 text-gray-800 dark:text-zinc-200 sm:w-48">
+      <div className="flex min-w-max flex-row items-center justify-end space-x-2 text-gray-800 sm:w-48 dark:text-zinc-200">
         {mediaItem.deletedAt ? (
           <>
             <RestoreButton mediaItem={mediaItem} />

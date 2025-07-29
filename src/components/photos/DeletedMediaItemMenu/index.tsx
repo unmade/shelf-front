@@ -1,10 +1,8 @@
-import React from 'react';
-
 import * as icons from 'icons';
 
 import { useAppSelector } from 'hooks';
 
-import { IMediaItem } from 'types/photos';
+import type { IMediaItem } from 'types/photos';
 
 import Menu from 'components/ui/Menu';
 import MenuItem from 'components/ui/MenuItem';

@@ -22,7 +22,7 @@ function PDFPreview({ file, token }) {
     { token, filename: file.name },
     {
       skip: shouldSkip,
-    }
+    },
   );
 
   if (shouldSkip) {
@@ -30,7 +30,7 @@ function PDFPreview({ file, token }) {
   }
 
   if (loading) {
-    return <Spinner className="w-full h-full" />;
+    return <Spinner className="h-full w-full" />;
   }
 
   return (

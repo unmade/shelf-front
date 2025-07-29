@@ -1,7 +1,5 @@
-import React from 'react';
-
 import * as icons from 'icons';
-import { IMediaItem } from 'types/photos';
+import type { IMediaItem } from 'types/photos';
 
 import { useCopyLinkAction, useDownloadAction } from 'hooks/file-actions';
 

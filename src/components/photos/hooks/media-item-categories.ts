@@ -8,7 +8,7 @@ export interface MediaItemCategory {
 function useMediaItemCategories() {
   const { t } = useTranslation('photos');
 
-  const categoryList: Array<MediaItemCategory> = [
+  const categoryList: MediaItemCategory[] = [
     {
       name: 'animals',
       displayName: t('mediaItem.categories.listItem.animals', { defaultValue: 'animals' }),

@@ -1,9 +1,7 @@
-import React from 'react';
-
 import Button from 'components/ui/Button';
 
 import { useRestoreAction } from 'components/photos/hooks/deleted-media-item-actions';
-import { IMediaItem } from 'types/photos';
+import type { IMediaItem } from 'types/photos';
 
 interface Props {
   className?: string;

@@ -1,10 +1,8 @@
-import React from 'react';
-
 import { useTranslation } from 'react-i18next';
 
 import * as icons from 'icons';
-import { IFile } from 'types/files';
-import { IMediaItem } from 'types/photos';
+import type { IFile } from 'types/files';
+import type { IMediaItem } from 'types/photos';
 
 import { useCopyLinkAction, useDownloadAction } from 'hooks/file-actions';
 import { useAddToAlbumAction, useDeleteAction } from 'components/photos/hooks/media-item-actions';

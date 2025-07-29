@@ -1,8 +1,6 @@
-import React from 'react';
-
 import { useTranslation } from 'react-i18next';
 
-import { UploadsFilter } from 'store/uploads/slice';
+import type { UploadsFilter } from 'store/uploads/slice';
 
 import Tabs from 'components/ui/Tabs';
 

@@ -1,10 +1,8 @@
-import React from 'react';
-
 import { useTranslation } from 'react-i18next';
 
 import { useAppSelector } from 'hooks';
 import * as icons from 'icons';
-import { IFile } from 'types/files';
+import type { IFile } from 'types/files';
 
 import { selectIsSuperuser } from 'store/accounts';
 import { selectFeatureSharedLinksDisabled } from 'store/features';

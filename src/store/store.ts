@@ -1,9 +1,9 @@
+import type { Middleware } from '@reduxjs/toolkit';
 import {
   combineReducers,
   configureStore,
   isRejectedWithValue,
   createListenerMiddleware,
-  Middleware,
 } from '@reduxjs/toolkit';
 
 import apiSlice from './apiSlice';

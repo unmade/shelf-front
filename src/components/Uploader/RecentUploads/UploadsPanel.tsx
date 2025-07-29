@@ -1,12 +1,11 @@
-import React from 'react';
-
 import { useTranslation } from 'react-i18next';
 
 import * as icons from 'icons';
 
 import { useAppSelector } from 'hooks';
 
-import { UploadsFilter, selectVisibleUploadsLength } from 'store/uploads/slice';
+import type { UploadsFilter } from 'store/uploads/slice';
+import { selectVisibleUploadsLength } from 'store/uploads/slice';
 
 import UploadList from '../UploadList';
 

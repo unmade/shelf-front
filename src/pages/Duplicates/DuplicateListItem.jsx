@@ -26,7 +26,7 @@ function DuplicateListItem({ groupId, indexInGroup, selected, type, value, onIte
   if (type === 'header') {
     return (
       <div
-        className={`px-7 pt-3 pb-1 text-sm font-medium uppercase tracking-wider text-gray-500 dark:text-zinc-500 ${borderColor}`}
+        className={`px-7 pt-3 pb-1 text-sm font-medium tracking-wider text-gray-500 uppercase dark:text-zinc-500 ${borderColor}`}
       >
         Group #{value}
       </div>
@@ -90,7 +90,7 @@ DuplicatedListItemContainer.propTypes = {
         idx: PropTypes.number.isRequired,
         groupId: PropTypes.number.isRequired,
         value: PropTypes.oneOfType([PropTypes.number, FileShape.isRequired]),
-      })
+      }),
     ).isRequired,
     selectedId: PropTypes.string,
     onItemClick: PropTypes.func.isRequired,

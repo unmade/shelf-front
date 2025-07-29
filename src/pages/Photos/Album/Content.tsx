@@ -1,11 +1,10 @@
-import React, { useCallback } from 'react';
+import type { IAlbum } from 'types/photos';
 
-import { IAlbum } from 'types/photos';
-
-import { RootState } from 'store/store';
+import type { RootState } from 'store/store';
 import { useListAlbumItemsInfiniteQuery, albumItemsAdapter } from 'store/albums';
 
-import MediaItemGridView, { MenuItemRendererProps } from 'components/photos/MediaItemGridView';
+import type { MenuItemRendererProps } from 'components/photos/MediaItemGridView';
+import MediaItemGridView from 'components/photos/MediaItemGridView';
 import AlbumMediaItemMenu from 'components/photos/AlbumMediaItemMenu';
 
 import Empty from './Empty';

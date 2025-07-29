@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { shallowEqual } from 'react-redux';
@@ -79,7 +79,7 @@ export default function AdjustCategoriesDialog({ fileId, visible, onClose }: Pro
               key={name}
               name={name}
               displayName={displayName}
-              selected={state[name] === true}
+              selected={state[name]}
               onClick={toggleSelection}
             />
           ))}

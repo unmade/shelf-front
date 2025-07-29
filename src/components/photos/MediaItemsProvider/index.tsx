@@ -1,7 +1,8 @@
-import React, { createContext, useContext, useMemo } from 'react';
+import type React from 'react';
+import { createContext, useContext, useMemo } from 'react';
 
-import { RootState } from 'store/store';
-import { IMediaItem } from 'types/photos';
+import type { RootState } from 'store/store';
+import type { IMediaItem } from 'types/photos';
 
 interface ContextValue {
   ids: string[] | undefined;

@@ -1,4 +1,5 @@
-import React, { useReducer } from 'react';
+import type React from 'react';
+import { useReducer } from 'react';
 import PropTypes from 'prop-types';
 
 import { Trans, useTranslation } from 'react-i18next';
@@ -354,14 +355,14 @@ function SignUpForm({ loading, onSubmit }: Props) {
           />
           <span className="ml-2 dark:text-zinc-200">
             <Trans i18nKey="signup:form.iHaveReadAndAgreeToTermsAndConditions" t={t}>
-              I agree to the {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+              I agree to the {}
               <a
                 href={TERMS_AND_CONDITION_URL}
                 className="font-medium text-indigo-600 dark:text-indigo-400"
               >
                 Shelf Terms
               </a>{' '}
-              and {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+              and {}
               <a
                 href={PRIVACY_POLICY_URL}
                 className="font-medium text-indigo-600 dark:text-indigo-400"
@@ -372,7 +373,7 @@ function SignUpForm({ loading, onSubmit }: Props) {
           </span>
         </div>
         {errors.agreeToTermsAndConditions && (
-          <p className="mt-3 text-xs italic text-red-500 dark:text-rose-500">
+          <p className="mt-3 text-xs text-red-500 italic dark:text-rose-500">
             {errors.agreeToTermsAndConditions}
           </p>
         )}

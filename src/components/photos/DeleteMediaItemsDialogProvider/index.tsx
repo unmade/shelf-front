@@ -1,6 +1,7 @@
-import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
+import type React from 'react';
+import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 
-import { IMediaItem } from 'types/photos';
+import type { IMediaItem } from 'types/photos';
 
 import DeleteDialogContainer from './DeleteDialogContainer';
 

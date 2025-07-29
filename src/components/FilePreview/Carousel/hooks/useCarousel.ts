@@ -2,7 +2,8 @@
 
 import { useReducer, useEffect, useMemo } from 'react';
 
-import { useSwipeable, LEFT, RIGHT, SwipeEventData, SwipeableHandlers } from 'react-swipeable';
+import type { SwipeEventData, SwipeableHandlers } from 'react-swipeable';
+import { useSwipeable, LEFT, RIGHT } from 'react-swipeable';
 
 const transitionTime = 400;
 const elastic = `transform ${transitionTime}ms cubic-bezier(0.68, -0.55, 0.265, 1.55)`;
@@ -147,7 +148,9 @@ function useCarousel(
         onSwipeRight();
       }
     }, transitionTime);
-    return () => clearTimeout(id);
+    return () => {
+      clearTimeout(id);
+    };
   }, [state.desired, state.active]);
 
   const style: React.CSSProperties = {

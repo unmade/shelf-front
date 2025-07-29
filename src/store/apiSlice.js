@@ -26,14 +26,14 @@ async function isTokenError(error) {
       const text = await error?.data.text();
       const data = JSON.parse(text);
       code = data.code;
-    } catch (err) {
+    } catch {
       // just skip silently for now
     }
   } else if (typeof error?.data === 'string') {
     try {
       const data = JSON.parse(error.data);
       code = data.code;
-    } catch (err) {
+    } catch {
       // just skip silently
     }
   } else {

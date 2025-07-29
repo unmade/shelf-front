@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { IAlbum } from 'types/photos';
+import type { IAlbum } from 'types/photos';
 
 import { useUpdateAlbumMutation } from 'store/albums';
 

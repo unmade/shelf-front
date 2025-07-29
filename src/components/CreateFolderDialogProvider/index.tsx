@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useMemo, useCallback } from 'react';
+import type React from 'react';
+import { createContext, useContext, useState, useMemo, useCallback } from 'react';
 
 import CreateFolderDialog from './CreateFolderDialog';
 

@@ -11,7 +11,7 @@ function FilePreviewContainer({ dirPath }) {
 
   const selectById = useCallback(
     (state, id) => selectFileByIdInPath(state, { path: dirPath, id }),
-    [dirPath]
+    [dirPath],
   );
 
   return <FilePreview ids={ids} loading={loading} selectById={selectById} />;

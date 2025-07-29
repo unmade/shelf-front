@@ -80,7 +80,7 @@ function Input({
           type={type}
           readOnly={readOnly}
           disabled={disabled}
-          className={`group-first/input:rounded-l-lg group-first/input:rounded-r-none w-full rounded-lg ${paddingsBySize[size]} ${colors} ${fontBySize[size].input} ${border} ${borderColor} focus:outline-none focus:ring`}
+          className={`w-full rounded-lg group-first/input:rounded-l-lg group-first/input:rounded-r-none ${paddingsBySize[size]} ${colors} ${fontBySize[size].input} ${border} ${borderColor} focus:ring focus:outline-none`}
           // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus={autoFocus}
           onChange={onChange}
@@ -89,7 +89,7 @@ function Input({
         />
       </div>
       {error != null && (
-        <p className="mt-3 text-xs italic text-red-500 dark:text-rose-500">{error}</p>
+        <p className="mt-3 text-xs text-red-500 italic dark:text-rose-500">{error}</p>
       )}
     </div>
   );

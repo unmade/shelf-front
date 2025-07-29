@@ -1,7 +1,7 @@
 import { createAction, createEntityAdapter, createSelector, createSlice } from '@reduxjs/toolkit';
 
-import { RootState } from 'store/store';
-import { IUpload, IUploadError } from 'types/files';
+import type { RootState } from 'store/store';
+import type { IUpload, IUploadError } from 'types/files';
 
 export type UploadsFilter = 'all' | 'inProgress' | 'failed';
 
@@ -47,7 +47,7 @@ export const {
   selectById: selectUploadById,
   selectIds: selectUploadIds,
   selectAll: selectAllUploads,
-} = uploadsAdapter.getSelectors((state: RootState) => state.uploads);
+} = uploadsAdapter.getSelectors<RootState>((state: RootState) => state.uploads);
 
 export const selectVisibleUploads = createSelector(
   [selectAllUploads, (_state: RootState, props: { filter: UploadsFilter }) => props.filter],
@@ -61,8 +61,6 @@ export const selectVisibleUploads = createSelector(
           .map((upload) => upload.id);
       case 'failed':
         return uploads.filter((upload) => upload.error).map((upload) => upload.id);
-      default:
-        throw new Error(`Unknown filter: ${filter}`);
     }
   },
 );

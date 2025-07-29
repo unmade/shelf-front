@@ -1,7 +1,5 @@
-import React from 'react';
-
 import AppListItem from './AppListItem';
-import { IAppItem } from '../hooks/available-apps';
+import type { IAppItem } from '../hooks/available-apps';
 
 interface Props {
   items: IAppItem[];

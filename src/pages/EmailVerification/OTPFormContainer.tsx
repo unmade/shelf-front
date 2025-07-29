@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { useNavigate } from 'react-router';
 
 import { useAppDispatch } from 'hooks';

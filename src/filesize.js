@@ -1,4 +1,3 @@
-/* eslint-disable no-bitwise */
 // based on https://www.somacon.com/p576.php
 
 export const KILOBYTE = 1000;

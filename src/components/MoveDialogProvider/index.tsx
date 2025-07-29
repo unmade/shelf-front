@@ -1,6 +1,7 @@
-import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
+import type React from 'react';
+import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 
-import { IFile } from 'types/files';
+import type { IFile } from 'types/files';
 
 import MoveDialog from './MoveDialog';
 

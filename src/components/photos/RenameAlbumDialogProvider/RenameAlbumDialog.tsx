@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { IAlbum } from 'types/photos';
+import type { IAlbum } from 'types/photos';
 import Dialog from 'components/ui/Dialog';
 import Input from 'components/ui/Input';
 import * as icons from 'icons';

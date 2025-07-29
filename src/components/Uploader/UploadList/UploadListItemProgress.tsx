@@ -1,5 +1,3 @@
-import React from 'react';
-
 import * as icons from 'icons';
 
 interface ProgressProps {
