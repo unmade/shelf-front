@@ -74,7 +74,6 @@ function MoreButton({ className, mediaItem }: Props) {
         variant="text"
         size="base"
         icon={<icons.MoreOutlined className="h-5 w-5" />}
-        onClick={() => {}}
       />
     </Menu>
   );

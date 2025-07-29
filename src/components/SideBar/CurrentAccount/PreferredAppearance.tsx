@@ -25,7 +25,7 @@ export default function PreferredAppearance() {
   ];
 
   const appearance = useAppSelector(selectAppearance);
-  const currentOption = options.filter(({ value }) => value === appearance)[0];
+  const currentOption = options.find(({ value }) => value === appearance)!;
 
   const onOptionChange = (option: Option) => {
     dispatch(appearanceChanged({ appearance: option.value }));

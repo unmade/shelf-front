@@ -86,7 +86,7 @@ export default function SharedLinkSetting({ file }: Props) {
             placeholder={`${window.location.origin}/s/...`}
             defaultValue={link ?? ''}
             size="xs"
-            onChange={() => {}}
+            onChange={undefined}
             disabled={link == null}
             readOnly
           />

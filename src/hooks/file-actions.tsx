@@ -64,7 +64,7 @@ export function useDeleteImmediatelyAction(files: IFile[]): IAction | null {
   const { openDialog: openDeleteImmediatelyDialog } = useDeleteImmediatelyDialog();
 
   const trashedFiles = files.filter(
-    (file) => routes.isTrashed(file.path) || file.deleted_at != null,
+    (file) => routes.isTrashed(file.path) ?? file.deleted_at != null,
   );
   if (trashedFiles.length > 0 && files.length !== trashedFiles.length) {
     return null;

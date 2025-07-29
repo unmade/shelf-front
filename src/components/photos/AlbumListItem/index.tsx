@@ -47,7 +47,7 @@ function AlbumListItem({ data, index, style }: ListChildComponentProps<ItemDataP
               size={ThumbnailSize.lg}
               objectFit="cover"
             />
-          )) || (
+          )) ?? (
             <div className="flex items-center justify-center rounded-lg bg-gray-100 dark:bg-zinc-700">
               <icons.PhotographOutlined className="h-7 w-7 text-gray-500 dark:text-zinc-400" />
             </div>
