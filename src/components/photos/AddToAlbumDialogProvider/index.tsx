@@ -32,9 +32,9 @@ export default function AddToAlbumDialogProvider({ children }: Props) {
     [setState],
   );
 
-  const closeDialog = () => {
+  const closeDialog = useCallback(() => {
     setState(initialState);
-  };
+  }, []);
 
   const { mediaItems, visible } = state;
 

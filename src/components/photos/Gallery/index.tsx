@@ -65,7 +65,7 @@ function Gallery({ ids, itemsCount, initialFileId, selectById, onClose }: Props)
       mediaItem ? makeFileFromMediaItem(mediaItem, libraryPath) : null,
       nextMediaItem ? makeFileFromMediaItem(nextMediaItem, libraryPath) : null,
     ],
-    [prevMediaItem, mediaItem, nextMediaItem],
+    [libraryPath, prevMediaItem, mediaItem, nextMediaItem],
   );
 
   const onInfo = () => {
@@ -87,7 +87,7 @@ function Gallery({ ids, itemsCount, initialFileId, selectById, onClose }: Props)
     }
   }, [nextIndex]);
 
-  const goBack = useCallback(() => onClose && onClose(currentIndex), [currentIndex]);
+  const goBack = useCallback(() => onClose && onClose(currentIndex), [currentIndex, onClose]);
 
   useKeyUp({
     handlers: {

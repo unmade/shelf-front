@@ -151,13 +151,16 @@ function useCarousel(
     return () => {
       clearTimeout(id);
     };
-  }, [state.desired, state.active]);
+  }, [state.desired, state.active, onSwipeLeft, onSwipeRight]);
 
-  const style: React.CSSProperties = {
-    transform: 'translateX(0)',
-    width: `${100 * length}%`,
-    left: `-${state.active * 100}%`,
-  };
+  const style: React.CSSProperties = useMemo(
+    () => ({
+      transform: 'translateX(0)',
+      width: `${100 * length}%`,
+      left: `-${state.active * 100}%`,
+    }),
+    [length, state.active],
+  );
 
   if (state.desired !== state.active) {
     const dist = Math.abs(state.active - state.desired);

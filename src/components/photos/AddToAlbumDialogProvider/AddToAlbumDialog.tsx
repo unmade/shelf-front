@@ -27,7 +27,7 @@ export default function AddToAlbumDialog({ mediaItems, visible, onClose }: Props
       await addAlbumItems({ albumSlug, fileIds });
       onClose();
     },
-    [fileIds],
+    [fileIds, addAlbumItems, onClose],
   );
 
   const onCancel = () => {

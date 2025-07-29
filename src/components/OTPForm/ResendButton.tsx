@@ -38,7 +38,7 @@ export default function ResendButton({
       clearInterval(timer);
       clearTimeout(reset);
     };
-  }, [clicked]);
+  }, [clicked, debounce]);
 
   const handleClick = () => {
     setClicked(true);

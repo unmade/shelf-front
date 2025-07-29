@@ -46,9 +46,7 @@ function CopyLinkDialog({ file, visible, onClose }: Props) {
       {sharingDisabled && !superuser ? (
         'Sharing is temporarily disabled for your account'
       ) : (
-        <div className="my-4 lg:min-w-[20rem]">
-          <SharedLinkSetting file={file} />
-        </div>
+        <div className="my-4 lg:min-w-[20rem]">{file && <SharedLinkSetting file={file} />}</div>
       )}
     </Dialog>
   );

@@ -52,11 +52,11 @@ export const sharedLinksApi = apiSlice.injectEndpoints({
         }
       },
     }),
-    revokeSharedLink: builder.mutation<null, { fileId: string; token: string; filename: string }>({
-      query: ({ token, filename }) => ({
+    revokeSharedLink: builder.mutation<null, { fileId: string; token: string }>({
+      query: ({ token }) => ({
         url: '/sharing/revoke_shared_link',
         method: 'POST',
-        body: { token, filename },
+        body: { token, filename: '' },
       }),
       invalidatesTags: [{ type: 'Sharing', id: 'listFilesSharedViaLink' }],
       async onQueryStarted({ fileId }, { dispatch, queryFulfilled }) {

@@ -30,11 +30,13 @@ export default function UploaderDropdown({ allowedMediaTypes = undefined, upload
 
   const buttonRef = React.useRef<HTMLDivElement>();
 
+  const shouldClick = uploading && !open;
+
   useEffect(() => {
-    if (uploading && !open) {
+    if (shouldClick) {
       buttonRef.current?.click();
     }
-  }, [uploading]);
+  }, [shouldClick]);
 
   return (
     <Dropdown

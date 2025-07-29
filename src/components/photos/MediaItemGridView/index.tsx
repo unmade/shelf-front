@@ -68,7 +68,7 @@ export default function MediaItemGridView({
       const idx = Math.floor(currentIndex / columnCount);
       setState({ scrollIndex: idx, initialFileId: null });
     },
-    [setState, columnCount],
+    [columnCount],
   );
 
   const scrollToItem = useCallback(

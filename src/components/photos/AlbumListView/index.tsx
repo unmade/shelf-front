@@ -35,7 +35,7 @@ export default function AlbumListView({
       onItemClick,
       selectById,
     }),
-    [ids],
+    [ids, onItemClick, selectById],
   );
 
   return (

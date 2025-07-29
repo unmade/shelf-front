@@ -36,7 +36,7 @@ export default function MediaItemsProvider({
       onItemClick,
       selectById,
     }),
-    [ids, loading, selectById],
+    [ids, loading, onItemClick, selectById],
   );
 
   return <MediaItemsContext.Provider value={ctx}>{children}</MediaItemsContext.Provider>;
