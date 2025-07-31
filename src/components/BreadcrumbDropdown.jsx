@@ -10,7 +10,7 @@ function BreadcrumbDropdown({ items: crumbs }) {
 
   return (
     <Menu as="div" className="relative min-w-3xs px-3">
-      <Menu.Button className="focus-visible:ring-opacity-75 mx-auto flex w-full items-center justify-center focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:w-auto sm:max-w-xs lg:max-w-md">
+      <Menu.Button className="mx-auto flex w-full items-center justify-center focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:w-auto sm:max-w-xs lg:max-w-md">
         <span className="max-w-3xs truncate sm:max-w-sm">{currentFolder.name}</span>
         {rest.length ? (
           <icons.Selector className="ml-3 h-5 w-5 shrink-0 dark:text-zinc-100" />
@@ -25,7 +25,7 @@ function BreadcrumbDropdown({ items: crumbs }) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="ring-opacity-5 absolute right-0 z-10 mt-2 max-h-fit w-full max-w-xs origin-top-right overflow-auto rounded-xl bg-white py-1 text-base shadow-lg ring-1 ring-black focus:outline-none sm:text-sm dark:bg-zinc-800 dark:text-zinc-100">
+        <Menu.Items className="absolute right-0 z-10 mt-2 max-h-fit w-full max-w-xs origin-top-right overflow-auto rounded-xl bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm dark:bg-zinc-800 dark:text-zinc-100">
           {rest.map((item) => (
             <Menu.Item key={item.key}>
               {item.url != null ? (

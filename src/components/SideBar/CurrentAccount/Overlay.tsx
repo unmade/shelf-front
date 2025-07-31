@@ -24,7 +24,7 @@ export default function Overlay({ fullName, email, username }: Props) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const displayName = fullName ?? email ?? username;
+  const displayName = (fullName || email) ?? username;
 
   const onSignOut = () => {
     navigate(routes.SIGNIN.route);

@@ -40,7 +40,7 @@ function Listbox({ children, initial, options, placement, onOptionChange }) {
             <UIListbox.Options
               static
               ref={floating}
-              className="ring-opacity-5 max-h-60 rounded-xl bg-white p-2 text-base shadow-lg ring-1 ring-black focus:outline-none sm:text-sm dark:bg-zinc-800 dark:shadow-zinc-900/50 dark:ring-offset-zinc-800"
+              className="max-h-60 rounded-xl bg-white p-2 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm dark:bg-zinc-800 dark:shadow-zinc-900/50 dark:ring-offset-zinc-800"
               style={{
                 position: strategy,
                 top: y ?? 0,
