@@ -1,2 +1,5 @@
 # Use prettier to format code
 f6e23d87ff8bbddd1cadaa0e87bd9a7e8748317f
+
+# Re-run `yarn format` + `yarn lint --fix`
+652a9c7d4e40bc61168811dafe99369e6fb5c7eb
