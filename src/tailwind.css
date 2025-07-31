@@ -1,6 +1,8 @@
 @import 'tailwindcss';
 @plugin "@tailwindcss/forms";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --animate-toast-in-right: toast-in-right 0.3s ease-in-out;
   @keyframes toast-in-right {
