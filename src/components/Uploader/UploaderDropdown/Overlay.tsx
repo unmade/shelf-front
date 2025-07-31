@@ -43,7 +43,7 @@ function Dropzone({ allowedMediaTypes, dragging, innerRef, uploadTo }: DropzoneP
     textPrimary = 'text-teal-700 dark:text-teal-400';
     textSecondary = 'text-teal-600 dark:text-teal-500';
   } else {
-    bg = 'bg-gray-50 dark:bg-zinc-700/30 dark:border-zinc-700';
+    bg = 'bg-gray-50 dark:bg-zinc-700/30 border-gray-200 dark:border-zinc-700';
     textPrimary = 'text-gray-600 dark:text-zinc-300';
     textSecondary = 'text-gray-400 dark:text-zinc-500';
   }

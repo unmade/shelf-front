@@ -22,7 +22,7 @@ function Tabs({ tabs, size }) {
             className={({ selected }) =>
               classNames(
                 'w-full rounded-lg text-sm leading-5 font-medium',
-                'focus:ring-2 focus:outline-none dark:focus:ring-zinc-700',
+                'focus:ring-2 focus:ring-gray-200 focus:outline-none dark:focus:ring-zinc-700',
                 paddingBySize[size],
                 selected
                   ? 'bg-white text-gray-700 shadow dark:bg-zinc-800 dark:text-zinc-200 dark:shadow-zinc-900/70'
