@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Transition } from '@headlessui/react';
+import { Transition, TransitionChild } from '@headlessui/react';
 import { useLocation } from 'react-router';
 
 import useSidePreview from '../../hooks/preview-available';
@@ -33,20 +33,15 @@ function TableView() {
 
   return (
     <div className="flex h-full flex-row overflow-y-auto">
-      <div className={`easy-in-out h-full duration-500 ${withSidePreview ? 'w-7/12' : 'w-full'}`}>
+      <div
+        className={`easy-in-out h-full overflow-y-auto transition-all duration-500 ${withSidePreview ? 'w-7/12' : 'w-full'}`}
+      >
         <FileTableViewContainer />
       </div>
-      <Transition
-        className="w-5/12 overflow-y-auto"
-        show={withSidePreview}
-        enter="transform transition-all ease-in-out duration-500"
-        enterFrom="w-0 translate-x-full"
-        enterTo="w-5/12 translate-x-0"
-        leave="transform transition-all ease-in-out duration-500"
-        leaveFrom="w-5/12 translate-x-0"
-        leaveTo="w-0 translate-x-full"
-      >
-        <SidePreview />
+      <Transition show={withSidePreview}>
+        <div className="w-5/12 transform transition-all duration-500 data-closed:w-0 data-closed:translate-x-full">
+          <SidePreview />
+        </div>
       </Transition>
     </div>
   );

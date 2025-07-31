@@ -1,5 +1,6 @@
 import js from '@eslint/js';
 import prettierConfig from 'eslint-config-prettier/flat';
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
@@ -65,6 +66,7 @@ const eslintConfig = config(
   },
 
   prettierConfig,
+  eslintPluginPrettierRecommended,
 );
 
 export default eslintConfig;
