@@ -14,9 +14,9 @@ const colors = {
     primary: [
       'bg-white dark:bg-zinc-700',
       'text-gray-700 dark:text-zinc-200',
-      'border-gray-300 dark:border-zinc-600',
+      'border-gray-300 border-blue-100 dark:border-zinc-600',
       'hover:text-gray-600 dark:hover:text-zinc-300',
-      'dark:focus:ring-zinc-700',
+      'focus:ring-blue-600 dark:focus:ring-zinc-700',
     ],
     danger: [
       'bg-white dark:bg-transparent',
@@ -38,6 +38,7 @@ const colors = {
       'hover:from-blue-300 dark:hover:from-blue-500',
       'hover:to-indigo-400 dark:hover:to-indigo-500',
       'shadow',
+      'focus:ring-blue-200',
       'dark:focus:ring-indigo-700',
     ],
     danger: [
@@ -64,8 +65,9 @@ const colors = {
     primary: [
       'text-gray-700',
       'hover:bg-gray-50',
-      'dark:text-zinc-300',
       'dark:hover:bg-zinc-700/30',
+      'dark:text-zinc-300',
+      'focus:ring-blue-200',
       'dark:focus:ring-zinc-700',
     ],
     danger: [
@@ -73,6 +75,7 @@ const colors = {
       'hover:bg-red-50',
       'dark:text-rose-500',
       'dark:hover:bg-rose-700/30',
+      'focus:ring-red-200',
       'dark:focus:ring-rose-800',
     ],
     success: [
@@ -80,6 +83,7 @@ const colors = {
       'hover:bg-emerald-50',
       'dark:text-teal-500',
       'dark:hover:bg-teal-700/30',
+      'focus:ring-emerald-200',
       'dark:focus:ring-teal-800',
     ],
   },
@@ -157,7 +161,7 @@ function Button({
     className,
     fontBySize[size],
     'focus:outline-none',
-    'focus:ring',
+    'focus:ring-2',
     'focus:ring-offset-2',
     'dark:focus:ring-offset-zinc-800',
     'transition-all',

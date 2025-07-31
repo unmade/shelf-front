@@ -14,7 +14,7 @@ function InformationPanel({ file }) {
   const { t } = useTranslation('file');
 
   return (
-    <div className="divide-y text-xs font-medium dark:divide-zinc-700">
+    <div className="divide-y divide-gray-200 text-xs font-medium dark:divide-zinc-700">
       <Property name={t('file:size')} value={<FileSize size={file.size} />} />
       <Property
         name={t('file:created')}

@@ -21,7 +21,7 @@ function SideBar() {
         <StorageUsed />
       </div>
 
-      <div className="mx-3 border-t-2 pt-3 dark:border-zinc-800">
+      <div className="mx-3 border-t-2 border-gray-200 pt-3 dark:border-zinc-800">
         <CurrentAccount />
       </div>
     </div>

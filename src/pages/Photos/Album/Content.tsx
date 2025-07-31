@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+
 import type { IAlbum } from 'types/photos';
 
 import type { RootState } from 'store/store';

@@ -40,7 +40,7 @@ export default function Overlay({ fullName, email, username }: Props) {
           {fullName && <div className="text-xs">{email ?? `@${username}`}</div>}
         </div>
       </div>
-      <hr className="dark:border-zinc-700" />
+      <hr className="border-gray-200 dark:border-zinc-700" />
       <PreferredAppearance />
       <div className="space-y-1">
         <Button

@@ -132,7 +132,7 @@ function StatusBar({ breadcrumbs }) {
   const isLaptop = useIsLaptop();
 
   return (
-    <div className="bottom-0 flex min-h-[33px] w-full items-center justify-center border-t bg-gray-50 py-0.5 pr-8 pl-6 text-center text-xs text-gray-400 lg:justify-between dark:border-zinc-700 dark:bg-zinc-700/30 dark:text-zinc-500">
+    <div className="bottom-0 flex min-h-[33px] w-full items-center justify-center border-t border-gray-200 bg-gray-50 py-0.5 pr-8 pl-6 text-center text-xs text-gray-400 lg:justify-between dark:border-zinc-700 dark:bg-zinc-700/30 dark:text-zinc-500">
       {isLaptop && (
         <Breadcrumb
           items={breadcrumbs}

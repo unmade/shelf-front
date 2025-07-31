@@ -81,7 +81,7 @@ function FilePreview({ ids, selectById, loading }) {
               {infoVisible && (
                 <div className="hidden w-96 sm:block xl:w-lg">
                   <Info
-                    className="h-full border-t bg-white px-5 py-6 shadow dark:border-zinc-700 dark:bg-zinc-800 dark:shadow-zinc-900/70"
+                    className="h-full border-t border-gray-200 bg-white px-5 py-6 shadow dark:border-zinc-700 dark:bg-zinc-800 dark:shadow-zinc-900/70"
                     fileId={file.id}
                     selectById={selectById}
                   />
