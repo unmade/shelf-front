@@ -8,8 +8,8 @@ import { downloadSharedLinkFile } from '../../../store/sharing';
 
 import { SharedLinkFileShape } from '../../../types';
 
-import Button from '../../../components/ui/Button';
-import TimeAgo from '../../../components/ui/TimeAgo';
+import Button from '../../../components/ui-legacy/Button';
+import TimeAgo from '../../../components/ui-legacy/TimeAgo';
 
 import FileTabs from './FileTabs';
 

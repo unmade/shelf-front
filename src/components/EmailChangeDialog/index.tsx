@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-import Dialog from 'components/ui/Dialog';
+import Dialog from 'components/ui-legacy/Dialog';
 
 import SetEmailForm from './SetEmailForm';
 import VerifyEmailForm from './VerifyEmailForm';

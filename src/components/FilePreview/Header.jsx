@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import * as icons from '../../icons';
 
-import Button from '../ui/Button';
+import Button from '../ui-legacy/Button';
 
 function Header({ idx, total, name, onGoBack, onNext, onPrev, onInfo }) {
   return (

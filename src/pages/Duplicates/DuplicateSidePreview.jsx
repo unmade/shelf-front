@@ -8,9 +8,9 @@ import * as icons from '../../icons';
 import * as routes from '../../routes';
 import { FileShape } from '../../types';
 
-import Button from '../../components/ui/Button';
-import FileSize from '../../components/ui/FileSize';
-import TimeAgo from '../../components/ui/TimeAgo';
+import Button from '../../components/ui-legacy/Button';
+import FileSize from '../../components/ui-legacy/FileSize';
+import TimeAgo from '../../components/ui-legacy/TimeAgo';
 
 import { useDeleteDialog } from '../../components/DeleteDialogProvider';
 import FileLink from '../../components/FileLink';

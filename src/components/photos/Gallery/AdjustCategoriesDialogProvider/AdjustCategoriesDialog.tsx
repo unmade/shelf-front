@@ -9,7 +9,7 @@ import {
   useSetMediaItemCategoriesMutation,
 } from 'store/mediaItems';
 
-import Dialog from 'components/ui/Dialog';
+import Dialog from 'components/ui-legacy/Dialog';
 
 import useMediaItemCategories from '../../hooks/media-item-categories';
 

@@ -10,7 +10,7 @@ import { scopes, waitForBackgroundTaskToComplete } from '../../store/tasks';
 import * as routes from '../../routes';
 import { FileShape } from '../../types';
 
-import Dialog from '../ui/Dialog';
+import Dialog from '../ui-legacy/Dialog';
 
 import FolderPicker from '../FolderPicker';
 

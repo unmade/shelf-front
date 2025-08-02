@@ -1,4 +1,4 @@
-import Button from 'components/ui/Button';
+import Button from 'components/ui-legacy/Button';
 
 import { useRestoreAction } from 'components/photos/hooks/deleted-media-item-actions';
 import type { IMediaItem } from 'types/photos';

@@ -9,7 +9,7 @@ import { useGetAlbumQuery, selectListAlbumsData } from 'store/albums';
 
 import * as routes from 'routes';
 
-import Spinner from 'components/ui/Spinner';
+import Spinner from 'components/ui-legacy/Spinner';
 
 import CopyLinkDialogProvider from 'components/CopyLinkDialogProvider';
 import GoBackButton from 'components/GoBackButton';

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import * as icons from '../../icons';
 
-import Dialog from '../ui/Dialog';
+import Dialog from '../ui-legacy/Dialog';
 
 import FileMembersSetting from '../FileMembersSetting';
 

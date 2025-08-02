@@ -8,8 +8,8 @@ import * as routes from 'routes';
 
 import { useCreateAlbumMutation } from 'store/albums';
 
-import Dialog from 'components/ui/Dialog';
-import Input from 'components/ui/Input';
+import Dialog from 'components/ui-legacy/Dialog';
+import Input from 'components/ui-legacy/Input';
 
 interface Props {
   visible: boolean;

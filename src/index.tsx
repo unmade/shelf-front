@@ -18,7 +18,7 @@ import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 
 import RequireAccount from './components/RequireAccount';
-import ToastListContainer from './components/ui/Toast/ToastListContainer';
+import ToastListContainer from './components/ui-legacy/Toast/ToastListContainer';
 
 import App from './App';
 

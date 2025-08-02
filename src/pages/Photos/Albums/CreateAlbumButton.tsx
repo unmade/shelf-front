@@ -1,6 +1,6 @@
 import * as icons from 'icons';
 
-import Button from 'components/ui/Button';
+import Button from 'components/ui-legacy/Button';
 
 import { useCreateAlbumDialog } from 'components/photos/CreateAlbumDialogProvider';
 

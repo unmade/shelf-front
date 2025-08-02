@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import * as icons from '../../icons';
 import * as routes from '../../routes';
 
-import Breadcrumb from '../ui/Breadcrumb';
-import Empty from '../ui/Empty';
+import Breadcrumb from '../ui-legacy/Breadcrumb';
+import Empty from '../ui-legacy/Empty';
 
 import FolderPickerList from './FolderPickerList';
 

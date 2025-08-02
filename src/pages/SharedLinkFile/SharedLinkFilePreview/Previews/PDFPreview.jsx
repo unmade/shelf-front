@@ -7,7 +7,7 @@ import { MEGABYTE } from '../../../../filesize';
 
 import { useDownloadSharedLinkContentQuery } from '../../../../store/sharing';
 
-import Spinner from '../../../../components/ui/Spinner';
+import Spinner from '../../../../components/ui-legacy/Spinner';
 
 import NoPreview from './NoPreview';
 import { SharedLinkFileShape } from '../../../../types';

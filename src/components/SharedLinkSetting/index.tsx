@@ -12,11 +12,11 @@ import {
   useRevokeSharedLinkMutation,
 } from 'store/sharedLinks';
 
-import Input from 'components/ui/Input';
-import Switch from 'components/ui/Switch';
+import Input from 'components/ui-legacy/Input';
+import Switch from 'components/ui-legacy/Switch';
 
 import CopyToClipboardButton from 'components/CopyToClipboardButton';
-import Spinner from 'components/ui/Spinner';
+import Spinner from 'components/ui-legacy/Spinner';
 
 function useToggleSharedLink(fileId: string) {
   const { data: sharedLink } = useGetSharedLinkQuery(fileId);

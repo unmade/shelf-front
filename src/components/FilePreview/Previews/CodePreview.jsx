@@ -7,7 +7,7 @@ import { useDownloadContentQuery } from '../../../store/files';
 
 import { MEGABYTE } from '../../../filesize';
 
-import Highlight from '../../ui/Highlight';
+import Highlight from '../../ui-legacy/Highlight';
 
 import Loader from '../Loader';
 

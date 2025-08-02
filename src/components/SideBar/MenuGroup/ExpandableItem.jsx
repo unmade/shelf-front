@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 import { NavLink } from 'react-router';
 
-import Disclosure from '../../ui/Disclosure';
-import Dropdown from '../../ui/Dropdown';
+import Disclosure from '../../ui-legacy/Disclosure';
+import Dropdown from '../../ui-legacy/Dropdown';
 
 import Item from './Item';
 

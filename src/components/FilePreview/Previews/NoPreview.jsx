@@ -8,9 +8,9 @@ import { download } from '../../../store/files';
 
 import * as icons from '../../../icons';
 
-import Button from '../../ui/Button';
-import FileSize from '../../ui/FileSize';
-import TimeAgo from '../../ui/TimeAgo';
+import Button from '../../ui-legacy/Button';
+import FileSize from '../../ui-legacy/FileSize';
+import TimeAgo from '../../ui-legacy/TimeAgo';
 
 import FileIcon from '../../FileIcon';
 

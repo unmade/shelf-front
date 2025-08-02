@@ -8,7 +8,7 @@ import {
   selectVisibleUploadsLength,
 } from 'store/uploads/slice';
 
-import ProgressBar from 'components/ui/ProgressBar';
+import ProgressBar from 'components/ui-legacy/ProgressBar';
 
 export default function TotalProgress() {
   const { t } = useTranslation('uploads');

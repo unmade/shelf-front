@@ -1,4 +1,4 @@
-import Button from 'components/ui/Button';
+import Button from 'components/ui-legacy/Button';
 import { useVerifyEmailSendCodeMutation } from 'store/accounts';
 
 interface Props {

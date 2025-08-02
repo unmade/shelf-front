@@ -7,7 +7,7 @@ import type { IFile } from 'types/files';
 import { selectIsSuperuser } from 'store/accounts';
 import { selectFeatureSharedLinksDisabled } from 'store/features';
 
-import Dialog from 'components/ui/Dialog';
+import Dialog from 'components/ui-legacy/Dialog';
 
 import SharedLinkSetting from 'components/SharedLinkSetting';
 

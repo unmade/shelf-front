@@ -6,8 +6,8 @@ import { selectCurrentAccount } from 'store/accounts';
 import { selectFeatureVerificationRequired } from 'store/features';
 import { fileEntriesAdded } from 'store/uploads/slice';
 
-import type { DropzoneProps } from './ui/Dropzone';
-import Dropzone from './ui/Dropzone';
+import type { DropzoneProps } from './ui-legacy/Dropzone';
+import Dropzone from './ui-legacy/Dropzone';
 
 import { useVerifyAccountDialog } from './VerifyAccountDialogProvider';
 

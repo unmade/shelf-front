@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
 
-import Button from 'components/ui/Button';
-import Input from 'components/ui/Input';
+import Button from 'components/ui-legacy/Button';
+import Input from 'components/ui-legacy/Input';
 
 function LoginForm({ loading, onSubmit }) {
   const { t } = useTranslation(['translation', 'signin']);

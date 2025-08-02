@@ -2,7 +2,7 @@ import type { IMediaItem } from 'types/photos';
 
 import * as icons from 'icons';
 
-import Button from 'components/ui/Button';
+import Button from 'components/ui-legacy/Button';
 
 import { useCopyLinkDialog } from 'components/CopyLinkDialogProvider';
 

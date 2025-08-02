@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { SharedLinkFileShape } from '../../../types';
 
-import Tabs from '../../../components/ui/Tabs';
+import Tabs from '../../../components/ui-legacy/Tabs';
 
 import FileTabPanels from '../../../components/FileTabPanels';
 

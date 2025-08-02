@@ -7,9 +7,9 @@ import { filesSelectionChanged, selectAllSelectedFileIds } from '../../store/bro
 
 import { MediaType, ThumbnailSize } from '../../constants';
 
-import Button from '../ui/Button';
-import FileSize from '../ui/FileSize';
-import TimeAgo from '../ui/TimeAgo';
+import Button from '../ui-legacy/Button';
+import FileSize from '../ui-legacy/FileSize';
+import TimeAgo from '../ui-legacy/TimeAgo';
 
 import BookmarkButton from '../BookmarkButton';
 import FileLink from '../FileLink';

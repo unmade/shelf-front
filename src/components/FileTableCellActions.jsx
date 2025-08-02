@@ -13,9 +13,9 @@ import * as icons from 'icons';
 import * as routes from 'routes';
 import { FileShape } from 'types';
 
-import Button from './ui/Button';
-import Menu from './ui/Menu';
-import MenuItem from './ui/MenuItem';
+import Button from './ui-legacy/Button';
+import Menu from './ui-legacy/Menu';
+import MenuItem from './ui-legacy/MenuItem';
 
 function useTrashedFileActionGroups(files) {
   const moveAction = useMoveAction(files);

@@ -10,7 +10,7 @@ import useResolvedPreviewSearchParam from '../hooks/resolved-preview-search-para
 import * as icons from '../icons';
 import * as routes from '../routes';
 
-import Empty from '../components/ui/Empty';
+import Empty from '../components/ui-legacy/Empty';
 
 import BreadcrumbDropdown from '../components/BreadcrumbDropdown';
 import CopyLinkDialogProvider from '../components/CopyLinkDialogProvider';

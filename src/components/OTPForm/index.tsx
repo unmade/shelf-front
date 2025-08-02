@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { shallowEqual } from 'react-redux';
 
-import Button from 'components/ui/Button';
+import Button from 'components/ui-legacy/Button';
 
 import OTPInput from './OTPInput';
 import ResendButton from './ResendButton';

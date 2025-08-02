@@ -3,9 +3,9 @@ import type { IMediaItem } from 'types/photos';
 
 import { useCopyLinkAction, useDownloadAction } from 'hooks/file-actions';
 
-import Button from 'components/ui/Button';
-import Menu from 'components/ui/Menu';
-import MenuItem from 'components/ui/MenuItem';
+import Button from 'components/ui-legacy/Button';
+import Menu from 'components/ui-legacy/Menu';
+import MenuItem from 'components/ui-legacy/MenuItem';
 
 import useFileFromMediaItem from 'components/photos/hooks/file-from-media-item';
 import { useDeleteAction } from 'components/photos/hooks/media-item-actions';

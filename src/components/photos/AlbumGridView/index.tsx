@@ -6,8 +6,8 @@ import useGridLayout from 'hooks/grid-layout';
 
 import type { RootState } from 'store/store';
 
-import Spinner from 'components/ui/Spinner';
-import VGrid from 'components/ui/VGrid';
+import Spinner from 'components/ui-legacy/Spinner';
+import VGrid from 'components/ui-legacy/VGrid';
 
 import SelectionProvider from 'components/SelectionProvider';
 

@@ -1,4 +1,4 @@
-import Spinner from 'components/ui/Spinner';
+import Spinner from 'components/ui-legacy/Spinner';
 
 import usePaginatedMediaItemsQuery from 'components/photos/hooks/list-media-items';
 

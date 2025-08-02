@@ -2,7 +2,7 @@ import React from 'react';
 
 import * as icons from '../../icons';
 
-import Button from '../../components/ui/Button';
+import Button from '../../components/ui-legacy/Button';
 
 import AccountTableCell from '../../components/AccountTableCell';
 

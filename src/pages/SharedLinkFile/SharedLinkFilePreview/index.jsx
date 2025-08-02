@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { MediaType } from '../../../constants';
 import { SharedLinkFileShape } from '../../../types';
 
-import Spinner from '../../../components/ui/Spinner';
+import Spinner from '../../../components/ui-legacy/Spinner';
 
 import Header from './Header';
 import Info from './Info';

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import * as icons from '../icons';
 import { Children } from '../types';
 
-import Button from './ui/Button';
+import Button from './ui-legacy/Button';
 
 const PENDING = 'pending';
 const COPIED = 'copied';

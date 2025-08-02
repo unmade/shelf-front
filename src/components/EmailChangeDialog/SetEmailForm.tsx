@@ -5,8 +5,8 @@ import { isEmail } from 'validator';
 
 import { useChangeEmailStartMutation } from 'store/accounts';
 
-import Button from 'components/ui/Button';
-import Input from 'components/ui/Input';
+import Button from 'components/ui-legacy/Button';
+import Input from 'components/ui-legacy/Input';
 
 interface Props {
   onSubmit: (email: string) => void;

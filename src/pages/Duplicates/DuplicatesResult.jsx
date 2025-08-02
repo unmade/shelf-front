@@ -9,16 +9,16 @@ import * as icons from '../../icons';
 import useResolvedPreviewSearchParam from '../../hooks/resolved-preview-search-param';
 import * as routes from '../../routes';
 
-import Button from '../../components/ui/Button';
-import Empty from '../../components/ui/Empty';
-import Listbox from '../../components/ui/Listbox';
+import Button from '../../components/ui-legacy/Button';
+import Empty from '../../components/ui-legacy/Empty';
+import Listbox from '../../components/ui-legacy/Listbox';
 
 import DuplicateList from './DuplicateList';
 import DuplicateListItem from './DuplicateListItem';
 import DuplicateSidePreview from './DuplicateSidePreview';
 import FilePreviewContainer from './FilePreviewContainer';
 import SelectFolderDialogButton from './SelectFolderDialogButton';
-import Spinner from '../../components/ui/Spinner';
+import Spinner from '../../components/ui-legacy/Spinner';
 
 const distanceOptions = [
   { name: 'Similar', value: 5, symbol: '≈' },

@@ -7,7 +7,7 @@ import { Link } from 'react-router';
 import * as icons from '../../../icons';
 import * as routes from '../../../routes';
 
-import Button from '../../../components/ui/Button';
+import Button from '../../../components/ui-legacy/Button';
 
 function Header({ name, onInfo }) {
   const { t } = useTranslation();

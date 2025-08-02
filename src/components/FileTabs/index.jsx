@@ -6,7 +6,7 @@ import { MediaType } from '../../constants';
 import * as routes from '../../routes';
 import { FileShape } from '../../types';
 
-import Tabs from '../ui/Tabs';
+import Tabs from '../ui-legacy/Tabs';
 
 import FileTabPanels from '../FileTabPanels';
 

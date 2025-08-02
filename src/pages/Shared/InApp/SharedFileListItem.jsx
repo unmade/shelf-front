@@ -11,7 +11,7 @@ import { MediaType } from '../../../constants';
 import * as icons from '../../../icons';
 import * as routes from '../../../routes';
 
-import Button from '../../../components/ui/Button';
+import Button from '../../../components/ui-legacy/Button';
 
 import FileLink from '../../../components/FileLink';
 import { useFileMembersDialog } from '../../../components/FileMembersDialogProvider';

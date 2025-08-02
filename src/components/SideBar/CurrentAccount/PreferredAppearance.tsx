@@ -5,8 +5,8 @@ import * as icons from 'icons';
 
 import { appearanceChanged, selectAppearance } from 'store/ui';
 
-import Button from 'components/ui/Button';
-import Listbox from 'components/ui/Listbox';
+import Button from 'components/ui-legacy/Button';
+import Listbox from 'components/ui-legacy/Listbox';
 
 interface Option {
   name: string;

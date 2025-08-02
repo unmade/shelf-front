@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 import { useListFolderQuery } from '../../store/files';
 
-import Spinner from '../ui/Spinner';
-import VList from '../ui/VList';
+import Spinner from '../ui-legacy/Spinner';
+import VList from '../ui-legacy/VList';
 
 import FolderPickerItem from './FolderPickerItem';
 

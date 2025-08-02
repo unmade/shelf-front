@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import * as icons from '../icons';
 
-import Button from './ui/Button';
+import Button from './ui-legacy/Button';
 
 function SearchButton() {
   const { t } = useTranslation();
