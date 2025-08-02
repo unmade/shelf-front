@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 
 import * as icons from 'icons';
 
-import Dialog from 'components/ui/Dialog';
+import Dialog from 'components/ui-legacy/Dialog';
 
 import UploadButton from 'components/UploadButton';
 

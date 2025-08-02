@@ -11,8 +11,8 @@ import { TRASH_FOLDER_NAME } from '../constants';
 import * as icons from '../icons';
 import * as routes from '../routes';
 
-import Button from '../components/ui/Button';
-import Empty from '../components/ui/Empty';
+import Button from '../components/ui-legacy/Button';
+import Empty from '../components/ui-legacy/Empty';
 
 import BreadcrumbDropdown from '../components/BreadcrumbDropdown';
 import EmptyTrashDialogProvider, {

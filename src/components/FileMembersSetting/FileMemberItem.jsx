@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { useListFileMembersQuery } from '../../store/sharing';
 
-import Avatar from '../ui/Avatar';
+import Avatar from '../ui-legacy/Avatar';
 
 import FileMemberAccessLevel from './FileMemberAccessLevel';
 

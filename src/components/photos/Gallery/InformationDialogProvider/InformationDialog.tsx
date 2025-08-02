@@ -1,8 +1,8 @@
 import type { IFile } from 'types/files';
 
-import Dialog from 'components/ui/Dialog';
-import FileSize from 'components/ui/FileSize';
-import TimeAgo from 'components/ui/TimeAgo';
+import Dialog from 'components/ui-legacy/Dialog';
+import FileSize from 'components/ui-legacy/FileSize';
+import TimeAgo from 'components/ui-legacy/TimeAgo';
 
 import Exif from 'components/Exif';
 

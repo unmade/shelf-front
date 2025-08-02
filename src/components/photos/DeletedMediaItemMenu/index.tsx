@@ -4,8 +4,8 @@ import { useAppSelector } from 'hooks';
 
 import type { IMediaItem } from 'types/photos';
 
-import Menu from 'components/ui/Menu';
-import MenuItem from 'components/ui/MenuItem';
+import Menu from 'components/ui-legacy/Menu';
+import MenuItem from 'components/ui-legacy/MenuItem';
 
 import { useSelection } from 'components/SelectionProvider';
 

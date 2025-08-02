@@ -6,8 +6,8 @@ import { useAppSelector } from 'hooks';
 
 import { selectIsUploading } from 'store/uploads/slice';
 
-import Dropdown from 'components/ui/Dropdown';
-import Button from 'components/ui/Button';
+import Dropdown from 'components/ui-legacy/Dropdown';
+import Button from 'components/ui-legacy/Button';
 
 import Overlay from './Overlay';
 

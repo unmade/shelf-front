@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import Button from 'components/ui/Button';
+import Button from 'components/ui-legacy/Button';
 
 import Empty from 'components/photos/Empty';
 import { useCreateAlbumDialog } from 'components/photos/CreateAlbumDialogProvider';

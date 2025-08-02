@@ -5,7 +5,7 @@ import * as icons from 'icons';
 
 import { selectIsUploading } from 'store/uploads/slice';
 
-import Button from 'components/ui/Button';
+import Button from 'components/ui-legacy/Button';
 
 import UploadDialog from './UploadDialog';
 

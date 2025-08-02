@@ -1,6 +1,6 @@
 import * as icons from 'icons';
 
-import Dropdown from 'components/ui/Dropdown';
+import Dropdown from 'components/ui-legacy/Dropdown';
 
 import useAvailableApps from '../hooks/available-apps';
 

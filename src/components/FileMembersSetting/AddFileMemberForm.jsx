@@ -5,9 +5,9 @@ import { useTranslation } from 'react-i18next';
 
 import { useAddFileMemberMutation } from '../../store/sharing';
 
-import Button from '../ui/Button';
-import Input from '../ui/Input';
-import InputGroup from '../ui/InputGroup';
+import Button from '../ui-legacy/Button';
+import Input from '../ui-legacy/Input';
+import InputGroup from '../ui-legacy/InputGroup';
 
 function AddFileMemberForm({ fileId }) {
   const { t } = useTranslation(['translation', 'signup']);

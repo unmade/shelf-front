@@ -7,8 +7,8 @@ import { useAppDispatch } from 'hooks';
 
 import { signedOut } from 'store/authSlice';
 
-import Avatar from 'components/ui/Avatar';
-import Button from 'components/ui/Button';
+import Avatar from 'components/ui-legacy/Avatar';
+import Button from 'components/ui-legacy/Button';
 
 import PreferredAppearance from './PreferredAppearance';
 

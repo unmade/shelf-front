@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 
 import type { UploadsFilter } from 'store/uploads/slice';
 
-import Tabs from 'components/ui/Tabs';
+import Tabs from 'components/ui-legacy/Tabs';
 
 import UploadsPanel from './UploadsPanel';
 

@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router';
 
 import * as routes from '../../routes';
 
-import Button from '../../components/ui/Button';
-import Dialog from '../../components/ui/Dialog';
+import Button from '../../components/ui-legacy/Button';
+import Dialog from '../../components/ui-legacy/Dialog';
 
 import FolderPicker from '../../components/FolderPicker';
 

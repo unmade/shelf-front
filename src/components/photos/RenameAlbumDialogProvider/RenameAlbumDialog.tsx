@@ -1,8 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import type { IAlbum } from 'types/photos';
-import Dialog from 'components/ui/Dialog';
-import Input from 'components/ui/Input';
+import Dialog from 'components/ui-legacy/Dialog';
+import Input from 'components/ui-legacy/Input';
 import * as icons from 'icons';
 
 interface Props {

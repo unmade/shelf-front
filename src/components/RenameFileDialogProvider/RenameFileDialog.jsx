@@ -9,8 +9,8 @@ import { MediaType } from '../../constants';
 import * as icons from '../../icons';
 import * as routes from '../../routes';
 
-import Dialog from '../ui/Dialog';
-import Input from '../ui/Input';
+import Dialog from '../ui-legacy/Dialog';
+import Input from '../ui-legacy/Input';
 
 function RenameFileDialog({ file, loading, visible, onRename, onCancel }) {
   const { t } = useTranslation();

@@ -8,8 +8,8 @@ import usePrefersColorScheme from '../../../../hooks/prefers-color-scheme';
 import { MEGABYTE } from '../../../../filesize';
 import { SharedLinkFileShape } from '../../../../types';
 
-import Highlight from '../../../../components/ui/Highlight';
-import Spinner from '../../../../components/ui/Spinner';
+import Highlight from '../../../../components/ui-legacy/Highlight';
+import Spinner from '../../../../components/ui-legacy/Spinner';
 
 import NoPreview from './NoPreview';
 

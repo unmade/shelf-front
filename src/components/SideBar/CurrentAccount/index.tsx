@@ -2,8 +2,8 @@ import { useGetCurrentAccountQuery } from 'store/accounts';
 
 import * as icons from 'icons';
 
-import Avatar from 'components/ui/Avatar';
-import Dropdown from 'components/ui/Dropdown';
+import Avatar from 'components/ui-legacy/Avatar';
+import Dropdown from 'components/ui-legacy/Dropdown';
 
 import Overlay from './Overlay';
 

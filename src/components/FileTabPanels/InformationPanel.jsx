@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next';
 
 import { FileShape, SharedLinkFileShape } from '../../types';
 
-import FileSize from '../ui/FileSize';
-import TimeAgo from '../ui/TimeAgo';
+import FileSize from '../ui-legacy/FileSize';
+import TimeAgo from '../ui-legacy/TimeAgo';
 
 import Property from './Property';
 

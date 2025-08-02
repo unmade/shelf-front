@@ -5,7 +5,7 @@ import { useAppDispatch } from 'hooks';
 
 import { downloadMediaItemsBatch } from 'store/mediaItems';
 
-import Button from 'components/ui/Button';
+import Button from 'components/ui-legacy/Button';
 
 interface Props {
   className: string;

@@ -13,7 +13,7 @@ import {
 
 import { FileShape } from 'types';
 
-import Button from '../ui/Button';
+import Button from '../ui-legacy/Button';
 
 function useTrashedFileActions(files) {
   const moveAction = useMoveAction(files);

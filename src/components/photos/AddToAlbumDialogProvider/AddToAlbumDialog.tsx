@@ -6,7 +6,7 @@ import type { IMediaItem } from 'types/photos';
 
 import { useAddAlbumItemsMutation } from 'store/albums';
 
-import Dialog from 'components/ui/Dialog';
+import Dialog from 'components/ui-legacy/Dialog';
 
 import AlbumPicker from './AlbumPicker';
 

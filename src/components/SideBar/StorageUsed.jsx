@@ -6,9 +6,9 @@ import { useGetSpaceUsageQuery } from '../../store/accounts';
 
 import * as icons from '../../icons';
 
-import CircularProgressBar from '../ui/CircularProgressBar';
-import FileSize from '../ui/FileSize';
-import ProgressBar from '../ui/ProgressBar';
+import CircularProgressBar from '../ui-legacy/CircularProgressBar';
+import FileSize from '../ui-legacy/FileSize';
+import ProgressBar from '../ui-legacy/ProgressBar';
 
 function StorageUsed() {
   const { t } = useTranslation();

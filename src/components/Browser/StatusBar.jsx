@@ -13,7 +13,7 @@ import { useIsLaptop } from '../../hooks/media-query';
 import * as icons from '../../icons';
 import { BreadcrumbShape } from '../../types';
 
-import Breadcrumb from '../ui/Breadcrumb';
+import Breadcrumb from '../ui-legacy/Breadcrumb';
 
 import { useBrowserData } from './BrowserDataProvider';
 

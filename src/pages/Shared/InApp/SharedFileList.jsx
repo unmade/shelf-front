@@ -6,8 +6,8 @@ import { useListSharedFilesQuery } from '../../../store/sharing';
 
 import * as icons from '../../../icons';
 
-import Empty from '../../../components/ui/Empty';
-import Spinner from '../../../components/ui/Spinner';
+import Empty from '../../../components/ui-legacy/Empty';
+import Spinner from '../../../components/ui-legacy/Spinner';
 
 import SharedItem from './SharedFileListItem';
 

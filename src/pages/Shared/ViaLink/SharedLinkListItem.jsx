@@ -12,13 +12,13 @@ import { MediaType } from '../../../constants';
 import * as icons from '../../../icons';
 import * as routes from '../../../routes';
 
-import Button from '../../../components/ui/Button';
+import Button from '../../../components/ui-legacy/Button';
 
 import FileLink from '../../../components/FileLink';
 import { useCopyLinkDialog } from '../../../components/CopyLinkDialogProvider';
 import CopyToClipboardButton from '../../../components/CopyToClipboardButton';
 import Thumbnail from '../../../components/Thumbnail';
-import TimeAgo from '../../../components/ui/TimeAgo';
+import TimeAgo from '../../../components/ui-legacy/TimeAgo';
 
 function SharedLinkListItem({ fileId }) {
   const { t } = useTranslation('sharedLinkSetting');

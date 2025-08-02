@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { useGetCurrentAccountQuery } from '../store/accounts';
 import { selectAccessToken, selectRefreshToken } from '../store/authSlice';
 
-import Spinner from './ui/Spinner';
+import Spinner from './ui-legacy/Spinner';
 
 export default function RequireAccount({ children, redirectTo }) {
   const { pathname } = useLocation();

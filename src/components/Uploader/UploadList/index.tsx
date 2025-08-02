@@ -3,7 +3,7 @@ import { useAppSelector } from 'hooks';
 import type { UploadsFilter } from 'store/uploads/slice';
 import { selectVisibleUploads } from 'store/uploads/slice';
 
-import VList from 'components/ui/VList';
+import VList from 'components/ui-legacy/VList';
 
 import UploadListItem from './UploadListItem';
 

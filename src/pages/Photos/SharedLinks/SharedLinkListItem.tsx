@@ -6,7 +6,7 @@ import useSharedLink from 'hooks/shared-link';
 import type { RootState } from 'store/store';
 import { selectMediaItemSharedLink } from 'store/mediaItems';
 
-import TimeAgo from 'components/ui/TimeAgo';
+import TimeAgo from 'components/ui-legacy/TimeAgo';
 
 import CopyToClipboardButton from 'components/CopyToClipboardButton';
 import Thumbnail from 'components/Thumbnail';

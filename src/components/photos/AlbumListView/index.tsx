@@ -4,7 +4,7 @@ import type { IAlbum } from 'types/photos';
 
 import type { RootState } from 'store/store';
 
-import VList from 'components/ui/VList';
+import VList from 'components/ui-legacy/VList';
 
 import AlbumListItem from 'components/photos/AlbumListItem';
 

@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useListMediaItemCategoriesQuery } from 'store/mediaItems';
 
-import Spinner from 'components/ui/Spinner';
+import Spinner from 'components/ui-legacy/Spinner';
 
 import useMediaItemCategories from 'components/photos/hooks/media-item-categories';
 

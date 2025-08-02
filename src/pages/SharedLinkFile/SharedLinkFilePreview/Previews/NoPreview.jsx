@@ -9,10 +9,10 @@ import { downloadSharedLinkFile } from '../../../../store/sharing';
 import * as icons from '../../../../icons';
 import { SharedLinkFileShape } from '../../../../types';
 
-import Button from '../../../../components/ui/Button';
+import Button from '../../../../components/ui-legacy/Button';
 import FileIcon from '../../../../components/FileIcon';
-import FileSize from '../../../../components/ui/FileSize';
-import TimeAgo from '../../../../components/ui/TimeAgo';
+import FileSize from '../../../../components/ui-legacy/FileSize';
+import TimeAgo from '../../../../components/ui-legacy/TimeAgo';
 
 function NoPreview({ file, reason, token }) {
   const { t } = useTranslation(['translation', 'filePreview']);

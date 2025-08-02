@@ -8,7 +8,7 @@ import { useLocation, useNavigate } from 'react-router';
 import useFiles from './hooks/useFiles';
 import useKeyUp from '../../hooks/key-up';
 
-import Spinner from '../ui/Spinner';
+import Spinner from '../ui-legacy/Spinner';
 
 import Header from './Header';
 import Info from './Info';

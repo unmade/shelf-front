@@ -7,7 +7,7 @@ import { selectCurrentAccount } from 'store/accounts';
 import { selectFeatureVerificationRequired } from 'store/features';
 import { fileEntriesAdded } from 'store/uploads/slice';
 
-import Button from 'components/ui/Button';
+import Button from 'components/ui-legacy/Button';
 
 import { useVerifyAccountDialog } from 'components/VerifyAccountDialogProvider';
 

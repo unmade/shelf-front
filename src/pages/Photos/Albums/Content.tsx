@@ -1,4 +1,4 @@
-import Spinner from 'components/ui/Spinner';
+import Spinner from 'components/ui-legacy/Spinner';
 
 import AlbumGridView from 'components/photos/AlbumGridView';
 import usePaginatedAlbumsQuery from 'components/photos/hooks/list-albums';

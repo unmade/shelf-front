@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 
 import * as icons from '../icons';
 
-import Button from '../components/ui/Button';
+import Button from '../components/ui-legacy/Button';
 
 function Forbidden() {
   const navigate = useNavigate();

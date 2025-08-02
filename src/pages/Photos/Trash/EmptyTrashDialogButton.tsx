@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 
 import * as icons from 'icons';
 
-import Button from 'components/ui/Button';
+import Button from 'components/ui-legacy/Button';
 
 import { useEmptyMediaItemsTrashDialog } from 'components/photos/EmptyMediaItemsTrashDialogProvider';
 

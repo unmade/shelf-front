@@ -10,7 +10,7 @@ import { useTouchDevice } from 'hooks/media-query';
 
 import * as icons from 'icons';
 
-import type { ItemRendererProps } from 'components/ui/VGrid';
+import type { ItemRendererProps } from 'components/ui-legacy/VGrid';
 
 import { useSelection } from 'components/SelectionProvider';
 import Thumbnail, { ThumbnailSize } from 'components/Thumbnail';

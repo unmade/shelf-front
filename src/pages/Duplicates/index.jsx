@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router';
 import useDirPath from '../../hooks/dir-path';
 import * as icons from '../../icons';
 
-import Button from '../../components/ui/Button';
+import Button from '../../components/ui-legacy/Button';
 
 import DeleteDialogProvider from '../../components/DeleteDialogProvider';
 

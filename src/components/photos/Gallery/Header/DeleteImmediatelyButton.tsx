@@ -1,6 +1,6 @@
 import type { IMediaItem } from 'types/photos';
 
-import Button from 'components/ui/Button';
+import Button from 'components/ui-legacy/Button';
 
 import { useDeleteMediaItemsImmediatelyDialog } from 'components/photos/DeleteMediaItemsImmediatelyDialogProvider';
 

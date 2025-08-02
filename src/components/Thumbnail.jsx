@@ -13,7 +13,7 @@ import {
 import { MediaType, ThumbnailSize, thumbnailSizes } from 'constants';
 import { MEGABYTE } from '../filesize';
 
-import Spinner from './ui/Spinner';
+import Spinner from './ui-legacy/Spinner';
 
 import FileIcon from './FileIcon';
 

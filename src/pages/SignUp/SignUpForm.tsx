@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import { Trans, useTranslation } from 'react-i18next';
 import { isEmail, isStrongPassword } from 'validator';
 
-import Button from 'components/ui/Button';
-import Input from 'components/ui/Input';
+import Button from 'components/ui-legacy/Button';
+import Input from 'components/ui-legacy/Input';
 
 import { TERMS_AND_CONDITION_URL, PRIVACY_POLICY_URL } from '../../constants';
 

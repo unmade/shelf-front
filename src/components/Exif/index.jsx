@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useGetContentMetadataQuery } from 'store/files';
 
-import TimeAgo from 'components/ui/TimeAgo';
+import TimeAgo from 'components/ui-legacy/TimeAgo';
 
 import {
   getCameraModel,

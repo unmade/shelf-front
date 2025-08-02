@@ -16,8 +16,8 @@ import { FileShape } from '../types';
 
 import { MediaType } from '../constants';
 
-import FileSize from './ui/FileSize';
-import TimeAgo from './ui/TimeAgo';
+import FileSize from './ui-legacy/FileSize';
+import TimeAgo from './ui-legacy/TimeAgo';
 
 import BookmarkButton from './BookmarkButton';
 import { useBrowserData } from './Browser/BrowserDataProvider';

@@ -9,8 +9,8 @@ import * as routes from '../../routes';
 
 import { useCreateFolderMutation } from '../../store/files';
 
-import Dialog from '../ui/Dialog';
-import Input from '../ui/Input';
+import Dialog from '../ui-legacy/Dialog';
+import Input from '../ui-legacy/Input';
 
 function CreateFolderDialog({ inPath, visible, onClose }) {
   const { t } = useTranslation();

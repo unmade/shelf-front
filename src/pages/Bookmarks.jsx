@@ -7,7 +7,7 @@ import * as icons from 'icons';
 
 import { selectBookmarkedFileById, useListBookmarkedFilesQuery } from 'store/files';
 
-import Empty from 'components/ui/Empty';
+import Empty from 'components/ui-legacy/Empty';
 
 import Browser from 'components/Browser';
 import CopyLinkDialogProvider from 'components/CopyLinkDialogProvider';

@@ -8,7 +8,7 @@ import { useDeleteAlbumMutation } from 'store/albums';
 
 import * as icons from 'icons';
 
-import Dialog from 'components/ui/Dialog';
+import Dialog from 'components/ui-legacy/Dialog';
 
 interface Props {
   visible: boolean;

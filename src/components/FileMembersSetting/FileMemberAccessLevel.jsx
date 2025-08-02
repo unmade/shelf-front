@@ -12,8 +12,8 @@ import {
 
 import * as icons from '../../icons';
 
-import Button from '../ui/Button';
-import Listbox from '../ui/Listbox';
+import Button from '../ui-legacy/Button';
+import Listbox from '../ui-legacy/Listbox';
 
 function AccessOptionItem({ title, description }) {
   return (

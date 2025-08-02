@@ -7,7 +7,7 @@ import type { IMediaItem } from 'types/photos';
 import { useAppSelector } from 'hooks';
 import { useTouchDevice } from 'hooks/media-query';
 
-import type { ItemRendererProps } from 'components/ui/VGrid';
+import type { ItemRendererProps } from 'components/ui-legacy/VGrid';
 
 import { useSelection } from 'components/SelectionProvider';
 import Thumbnail, { ThumbnailSize } from 'components/Thumbnail';
