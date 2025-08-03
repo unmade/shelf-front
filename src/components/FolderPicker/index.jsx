@@ -87,7 +87,7 @@ const FolderPicker = ({
           <BreadcrumbItemCollapsed name={name} onClick={changePath(itemPath, onPathChange)} />
         )}
       />
-      <div className="flex flex-1 flex-col rounded-lg border dark:border-zinc-700">
+      <div className="flex flex-1 flex-col rounded-lg border border-gray-200 dark:border-zinc-700">
         <FolderPickerList
           path={path}
           excludeIds={excludeIds}
