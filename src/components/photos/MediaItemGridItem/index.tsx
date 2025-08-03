@@ -63,7 +63,7 @@ function GridItem({ mediaItem, touch, width, onClick, menuItemRenderer: Menu }: 
       <span
         className={`relative ${
           selected
-            ? 'm-2 rounded-lg ring-2 ring-blue-600 ring-offset-2 ring-offset-white dark:ring-indigo-500 dark:ring-offset-4 dark:ring-offset-zinc-800'
+            ? 'rounded-lg ring-2 ring-blue-600 ring-offset-2 ring-offset-white dark:ring-indigo-500 dark:ring-offset-4 dark:ring-offset-zinc-800'
             : ''
         }`}
         onClick={onSelect}
@@ -71,7 +71,7 @@ function GridItem({ mediaItem, touch, width, onClick, menuItemRenderer: Menu }: 
       >
         <Thumbnail
           className="rounded-lg"
-          style={{ maxHeight: width - (selected ? 12 : 0) }}
+          style={{ maxHeight: width - 12 }}
           file={file}
           size={ThumbnailSize.lg}
         />
