@@ -1,8 +1,8 @@
 import { Button as UIButton } from '@headlessui/react';
 
 const base = [
-  'flex items-center gap-x-2 justify-center rounded-lg',
-  'text-base/6 sm:text-sm/6 text-center font-semibold',
+  'flex items-center justify-center gap-x-2 rounded-lg',
+  'text-center text-base/6 sm:text-sm/6 font-semibold',
   'transition ease-in-out',
   'data-disabled:pointer-events-none data-disabled:opacity-50',
   '*:data-[slot=icon]:size-5 sm:*:data-[slot=icon]:size-4',
@@ -72,13 +72,13 @@ const variants = {
     ].join(' '),
     red: [
       'text-red-600 data-hover:text-red-700',
-      'data-hover:bg-red-950/5',
+      'data-hover:bg-red-100',
       'dark:text-rose-500 dark:data-hover:text-rose-400',
       'dark:data-hover:bg-rose-800/30',
     ].join(' '),
     gray: [
       'text-gray-700 data-hover:text-gray-800',
-      'data-hover:bg-gray-950/5',
+      'data-hover:bg-gray-100',
       'dark:text-zinc-50 dark:data-hover:text-zinc-100',
       'dark:data-hover:bg-zinc-50/5',
     ].join(' '),
@@ -112,23 +112,25 @@ const paddings = {
 interface Props {
   className?: string;
   children: React.ReactNode;
-  variant?: 'outline' | 'plain' | 'primary' | 'soft';
   color?: 'default' | 'red' | 'gray';
   disabled?: boolean;
-  onClick?: () => void;
+  innerRef?: React.Ref<HTMLButtonElement>;
+  variant?: 'outline' | 'plain' | 'primary' | 'soft';
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export default function Button({
   className = '',
   children,
-  variant = 'primary',
   color = 'default',
-  onClick,
   disabled,
+  innerRef,
+  variant = 'primary',
+  onClick,
 }: Props) {
   const classNames = [base, variants[variant][color], paddings.default, className].join(' ');
   return (
-    <UIButton className={classNames} onClick={onClick} disabled={disabled}>
+    <UIButton ref={innerRef} className={classNames} onClick={onClick} disabled={disabled}>
       {children}
     </UIButton>
   );

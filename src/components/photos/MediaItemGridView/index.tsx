@@ -119,7 +119,7 @@ export default function MediaItemGridView({
             overscanRowCount={3}
             columnCount={columnCount}
             rowCount={rowCount}
-            rowHeightOffset={24}
+            rowHeightOffset={6}
             loadMore={loadMore}
           />
         </div>
