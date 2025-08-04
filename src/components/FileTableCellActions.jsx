@@ -13,9 +13,8 @@ import * as icons from 'icons';
 import * as routes from 'routes';
 import { FileShape } from 'types';
 
-import Button from './ui-legacy/Button';
-import Menu from './ui-legacy/Menu';
-import MenuItem from './ui-legacy/MenuItem';
+import Button from 'components/ui/Button';
+import Menu from 'components/ui/Menu';
 
 function useTrashedFileActionGroups(files) {
   const moveAction = useMoveAction(files);
@@ -57,13 +56,10 @@ function useFileActionGroups(files) {
 
 function FileMenu({ groups }) {
   return (
-    <Menu panelClassName="min-w-[160px]" groups={groups} itemRenderer={MenuItem}>
-      <Button
-        as="div"
-        variant="text"
-        size="lg"
-        icon={<icons.MoreOutlined className="h-4 w-4 dark:text-zinc-400" />}
-      />
+    <Menu sections={groups}>
+      <Button as="div" variant="plain" color="gray">
+        <icons.MoreOutlined data-slot="icon" />
+      </Button>
     </Menu>
   );
 }

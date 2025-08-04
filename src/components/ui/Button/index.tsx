@@ -110,6 +110,7 @@ const paddings = {
 };
 
 interface Props {
+  as?: React.ElementType;
   className?: string;
   children: React.ReactNode;
   color?: 'default' | 'red' | 'gray';
@@ -120,6 +121,7 @@ interface Props {
 }
 
 export default function Button({
+  as,
   className = '',
   children,
   color = 'default',
@@ -130,7 +132,7 @@ export default function Button({
 }: Props) {
   const classNames = [base, variants[variant][color], paddings.default, className].join(' ');
   return (
-    <UIButton ref={innerRef} className={classNames} onClick={onClick} disabled={disabled}>
+    <UIButton as={as} ref={innerRef} className={classNames} onClick={onClick} disabled={disabled}>
       {children}
     </UIButton>
   );
