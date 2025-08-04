@@ -12,6 +12,7 @@ import { useCallback } from 'react';
 
 const itemsClassName = [
   'w-max rounded-xl p-1 overflow-y-auto min-w-[10rem]',
+  '[--anchor-gap:4px] sm:[--anchor-gap:8px]',
   'outline outline-transparent focus:outline-hidden',
   'bg-white/75 dark:bg-zinc-800/75',
   'backdrop-blur-xl shadow-lg',

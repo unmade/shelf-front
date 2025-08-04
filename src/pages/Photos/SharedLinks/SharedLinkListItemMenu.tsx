@@ -3,14 +3,13 @@ import type { IMediaItem } from 'types/photos';
 
 import { useCopyLinkAction, useDownloadAction } from 'hooks/file-actions';
 
-import Button from 'components/ui-legacy/Button';
-import Menu from 'components/ui-legacy/Menu';
-import MenuItem from 'components/ui-legacy/MenuItem';
+import Button from 'components/ui/Button';
+import Menu from 'components/ui/Menu';
 
 import useFileFromMediaItem from 'components/photos/hooks/file-from-media-item';
 import { useDeleteAction } from 'components/photos/hooks/media-item-actions';
 
-function useMediaItemActionGroups(item: IMediaItem) {
+function useMediaItemActionSections(item: IMediaItem) {
   const files = [useFileFromMediaItem(item)];
 
   const copyLinkAction = useCopyLinkAction(files);
@@ -36,14 +35,12 @@ interface Props {
 }
 
 export default function SharedLinkListItemMenu({ mediaItem }: Props) {
-  const groups = useMediaItemActionGroups(mediaItem);
+  const sections = useMediaItemActionSections(mediaItem);
   return (
-    <Menu groups={groups} itemRenderer={MenuItem} placement="bottom-start">
-      <Button
-        as="div"
-        icon={<icons.More className="h-4 w-4 shrink-0 dark:text-zinc-400" />}
-        variant="text"
-      />
+    <Menu sections={sections} placement="bottom start">
+      <Button as="div" variant="plain" color="gray">
+        <icons.More data-slot="icon" />
+      </Button>
     </Menu>
   );
 }

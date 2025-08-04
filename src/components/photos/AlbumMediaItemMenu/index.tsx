@@ -4,8 +4,7 @@ import type { IMediaItem } from 'types/photos';
 import { useAppSelector } from 'hooks';
 import { useCopyLinkAction } from 'hooks/file-actions';
 
-import Menu from 'components/ui-legacy/Menu';
-import MenuItem from 'components/ui-legacy/MenuItem';
+import Menu from 'components/ui/Menu';
 
 import { useSelection } from 'components/SelectionProvider';
 
@@ -23,7 +22,7 @@ import { useMediaItemsData } from '../MediaItemsProvider';
 
 const EMPTY: IMediaItem[] = [];
 
-function useMediaItemActionGroups(item: IMediaItem, albumSlug: string) {
+function useMediaItemActionSections(item: IMediaItem, albumSlug: string) {
   const { selectById } = useMediaItemsData();
   const { ids, isSelected } = useSelection();
   const mediaItems = useAppSelector((state) => {
@@ -74,9 +73,9 @@ interface Props {
 }
 
 function AlbumMediaItemMenu({ mediaItem, albumSlug, onOpen }: Props) {
-  const groups = useMediaItemActionGroups(mediaItem, albumSlug);
+  const sections = useMediaItemActionSections(mediaItem, albumSlug);
   return (
-    <Menu groups={groups} itemRenderer={MenuItem} placement="bottom-start" onOpen={onOpen}>
+    <Menu sections={sections} placement="bottom start" onOpen={onOpen}>
       <div className="rounded-full bg-gray-50 p-0.5 text-gray-700 dark:bg-zinc-200 dark:text-zinc-600 dark:hover:bg-zinc-100">
         <icons.More className="h-3 w-3 shrink-0" />
       </div>
