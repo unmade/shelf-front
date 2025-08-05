@@ -3,11 +3,9 @@ import PropTypes from 'prop-types';
 
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 
+import usePrefersColorScheme, { ColorScheme } from 'hooks/prefers-color-scheme';
+
 import 'react-circular-progressbar/dist/styles.css';
-
-import { useAppSelector } from 'hooks';
-
-import { selectAppearance } from 'store/ui';
 
 const gradientID = 'circular-progress-bar-gradient';
 
@@ -62,9 +60,11 @@ const colorsByVariant = {
 };
 
 function CircularProgressBar({ children, progress, danger, idle, info, success, warning }) {
-  const appearance = useAppSelector(selectAppearance);
+  const [scheme] = usePrefersColorScheme();
+
   const styles = { ...defaultStyles };
-  styles.trail.stroke = appearance === 'dark' ? 'var(--color-zinc-700)' : 'var(--color-gray-200)';
+  styles.trail.stroke =
+    scheme === ColorScheme.Dark ? 'var(--color-zinc-700)' : 'var(--color-gray-200)';
 
   const variants = { danger, idle, info, success, warning };
   const variant =

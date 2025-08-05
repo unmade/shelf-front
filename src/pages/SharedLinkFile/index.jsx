@@ -5,13 +5,9 @@ import { useParams } from 'react-router';
 
 import { useGetSharedLinkFileQuery } from '../../store/sharing';
 
-import usePrefersColorScheme from '../../hooks/prefers-color-scheme';
-
 import SharedLinkFilePreview from './SharedLinkFilePreview';
 
 function PublicView() {
-  usePrefersColorScheme();
-
   const { token, filename } = useParams();
 
   const { data: file, isFetching: loading } = useGetSharedLinkFileQuery({ token, filename });

@@ -12,14 +12,12 @@ import auth, { signedOut, saveAuthState, loadAuthState } from './authSlice';
 import browser from './browser';
 import tasks from './tasks';
 import toasts, { addToast } from './toasts';
-import { appearance, loadAppearanceState, saveAppearanceState } from './ui';
 import uploads, { fileEntriesAdded } from './uploads/slice';
 
 import listenFileEntriesAdded from './uploads/listeners';
 
 const reducers = combineReducers({
   [apiSlice.reducerPath]: apiSlice.reducer,
-  appearance,
   auth,
   browser,
   tasks,
@@ -151,7 +149,7 @@ const store = configureStore({
       .concat(apiSlice.middleware)
       .concat(errorsMiddleware),
   devTools: import.meta.env.MODE !== 'production',
-  preloadedState: { ...loadAuthState(), ...loadAppearanceState() },
+  preloadedState: { ...loadAuthState() },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
@@ -159,7 +157,7 @@ export type AppDispatch = typeof store.dispatch;
 
 store.subscribe(() => {
   saveAuthState(store.getState());
-  saveAppearanceState(store.getState());
+  // saveAppearanceState(store.getState());
 });
 
 export default store;

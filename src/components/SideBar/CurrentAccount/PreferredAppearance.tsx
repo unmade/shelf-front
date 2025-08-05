@@ -1,34 +1,33 @@
 import { useTranslation } from 'react-i18next';
 
-import { useAppDispatch, useAppSelector } from 'hooks';
 import * as icons from 'icons';
 
-import { appearanceChanged, selectAppearance } from 'store/ui';
+import { ColorScheme } from 'hooks/prefers-color-scheme';
+import usePrefersColorScheme from 'hooks/prefers-color-scheme';
 
 import Button from 'components/ui-legacy/Button';
 import Listbox from 'components/ui-legacy/Listbox';
 
 interface Option {
   name: string;
-  value: string;
+  value: ColorScheme;
 }
 
 export default function PreferredAppearance() {
   const { t } = useTranslation();
 
-  const dispatch = useAppDispatch();
+  const [scheme, setScheme] = usePrefersColorScheme();
 
   const options: Option[] = [
-    { name: t('Light'), value: 'light' },
-    { name: t('Dark'), value: 'dark' },
-    { name: t('Auto'), value: 'auto' },
+    { name: t('Light'), value: ColorScheme.Light },
+    { name: t('Dark'), value: ColorScheme.Dark },
+    { name: t('Auto'), value: ColorScheme.Auto },
   ];
 
-  const appearance = useAppSelector(selectAppearance);
-  const currentOption = options.find(({ value }) => value === appearance)!;
+  const currentOption = options.find(({ value }) => value === scheme)!;
 
   const onOptionChange = (option: Option) => {
-    dispatch(appearanceChanged({ appearance: option.value }));
+    setScheme(option.value);
   };
 
   return (

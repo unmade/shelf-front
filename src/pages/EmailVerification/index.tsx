@@ -4,13 +4,9 @@ import { Link } from 'react-router';
 import * as icons from 'icons';
 import * as routes from 'routes';
 
-import usePrefersColorScheme from 'hooks/prefers-color-scheme';
-
 import OTPFormContainer from './OTPFormContainer';
 
 export default function OTPVerification() {
-  usePrefersColorScheme();
-
   return (
     <>
       <Helmet>
