@@ -5,14 +5,10 @@ import { Link } from 'react-router';
 import * as icons from 'icons';
 import * as routes from 'routes';
 
-import usePrefersColorScheme from 'hooks/prefers-color-scheme';
-
 import SignUpFormContainer from './SignUpFormContainer';
 
 export default function SignUp() {
   const { t } = useTranslation(['translation', 'signup']);
-
-  usePrefersColorScheme();
 
   return (
     <>

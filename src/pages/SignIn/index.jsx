@@ -5,19 +5,15 @@ import { useTranslation } from 'react-i18next';
 
 import { Link } from 'react-router';
 
-import { useListFeaturesQuery } from '../../store/features';
+import { useListFeaturesQuery } from 'store/features';
 
-import * as icons from '../../icons';
-import * as routes from '../../routes';
-
-import usePrefersColorScheme from '../../hooks/prefers-color-scheme';
+import * as icons from 'icons';
+import * as routes from 'routes';
 
 import SignInFormContainer from './SignInFormContainer';
 
 function SignIn() {
   const { t } = useTranslation(['translation', 'signin']);
-
-  usePrefersColorScheme();
 
   // use useQuery because after sign out the store is completely empty and we need to re-fetch
   // features.

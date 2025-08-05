@@ -6,7 +6,6 @@ import { Navigate, Route, Routes } from 'react-router';
 
 import { useAppDispatch } from 'hooks';
 import useDefaultApp from 'hooks/available-apps';
-import usePrefersColorScheme from 'hooks/prefers-color-scheme';
 
 import { featuresApi } from 'store/features';
 import { usersApi } from 'store/users';
@@ -89,7 +88,6 @@ function App() {
   const defaultApp = useDefaultApp();
 
   useTranslation();
-  usePrefersColorScheme();
 
   React.useEffect(() => {
     const listBookmarksResult = dispatch(usersApi.endpoints.listBookmarks.initiate(undefined));

@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import usePrefersColorScheme from '../../../hooks/prefers-color-scheme';
+import { useDownloadContentQuery } from 'store/files';
 
-import { useDownloadContentQuery } from '../../../store/files';
+import { MEGABYTE } from 'filesize';
 
-import { MEGABYTE } from '../../../filesize';
+import usePrefersColorScheme from 'hooks/prefers-color-scheme';
 
-import Highlight from '../../ui-legacy/Highlight';
+import Highlight from 'components/ui-legacy/Highlight';
 
-import Loader from '../Loader';
+import Loader from 'components/FilePreview/Loader';
 
 import NoPreview from './NoPreview';
 
@@ -55,7 +55,7 @@ function langByMediaType({ name, mediatype }) {
 }
 
 function CodePreview({ file }) {
-  const scheme = usePrefersColorScheme();
+  const [scheme] = usePrefersColorScheme();
 
   const shouldSkip = file.size > MAX_SIZE;
   const { data, isLoading: loading } = useDownloadContentQuery(file.path, { skip: shouldSkip });

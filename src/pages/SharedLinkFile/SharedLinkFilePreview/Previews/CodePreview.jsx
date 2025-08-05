@@ -1,15 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { useDownloadSharedLinkContentQuery } from '../../../../store/sharing';
+import { useDownloadSharedLinkContentQuery } from 'store/sharing';
 
-import usePrefersColorScheme from '../../../../hooks/prefers-color-scheme';
+import usePrefersColorScheme from 'hooks/prefers-color-scheme';
 
-import { MEGABYTE } from '../../../../filesize';
-import { SharedLinkFileShape } from '../../../../types';
+import Highlight from 'components/ui-legacy/Highlight';
+import Spinner from 'components/ui-legacy/Spinner';
 
-import Highlight from '../../../../components/ui-legacy/Highlight';
-import Spinner from '../../../../components/ui-legacy/Spinner';
+import { SharedLinkFileShape } from 'types';
+
+import { MEGABYTE } from 'filesize';
 
 import NoPreview from './NoPreview';
 
@@ -55,7 +56,7 @@ function langByMediaType({ name, mediatype }) {
 }
 
 function CodePreview({ file, token }) {
-  const scheme = usePrefersColorScheme();
+  const [scheme] = useAppSelector(selectAppearance);
 
   const shouldSkip = file.size > MAX_SIZE;
   const { data, isLoading: loading } = useDownloadSharedLinkContentQuery(

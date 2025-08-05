@@ -24,6 +24,7 @@ import App from './App';
 
 import './index.css';
 import './tailwind.css';
+import PrefersColorSchemeProvider from 'components/PrefersColorSchemeProvider';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
@@ -33,33 +34,35 @@ store.dispatch(featuresApi.endpoints.listFeatures.initiate(undefined));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <HelmetProvider>
-        <ToastListContainer>
-          <BrowserRouter>
-            <Routes>
-              <Route path={routes.SIGNIN.route} element={<SignIn />} />
-              <Route path={routes.SIGNUP.route} element={<SignUp />} />
-              <Route path={routes.SHARED_LINK_FILE.route} element={<SharedLinkFile />} />
-              <Route
-                path={routes.EMAIL_VERIFICATION.route}
-                element={
-                  <RequireAccount redirectTo={routes.SIGNIN.route}>
-                    <OTPVerification />
-                  </RequireAccount>
-                }
-              />
-              <Route
-                path="/*"
-                element={
-                  <RequireAccount redirectTo={routes.SIGNIN.route}>
-                    <App />
-                  </RequireAccount>
-                }
-              />
-            </Routes>
-          </BrowserRouter>
-        </ToastListContainer>
-      </HelmetProvider>
+      <PrefersColorSchemeProvider>
+        <HelmetProvider>
+          <ToastListContainer>
+            <BrowserRouter>
+              <Routes>
+                <Route path={routes.SIGNIN.route} element={<SignIn />} />
+                <Route path={routes.SIGNUP.route} element={<SignUp />} />
+                <Route path={routes.SHARED_LINK_FILE.route} element={<SharedLinkFile />} />
+                <Route
+                  path={routes.EMAIL_VERIFICATION.route}
+                  element={
+                    <RequireAccount redirectTo={routes.SIGNIN.route}>
+                      <OTPVerification />
+                    </RequireAccount>
+                  }
+                />
+                <Route
+                  path="/*"
+                  element={
+                    <RequireAccount redirectTo={routes.SIGNIN.route}>
+                      <App />
+                    </RequireAccount>
+                  }
+                />
+              </Routes>
+            </BrowserRouter>
+          </ToastListContainer>
+        </HelmetProvider>
+      </PrefersColorSchemeProvider>
     </Provider>
   </React.StrictMode>,
 );
