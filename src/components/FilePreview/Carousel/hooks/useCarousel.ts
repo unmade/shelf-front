@@ -153,29 +153,35 @@ function useCarousel(
     };
   }, [state.desired, state.active, onSwipeLeft, onSwipeRight]);
 
-  const style: React.CSSProperties = useMemo(
-    () => ({
-      transform: 'translateX(0)',
-      width: `${100 * length}%`,
-      left: `-${state.active * 100}%`,
-    }),
-    [length, state.active],
-  );
+  let transform = 'translateX(0)';
+  let transition: string | undefined = undefined;
 
   if (state.desired !== state.active) {
     const dist = Math.abs(state.active - state.desired);
     const pref = Math.sign(state.offset || 0);
     const dir = (dist > length / 2 ? 1 : -1) * Math.sign(state.desired - state.active);
     const shift = (100 * (pref || dir)) / maxVisible;
-    style.transition = smooth;
-    style.transform = `translateX(${shift}%)`;
+    transition = smooth;
+    transform = `translateX(${shift}%)`;
   } else if (!Number.isNaN(state.offset)) {
     if (state.offset !== 0) {
-      style.transform = `translateX(${state.offset}px)`;
+      transform = `translateX(${state.offset}px)`;
     } else {
-      style.transition = elastic;
+      transition = elastic;
     }
   }
+
+  const style = useMemo(() => {
+    const style: React.CSSProperties = {
+      transform,
+      width: `${100 * length}%`,
+      left: `-${state.active * 100}%`,
+    };
+    if (transition != null) {
+      style.transition = transition;
+    }
+    return style;
+  }, [length, state.active, transform, transition]);
 
   return useMemo(() => [handlers, style], [handlers, style]);
 }
