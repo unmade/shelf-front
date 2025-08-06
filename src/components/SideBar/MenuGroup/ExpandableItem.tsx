@@ -4,11 +4,12 @@ import {
   Disclosure as UIDisclosure,
   DisclosureButton as UIDisclosureButton,
   DisclosurePanel as UIDisclosurePanel,
+  Popover as UIPopover,
+  PopoverButton as UIPopoverButton,
+  PopoverPanel as UIPopoverPanel,
 } from '@headlessui/react';
 
 import * as icons from 'icons';
-
-import Dropdown from 'components/ui-legacy/Dropdown';
 
 import Item from './Item';
 
@@ -68,11 +69,24 @@ export default function ExpandableItem({ title, icon, items }: Props) {
       </UIDisclosure>
 
       <div className="hidden lg:block xl:hidden">
-        <Dropdown placement="right" overlay={<Overlay items={items} />}>
-          <div>
+        <UIPopover>
+          <UIPopoverButton>
             <Item title={title} icon={icon} />
-          </div>
-        </Dropdown>
+          </UIPopoverButton>
+          <UIPopoverPanel
+            anchor="right"
+            transition
+            className={[
+              'rounded-2xl',
+              '[--anchor-gap:4px]',
+              'bg-white/75 shadow backdrop-blur dark:bg-zinc-800/75',
+              'ring-1 ring-zinc-950/10 dark:ring-white/10',
+              'transition duration-200 ease-out data-closed:scale-95 data-closed:opacity-0',
+            ].join(' ')}
+          >
+            <Overlay items={items} />
+          </UIPopoverPanel>
+        </UIPopover>
       </div>
     </>
   );
