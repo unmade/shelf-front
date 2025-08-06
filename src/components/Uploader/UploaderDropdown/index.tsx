@@ -1,4 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+
+import {
+  Popover as UIPopover,
+  PopoverButton as UIPopoverButton,
+  PopoverPanel as UIPopoverPanel,
+} from '@headlessui/react';
 
 import * as icons from 'icons';
 
@@ -6,17 +12,9 @@ import { useAppSelector } from 'hooks';
 
 import { selectIsUploading } from 'store/uploads/slice';
 
-import Dropdown from 'components/ui-legacy/Dropdown';
-import Button from 'components/ui-legacy/Button';
+import Button from 'components/ui/Button';
 
 import Overlay from './Overlay';
-
-const buttonClasses = [
-  'animate-gradient bg-linear-to-br',
-  'from-indigo-400 via-purple-400 to-blue-400',
-  'bg-size-[400%_400%]',
-  'hover:from-indigo-300 hover:via-purple-300 hover:to-blue-300',
-].join(' ');
 
 interface Props {
   allowedMediaTypes?: string[];
@@ -28,7 +26,7 @@ export default function UploaderDropdown({ allowedMediaTypes = undefined, upload
 
   const uploading = useAppSelector(selectIsUploading);
 
-  const buttonRef = React.useRef<HTMLDivElement>();
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
 
   const shouldClick = uploading && !open;
 
@@ -39,19 +37,29 @@ export default function UploaderDropdown({ allowedMediaTypes = undefined, upload
   }, [shouldClick]);
 
   return (
-    <Dropdown
-      overlay={<Overlay allowedMediaTypes={allowedMediaTypes} uploadTo={uploadTo} />}
-      onOpenChange={setOpen}
-    >
-      <Button
-        innerRef={buttonRef}
-        className={uploading ? buttonClasses : ''}
-        as="div"
-        variant="primary"
-        title="Uploads"
-        size="lg"
-        icon={<icons.CloudUpload className="h-5 w-5 shrink-0" />}
-      />
-    </Dropdown>
+    <UIPopover>
+      <UIPopoverButton
+        className="focus:outline-none"
+        onClick={() => setOpen(!open)}
+        ref={buttonRef}
+      >
+        <Button as="div">
+          <icons.CloudUpload data-slot="icon" />
+        </Button>
+      </UIPopoverButton>
+      <UIPopoverPanel
+        anchor="bottom end"
+        transition
+        className={[
+          'max-w-2xs rounded-2xl',
+          'bg-white/75 backdrop-blur-xl dark:bg-zinc-800/75',
+          'ring-1 ring-zinc-950/10 dark:ring-white/10',
+          'origin-top transition duration-200 ease-out data-closed:scale-95 data-closed:opacity-0',
+          '[--anchor-gap:4px] sm:[--anchor-gap:8px]',
+        ].join(' ')}
+      >
+        <Overlay allowedMediaTypes={allowedMediaTypes} uploadTo={uploadTo} />
+      </UIPopoverPanel>
+    </UIPopover>
   );
 }
