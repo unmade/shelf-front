@@ -1,12 +1,9 @@
 import { useTranslation } from 'react-i18next';
 
-import * as icons from 'icons';
-
 import { ColorScheme } from 'hooks/prefers-color-scheme';
 import usePrefersColorScheme from 'hooks/prefers-color-scheme';
 
-import Button from 'components/ui-legacy/Button';
-import Listbox from 'components/ui-legacy/Listbox';
+import Select from 'components/ui/Select';
 
 interface Option {
   name: string;
@@ -26,22 +23,17 @@ export default function PreferredAppearance() {
 
   const currentOption = options.find(({ value }) => value === scheme)!;
 
-  const onOptionChange = (option: Option) => {
-    setScheme(option.value);
+  const onChangeHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setScheme(event.target.value as ColorScheme);
   };
 
   return (
-    <Listbox
-      initial={currentOption}
-      options={options}
-      placement="right-end"
-      onOptionChange={onOptionChange}
-    >
-      <Button full variant="text" icon={<icons.MoonOutlined className="h-5 w-5" />}>
-        <div className="my-1">
-          {t('Appearance')}: {currentOption.name.toLowerCase()}
-        </div>
-      </Button>
-    </Listbox>
+    <Select name="colorscheme" defaultValue={currentOption.value} onChange={onChangeHandler}>
+      {options.map((option) => (
+        <option key={option.value} value={option.value}>
+          {option.name}
+        </option>
+      ))}
+    </Select>
   );
 }
