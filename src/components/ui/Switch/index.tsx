@@ -1,6 +1,4 @@
-import { Switch as UISwitch } from '@headlessui/react';
-
-type SwitchProps = React.ComponentProps<typeof UISwitch>;
+import { Switch as UISwitch, type SwitchProps as UISwitchProps } from '@headlessui/react';
 
 const baseStyles = [
   'group relative isolate inline-flex cursor-default rounded-full',
@@ -49,7 +47,7 @@ const colors = {
   ].join(' '),
 };
 
-export default function Switch({ className = '', ...props }: SwitchProps) {
+export default function Switch({ className = '', ...props }: UISwitchProps) {
   return (
     <UISwitch className={`${baseStyles} ${colors.default} ${className}`} {...props}>
       <span className={thumbStyles} />

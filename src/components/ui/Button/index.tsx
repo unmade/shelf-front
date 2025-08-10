@@ -1,4 +1,4 @@
-import { Button as UIButton } from '@headlessui/react';
+import { Button as UIButton, type ButtonProps as UIButtonProps } from '@headlessui/react';
 
 const base = [
   'flex items-center justify-center gap-x-2 rounded-lg',
@@ -110,14 +110,9 @@ const paddings = {
 };
 
 interface Props {
-  as?: React.ElementType;
-  className?: string;
-  children: React.ReactNode;
   color?: 'default' | 'red' | 'gray';
-  disabled?: boolean;
   innerRef?: React.Ref<HTMLButtonElement>;
   variant?: 'outline' | 'plain' | 'primary' | 'soft';
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export default function Button({
@@ -129,7 +124,7 @@ export default function Button({
   innerRef,
   variant = 'primary',
   onClick,
-}: Props) {
+}: Props & UIButtonProps) {
   const classNames = [base, variants[variant][color], paddings.default, className].join(' ');
   return (
     <UIButton as={as} ref={innerRef} className={classNames} onClick={onClick} disabled={disabled}>
