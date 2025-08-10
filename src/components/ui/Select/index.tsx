@@ -1,4 +1,4 @@
-import { Select as UISelect } from '@headlessui/react';
+import { Select as UISelect, type SelectProps as UISelectProps } from '@headlessui/react';
 
 const styles = {
   base: [
@@ -25,10 +25,7 @@ const styles = {
   ].join(' '),
 };
 
-type SelectProps = React.ComponentProps<typeof UISelect> &
-  React.SelectHTMLAttributes<HTMLSelectElement>;
-
-export default function Select({ children, className = '', ...props }: SelectProps) {
+export default function Select({ children, className = '', ...props }: UISelectProps) {
   return (
     <UISelect className={`${styles.base} ${className}`} {...props}>
       {children}

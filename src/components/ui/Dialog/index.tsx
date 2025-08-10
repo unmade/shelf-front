@@ -1,13 +1,15 @@
 import {
+  Description as UIDescription,
   Dialog as UIDialog,
   DialogBackdrop as UIDialogBackdrop,
   DialogPanel as UIDialogPanel,
   DialogTitle as UIDialogTitle,
-  Description as UIDescription,
+  type DescriptionProps as UIDescriptionProps,
+  type DialogProps as UIDialogProps,
+  type DialogTitleProps as UIDialogTitleProps,
 } from '@headlessui/react';
 
-type DialogProps = React.ComponentProps<typeof UIDialog>;
-export function Dialog({ children, open, onClose, ...props }: DialogProps) {
+export function Dialog({ children, open, onClose, ...props }: UIDialogProps) {
   return (
     <UIDialog open={open} onClose={onClose} {...props}>
       <UIDialogBackdrop
@@ -38,8 +40,7 @@ export function Dialog({ children, open, onClose, ...props }: DialogProps) {
   );
 }
 
-type DialogTitleProps = React.ComponentProps<typeof UIDialogTitle>;
-export function DialogTitle({ className = '', ...props }: DialogTitleProps) {
+export function DialogTitle({ className = '', ...props }: UIDialogTitleProps) {
   return (
     <UIDialogTitle
       className={[
@@ -51,8 +52,7 @@ export function DialogTitle({ className = '', ...props }: DialogTitleProps) {
   );
 }
 
-type DialogDescriptionProps = React.ComponentProps<typeof UIDescription>;
-export function DialogDescription({ className = '', ...props }: DialogDescriptionProps) {
+export function DialogDescription({ className = '', ...props }: UIDescriptionProps) {
   return (
     <UIDescription
       className={[
