@@ -5,7 +5,7 @@ import { useDownloadContentQuery } from 'store/files';
 
 import { MEGABYTE } from 'filesize';
 
-import usePrefersColorScheme from 'hooks/prefers-color-scheme';
+import { usePrefersColorSchemeContext } from 'components/PrefersColorSchemeProvider';
 
 import Highlight from 'components/ui-legacy/Highlight';
 
@@ -55,7 +55,7 @@ function langByMediaType({ name, mediatype }) {
 }
 
 function CodePreview({ file }) {
-  const [scheme] = usePrefersColorScheme();
+  const { scheme } = usePrefersColorSchemeContext();
 
   const shouldSkip = file.size > MAX_SIZE;
   const { data, isLoading: loading } = useDownloadContentQuery(file.path, { skip: shouldSkip });

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { useDownloadSharedLinkContentQuery } from 'store/sharing';
 
-import usePrefersColorScheme from 'hooks/prefers-color-scheme';
+import { usePrefersColorSchemeContext } from 'components/PrefersColorSchemeProvider';
 
 import Highlight from 'components/ui-legacy/Highlight';
 import Spinner from 'components/ui-legacy/Spinner';
@@ -56,7 +56,7 @@ function langByMediaType({ name, mediatype }) {
 }
 
 function CodePreview({ file, token }) {
-  const [scheme] = useAppSelector(selectAppearance);
+  const { scheme } = usePrefersColorSchemeContext();
 
   const shouldSkip = file.size > MAX_SIZE;
   const { data, isLoading: loading } = useDownloadSharedLinkContentQuery(

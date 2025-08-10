@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import { ColorScheme } from 'hooks/prefers-color-scheme';
-import usePrefersColorScheme from 'hooks/prefers-color-scheme';
+import { usePrefersColorSchemeContext, ColorScheme } from 'components/PrefersColorSchemeProvider';
 
 import Select from 'components/ui/Select';
 
@@ -13,7 +12,7 @@ interface Option {
 export default function PreferredAppearance() {
   const { t } = useTranslation();
 
-  const [scheme, setScheme] = usePrefersColorScheme();
+  const { scheme, setScheme } = usePrefersColorSchemeContext();
 
   const options: Option[] = [
     { name: t('Light'), value: ColorScheme.Light },

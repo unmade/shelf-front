@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 
-import usePrefersColorScheme, { ColorScheme } from 'hooks/prefers-color-scheme';
+import { usePrefersColorSchemeContext, ColorScheme } from 'components/PrefersColorSchemeProvider';
 
 import 'react-circular-progressbar/dist/styles.css';
 
@@ -60,7 +60,7 @@ const colorsByVariant = {
 };
 
 function CircularProgressBar({ children, progress, danger, idle, info, success, warning }) {
-  const [scheme] = usePrefersColorScheme();
+  const { scheme } = usePrefersColorSchemeContext();
 
   const styles = { ...defaultStyles };
   styles.trail.stroke =
