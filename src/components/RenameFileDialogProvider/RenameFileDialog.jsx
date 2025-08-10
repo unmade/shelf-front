@@ -3,14 +3,16 @@ import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
 
+import Button from 'components/ui/Button';
+import { Dialog, DialogTitle, DialogBody, DialogActions } from 'components/ui/Dialog';
+
+import Field, { ErrorMessage } from 'components/ui/Field';
+import Input from 'components/ui/Input';
+
 import { FileShape } from '../../types';
 
 import { MediaType } from '../../constants';
-import * as icons from '../../icons';
 import * as routes from '../../routes';
-
-import Dialog from '../ui-legacy/Dialog';
-import Input from '../ui-legacy/Input';
 
 function RenameFileDialog({ file, loading, visible, onRename, onCancel }) {
   const { t } = useTranslation();
@@ -52,34 +54,40 @@ function RenameFileDialog({ file, loading, visible, onRename, onCancel }) {
   const title = mediatype === MediaType.FOLDER ? t('Rename Folder') : t('Rename File');
 
   return (
-    <Dialog
-      title={title}
-      icon={<icons.Edit className="h-6 w-6" />}
-      visible={visible}
-      confirmTitle={t('Rename')}
-      confirmLoading={loading}
-      onConfirm={onConfirm}
-      onCancel={() => {
-        onCancel();
-      }}
-    >
-      <form
-        className="w-full sm:min-w-3xs"
-        onSubmit={(e) => {
-          e.preventDefault();
-          onConfirm();
-        }}
-      >
-        <Input
-          id="name"
-          label={t('Name')}
-          placeholder={t('New name')}
-          size="sm"
-          error={error}
-          onChange={onNameChange}
-          defaultValue={name}
-        />
-      </form>
+    <Dialog open={visible} onClose={onCancel}>
+      <DialogTitle>{title}</DialogTitle>
+      <DialogBody>
+        <form
+          className="w-full sm:min-w-xs"
+          onSubmit={(e) => {
+            e.preventDefault();
+            onConfirm();
+          }}
+        >
+          <Field>
+            <Input
+              id="name"
+              placeholder={t('New name')}
+              invalid={error != null}
+              onChange={onNameChange}
+              defaultValue={name}
+            />
+            {error && <ErrorMessage>{error}</ErrorMessage>}
+          </Field>
+        </form>
+      </DialogBody>
+      <DialogActions>
+        <Button variant="plain" color="gray" onClick={onCancel}>
+          {t('Cancel')}
+        </Button>
+        <Button
+          variant="primary"
+          onClick={onConfirm}
+          disabled={loading || name == null || name === ''}
+        >
+          {t('Rename')}
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 }
