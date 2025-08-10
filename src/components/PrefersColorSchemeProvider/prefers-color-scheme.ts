@@ -15,6 +15,7 @@ function usePrefersColorScheme(): [ColorScheme, (value: ColorScheme) => void] {
   const [scheme, setScheme] = useState<ColorScheme>(initialValue);
 
   const persistScheme = (value: ColorScheme) => {
+    console.log('persistScheme', value);
     setScheme(value);
     setItem(APPEARANCE_KEY, value);
   };
@@ -27,42 +28,46 @@ function usePrefersColorScheme(): [ColorScheme, (value: ColorScheme) => void] {
     const dark = window.matchMedia('(prefers-color-scheme: dark)');
     const light = window.matchMedia('(prefers-color-scheme: light)');
 
-    const onPrefersDark = ({ matches }: MediaQueryListEvent) =>
-      matches && persistScheme(ColorScheme.Dark);
+    const onPrefersDark = ({ matches }: MediaQueryListEvent) => {
+      if (matches) {
+        document.documentElement.classList.add(ColorScheme.Dark);
+      }
+    };
 
-    const onPrefersLight = ({ matches }: MediaQueryListEvent) =>
-      matches && persistScheme(ColorScheme.Light);
+    const onPrefersLight = ({ matches }: MediaQueryListEvent) => {
+      if (matches) {
+        document.documentElement.classList.remove(ColorScheme.Dark);
+      }
+    };
 
     const cleanup = () => {
       dark.removeEventListener('change', onPrefersDark);
       light.removeEventListener('change', onPrefersLight);
     };
 
-    if (scheme !== ColorScheme.Auto) {
-      persistScheme(scheme);
-      return cleanup;
+    console.log(scheme);
+    switch (scheme) {
+      case ColorScheme.Light:
+        cleanup();
+        document.documentElement.classList.remove(ColorScheme.Dark);
+        break;
+      case ColorScheme.Dark:
+        cleanup();
+        document.documentElement.classList.add(ColorScheme.Dark);
+        break;
+      case ColorScheme.Auto:
+        cleanup();
+        if (dark.matches) {
+          document.documentElement.classList.add(ColorScheme.Dark);
+        } else {
+          document.documentElement.classList.remove(ColorScheme.Dark);
+        }
+        dark.addEventListener('change', onPrefersDark);
+        light.addEventListener('change', onPrefersLight);
+        break;
     }
-
-    if (dark.matches) {
-      persistScheme(ColorScheme.Dark);
-    } else if (light.matches) {
-      persistScheme(ColorScheme.Light);
-    } else {
-      persistScheme(ColorScheme.Auto);
-    }
-
-    dark.addEventListener('change', onPrefersDark);
-    light.addEventListener('change', onPrefersLight);
 
     return cleanup;
-  }, [scheme]);
-
-  useEffect(() => {
-    if (scheme === ColorScheme.Dark) {
-      document.documentElement.classList.add(ColorScheme.Dark);
-    } else {
-      document.documentElement.classList.remove(ColorScheme.Dark);
-    }
   }, [scheme]);
 
   return [scheme, persistScheme];
