@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import { Transition } from '@headlessui/react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { Checkbox } from 'components/ui/Checkbox';
+
 import {
   filesSelectionChanged,
   fileSelectionToggled,
@@ -24,6 +26,10 @@ import { useBrowserData } from './Browser/BrowserDataProvider';
 import FileLink from './FileLink';
 import FileTableCellActions from './FileTableCellActions';
 import Thumbnail from './Thumbnail';
+
+function stopPropagation(event) {
+  event.stopPropagation();
+}
 
 function getPrimaryText(selected, hidden) {
   return (
@@ -56,9 +62,11 @@ function FileTableCell({ className, even, item, selected, hasSelection }) {
   const secondaryText = getSecondaryText(selected, item.hidden);
   const background = getBackground(even, selected);
 
-  const onCellClick = () => dispatch(filesSelectionChanged({ ids: [item.id] }));
+  const onCellClick = () => {
+    dispatch(filesSelectionChanged({ ids: [item.id] }));
+  };
+
   const onCheckboxClick = (event) => {
-    event.stopPropagation();
     dispatch(fileSelectionToggled({ id: item.id }));
   };
 
@@ -71,12 +79,11 @@ function FileTableCell({ className, even, item, selected, hasSelection }) {
     >
       <div className={`flex w-full ${primaryText} ${!hasSelection ? 'md:w-3/5 lg:w-2/3' : ''}`}>
         <div className="flex w-full min-w-0 items-center space-x-3">
-          <input
-            onClick={onCheckboxClick}
-            type="checkbox"
-            className={`form-checkbox rounded-md border-gray-300 bg-transparent text-blue-500 dark:border-zinc-600 dark:focus:ring-offset-zinc-800 ${checkboxClass}`}
+          <Checkbox
+            className={checkboxClass}
             checked={selected}
-            readOnly
+            onClick={stopPropagation}
+            onChange={onCheckboxClick}
           />
           <div className="shrink-0">
             <Thumbnail className="h-9 w-9" file={item} />

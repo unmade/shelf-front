@@ -5,6 +5,8 @@ import { Transition } from '@headlessui/react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { Checkbox } from 'components/ui/Checkbox';
+
 import { filesSelectionChanged, selectAllSelectedFileIds } from '../store/browser';
 
 import FileTableList from '../containers/FileTableList';
@@ -25,15 +27,11 @@ function TableHeader({ items }) {
   return (
     <div className="show-on-hover-trigger mb-1 flex flex-row items-center border-r border-l border-transparent px-9 py-2 text-xs font-medium tracking-wider text-gray-500 uppercase dark:text-zinc-400">
       <div className={`flex w-full ${!hasSelection ? 'md:w-3/5 lg:w-2/3' : ''}`}>
-        <input
-          // hack: set partial status for checkbox
-          // eslint-disable-next-line no-return-assign,no-param-reassign
-          ref={(el) => el && (el.indeterminate = hasSelection && selectionSize !== items.length)}
-          className={`form-checkbox rounded-md border-gray-300 bg-transparent text-blue-500 dark:border-zinc-600 dark:focus:ring-offset-zinc-800 ${checkboxClass}`}
-          onClick={onSelect}
-          type="checkbox"
+        <Checkbox
+          className={checkboxClass}
+          onChange={onSelect}
           checked={hasSelection}
-          readOnly
+          indeterminate={hasSelection && selectionSize !== items.length}
         />
         <div className="ml-3">{t('Name')}</div>
       </div>
