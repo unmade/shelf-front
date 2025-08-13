@@ -1,3 +1,4 @@
+import type { InputProps as UIInputProps } from '@headlessui/react';
 import { Input as UIInput } from '@headlessui/react';
 
 const inputStyles = [
@@ -8,7 +9,8 @@ const inputStyles = [
   'bg-transparent dark:bg-white/5',
   // text
   'text-base/6 sm:text-sm/6',
-  'text-gray-900 placeholder:text-gray-500 dark:text-white',
+  'text-gray-900 placeholder:text-gray-500',
+  'dark:text-white dark:placeholder:text-zinc-500',
   // border
   'border border-gray-950/10',
   // hover
@@ -32,9 +34,7 @@ const spanStyles = [
   'has-data-invalid:before:shadow-red-500/10',
 ].join(' ');
 
-type InputProps = React.ComponentProps<typeof UIInput>;
-
-export default function Input({ className = '', ...props }: InputProps) {
+export default function Input({ className = '', ...props }: UIInputProps) {
   return (
     <span data-slot="control" className={[spanStyles, className].join(' ')}>
       <UIInput className={inputStyles} {...props} />
