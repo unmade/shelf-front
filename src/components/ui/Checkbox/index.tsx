@@ -10,7 +10,7 @@ const base = [
   'transition',
 ];
 
-export function Checkbox({ className = '', ...props }: UICheckboxProps) {
+export default function Checkbox({ className = '', ...props }: UICheckboxProps) {
   return (
     <UICheckbox className={[...base, className].join(' ')} {...props}>
       <svg
