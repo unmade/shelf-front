@@ -1,12 +1,14 @@
 import { Select as UISelect, type SelectProps as UISelectProps } from '@headlessui/react';
+import { ChevronDown } from 'icons';
 
 const styles = {
   base: [
+    'w-full',
     // padding
     'py-2.5 sm:py-1.5 pr-10 pl-3.5 sm:pr-9 sm:l-3',
     // appearance
     'rounded-lg',
-    'appearance-none shadow-none focus:outline-none',
+    'appearance-none focus:outline-none',
     // text
     '[&_optgroup]:font-semibold text-base/6 sm:text-sm/6 ',
     'text-gray-900 dark:text-white dark:*:text-white placeholder:text-gray-500',
@@ -27,8 +29,17 @@ const styles = {
 
 export default function Select({ children, className = '', ...props }: UISelectProps) {
   return (
-    <UISelect className={`${styles.base} ${className}`} {...props}>
-      {children}
-    </UISelect>
+    <div data-slot="control" className="relative w-full rounded-lg shadow-xs dark:shadow-none">
+      <UISelect className={`${styles.base} ${className}`} {...props}>
+        {children}
+      </UISelect>
+      <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+        <ChevronDown
+          className="size-5 text-gray-500 sm:size-4 dark:text-zinc-400"
+          data-slot="icon"
+          aria-hidden="true"
+        />
+      </span>
+    </div>
   );
 }
