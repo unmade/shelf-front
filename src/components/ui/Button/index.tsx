@@ -116,18 +116,16 @@ interface Props {
 }
 
 export default function Button({
-  as,
   className = '',
   children,
   color = 'default',
-  disabled,
-  innerRef,
   variant = 'primary',
-  onClick,
+  innerRef,
+  ...props
 }: Props & UIButtonProps) {
-  const classNames = [base, variants[variant][color], paddings.default, className].join(' ');
+  const classNames = [className, base, variants[variant][color], paddings.default].join(' ');
   return (
-    <UIButton as={as} ref={innerRef} className={classNames} onClick={onClick} disabled={disabled}>
+    <UIButton ref={innerRef} className={classNames} {...props}>
       {children}
     </UIButton>
   );
