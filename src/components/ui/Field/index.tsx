@@ -46,7 +46,7 @@ export function ErrorMessage({ className, ...props }: UIDescriptionProps) {
       data-slot="error"
       className={[
         className,
-        'text-base/6 text-red-600 data-[disabled]:opacity-50 sm:text-sm/6 dark:text-red-500',
+        'text-base/6 text-red-600 data-[disabled]:opacity-50 sm:text-sm/6 dark:text-rose-500',
       ].join(' ')}
     />
   );

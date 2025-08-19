@@ -60,6 +60,8 @@ export function CheckboxField({ className, ...props }: UIFieldProps) {
         // description
         '*:data-[slot=description]:col-start-2 *:data-[slot=description]:row-start-2',
         'has-data-[slot=description]:**:data-[slot=label]:font-medium',
+        // error
+        '*:data-[slot=error]:col-start-2 *:data-[slot=error]:row-start-3',
       ].join(' ')}
     />
   );
