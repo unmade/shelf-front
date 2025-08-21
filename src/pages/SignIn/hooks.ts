@@ -6,9 +6,7 @@ import useDefaultApp from 'hooks/available-apps';
 import { useSignInMutation } from 'store/auth';
 import { tokenRefreshed } from 'store/authSlice';
 
-import SignInForm from './SignInForm';
-
-export default function SignInFormContainer() {
+export default function useSignIn() {
   const dispatch = useDispatch();
 
   const location = useLocation();
@@ -18,7 +16,7 @@ export default function SignInFormContainer() {
 
   const [signIn, { isLoading: loading }] = useSignInMutation();
 
-  const onSubmit = async (username: string, password: string) => {
+  const onSignIn = async (username: string, password: string) => {
     try {
       const data = await signIn({ username, password }).unwrap();
       dispatch(tokenRefreshed(data));
@@ -34,5 +32,5 @@ export default function SignInFormContainer() {
     }
   };
 
-  return <SignInForm onSubmit={onSubmit} loading={loading} />;
+  return { signIn: onSignIn, loading };
 }

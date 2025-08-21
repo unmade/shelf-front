@@ -17,7 +17,7 @@
   "form.inputs.name.placeholder": "Name",
   "form.inputs.password.label": "Password",
   "form.title": "Create Shelf Account",
-  "signInHere": "Sign in here",
+  "signInHere": "Sign in",
   "usernameTooLong": "Username should be {{minLength}} to {{maxLength}} character long",
   "weakUsername": "Username must be at least 3 characters and contain only letters and numbers"
 }

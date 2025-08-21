@@ -90,7 +90,7 @@ function isRejectedWithApiError(action: unknown): action is RejectedWithAPIError
   }
 
   const { code, code_verbose: codeVerbose, message } = data;
-  if (typeof code !== 'string' || typeof code !== 'number') {
+  if (typeof code !== 'string' && typeof code !== 'number') {
     return false;
   }
   if (typeof codeVerbose !== 'string') {
