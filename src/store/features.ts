@@ -46,8 +46,11 @@ export const selectFeatureMaxFileSizeToThumbnail = (state: RootState) =>
 export const selectPhotosLibraryPath = (state: RootState) =>
   (selectFeatureValue(state, 'photos_library_path') as string | undefined) ?? '.';
 
-export const selectFeatureSharedLinksDisabled = (state: RootState) =>
-  selectFeatureValue(state, 'shared_links_disabled') as boolean;
+export const selectFeatureSharedLinksEnabled = (state: RootState) =>
+  selectFeatureValue(state, 'shared_links_enabled') as boolean;
+
+export const selectFeatureSignUpEnabled = (state: RootState) =>
+  selectFeatureValue(state, 'sign_up_enabled') as boolean;
 
 export const selectFeatureUploadFileMaxSize = (state: RootState) =>
   selectFeatureValue(state, 'upload_file_max_size') as number;

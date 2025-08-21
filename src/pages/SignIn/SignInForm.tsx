@@ -5,6 +5,9 @@ import { AppLogo } from 'icons';
 import * as routes from 'routes';
 
 import { isInvalidCredentials } from 'store/auth';
+import { selectFeatureSignUpEnabled } from 'store/features';
+
+import { useAppSelector } from 'hooks';
 
 import Button from 'components/ui/Button';
 import Field, { ErrorMessage, Label } from 'components/ui/Field';
@@ -30,6 +33,7 @@ export default function SignInForm() {
 
   const [errors, setErrors] = useState<Errors>({});
 
+  const signUpEnabled = useAppSelector(selectFeatureSignUpEnabled);
   const { signIn, loading, error } = useSignIn();
 
   useEffect(() => {
@@ -131,12 +135,14 @@ export default function SignInForm() {
       >
         {t('signin:form.button.signin.title', { defaultValue: 'Sign In' })}
       </Button>
-      <Text className="text-center">
-        {t('signin:dontHaveAnAccount')}{' '}
-        <TextAppLink to={routes.SIGNUP.route}>
-          <Strong>{t('signin:signUp', { defaultValue: 'Sign up' })}</Strong>
-        </TextAppLink>
-      </Text>
+      {signUpEnabled && (
+        <Text className="text-center">
+          {t('signin:dontHaveAnAccount')}{' '}
+          <TextAppLink to={routes.SIGNUP.route}>
+            <Strong>{t('signin:signUp', { defaultValue: 'Sign up' })}</Strong>
+          </TextAppLink>
+        </Text>
+      )}
     </form>
   );
 }
