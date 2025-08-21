@@ -5,7 +5,7 @@ import * as icons from 'icons';
 import type { IFile } from 'types/files';
 
 import { selectIsSuperuser } from 'store/accounts';
-import { selectFeatureSharedLinksDisabled } from 'store/features';
+import { selectFeatureSharedLinksEnabled } from 'store/features';
 
 import Dialog from 'components/ui-legacy/Dialog';
 
@@ -21,9 +21,9 @@ function CopyLinkDialog({ file, visible, onClose }: Props) {
   const { t } = useTranslation();
 
   const superuser = useAppSelector(selectIsSuperuser);
-  const sharingDisabled = useAppSelector(selectFeatureSharedLinksDisabled);
+  const sharingEnabled = useAppSelector(selectFeatureSharedLinksEnabled);
 
-  const Icon = sharingDisabled ? icons.LockClosedOutlined : icons.LinkOutlined;
+  const Icon = sharingEnabled ? icons.LockClosedOutlined : icons.LinkOutlined;
 
   const closeDialog = () => {
     onClose();
@@ -43,7 +43,7 @@ function CopyLinkDialog({ file, visible, onClose }: Props) {
       onConfirm={onConfirm}
       onCancel={closeDialog}
     >
-      {sharingDisabled && !superuser ? (
+      {!sharingEnabled && !superuser ? (
         'Sharing is temporarily disabled for your account'
       ) : (
         <div className="my-4 lg:min-w-[20rem]">{file && <SharedLinkSetting file={file} />}</div>
