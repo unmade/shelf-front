@@ -6,6 +6,8 @@ import {
   createListenerMiddleware,
 } from '@reduxjs/toolkit';
 
+import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+
 import apiSlice from './apiSlice';
 
 import auth, { signedOut, saveAuthState, loadAuthState } from './authSlice';
@@ -33,78 +35,58 @@ function rootReducer(state, action) {
   return reducers(state, action);
 }
 
+interface APIError {
+  code: string | number;
+  code_verbose: string;
+  message: string;
+}
+
 interface RejectedWithAPIError {
   payload: {
-    data: {
-      code: string | number;
-      code_verbose: string;
-      message: string;
-    };
+    data: APIError;
   };
 }
 
+export function isFetchBaseQueryError(error: unknown): error is FetchBaseQueryError {
+  return typeof error === 'object' && error != null && 'status' in error;
+}
+
+export function isFetchBaseQueryErrorWithApiError(
+  error: unknown,
+): error is { status: unknown; data: APIError } {
+  return isFetchBaseQueryError(error) && isApiError(error.data);
+}
+
+function isApiError(data: unknown): data is APIError {
+  return (
+    typeof data === 'object' &&
+    data != null &&
+    'code' in data &&
+    (typeof data.code === 'string' || typeof data.code === 'number') &&
+    'code_verbose' in data &&
+    typeof data.code_verbose === 'string' &&
+    'message' in data &&
+    typeof data.message === 'string'
+  );
+}
+
 function isRejectedWithApiError(action: unknown): action is RejectedWithAPIError {
-  if (action == null) {
-    return false;
-  }
-  if (typeof action !== 'object') {
-    return false;
-  }
-  if (!('payload' in action)) {
+  if (!isRejectedWithValue(action)) {
     return false;
   }
 
-  const { payload } = action;
-  if (payload == null) {
-    return false;
-  }
-
-  if (typeof payload !== 'object') {
-    return false;
-  }
-
-  if (!('data' in payload)) {
-    return false;
-  }
-
-  const { data } = payload;
-
-  if (data == null) {
-    return false;
-  }
-
-  if (typeof data !== 'object') {
-    return false;
-  }
-
-  if (!('code' in data)) {
-    return false;
-  }
-
-  if (!('code_verbose' in data)) {
-    return false;
-  }
-
-  if (!('message' in data)) {
-    return false;
-  }
-
-  const { code, code_verbose: codeVerbose, message } = data;
-  if (typeof code !== 'string' && typeof code !== 'number') {
-    return false;
-  }
-  if (typeof codeVerbose !== 'string') {
-    return false;
-  }
-  if (typeof message !== 'string') {
-    return false;
-  }
-
-  return true;
+  return (
+    isRejectedWithValue(action) &&
+    typeof action.payload === 'object' &&
+    action.payload != null &&
+    'data' in action.payload &&
+    isApiError(action.payload.data)
+  );
 }
 
 const ignoredErrorCodes = new Set([
   422,
+  'INVALID_CREDENTIALS',
   'EMAIL_ALREADY_TAKEN',
   'EMAIL_UPDATE_LIMIT_REACHED',
   'CONTENT_METADATA_NOT_FOUND',
@@ -118,13 +100,15 @@ const errorsMiddleware: Middleware =
   ({ dispatch }) =>
   (next) =>
   (action) => {
-    if (isRejectedWithValue(action) && isRejectedWithApiError(action)) {
+    if (isRejectedWithApiError(action)) {
       const { payload } = action;
       const { code, code_verbose: title, message: description } = payload.data;
-      if (!ignoredErrorCodes.has(code) && title != null && description != null) {
-        dispatch(addToast({ title, description }));
-      } else {
-        dispatch(addToast({ title: 'Server Error', description: 'Something went wrong' }));
+      if (!ignoredErrorCodes.has(code)) {
+        if (title != null && description != null) {
+          dispatch(addToast({ title, description }));
+        } else {
+          dispatch(addToast({ title: 'Server Error', description: 'Something went wrong' }));
+        }
       }
     }
 

@@ -1,8 +1,11 @@
 {
   "dontHaveAnAccount": "Don't have an account?",
   "form.button.signin.title": "Sign In",
+  "form.errors.invalidCredentials": "Invalid username or password",
+  "form.errors.requiredField": "This field is required",
   "form.inputs.login.label": "Login",
   "form.inputs.login.placeholder": "Email or username",
   "form.inputs.password.label": "Password",
+  "form.title": "Sign in to your account",
   "signUp": "Sign up"
 }
