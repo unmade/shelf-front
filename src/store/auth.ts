@@ -1,4 +1,9 @@
 import apiSlice from './apiSlice';
+import { isFetchBaseQueryErrorWithApiError } from './store';
+
+export function isInvalidCredentials(error: unknown): boolean {
+  return isFetchBaseQueryErrorWithApiError(error) && error.data?.code === 'INVALID_CREDENTIALS';
+}
 
 interface TokenSchema {
   access_token: string;

@@ -14,7 +14,7 @@ export default function useSignIn() {
 
   const defaultApp = useDefaultApp();
 
-  const [signIn, { isLoading: loading }] = useSignInMutation();
+  const [signIn, { isLoading: loading, error }] = useSignInMutation();
 
   const onSignIn = async (username: string, password: string) => {
     try {
@@ -30,7 +30,8 @@ export default function useSignIn() {
     } else {
       navigate(defaultApp.path);
     }
+    return { error: null };
   };
 
-  return { signIn: onSignIn, loading };
+  return { signIn: onSignIn, loading, error };
 }

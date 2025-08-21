@@ -1,8 +1,11 @@
 {
   "dontHaveAnAccount": "Еще нет аккаунта?",
   "form.button.signin.title": "Войти",
+  "form.errors.invalidCredentials": "Неверный логин или пароль",
+  "form.errors.requiredField": "Это поле обязательно для заполнения",
   "form.inputs.login.label": "Логин",
   "form.inputs.login.placeholder": "Электронный адрес почты или имя пользователя",
   "form.inputs.password.label": "Пароль",
+  "form.title": "Войдите в свой аккаунт",
   "signUp": "Зарегистрироваться"
 }

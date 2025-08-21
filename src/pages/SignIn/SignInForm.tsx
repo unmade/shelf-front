@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { AppLogo } from 'icons';
 import * as routes from 'routes';
+
+import { isInvalidCredentials } from 'store/auth';
 
 import Button from 'components/ui/Button';
 import Field, { ErrorMessage, Label } from 'components/ui/Field';
@@ -20,6 +22,7 @@ interface Form {
 interface Errors {
   login?: string;
   password?: string;
+  nonfield?: string;
 }
 
 export default function SignInForm() {
@@ -27,13 +30,27 @@ export default function SignInForm() {
 
   const [errors, setErrors] = useState<Errors>({});
 
-  const { signIn, loading } = useSignIn();
+  const { signIn, loading, error } = useSignIn();
+
+  useEffect(() => {
+    if (isInvalidCredentials(error)) {
+      setErrors({
+        nonfield: t('signin:form.errors.invalidCredentials', {
+          defaultValue: 'Invalid username or password',
+        }),
+      });
+    }
+  }, [t, error]);
 
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const name = event.target.name as keyof Form;
-    if (Object.prototype.hasOwnProperty.call(errors, name)) {
+    if (name in errors) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { [name]: _removed, ...rest } = errors;
+      const { [name]: removed_, nonfield, ...rest } = errors;
+      setErrors(rest);
+    } else if ('nonfield' in errors) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { nonfield: _removed, ...rest } = errors;
       setErrors(rest);
     }
   };
@@ -64,8 +81,8 @@ export default function SignInForm() {
       login: (formData.get('login') ?? '') as string,
       password: (formData.get('password') ?? '') as string,
     };
-    const valid = validate(formJson);
-    if (valid) {
+
+    if (validate(formJson)) {
       signIn(formJson.login, formJson.password);
     }
   };
@@ -103,6 +120,7 @@ export default function SignInForm() {
           onChange={onInputChange}
         />
         {errors.password && <ErrorMessage>{errors.password}</ErrorMessage>}
+        {errors.nonfield && <ErrorMessage>{errors.nonfield}</ErrorMessage>}
       </Field>
       <Button
         type="submit"
