@@ -1,14 +1,16 @@
 import type React from 'react';
 import { useReducer } from 'react';
-import PropTypes from 'prop-types';
 
 import { Trans, useTranslation } from 'react-i18next';
 import { isEmail, isStrongPassword } from 'validator';
 
-import Button from 'components/ui-legacy/Button';
-import Input from 'components/ui-legacy/Input';
+import { TERMS_AND_CONDITION_URL, PRIVACY_POLICY_URL } from 'constants';
 
-import { TERMS_AND_CONDITION_URL, PRIVACY_POLICY_URL } from '../../constants';
+import Button from 'components/ui/Button';
+import Checkbox, { CheckboxField } from 'components/ui/Checkbox';
+import Field, { ErrorMessage, Label } from 'components/ui/Field';
+import Input from 'components/ui/Input';
+import { TextLink } from 'components/ui/Text';
 
 const nameRegEx = /^[\p{L} .'-]+$/u;
 
@@ -151,11 +153,10 @@ function SignUpForm({ loading, onSubmit }: Props) {
     });
   };
 
-  const onCheckboxChange = (event: React.MouseEvent<HTMLInputElement>) => {
-    const { name, checked: value } = event.target as HTMLInputElement;
+  const onCheckboxChange = (checked: boolean) => {
     dispatch({
       type: 'inputChanged',
-      payload: { name: name as 'agreeToTermsAndConditions', value },
+      payload: { name: 'agreeToTermsAndConditions', value: checked },
     });
   };
 
@@ -308,85 +309,72 @@ function SignUpForm({ loading, onSubmit }: Props) {
         submit();
       }}
     >
-      <Input
-        id="name"
-        name="name"
-        label={t('signup:form.inputs.name.label', { defaultValue: 'Full name' })}
-        placeholder={t('signup:form.inputs.name.placeholder', { defaultValue: 'Name' })}
-        error={errors.name}
-        onChange={onInputChange}
-      />
-      <Input
-        id="email"
-        name="email"
-        type="email"
-        label={t('signup:form.inputs.email.label', { defaultValue: 'Email' })}
-        placeholder={t('signup:form.inputs.email.placeholder', { defaultValue: 'Email' })}
-        error={errors.email}
-        onChange={onInputChange}
-      />
-      <Input
-        id="password"
-        name="password"
-        type="password"
-        label={t('signup:form.inputs.password.label', { defaultValue: 'Password' })}
-        placeholder="********"
-        error={errors.password}
-        onChange={onInputChange}
-      />
-      <Input
-        id="confirmPassword"
-        name="confirmPassword"
-        type="password"
-        label={t('signup:form.inputs.confirmPassword.label', { defaultValue: 'Confirm Password' })}
-        placeholder="********"
-        error={errors.confirmPassword}
-        onChange={onInputChange}
-      />
-      <div className="pt-2 text-sm">
-        <div className="flex items-center">
-          <input
-            id="agreeToTermsAndConditions"
-            type="checkbox"
-            name="agreeToTermsAndConditions"
-            className="form-checkbox rounded-md border-gray-300 bg-transparent text-blue-500 dark:border-zinc-600 dark:focus:ring-offset-zinc-800"
-            onClick={onCheckboxChange}
-            readOnly
-          />
-          <span className="ml-2 dark:text-zinc-200">
-            <Trans i18nKey="signup:form.iHaveReadAndAgreeToTermsAndConditions" t={t}>
-              I agree to the {}
-              <a
-                href={TERMS_AND_CONDITION_URL}
-                className="font-medium text-indigo-600 dark:text-indigo-400"
-              >
-                Shelf Terms
-              </a>{' '}
-              and {}
-              <a
-                href={PRIVACY_POLICY_URL}
-                className="font-medium text-indigo-600 dark:text-indigo-400"
-              >
-                Privacy Policy
-              </a>
-            </Trans>
-          </span>
-        </div>
+      <Field>
+        <Label>{t('signup:form.inputs.name.label', { defaultValue: 'Full name' })}</Label>
+        <Input
+          id="name"
+          name="name"
+          placeholder={t('signup:form.inputs.name.placeholder', { defaultValue: 'Name' })}
+          onChange={onInputChange}
+        />
+        {errors.name && <ErrorMessage>{errors.name}</ErrorMessage>}
+      </Field>
+      <Field>
+        <Label>{t('signup:form.inputs.email.label', { defaultValue: 'Email' })}</Label>
+        <Input
+          id="email"
+          name="email"
+          type="email"
+          placeholder={t('signup:form.inputs.email.placeholder', { defaultValue: 'Email' })}
+          onChange={onInputChange}
+        />
+        {errors.email && <ErrorMessage>{errors.email}</ErrorMessage>}
+      </Field>
+      <Field>
+        <Label>{t('signup:form.inputs.password.label', { defaultValue: 'Password' })}</Label>
+        <Input
+          id="password"
+          name="password"
+          type="password"
+          placeholder="********"
+          onChange={onInputChange}
+        />
+        {errors.password && <ErrorMessage>{errors.password}</ErrorMessage>}
+      </Field>
+      <Field>
+        <Label>
+          {t('signup:form.inputs.confirmPassword.label', { defaultValue: 'Confirm Password' })}
+        </Label>
+        <Input
+          id="confirmPassword"
+          name="confirmPassword"
+          type="password"
+          placeholder="********"
+          onChange={onInputChange}
+        />
+        {errors.confirmPassword && <ErrorMessage>{errors.confirmPassword}</ErrorMessage>}
+      </Field>
+      <CheckboxField>
+        <Checkbox defaultChecked={false} onChange={onCheckboxChange} />
+        <Label>
+          <Trans as={Text} i18nKey="signup:form.iHaveReadAndAgreeToTermsAndConditions" t={t}>
+            I agree to the {}
+            <TextLink href={TERMS_AND_CONDITION_URL}>Shelf Terms</TextLink> and{' '}
+            <TextLink href={PRIVACY_POLICY_URL}>Privacy Policy</TextLink>
+          </Trans>
+        </Label>
         {errors.agreeToTermsAndConditions && (
-          <p className="mt-3 text-xs text-red-500 italic dark:text-rose-500">
-            {errors.agreeToTermsAndConditions}
-          </p>
+          <ErrorMessage>{errors.agreeToTermsAndConditions}</ErrorMessage>
         )}
-      </div>
+      </CheckboxField>
       <div className="w-full pt-2">
         <Button
           type="submit"
+          className="w-full"
           title={t('signup:form.button.title', { defaultValue: 'Create an account' })}
           variant="primary"
-          size="base"
           onClick={submit}
-          loading={loading}
-          full
+          disabled={loading}
         >
           {t('signup:form.button.title', { defaultValue: 'Create an account' })}
         </Button>
@@ -394,10 +382,5 @@ function SignUpForm({ loading, onSubmit }: Props) {
     </form>
   );
 }
-
-SignUpForm.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-};
 
 export default SignUpForm;
