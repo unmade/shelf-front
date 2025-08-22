@@ -86,14 +86,16 @@ function isRejectedWithApiError(action: unknown): action is RejectedWithAPIError
 
 const ignoredErrorCodes = new Set([
   422,
-  'INVALID_CREDENTIALS',
   'EMAIL_ALREADY_TAKEN',
   'EMAIL_UPDATE_LIMIT_REACHED',
   'CONTENT_METADATA_NOT_FOUND',
+  'INVALID_CREDENTIALS',
   'INVALID_TOKEN',
   'MISSING_TOKEN',
   'OTP_CODE_ALREADY_SENT',
+  'SIGN_UP_DISABLED',
   'SHARED_LINK_NOT_FOUND',
+  'USER_ALREADY_EXISTS',
 ]);
 
 const errorsMiddleware: Middleware =
