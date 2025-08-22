@@ -6,14 +6,11 @@ import useDefaultApp from 'hooks/available-apps';
 import * as routes from 'routes';
 
 import { useVerifyEmailSendCodeMutation } from 'store/accounts';
-import { useSignUpMutation } from 'store/auth';
+import { useSignUpMutation, type SignUpArgs } from 'store/auth';
 import { tokenRefreshed } from 'store/authSlice';
 import { selectFeatureVerificationRequired } from 'store/features';
 
-import type { IOnSubmitArg } from './SignUpForm';
-import SignUpForm from './SignUpForm';
-
-export default function SignUpFormContainer() {
+export default function useSignUp() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -21,10 +18,10 @@ export default function SignUpFormContainer() {
 
   const verificationRequired = useAppSelector(selectFeatureVerificationRequired);
 
-  const [signUp, { isLoading: loading }] = useSignUpMutation();
+  const [signUp, { isLoading: loading, error }] = useSignUpMutation();
   const [sendCode] = useVerifyEmailSendCodeMutation();
 
-  const onSubmit = async ({ email, name, password, confirmPassword }: IOnSubmitArg) => {
+  const onSignUp = async ({ email, name, password, confirmPassword }: SignUpArgs) => {
     try {
       const data = await signUp({ email, name, password, confirmPassword }).unwrap();
       dispatch(tokenRefreshed(data));
@@ -35,17 +32,16 @@ export default function SignUpFormContainer() {
     try {
       if (verificationRequired) {
         await sendCode(undefined).unwrap();
+        navigate(routes.EMAIL_VERIFICATION.prefix);
       }
     } catch {
-      // empty
+      navigate(defaultApp.path);
     }
 
-    if (verificationRequired) {
-      navigate(routes.EMAIL_VERIFICATION.prefix);
-    } else {
+    if (!verificationRequired) {
       navigate(defaultApp.path);
     }
   };
 
-  return <SignUpForm onSubmit={onSubmit} loading={loading} />;
+  return { signUp: onSignUp, loading, error };
 }

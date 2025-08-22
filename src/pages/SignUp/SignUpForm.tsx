@@ -1,16 +1,22 @@
-import type React from 'react';
-import { useReducer } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Trans, useTranslation } from 'react-i18next';
 import { isEmail, isStrongPassword } from 'validator';
 
 import { TERMS_AND_CONDITION_URL, PRIVACY_POLICY_URL } from 'constants';
+import * as routes from 'routes';
 
 import Button from 'components/ui/Button';
 import Checkbox, { CheckboxField } from 'components/ui/Checkbox';
 import Field, { ErrorMessage, Label } from 'components/ui/Field';
+import Heading from 'components/ui/Heading';
 import Input from 'components/ui/Input';
-import { TextLink } from 'components/ui/Text';
+import { Strong, Text, TextAppLink, TextLink } from 'components/ui/Text';
+
+import AppLogo from 'components/AppLogo';
+
+import useSignUp from './hooks';
+import { isSignUpDisabled, isUserAlreadyExists } from 'store/auth';
 
 const nameRegEx = /^[\p{L} .'-]+$/u;
 
@@ -22,293 +28,165 @@ const strongPasswordOptions = {
   minSymbols: 0,
 };
 
-export interface IOnSubmitArg {
-  email: string;
+interface Form {
   name: string;
+  email: string;
   password: string;
-  confirmPassword: string;
+  agreeToTermsAndConditions: string;
 }
 
-type StateField = 'name' | 'email' | 'password' | 'confirmPassword' | 'agreeToTermsAndConditions';
-
-interface State {
-  fields: {
-    name: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-    agreeToTermsAndConditions: boolean;
-  };
-  errors: {
-    name: string | null;
-    email: string | null;
-    password: string | null;
-    confirmPassword: string | null;
-    agreeToTermsAndConditions: string | null;
-  };
+interface Errors {
+  name?: string;
+  email?: string;
+  password?: string;
+  agreeToTermsAndConditions?: string;
+  nonfield?: string;
 }
 
-const initialState = {
-  fields: {
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    agreeToTermsAndConditions: false,
-  },
-  errors: {
-    name: null,
-    email: null,
-    password: null,
-    confirmPassword: null,
-    agreeToTermsAndConditions: null,
-  },
-};
-
-interface InputChangedAction {
-  type: 'inputChanged';
-  payload:
-    | {
-        name: 'name' | 'email' | 'password' | 'confirmPassword';
-        value: string;
-      }
-    | {
-        name: 'agreeToTermsAndConditions';
-        value: boolean;
-      };
-}
-
-interface ErrorSetAction {
-  type: 'errorSet';
-  payload: { name: StateField; value: string };
-}
-
-interface ErrorsSetAction {
-  type: 'errorsSet';
-  payload: {
-    errors: {
-      name: StateField;
-      value: string;
-    }[];
-  };
-}
-
-function reducer(state: State, action: InputChangedAction | ErrorSetAction | ErrorsSetAction) {
-  switch (action.type) {
-    case 'inputChanged': {
-      const { name, value } = action.payload;
-      return {
-        ...state,
-        fields: {
-          ...state.fields,
-          [name]: value,
-        },
-        errors: {
-          ...state.errors,
-          [name]: null,
-        },
-      };
-    }
-    case 'errorSet': {
-      const { name, value } = action.payload;
-      return {
-        ...state,
-        errors: {
-          ...state.errors,
-          [name]: value,
-        },
-      };
-    }
-    case 'errorsSet': {
-      const { errors } = action.payload;
-      const nextErrorState = { ...state.errors };
-      errors.forEach(({ name, value }) => {
-        nextErrorState[name] = value;
-      });
-      return {
-        ...state,
-        errors: nextErrorState,
-      };
-    }
-    default:
-      return state;
-  }
-}
-
-interface Props {
-  loading: boolean;
-  onSubmit: (arg: IOnSubmitArg) => void;
-}
-
-function SignUpForm({ loading, onSubmit }: Props) {
+export default function SignUpForm() {
   const { t } = useTranslation(['translation', 'signup', 'forms']);
 
-  const [{ fields, errors }, dispatch] = useReducer(reducer, initialState);
+  const [errors, setErrors] = useState<Errors>({});
 
-  const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    dispatch({
-      type: 'inputChanged',
-      payload: { name: name as 'name' | 'email' | 'password' | 'confirmPassword', value },
-    });
-  };
+  const { signUp, loading, error } = useSignUp();
 
-  const onCheckboxChange = (checked: boolean) => {
-    dispatch({
-      type: 'inputChanged',
-      payload: { name: 'agreeToTermsAndConditions', value: checked },
-    });
-  };
-
-  const isValid = () => {
-    // check all fields are set
-    const emptyFields: { name: StateField; value: string }[] = [];
-    Object.entries(fields).forEach(([field, value]) => {
-      if (value == null || value === '') {
-        emptyFields.push({ name: field as StateField, value: t('This field is required') });
-      }
-    });
-
-    // check agreed to terms and conditions
-    if (!fields.agreeToTermsAndConditions) {
-      emptyFields.push({
-        name: 'agreeToTermsAndConditions',
-        value: t('signup:form.errors.agreeToTermsAndConditionsUnchecked', {
-          defaultValue: 'You must accept Shelf Terms and Privacy Policy to register an account',
+  useEffect(() => {
+    if (isSignUpDisabled(error)) {
+      setErrors({
+        nonfield: t('signup:form.errors.signUpDisabled', {
+          defaultValue: 'Sign up is currently disabled',
         }),
       });
     }
+    if (isUserAlreadyExists(error)) {
+      setErrors({
+        nonfield: t('signup:form.errors.userAlreadyExists', {
+          defaultValue: 'User with this email already exists',
+        }),
+      });
+    }
+  }, [t, error]);
 
-    if (emptyFields.length) {
-      dispatch({ type: 'errorsSet', payload: { errors: emptyFields } });
-      return false;
+  const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const name = event.target.name as keyof Form;
+    if (name in errors) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { [name]: removed_, nonfield, ...rest } = errors;
+      setErrors(rest);
+    } else if ('nonfield' in errors) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { nonfield: _removed, ...rest } = errors;
+      setErrors(rest);
+    }
+  };
+
+  const onCheckboxChange = () => {
+    if ('agreeToTermsAndConditions' in errors) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { agreeToTermsAndConditions: _removed, nonfield, ...rest } = errors;
+      setErrors(rest);
+    } else if ('nonfield' in errors) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { nonfield: _removed, ...rest } = errors;
+      setErrors(rest);
+    }
+  };
+
+  const validate = (data: Form) => {
+    const errors: Errors = {};
+
+    for (const field of Object.keys(data) as (keyof typeof data)[]) {
+      if (!data[field]) {
+        errors[field] = t('This field is required');
+      }
     }
 
-    const name = fields.name.trim();
-    if (!nameRegEx.test(name)) {
-      dispatch({
-        type: 'errorSet',
-        payload: {
-          name: 'name',
-          value: t('signup:form.errors.invalidName', {
-            defaultValue: 'Name can only contain letters, spaces, hyphens, and apostrophes',
-          }),
+    // check agreed to terms and conditions
+    if (data.agreeToTermsAndConditions === '') {
+      errors.agreeToTermsAndConditions = t(
+        'signup:form.errors.agreeToTermsAndConditionsUnchecked',
+        {
+          defaultValue: 'You must accept Shelf Terms and Privacy Policy to register an account',
         },
+      );
+    }
+
+    const name = data.name.trim();
+    if (!nameRegEx.test(name)) {
+      errors.name = t('signup:form.errors.invalidName', {
+        defaultValue: 'Name can only contain letters, spaces, hyphens, and apostrophes',
       });
-      return false;
     }
 
     if (name.length < 2) {
-      dispatch({
-        type: 'errorSet',
-        payload: {
-          name: 'name',
-          value: t('signup:form.errors.nameTooShort', {
-            defaultValue: 'Name must be at least 2 characters long',
-          }),
-        },
+      errors.name = t('signup:form.errors.nameTooShort', {
+        defaultValue: 'Name must be at least 2 characters long',
       });
-      return false;
     }
 
-    if (name.length > 100) {
-      dispatch({
-        type: 'errorSet',
-        payload: {
-          name: 'name',
-          value: t('signup:form.errors.nameTooLong', {
-            defaultValue: 'Name must be 2 to 100 character long',
-          }),
-        },
+    if (name.length < 2 || name.length > 100) {
+      errors.name = t('signup:form.errors.nameTooLong', {
+        defaultValue: 'Name must be 2 to 100 character long',
       });
-      return false;
     }
 
-    const email = fields.email.trim();
+    const email = data.email.trim();
     if (!isEmail(email)) {
-      dispatch({
-        type: 'errorSet',
-        payload: {
-          name: 'email',
-          value: t('signup:form.errors.invalidEmail', { defaultValue: 'Invalid email address' }),
-        },
+      errors.email = t('signup:form.errors.invalidEmail', {
+        defaultValue: 'Invalid email address',
       });
-      return false;
     }
 
-    const { password } = fields;
+    const { password } = data;
     if (password.length > 63) {
-      dispatch({
-        type: 'errorSet',
-        payload: {
-          name: 'password',
-          value: t('signup:form.errors.passwordTooLong', {
-            minLength: 8,
-            maxLength: 63,
-            defaultValue: 'Password should be {{minLength}} to {{maxLength}} character long',
-          }),
-        },
+      errors.password = t('signup:form.errors.passwordTooLong', {
+        minLength: 8,
+        maxLength: 63,
+        defaultValue: 'Password should be {{minLength}} to {{maxLength}} character long',
       });
-      return false;
     }
 
     // check password is strong enough
     if (!isStrongPassword(password, strongPasswordOptions)) {
-      dispatch({
-        type: 'errorSet',
-        payload: {
-          name: 'password',
-          value: t('signup:form.errors.weakPassword', {
-            defaultValue:
-              'Password must be at least 8 characters including a lowercase letter, an uppercase letter, and a number',
-          }),
-        },
+      errors.password = t('signup:form.errors.weakPassword', {
+        defaultValue:
+          'Password must be at least 8 characters including a lowercase letter, an uppercase letter, and a number',
       });
-      return false;
     }
 
-    // check passwords match
-    const { confirmPassword } = fields;
-    if (confirmPassword !== password) {
-      dispatch({
-        type: 'errorsSet',
-        payload: {
-          errors: [
-            {
-              name: 'confirmPassword',
-              value: t('signup:form.errors.passwordsShouldMatch', {
-                defaultValue: 'Please make sure your passwords match',
-              }),
-            },
-          ],
-        },
-      });
+    if (Object.keys(errors).length > 0) {
+      setErrors(errors);
       return false;
     }
-
     return true;
   };
 
-  const submit = () => {
-    if (isValid()) {
-      const { email, name, password, confirmPassword } = fields;
-      onSubmit({
-        email: email.trim(),
-        name,
-        password,
-        confirmPassword,
+  const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.target as HTMLFormElement;
+    const formData = new FormData(form);
+    const formJson: Form = {
+      name: (formData.get('name') ?? '') as string,
+      email: (formData.get('email') ?? '') as string,
+      password: (formData.get('password') ?? '') as string,
+      agreeToTermsAndConditions: (formData.get('agreeToTermsAndConditions') ?? '') as string,
+    };
+    console.log(formJson);
+
+    if (validate(formJson)) {
+      signUp({
+        name: formJson.name,
+        email: formJson.email,
+        password: formJson.password,
+        confirmPassword: formJson.password,
       });
     }
   };
 
   return (
-    <form
-      className="mt-5 space-y-4"
-      onSubmit={(event) => {
-        event.preventDefault();
-        submit();
-      }}
-    >
+    <form className="grid w-full max-w-sm grid-cols-1 gap-8" onSubmit={onSubmitHandler}>
+      <AppLogo />
+      <Heading>{t('signup:form.title', { defaultValue: 'Create your account' })}</Heading>
       <Field>
         <Label>{t('signup:form.inputs.name.label', { defaultValue: 'Full name' })}</Label>
         <Input
@@ -341,21 +219,12 @@ function SignUpForm({ loading, onSubmit }: Props) {
         />
         {errors.password && <ErrorMessage>{errors.password}</ErrorMessage>}
       </Field>
-      <Field>
-        <Label>
-          {t('signup:form.inputs.confirmPassword.label', { defaultValue: 'Confirm Password' })}
-        </Label>
-        <Input
-          id="confirmPassword"
-          name="confirmPassword"
-          type="password"
-          placeholder="********"
-          onChange={onInputChange}
-        />
-        {errors.confirmPassword && <ErrorMessage>{errors.confirmPassword}</ErrorMessage>}
-      </Field>
       <CheckboxField>
-        <Checkbox defaultChecked={false} onChange={onCheckboxChange} />
+        <Checkbox
+          name="agreeToTermsAndConditions"
+          defaultChecked={false}
+          onChange={onCheckboxChange}
+        />
         <Label>
           <Trans as={Text} i18nKey="signup:form.iHaveReadAndAgreeToTermsAndConditions" t={t}>
             I agree to the {}
@@ -366,21 +235,23 @@ function SignUpForm({ loading, onSubmit }: Props) {
         {errors.agreeToTermsAndConditions && (
           <ErrorMessage>{errors.agreeToTermsAndConditions}</ErrorMessage>
         )}
+        {errors.nonfield && <ErrorMessage>{errors.nonfield}</ErrorMessage>}
       </CheckboxField>
-      <div className="w-full pt-2">
-        <Button
-          type="submit"
-          className="w-full"
-          title={t('signup:form.button.title', { defaultValue: 'Create an account' })}
-          variant="primary"
-          onClick={submit}
-          disabled={loading}
-        >
-          {t('signup:form.button.title', { defaultValue: 'Create an account' })}
-        </Button>
-      </div>
+      <Button
+        type="submit"
+        className="mt-4 w-full"
+        title={t('signup:form.button.title', { defaultValue: 'Create an account' })}
+        variant="primary"
+        disabled={loading}
+      >
+        {t('signup:form.button.title', { defaultValue: 'Create an account' })}
+      </Button>
+      <Text className="text-center">
+        {t('signup:alreadyHaveAnAccount')}{' '}
+        <TextAppLink to={routes.SIGNIN.route}>
+          <Strong>{t('signup:signInHere')}</Strong>
+        </TextAppLink>
+      </Text>
     </form>
   );
 }
-
-export default SignUpForm;

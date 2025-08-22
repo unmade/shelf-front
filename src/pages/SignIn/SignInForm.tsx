@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { AppLogo } from 'icons';
 import * as routes from 'routes';
 
 import { isInvalidCredentials } from 'store/auth';
@@ -14,6 +13,8 @@ import Field, { ErrorMessage, Label } from 'components/ui/Field';
 import Heading from 'components/ui/Heading';
 import Input from 'components/ui/Input';
 import { Strong, Text, TextAppLink } from 'components/ui/Text';
+
+import AppLogo from 'components/AppLogo';
 
 import useSignIn from './hooks';
 
@@ -93,14 +94,7 @@ export default function SignInForm() {
 
   return (
     <form className="grid w-full max-w-sm grid-cols-1 gap-8" onSubmit={onSubmitHandler}>
-      <div className="relative inline-flex w-full items-center space-x-4">
-        <AppLogo className="h-10 w-10" />
-        <Heading>
-          <span className="text-gray-400 text-shadow-2xs dark:text-zinc-500 dark:shadow-none">
-            S H E L F
-          </span>
-        </Heading>
-      </div>
+      <AppLogo />
       <Heading>{t('signin:form.title', { defaultValue: 'Sign in to your account' })}</Heading>
       <Field>
         <Label>{t('signin:form.inputs.login.label', { defaultValue: 'Login' })}</Label>

@@ -5,14 +5,39 @@ export function isInvalidCredentials(error: unknown): boolean {
   return isFetchBaseQueryErrorWithApiError(error) && error.data?.code === 'INVALID_CREDENTIALS';
 }
 
+export function isSignUpDisabled(error: unknown): boolean {
+  return isFetchBaseQueryErrorWithApiError(error) && error.data?.code === 'SIGN_UP_DISABLED';
+}
+
+export function isUserAlreadyExists(error: unknown): boolean {
+  return isFetchBaseQueryErrorWithApiError(error) && error.data?.code === 'USER_ALREADY_EXISTS';
+}
+
 interface TokenSchema {
   access_token: string;
   refresh_token: string;
 }
 
+interface Tokens {
+  accessToken: string;
+  refreshToken: string;
+}
+
+export interface SignInArgs {
+  username: string;
+  password: string;
+}
+
+export interface SignUpArgs {
+  email: string;
+  name: string;
+  password: string;
+  confirmPassword: string;
+}
+
 export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    signIn: builder.mutation({
+    signIn: builder.mutation<Tokens, SignInArgs>({
       query: ({ username, password }) => ({
         url: '/auth/sign_in',
         method: 'POST',
@@ -29,8 +54,8 @@ export const authApi = apiSlice.injectEndpoints({
         refreshToken: responseData.refresh_token,
       }),
     }),
-    signUp: builder.mutation({
-      query: ({ email, name, password, confirmPassword }) => ({
+    signUp: builder.mutation<Tokens, SignUpArgs>({
+      query: ({ email, name, password, confirmPassword }: SignUpArgs) => ({
         url: '/auth/sign_up',
         method: 'POST',
         body: { email, display_name: name, password, confirm_password: confirmPassword },
