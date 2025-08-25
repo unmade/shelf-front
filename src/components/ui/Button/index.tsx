@@ -1,6 +1,8 @@
 import { Button as UIButton, type ButtonProps as UIButtonProps } from '@headlessui/react';
+import { forwardRef } from 'react';
 
 const base = [
+  'relative isolate',
   'flex items-center justify-center gap-x-2 rounded-lg',
   'text-center text-base/6 sm:text-sm/6 font-semibold',
   'transition ease-in-out',
@@ -115,18 +117,20 @@ interface Props {
   variant?: 'outline' | 'plain' | 'primary' | 'soft';
 }
 
-export default function Button({
-  className = '',
-  children,
-  color = 'default',
-  variant = 'primary',
-  innerRef,
-  ...props
-}: Props & UIButtonProps) {
+export default forwardRef(function Button(
+  {
+    className = '',
+    children,
+    color = 'default',
+    variant = 'primary',
+    ...props
+  }: Props & UIButtonProps,
+  ref: React.ForwardedRef<HTMLElement>,
+) {
   const classNames = [className, base, variants[variant][color], paddings.default].join(' ');
   return (
-    <UIButton ref={innerRef} className={classNames} {...props}>
+    <UIButton ref={ref} className={classNames} {...props}>
       {children}
     </UIButton>
   );
-}
+});
