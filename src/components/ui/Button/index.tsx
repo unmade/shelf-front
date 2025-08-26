@@ -12,6 +12,11 @@ const base = [
   '*:data-[slot=icon]:shrink-0 *:data-[slot=icon]:self-center',
 ].join(' ');
 
+const paddings = {
+  default: 'px-3.5 py-2.5 sm:px-3 sm:py-1.5',
+  small: 'px-2 py-1.5 sm:px-2 sm:py-0.5',
+};
+
 const variants = {
   primary: {
     default: [
@@ -107,14 +112,10 @@ const variants = {
   },
 };
 
-const paddings = {
-  default: 'px-3.5 py-2.5 sm:px-3 sm:py-1.5',
-};
-
 interface Props {
   color?: 'default' | 'red' | 'gray';
-  innerRef?: React.Ref<HTMLButtonElement>;
   variant?: 'outline' | 'plain' | 'primary' | 'soft';
+  size?: 'default' | 'small';
 }
 
 export default forwardRef(function Button(
@@ -123,11 +124,12 @@ export default forwardRef(function Button(
     children,
     color = 'default',
     variant = 'primary',
+    size = 'default',
     ...props
   }: Props & UIButtonProps,
   ref: React.ForwardedRef<HTMLElement>,
 ) {
-  const classNames = [className, base, variants[variant][color], paddings.default].join(' ');
+  const classNames = [className, base, variants[variant][color], paddings[size]].join(' ');
   return (
     <UIButton ref={ref} className={classNames} {...props}>
       {children}

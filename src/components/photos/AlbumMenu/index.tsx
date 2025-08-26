@@ -1,7 +1,6 @@
-import * as icons from 'icons';
 import type { IAlbum } from 'types/photos';
 
-import Menu from 'components/ui/Menu';
+import GridItemMenu from 'components/photos/GridItemMenu';
 
 import {
   useDeleteAlbumAction,
@@ -31,15 +30,7 @@ function useAlbumActionSections(album: IAlbum) {
   return groups;
 }
 
-function AlbumMenu({ album, onOpen }: Props) {
+export default function AlbumMenu({ album, onOpen }: Props) {
   const sections = useAlbumActionSections(album);
-  return (
-    <Menu sections={sections} placement="bottom start" onOpen={onOpen}>
-      <div className="rounded-full bg-gray-50 p-0.5 text-gray-700 dark:bg-zinc-200 dark:text-zinc-600 dark:hover:bg-zinc-100">
-        <icons.More className="h-3 w-3 shrink-0" />
-      </div>
-    </Menu>
-  );
+  return <GridItemMenu sections={sections} onOpen={onOpen} />;
 }
-
-export default AlbumMenu;

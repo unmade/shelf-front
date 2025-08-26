@@ -35,7 +35,7 @@ export function DropdownMenu({ anchor = 'bottom', className = '', ...props }: Dr
       className={[
         className,
         'isolate',
-        'w-max min-w-[10rem]',
+        'w-max',
         'overflow-y-auto rounded-xl p-1',
         '[--anchor-gap:4px] sm:[--anchor-gap:8px]',
         'outline outline-transparent focus:outline-hidden',

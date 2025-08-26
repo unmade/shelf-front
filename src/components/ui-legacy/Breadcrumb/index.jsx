@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import * as icons from '../../../icons';
-import { BreadcrumbShape } from '../../../types';
+import * as icons from 'icons';
+import { BreadcrumbShape } from 'types';
 
-import Button from '../Button';
-import Menu from '../Menu';
+import { Dropdown, DropdownButton, DropdownMenu, DropdownItem } from 'components/ui/DropdownMenu';
 
 import BreadcrumbItem from './BreadcrumbItem';
 
@@ -35,20 +34,18 @@ function Breadcrumb({
   }
 
   const collapsed = shouldCollapse ? (
-    <Menu
-      panelClassName="max-w-xs"
-      groups={[{ key: 'collapsed', items: toCollapse }]}
-      itemRenderer={({ item }) => (
-        <RenderCollapsed name={item.name} url={item.url} path={item.path} />
-      )}
-    >
-      <Button
-        as="div"
-        variant="text"
-        size="xs"
-        icon={<icons.DotsHorizontal className="h-4 w-4 dark:text-zinc-600" />}
-      />
-    </Menu>
+    <Dropdown>
+      <DropdownButton className="focus:outline-none" size="small" variant="plain" color="gray">
+        <icons.DotsHorizontal data-slot="icon" className="text-gray-400 dark:text-zinc-500" />
+      </DropdownButton>
+      <DropdownMenu anchor="top start" className="[--anchor-offset:-10px]">
+        {toCollapse.map((item) => (
+          <DropdownItem key={item.key}>
+            <RenderCollapsed name={item.name} url={item.url} path={item.path} />
+          </DropdownItem>
+        ))}
+      </DropdownMenu>
+    </Dropdown>
   ) : null;
 
   return (

@@ -117,13 +117,9 @@ function BreadcrumbItem({ name, url, path }) {
 
 function BreadcrumbItemCollapsed({ name, url }) {
   return (
-    <Breadcrumb.Item to={url}>
-      <span className="flex max-w-xs items-center">
-        <span className="py-2 sm:py-1">
-          <icons.Folder className="mr-2 h-5 w-5 shrink-0 text-blue-400" />
-        </span>
-        <span className="block truncate">{name}</span>
-      </span>
+    <Breadcrumb.Item to={url} className="flex max-w-sm items-center gap-x-2 px-3 py-0.5">
+      <icons.Folder data-slot="icon" className="shrink-0 text-blue-400" />
+      <span className="block truncate">{name}</span>
     </Breadcrumb.Item>
   );
 }

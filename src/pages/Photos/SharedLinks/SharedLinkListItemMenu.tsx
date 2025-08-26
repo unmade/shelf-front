@@ -1,10 +1,11 @@
-import * as icons from 'icons';
+import { MoreOutlined } from 'icons';
 import type { IMediaItem } from 'types/photos';
 
 import { useCopyLinkAction, useDownloadAction } from 'hooks/file-actions';
 
-import Button from 'components/ui/Button';
-import Menu from 'components/ui/Menu';
+import { Dropdown, DropdownButton } from 'components/ui/DropdownMenu';
+
+import SimpleMenu from 'components/SimpleMenu';
 
 import useFileFromMediaItem from 'components/photos/hooks/file-from-media-item';
 import { useDeleteAction } from 'components/photos/hooks/media-item-actions';
@@ -34,13 +35,23 @@ interface Props {
   mediaItem: IMediaItem;
 }
 
+const stopPropagation = (event: React.MouseEvent<HTMLButtonElement>) => {
+  event.stopPropagation();
+};
+
 export default function SharedLinkListItemMenu({ mediaItem }: Props) {
   const sections = useMediaItemActionSections(mediaItem);
   return (
-    <Menu sections={sections} placement="bottom start">
-      <Button as="div" variant="plain" color="gray">
-        <icons.More data-slot="icon" />
-      </Button>
-    </Menu>
+    <Dropdown>
+      <DropdownButton
+        className="focus:outline-none"
+        variant="plain"
+        color="gray"
+        onClick={stopPropagation}
+      >
+        <MoreOutlined data-slot="icon" />
+      </DropdownButton>
+      <SimpleMenu sections={sections} />
+    </Dropdown>
   );
 }
