@@ -4,8 +4,7 @@ import type { IMediaItem } from 'types/photos';
 import { useAppSelector } from 'hooks';
 import { useCopyLinkAction } from 'hooks/file-actions';
 
-import Menu from 'components/ui/Menu';
-
+import SimpleMenu from 'components/SimpleMenu';
 import { useSelection } from 'components/SelectionProvider';
 
 import {
@@ -75,11 +74,9 @@ interface Props {
 function AlbumMediaItemMenu({ mediaItem, albumSlug, onOpen }: Props) {
   const sections = useMediaItemActionSections(mediaItem, albumSlug);
   return (
-    <Menu sections={sections} placement="bottom start" onOpen={onOpen}>
-      <div className="rounded-full bg-gray-50 p-0.5 text-gray-700 dark:bg-zinc-200 dark:text-zinc-600 dark:hover:bg-zinc-100">
-        <icons.More className="h-3 w-3 shrink-0" />
-      </div>
-    </Menu>
+    <SimpleMenu sections={sections} placement="bottom start" onOpen={onOpen}>
+      <icons.More className="h-3 w-3 shrink-0" />
+    </SimpleMenu>
   );
 }
 

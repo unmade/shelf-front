@@ -1,18 +1,24 @@
 import { useTranslation } from 'react-i18next';
 
-import * as icons from 'icons';
+import { MoreOutlined, InformationCircleOutlined } from 'icons';
+
 import type { IFile } from 'types/files';
 import type { IMediaItem } from 'types/photos';
 
 import { useCopyLinkAction, useDownloadAction } from 'hooks/file-actions';
+
+import { Dropdown, DropdownButton } from 'components/ui/DropdownMenu';
+
+import SimpleMenu from 'components/SimpleMenu';
+
 import { useAddToAlbumAction, useDeleteAction } from 'components/photos/hooks/media-item-actions';
-
-import Button from 'components/ui/Button';
-import Menu from 'components/ui/Menu';
-
-import useFileFromMediaItem from '../../hooks/file-from-media-item';
+import useFileFromMediaItem from 'components/photos/hooks/file-from-media-item';
 
 import { useInformationDialogContext } from '../InformationDialogProvider';
+
+const stopPropagation = (event: React.MouseEvent<HTMLButtonElement>) => {
+  event.stopPropagation();
+};
 
 function useInformationAction(file: IFile) {
   const { t } = useTranslation('photos');
@@ -20,8 +26,7 @@ function useInformationAction(file: IFile) {
   return {
     key: 'info',
     name: t('photos:mediaItem.actions.showInfo', { defaultValue: 'Info' }),
-    icon: <icons.InformationCircleOutlined className="h-4 w-4" />,
-    Icon: icons.InformationCircleOutlined,
+    Icon: InformationCircleOutlined,
     danger: false,
     onClick: () => {
       openDialog(file);
@@ -34,7 +39,7 @@ interface Props {
   mediaItem: IMediaItem;
 }
 
-function MoreButton({ className, mediaItem }: Props) {
+function MoreButton({ className = '', mediaItem }: Props) {
   const file = useFileFromMediaItem(mediaItem);
 
   const addToAlbumAction = useAddToAlbumAction([mediaItem]);
@@ -63,11 +68,17 @@ function MoreButton({ className, mediaItem }: Props) {
   ].filter((group) => group.items.length > 0);
 
   return (
-    <Menu sections={groups}>
-      <Button as="div" className={className} variant="plain" color="gray">
-        <icons.MoreOutlined data-slot="icon" />
-      </Button>
-    </Menu>
+    <Dropdown>
+      <DropdownButton
+        className={`${className} focus:outline-none`}
+        variant="plain"
+        color="gray"
+        onClick={stopPropagation}
+      >
+        <MoreOutlined data-slot="icon" />
+      </DropdownButton>
+      <SimpleMenu sections={groups} />
+    </Dropdown>
   );
 }
 

@@ -9,12 +9,13 @@ import {
   useRenameAction,
 } from 'hooks/file-actions';
 
-import * as icons from 'icons';
+import { MoreOutlined } from 'icons';
 import * as routes from 'routes';
 import { FileShape } from 'types';
 
-import Button from 'components/ui/Button';
-import Menu from 'components/ui/Menu';
+import { Dropdown, DropdownButton } from 'components/ui/DropdownMenu';
+
+import SimpleMenu from 'components/SimpleMenu';
 
 function useTrashedFileActionGroups(files) {
   const moveAction = useMoveAction(files);
@@ -54,13 +55,23 @@ function useFileActionGroups(files) {
   return groups.filter((group) => group.items.length > 0);
 }
 
+const stopPropagation = (event) => {
+  event.stopPropagation();
+};
+
 function FileMenu({ groups }) {
   return (
-    <Menu sections={groups}>
-      <Button as="div" variant="plain" color="gray">
-        <icons.MoreOutlined data-slot="icon" />
-      </Button>
-    </Menu>
+    <Dropdown>
+      <DropdownButton
+        className="focus:outline-none"
+        variant="plain"
+        color="gray"
+        onClick={stopPropagation}
+      >
+        <MoreOutlined data-slot="icon" />
+      </DropdownButton>
+      <SimpleMenu sections={groups} />
+    </Dropdown>
   );
 }
 
