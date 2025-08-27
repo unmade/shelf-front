@@ -114,13 +114,7 @@ function FileTableCell({ className, even, item, selected, hasSelection }) {
         </div>
       </div>
 
-      <Transition
-        show={!hasSelection}
-        as={React.Fragment}
-        enter="transition ease-in-out duration-500"
-        enterFrom="opacity-0 w-0"
-        enterTo="opacity-100 w-full"
-      >
+      <Transition show={!hasSelection}>
         <div className="hidden flex-row items-center justify-evenly space-x-4 md:flex md:w-2/5 lg:w-1/3">
           <div className={`hidden w-32 text-left md:block ${!hasSelection ? secondaryText : ''}`}>
             <TimeAgo value={item.modified_at} />
