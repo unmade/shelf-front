@@ -171,7 +171,6 @@ export default function SignUpForm() {
       password: (formData.get('password') ?? '') as string,
       agreeToTermsAndConditions: (formData.get('agreeToTermsAndConditions') ?? '') as string,
     };
-    console.log(formJson);
 
     if (validate(formJson)) {
       signUp({
