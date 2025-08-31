@@ -15,7 +15,6 @@ function usePrefersColorScheme(): [ColorScheme, (value: ColorScheme) => void] {
   const [scheme, setScheme] = useState<ColorScheme>(initialValue);
 
   const persistScheme = (value: ColorScheme) => {
-    console.log('persistScheme', value);
     setScheme(value);
     setItem(APPEARANCE_KEY, value);
   };
@@ -45,7 +44,6 @@ function usePrefersColorScheme(): [ColorScheme, (value: ColorScheme) => void] {
       light.removeEventListener('change', onPrefersLight);
     };
 
-    console.log(scheme);
     switch (scheme) {
       case ColorScheme.Light:
         cleanup();
