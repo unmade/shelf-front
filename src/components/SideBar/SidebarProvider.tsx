@@ -1,13 +1,13 @@
 import type React from 'react';
 import { createContext, useContext, useMemo } from 'react';
 
-import type { IAppConfig } from 'types/AppConfig';
+import type { AppConfig } from 'types/AppConfig';
 
-const SidebarContext = createContext<{ app: IAppConfig } | null>(null);
+const SidebarContext = createContext<{ app: AppConfig } | null>(null);
 
 interface Props {
   children: React.ReactNode;
-  app: IAppConfig;
+  app: AppConfig;
 }
 
 export default function SidebarProvider({ children, app }: Props) {

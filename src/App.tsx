@@ -37,7 +37,7 @@ import PhotosTrash from './pages/Photos/Trash';
 function FilesApp() {
   return (
     <SidebarProvider app={filesAppConfig}>
-      <div className="hidden lg:block xl:w-64">
+      <div className="hidden lg:block">
         <SideBar />
       </div>
       <div className="my-0 min-w-0 flex-1 bg-white shadow-sm dark:bg-zinc-800">
@@ -65,7 +65,7 @@ function FilesApp() {
 function PhotosApp() {
   return (
     <SidebarProvider app={photosAppConfig}>
-      <div className="hidden lg:block xl:w-64">
+      <div className="hidden lg:block">
         <SideBar />
       </div>
       <div className="my-0 min-w-0 flex-1 bg-white shadow-sm dark:bg-zinc-800">

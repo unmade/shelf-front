@@ -27,15 +27,15 @@ export default function CurrentAccount() {
   return (
     <UIPopover>
       <UIPopoverButton className="w-full focus:outline-none">
-        <div className="flex flex-row items-center lg:block xl:flex">
-          <Avatar username={displayName} className="h-10 w-10 shrink-0" />
-          <div className="ml-2 flex min-w-0 flex-1 flex-col text-left lg:hidden xl:flex">
+        <div className="flex flex-row items-center">
+          <Avatar username={displayName} className="size-10 shrink-0" />
+          <div className="ml-2 flex min-w-0 flex-1 flex-col text-left">
             <div className="truncate text-sm font-semibold text-gray-700 dark:text-zinc-400">
               {displayName}
             </div>
           </div>
-          <div className="block lg:hidden xl:block">
-            <icons.Selector className="h-5 w-5 text-gray-500 dark:text-zinc-500" />
+          <div>
+            <icons.Selector className="size-5 text-gray-500 dark:text-zinc-500" />
           </div>
         </div>
       </UIPopoverButton>

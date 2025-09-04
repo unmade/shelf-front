@@ -27,10 +27,10 @@ export default function AppTitle({ title }: Props) {
 
   if (apps.length < 2) {
     return (
-      <div className="mb-6 px-2 text-gray-900 dark:text-zinc-100">
+      <div className="text-gray-900 dark:text-zinc-100">
         <div className="mx-0 flex items-center px-1 py-2 text-2xl lg:mx-auto lg:py-1 xl:mx-0 xl:py-2">
           <AppLogo />
-          <div className="flex w-full items-center rounded-xl p-1 text-2xl lg:hidden xl:flex">
+          <div className="flex w-full items-center rounded-xl p-1 text-2xl">
             <span className="font-light tracking-tight">Shelf</span>
             <span className="pl-2 font-medium">{title}</span>
           </div>
@@ -40,11 +40,11 @@ export default function AppTitle({ title }: Props) {
   }
 
   return (
-    <UIPopover className="mb-6 px-2 text-gray-900 dark:text-zinc-100">
+    <UIPopover className="text-gray-900 dark:text-zinc-100">
       <UIPopoverButton className="focus:outline-none">
         <div className="mx-0 flex items-center px-1 py-2 text-2xl lg:mx-auto lg:py-1 xl:mx-0 xl:py-2">
           <AppLogo />
-          <div className="flex w-full items-center justify-between rounded-xl p-1 text-2xl lg:hidden xl:flex">
+          <div className="flex w-full items-center justify-between rounded-xl p-1 text-2xl">
             <div className="flex items-center">
               <span className="font-light tracking-tight">Shelf</span>
               <span className="pl-2 font-medium">{title}</span>

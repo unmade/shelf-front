@@ -6,7 +6,6 @@ import { useGetSpaceUsageQuery } from '../../store/accounts';
 
 import * as icons from '../../icons';
 
-import CircularProgressBar from '../ui-legacy/CircularProgressBar';
 import FileSize from '../ui-legacy/FileSize';
 import ProgressBar from '../ui-legacy/ProgressBar';
 
@@ -34,7 +33,7 @@ function StorageUsed() {
 
   return (
     <>
-      <div className="block space-y-2 lg:hidden xl:block">
+      <div className="space-y-2 text-base/6 font-medium sm:text-sm/6">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <icons.Database className="h-4 w-4" />
@@ -57,22 +56,6 @@ function StorageUsed() {
               <FileSize size={quota - used} /> {t('available')}
             </>
           )}
-        </div>
-      </div>
-
-      <div className="hidden lg:block xl:hidden">
-        <div className="mx-auto h-11 w-11">
-          <CircularProgressBar
-            progress={progress}
-            idle={idle}
-            success={success}
-            warning={warning}
-            danger={danger}
-          >
-            {(storageUsed != null && <icons.Database className="h-5 w-5" />) || (
-              <icons.Infinite className="h-5 w-5" />
-            )}
-          </CircularProgressBar>
         </div>
       </div>
     </>
