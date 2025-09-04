@@ -14,10 +14,8 @@ import SideBar from './SideBar';
 export default function SideBarModal() {
   return (
     <UIPopover>
-      <UIPopoverButton className="focus:outline-none">
-        <Button as="div" variant="plain" color="gray">
-          <icons.Menu data-slot="icon" />
-        </Button>
+      <UIPopoverButton as={Button} className="focus:outline-none" variant="plain" color="gray">
+        <icons.Menu data-slot="icon" />
       </UIPopoverButton>
 
       <UIPopoverBackdrop
@@ -32,7 +30,7 @@ export default function SideBarModal() {
       <UIPopoverPanel
         transition
         className={[
-          'fixed inset-0 z-20 max-w-2xs',
+          'fixed inset-0 z-20 w-64',
           'bg-white/75 backdrop-blur dark:bg-zinc-800/75',
           'border-r border-zinc-950/10 dark:border-white/10',
           'transform transition duration-300 ease-out data-closed:-translate-x-full',

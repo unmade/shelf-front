@@ -1,31 +1,48 @@
+import {
+  Sidebar,
+  SidebarBody,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarHeading,
+  SidebarItem,
+  SidebarLabel,
+  SidebarSection,
+  SidebarSpacer,
+} from 'components/ui/Sidebar';
+
 import CurrentAccount from './CurrentAccount';
-import MenuGroup from './MenuGroup';
 import { useSidebarContext } from './SidebarProvider';
 import StorageUsed from './StorageUsed';
 import AppTitle from './AppTitle';
 
-function SideBar() {
+export default function SideBar() {
   const { app } = useSidebarContext();
 
   return (
-    <div className="flex h-full flex-col px-1 py-4">
-      <AppTitle title={app.title} />
-
-      <div className="flex-1 pt-2 pb-4 text-sm text-gray-500 dark:text-zinc-500">
-        <nav className="space-y-2 lg:space-y-4 xl:space-y-2">
-          <MenuGroup items={app.menu} />
-        </nav>
-      </div>
-
-      <div className="space-y-1 p-3 text-sm font-medium text-gray-500 dark:text-zinc-500">
-        <StorageUsed />
-      </div>
-
-      <div className="mx-3 border-t-2 border-gray-200 pt-3 dark:border-zinc-800">
+    <Sidebar>
+      <SidebarHeader>
+        <AppTitle title={app.title} />
+      </SidebarHeader>
+      <SidebarBody>
+        {app.menu.sections.map(({ key, title, items }) => (
+          <SidebarSection key={key}>
+            {title && <SidebarHeading>{title}</SidebarHeading>}
+            {items.map(({ title, path, icon: Icon, end }) => (
+              <SidebarItem key={path} to={path!} end={end}>
+                <Icon data-slot="icon" />
+                <SidebarLabel>{title}</SidebarLabel>
+              </SidebarItem>
+            ))}
+          </SidebarSection>
+        ))}
+        <SidebarSpacer />
+        <SidebarSection>
+          <StorageUsed />
+        </SidebarSection>
+      </SidebarBody>
+      <SidebarFooter>
         <CurrentAccount />
-      </div>
-    </div>
+      </SidebarFooter>
+    </Sidebar>
   );
 }
-
-export default SideBar;

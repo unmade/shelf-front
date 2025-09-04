@@ -1,20 +1,24 @@
-export interface IAppMenuItem {
+interface AppMenuSectionItems {
   path: string | null;
   title: string;
   icon: React.ElementType;
   desktopOnly: boolean;
-  items:
-    | {
-        path: string | null;
-        title: string;
-      }[]
-    | null;
   end: boolean;
 }
 
-export interface IAppConfig {
+interface AppMenuSection {
+  key: string;
+  title?: string;
+  items: AppMenuSectionItems[];
+}
+
+interface AppMenu {
+  sections: AppMenuSection[];
+}
+
+export interface AppConfig {
   key: 'files' | 'photos';
   title: string;
   path: string;
-  menu: IAppMenuItem[];
+  menu: AppMenu;
 }
