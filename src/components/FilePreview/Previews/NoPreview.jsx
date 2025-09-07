@@ -4,12 +4,13 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
+import FileSize from 'components/ui/FileSize';
+
 import { download } from '../../../store/files';
 
 import * as icons from '../../../icons';
 
 import Button from '../../ui-legacy/Button';
-import FileSize from '../../ui-legacy/FileSize';
 import TimeAgo from '../../ui-legacy/TimeAgo';
 
 import FileIcon from '../../FileIcon';
@@ -35,7 +36,7 @@ function NoPreview({ file, reason }) {
         />
         <p className="text-gray-700 dark:text-zinc-200">{name}</p>
         <div className="text-xs text-gray-600 dark:text-zinc-400">
-          <FileSize size={size} />
+          <FileSize bytes={size} />
           <span> &bull; </span>
           <TimeAgo value={modifiedAt} />
         </div>

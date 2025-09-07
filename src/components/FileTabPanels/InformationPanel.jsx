@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
 
+import FileSize from 'components/ui/FileSize';
+
 import { FileShape, SharedLinkFileShape } from '../../types';
 
-import FileSize from '../ui-legacy/FileSize';
 import TimeAgo from '../ui-legacy/TimeAgo';
 
 import Property from './Property';
@@ -15,7 +16,7 @@ function InformationPanel({ file }) {
 
   return (
     <div className="divide-y divide-gray-200 text-xs font-medium dark:divide-zinc-700">
-      <Property name={t('file:size')} value={<FileSize size={file.size} />} />
+      <Property name={t('file:size')} value={<FileSize bytes={file.size} />} />
       <Property
         name={t('file:created')}
         value={<TimeAgo value={file.modified_at} format="LLL" />}
