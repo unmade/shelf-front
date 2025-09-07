@@ -1,7 +1,8 @@
 import type { IFile } from 'types/files';
 
+import FileSize from 'components/ui/FileSize';
+
 import Dialog from 'components/ui-legacy/Dialog';
-import FileSize from 'components/ui-legacy/FileSize';
 import TimeAgo from 'components/ui-legacy/TimeAgo';
 
 import Exif from 'components/Exif';
@@ -20,7 +21,7 @@ export default function InformationDialog({ file, visible, onClose }: Props) {
       <div className="flex">
         <div className="mr-4 w-full min-w-0 text-gray-800 dark:text-zinc-200">
           <p className="text-xs font-medium text-gray-500 dark:text-zinc-400">
-            <FileSize size={file?.size ?? 0} />
+            <FileSize bytes={file?.size ?? 0} />
           </p>
         </div>
       </div>

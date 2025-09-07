@@ -1,16 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { SharedLinkFileShape } from 'types';
 import { useDownloadSharedLinkContentQuery } from 'store/sharing';
 
-import { usePrefersColorSchemeContext } from 'components/PrefersColorSchemeProvider';
+import { MEGABYTE } from 'components/ui/FileSize';
 
 import Highlight from 'components/ui-legacy/Highlight';
 import Spinner from 'components/ui-legacy/Spinner';
 
-import { SharedLinkFileShape } from 'types';
-
-import { MEGABYTE } from 'filesize';
+import { usePrefersColorSchemeContext } from 'components/PrefersColorSchemeProvider';
 
 import NoPreview from './NoPreview';
 

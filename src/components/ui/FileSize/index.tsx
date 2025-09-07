@@ -7,9 +7,9 @@ export const TERABYTE = 1000 * GIGABYTE;
 export const PETABYTE = 1000 * TERABYTE;
 export const EXABYTE = 1000 * PETABYTE;
 
-export default function getHumanSize(size) {
-  let suffix;
-  let readable;
+export function getHumanSize(size: number) {
+  let suffix: string;
+  let readable: number;
 
   if (size >= EXABYTE) {
     suffix = 'EB';
@@ -36,4 +36,12 @@ export default function getHumanSize(size) {
 
   // Return formatted number with suffix
   return `${readable.toFixed(2)} ${suffix}`;
+}
+
+interface Props {
+  bytes: number;
+}
+
+export default function FileSize({ bytes }: Props) {
+  return <>{getHumanSize(bytes)}</>;
 }
