@@ -9,7 +9,7 @@ import * as icons from 'icons';
 
 import Button from 'components/ui/Button';
 
-import SideBar from './SideBar';
+import SideBar from './AppSidebar';
 
 export default function SideBarModal() {
   return (

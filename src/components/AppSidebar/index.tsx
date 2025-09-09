@@ -15,7 +15,7 @@ import CurrentAccount from './CurrentAccount';
 import { useSidebarContext } from './SidebarProvider';
 import StorageUsed from './StorageUsed';
 
-export default function SideBar() {
+export default function AppSidebar() {
   const { app } = useSidebarContext();
 
   return (
