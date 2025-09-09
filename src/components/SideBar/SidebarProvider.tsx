@@ -1,4 +1,3 @@
-import type React from 'react';
 import { createContext, useContext, useMemo } from 'react';
 
 import type { AppConfig } from 'types/AppConfig';
