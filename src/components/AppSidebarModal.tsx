@@ -11,7 +11,34 @@ import Button from 'components/ui/Button';
 
 import SideBar from './AppSidebar';
 
-export default function SideBarModal() {
+import { createContext, useContext, useMemo } from 'react';
+
+import type { AppConfig } from 'types/AppConfig';
+
+const SidebarContext = createContext<{ app: AppConfig } | null>(null);
+
+interface Props {
+  children: React.ReactNode;
+  app: AppConfig;
+}
+
+export function AppSidebarModalProvider({ children, app }: Props) {
+  const value = useMemo(() => ({ app }), [app]);
+
+  return <SidebarContext.Provider value={value}>{children}</SidebarContext.Provider>;
+}
+
+function useSidebarContext() {
+  const value = useContext(SidebarContext);
+  if (value == null) {
+    throw new Error('`useSidebarContext` must be used within a `SidebarProvider`');
+  }
+  return value;
+}
+
+export default function AppSidebarModal() {
+  const { app } = useSidebarContext();
+
   return (
     <UIPopover>
       <UIPopoverButton as={Button} className="focus:outline-none" variant="plain" color="gray">
@@ -36,7 +63,7 @@ export default function SideBarModal() {
           'transform transition duration-300 ease-out data-closed:-translate-x-full',
         ].join(' ')}
       >
-        <SideBar />
+        <SideBar app={app} />
       </UIPopoverPanel>
     </UIPopover>
   );

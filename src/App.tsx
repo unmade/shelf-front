@@ -17,7 +17,7 @@ import * as routes from './routes';
 
 import RequireAdmin from './components/RequireAdmin';
 import SideBar from './components/AppSidebar';
-import SidebarProvider from './components/AppSidebar/SidebarProvider';
+import { AppSidebarModalProvider } from './components/AppSidebarModal';
 
 import Bookmarks from './pages/Bookmarks';
 import Duplicates from './pages/Duplicates';
@@ -36,9 +36,9 @@ import PhotosTrash from './pages/Photos/Trash';
 
 function FilesApp() {
   return (
-    <SidebarProvider app={filesConfig}>
+    <AppSidebarModalProvider app={filesConfig}>
       <div className="hidden lg:block">
-        <SideBar />
+        <SideBar app={filesConfig} />
       </div>
       <div className="my-0 min-w-0 flex-1 bg-white shadow-sm dark:bg-zinc-800">
         <Routes>
@@ -58,15 +58,15 @@ function FilesApp() {
           />
         </Routes>
       </div>
-    </SidebarProvider>
+    </AppSidebarModalProvider>
   );
 }
 
 function PhotosApp() {
   return (
-    <SidebarProvider app={photosConfig}>
+    <AppSidebarModalProvider app={photosConfig}>
       <div className="hidden lg:block">
-        <SideBar />
+        <SideBar app={photosConfig} />
       </div>
       <div className="my-0 min-w-0 flex-1 bg-white shadow-sm dark:bg-zinc-800">
         <Routes>
@@ -78,7 +78,7 @@ function PhotosApp() {
           <Route path="/*" element={<Photos />} />
         </Routes>
       </div>
-    </SidebarProvider>
+    </AppSidebarModalProvider>
   );
 }
 
