@@ -1,3 +1,5 @@
+import type { AppConfig } from 'types/AppConfig';
+
 import {
   Sidebar,
   SidebarBody,
@@ -12,12 +14,13 @@ import {
 
 import AppSelector from './AppSelector';
 import CurrentAccount from './CurrentAccount';
-import { useSidebarContext } from './SidebarProvider';
 import StorageUsed from './StorageUsed';
 
-export default function AppSidebar() {
-  const { app } = useSidebarContext();
+interface Props {
+  app: AppConfig;
+}
 
+export default function AppSidebar({ app }: Props) {
   return (
     <Sidebar>
       <SidebarHeader>
