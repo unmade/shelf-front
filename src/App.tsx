@@ -16,8 +16,8 @@ import photosConfig from 'apps/photos/config';
 import * as routes from './routes';
 
 import RequireAdmin from './components/RequireAdmin';
-import SideBar from './components/SideBar';
-import SidebarProvider from './components/SideBar/SidebarProvider';
+import SideBar from './components/AppSidebar';
+import SidebarProvider from './components/AppSidebar/SidebarProvider';
 
 import Bookmarks from './pages/Bookmarks';
 import Duplicates from './pages/Duplicates';
