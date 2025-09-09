@@ -3,13 +3,21 @@ import i18n from 'i18n';
 import { type AppConfig } from 'types/AppConfig';
 
 import * as routes from 'routes';
-import * as icons from 'icons';
+import {
+  BookmarkOutlined,
+  DocumentSearchOutlined,
+  FilesAppIcon,
+  HomeOutlined,
+  LinkOutlined,
+  ShareOutlined,
+  TrashOutlined,
+} from 'icons';
 
 const config: AppConfig = {
   key: 'files',
   title: i18n.t('filesApp.title'),
   path: routes.FILES.prefix,
-  Icon: icons.Folder,
+  Icon: FilesAppIcon,
   menu: {
     sections: [
       {
@@ -19,28 +27,28 @@ const config: AppConfig = {
           {
             path: routes.FILES.prefix,
             title: i18n.t('Home', { defaultValue: 'Home' }),
-            Icon: icons.HomeOutlined,
+            Icon: HomeOutlined,
             desktopOnly: false,
             end: false,
           },
           {
             path: routes.BOOKMARKS.prefix,
             title: i18n.t('Saved', { defaultValue: 'Saved' }),
-            Icon: icons.BookmarkOutlined,
+            Icon: BookmarkOutlined,
             desktopOnly: false,
             end: false,
           },
           {
             path: routes.DUPLICATES.prefix,
             title: i18n.t('Duplicates', { defaultValue: 'Duplicates' }),
-            Icon: icons.DocumentSearchOutlined,
+            Icon: DocumentSearchOutlined,
             desktopOnly: true,
             end: false,
           },
           {
             path: routes.TRASH.prefix,
             title: i18n.t('Trash', { defaultValue: 'Trash' }),
-            Icon: icons.TrashOutlined,
+            Icon: TrashOutlined,
             desktopOnly: false,
             end: false,
           },
@@ -53,14 +61,14 @@ const config: AppConfig = {
           {
             path: routes.SHARED_IN_APP.prefix,
             title: i18n.t('In app', { defaultValue: 'In app' }),
-            Icon: icons.ShareOutlined,
+            Icon: ShareOutlined,
             desktopOnly: false,
             end: true,
           },
           {
             path: routes.SHARED_VIA_LINK.prefix,
             title: i18n.t('Links', { defaultValue: 'Links' }),
-            Icon: icons.LinkOutlined,
+            Icon: LinkOutlined,
             desktopOnly: false,
             end: true,
           },

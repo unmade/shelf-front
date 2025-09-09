@@ -1,6 +1,4 @@
-import React from 'react';
-
-export default function PhotoAppIcon(props) {
+export function PhotosAppIcon({ className = '', ...props }: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       width="20"
@@ -8,7 +6,7 @@ export default function PhotoAppIcon(props) {
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      // eslint-disable-next-line react/jsx-props-no-spreading
+      className={`text-green-500 ${className}`}
       {...props}
     >
       <path
@@ -24,3 +22,5 @@ export default function PhotoAppIcon(props) {
     </svg>
   );
 }
+
+export default PhotosAppIcon;
