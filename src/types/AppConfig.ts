@@ -1,7 +1,7 @@
-interface AppMenuSectionItems {
-  path: string | null;
+interface AppMenuSectionItem {
+  path: string;
   title: string;
-  icon: React.ElementType;
+  Icon: React.ElementType;
   desktopOnly: boolean;
   end: boolean;
 }
@@ -9,7 +9,7 @@ interface AppMenuSectionItems {
 interface AppMenuSection {
   key: string;
   title?: string;
-  items: AppMenuSectionItems[];
+  items: AppMenuSectionItem[];
 }
 
 interface AppMenu {
@@ -20,5 +20,6 @@ export interface AppConfig {
   key: 'files' | 'photos';
   title: string;
   path: string;
+  Icon: React.ElementType;
   menu: AppMenu;
 }

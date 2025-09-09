@@ -5,13 +5,13 @@ import { useTranslation } from 'react-i18next';
 import { Navigate, Route, Routes } from 'react-router';
 
 import { useAppDispatch } from 'hooks';
-import useDefaultApp from 'hooks/available-apps';
+import { useDefaultApp } from 'hooks/available-apps';
 
 import { featuresApi } from 'store/features';
 import { usersApi } from 'store/users';
 
-import filesAppConfig from './filesApp';
-import photosAppConfig from './photosApp';
+import filesConfig from 'apps/files/config';
+import photosConfig from 'apps/photos/config';
 
 import * as routes from './routes';
 
@@ -36,7 +36,7 @@ import PhotosTrash from './pages/Photos/Trash';
 
 function FilesApp() {
   return (
-    <SidebarProvider app={filesAppConfig}>
+    <SidebarProvider app={filesConfig}>
       <div className="hidden lg:block">
         <SideBar />
       </div>
@@ -64,7 +64,7 @@ function FilesApp() {
 
 function PhotosApp() {
   return (
-    <SidebarProvider app={photosAppConfig}>
+    <SidebarProvider app={photosConfig}>
       <div className="hidden lg:block">
         <SideBar />
       </div>

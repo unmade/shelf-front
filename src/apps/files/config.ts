@@ -1,14 +1,15 @@
-import type { AppConfig } from 'types/AppConfig';
-
 import i18n from 'i18n';
 
-import * as icons from 'icons';
+import { type AppConfig } from 'types/AppConfig';
+
 import * as routes from 'routes';
+import * as icons from 'icons';
 
 const config: AppConfig = {
   key: 'files',
   title: i18n.t('filesApp.title'),
   path: routes.FILES.prefix,
+  Icon: icons.Folder,
   menu: {
     sections: [
       {
@@ -18,28 +19,28 @@ const config: AppConfig = {
           {
             path: routes.FILES.prefix,
             title: i18n.t('Home', { defaultValue: 'Home' }),
-            icon: icons.HomeOutlined,
+            Icon: icons.HomeOutlined,
             desktopOnly: false,
             end: false,
           },
           {
             path: routes.BOOKMARKS.prefix,
             title: i18n.t('Saved', { defaultValue: 'Saved' }),
-            icon: icons.BookmarkOutlined,
+            Icon: icons.BookmarkOutlined,
             desktopOnly: false,
             end: false,
           },
           {
             path: routes.DUPLICATES.prefix,
             title: i18n.t('Duplicates', { defaultValue: 'Duplicates' }),
-            icon: icons.DocumentSearchOutlined,
+            Icon: icons.DocumentSearchOutlined,
             desktopOnly: true,
             end: false,
           },
           {
             path: routes.TRASH.prefix,
             title: i18n.t('Trash', { defaultValue: 'Trash' }),
-            icon: icons.TrashOutlined,
+            Icon: icons.TrashOutlined,
             desktopOnly: false,
             end: false,
           },
@@ -52,14 +53,14 @@ const config: AppConfig = {
           {
             path: routes.SHARED_IN_APP.prefix,
             title: i18n.t('In app', { defaultValue: 'In app' }),
-            icon: icons.ShareOutlined,
+            Icon: icons.ShareOutlined,
             desktopOnly: false,
             end: true,
           },
           {
             path: routes.SHARED_VIA_LINK.prefix,
             title: i18n.t('Links', { defaultValue: 'Links' }),
-            icon: icons.LinkOutlined,
+            Icon: icons.LinkOutlined,
             desktopOnly: false,
             end: true,
           },

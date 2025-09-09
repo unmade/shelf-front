@@ -1,14 +1,15 @@
-import type { AppConfig } from 'types/AppConfig';
-
 import i18n from 'i18n';
 
 import * as icons from 'icons';
 import * as routes from 'routes';
 
+import { type AppConfig } from 'types/AppConfig';
+
 const config: AppConfig = {
   key: 'photos',
   title: i18n.t('photosApp.title'),
   path: routes.PHOTOS.prefix,
+  Icon: icons.PhotoApp,
   menu: {
     sections: [
       {
@@ -18,28 +19,28 @@ const config: AppConfig = {
           {
             path: '/photos',
             title: i18n.t('Library', { defaultValue: 'Library' }),
-            icon: icons.PhotographOutlined,
+            Icon: icons.PhotographOutlined,
             desktopOnly: false,
             end: true,
           },
           {
             path: '/photos/albums',
             title: i18n.t('Albums', { defaultValue: 'Albums' }),
-            icon: icons.Collection,
+            Icon: icons.Collection,
             desktopOnly: false,
             end: true,
           },
           {
             path: '/photos/favourites',
             title: i18n.t('Favourites', { defaultValue: 'Favourites' }),
-            icon: icons.HeartOutlined,
+            Icon: icons.HeartOutlined,
             desktopOnly: false,
             end: false,
           },
           {
             path: '/photos/trash',
             title: i18n.t('Trash', { defaultValue: 'Trash' }),
-            icon: icons.TrashOutlined,
+            Icon: icons.TrashOutlined,
             desktopOnly: false,
             end: false,
           },
@@ -52,7 +53,7 @@ const config: AppConfig = {
           {
             path: '/photos/shared-links',
             title: i18n.t('Shared links', { defaultValue: 'Shared links' }),
-            icon: icons.LinkOutlined,
+            Icon: icons.LinkOutlined,
             desktopOnly: false,
             end: false,
           },
