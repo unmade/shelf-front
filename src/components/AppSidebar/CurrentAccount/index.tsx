@@ -8,7 +8,7 @@ import { useGetCurrentAccountQuery } from 'store/accounts';
 
 import * as icons from 'icons';
 
-import Avatar from 'components/ui-legacy/Avatar';
+import Avatar from 'components/ui/Avatar';
 
 import Overlay from './Overlay';
 
