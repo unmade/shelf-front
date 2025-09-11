@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router';
 
-import useDefaultApp from 'hooks/available-apps';
+import { useDefaultApp } from 'hooks/available-apps';
 
 import { useSignInMutation } from 'store/auth';
 import { tokenRefreshed } from 'store/authSlice';

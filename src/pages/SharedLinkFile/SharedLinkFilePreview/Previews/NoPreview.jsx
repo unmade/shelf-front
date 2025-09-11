@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
+import FileSize from 'components/ui/FileSize';
+
 import { downloadSharedLinkFile } from '../../../../store/sharing';
 
 import * as icons from '../../../../icons';
@@ -11,7 +13,6 @@ import { SharedLinkFileShape } from '../../../../types';
 
 import Button from '../../../../components/ui-legacy/Button';
 import FileIcon from '../../../../components/FileIcon';
-import FileSize from '../../../../components/ui-legacy/FileSize';
 import TimeAgo from '../../../../components/ui-legacy/TimeAgo';
 
 function NoPreview({ file, reason, token }) {
@@ -35,7 +36,7 @@ function NoPreview({ file, reason, token }) {
         />
         <p className="text-gray-700 dark:text-zinc-200">{name}</p>
         <div className="text-xs text-gray-600 dark:text-zinc-400">
-          <FileSize size={size} />
+          <FileSize bytes={size} />
           <span> &bull; </span>
           <TimeAgo value={modifiedAt} />
         </div>

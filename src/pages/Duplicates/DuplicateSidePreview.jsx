@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
 
+import FileSize from 'components/ui/FileSize';
+
 import { ThumbnailSize } from '../../constants';
 import * as icons from '../../icons';
 import * as routes from '../../routes';
 import { FileShape } from '../../types';
 
 import Button from '../../components/ui-legacy/Button';
-import FileSize from '../../components/ui-legacy/FileSize';
 import TimeAgo from '../../components/ui-legacy/TimeAgo';
 
 import { useDeleteDialog } from '../../components/DeleteDialogProvider';
@@ -54,7 +55,7 @@ function DuplicateSidePreview({ file }) {
           <FileProperty header={t('file:path')} value={routes.parent(file.path)} />
         </div>
         <div className="w-1/2 space-y-8">
-          <FileProperty header={t('file:size')} value={<FileSize size={file.size} />} />
+          <FileProperty header={t('file:size')} value={<FileSize bytes={file.size} />} />
           <FileProperty
             header={t('file:modified')}
             value={<TimeAgo value={file.modified_at} format="LLL" />}

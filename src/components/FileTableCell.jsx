@@ -7,6 +7,7 @@ import { Transition } from '@headlessui/react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { Checkbox } from 'components/ui/Checkbox';
+import FileSize from 'components/ui/FileSize';
 
 import {
   filesSelectionChanged,
@@ -18,7 +19,6 @@ import { FileShape } from '../types';
 
 import { MediaType } from '../constants';
 
-import FileSize from './ui-legacy/FileSize';
 import TimeAgo from './ui-legacy/TimeAgo';
 
 import BookmarkButton from './BookmarkButton';
@@ -120,7 +120,7 @@ function FileTableCell({ className, even, item, selected, hasSelection }) {
             <TimeAgo value={item.modified_at} />
           </div>
           <div className={`hidden w-24 text-right md:block ${secondaryText}`}>
-            <FileSize size={item.size} />
+            <FileSize bytes={item.size} />
           </div>
         </div>
       </Transition>

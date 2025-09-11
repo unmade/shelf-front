@@ -5,19 +5,19 @@ import { useTranslation } from 'react-i18next';
 import { Navigate, Route, Routes } from 'react-router';
 
 import { useAppDispatch } from 'hooks';
-import useDefaultApp from 'hooks/available-apps';
+import { useDefaultApp } from 'hooks/available-apps';
 
 import { featuresApi } from 'store/features';
 import { usersApi } from 'store/users';
 
-import filesAppConfig from './filesApp';
-import photosAppConfig from './photosApp';
+import filesConfig from 'apps/files/config';
+import photosConfig from 'apps/photos/config';
 
 import * as routes from './routes';
 
 import RequireAdmin from './components/RequireAdmin';
-import SideBar from './components/SideBar';
-import SidebarProvider from './components/SideBar/SidebarProvider';
+import SideBar from './components/AppSidebar';
+import { AppSidebarModalProvider } from './components/AppSidebarModal';
 
 import Bookmarks from './pages/Bookmarks';
 import Duplicates from './pages/Duplicates';
@@ -36,9 +36,9 @@ import PhotosTrash from './pages/Photos/Trash';
 
 function FilesApp() {
   return (
-    <SidebarProvider app={filesAppConfig}>
-      <div className="hidden lg:block xl:w-64">
-        <SideBar />
+    <AppSidebarModalProvider app={filesConfig}>
+      <div className="hidden lg:block">
+        <SideBar app={filesConfig} />
       </div>
       <div className="my-0 min-w-0 flex-1 bg-white shadow-sm dark:bg-zinc-800">
         <Routes>
@@ -58,15 +58,15 @@ function FilesApp() {
           />
         </Routes>
       </div>
-    </SidebarProvider>
+    </AppSidebarModalProvider>
   );
 }
 
 function PhotosApp() {
   return (
-    <SidebarProvider app={photosAppConfig}>
-      <div className="hidden lg:block xl:w-64">
-        <SideBar />
+    <AppSidebarModalProvider app={photosConfig}>
+      <div className="hidden lg:block">
+        <SideBar app={photosConfig} />
       </div>
       <div className="my-0 min-w-0 flex-1 bg-white shadow-sm dark:bg-zinc-800">
         <Routes>
@@ -78,7 +78,7 @@ function PhotosApp() {
           <Route path="/*" element={<Photos />} />
         </Routes>
       </div>
-    </SidebarProvider>
+    </AppSidebarModalProvider>
   );
 }
 

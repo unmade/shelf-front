@@ -5,7 +5,7 @@ import { useIsLaptop } from '../hooks/media-query';
 
 import { Children } from '../types';
 
-import SideBarModal from './SideBarModal';
+import AppSidebarModal from './AppSidebarModal';
 
 function Title({ children, icon }) {
   const isLaptop = useIsLaptop();
@@ -22,7 +22,7 @@ function Title({ children, icon }) {
   }
   return (
     <>
-      <SideBarModal />
+      <AppSidebarModal />
       <h2 className="ml-2 text-xl font-medium text-gray-900 sm:text-3xl dark:text-zinc-100">
         {children}
       </h2>

@@ -1,6 +1,6 @@
 import type { IMediaItem } from 'types/photos';
 
-import FileSize from 'components/ui-legacy/FileSize';
+import FileSize from 'components/ui/FileSize';
 
 import Exif from 'components/Exif';
 
@@ -23,7 +23,7 @@ export default function Sidebar({ className, mediaItem }: Props) {
           <div className="mr-4 w-full min-w-0 text-gray-800 dark:text-zinc-200">
             <p className="truncate text-lg font-semibold">{mediaItem.name}</p>
             <p className="text-xs font-medium text-gray-500 dark:text-zinc-400">
-              <FileSize size={mediaItem.size} />
+              <FileSize bytes={mediaItem.size} />
             </p>
           </div>
         </div>

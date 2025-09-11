@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 import { useAppSelector } from 'hooks';
-import useDefaultApp from 'hooks/available-apps';
+import { useDefaultApp } from 'hooks/available-apps';
 import * as routes from 'routes';
 
 import { useVerifyEmailSendCodeMutation } from 'store/accounts';

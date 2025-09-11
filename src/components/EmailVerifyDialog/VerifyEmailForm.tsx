@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router';
 
-import useDefaultApp from 'hooks/available-apps';
+import { useDefaultApp } from 'hooks/available-apps';
 
 import {
   useGetCurrentAccountQuery,

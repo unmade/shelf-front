@@ -10,6 +10,11 @@ export interface ICurrentAccountSchema {
   superuser: boolean;
 }
 
+interface SpaceUsageSchema {
+  used: number;
+  quota: number;
+}
+
 interface ChangeEmailCompleteArg {
   email: string;
   code: string;
@@ -57,7 +62,7 @@ const accountsApi = apiSlice.injectEndpoints({
       query: () => 'accounts/get_current',
       providesTags: [{ type: 'Accounts', id: 'getCurrentAccount' }],
     }),
-    getSpaceUsage: builder.query({
+    getSpaceUsage: builder.query<SpaceUsageSchema, undefined>({
       query: () => '/accounts/get_space_usage',
     }),
     verifyEmailComplete: builder.mutation<{ completed: boolean }, string>({

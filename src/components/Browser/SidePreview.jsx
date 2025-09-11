@@ -3,12 +3,13 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
+import FileSize from 'components/ui/FileSize';
+
 import { filesSelectionChanged, selectAllSelectedFileIds } from '../../store/browser';
 
 import { MediaType, ThumbnailSize } from '../../constants';
 
 import Button from '../ui-legacy/Button';
-import FileSize from '../ui-legacy/FileSize';
 import TimeAgo from '../ui-legacy/TimeAgo';
 
 import BookmarkButton from '../BookmarkButton';
@@ -69,7 +70,7 @@ function SingleFilePreview({ fileId }) {
         <div className="min-w-0 text-gray-800 dark:text-zinc-200">
           <p className={`${fontSize} font-semibold break-words`}>{file.name}</p>
           <p className="text-xs text-gray-600 dark:text-zinc-400">
-            <FileSize size={file.size} />
+            <FileSize bytes={file.size} />
             <span className="px-1">&bull;</span>
             <TimeAgo value={file.modified_at} />
           </p>
@@ -168,7 +169,7 @@ function MultiFilePreview({ fileIds }) {
             )}
           </span>
           <span className="px-1">&bull;</span>
-          <FileSize size={size} />
+          <FileSize bytes={size} />
         </p>
       </div>
 
@@ -187,7 +188,7 @@ function MultiFilePreview({ fileIds }) {
           <div className="flex justify-between py-2">
             <p className="text-gray-500 dark:text-zinc-400">{t('Size')}</p>
             <p>
-              <FileSize size={size} />
+              <FileSize bytes={size} />
             </p>
           </div>
           <div className="flex justify-between py-2">

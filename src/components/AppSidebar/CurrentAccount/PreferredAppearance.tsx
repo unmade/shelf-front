@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { usePrefersColorSchemeContext, ColorScheme } from 'components/PrefersColorSchemeProvider';
 
 import Select from 'components/ui/Select';
+import Field, { Label } from 'components/ui/Field';
 
 interface Option {
   name: string;
@@ -27,12 +28,15 @@ export default function PreferredAppearance() {
   };
 
   return (
-    <Select name="colorscheme" defaultValue={currentOption.value} onChange={onChangeHandler}>
-      {options.map((option) => (
-        <option key={option.value} value={option.value}>
-          {option.name}
-        </option>
-      ))}
-    </Select>
+    <Field>
+      <Label htmlFor="colorscheme">{t('Appearance')}</Label>
+      <Select name="colorscheme" defaultValue={currentOption.value} onChange={onChangeHandler}>
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.name}
+          </option>
+        ))}
+      </Select>
+    </Field>
   );
 }
