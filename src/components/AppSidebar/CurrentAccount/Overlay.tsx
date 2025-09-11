@@ -7,24 +7,16 @@ import { useAppDispatch } from 'hooks';
 
 import { signedOut } from 'store/authSlice';
 
-import Avatar from 'components/ui-legacy/Avatar';
-import Button from 'components/ui-legacy/Button';
+import Divider from 'components/ui/Divider';
+import Button from 'components/ui/Button';
 
 import PreferredAppearance from './PreferredAppearance';
 
-interface Props {
-  fullName: string;
-  email: string | null;
-  username: string;
-}
-
-export default function Overlay({ fullName, email, username }: Props) {
+export default function Overlay() {
   const { t } = useTranslation();
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  const displayName = (fullName || email) ?? username;
 
   const onSignOut = () => {
     navigate(routes.SIGNIN.route);
@@ -33,25 +25,18 @@ export default function Overlay({ fullName, email, username }: Props) {
 
   return (
     <div className="flex min-w-48 flex-col space-y-2 rounded-xl p-2">
-      <div className="flex flex-row items-center p-1">
-        <Avatar className="h-10 w-10 rounded-lg" username={displayName} />
-        <div className="ml-2 flex flex-1 flex-col text-left text-gray-700 dark:text-gray-300">
-          <div className="text-sm font-semibold">{displayName}</div>
-          {fullName && <div className="text-xs">{email ?? `@${username}`}</div>}
-        </div>
-      </div>
-      <hr className="border-gray-200 dark:border-zinc-700" />
       <PreferredAppearance />
+      <Divider />
       <div className="space-y-1">
         <Button
-          full
-          variant="text"
-          color="danger"
+          className="w-full"
+          variant="plain"
+          color="red"
           title={t('Sign Out')}
-          icon={<icons.LogoutOutlined className="h-5 w-5" />}
           onClick={onSignOut}
         >
-          <div className="my-1">{t('Sign Out')}</div>
+          <icons.LogoutOutlined data-slot="icon" />
+          {t('Sign Out')}
         </Button>
       </div>
     </div>

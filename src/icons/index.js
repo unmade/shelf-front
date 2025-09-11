@@ -16,6 +16,8 @@ import PhotosAppIcon from './PhotosAppIcon';
 import SharedFolderSolid from './SharedFolderIcon';
 import UsersOutlinedIcon from './UsersOutlinedIcon';
 
+export { ChevronUpIcon } from '@heroicons/react/solid';
+
 export { FilesAppIcon } from './FilesAppIcon';
 export { PhotosAppIcon } from './PhotosAppIcon';
 
