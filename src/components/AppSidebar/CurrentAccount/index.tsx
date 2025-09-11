@@ -26,7 +26,7 @@ export default function CurrentAccount() {
 
   return (
     <UIPopover>
-      <UIPopoverButton className="flex w-full items-center justify-between rounded-lg px-2 py-1.5 focus:outline-none data-hover:bg-gray-950/5 dark:data-hover:dark:bg-zinc-50/5">
+      <UIPopoverButton className="flex w-full items-center justify-between rounded-lg px-2 py-2 focus:outline-none data-hover:bg-gray-950/5 dark:data-hover:dark:bg-zinc-50/5">
         <div className="flex min-w-0 items-center gap-3 text-left">
           <Avatar username={displayName} className="size-10" />
           <span className="min-w-0">

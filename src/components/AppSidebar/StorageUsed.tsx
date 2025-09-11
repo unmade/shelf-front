@@ -27,7 +27,7 @@ export default function StorageUsed() {
           : 'danger';
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 px-2">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <icons.Database className="size-5 sm:size-4" />
