@@ -24,21 +24,19 @@ export default function Overlay() {
   };
 
   return (
-    <div className="flex min-w-48 flex-col space-y-2 rounded-xl p-2">
+    <>
       <PreferredAppearance />
-      <Divider />
-      <div className="space-y-1">
-        <Button
-          className="w-full"
-          variant="plain"
-          color="red"
-          title={t('Sign Out')}
-          onClick={onSignOut}
-        >
-          <icons.LogoutOutlined data-slot="icon" />
-          {t('Sign Out')}
-        </Button>
-      </div>
-    </div>
+      <Divider className="mt-4 mb-2" />
+      <Button
+        className="w-full"
+        variant="plain"
+        color="red"
+        title={t('Sign Out')}
+        onClick={onSignOut}
+      >
+        <icons.LogoutOutlined data-slot="icon" />
+        {t('Sign Out')}
+      </Button>
+    </>
   );
 }
