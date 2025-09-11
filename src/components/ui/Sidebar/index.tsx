@@ -48,7 +48,7 @@ export function SidebarHeading({
 }: React.ComponentPropsWithoutRef<'div'>) {
   return (
     <div
-      className={`mb-1 px-2 text-sm/6 font-medium text-gray-400 sm:text-xs/6 dark:text-zinc-500 ${className}`}
+      className={`mb-1 px-3 text-sm/6 font-medium text-gray-400 sm:text-xs/6 dark:text-zinc-500 ${className}`}
       {...props}
     />
   );
