@@ -21,7 +21,7 @@ export default function CurrentAccount() {
     return null;
   }
 
-  const { display_name: fullName, email, username } = account;
+  const { display_name: fullName, username } = account;
   const displayName = fullName || username;
 
   return (
@@ -35,7 +35,7 @@ export default function CurrentAccount() {
             </div>
           </div>
           <div>
-            <icons.Selector className="size-5 text-gray-500 dark:text-zinc-500" />
+            <icons.ChevronUpIcon className="size-5 text-gray-500 dark:text-zinc-500" />
           </div>
         </div>
       </UIPopoverButton>
@@ -51,7 +51,7 @@ export default function CurrentAccount() {
           'transition duration-200 ease-out data-closed:scale-95 data-closed:opacity-0',
         ].join(' ')}
       >
-        <Overlay fullName={fullName} email={email} username={username} />
+        <Overlay />
       </UIPopoverPanel>
     </UIPopover>
   );
