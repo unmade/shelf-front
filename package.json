@@ -24,7 +24,7 @@
     "react-icons": "^4.2.0",
     "react-redux": "^9.2.0",
     "react-responsive": "^10.0.1",
-    "react-router": "^7.7.1",
+    "react-router": "^7.9.4",
     "react-swipeable": "^7.0.2",
     "react-virtualized-auto-sizer": "^1.0.26",
     "react-window": "^1.8.11",
