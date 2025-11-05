@@ -75,10 +75,10 @@ export default function Avatar({ className = '', username }: Props) {
   const color = colorVariants[letter] || defaultColor;
 
   return (
-    <div
-      className={`${className} mx-0 flex shrink-0 items-center justify-center rounded-xl border lg:mx-auto xl:mx-0 ${color}`}
+    <span
+      className={`${className} flex shrink-0 items-center justify-center rounded-[20%] border ${color}`}
     >
       {letter}
-    </div>
+    </span>
   );
 }

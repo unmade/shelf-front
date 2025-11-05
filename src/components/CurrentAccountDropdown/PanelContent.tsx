@@ -12,16 +12,20 @@ import Button from 'components/ui/Button';
 
 import PreferredAppearance from './PreferredAppearance';
 
-export default function Overlay() {
-  const { t } = useTranslation();
-
+function useSignOut() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const onSignOut = () => {
+  return () => {
     navigate(routes.SIGNIN.route);
     dispatch(signedOut());
   };
+}
+
+export default function Panel() {
+  const { t } = useTranslation();
+
+  const onSignOut = useSignOut();
 
   return (
     <>

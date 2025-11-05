@@ -58,7 +58,7 @@ export default function AppSelector({ title }: Props) {
   return (
     <UIPopover>
       <UIPopoverButton
-        className="flex w-full items-center gap-2 rounded-lg p-2 text-2xl text-gray-900 focus:outline-none data-hover:bg-gray-950/5 dark:text-zinc-100 dark:data-hover:dark:bg-zinc-50/5"
+        className="flex w-full items-center gap-2 rounded-lg p-2 text-2xl/8 text-gray-900 focus:outline-none data-hover:bg-gray-950/5 sm:text-xl/8 dark:text-zinc-100 dark:data-hover:dark:bg-zinc-50/5"
         disabled={apps.length < 2}
       >
         <icons.AppLogo className="size-7 shrink-0" />

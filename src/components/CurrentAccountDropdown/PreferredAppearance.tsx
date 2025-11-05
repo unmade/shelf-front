@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next';
 
-import { usePrefersColorSchemeContext, ColorScheme } from 'components/PrefersColorSchemeProvider';
-
-import Select from 'components/ui/Select';
 import Field, { Label } from 'components/ui/Field';
+import Select from 'components/ui/Select';
+
+import { usePrefersColorSchemeContext, ColorScheme } from 'components/PrefersColorSchemeProvider';
 
 interface Option {
   name: string;

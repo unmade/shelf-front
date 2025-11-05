@@ -12,8 +12,13 @@ import {
   SidebarSpacer,
 } from 'components/ui/Sidebar';
 
+import {
+  CurrentAccountDropdown,
+  CurrentAccountDropdownButton,
+  CurrentAccountDropdownPanel,
+} from 'components/CurrentAccountDropdown';
+
 import AppSelector from './AppSelector';
-import CurrentAccount from './CurrentAccount';
 import StorageUsed from './StorageUsed';
 
 interface Props {
@@ -43,8 +48,11 @@ export default function AppSidebar({ app }: Props) {
           <StorageUsed />
         </SidebarSection>
       </SidebarBody>
-      <SidebarFooter>
-        <CurrentAccount />
+      <SidebarFooter className="max-lg:hidden">
+        <CurrentAccountDropdown>
+          <CurrentAccountDropdownButton />
+          <CurrentAccountDropdownPanel />
+        </CurrentAccountDropdown>
       </SidebarFooter>
     </Sidebar>
   );

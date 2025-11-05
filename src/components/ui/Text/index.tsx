@@ -4,7 +4,7 @@ export function Strong({ className = '', ...props }: React.ComponentPropsWithout
   return <strong {...props} className={`${className} font-medium`} />;
 }
 
-const textStyles = 'text-base/6 text-zinc-500 sm:text-sm/6 dark:text-zinc-400';
+const textStyles = 'text-base/6 text-gray-500 sm:text-sm/6 dark:text-zinc-400';
 
 export function Text({ className = '', ...props }: React.ComponentPropsWithoutRef<'p'>) {
   return <p {...props} data-slot="text" className={`${className} ${textStyles}`} />;

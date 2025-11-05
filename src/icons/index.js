@@ -16,7 +16,7 @@ import PhotosAppIcon from './PhotosAppIcon';
 import SharedFolderSolid from './SharedFolderIcon';
 import UsersOutlinedIcon from './UsersOutlinedIcon';
 
-export { ChevronUpIcon } from '@heroicons/react/solid';
+export { ChevronUpIcon as ChevronUpSolid } from '@heroicons/react/solid';
 export { MenuAlt4Icon as MenuAlt4Solid } from '@heroicons/react/solid';
 
 export { FilesAppIcon } from './FilesAppIcon';
