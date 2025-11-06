@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useListMediaItemCategoriesQuery } from 'store/mediaItems';
 
-import Spinner from 'components/ui-legacy/Spinner';
+import Spinner from 'components/ui/Spinner';
 
 import useMediaItemCategories from 'components/photos/hooks/media-item-categories';
 
@@ -25,7 +25,7 @@ export default function CategoryList({ fileId }: Props) {
   });
 
   if (loading) {
-    return <Spinner className="h-4 w-4" />;
+    return <Spinner className="size-4" />;
   }
 
   if (!categories?.length) {

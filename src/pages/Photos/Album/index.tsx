@@ -9,7 +9,7 @@ import { useGetAlbumQuery, selectListAlbumsData } from 'store/albums';
 
 import * as routes from 'routes';
 
-import Spinner from 'components/ui-legacy/Spinner';
+import Spinner from 'components/ui/Spinner';
 
 import Heading from 'components/ui/Heading';
 
@@ -61,7 +61,9 @@ export default function Album() {
                 <Heading className="py-0.5">{title}</Heading>
               </div>
             </PageHeader>
-            <PageContent>{isLoading ? <Spinner /> : <Content album={album!} />}</PageContent>
+            <PageContent>
+              {isLoading ? <Spinner className="h-full" /> : <Content album={album!} />}
+            </PageContent>
           </Page>
         </DeleteMediaItemsDialogProvider>
       </CopyLinkDialogProvider>

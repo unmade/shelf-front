@@ -7,7 +7,7 @@ import { useDownloadSharedLinkContentQuery } from 'store/sharing';
 import { MEGABYTE } from 'components/ui/FileSize';
 
 import Highlight from 'components/ui-legacy/Highlight';
-import Spinner from 'components/ui-legacy/Spinner';
+import Spinner from 'components/ui/Spinner';
 
 import { usePrefersColorSchemeContext } from 'components/PrefersColorSchemeProvider';
 

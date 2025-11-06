@@ -6,7 +6,7 @@ import {
   useListDeletedMediaItemsQuery,
 } from 'store/mediaItems';
 
-import Spinner from 'components/ui-legacy/Spinner';
+import Spinner from 'components/ui/Spinner';
 
 import Empty from 'components/photos/Empty';
 import MediaItemGridView from 'components/photos/MediaItemGridView';
@@ -41,11 +41,7 @@ export default function Content() {
   }
 
   if (!ids) {
-    return (
-      <div className="flex h-full justify-center">
-        <Spinner />
-      </div>
-    );
+    return <Spinner className="h-full" />;
   }
 
   return (

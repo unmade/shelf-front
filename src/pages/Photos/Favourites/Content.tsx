@@ -1,4 +1,4 @@
-import Spinner from 'components/ui-legacy/Spinner';
+import Spinner from 'components/ui/Spinner';
 
 import usePaginatedMediaItemsQuery from 'components/photos/hooks/list-media-items';
 
@@ -20,11 +20,7 @@ export default function Content() {
   }
 
   if (!ids) {
-    return (
-      <div className="flex h-full justify-center">
-        <Spinner />
-      </div>
-    );
+    return <Spinner className="h-full" />;
   }
 
   return <MediaItemGridView ids={ids} selectById={selectById} menuItemRenderer={MediaItemMenu} />;

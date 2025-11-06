@@ -11,9 +11,9 @@ import {
 } from 'store/files';
 
 import { MediaType, ThumbnailSize, thumbnailSizes } from 'constants';
-import { MEGABYTE } from 'components/ui/FileSize';
 
-import Spinner from './ui-legacy/Spinner';
+import { MEGABYTE } from 'components/ui/FileSize';
+import Spinner from 'components/ui/Spinner';
 
 import FileIcon from './FileIcon';
 

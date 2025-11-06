@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import { Navigate, useLocation } from 'react-router';
 import { useSelector } from 'react-redux';
 
-import { useGetCurrentAccountQuery } from '../store/accounts';
-import { selectAccessToken, selectRefreshToken } from '../store/authSlice';
+import { useGetCurrentAccountQuery } from 'store/accounts';
+import { selectAccessToken, selectRefreshToken } from 'store/authSlice';
 
-import Spinner from './ui-legacy/Spinner';
+import Spinner from 'components/ui/Spinner';
 
 export default function RequireAccount({ children, redirectTo }) {
   const { pathname } = useLocation();

@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useListMediaItemSharedLinksQuery } from 'store/mediaItems';
 
-import Spinner from 'components/ui-legacy/Spinner';
+import Spinner from 'components/ui/Spinner';
 
 import Empty from 'components/photos/Empty';
 
@@ -31,11 +31,7 @@ export default function Content() {
   }
 
   if (!ids) {
-    return (
-      <div className="flex h-full justify-center">
-        <Spinner />
-      </div>
-    );
+    return <Spinner className="h-full" />;
   }
 
   return <SharedLinkList ids={ids} />;

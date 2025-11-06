@@ -18,7 +18,7 @@ import DuplicateListItem from './DuplicateListItem';
 import DuplicateSidePreview from './DuplicateSidePreview';
 import FilePreviewContainer from './FilePreviewContainer';
 import SelectFolderDialogButton from './SelectFolderDialogButton';
-import Spinner from '../../components/ui-legacy/Spinner';
+import Spinner from '../../components/ui/Spinner';
 
 const distanceOptions = [
   { name: 'Similar', value: 5, symbol: '≈' },

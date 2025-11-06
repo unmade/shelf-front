@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 
-import Spinner from './Spinner';
+import Spinner from 'components/ui/Spinner';
 
 function VList({
   className,
