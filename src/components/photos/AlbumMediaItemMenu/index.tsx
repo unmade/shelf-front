@@ -1,10 +1,8 @@
-import * as icons from 'icons';
 import type { IMediaItem } from 'types/photos';
 
 import { useAppSelector } from 'hooks';
 import { useCopyLinkAction } from 'hooks/file-actions';
 
-import SimpleMenu from 'components/SimpleMenu';
 import { useSelection } from 'components/SelectionProvider';
 
 import {
@@ -17,6 +15,7 @@ import {
 } from '../hooks/media-item-actions';
 import { makeFileFromMediaItem } from '../hooks/file-from-media-item';
 
+import GridItemMenu from '../GridItemMenu';
 import { useMediaItemsData } from '../MediaItemsProvider';
 
 const EMPTY: IMediaItem[] = [];
@@ -73,11 +72,7 @@ interface Props {
 
 function AlbumMediaItemMenu({ mediaItem, albumSlug, onOpen }: Props) {
   const sections = useMediaItemActionSections(mediaItem, albumSlug);
-  return (
-    <SimpleMenu sections={sections} placement="bottom start" onOpen={onOpen}>
-      <icons.More className="h-3 w-3 shrink-0" />
-    </SimpleMenu>
-  );
+  return <GridItemMenu sections={sections} onOpen={onOpen} />;
 }
 
 export default AlbumMediaItemMenu;

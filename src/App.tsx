@@ -16,8 +16,9 @@ import photosConfig from 'apps/photos/config';
 import * as routes from './routes';
 
 import RequireAdmin from './components/RequireAdmin';
-import SideBar from './components/AppSidebar';
+import AppSidebar from './components/AppSidebar';
 import { AppSidebarModalProvider } from './components/AppSidebarModal';
+import AppNavbar from './components/AppNavbar';
 
 import Bookmarks from './pages/Bookmarks';
 import Duplicates from './pages/Duplicates';
@@ -33,12 +34,13 @@ import PhotosAlbum from './pages/Photos/Album';
 import PhotosFavourites from './pages/Photos/Favourites';
 import PhotosSharedLinks from './pages/Photos/SharedLinks';
 import PhotosTrash from './pages/Photos/Trash';
+import SidebarLayout from 'components/ui/SidebarLayout';
 
 function FilesApp() {
   return (
     <AppSidebarModalProvider app={filesConfig}>
       <div className="hidden lg:block">
-        <SideBar app={filesConfig} />
+        <AppSidebar app={filesConfig} />
       </div>
       <div className="my-0 min-w-0 flex-1 bg-white shadow-sm dark:bg-zinc-800">
         <Routes>
@@ -64,21 +66,16 @@ function FilesApp() {
 
 function PhotosApp() {
   return (
-    <AppSidebarModalProvider app={photosConfig}>
-      <div className="hidden lg:block">
-        <SideBar app={photosConfig} />
-      </div>
-      <div className="my-0 min-w-0 flex-1 bg-white shadow-sm dark:bg-zinc-800">
-        <Routes>
-          <Route path={routes.PHOTOS_ALBUMS.route} element={<PhotosAlbums />} />
-          <Route path={routes.PHOTOS_ALBUMS_ALBUM.route} element={<PhotosAlbum />} />
-          <Route path={routes.PHOTOS_FAVOURITES.route} element={<PhotosFavourites />} />
-          <Route path={routes.PHOTOS_SHARED_VIA_LINK.route} element={<PhotosSharedLinks />} />
-          <Route path={routes.TRASH.route} element={<PhotosTrash />} />
-          <Route path="/*" element={<Photos />} />
-        </Routes>
-      </div>
-    </AppSidebarModalProvider>
+    <SidebarLayout sidebar={<AppSidebar app={photosConfig} />} navbar={<AppNavbar />}>
+      <Routes>
+        <Route path={routes.PHOTOS_ALBUMS.route} element={<PhotosAlbums />} />
+        <Route path={routes.PHOTOS_ALBUMS_ALBUM.route} element={<PhotosAlbum />} />
+        <Route path={routes.PHOTOS_FAVOURITES.route} element={<PhotosFavourites />} />
+        <Route path={routes.PHOTOS_SHARED_VIA_LINK.route} element={<PhotosSharedLinks />} />
+        <Route path={routes.TRASH.route} element={<PhotosTrash />} />
+        <Route path="/*" element={<Photos />} />
+      </Routes>
+    </SidebarLayout>
   );
 }
 

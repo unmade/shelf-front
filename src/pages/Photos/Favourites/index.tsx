@@ -1,18 +1,16 @@
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
+import Heading from 'components/ui/Heading';
+
 import CopyLinkDialogProvider from 'components/CopyLinkDialogProvider';
-import PageHeader from 'components/PageHeader';
 
 import AddToAlbumDialogProvider from 'components/photos/AddToAlbumDialogProvider';
 import DeleteMediaItemsDialogProvider from 'components/photos/DeleteMediaItemsDialogProvider';
 
-import Content from './Content';
+import { Page, PageHeader, PageContent } from 'apps/photos/components/page';
 
-const headerHeight = '108px';
-const contentStyle = {
-  height: `calc(100% - ${headerHeight})`,
-};
+import Content from './Content';
 
 export default function Favourites() {
   const { t } = useTranslation('photos');
@@ -26,16 +24,14 @@ export default function Favourites() {
           <Helmet>
             <title>Shelf Photos</title>
           </Helmet>
-          <div className="h-full">
+          <Page>
             <PageHeader>
-              <PageHeader.Title>{title}</PageHeader.Title>
-              <PageHeader.Actions />
+              <Heading className="py-0.5">{title}</Heading>
             </PageHeader>
-
-            <div className="h-full w-full" style={contentStyle}>
+            <PageContent>
               <Content />
-            </div>
-          </div>
+            </PageContent>
+          </Page>
         </DeleteMediaItemsDialogProvider>
       </CopyLinkDialogProvider>
     </AddToAlbumDialogProvider>

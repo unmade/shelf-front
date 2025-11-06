@@ -1,20 +1,15 @@
-import React from 'react';
-
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
-import PageHeader from 'components/PageHeader';
+import Heading from 'components/ui/Heading';
 
 import DeleteMediaItemsImmediatelyDialogProvider from 'components/photos/DeleteMediaItemsImmediatelyDialogProvider';
 import EmptyMediaItemsTrashDialogProvider from 'components/photos/EmptyMediaItemsTrashDialogProvider';
 
+import { Page, PageHeader, PageHeaderActions, PageContent } from 'apps/photos/components/page';
+
 import Content from './Content';
 import EmptyTrashDialogButton from './EmptyTrashDialogButton';
-
-const headerHeight = '108px';
-const contentStyle = {
-  height: `calc(100% - ${headerHeight})`,
-};
 
 export default function Trash() {
   const { t } = useTranslation('photos');
@@ -27,18 +22,17 @@ export default function Trash() {
         <Helmet>
           <title>Shelf Photos</title>
         </Helmet>
-        <div className="h-full">
+        <Page>
           <PageHeader>
-            <PageHeader.Title>{title}</PageHeader.Title>
-            <PageHeader.Actions>
+            <Heading className="py-0.5">{title}</Heading>
+            <PageHeaderActions>
               <EmptyTrashDialogButton />
-            </PageHeader.Actions>
+            </PageHeaderActions>
           </PageHeader>
-
-          <div className="h-full w-full" style={contentStyle}>
+          <PageContent>
             <Content />
-          </div>
-        </div>
+          </PageContent>
+        </Page>
       </EmptyMediaItemsTrashDialogProvider>
     </DeleteMediaItemsImmediatelyDialogProvider>
   );

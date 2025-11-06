@@ -11,19 +11,17 @@ import * as routes from 'routes';
 
 import Spinner from 'components/ui-legacy/Spinner';
 
+import Heading from 'components/ui/Heading';
+
 import CopyLinkDialogProvider from 'components/CopyLinkDialogProvider';
 import GoBackButton from 'components/GoBackButton';
-import PageHeader from 'components/PageHeader';
 
 import AddToAlbumDialogProvider from 'components/photos/AddToAlbumDialogProvider';
 import DeleteMediaItemsDialogProvider from 'components/photos/DeleteMediaItemsDialogProvider';
 
-import Content from './Content';
+import { Page, PageHeader, PageContent } from 'apps/photos/components/page';
 
-const headerHeight = '108px';
-const contentStyle = {
-  height: `calc(100% - ${headerHeight})`,
-};
+import Content from './Content';
 
 export default function Album() {
   const { t } = useTranslation('photos');
@@ -55,18 +53,16 @@ export default function Album() {
           <Helmet>
             <title>Shelf Photos</title>
           </Helmet>
-          <div className="h-full">
-            <PageHeader>
-              <PageHeader.Title icon={<GoBackButton to={routes.PHOTOS_ALBUMS.prefix} />}>
-                {title}
-              </PageHeader.Title>
-              <PageHeader.Actions />
-            </PageHeader>
 
-            <div className="h-full w-full" style={contentStyle}>
-              {isLoading ? <Spinner /> : <Content album={album!} />}
-            </div>
-          </div>
+          <Page>
+            <PageHeader>
+              <div className="flex items-center gap-2">
+                <GoBackButton to={routes.PHOTOS_ALBUMS.prefix} />
+                <Heading className="py-0.5">{title}</Heading>
+              </div>
+            </PageHeader>
+            <PageContent>{isLoading ? <Spinner /> : <Content album={album!} />}</PageContent>
+          </Page>
         </DeleteMediaItemsDialogProvider>
       </CopyLinkDialogProvider>
     </AddToAlbumDialogProvider>

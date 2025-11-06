@@ -4,24 +4,23 @@ import { useSelector } from 'react-redux';
 
 import { selectPhotosLibraryPath } from 'store/features';
 
+import { MediaType } from 'constants';
+
+import Heading from 'components/ui/Heading';
+
 import CopyLinkDialogProvider from 'components/CopyLinkDialogProvider';
 import FileDrop from 'components/FileDrop';
-import PageHeader from 'components/PageHeader';
 import Uploader from 'components/Uploader';
 import VerifyAccountDialogProvider from 'components/VerifyAccountDialogProvider';
 
 import AddToAlbumDialogProvider from 'components/photos/AddToAlbumDialogProvider';
 import DeleteMediaItemsDialogProvider from 'components/photos/DeleteMediaItemsDialogProvider';
 
-import { MediaType } from '../../../constants';
+import { Page, PageContent, PageHeader, PageHeaderActions } from 'apps/photos/components/page';
 
 import Content from './Content';
 
 const allowedMediaTypes = [...MediaType.IMAGES];
-const headerHeight = '108px';
-const contentStyle = {
-  height: `calc(100% - ${headerHeight})`,
-};
 
 export default function Library() {
   const libraryPath = useSelector(selectPhotosLibraryPath);
@@ -37,34 +36,36 @@ export default function Library() {
             <Helmet>
               <title>Shelf Photos</title>
             </Helmet>
-            <div className="h-full">
-              <PageHeader>
-                <PageHeader.Title>{title}</PageHeader.Title>
-                <PageHeader.Actions>
-                  <Uploader allowedMediaTypes={allowedMediaTypes} uploadTo={libraryPath} />
-                </PageHeader.Actions>
-              </PageHeader>
-
+            <Page>
               <FileDrop
-                className="overflow-y-auto"
-                style={contentStyle}
+                className="relative flex h-full flex-col"
                 allowedMediaTypes={allowedMediaTypes}
                 uploadTo={libraryPath}
                 render={({ innerRef, dragging }) => (
-                  <div className="relative h-full w-full">
+                  <>
                     <div
                       ref={innerRef}
                       className={`${
                         dragging ? 'block' : 'hidden'
-                      } absolute z-10 h-full w-full px-2 pb-2`}
+                      } absolute z-10 -mt-3 h-full w-full px-2`}
                     >
                       <div className="h-full w-full rounded-2xl border-4 border-dashed border-teal-200 dark:border-teal-600" />
                     </div>
-                    <Content />
-                  </div>
+
+                    <PageHeader>
+                      <Heading className="py-0.5">{title}</Heading>
+                      <PageHeaderActions>
+                        <Uploader uploadTo={libraryPath} />
+                      </PageHeaderActions>
+                    </PageHeader>
+
+                    <PageContent>
+                      <Content />
+                    </PageContent>
+                  </>
                 )}
               />
-            </div>
+            </Page>
           </DeleteMediaItemsDialogProvider>
         </CopyLinkDialogProvider>
       </AddToAlbumDialogProvider>
