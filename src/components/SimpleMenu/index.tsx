@@ -1,3 +1,5 @@
+import { Fragment } from 'react';
+
 import {
   DropdownMenu,
   type DropdownMenuProps,
@@ -28,17 +30,17 @@ export default function SimpleMenu({ placement = 'bottom end', sections }: Simpl
   return (
     <DropdownMenu anchor={placement} className="min-w-[10rem]">
       {sections.map((section, idx) => (
-        <>
-          <DropdownSection key={section.key}>
-            {section.items.map(({ key, danger, name, Icon }) => (
-              <DropdownItem key={key} as="button" danger={danger}>
+        <Fragment key={section.key}>
+          <DropdownSection>
+            {section.items.map(({ key, danger, name, Icon, onClick }) => (
+              <DropdownItem key={key} as="button" danger={danger} onClick={onClick}>
                 <Icon data-slot="icon" />
                 {name}
               </DropdownItem>
             ))}
           </DropdownSection>
           {sections.length > 2 && idx < sections.length - 1 && <DropdownSeparator />}
-        </>
+        </Fragment>
       ))}
     </DropdownMenu>
   );
