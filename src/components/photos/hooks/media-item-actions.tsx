@@ -10,7 +10,7 @@ import type { IAction } from 'hooks/file-actions';
 import { useRemoveAlbumItemsMutation, useSetAlbumCoverMutation } from 'store/albums';
 import { downloadMediaItemsBatch } from 'store/mediaItems';
 import {
-  selectIsBookmarked,
+  selectNonBookmarkedIds,
   useAddBookmarkBatchMutation,
   useRemoveBookmarkBatchMutation,
 } from 'store/users';
@@ -85,9 +85,7 @@ export function useFavouriteAction(mediaItems: IMediaItem[]): IAction {
   const [removeBookmarkBatch] = useRemoveBookmarkBatchMutation();
 
   const fileIds = mediaItems.map(({ fileId }) => fileId);
-  const nonBookmarkedIds = useAppSelector((state) =>
-    fileIds.filter((fileId) => !selectIsBookmarked(state, fileId)),
-  );
+  const nonBookmarkedIds = useAppSelector((state) => selectNonBookmarkedIds(state, fileIds));
 
   if (!nonBookmarkedIds.length) {
     return {

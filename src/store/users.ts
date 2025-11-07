@@ -87,5 +87,11 @@ export const selectAllBookmarks = createSelector(selectBookmarksFromResult, (boo
   bookmarksResult.data ? new Set(bookmarksResult.data) : empty,
 );
 
+export const selectNonBookmarkedIds = createSelector(
+  selectAllBookmarks,
+  (_: RootState, ids: string[]) => ids,
+  (bookmarkedIds, ids) => ids.filter((id) => !bookmarkedIds.has(id)),
+);
+
 export const selectIsBookmarked = (state: RootState, id: string) =>
   selectAllBookmarks(state).has(id);
