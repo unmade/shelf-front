@@ -6,10 +6,9 @@ import { selectCurrentAccount } from 'store/accounts';
 import { selectFeatureVerificationRequired } from 'store/features';
 import { fileEntriesAdded } from 'store/uploads/slice';
 
-import type { DropzoneProps } from './ui-legacy/Dropzone';
-import Dropzone from './ui-legacy/Dropzone';
+import Dropzone, { type DropzoneProps } from 'components/ui/Dropzone';
 
-import { useVerifyAccountDialog } from './VerifyAccountDialogProvider';
+import { useVerifyAccountDialog } from 'components/VerifyAccountDialogProvider';
 
 interface Props extends Omit<DropzoneProps, 'onDrop'> {
   allowedMediaTypes?: string[];

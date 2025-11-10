@@ -1,7 +1,6 @@
-import type React from 'react';
 import { useRef, useState } from 'react';
 
-import getFileEntries from '../../filereader';
+import getFileEntries from 'filereader';
 
 export interface DropzoneProps {
   className?: string;

@@ -49,7 +49,7 @@ export default function Library() {
                         dragging ? 'block' : 'hidden'
                       } absolute z-10 -mt-3 h-full w-full px-2`}
                     >
-                      <div className="h-full w-full rounded-2xl border-4 border-dashed border-teal-200 dark:border-teal-600" />
+                      <div className="h-full w-full rounded-2xl border-3 border-dashed border-teal-200 dark:border-teal-600" />
                     </div>
 
                     <PageHeader>

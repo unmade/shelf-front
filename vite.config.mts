@@ -39,6 +39,7 @@ export default defineConfig({
       components: '/src/components',
       constants: '/src/constants.ts',
       containers: '/src/containers',
+      filereader: '/src/filereader.js',
       hooks: '/src/hooks',
       i18n: '/src/i18n',
       icons: '/src/icons',
