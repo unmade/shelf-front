@@ -3,6 +3,16 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
+import Heading from 'components/ui/Heading';
+
+import {
+  Page,
+  PageHeader,
+  PageHeaderActions,
+  PageContent,
+  PageHeaderTitle,
+} from 'apps/files/components/page';
+
 import useDirPath from '../hooks/dir-path';
 import { useIsLaptop } from '../hooks/media-query';
 import useResolvedPreviewSearchParam from '../hooks/resolved-preview-search-param';
@@ -21,9 +31,7 @@ import DeleteDialogProvider from '../components/DeleteDialogProvider';
 import FileDrop from '../components/FileDrop';
 import GoBackButton from '../components/GoBackButton';
 import MoveDialogProvider from '../components/MoveDialogProvider';
-import PageHeader from '../components/PageHeader';
 import RenameFileDialogProvider from '../components/RenameFileDialogProvider';
-import SearchButton from '../components/SearchButton';
 import Uploader from '../components/Uploader';
 import VerifyAccountDialogProvider from '../components/VerifyAccountDialogProvider';
 
@@ -133,39 +141,45 @@ function Files() {
           <Helmet>
             <title>{dirPath === '.' ? 'Shelf' : `${dirPath} - Shelf`}</title>
           </Helmet>
-          <div className="flex h-svh flex-col">
-            <PageHeader>
-              <PageHeader.Title
-                icon={
-                  <GoBackButton to={routes.parent(dirPath)} disabled={routes.isRoot(dirPath)} />
-                }
-              >
-                {isLaptop ? title : <BreadcrumbDropdown items={breadcrumbs} />}
-              </PageHeader.Title>
-              <PageHeader.Actions>
-                <SearchButton />
-                <Uploader uploadTo={dirPath} />
-              </PageHeader.Actions>
-            </PageHeader>
-
+          <Page>
             <FileDrop
-              className="h-full overflow-y-auto"
+              className="relative flex h-full flex-col"
               uploadTo={dirPath}
               render={({ innerRef, dragging }) => (
-                <div className="relative flex h-full w-full flex-col">
+                <>
                   <div
                     ref={innerRef}
                     className={`${
                       dragging ? 'block' : 'hidden'
-                    } absolute z-10 h-full w-full px-2 pb-10`}
+                    } absolute z-10 -mt-3 h-full w-full px-2`}
                   >
-                    <div className="h-full w-full rounded-2xl border-4 border-dashed border-teal-200 dark:border-teal-600" />
+                    <div className="h-full w-full rounded-2xl border-3 border-dashed border-teal-200 dark:border-teal-600" />
                   </div>
+
+                  <PageHeader>
+                    <PageHeaderTitle>
+                      {isLaptop ? (
+                        <>
+                          <GoBackButton
+                            to={routes.parent(dirPath)}
+                            disabled={routes.isRoot(dirPath)}
+                          />
+                          <Heading>{title}</Heading>
+                        </>
+                      ) : (
+                        <BreadcrumbDropdown items={breadcrumbs} />
+                      )}
+                    </PageHeaderTitle>
+                    <PageHeaderActions>
+                      <Uploader uploadTo={dirPath} />
+                    </PageHeaderActions>
+                  </PageHeader>
+
                   {browser}
-                </div>
+                </>
               )}
             />
-          </div>
+          </Page>
         </>
       )}
     </DialogsProvider>

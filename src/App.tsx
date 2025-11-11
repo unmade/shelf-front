@@ -10,51 +10,10 @@ import { useDefaultApp } from 'hooks/available-apps';
 import { featuresApi } from 'store/features';
 import { usersApi } from 'store/users';
 
-import filesConfig from 'apps/files/config';
-
 import * as routes from './routes';
 
-import RequireAdmin from './components/RequireAdmin';
-import AppSidebar from './components/AppSidebar';
-import { AppSidebarModalProvider } from './components/AppSidebarModal';
-
-import Bookmarks from './pages/Bookmarks';
-import Duplicates from './pages/Duplicates';
-import Files from './pages/Files';
-import InAppSharing from './pages/Shared/InApp';
-import LinkSharing from './pages/Shared/ViaLink';
-import Trash from './pages/Trash';
-import UserManagement from './pages/admin/UserManagement';
-
+import FilesApp from 'apps/files/app';
 import PhotosApp from 'apps/photos/app';
-
-function FilesApp() {
-  return (
-    <AppSidebarModalProvider app={filesConfig}>
-      <div className="hidden lg:block">
-        <AppSidebar app={filesConfig} />
-      </div>
-      <div className="my-0 min-w-0 flex-1 bg-white shadow-sm dark:bg-zinc-800">
-        <Routes>
-          <Route path={routes.BOOKMARKS.route} element={<Bookmarks />} />
-          <Route path={routes.SHARED_IN_APP.route} element={<InAppSharing />} />
-          <Route path={routes.SHARED_VIA_LINK.route} element={<LinkSharing />} />
-          <Route path={routes.DUPLICATES.route} element={<Duplicates />} />
-          <Route path={routes.FILES.route} element={<Files />} />
-          <Route path={routes.TRASH.route} element={<Trash />} />
-          <Route
-            path={routes.USER_MANAGEMENT.route}
-            element={
-              <RequireAdmin>
-                <UserManagement />
-              </RequireAdmin>
-            }
-          />
-        </Routes>
-      </div>
-    </AppSidebarModalProvider>
-  );
-}
 
 function App() {
   const dispatch = useAppDispatch();

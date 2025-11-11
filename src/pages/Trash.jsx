@@ -3,6 +3,10 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
+import Heading from 'components/ui/Heading';
+
+import { Page, PageHeader, PageHeaderActions, PageHeaderTitle } from 'apps/files/components/page';
+
 import useDirPath from '../hooks/dir-path';
 import { useIsLaptop } from '../hooks/media-query';
 import useResolvedPreviewSearchParam from '../hooks/resolved-preview-search-param';
@@ -21,7 +25,6 @@ import EmptyTrashDialogProvider, {
 import DeleteImmediatelyDialogProvider from '../components/DeleteImmediatelyDialogProvider';
 import GoBackButton from '../components/GoBackButton';
 import MoveDialogProvider from '../components/MoveDialogProvider';
-import PageHeader from '../components/PageHeader';
 
 import BrowserContainer from '../containers/BrowserContainer';
 import FilePreviewContainer from '../containers/FilePreviewContainer';
@@ -89,18 +92,24 @@ function Trash() {
             {pathToPreview ? (
               <FilePreviewContainer dirPath={dirPath} />
             ) : (
-              <div className="flex h-full flex-col">
+              <Page>
                 <PageHeader>
-                  <PageHeader.Title
-                    icon={
-                      <GoBackButton to={routes.parent(dirPath)} disabled={routes.isRoot(dirPath)} />
-                    }
-                  >
-                    {isLaptop ? title : <BreadcrumbDropdown items={breadcrumbs} />}
-                  </PageHeader.Title>
-                  <PageHeader.Actions>
+                  <PageHeaderTitle>
+                    {isLaptop ? (
+                      <>
+                        <GoBackButton
+                          to={routes.parent(dirPath)}
+                          disabled={routes.isRoot(dirPath)}
+                        />
+                        <Heading>{title}</Heading>
+                      </>
+                    ) : (
+                      <BreadcrumbDropdown items={breadcrumbs} />
+                    )}
+                  </PageHeaderTitle>
+                  <PageHeaderActions>
                     <EmptyTrashDialogButton />
-                  </PageHeader.Actions>
+                  </PageHeaderActions>
                 </PageHeader>
 
                 <BrowserContainer
@@ -108,7 +117,7 @@ function Trash() {
                   path={dirPath}
                   emptyView={<EmptyContainer path={dirPath} />}
                 />
-              </div>
+              </Page>
             )}
           </MoveDialogProvider>
         </DeleteImmediatelyDialogProvider>

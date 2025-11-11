@@ -9,13 +9,16 @@ import { selectBookmarkedFileById, useListBookmarkedFilesQuery } from 'store/fil
 
 import Empty from 'components/ui-legacy/Empty';
 
+import Heading from 'components/ui/Heading';
+
 import Browser from 'components/Browser';
 import CopyLinkDialogProvider from 'components/CopyLinkDialogProvider';
 import DeleteDialogProvider from 'components/DeleteDialogProvider';
 import FilePreview from 'components/FilePreview';
 import MoveDialogProvider from 'components/MoveDialogProvider';
-import PageHeader from 'components/PageHeader';
 import RenameFileDialogProvider from 'components/RenameFileDialogProvider';
+
+import { Page, PageHeader, PageHeaderTitle } from 'apps/files/components/page';
 
 import useResolvedPreviewSearchParam from '../hooks/resolved-preview-search-param';
 
@@ -87,20 +90,16 @@ function Bookmarks() {
               {pathToPreview ? (
                 <FilePreviewContainer pathToPreview={pathToPreview} />
               ) : (
-                <div className="flex h-full flex-col">
+                <Page className="flex h-full flex-col">
                   <PageHeader title={t('Bookmarks')}>
-                    <PageHeader.Title
-                      icon={
-                        <icons.BookmarkOutlined className="ml-2 h-7 w-7 text-gray-400 dark:text-zinc-500" />
-                      }
-                    >
-                      {t('Bookmarks')}
-                    </PageHeader.Title>
-                    <PageHeader.Actions />
+                    <PageHeaderTitle>
+                      <icons.BookmarkOutlined data-slot="icon" />
+                      <Heading>{t('Bookmarks')}</Heading>
+                    </PageHeaderTitle>
                   </PageHeader>
 
                   <BookmarksBrowserContainer />
-                </div>
+                </Page>
               )}
             </RenameFileDialogProvider>
           </MoveDialogProvider>

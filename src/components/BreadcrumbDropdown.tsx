@@ -19,7 +19,7 @@ export default function BreadcrumbDropdown({ items }: Props) {
     <Dropdown>
       <DropdownButton variant="plain" color="gray">
         <span className="max-w-[10rem] truncate sm:max-w-sm">{currentFolder.name}</span>
-        {rest.length && <Selector data-slot="icon" />}
+        {rest.length ? <Selector data-slot="icon" /> : null}
       </DropdownButton>
       <DropdownMenu>
         {rest.map((item) => (
