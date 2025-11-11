@@ -3,7 +3,9 @@ import { useEffect, useRef, useState } from 'react';
 
 import { shallowEqual } from 'react-redux';
 
-import Button from 'components/ui-legacy/Button';
+import Button from 'components/ui/Button';
+import Heading from 'components/ui/Heading';
+import { Strong, Text, TextLink } from 'components/ui/Text';
 
 import OTPInput from './OTPInput';
 import ResendButton from './ResendButton';
@@ -94,13 +96,13 @@ export default function OTPForm({ email, resending, submitting, onResend, onSubm
 
   return (
     <div className="text-center text-gray-700 dark:text-zinc-200">
-      <div className="text-2xl font-semibold">Email verification</div>
-      <div className="mt-2">
+      <Heading>Email verification</Heading>
+      <Text>
         We&apos;ve sent a code to{' '}
-        <a className="text-indigo-600 dark:text-indigo-400" href={`mailto:${email}`}>
-          {email}
-        </a>
-      </div>
+        <TextLink href={`mailto:${email}`}>
+          <Strong>{email}</Strong>
+        </TextLink>
+      </Text>
 
       <form className="mt-6 space-y-6" onSubmit={submit}>
         <div className="flex items-center justify-center space-x-2">
@@ -124,12 +126,10 @@ export default function OTPForm({ email, resending, submitting, onResend, onSubm
         </div>
         <div className="w-full px-9">
           <Button
+            className="w-full"
             variant="primary"
-            size="base"
-            loading={submitting}
-            disabled={resending}
+            disabled={resending || Object.keys(errors).length > 0}
             onClick={submit}
-            full
           >
             Verify
           </Button>

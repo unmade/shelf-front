@@ -1,9 +1,8 @@
 import { useCallback, useState } from 'react';
 
-import Dialog from 'components/ui-legacy/Dialog';
-
 import SetEmailForm from './SetEmailForm';
 import VerifyEmailForm from './VerifyEmailForm';
+import { Dialog } from 'components/ui/Dialog';
 
 interface Props {
   visible: boolean;
@@ -32,14 +31,15 @@ export default function ChangeEmailDialog({ visible, onClose }: Props) {
     [state, setState],
   );
 
-  return (
-    <Dialog title="" visible={visible} onCancel={onClose} hideActions>
-      <div className="p-4 pt-4 lg:-ml-4">
-        {state.setEmailStep !== 'done' && <SetEmailForm onSubmit={onSetEmail} onSkip={onClose} />}
-        {state.email && state.setEmailStep === 'done' && (
-          <VerifyEmailForm email={state.email} onSubmit={onClose} />
-        )}
-      </div>
-    </Dialog>
-  );
+  if (state.setEmailStep !== 'done') {
+    return <SetEmailForm open={visible} onSubmit={onSetEmail} onSkip={onClose} />;
+  } else if (state.email && state.setEmailStep === 'done') {
+    return (
+      <Dialog open={visible} onClose={onClose}>
+        <VerifyEmailForm email={state.email} onSubmit={onClose} />
+      </Dialog>
+    );
+  } else {
+    return null;
+  }
 }

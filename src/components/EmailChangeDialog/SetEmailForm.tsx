@@ -5,15 +5,24 @@ import { isEmail } from 'validator';
 
 import { useChangeEmailStartMutation } from 'store/accounts';
 
-import Button from 'components/ui-legacy/Button';
-import Input from 'components/ui-legacy/Input';
+import Button from 'components/ui/Button';
+import {
+  Dialog,
+  DialogTitle,
+  DialogDescription,
+  DialogBody,
+  DialogActions,
+} from 'components/ui/Dialog';
+import { Field, ErrorMessage, Label } from 'components/ui/Field';
+import Input from 'components/ui/Input';
 
 interface Props {
+  open: boolean;
   onSubmit: (email: string) => void;
   onSkip: () => void;
 }
 
-export default function SetEmailForm({ onSubmit, onSkip }: Props) {
+export default function SetEmailForm({ open, onSubmit, onSkip }: Props) {
   const [email, setEmail] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -35,7 +44,7 @@ export default function SetEmailForm({ onSubmit, onSkip }: Props) {
     }
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     if (!validate()) {
       return;
@@ -59,30 +68,36 @@ export default function SetEmailForm({ onSubmit, onSkip }: Props) {
   };
 
   return (
-    <div className="text-center text-gray-700 lg:min-w-80 dark:text-zinc-200">
-      <div className="text-2xl font-semibold">Email verification</div>
-      <div className="mt-2">Verify your email address to access all features</div>
-
-      <form className="mt-6 space-y-6 text-left" onSubmit={handleSubmit}>
-        <Input
-          id="email"
-          type="email"
-          error={error}
-          placeholder="E-mail address"
-          onChange={handleChange}
-        />
-        <div className="w-full px-9">
-          <Button variant="primary" size="base" onClick={handleSubmit} loading={loading} full>
-            Continue
-          </Button>
-        </div>
-      </form>
-
-      <div className="mt-2 flex items-center justify-center text-sm">
-        <Button variant="text" onClick={onSkip}>
+    <Dialog open={open} onClose={onSkip}>
+      <DialogTitle>Email verification</DialogTitle>
+      <DialogDescription>Verify your email address to access all features</DialogDescription>
+      <DialogBody>
+        <Field>
+          <Label>E-mail address</Label>
+          <Input
+            id="email"
+            type="email"
+            placeholder="e.g. user@example.com"
+            invalid={!!error}
+            onChange={handleChange}
+          />
+          {error && <ErrorMessage>{error}</ErrorMessage>}
+        </Field>
+      </DialogBody>
+      <DialogActions>
+        <Button className="w-full" variant="plain" color="gray" onClick={onSkip}>
           Skip
         </Button>
-      </div>
-    </div>
+        <Button
+          type="submit"
+          className="w-full"
+          variant="primary"
+          disabled={loading || error != null}
+          onClick={handleSubmit}
+        >
+          Continue
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }

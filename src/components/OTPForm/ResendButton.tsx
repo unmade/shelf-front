@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import Button from 'components/ui-legacy/Button';
+import Button from 'components/ui/Button';
 
 interface Props {
   debounce?: number;
@@ -46,7 +46,12 @@ export default function ResendButton({
   };
 
   return (
-    <Button variant="text" loading={loading} disabled={disabled || clicked} onClick={handleClick}>
+    <Button
+      variant="plain"
+      color="gray"
+      disabled={disabled || clicked || loading}
+      onClick={handleClick}
+    >
       Resend code{secondsLeft ? ` in ${secondsLeft} seconds` : ''}
     </Button>
   );
