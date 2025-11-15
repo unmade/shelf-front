@@ -43,3 +43,32 @@ code {
     visibility: visible;
   }
 }
+
+.app-scroller {
+  --scrollbar-color-thumb: var(--color-zinc-900);
+  --scrollbar-color-track: transparent;
+  --scrollbar-width: auto;
+  --scrollbar-width-legacy: 10px;
+}
+
+@supports (scrollbar-width: auto) {
+  .app-scroller {
+    scrollbar-color: var(--scrollbar-color-thumb) var(--scrollbar-color-track);
+    scrollbar-width: var(--scrollbar-width);
+  }
+}
+
+@supports selector(::-webkit-scrollbar) {
+  .app-scroller::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-color-thumb);
+  }
+
+  .app-scroller::-webkit-scrollbar-track {
+    background: var(--scrollbar-color-track);
+  }
+
+  .app-scroller::-webkit-scrollbar {
+    max-width: var(--scrollbar-width-legacy);
+    max-height: var(--scrollbar-width-legacy);
+  }
+}

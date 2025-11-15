@@ -1,10 +1,9 @@
-import type React from 'react';
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 
 import { useGetCurrentAccountQuery } from 'store/accounts';
 
-import ChangeEmailDialog from 'components/EmailChangeDialog';
-import VerifyEmailDialog from 'components/EmailVerifyDialog';
+import CompleteEmailVerificationSteps from 'components/CompleteEmailVerificationSteps';
+import ChangeEmailSteps from 'components/ChangeEmailSteps';
 
 interface ContextValue {
   openDialog: () => void;
@@ -16,14 +15,8 @@ interface Props {
   children: React.ReactNode;
 }
 
-interface State {
-  visible: boolean;
-}
-
-const initialState: State = { visible: false };
-
 export default function VerifyAccountDialogProvider({ children }: Props) {
-  const [state, setState] = useState<State>(initialState);
+  const [visible, setVisible] = useState<boolean>(false);
 
   const { email, verified } = useGetCurrentAccountQuery(undefined, {
     selectFromResult: ({ data }) => ({
@@ -33,21 +26,21 @@ export default function VerifyAccountDialogProvider({ children }: Props) {
   });
 
   const openDialog = useCallback(() => {
-    setState({ visible: true });
-  }, [setState]);
+    setVisible(true);
+  }, [setVisible]);
 
   const closeDialog = useCallback(() => {
-    setState(initialState);
-  }, [setState]);
-
-  const { visible } = state;
+    setVisible(false);
+  }, [setVisible]);
 
   const value = useMemo(() => ({ openDialog }), [openDialog]);
 
   return (
     <Context.Provider value={value}>
-      <ChangeEmailDialog visible={visible && !email} onClose={closeDialog} />
-      <VerifyEmailDialog visible={visible && !!email && !verified} onClose={closeDialog} />
+      {!email && <ChangeEmailSteps visible={visible} onClose={closeDialog} />}
+      {!!email && !verified && (
+        <CompleteEmailVerificationSteps email={email} visible={visible} onClose={closeDialog} />
+      )}
       {children}
     </Context.Provider>
   );

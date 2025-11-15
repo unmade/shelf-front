@@ -88,6 +88,7 @@ const ignoredErrorCodes = new Set([
   422,
   'EMAIL_ALREADY_TAKEN',
   'EMAIL_UPDATE_LIMIT_REACHED',
+  'EMAIL_UPDATE_NOT_STARTED',
   'CONTENT_METADATA_NOT_FOUND',
   'INVALID_CREDENTIALS',
   'INVALID_TOKEN',
@@ -96,6 +97,8 @@ const ignoredErrorCodes = new Set([
   'SIGN_UP_DISABLED',
   'SHARED_LINK_NOT_FOUND',
   'USER_ALREADY_EXISTS',
+  'USER_EMAIL_ALREADY_VERIFIED',
+  'USER_EMAIL_IS_MISSING',
 ]);
 
 const errorsMiddleware: Middleware =

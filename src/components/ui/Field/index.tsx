@@ -7,6 +7,24 @@ import {
   type LabelProps as UILabelProps,
 } from '@headlessui/react';
 
+export function Description({
+  className,
+  ...props
+}: { className?: string } & Omit<UIDescriptionProps, 'className'>) {
+  return (
+    <UIDescription
+      data-slot="description"
+      {...props}
+      className={[
+        className,
+        'text-base/6 sm:text-sm/6',
+        'text-zinc-500 dark:text-zinc-400',
+        'data-[disabled]:opacity-50',
+      ].join(' ')}
+    />
+  );
+}
+
 export function Field({ className, ...props }: UIFieldProps) {
   return (
     <UIField

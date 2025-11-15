@@ -1,6 +1,8 @@
 import type { InputProps as UIInputProps } from '@headlessui/react';
 import { Input as UIInput } from '@headlessui/react';
 
+export { UIInputProps as InputProps };
+
 const inputStyles = [
   'relative block w-full rounded-lg',
   'appearance-none outline-hidden',
@@ -17,7 +19,7 @@ const inputStyles = [
   'data-hover:border-gray-950/20 dark:border-white/10 dark:data-hover:border-white/20',
   // invalid state
   'data-invalid:border-red-500 data-invalid:data-hover:border-red-500',
-  'dark:data-invalid:border-red-500 dark:data-invalid:data-hover:border-red-500',
+  'dark:data-invalid:border-rose-500 dark:data-invalid:data-hover:border-rose-500',
   // disabled state
   'data-disabled:border-gray-950/20 dark:data-disabled:border-white/15',
   'dark:data-disabled:bg-white/2.5 dark:data-hover:data-disabled:border-white/15',

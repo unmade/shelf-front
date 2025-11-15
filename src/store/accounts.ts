@@ -1,5 +1,35 @@
 import apiSlice from './apiSlice';
-import type { RootState } from './store';
+import { isFetchBaseQueryErrorWithApiError, type RootState } from './store';
+
+export function isEmailAlreadyTaken(error: unknown): boolean {
+  return isFetchBaseQueryErrorWithApiError(error) && error.data?.code === 'EMAIL_ALREADY_TAKEN';
+}
+
+export function isEmailAlreadyVerified(error: unknown): boolean {
+  return (
+    isFetchBaseQueryErrorWithApiError(error) && error.data?.code === 'USER_EMAIL_ALREADY_VERIFIED'
+  );
+}
+
+export function isEmailIsMissing(error: unknown): boolean {
+  return isFetchBaseQueryErrorWithApiError(error) && error.data?.code === 'USER_EMAIL_IS_MISSING';
+}
+
+export function isEmailUpdateLimitReached(error: unknown): boolean {
+  return (
+    isFetchBaseQueryErrorWithApiError(error) && error.data?.code === 'EMAIL_UPDATE_LIMIT_REACHED'
+  );
+}
+
+export function isEmailUpdateNotStarted(error: unknown): boolean {
+  return (
+    isFetchBaseQueryErrorWithApiError(error) && error.data?.code === 'EMAIL_UPDATE_NOT_STARTED'
+  );
+}
+
+export function isOTPCodeAlreadySent(error: unknown): boolean {
+  return isFetchBaseQueryErrorWithApiError(error) && error.data?.code === 'OTP_CODE_ALREADY_SENT';
+}
 
 export interface ICurrentAccountSchema {
   id: string;
