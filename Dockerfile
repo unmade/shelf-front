@@ -17,7 +17,7 @@ COPY ./yarn.lock /usr/src/app/
 
 # increase timeout for arm64
 # see: https://github.com/docker/build-push-action/issues/471
-RUN yarn install --frozen-lockfile --network-timeout 600000
+RUN yarn install --immutable --network-timeout 600000
 
 COPY ./public /usr/src/app/public
 COPY ./src /usr/src/app/src

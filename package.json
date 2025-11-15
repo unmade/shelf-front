@@ -77,5 +77,6 @@
     "*.jsx": "eslint",
     "*.ts": "eslint",
     "*.tsx": "eslint"
-  }
+  },
+  "packageManager": "yarn@4.11.0"
 }
