@@ -40,7 +40,7 @@ export default function RenameAlbumDialog({ album, visible, loading, onRename, o
   const onConfirm = () => {
     if (name.trim() === '') {
       setError(t('Name cannot be empty.'));
-    } else if (album && name === album.title) {
+    } else if (name === album?.title) {
       setError(t('Name is the same.'));
     } else {
       onRename(name);

@@ -87,7 +87,7 @@ function Gallery({ ids, itemsCount, initialFileId, selectById, onClose }: Props)
     }
   }, [nextIndex]);
 
-  const goBack = useCallback(() => onClose && onClose(currentIndex), [currentIndex, onClose]);
+  const goBack = useCallback(() => onClose?.(currentIndex), [currentIndex, onClose]);
 
   useKeyUp({
     handlers: {
