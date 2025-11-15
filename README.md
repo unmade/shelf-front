@@ -15,19 +15,19 @@ This is frontend for a shelf project - a self-hosted file storage.
 Install dependencies:
 
 ```bash
-yarn install
+pnpm install
 ```
 
 Run development server:
 
 ```bash
-yarn start
+pnpm start
 ```
 
 To generate translation file:
 
 ```bash
-yarn makelocales
+pnpm makelocales
 ```
 
 ### Building a Docker image
