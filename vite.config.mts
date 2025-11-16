@@ -35,6 +35,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
+      '@': '/src',
       apps: '/src/apps',
       components: '/src/components',
       constants: '/src/constants.ts',
