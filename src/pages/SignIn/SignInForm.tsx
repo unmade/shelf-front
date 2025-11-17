@@ -8,11 +8,11 @@ import { selectFeatureSignUpEnabled } from 'store/features';
 
 import { useAppSelector } from 'hooks';
 
-import Button from 'components/ui/Button';
-import Field, { ErrorMessage, Label } from 'components/ui/Field';
-import Heading from 'components/ui/Heading';
-import Input from 'components/ui/Input';
-import { Strong, Text, TextAppLink } from 'components/ui/Text';
+import { Button } from '@/ui/button';
+import { Field, FieldLabel, FieldError } from '@/ui/field';
+import { Heading } from '@/ui/heading';
+import { Input } from '@/ui/input';
+import { Strong, Text, TextAppLink } from '@/ui/text';
 
 import AppLogo from 'components/AppLogo';
 
@@ -96,8 +96,8 @@ export default function SignInForm() {
     <form className="grid w-full max-w-sm grid-cols-1 gap-8" onSubmit={onSubmitHandler}>
       <AppLogo />
       <Heading>{t('signin:form.title', { defaultValue: 'Sign in to your account' })}</Heading>
-      <Field>
-        <Label>{t('signin:form.inputs.login.label', { defaultValue: 'Login' })}</Label>
+      <Field data-invalid={!!errors.login}>
+        <FieldLabel>{t('signin:form.inputs.login.label', { defaultValue: 'Login' })}</FieldLabel>
         <Input
           id="login"
           name="login"
@@ -105,26 +105,29 @@ export default function SignInForm() {
             defaultValue: 'Email or username',
           })}
           onChange={onInputChange}
+          aria-invalid={!!errors.login}
         />
-        {errors.login && <ErrorMessage>{errors.login}</ErrorMessage>}
+        {errors.login && <FieldError>{errors.login}</FieldError>}
       </Field>
-      <Field>
-        <Label>{t('signin:form.inputs.password.label', { defaultValue: 'Password' })}</Label>
+      <Field data-invalid={!!errors.password}>
+        <FieldLabel>
+          {t('signin:form.inputs.password.label', { defaultValue: 'Password' })}
+        </FieldLabel>
         <Input
           id="password"
           name="password"
           type="password"
           placeholder="********"
           onChange={onInputChange}
+          aria-invalid={!!errors.password}
         />
-        {errors.password && <ErrorMessage>{errors.password}</ErrorMessage>}
-        {errors.nonfield && <ErrorMessage>{errors.nonfield}</ErrorMessage>}
+        {errors.password && <FieldError>{errors.password}</FieldError>}
+        {errors.nonfield && <FieldError>{errors.nonfield}</FieldError>}
       </Field>
       <Button
         type="submit"
         className="mt-4 w-full"
         title={t('signin:form.button.signin.title', 'Sign In')}
-        variant="primary"
         disabled={loading || Object.keys(errors).length > 0}
       >
         {t('signin:form.button.signin.title', { defaultValue: 'Sign In' })}
