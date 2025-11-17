@@ -6,12 +6,13 @@ import { isEmail, isStrongPassword } from 'validator';
 import { TERMS_AND_CONDITION_URL, PRIVACY_POLICY_URL } from 'constants';
 import * as routes from 'routes';
 
-import Button from 'components/ui/Button';
-import Checkbox, { CheckboxField } from 'components/ui/Checkbox';
-import Field, { ErrorMessage, Label } from 'components/ui/Field';
-import Heading from 'components/ui/Heading';
-import Input from 'components/ui/Input';
-import { Strong, Text, TextAppLink, TextLink } from 'components/ui/Text';
+import { Button } from '@/ui/button';
+import { Checkbox } from '@/ui/checkbox';
+import { Heading } from '@/ui/heading';
+import { Field, FieldLabel, FieldError } from '@/ui/field';
+import { Input } from '@/ui/input';
+import { Label } from '@/ui/label';
+import { Strong, Text, TextAppLink, TextLink } from '@/ui/text';
 
 import AppLogo from 'components/AppLogo';
 
@@ -186,61 +187,68 @@ export default function SignUpForm() {
     <form className="grid w-full max-w-sm grid-cols-1 gap-8" onSubmit={onSubmitHandler}>
       <AppLogo />
       <Heading>{t('signup:form.title', { defaultValue: 'Create your account' })}</Heading>
-      <Field>
-        <Label>{t('signup:form.inputs.name.label', { defaultValue: 'Full name' })}</Label>
+      <Field data-invalid={!!errors.name}>
+        <FieldLabel>{t('signup:form.inputs.name.label', { defaultValue: 'Full name' })}</FieldLabel>
         <Input
           id="name"
           name="name"
           placeholder={t('signup:form.inputs.name.placeholder', { defaultValue: 'Name' })}
           onChange={onInputChange}
+          aria-invalid={!!errors.name}
         />
-        {errors.name && <ErrorMessage>{errors.name}</ErrorMessage>}
+        {errors.name && <FieldError>{errors.name}</FieldError>}
       </Field>
-      <Field>
-        <Label>{t('signup:form.inputs.email.label', { defaultValue: 'Email' })}</Label>
+      <Field data-invalid={!!errors.email}>
+        <FieldLabel>{t('signup:form.inputs.email.label', { defaultValue: 'Email' })}</FieldLabel>
         <Input
           id="email"
           name="email"
           type="email"
           placeholder={t('signup:form.inputs.email.placeholder', { defaultValue: 'Email' })}
           onChange={onInputChange}
+          aria-invalid={!!errors.email}
         />
-        {errors.email && <ErrorMessage>{errors.email}</ErrorMessage>}
+        {errors.email && <FieldError>{errors.email}</FieldError>}
       </Field>
-      <Field>
-        <Label>{t('signup:form.inputs.password.label', { defaultValue: 'Password' })}</Label>
+      <Field data-invalid={!!errors.password}>
+        <FieldLabel>
+          {t('signup:form.inputs.password.label', { defaultValue: 'Password' })}
+        </FieldLabel>
         <Input
           id="password"
           name="password"
           type="password"
           placeholder="********"
           onChange={onInputChange}
+          aria-invalid={!!errors.password}
         />
-        {errors.password && <ErrorMessage>{errors.password}</ErrorMessage>}
+        {errors.password && <FieldError>{errors.password}</FieldError>}
       </Field>
-      <CheckboxField>
-        <Checkbox
-          name="agreeToTermsAndConditions"
-          defaultChecked={false}
-          onChange={onCheckboxChange}
-        />
-        <Label>
-          <Trans as={Text} i18nKey="signup:form.iHaveReadAndAgreeToTermsAndConditions" t={t}>
-            I agree to the {}
-            <TextLink href={TERMS_AND_CONDITION_URL}>Shelf Terms</TextLink> and{' '}
-            <TextLink href={PRIVACY_POLICY_URL}>Privacy Policy</TextLink>
-          </Trans>
-        </Label>
+      <Field>
+        <div className="flex items-center gap-3">
+          <Checkbox
+            id="agreeToTermsAndConditions"
+            name="agreeToTermsAndConditions"
+            onCheckedChange={onCheckboxChange}
+            aria-invalid={!!errors.agreeToTermsAndConditions}
+          />
+          <Label htmlFor="agreeToTermsAndConditions">
+            <Trans as={Text} i18nKey="signup:form.iHaveReadAndAgreeToTermsAndConditions" t={t}>
+              I agree to the {}
+              <TextLink href={TERMS_AND_CONDITION_URL}>Shelf Terms</TextLink> and{' '}
+              <TextLink href={PRIVACY_POLICY_URL}>Privacy Policy</TextLink>
+            </Trans>
+          </Label>
+        </div>
         {errors.agreeToTermsAndConditions && (
-          <ErrorMessage>{errors.agreeToTermsAndConditions}</ErrorMessage>
+          <FieldError>{errors.agreeToTermsAndConditions}</FieldError>
         )}
-        {errors.nonfield && <ErrorMessage>{errors.nonfield}</ErrorMessage>}
-      </CheckboxField>
+        {errors.nonfield && <FieldError>{errors.nonfield}</FieldError>}
+      </Field>
       <Button
         type="submit"
         className="mt-4 w-full"
         title={t('signup:form.button.title', { defaultValue: 'Create an account' })}
-        variant="primary"
         disabled={loading}
       >
         {t('signup:form.button.title', { defaultValue: 'Create an account' })}
