@@ -4,9 +4,9 @@ import { useGetSpaceUsageQuery } from 'store/accounts';
 
 import * as icons from 'icons';
 
-import FileSize from 'components/ui/FileSize';
-import ProgressBar from 'components/ui/ProgressBar';
-import { Strong, Text } from 'components/ui/Text';
+import { FileSize } from '@/ui/filesize';
+import { Progress } from '@/ui/progress';
+import { Strong, Text } from '@/ui/text';
 
 export default function StorageUsed() {
   const { t } = useTranslation();
@@ -41,7 +41,7 @@ export default function StorageUsed() {
           </Text>
         )) || <icons.Infinite className="size-6 sm:size-5" />}
       </div>
-      <ProgressBar progress={progress} variant={variant} />
+      <Progress progress={progress} variant={variant} />
       <p className="text-xs font-medium text-gray-400 dark:text-zinc-500">
         {quota != null && (
           <>

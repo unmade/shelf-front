@@ -136,6 +136,30 @@ export const {
   useVerifyEmailSendCodeMutation,
 } = accountsApi;
 
+export function useCurrentAccount() {
+  const { account, isLoading, isError } = useGetCurrentAccountQuery(undefined, {
+    selectFromResult: ({ data, isLoading, isError }) => ({
+      account: data,
+      isLoading,
+      isError,
+    }),
+  });
+
+  if (isError || !account) {
+    return { account: null, isLoading: false };
+  }
+
+  return {
+    account: {
+      displayName: account.display_name,
+      email: account.email,
+      initials: (account.display_name || account.username).charAt(0).toUpperCase(),
+      username: account.username,
+    },
+    isLoading,
+  };
+}
+
 export const selectGetCurrentAccountResult =
   accountsApi.endpoints.getCurrentAccount.select(undefined);
 
