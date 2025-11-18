@@ -1,24 +1,22 @@
+import { NavLink } from 'react-router';
+
 import type { AppConfig } from 'types/AppConfig';
 
 import {
   Sidebar,
-  SidebarBody,
+  SidebarContent,
   SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
-  SidebarHeading,
-  SidebarItem,
-  SidebarLabel,
-  SidebarSection,
-  SidebarSpacer,
-} from 'components/ui/Sidebar';
-
-import {
-  CurrentAccountDropdown,
-  CurrentAccountDropdownButton,
-  CurrentAccountDropdownPanel,
-} from 'components/CurrentAccountDropdown';
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from '@/ui/sidebar';
 
 import AppSelector from './AppSelector';
+import CurrentAccountDropdown from './CurrentAccountDropdown';
 import StorageUsed from './StorageUsed';
 
 interface Props {
@@ -31,28 +29,38 @@ export default function AppSidebar({ app }: Props) {
       <SidebarHeader>
         <AppSelector title={app.title} />
       </SidebarHeader>
-      <SidebarBody>
+      <SidebarContent>
         {app.menu.sections.map(({ key, title, items }) => (
-          <SidebarSection key={key}>
-            {title && <SidebarHeading>{title}</SidebarHeading>}
-            {items.map(({ title, path, Icon, end }) => (
-              <SidebarItem key={path} to={path!} end={end}>
-                <Icon data-slot="icon" />
-                <SidebarLabel>{title}</SidebarLabel>
-              </SidebarItem>
-            ))}
-          </SidebarSection>
+          <SidebarGroup key={key}>
+            {title && <SidebarGroupLabel>{title}</SidebarGroupLabel>}
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {items.map(({ title, path, Icon, end }) => (
+                  <SidebarMenuItem key={path}>
+                    <NavLink to={path} end={end}>
+                      {({ isActive }: { isActive: boolean }) => (
+                        <SidebarMenuButton isActive={isActive}>
+                          <Icon />
+                          <span>{title}</span>
+                        </SidebarMenuButton>
+                      )}
+                    </NavLink>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
         ))}
-        <SidebarSpacer />
-        <SidebarSection>
-          <StorageUsed />
-        </SidebarSection>
-      </SidebarBody>
+        <SidebarGroup className="mt-auto">
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <StorageUsed />
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
       <SidebarFooter className="max-lg:hidden">
-        <CurrentAccountDropdown>
-          <CurrentAccountDropdownButton />
-          <CurrentAccountDropdownPanel />
-        </CurrentAccountDropdown>
+        <CurrentAccountDropdown />
       </SidebarFooter>
     </Sidebar>
   );
