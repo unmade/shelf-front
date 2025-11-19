@@ -8,7 +8,7 @@ const buttonVariants = cva(
   clsx(
     'inline-flex items-center justify-center gap-2',
     'whitespace-nowrap rounded-md text-sm font-medium',
-    'transition-all',
+    'transition ease-in-out',
     // icons
     "[&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0",
     // disabled
@@ -26,9 +26,9 @@ const buttonVariants = cva(
           'text-white',
           'bg-linear-to-br',
           'from-blue-500 to-indigo-500',
-          'data-hover:from-blue-400 data-hover:to-indigo-400',
+          'hover:from-blue-400 hover:to-indigo-400',
           'dark:from-blue-600 dark:to-indigo-600',
-          'dark:data-hover:from-blue-500 dark:data-hover:to-indigo-500',
+          'dark:hover:from-blue-500 dark:hover:to-indigo-500',
         ),
         destructive: clsx(
           'bg-destructive dark:bg-destructive/60',
@@ -70,6 +70,7 @@ function Button({
   variant,
   size,
   asChild = false,
+  type = 'button',
   ...props
 }: React.ComponentProps<'button'> &
   VariantProps<typeof buttonVariants> & {
@@ -80,6 +81,7 @@ function Button({
   return (
     <Comp
       data-slot="button"
+      type={type}
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
     />

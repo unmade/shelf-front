@@ -12,7 +12,7 @@ function Input({ className, type, ...props }: React.ComponentProps<'input'>) {
         // Placeholder and selection
         'placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground',
         // Background and border
-        'dark:bg-input/30 border-input border bg-transparent',
+        'dark:bg-input/30 border-input border bg-white/30',
         // Sizing and layout
         'h-9 w-full min-w-0 rounded-md px-3 py-1 text-base md:text-sm',
         // Shadow and transition
