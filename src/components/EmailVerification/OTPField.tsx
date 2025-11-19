@@ -1,8 +1,8 @@
 import { Trans, useTranslation } from 'react-i18next';
 
-import { Description, ErrorMessage, Field, Label } from 'components/ui/Field';
-import Input, { type InputProps } from 'components/ui/Input';
-import { Strong } from 'components/ui/Text';
+import { Field, FieldDescription, FieldError, FieldLabel } from '@/ui/field';
+import { Input } from '@/ui/input';
+import { Strong } from '@/ui/text';
 
 import { useCountdown } from './useCountdown';
 
@@ -54,7 +54,7 @@ function Resend({ debounce = 59, disabled = false, onClick }: ResendDescriptionP
 }
 
 type OTPInputProps = Omit<
-  InputProps,
+  React.ComponentProps<'input'>,
   'inputMode' | 'pattern' | 'minLength' | 'maxLength' | 'min' | 'max'
 >;
 
@@ -84,15 +84,15 @@ export function OTPField({ name, error, onInputChange, onResend, resending }: OT
   const { t } = useTranslation('email-verification');
 
   return (
-    <Field>
-      <Label>
+    <Field data-invalid={!!error}>
+      <FieldLabel>
         {t('email-verification:otp-field.label', { defaultValue: 'Enter the 6-digit code' })}
-      </Label>
-      <OTPInput id={name} name={name} invalid={!!error} onChange={onInputChange} />
-      {error && <ErrorMessage>{error}</ErrorMessage>}
-      <Description>
+      </FieldLabel>
+      <OTPInput id={name} name={name} aria-invalid={!!error} onChange={onInputChange} />
+      {error && <FieldError>{error}</FieldError>}
+      <FieldDescription>
         <Resend onClick={onResend} disabled={resending} />
-      </Description>
+      </FieldDescription>
     </Field>
   );
 }

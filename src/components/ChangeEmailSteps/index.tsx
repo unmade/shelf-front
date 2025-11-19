@@ -5,21 +5,31 @@ import VerifyEmailDialogContainer from './VerifyEmailDialogContainer';
 
 interface Props {
   visible: boolean;
-  onClose: () => void;
+  onOpenChange: (open: boolean) => void;
 }
 
-export default function ChangeEmailSteps({ visible, onClose }: Props) {
+export default function ChangeEmailSteps({ visible, onOpenChange }: Props) {
   const [email, setEmail] = useState<string | null>(null);
 
-  const onSetEmail = useCallback(
+  const handleSetEmail = useCallback(
     (email: string) => {
       setEmail(email);
     },
     [setEmail],
   );
 
+  const handleClose = useCallback(
+    (open: boolean) => {
+      if (!open) {
+        setEmail(null);
+      }
+      onOpenChange(open);
+    },
+    [onOpenChange, setEmail],
+  );
+
   if (email == null) {
-    return <SetEmailDialog open={visible} onSubmit={onSetEmail} onClose={onClose} />;
+    return <SetEmailDialog open={visible} onSubmit={handleSetEmail} onOpenChange={handleClose} />;
   }
-  return <VerifyEmailDialogContainer open={visible} email={email} onClose={onClose} />;
+  return <VerifyEmailDialogContainer open={visible} email={email} onOpenChange={handleClose} />;
 }

@@ -29,17 +29,26 @@ export default function VerifyAccountDialogProvider({ children }: Props) {
     setVisible(true);
   }, [setVisible]);
 
-  const closeDialog = useCallback(() => {
-    setVisible(false);
-  }, [setVisible]);
+  const closeDialog = useCallback(
+    (open: boolean) => {
+      if (!open) {
+        setVisible(false);
+      }
+    },
+    [setVisible],
+  );
 
   const value = useMemo(() => ({ openDialog }), [openDialog]);
 
   return (
     <Context.Provider value={value}>
-      {!email && <ChangeEmailSteps visible={visible} onClose={closeDialog} />}
+      {!email && <ChangeEmailSteps visible={visible} onOpenChange={closeDialog} />}
       {!!email && !verified && (
-        <CompleteEmailVerificationSteps email={email} visible={visible} onClose={closeDialog} />
+        <CompleteEmailVerificationSteps
+          email={email}
+          visible={visible}
+          onOpenChange={closeDialog}
+        />
       )}
       {children}
     </Context.Provider>

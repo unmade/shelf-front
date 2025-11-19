@@ -4,11 +4,13 @@ import { useVerifyEmail } from 'components/EmailVerification/useVerifyEmail';
 interface Props {
   email: string;
   open: boolean;
-  onClose: () => void;
+  onOpenChange: (open: boolean) => void;
 }
 
-export default function VerifyEmailDialogContainer({ email, open, onClose }: Props) {
+export default function VerifyEmailDialogContainer({ email, open, onOpenChange }: Props) {
   const verification = useVerifyEmail();
 
-  return <VerifyEmailDialog email={email} open={open} onClose={onClose} {...verification} />;
+  return (
+    <VerifyEmailDialog email={email} open={open} onOpenChange={onOpenChange} {...verification} />
+  );
 }
