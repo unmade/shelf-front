@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
 
-import Button from 'components/ui/Button';
-import Heading from 'components/ui/Heading';
-import { Strong, Text } from 'components/ui/Text';
+import { Button } from '@/ui/button';
+import { Heading } from '@/ui/heading';
+import { Strong, Text } from '@/ui/text';
 
 import AppLogo from 'components/AppLogo';
 import { useVerifyEmail, OTPField } from 'components/EmailVerification';
@@ -38,7 +38,7 @@ export default function EmailVerificationForm({ email, onSkip }: Props) {
       <Button type="submit" className="mt-4" disabled={verifying}>
         {t('email-verification:page.button-verify', { defaultValue: 'Verify' })}
       </Button>
-      <Button variant="plain" color="gray" onClick={onSkip}>
+      <Button variant="ghost" onClick={onSkip}>
         {t('email-verification:page.button-skip', { defaultValue: 'Skip' })}
       </Button>
     </form>

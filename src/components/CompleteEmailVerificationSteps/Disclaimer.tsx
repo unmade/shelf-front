@@ -2,16 +2,24 @@ import { useTranslation } from 'react-i18next';
 
 import { isOTPCodeAlreadySent, useVerifyEmailSendCodeMutation } from 'store/accounts';
 
-import Button from 'components/ui/Button';
-import { Dialog, DialogActions, DialogDescription, DialogTitle } from 'components/ui/Dialog';
+import { Button } from '@/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+} from '@/ui/dialog';
+import { DialogClose } from '@radix-ui/react-dialog';
 
 interface Props {
   open: boolean;
-  onClose: () => void;
+  onOpenChange: (open: boolean) => void;
   onSubmit: () => void;
 }
 
-export default function Disclaimer({ open, onClose, onSubmit }: Props) {
+export default function Disclaimer({ open, onOpenChange, onSubmit }: Props) {
   const { t } = useTranslation('email-verification');
 
   const [sendCode, { isLoading: loading }] = useVerifyEmailSendCodeMutation();
@@ -28,24 +36,33 @@ export default function Disclaimer({ open, onClose, onSubmit }: Props) {
   };
 
   return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogTitle>
-        {t('email-verification:dialogs.disclaimer.title', { defaultValue: 'Email Verification' })}
-      </DialogTitle>
-      <DialogDescription>
-        {t('email-verification:dialogs.disclaimer.description', {
-          defaultValue: 'Verify your email address to access all features',
-        })}
-      </DialogDescription>
-
-      <DialogActions>
-        <Button variant="plain" color="gray" onClick={onClose}>
-          {t('email-verification:dialogs.disclaimer.skip-button', { defaultValue: 'Skip' })}
-        </Button>
-        <Button onClick={handleSubmit} disabled={loading}>
-          {t('email-verification:dialogs.disclaimer.continue-button', { defaultValue: 'Continue' })}
-        </Button>
-      </DialogActions>
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:w-md">
+        <DialogHeader>
+          <DialogTitle>
+            {t('email-verification:dialogs.disclaimer.title', {
+              defaultValue: 'Email Verification',
+            })}
+          </DialogTitle>
+          <DialogDescription>
+            {t('email-verification:dialogs.disclaimer.description', {
+              defaultValue: 'Verify your email address to access all features',
+            })}
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button variant="ghost">
+              {t('email-verification:dialogs.disclaimer.skip-button', { defaultValue: 'Skip' })}
+            </Button>
+          </DialogClose>
+          <Button onClick={handleSubmit} disabled={loading}>
+            {t('email-verification:dialogs.disclaimer.continue-button', {
+              defaultValue: 'Continue',
+            })}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
     </Dialog>
   );
 }

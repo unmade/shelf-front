@@ -64,6 +64,7 @@ export function useCompleteEmailChange({ email, otpInputName = 'otp-code' }: use
   const onResend = async () => {
     try {
       await resend(undefined).unwrap();
+      setError(null);
     } catch (err) {
       if (isEmailUpdateNotStarted(err)) {
         setError(
