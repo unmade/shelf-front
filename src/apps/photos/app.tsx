@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router';
 
 import * as routes from 'routes';
 
-import SidebarLayout from 'components/ui/SidebarLayout';
+import { SidebarLayout } from '@/ui/sidebar-layout';
 
 import AppNavbar from 'components/AppNavbar';
 import AppSidebar from 'components/AppSidebar';
