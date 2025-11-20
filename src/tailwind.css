@@ -109,7 +109,7 @@
   --primary: oklch(0.922 0 0);
   --primary-foreground: oklch(0.205 0 0);
   --secondary: var(--color-zinc-700);
-  --secondary-foreground: color(--color-zinc-400);
+  --secondary-foreground: var(--color-zinc-400);
   --muted: var(--color-zinc-700);
   --muted-foreground: var(--color-zinc-400);
   --accent: oklch(from var(--color-zinc-50) l c h / 10%);
