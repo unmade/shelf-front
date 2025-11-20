@@ -13,9 +13,10 @@ import { MoreOutlined } from 'icons';
 import * as routes from 'routes';
 import { FileShape } from 'types';
 
-import { Dropdown, DropdownButton } from 'components/ui/DropdownMenu';
+import { Button } from '@/ui/button';
+import { DropdownMenu, DropdownMenuTrigger } from '@/ui/dropdown-menu';
 
-import SimpleMenu from 'components/SimpleMenu';
+import SimpleMenuContent from '@/components/SimpleMenuContent';
 
 function useTrashedFileActionGroups(files) {
   const moveAction = useMoveAction(files);
@@ -55,23 +56,16 @@ function useFileActionGroups(files) {
   return groups.filter((group) => group.items.length > 0);
 }
 
-const stopPropagation = (event) => {
-  event.stopPropagation();
-};
-
 function FileMenu({ groups }) {
   return (
-    <Dropdown>
-      <DropdownButton
-        className="focus:outline-none"
-        variant="plain"
-        color="gray"
-        onClick={stopPropagation}
-      >
-        <MoreOutlined data-slot="icon" />
-      </DropdownButton>
-      <SimpleMenu sections={groups} />
-    </Dropdown>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button className="focus:outline-none" size="icon" variant="ghost">
+          <MoreOutlined />
+        </Button>
+      </DropdownMenuTrigger>
+      <SimpleMenuContent groups={groups} side="bottom" align="end" />
+    </DropdownMenu>
   );
 }
 

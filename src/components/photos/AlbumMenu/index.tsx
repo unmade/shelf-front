@@ -13,7 +13,7 @@ interface Props {
   onOpen?: () => void;
 }
 
-function useAlbumActionSections(album: IAlbum) {
+function useAlbumActionGroups(album: IAlbum) {
   const renameAction = useRenameAlbumAction(album);
   const removeCoverAction = useRemoveAlbumCoverAction(album);
   const deleteAction = useDeleteAlbumAction(album);
@@ -31,6 +31,6 @@ function useAlbumActionSections(album: IAlbum) {
 }
 
 export default function AlbumMenu({ album, onOpen }: Props) {
-  const sections = useAlbumActionSections(album);
-  return <GridItemMenu sections={sections} onOpen={onOpen} />;
+  const groups = useAlbumActionGroups(album);
+  return <GridItemMenu groups={groups} onOpen={onOpen} />;
 }

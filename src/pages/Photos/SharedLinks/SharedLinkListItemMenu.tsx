@@ -3,14 +3,15 @@ import type { IMediaItem } from 'types/photos';
 
 import { useCopyLinkAction, useDownloadAction } from 'hooks/file-actions';
 
-import { Dropdown, DropdownButton } from 'components/ui/DropdownMenu';
+import { Button } from '@/ui/button';
+import { DropdownMenu, DropdownMenuTrigger } from '@/ui/dropdown-menu';
 
-import SimpleMenu from 'components/SimpleMenu';
+import SimpleMenuContent from '@/components/SimpleMenuContent';
 
 import useFileFromMediaItem from 'components/photos/hooks/file-from-media-item';
 import { useDeleteAction } from 'components/photos/hooks/media-item-actions';
 
-function useMediaItemActionSections(item: IMediaItem) {
+function useMediaItemActionGroups(item: IMediaItem) {
   const files = [useFileFromMediaItem(item)];
 
   const copyLinkAction = useCopyLinkAction(files);
@@ -35,23 +36,16 @@ interface Props {
   mediaItem: IMediaItem;
 }
 
-const stopPropagation = (event: React.MouseEvent<HTMLButtonElement>) => {
-  event.stopPropagation();
-};
-
 export default function SharedLinkListItemMenu({ mediaItem }: Props) {
-  const sections = useMediaItemActionSections(mediaItem);
+  const groups = useMediaItemActionGroups(mediaItem);
   return (
-    <Dropdown>
-      <DropdownButton
-        className="focus:outline-none"
-        variant="plain"
-        color="gray"
-        onClick={stopPropagation}
-      >
-        <MoreOutlined data-slot="icon" />
-      </DropdownButton>
-      <SimpleMenu sections={sections} />
-    </Dropdown>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button className="focus:outline-none" variant="ghost" size="icon">
+          <MoreOutlined data-slot="icon" />
+        </Button>
+      </DropdownMenuTrigger>
+      <SimpleMenuContent groups={groups} side="bottom" align="end" />
+    </DropdownMenu>
   );
 }

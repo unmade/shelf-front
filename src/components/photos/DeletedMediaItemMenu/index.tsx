@@ -12,7 +12,7 @@ import { useMediaItemsData } from '../MediaItemsProvider';
 
 const EMPTY: IMediaItem[] = [];
 
-function useMediaItemActionSections(item: IMediaItem) {
+function useMediaItemActionGroups(item: IMediaItem) {
   const { selectById } = useMediaItemsData();
   const { ids, isSelected } = useSelection();
 
@@ -42,6 +42,6 @@ interface Props {
 }
 
 export default function DeletedMediaItemMenu({ mediaItem, onOpen }: Props) {
-  const sections = useMediaItemActionSections(mediaItem);
-  return <GridItemMenu sections={sections} onOpen={onOpen} />;
+  const groups = useMediaItemActionGroups(mediaItem);
+  return <GridItemMenu groups={groups} onOpen={onOpen} />;
 }

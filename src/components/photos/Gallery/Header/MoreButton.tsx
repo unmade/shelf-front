@@ -7,18 +7,16 @@ import type { IMediaItem } from 'types/photos';
 
 import { useCopyLinkAction, useDownloadAction } from 'hooks/file-actions';
 
-import { Dropdown, DropdownButton } from 'components/ui/DropdownMenu';
+import { Button } from '@/ui/button';
+import { DropdownMenu, DropdownMenuTrigger } from '@/ui/dropdown-menu';
 
-import SimpleMenu from 'components/SimpleMenu';
+import SimpleMenuContent from '@/components/SimpleMenuContent';
 
 import { useAddToAlbumAction, useDeleteAction } from 'components/photos/hooks/media-item-actions';
 import useFileFromMediaItem from 'components/photos/hooks/file-from-media-item';
 
 import { useInformationDialogContext } from '../InformationDialogProvider';
-
-const stopPropagation = (event: React.MouseEvent<HTMLButtonElement>) => {
-  event.stopPropagation();
-};
+import { cn } from '@/lib/utils';
 
 function useInformationAction(file: IFile) {
   const { t } = useTranslation('photos');
@@ -68,17 +66,14 @@ function MoreButton({ className = '', mediaItem }: Props) {
   ].filter((group) => group.items.length > 0);
 
   return (
-    <Dropdown>
-      <DropdownButton
-        className={`${className} focus:outline-none`}
-        variant="plain"
-        color="gray"
-        onClick={stopPropagation}
-      >
-        <MoreOutlined data-slot="icon" />
-      </DropdownButton>
-      <SimpleMenu sections={groups} />
-    </Dropdown>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button className={cn('focus:outline-none', className)} variant="ghost">
+          <MoreOutlined data-slot="icon" />
+        </Button>
+      </DropdownMenuTrigger>
+      <SimpleMenuContent groups={groups} side="bottom" align="end" />
+    </DropdownMenu>
   );
 }
 
