@@ -7,10 +7,11 @@ import { cn } from '@/lib/utils';
 const buttonVariants = cva(
   clsx(
     'inline-flex items-center justify-center gap-2',
-    'whitespace-nowrap rounded-md text-sm font-medium',
+    'whitespace-nowrap rounded-md text-base/6 sm:text-sm/6 font-medium',
     'transition ease-in-out',
     // icons
-    "[&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0",
+    '[&_svg]:pointer-events-none shrink-0 [&_svg]:shrink-0',
+    "[&_svg:not([class*='size-'])]:size-5 sm:[&_svg:not([class*='size-'])]:size-4",
     // disabled
     'disabled:pointer-events-none disabled:opacity-50',
     // focus

@@ -1,9 +1,8 @@
 import { useCurrentAccount } from '@/store/accounts';
 
-import { DropdownMenu, DropdownMenuTrigger } from '@/ui/dropdown-menu';
 import { Avatar, AvatarFallback } from '@/ui/avatar';
-
-import { NavbarItem } from '@/components/ui/Navbar';
+import { DropdownMenu, DropdownMenuTrigger } from '@/ui/dropdown-menu';
+import { NavbarItem } from '@/ui/navbar';
 
 import CurrentAccountDropdownContent from '@/components/CurrentAccountDropdown';
 
@@ -19,7 +18,7 @@ function DropdownButton() {
   return (
     <DropdownMenuTrigger asChild>
       <NavbarItem>
-        <Avatar>
+        <Avatar className="-m-0.5 size-7">
           <AvatarFallback>{initials}</AvatarFallback>
         </Avatar>
       </NavbarItem>
