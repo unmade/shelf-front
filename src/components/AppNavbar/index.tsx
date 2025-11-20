@@ -1,4 +1,4 @@
-import { Navbar, NavbarSection, NavbarSpacer } from 'components/ui/Navbar';
+import { Navbar, NavbarSection, NavbarSpacer } from '@/ui/navbar';
 
 import CurrentAccountDropdown from './CurrentAccountDropdown';
 
