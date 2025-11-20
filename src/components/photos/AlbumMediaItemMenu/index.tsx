@@ -20,7 +20,7 @@ import { useMediaItemsData } from '../MediaItemsProvider';
 
 const EMPTY: IMediaItem[] = [];
 
-function useMediaItemActionSections(item: IMediaItem, albumSlug: string) {
+function useMediaItemActionGroups(item: IMediaItem, albumSlug: string) {
   const { selectById } = useMediaItemsData();
   const { ids, isSelected } = useSelection();
   const mediaItems = useAppSelector((state) => {
@@ -71,8 +71,8 @@ interface Props {
 }
 
 function AlbumMediaItemMenu({ mediaItem, albumSlug, onOpen }: Props) {
-  const sections = useMediaItemActionSections(mediaItem, albumSlug);
-  return <GridItemMenu sections={sections} onOpen={onOpen} />;
+  const groups = useMediaItemActionGroups(mediaItem, albumSlug);
+  return <GridItemMenu groups={groups} onOpen={onOpen} />;
 }
 
 export default AlbumMediaItemMenu;

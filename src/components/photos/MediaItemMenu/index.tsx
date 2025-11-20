@@ -65,8 +65,8 @@ interface Props {
 }
 
 function MediaItemMenu({ mediaItem, onOpen }: Props) {
-  const sections = useMediaItemActionGroups(mediaItem);
-  return <GridItemMenu sections={sections} onOpen={onOpen} />;
+  const groups = useMediaItemActionGroups(mediaItem);
+  return <GridItemMenu groups={groups} onOpen={onOpen} />;
 }
 
 export default MediaItemMenu;

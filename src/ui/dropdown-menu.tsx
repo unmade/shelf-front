@@ -21,6 +21,8 @@ function DropdownMenuTrigger({
   return <DropdownMenuPrimitive.Trigger data-slot="dropdown-menu-trigger" {...props} />;
 }
 
+export type DropdownMenuContentProps = React.ComponentProps<typeof DropdownMenuPrimitive.Content>;
+
 function DropdownMenuContent({
   className,
   sideOffset = 4,

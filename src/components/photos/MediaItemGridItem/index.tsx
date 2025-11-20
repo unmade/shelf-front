@@ -118,7 +118,7 @@ function GridItemContainer({
   }
 
   return (
-    <div style={itemStyle} className="pl-[20px]">
+    <div style={itemStyle} className="pl-5">
       <GridItem
         mediaItem={mediaItem}
         width={style.width as number}
