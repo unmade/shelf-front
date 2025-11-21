@@ -4,7 +4,13 @@ import PropTypes from 'prop-types';
 import * as icons from 'icons';
 import { BreadcrumbShape } from 'types';
 
-import { Dropdown, DropdownButton, DropdownMenu, DropdownItem } from 'components/ui/DropdownMenu';
+import { Button } from '@/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from '@/ui/dropdown-menu';
 
 import BreadcrumbItem from './BreadcrumbItem';
 
@@ -34,18 +40,20 @@ function Breadcrumb({
   }
 
   const collapsed = shouldCollapse ? (
-    <Dropdown>
-      <DropdownButton className="focus:outline-none" size="small" variant="plain" color="gray">
-        <icons.DotsHorizontal data-slot="icon" className="text-gray-400 dark:text-zinc-500" />
-      </DropdownButton>
-      <DropdownMenu anchor="top start" className="[--anchor-offset:-10px]">
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button className="focus:outline-none" size="icon-sm" variant="ghost">
+          <icons.DotsHorizontal />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent side="top" align="start">
         {toCollapse.map((item) => (
-          <DropdownItem key={item.key}>
+          <DropdownMenuItem key={item.key}>
             <RenderCollapsed name={item.name} url={item.url} path={item.path} />
-          </DropdownItem>
+          </DropdownMenuItem>
         ))}
-      </DropdownMenu>
-    </Dropdown>
+      </DropdownMenuContent>
+    </DropdownMenu>
   ) : null;
 
   return (
