@@ -83,7 +83,7 @@ function CreateFolderDialogButton({ inPath }) {
       className="w-full border-t border-zinc-700"
       onClick={() => openCreateFolderDialog(inPath)}
     >
-      <div className="flex items-center justify-between px-4 py-2">
+      <div className="flex items-center justify-between gap-2 px-4 py-2">
         <div className="font-medium">{t('New Folder')}</div>
         <icons.NewFolder className="h-5 w-5 shrink-0 text-gray-400 dark:text-zinc-500" />
       </div>
