@@ -30,7 +30,7 @@ function AlbumListItem({ data, index, style }: ListChildComponentProps<ItemDataP
   if (!album) return null;
 
   return (
-    <div style={style} className="bg-white py-1 transition-colors dark:bg-zinc-800">
+    <div style={style} className="py-1">
       <button
         type="button"
         className="flex h-full w-full items-center justify-start rounded-xl bg-gray-50 px-3 py-3 text-left dark:bg-zinc-900/50"

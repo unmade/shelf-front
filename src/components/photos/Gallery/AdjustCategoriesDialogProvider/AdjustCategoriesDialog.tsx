@@ -7,22 +7,31 @@ import { skipToken } from '@reduxjs/toolkit/query';
 import {
   useListMediaItemCategoriesQuery,
   useSetMediaItemCategoriesMutation,
-} from 'store/mediaItems';
+} from '@/store/mediaItems';
 
-import Dialog from 'components/ui-legacy/Dialog';
+import { Button } from '@/ui/button';
+import {
+  Dialog,
+  DialogBody,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/ui/dialog';
 
-import useMediaItemCategories from '../../hooks/media-item-categories';
+import useMediaItemCategories from '@/components/photos/hooks/media-item-categories';
 
 import CategoryItem from './CategoryItem';
 
 interface Props {
   fileId: string | null;
-  visible: boolean;
+  open: boolean;
   onClose: () => void;
 }
 
-export default function AdjustCategoriesDialog({ fileId, visible, onClose }: Props) {
-  const { t } = useTranslation(['photos']);
+export default function AdjustCategoriesDialog({ fileId, open, onClose }: Props) {
+  const { t } = useTranslation('photos');
 
   const allCategories = useMediaItemCategories();
 
@@ -54,7 +63,13 @@ export default function AdjustCategoriesDialog({ fileId, visible, onClose }: Pro
     }
   };
 
-  const onConfirm = async () => {
+  const handleOpenChanged = (open: boolean) => {
+    if (!open) {
+      onClose();
+    }
+  };
+
+  const handleSave = async () => {
     const initialSelection = selectedCategories?.map(({ name }) => name);
     const currentSelection = [...Object.keys(state)];
     if (!shallowEqual(currentSelection, initialSelection) && fileId) {
@@ -64,27 +79,39 @@ export default function AdjustCategoriesDialog({ fileId, visible, onClose }: Pro
   };
 
   return (
-    <Dialog
-      title={t('photos:dialogs.adjustCategories.title', { defaultValue: 'Adjust categories' })}
-      visible={visible}
-      onConfirm={onConfirm}
-      confirmTitle={t('photos:dialogs.adjustCategories.confirmTitle', { defaultValue: 'Save' })}
-      confirmLoading={creating}
-      onCancel={onClose}
-    >
-      {fileId && (
-        <div className="grid grid-flow-col grid-rows-10 gap-x-2 gap-y-1 text-sm md:gap-3">
-          {Object.values(allCategories).map(({ name, displayName }) => (
-            <CategoryItem
-              key={name}
-              name={name}
-              displayName={displayName}
-              selected={state[name]}
-              onClick={toggleSelection}
-            />
-          ))}
-        </div>
-      )}
+    <Dialog open={open} onOpenChange={handleOpenChanged}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>
+            {t('photos:dialogs.adjustCategories.title', { defaultValue: 'Adjust categories' })}
+          </DialogTitle>
+        </DialogHeader>
+        <DialogBody>
+          {fileId && (
+            <div className="grid grid-flow-col grid-rows-10 gap-x-2 gap-y-1 text-sm md:gap-3">
+              {Object.values(allCategories).map(({ name, displayName }) => (
+                <CategoryItem
+                  key={name}
+                  name={name}
+                  displayName={displayName}
+                  selected={state[name]}
+                  onClick={toggleSelection}
+                />
+              ))}
+            </div>
+          )}
+        </DialogBody>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button variant="ghost">
+              {t('photos:dialogs.adjustCategories.actions.cancel', { defaultValue: 'Cancel' })}
+            </Button>
+          </DialogClose>
+          <Button disabled={creating} onClick={handleSave}>
+            {t('photos:dialogs.adjustCategories.confirmTitle', { defaultValue: 'Save' })}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
     </Dialog>
   );
 }

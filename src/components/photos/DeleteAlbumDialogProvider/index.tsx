@@ -16,17 +16,17 @@ interface Props {
 }
 
 interface State {
-  visible: boolean;
+  open: boolean;
   album: IAlbum | null;
 }
-const initialState: State = { visible: false, album: null };
+const initialState: State = { open: false, album: null };
 
 export default function DeleteAlbumDialogProvider({ children }: Props) {
   const [state, setState] = useState<State>(initialState);
 
   const openDialog = useCallback(
     (album: IAlbum) => {
-      setState({ visible: true, album });
+      setState({ open: true, album });
     },
     [setState],
   );
@@ -35,13 +35,13 @@ export default function DeleteAlbumDialogProvider({ children }: Props) {
     setState(initialState);
   };
 
-  const { visible, album } = state;
+  const { open, album } = state;
 
   const value = useMemo(() => ({ openDialog }), [openDialog]);
 
   return (
     <DeleteAlbumDialogContext.Provider value={value}>
-      <DeleteAlbumDialog visible={visible} album={album} onClose={closeDialog} />
+      <DeleteAlbumDialog open={open} album={album} onClose={closeDialog} />
       {children}
     </DeleteAlbumDialogContext.Provider>
   );

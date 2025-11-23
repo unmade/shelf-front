@@ -2,7 +2,7 @@
   "Add to Saved": "Добавить в закладки",
   "Albums": "Альбомы",
   "Appearance": "Оформление",
-  "Applications": "",
+  "Applications": "Приложения",
   "Auto": "Авто",
   "available": "доступно",
   "Bookmarks": "Закладки",
@@ -92,8 +92,7 @@
   "Sign Out": "Выйти",
   "Sign Up": "Регистрация",
   "Size": "Размер",
-  "Something went wrong.": "Что-то пошло не так.",
-  "Start by uploading some files": "",
+  "Start by uploading some files": "Начните с загрузки файлов",
   "status_bar_deleting_task_one": "{{count}} объект удаляется",
   "status_bar_deleting_task_few": "{{count}} объекта удаляется",
   "status_bar_deleting_task_many": "{{count}} объектов удаляется",
@@ -112,6 +111,6 @@
   "This folder is empty": "Эта папка пуста",
   "Trash": "Корзина",
   "Trash folder is empty": "Корзина пуста",
-  "Upload": "Upload",
+  "Upload": "Загрузить",
   "Uploads": "Загрузки"
 }

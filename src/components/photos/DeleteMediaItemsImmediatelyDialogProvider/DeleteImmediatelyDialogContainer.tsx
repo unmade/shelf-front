@@ -6,11 +6,11 @@ import DeleteImmediatelyDialog from 'components/DeleteImmediatelyDialog';
 
 interface Props {
   mediaItems: IMediaItem[];
-  visible: boolean;
+  open: boolean;
   onClose: () => void;
 }
 
-export default function DeleteImmediatelyDialogContainer({ mediaItems, visible, onClose }: Props) {
+export default function DeleteImmediatelyDialogContainer({ mediaItems, open, onClose }: Props) {
   const [deleteMediaItems, { isLoading: loading }] = useDeleteMediaItemsImmediatelyMutation();
 
   const onConfirm = async () => {
@@ -19,17 +19,13 @@ export default function DeleteImmediatelyDialogContainer({ mediaItems, visible, 
     onClose();
   };
 
-  const onCancel = () => {
-    onClose();
-  };
-
   return (
     <DeleteImmediatelyDialog
       names={mediaItems.map((item) => item.name)}
       loading={loading}
-      visible={visible}
+      open={open}
       onConfirm={onConfirm}
-      onCancel={onCancel}
+      onClose={onClose}
     />
   );
 }

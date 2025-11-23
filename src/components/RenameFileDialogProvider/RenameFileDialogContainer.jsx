@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 
 import { useMoveFileBatchMutation } from '../../store/files';
-import { scopes, waitForBackgroundTaskToComplete } from '../../store/tasks';
+import { Scopes, waitForBackgroundTaskToComplete } from '../../store/tasks';
 
 import { FileShape } from '../../types';
 
 import RenameFileDialog from './RenameFileDialog';
 
-function RenameFileDialogContainer({ file, visible, onClose }) {
+function RenameFileDialogContainer({ file, open, onClose }) {
   const dispatch = useDispatch();
 
   const [moveFileBatch, { isLoading: loading }] = useMoveFileBatchMutation();
@@ -24,7 +24,7 @@ function RenameFileDialogContainer({ file, visible, onClose }) {
     dispatch(
       waitForBackgroundTaskToComplete({
         taskId,
-        scope: scopes.movingBatch,
+        scope: Scopes.MovingBatch,
         itemsCount: relocations.length,
       }),
     );
@@ -38,7 +38,7 @@ function RenameFileDialogContainer({ file, visible, onClose }) {
   return (
     <RenameFileDialog
       file={file}
-      visible={visible}
+      open={open}
       loading={loading}
       onRename={onRename}
       onCancel={onCancel}
@@ -48,7 +48,7 @@ function RenameFileDialogContainer({ file, visible, onClose }) {
 
 RenameFileDialogContainer.propTypes = {
   file: FileShape,
-  visible: PropTypes.bool.isRequired,
+  open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 

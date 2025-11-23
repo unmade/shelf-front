@@ -15,29 +15,29 @@ interface Props {
 
 interface State {
   fileId: string | null;
-  visible: boolean;
+  open: boolean;
 }
 
-const initialState = { fileId: null, visible: false };
+const initialState: State = { fileId: null, open: false };
 
 export default function AdjustCategoriesDialogProvider({ children }: Props) {
   const [state, setState] = useState<State>(initialState);
 
   const openDialog = useCallback((fileId: string) => {
-    setState({ fileId, visible: true });
+    setState({ fileId, open: true });
   }, []);
 
   const closeDialog = useCallback(() => {
     setState(initialState);
   }, []);
 
-  const { visible, fileId } = state;
+  const { open, fileId } = state;
 
   const value = useMemo(() => ({ openDialog }), [openDialog]);
 
   return (
     <AdjustCategoriesDialogContext.Provider value={value}>
-      <AdjustCategoriesDialog visible={visible} fileId={fileId} onClose={closeDialog} />
+      <AdjustCategoriesDialog open={open} fileId={fileId} onClose={closeDialog} />
       {children}
     </AdjustCategoriesDialogContext.Provider>
   );

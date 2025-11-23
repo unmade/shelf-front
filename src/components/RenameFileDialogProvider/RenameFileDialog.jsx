@@ -21,7 +21,7 @@ import { FileShape } from '../../types';
 import { MediaType } from '../../constants';
 import * as routes from '../../routes';
 
-function RenameFileDialog({ file, loading, visible, onRename, onCancel }) {
+function RenameFileDialog({ file, loading, open, onRename, onCancel }) {
   const { t } = useTranslation();
 
   const [name, setName] = React.useState((file && file.name) ?? null);
@@ -34,10 +34,10 @@ function RenameFileDialog({ file, loading, visible, onRename, onCancel }) {
   }, [file]);
 
   React.useEffect(() => {
-    if (!visible && error != null) {
+    if (!open && error != null) {
       setError(null);
     }
-  }, [visible, error, setError]);
+  }, [open, error, setError]);
 
   const onNameChange = (event) => {
     setName(event.target.value);
@@ -68,7 +68,7 @@ function RenameFileDialog({ file, loading, visible, onRename, onCancel }) {
   const title = mediatype === MediaType.FOLDER ? t('Rename Folder') : t('Rename File');
 
   return (
-    <Dialog open={visible} onOpenChange={handleCancel}>
+    <Dialog open={open} onOpenChange={handleCancel}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
@@ -104,7 +104,7 @@ function RenameFileDialog({ file, loading, visible, onRename, onCancel }) {
 RenameFileDialog.propTypes = {
   file: FileShape,
   loading: PropTypes.bool,
-  visible: PropTypes.bool,
+  open: PropTypes.bool,
   onRename: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
 };
@@ -112,7 +112,7 @@ RenameFileDialog.propTypes = {
 RenameFileDialog.defaultProps = {
   file: null,
   loading: false,
-  visible: false,
+  open: false,
 };
 
 export default RenameFileDialog;

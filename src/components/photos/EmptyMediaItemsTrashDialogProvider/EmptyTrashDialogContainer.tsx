@@ -3,11 +3,11 @@ import { usePurgeMediaItemsMutation } from 'store/mediaItems';
 import EmptyTrashDialog from 'components/EmptyTrashDialog';
 
 interface Props {
-  visible: boolean;
+  open: boolean;
   onClose: () => void;
 }
 
-export default function EmptyTrashDialogContainer({ visible, onClose }: Props) {
+export default function EmptyTrashDialogContainer({ open, onClose }: Props) {
   const [emptyTrash, { isLoading: loading }] = usePurgeMediaItemsMutation();
 
   const onConfirm = async () => {
@@ -15,16 +15,7 @@ export default function EmptyTrashDialogContainer({ visible, onClose }: Props) {
     onClose();
   };
 
-  const onCancel = () => {
-    onClose();
-  };
-
   return (
-    <EmptyTrashDialog
-      loading={loading}
-      visible={visible}
-      onConfirm={onConfirm}
-      onCancel={onCancel}
-    />
+    <EmptyTrashDialog loading={loading} open={open} onConfirm={onConfirm} onCancel={onClose} />
   );
 }

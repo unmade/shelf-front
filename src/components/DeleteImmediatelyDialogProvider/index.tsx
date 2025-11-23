@@ -17,32 +17,32 @@ interface Props {
 
 interface State {
   files: IFile[];
-  visible: boolean;
+  open: boolean;
 }
 
-const initialState: State = { files: [], visible: false };
+const initialState: State = { files: [], open: false };
 
 function DeleteImmediatelyDialogProvider({ children }: Props) {
   const [state, setState] = useState<State>(initialState);
 
   const openDialog = useCallback(
     (files: IFile[]) => {
-      setState({ files, visible: true });
+      setState({ files, open: true });
     },
     [setState],
   );
 
-  const closeDialog = () => {
+  const closeDialog = useCallback(() => {
     setState(initialState);
-  };
+  }, [setState]);
 
-  const { visible, files } = state;
+  const { open, files } = state;
 
   const value = useMemo(() => ({ openDialog }), [openDialog]);
 
   return (
     <DeleteImmediatelyDialogContext.Provider value={value}>
-      <DeleteImmediatelyDialogContainer visible={visible} files={files} onClose={closeDialog} />
+      <DeleteImmediatelyDialogContainer open={open} files={files} onClose={closeDialog} />
       {children}
     </DeleteImmediatelyDialogContext.Provider>
   );

@@ -6,11 +6,11 @@ import DeleteDialog from 'components/DeleteDialog';
 
 interface Props {
   mediaItems: IMediaItem[];
-  visible: boolean;
+  open: boolean;
   onClose: () => void;
 }
 
-export default function DeleteDialogContainer({ mediaItems, visible, onClose }: Props) {
+export default function DeleteDialogContainer({ mediaItems, open: open, onClose }: Props) {
   const [deleteMediaItems, { isLoading: loading }] = useDeleteMediaItemsMutation();
 
   const onConfirm = async () => {
@@ -19,17 +19,13 @@ export default function DeleteDialogContainer({ mediaItems, visible, onClose }: 
     onClose();
   };
 
-  const onCancel = () => {
-    onClose();
-  };
-
   return (
     <DeleteDialog
       names={mediaItems.map((item) => item.name)}
       loading={loading}
-      visible={visible}
+      open={open}
       onConfirm={onConfirm}
-      onCancel={onCancel}
+      onClose={onClose}
     />
   );
 }

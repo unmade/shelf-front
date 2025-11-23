@@ -17,17 +17,17 @@ interface Props {
 
 interface State {
   file: IFile | null;
-  visible: boolean;
+  open: boolean;
 }
 
-const initialState: State = { file: null, visible: false };
+const initialState: State = { file: null, open: false };
 
 function RenameFileDialogProvider({ children }: Props) {
   const [state, setState] = useState<State>(initialState);
 
   const openDialog = useCallback(
     (file: IFile) => {
-      setState({ file, visible: true });
+      setState({ file, open: true });
     },
     [setState],
   );
@@ -36,13 +36,13 @@ function RenameFileDialogProvider({ children }: Props) {
     setState(initialState);
   };
 
-  const { file, visible } = state;
+  const { file, open } = state;
 
   const value = useMemo(() => ({ openDialog }), [openDialog]);
 
   return (
     <RenameFileDialogContext.Provider value={value}>
-      <RenameFileDialogContainer visible={visible} file={file} onClose={closeDialog} />
+      <RenameFileDialogContainer open={open} file={file} onClose={closeDialog} />
       {children}
     </RenameFileDialogContext.Provider>
   );

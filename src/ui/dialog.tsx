@@ -63,11 +63,11 @@ function DialogContent({
             // Padding and shadow
             'p-8 shadow-lg backdrop-blur-xl',
             // Border and rounding
-            'rounded-t-3xl border sm:rounded-2xl',
+            'ring-ring/50 rounded-t-3xl ring-1 sm:rounded-2xl',
             // Animation duration
             'duration-200',
             // Responsive max width
-            'sm:max-w-lg',
+            'w-full sm:max-w-lg',
             // Animation states
             'data-[state=open]:animate-in',
             'data-[state=closed]:animate-out',

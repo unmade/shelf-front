@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 
-import { useAppSelector } from 'hooks';
-import * as icons from 'icons';
+import { selectIsUploading } from '@/store/uploads/slice';
 
-import { selectIsUploading } from 'store/uploads/slice';
+import { useAppSelector } from '@/hooks';
+import * as icons from '@/icons';
 
-import Button from 'components/ui-legacy/Button';
+import { Button } from '@/ui/button';
 
 import UploadDialog from './UploadDialog';
 
@@ -15,36 +15,33 @@ interface Props {
 }
 
 export default function UploaderDialog({ allowedMediaTypes, uploadTo }: Props) {
-  const [visible, setVisible] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
 
   const uploading = useAppSelector(selectIsUploading);
 
-  const shouldBeVisible = uploading && !visible;
+  const shouldBeOpen = uploading && !open;
 
   useEffect(() => {
-    if (shouldBeVisible) {
-      setVisible(true);
+    if (shouldBeOpen) {
+      setOpen(true);
     }
-  }, [shouldBeVisible]);
+  }, [shouldBeOpen]);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
   return (
     <>
-      <Button
-        as="div"
-        variant="primary"
-        title="Uploads"
-        size="base"
-        icon={<icons.CloudUpload className="h-5 w-5 shrink-0" />}
-        onClick={() => {
-          setVisible(true);
-        }}
-      />
+      <Button title="Uploads" size="icon" onClick={handleOpen}>
+        <icons.CloudUpload />
+      </Button>
       <UploadDialog
         allowedMediaTypes={allowedMediaTypes}
         uploadTo={uploadTo}
-        visible={visible}
+        open={open}
         onCancel={() => {
-          setVisible(false);
+          setOpen(false);
         }}
       />
     </>

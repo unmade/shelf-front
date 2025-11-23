@@ -5,7 +5,7 @@ import VerifyEmailDialogContainer from './VerifyEmailDialogContainer';
 
 interface Props {
   email: string;
-  visible: boolean;
+  open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
@@ -15,7 +15,7 @@ enum Step {
   Completed,
 }
 
-export default function CompleteEmailVerificationSteps({ email, visible, onOpenChange }: Props) {
+export default function CompleteEmailVerificationSteps({ email, open, onOpenChange }: Props) {
   const [step, setStep] = useState<Step>(Step.Disclaimer);
 
   const handleDisclaimerContinue = useCallback(() => {
@@ -34,11 +34,9 @@ export default function CompleteEmailVerificationSteps({ email, visible, onOpenC
 
   switch (step) {
     case Step.Disclaimer:
-      return (
-        <Disclaimer open={visible} onSubmit={handleDisclaimerContinue} onOpenChange={onClose} />
-      );
+      return <Disclaimer open={open} onSubmit={handleDisclaimerContinue} onOpenChange={onClose} />;
     case Step.VerifyEmail:
-      return <VerifyEmailDialogContainer open={visible} email={email} onOpenChange={onClose} />;
+      return <VerifyEmailDialogContainer open={open} email={email} onOpenChange={onClose} />;
     default:
       return null;
   }

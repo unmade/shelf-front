@@ -1,37 +1,55 @@
 import { Trans, useTranslation } from 'react-i18next';
 
-import * as icons from 'icons';
-
-import Dialog from 'components/ui-legacy/Dialog';
+import { Button } from '@/ui/button';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/ui/dialog';
+import { Strong } from '@/ui/text';
 
 interface Props {
   loading: boolean;
-  visible: boolean;
+  open: boolean;
   onConfirm: () => void;
   onCancel: () => void;
 }
 
-export default function EmptyTrashDialog({ loading, visible, onConfirm, onCancel }: Props) {
+export default function EmptyTrashDialog({ loading, open, onConfirm, onCancel }: Props) {
   const { t } = useTranslation();
 
+  const handleOpenChanged = (open: boolean) => {
+    if (!open) {
+      onCancel();
+    }
+  };
+
   return (
-    <Dialog
-      title={t('Empty Trash')}
-      icon={<icons.TrashOutlined className="h-6 w-6" />}
-      visible={visible}
-      confirmTitle={t('Empty')}
-      confirmLoading={loading}
-      confirmDanger
-      onConfirm={onConfirm}
-      onCancel={onCancel}
-    >
-      <p>
-        <Trans i18nKey="empty_trash_dialog_text_styled" t={t}>
-          Are you sure you want to delete
-          <b className="text-gray-700 dark:text-zinc-200">all</b>
-          files in the Trash?
-        </Trans>
-      </p>
+    <Dialog open={open} onOpenChange={handleOpenChanged}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{t('Empty Trash')}</DialogTitle>
+          <DialogDescription>
+            <Trans i18nKey="empty_trash_dialog_text_styled" t={t}>
+              Are you sure you want to delete
+              <Strong className="text-foreground">all</Strong>
+              files in the Trash?
+            </Trans>
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button variant="ghost">{t('Cancel')}</Button>
+          </DialogClose>
+          <Button variant="destructive" onClick={onConfirm} disabled={loading}>
+            {t('Empty')}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
     </Dialog>
   );
 }

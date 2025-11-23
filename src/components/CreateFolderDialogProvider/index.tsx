@@ -15,36 +15,31 @@ interface Props {
 
 interface State {
   path?: string;
-  visible: boolean;
+  open: boolean;
 }
-const initialState: State = { path: undefined, visible: false };
+const initialState: State = { path: undefined, open: false };
 
 function CreateFolderDialogProvider({ children }: Props) {
   const [state, setState] = useState<State>(initialState);
 
   const openDialog = useCallback(
     (path: string) => {
-      setState({ path, visible: true });
+      setState({ path, open: true });
     },
     [setState],
   );
 
-  const handleOpenChanged = useCallback(
-    (open: boolean) => {
-      if (!open) {
-        setState(initialState);
-      }
-    },
-    [setState],
-  );
+  const closeDialog = useCallback(() => {
+    setState(initialState);
+  }, [setState]);
 
-  const { path, visible } = state;
+  const { path, open } = state;
 
   const value = useMemo(() => ({ openDialog }), [openDialog]);
 
   return (
     <CreateFolderDialogContext.Provider value={value}>
-      <CreateFolderDialog inPath={path} open={visible} onOpenChange={handleOpenChanged} />
+      <CreateFolderDialog inPath={path} open={open} onClose={closeDialog} />
       {children}
     </CreateFolderDialogContext.Provider>
   );

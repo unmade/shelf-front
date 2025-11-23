@@ -17,17 +17,17 @@ interface Props {
 
 interface State {
   mediaItems: IMediaItem[];
-  visible: boolean;
+  open: boolean;
 }
 
-const initialState: State = { mediaItems: [], visible: false };
+const initialState: State = { mediaItems: [], open: false };
 
 export default function AddToAlbumDialogProvider({ children }: Props) {
   const [state, setState] = useState<State>(initialState);
 
   const openDialog = useCallback(
     (mediaItems: IMediaItem[]) => {
-      setState({ mediaItems, visible: true });
+      setState({ mediaItems, open: true });
     },
     [setState],
   );
@@ -36,13 +36,13 @@ export default function AddToAlbumDialogProvider({ children }: Props) {
     setState(initialState);
   }, []);
 
-  const { mediaItems, visible } = state;
+  const { mediaItems, open } = state;
 
   const value = useMemo(() => ({ openDialog }), [openDialog]);
 
   return (
     <AddToAlbumDialogContext.Provider value={value}>
-      <AddToAlbumDialog visible={visible} mediaItems={mediaItems} onClose={closeDialog} />
+      <AddToAlbumDialog open={open} mediaItems={mediaItems} onClose={closeDialog} />
       {children}
     </AddToAlbumDialogContext.Provider>
   );

@@ -17,17 +17,17 @@ interface Props {
 
 interface State {
   mediaItems: IMediaItem[];
-  visible: boolean;
+  open: boolean;
 }
 
-const initialState: State = { mediaItems: [], visible: false };
+const initialState: State = { mediaItems: [], open: false };
 
 export default function DeleteMediaItemsImmediatelyDialogProvider({ children }: Props) {
   const [state, setState] = useState<State>(initialState);
 
   const openDialog = useCallback(
     (mediaItems: IMediaItem[]) => {
-      setState({ mediaItems, visible: true });
+      setState({ mediaItems, open: true });
     },
     [setState],
   );
@@ -36,17 +36,13 @@ export default function DeleteMediaItemsImmediatelyDialogProvider({ children }: 
     setState(initialState);
   };
 
-  const { mediaItems, visible } = state;
+  const { mediaItems, open } = state;
 
   const value = useMemo(() => ({ openDialog }), [openDialog]);
 
   return (
     <DeleteImmediatelyDialogContext.Provider value={value}>
-      <DeleteImmediatelyDialogContainer
-        visible={visible}
-        mediaItems={mediaItems}
-        onClose={closeDialog}
-      />
+      <DeleteImmediatelyDialogContainer open={open} mediaItems={mediaItems} onClose={closeDialog} />
       {children}
     </DeleteImmediatelyDialogContext.Provider>
   );

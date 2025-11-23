@@ -1,32 +1,42 @@
 import { useTranslation } from 'react-i18next';
 
 import { useAppSelector } from 'hooks';
-import * as icons from 'icons';
 import type { IFile } from 'types/files';
 
 import { selectIsSuperuser } from 'store/accounts';
 import { selectFeatureSharedLinksEnabled } from 'store/features';
 
-import Dialog from 'components/ui-legacy/Dialog';
+import { Button } from '@/ui/button';
+import {
+  Dialog,
+  DialogBody,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/ui/dialog';
 
 import SharedLinkSetting from 'components/SharedLinkSetting';
 
 interface Props {
   file: IFile | null;
-  visible: boolean;
+  open: boolean;
   onClose: () => void;
 }
 
-function CopyLinkDialog({ file, visible, onClose }: Props) {
+function CopyLinkDialog({ file, open, onClose }: Props) {
   const { t } = useTranslation();
 
   const superuser = useAppSelector(selectIsSuperuser);
   const sharingEnabled = useAppSelector(selectFeatureSharedLinksEnabled);
 
-  const Icon = sharingEnabled ? icons.LockClosedOutlined : icons.LinkOutlined;
+  const canShare = sharingEnabled || superuser;
 
-  const closeDialog = () => {
-    onClose();
+  const handleOpenChanged = (open: boolean) => {
+    if (!open) {
+      onClose();
+    }
   };
 
   const onConfirm = () => {
@@ -34,20 +44,19 @@ function CopyLinkDialog({ file, visible, onClose }: Props) {
   };
 
   return (
-    <Dialog
-      title={t('Share read-only link')}
-      icon={<Icon className="h-6 w-6" />}
-      visible={visible}
-      confirmTitle={t('Done')}
-      confirmLoading={false}
-      onConfirm={onConfirm}
-      onCancel={closeDialog}
-    >
-      {!sharingEnabled && !superuser ? (
-        'Sharing is temporarily disabled for your account'
-      ) : (
-        <div className="my-4 lg:min-w-[20rem]">{file && <SharedLinkSetting file={file} />}</div>
-      )}
+    <Dialog open={open} onOpenChange={handleOpenChanged}>
+      <DialogContent className="sm:min-w-md">
+        <DialogHeader>
+          <DialogTitle>{t('Share read-only link')}</DialogTitle>
+          <DialogDescription>
+            {!canShare ? 'Sharing is temporarily disabled for your account' : null}
+          </DialogDescription>
+        </DialogHeader>
+        <DialogBody>{canShare && file && <SharedLinkSetting file={file} />}</DialogBody>
+        <DialogFooter>
+          <Button onClick={onConfirm}>{t('Done')}</Button>
+        </DialogFooter>
+      </DialogContent>
     </Dialog>
   );
 }

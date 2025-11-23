@@ -4,11 +4,11 @@ import SetEmailDialog from './SetEmailDialog';
 import VerifyEmailDialogContainer from './VerifyEmailDialogContainer';
 
 interface Props {
-  visible: boolean;
+  open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-export default function ChangeEmailSteps({ visible, onOpenChange }: Props) {
+export default function ChangeEmailSteps({ open, onOpenChange }: Props) {
   const [email, setEmail] = useState<string | null>(null);
 
   const handleSetEmail = useCallback(
@@ -29,7 +29,7 @@ export default function ChangeEmailSteps({ visible, onOpenChange }: Props) {
   );
 
   if (email == null) {
-    return <SetEmailDialog open={visible} onSubmit={handleSetEmail} onOpenChange={handleClose} />;
+    return <SetEmailDialog open={open} onSubmit={handleSetEmail} onOpenChange={handleClose} />;
   }
-  return <VerifyEmailDialogContainer open={visible} email={email} onOpenChange={handleClose} />;
+  return <VerifyEmailDialogContainer open={open} email={email} onOpenChange={handleClose} />;
 }

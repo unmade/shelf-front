@@ -14,28 +14,28 @@ interface Props {
 }
 
 interface State {
-  visible: boolean;
+  open: boolean;
 }
-const initialState: State = { visible: false };
+const initialState: State = { open: false };
 
 export default function CreateAlbumDialogProvider({ children }: Props) {
   const [state, setState] = useState<State>(initialState);
 
   const openDialog = useCallback(() => {
-    setState({ visible: true });
+    setState({ open: true });
   }, [setState]);
 
   const closeDialog = () => {
     setState(initialState);
   };
 
-  const { visible } = state;
+  const { open } = state;
 
   const value = useMemo(() => ({ openDialog }), [openDialog]);
 
   return (
     <CreateAlbumDialogContext.Provider value={value}>
-      <CreateAlbumDialog visible={visible} onClose={closeDialog} />
+      <CreateAlbumDialog open={open} onClose={closeDialog} />
       {children}
     </CreateAlbumDialogContext.Provider>
   );

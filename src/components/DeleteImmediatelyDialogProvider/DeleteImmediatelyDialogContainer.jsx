@@ -3,14 +3,15 @@ import PropTypes from 'prop-types';
 
 import { useDispatch } from 'react-redux';
 
+import { Scopes, waitForBackgroundTaskToComplete } from '@/store/tasks';
+
 import { useDeleteImmediatelyBatchMutation } from 'store/files';
-import { scopes, waitForBackgroundTaskToComplete } from 'store/tasks';
 
 import DeleteImmediatelyDialog from 'components/DeleteImmediatelyDialog';
 
 import { FileShape } from 'types';
 
-export default function DeleteImmediatelyDialogContainer({ files, visible, onClose }) {
+export default function DeleteImmediatelyDialogContainer({ files, open, onClose }) {
   const dispatch = useDispatch();
 
   const [deleteImmediately, { isLoading: loading }] = useDeleteImmediatelyBatchMutation();
@@ -23,14 +24,10 @@ export default function DeleteImmediatelyDialogContainer({ files, visible, onClo
     dispatch(
       waitForBackgroundTaskToComplete({
         taskId,
-        scope: scopes.deletingImmediatelyBatch,
+        scope: Scopes.DeletingImmediatelyBatch,
         itemsCount: paths.length,
       }),
     );
-    onClose();
-  };
-
-  const onCancel = () => {
     onClose();
   };
 
@@ -38,15 +35,15 @@ export default function DeleteImmediatelyDialogContainer({ files, visible, onClo
     <DeleteImmediatelyDialog
       names={files.map((file) => file.name)}
       loading={loading}
-      visible={visible}
+      open={open}
       onConfirm={onConfirm}
-      onCancel={onCancel}
+      onClose={onClose}
     />
   );
 }
 
 DeleteImmediatelyDialogContainer.propTypes = {
   files: PropTypes.arrayOf(FileShape).isRequired,
-  visible: PropTypes.bool.isRequired,
+  open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
 };

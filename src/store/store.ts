@@ -152,7 +152,7 @@ const store = configureStore({
   preloadedState: { ...loadAuthState() },
 });
 
-export type RootState = ReturnType<typeof store.getState>;
+export type RootState = ReturnType<typeof reducers>;
 export type AppDispatch = typeof store.dispatch;
 
 store.subscribe(() => {
