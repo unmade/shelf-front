@@ -1,23 +1,31 @@
 import { Trans, useTranslation } from 'react-i18next';
 
-import * as icons from 'icons';
-
-import Dialog from 'components/ui-legacy/Dialog';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/ui/dialog';
+import { Button } from '@/ui/button';
+import { Strong } from '@/ui/text';
 
 interface Props {
   names: string[];
   loading: boolean;
-  visible: boolean;
+  open: boolean;
   onConfirm: () => void;
-  onCancel: () => void;
+  onClose: () => void;
 }
 
 export default function DeleteImmediatelyDialog({
   names,
   loading,
-  visible,
+  open,
   onConfirm,
-  onCancel,
+  onClose,
 }: Props) {
   const { t } = useTranslation();
 
@@ -28,32 +36,41 @@ export default function DeleteImmediatelyDialog({
     names.length === 1 ? (
       <Trans i18nKey="delete_immediately_dialog_text" t={t} values={{ fileName }}>
         Are you sure you want to
-        <b>permanently</b>
+        <Strong>permanently</Strong>
         delete
-        <b className="text-gray-700 dark:text-zinc-200">{fileName}</b>?
+        <Strong className="text-foreground">{fileName}</Strong>?
       </Trans>
     ) : (
       <Trans i18nKey="delete_immediately_dialog_batch_text" t={t} count={count}>
         Are you sure you want to
-        <b>permanently</b>
+        <Strong>permanently</Strong>
         delete
-        {/* @ts-expect-error: need to update react-i18n */}
-        <b className="text-gray-700 dark:text-zinc-200">{{ count }}</b>?
+        <Strong className="text-foreground">{count}</Strong>?
       </Trans>
     );
 
+  const handleOpenChanged = (open: boolean) => {
+    if (!open) {
+      onClose();
+    }
+  };
+
   return (
-    <Dialog
-      title={t('delete_immediately_dialog_title', { count })}
-      icon={<icons.TrashOutlined className="h-6 w-6" />}
-      visible={visible}
-      confirmTitle={t('Delete')}
-      confirmLoading={loading}
-      confirmDanger
-      onConfirm={onConfirm}
-      onCancel={onCancel}
-    >
-      <p>{dialogText}</p>
+    <Dialog open={open} onOpenChange={handleOpenChanged}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{t('delete_immediately_dialog_title', { count })}</DialogTitle>
+          <DialogDescription>{dialogText}</DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button disabled={loading}>{t('Cancel')}</Button>
+          </DialogClose>
+          <Button disabled={loading} onClick={onConfirm}>
+            {t('Delete')}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
     </Dialog>
   );
 }

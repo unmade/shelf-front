@@ -3,7 +3,7 @@ import { createContext, useContext, useState, useMemo, useCallback } from 'react
 
 import type { IAlbum } from 'types/photos';
 
-import RenameAlbumDialogContainer from './RenameAlbumDialogContainer';
+import RenameAlbumDialog from './RenameAlbumDialog';
 
 interface ContextValue {
   openDialog: (album: IAlbum) => void;
@@ -17,16 +17,16 @@ interface Props {
 
 interface State {
   album: IAlbum | null;
-  visible: boolean;
+  open: boolean;
 }
-const initialState: State = { album: null, visible: false };
+const initialState: State = { album: null, open: false };
 
 export default function RenameAlbumDialogProvider({ children }: Props) {
   const [state, setState] = useState<State>(initialState);
 
   const openDialog = useCallback(
     (album: IAlbum) => {
-      setState({ album, visible: true });
+      setState({ album, open: true });
     },
     [setState],
   );
@@ -35,13 +35,13 @@ export default function RenameAlbumDialogProvider({ children }: Props) {
     setState(initialState);
   };
 
-  const { album, visible } = state;
+  const { album, open } = state;
 
   const value = useMemo(() => ({ openDialog }), [openDialog]);
 
   return (
     <RenameAlbumDialogContext.Provider value={value}>
-      <RenameAlbumDialogContainer visible={visible} album={album} onClose={closeDialog} />
+      <RenameAlbumDialog open={open} album={album} onClose={closeDialog} />
       {children}
     </RenameAlbumDialogContext.Provider>
   );

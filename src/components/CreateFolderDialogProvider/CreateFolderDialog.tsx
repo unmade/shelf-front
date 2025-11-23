@@ -28,10 +28,10 @@ import { Input } from '@/ui/input';
 interface Props {
   inPath?: string;
   open: boolean;
-  onOpenChange: (open: boolean) => void;
+  onClose: () => void;
 }
 
-export default function CreateFolderDialog({ inPath, open, onOpenChange }: Props) {
+export default function CreateFolderDialog({ inPath, open, onClose }: Props) {
   const { t } = useTranslation('files');
 
   const navigate = useNavigate();
@@ -43,8 +43,8 @@ export default function CreateFolderDialog({ inPath, open, onOpenChange }: Props
   const handleOpenChanged = (open: boolean) => {
     if (!open) {
       setErrorMessage(null);
+      onClose();
     }
-    onOpenChange(open);
   };
 
   const handleInputChange = () => {
@@ -58,7 +58,7 @@ export default function CreateFolderDialog({ inPath, open, onOpenChange }: Props
     const formData = new FormData(form);
     const folderName = (formData.get('name') ?? '') as string;
 
-    if (folderName === null || folderName === '') {
+    if (folderName.trim() === '') {
       setErrorMessage(
         t('files.dialogs.createFolder.errors.nameRequired', {
           defaultValue: 'Name cannot be empty',
@@ -70,6 +70,7 @@ export default function CreateFolderDialog({ inPath, open, onOpenChange }: Props
     try {
       const { path } = await createFolder({ name: folderName, inPath }).unwrap();
       navigate(resolvePath(routes.encodePath(path), routes.FILES.prefix));
+      onClose();
     } catch (err) {
       if (isFileActionNotAllowed(err)) {
         setErrorMessage(

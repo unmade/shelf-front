@@ -16,7 +16,7 @@ interface Props {
 }
 
 export default function VerifyAccountDialogProvider({ children }: Props) {
-  const [visible, setVisible] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   const { email, verified } = useGetCurrentAccountQuery(undefined, {
     selectFromResult: ({ data }) => ({
@@ -26,29 +26,25 @@ export default function VerifyAccountDialogProvider({ children }: Props) {
   });
 
   const openDialog = useCallback(() => {
-    setVisible(true);
-  }, [setVisible]);
+    setOpen(true);
+  }, [setOpen]);
 
   const closeDialog = useCallback(
     (open: boolean) => {
       if (!open) {
-        setVisible(false);
+        setOpen(false);
       }
     },
-    [setVisible],
+    [setOpen],
   );
 
   const value = useMemo(() => ({ openDialog }), [openDialog]);
 
   return (
     <Context.Provider value={value}>
-      {!email && <ChangeEmailSteps visible={visible} onOpenChange={closeDialog} />}
+      {!email && <ChangeEmailSteps open={open} onOpenChange={closeDialog} />}
       {!!email && !verified && (
-        <CompleteEmailVerificationSteps
-          email={email}
-          visible={visible}
-          onOpenChange={closeDialog}
-        />
+        <CompleteEmailVerificationSteps email={email} open={open} onOpenChange={closeDialog} />
       )}
       {children}
     </Context.Provider>

@@ -3,90 +3,117 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, resolvePath } from 'react-router';
 
-import * as icons from 'icons';
-import * as routes from 'routes';
+import * as routes from '@/routes';
 
-import { useCreateAlbumMutation } from 'store/albums';
+import { useCreateAlbumMutation } from '@/store/albums';
 
-import Dialog from 'components/ui-legacy/Dialog';
-import Input from 'components/ui-legacy/Input';
+import { Button } from '@/ui/button';
+import {
+  Dialog,
+  DialogBody,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/ui/dialog';
+import { Field, FieldError, FieldLabel } from '@/ui/field';
+import { Input } from '@/ui/input';
 
 interface Props {
-  visible: boolean;
+  open: boolean;
   onClose: () => void;
 }
 
-export default function CreateAlbumDialog({ visible, onClose }: Props) {
+export default function CreateAlbumDialog({ open, onClose }: Props) {
   const { t } = useTranslation();
 
   const navigate = useNavigate();
 
   const [createAlbum, { isLoading: loading }] = useCreateAlbumMutation();
 
-  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
-  const [albumTitle, setAlbumTitle] = React.useState<string | null>(null);
+  const [error, setError] = React.useState<string | null>(null);
 
-  React.useEffect(() => {
-    if (!visible) {
-      if (errorMessage != null) {
-        setErrorMessage(null);
-      }
-      if (albumTitle != null) {
-        setAlbumTitle(null);
-      }
-    }
-  }, [visible, errorMessage, albumTitle, setErrorMessage, setAlbumTitle]);
-
-  const onTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAlbumTitle(event.target.value);
-    if (errorMessage != null) {
-      setErrorMessage(null);
+  const onInputChange = () => {
+    if (error != null) {
+      setError(null);
     }
   };
 
-  const closeDialog = () => {
-    onClose();
+  const handleOpenChanged = (open: boolean) => {
+    if (!open) {
+      setError(null);
+      onClose();
+    }
   };
 
-  const onConfirm = async () => {
-    if (albumTitle === null || albumTitle === '') {
-      setErrorMessage(t('Name cannot be empty.'));
-    } else {
-      try {
-        const album = await createAlbum({ title: albumTitle }).unwrap();
-        navigate(resolvePath(routes.encodePath(album.title), routes.PHOTOS_ALBUMS.prefix));
-      } catch {
-        setErrorMessage(t('Something went wrong.'));
-      }
-      closeDialog();
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    const form = event.target as HTMLFormElement;
+    const formData = new FormData(form);
+    const albumTitle = ((formData.get('title') ?? '') as string).trim();
+
+    if (albumTitle === '') {
+      setError(
+        t('photos:dialogs.createAlbum.errors.nameRequired', {
+          defaultValue: 'Name cannot be empty',
+        }),
+      );
+      return;
+    }
+
+    try {
+      const album = await createAlbum({ title: albumTitle }).unwrap();
+      navigate(resolvePath(routes.encodePath(album.slug), routes.PHOTOS_ALBUMS.prefix));
+      onClose();
+    } catch {
+      setError(
+        t('photos:dialogs.createAlbum.errors.unknown', {
+          defaultValue: 'Something went wrong',
+        }),
+      );
     }
   };
 
   return (
-    <Dialog
-      title={t('photos:dialogs.createAlbum.title', { defaultValue: 'Create Album' })}
-      icon={<icons.BookmarkAltOutlined className="h-6 w-6" />}
-      visible={visible}
-      confirmTitle={t('Create')}
-      confirmLoading={loading}
-      onConfirm={onConfirm}
-      onCancel={closeDialog}
-    >
-      <form
-        className="w-full sm:min-w-3xs"
-        onSubmit={(e) => {
-          e.preventDefault();
-          onConfirm();
-        }}
-      >
-        <Input
-          id="title"
-          placeholder={t('photos:dialogs.createAlbum.input', { defaultValue: 'Album title' })}
-          size="sm"
-          error={errorMessage}
-          onChange={onTitleChange}
-        />
-      </form>
+    <Dialog open={open} onOpenChange={handleOpenChanged}>
+      <DialogContent className="sm:w-sm">
+        <DialogHeader>
+          <DialogTitle>
+            {t('photos:dialogs.createAlbum.title', { defaultValue: 'Create Album' })}
+          </DialogTitle>
+        </DialogHeader>
+        <form onSubmit={handleSubmit}>
+          <DialogBody>
+            <Field data-invalid={!!error}>
+              <FieldLabel>
+                {t('photos:dialogs.createAlbum.fields.title.label', {
+                  defaultValue: 'Album title',
+                })}
+              </FieldLabel>
+              <Input
+                id="title"
+                name="title"
+                placeholder={t('photos:dialogs.createAlbum.fields.title.placeholder', {
+                  defaultValue: 'e.g. My Album',
+                })}
+                aria-invalid={!!error}
+                onChange={onInputChange}
+              />
+              {error && <FieldError>{error}</FieldError>}
+            </Field>
+          </DialogBody>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button variant="ghost">{t('Cancel')}</Button>
+            </DialogClose>
+            <Button type="submit" disabled={loading}>
+              {t('Create')}
+            </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
     </Dialog>
   );
 }

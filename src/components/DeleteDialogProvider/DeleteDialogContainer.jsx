@@ -3,11 +3,11 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 
 import { useMoveToTrashBatchMutation } from 'store/files';
-import { scopes, waitForBackgroundTaskToComplete } from 'store/tasks';
+import { Scopes, waitForBackgroundTaskToComplete } from 'store/tasks';
 
 import DeleteDialog from 'components/DeleteDialog';
 
-export default function DeleteDialogContainer({ files, visible, onClose }) {
+export default function DeleteDialogContainer({ files, open, onClose }) {
   const dispatch = useDispatch();
 
   const [moveToTrashBatch, { isLoading: loading }] = useMoveToTrashBatchMutation();
@@ -20,7 +20,7 @@ export default function DeleteDialogContainer({ files, visible, onClose }) {
     dispatch(
       waitForBackgroundTaskToComplete({
         taskId,
-        scope: scopes.movingToTrash,
+        scope: Scopes.MovingToTrash,
         files,
         itemsCount: paths.length,
       }),
@@ -36,9 +36,9 @@ export default function DeleteDialogContainer({ files, visible, onClose }) {
     <DeleteDialog
       names={files.map((file) => file.name)}
       loading={loading}
-      visible={visible}
+      open={open}
       onConfirm={onConfirm}
-      onCancel={onCancel}
+      onClose={onCancel}
     />
   );
 }

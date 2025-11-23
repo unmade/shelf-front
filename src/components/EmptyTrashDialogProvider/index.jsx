@@ -5,21 +5,21 @@ import EmptyTrashDialogContainer from './EmptyTrashDialogContainer';
 export const EmptyTrashDialogContext = createContext({ openDialog: () => {} });
 
 function EmptyTrashDialogProvider({ children }) {
-  const [visible, setVisible] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const openDialog = () => {
-    setVisible(true);
+    setOpen(true);
   };
 
   const closeDialog = () => {
-    setVisible(false);
+    setOpen(false);
   };
 
   const value = useMemo(() => ({ openDialog }));
 
   return (
     <EmptyTrashDialogContext.Provider value={value}>
-      <EmptyTrashDialogContainer visible={visible} onClose={closeDialog} />
+      <EmptyTrashDialogContainer open={open} onClose={closeDialog} />
       {children}
     </EmptyTrashDialogContext.Provider>
   );

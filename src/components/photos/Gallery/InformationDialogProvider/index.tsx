@@ -17,17 +17,17 @@ interface Props {
 
 interface State {
   file: IFile | null;
-  visible: boolean;
+  open: boolean;
 }
 
-const initialState = { file: null, visible: false };
+const initialState: State = { file: null, open: false };
 
 export default function InformationDialogProvider({ children }: Props) {
   const [state, setState] = useState<State>(initialState);
 
   const openDialog = useCallback(
     (file: IFile) => {
-      setState({ file, visible: true });
+      setState({ file, open: true });
     },
     [setState],
   );
@@ -36,13 +36,13 @@ export default function InformationDialogProvider({ children }: Props) {
     setState(initialState);
   };
 
-  const { visible, file } = state;
+  const { open, file } = state;
 
   const value = useMemo(() => ({ openDialog }), [openDialog]);
 
   return (
     <InformationDialogContext.Provider value={value}>
-      <InformationDialog visible={visible} file={file} onClose={closeDialog} />
+      <InformationDialog open={open} file={file} onClose={closeDialog} />
       {children}
     </InformationDialogContext.Provider>
   );

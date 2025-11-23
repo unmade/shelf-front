@@ -14,21 +14,21 @@ interface Props {
 }
 
 export default function EmptyMediaItemsTrashDialogProvider({ children }: Props) {
-  const [visible, setVisible] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   const openDialog = useCallback(() => {
-    setVisible(true);
+    setOpen(true);
   }, []);
 
   const closeDialog = useCallback(() => {
-    setVisible(false);
+    setOpen(false);
   }, []);
 
   const value = useMemo(() => ({ openDialog }), [openDialog]);
 
   return (
     <EmptyTrashDialogContext.Provider value={value}>
-      <EmptyTrashDialogContainer visible={visible} onClose={closeDialog} />
+      <EmptyTrashDialogContainer open={open} onClose={closeDialog} />
       {children}
     </EmptyTrashDialogContext.Provider>
   );

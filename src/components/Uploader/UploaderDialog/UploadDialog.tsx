@@ -1,37 +1,52 @@
 import { useTranslation } from 'react-i18next';
 
-import * as icons from 'icons';
+import { Button } from '@/ui/button';
+import {
+  Dialog,
+  DialogBody,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/ui/dialog';
 
-import Dialog from 'components/ui-legacy/Dialog';
-
-import UploadButton from 'components/UploadButton';
+import UploadButton from '@/components/UploadButton';
 
 import RecentUploads from '../RecentUploads';
 
 interface Props {
   allowedMediaTypes?: string[];
   uploadTo: string;
-  visible: boolean;
+  open: boolean;
   onCancel: () => void;
 }
 
-export default function UploadDialog({ allowedMediaTypes, uploadTo, visible, onCancel }: Props) {
+export default function UploadDialog({ allowedMediaTypes, uploadTo, open, onCancel }: Props) {
   const { t } = useTranslation();
 
   return (
-    <Dialog
-      title={t('Uploads')}
-      icon={<icons.CloudUploadOutlined className="h-6 w-6" />}
-      confirmTitle={t('Browse')}
-      confirmRender={
-        <UploadButton className="w-full" allowedMediaTypes={allowedMediaTypes} uploadTo={uploadTo}>
-          {t('Browse')}
-        </UploadButton>
-      }
-      visible={visible}
-      onCancel={onCancel}
-    >
-      <RecentUploads />
+    <Dialog open={open} onOpenChange={onCancel}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{t('Uploads')}</DialogTitle>
+        </DialogHeader>
+        <DialogBody>
+          <RecentUploads />
+        </DialogBody>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button variant="ghost">{t('Cancel')}</Button>
+          </DialogClose>
+          <UploadButton
+            className="w-full"
+            allowedMediaTypes={allowedMediaTypes}
+            uploadTo={uploadTo}
+          >
+            {t('Browse')}
+          </UploadButton>
+        </DialogFooter>
+      </DialogContent>
     </Dialog>
   );
 }

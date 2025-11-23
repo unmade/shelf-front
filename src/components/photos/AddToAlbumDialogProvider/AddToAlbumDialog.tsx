@@ -1,51 +1,77 @@
-import React from 'react';
-
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import type { IMediaItem } from 'types/photos';
+import type { IMediaItem } from '@/types/photos';
 
-import { useAddAlbumItemsMutation } from 'store/albums';
+import { useAddAlbumItemsMutation } from '@/store/albums';
 
-import Dialog from 'components/ui-legacy/Dialog';
+import { Button } from '@/ui/button';
+import {
+  Dialog,
+  DialogBody,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/ui/dialog';
 
 import AlbumPicker from './AlbumPicker';
 
 interface Props {
   mediaItems: IMediaItem[];
-  visible: boolean;
+  open: boolean;
   onClose: () => void;
 }
 
-export default function AddToAlbumDialog({ mediaItems, visible, onClose }: Props) {
+export default function AddToAlbumDialog({ mediaItems, open, onClose }: Props) {
   const { t } = useTranslation('photos');
 
   const [addAlbumItems] = useAddAlbumItemsMutation();
 
   const fileIds = mediaItems.map((item) => item.fileId);
-  const onItemClick = React.useCallback(
+  const onItemClick = useCallback(
     async (albumSlug: string) => {
-      await addAlbumItems({ albumSlug, fileIds });
-      onClose();
+      try {
+        await addAlbumItems({ albumSlug, fileIds }).unwrap();
+        onClose();
+      } catch {
+        // skip error
+      }
     },
     [fileIds, addAlbumItems, onClose],
   );
 
-  const onCancel = () => {
-    onClose();
+  const handleOpenChanged = (open: boolean) => {
+    if (!open) {
+      onClose();
+    }
   };
 
   return (
-    <Dialog
-      title={t('photos:dialogs.addToAlbumDialog.title', {
-        defaultValue: 'Add to Album',
-        count: mediaItems.length,
-      })}
-      visible={visible}
-      onCancel={onCancel}
-    >
-      <div className="flex min-h-[40vh] sm:w-96">
-        <AlbumPicker className="flex-1" onItemClick={onItemClick} />
-      </div>
+    <Dialog open={open} onOpenChange={handleOpenChanged}>
+      <DialogContent className="sm:w-lg">
+        <DialogHeader>
+          <DialogTitle>
+            {t('photos:dialogs.addToAlbumDialog.title', {
+              defaultValue: 'Add to Album',
+              count: mediaItems.length,
+            })}
+          </DialogTitle>
+        </DialogHeader>
+        <DialogBody>
+          <div className="flex min-h-[40vh] sm:min-h-[60vh]">
+            <AlbumPicker className="flex-1" onItemClick={onItemClick} />
+          </div>
+        </DialogBody>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button>
+              {t('photos:dialogs.addToAlbumDialog.actions.close', { defaultValue: 'Close' })}
+            </Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
     </Dialog>
   );
 }

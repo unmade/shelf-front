@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import { selectAllSelectedFileIds } from '../../store/browser';
-import { scopes, selectCounterByScope } from '../../store/tasks';
+import { Scopes, selectCounterByScope } from '../../store/tasks';
 import { selectIsUploading, selectVisibleUploadsLength } from '../../store/uploads/slice';
 
 import { useIsLaptop } from '../../hooks/media-query';
@@ -22,14 +22,14 @@ function BackgroundTask({ className }) {
 
   const deletingFilesCounter = useSelector(
     (state) =>
-      selectCounterByScope(state, scopes.deletingImmediatelyBatch) +
-      selectCounterByScope(state, scopes.movingToTrash),
+      selectCounterByScope(state, Scopes.DeletingImmediatelyBatch) +
+      selectCounterByScope(state, Scopes.MovingToTrash),
   );
   const emptyingTrash = useSelector(
-    (state) => selectCounterByScope(state, scopes.emptyingTrash) !== 0,
+    (state) => selectCounterByScope(state, Scopes.EmptyingTrash) !== 0,
   );
   const movingFilesCounter = useSelector((state) =>
-    selectCounterByScope(state, scopes.movingBatch),
+    selectCounterByScope(state, Scopes.MovingBatch),
   );
 
   const uploading = useSelector(selectIsUploading);
