@@ -6,8 +6,8 @@ import PropTypes from 'prop-types';
 import { Transition } from '@headlessui/react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { Checkbox } from 'components/ui/Checkbox';
-import FileSize from 'components/ui/FileSize';
+import { Checkbox } from '@/ui/checkbox';
+import { FileSize } from '@/ui/filesize';
 
 import {
   filesSelectionChanged,
@@ -66,7 +66,7 @@ function FileTableCell({ className, even, item, selected, hasSelection }) {
     dispatch(filesSelectionChanged({ ids: [item.id] }));
   };
 
-  const onCheckboxClick = (event) => {
+  const onCheckboxClick = () => {
     dispatch(fileSelectionToggled({ id: item.id }));
   };
 
@@ -83,7 +83,7 @@ function FileTableCell({ className, even, item, selected, hasSelection }) {
             className={checkboxClass}
             checked={selected}
             onClick={stopPropagation}
-            onChange={onCheckboxClick}
+            onCheckedChange={onCheckboxClick}
           />
           <div className="shrink-0">
             <Thumbnail className="h-9 w-9" file={item} />

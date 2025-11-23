@@ -6,7 +6,7 @@ import { selectCurrentAccount } from 'store/accounts';
 import { selectFeatureVerificationRequired } from 'store/features';
 import { fileEntriesAdded } from 'store/uploads/slice';
 
-import Dropzone, { type DropzoneProps } from 'components/ui/Dropzone';
+import { Dropzone, type DropzoneProps } from '@/ui/dropzone';
 
 import { useVerifyAccountDialog } from 'components/VerifyAccountDialogProvider';
 

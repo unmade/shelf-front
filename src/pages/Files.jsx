@@ -1,17 +1,9 @@
-import React from 'react';
-
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
-import Heading from 'components/ui/Heading';
+import { Heading } from '@/ui/heading';
 
-import {
-  Page,
-  PageHeader,
-  PageHeaderActions,
-  PageContent,
-  PageHeaderTitle,
-} from 'apps/files/components/page';
+import { Page, PageHeader, PageHeaderActions, PageHeaderTitle } from 'apps/files/components/page';
 
 import useDirPath from '../hooks/dir-path';
 import { useIsLaptop } from '../hooks/media-query';

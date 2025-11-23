@@ -1,6 +1,6 @@
 import type { IFile } from 'types/files';
 
-import FileSize from 'components/ui/FileSize';
+import { FileSize } from '@/ui/filesize';
 
 import Dialog from 'components/ui-legacy/Dialog';
 import TimeAgo from 'components/ui-legacy/TimeAgo';

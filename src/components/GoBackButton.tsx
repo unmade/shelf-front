@@ -1,6 +1,6 @@
 import * as icons from 'icons';
 
-import Button from 'components/ui/Button';
+import { Button } from '@/ui/button';
 
 import FileLink from 'components/FileLink';
 
@@ -11,7 +11,7 @@ interface Props {
 
 export default function GoBackButton({ to, disabled }: Props) {
   const button = (
-    <Button color="gray" variant="plain" disabled={disabled}>
+    <Button variant="ghost" size="icon" disabled={disabled}>
       <icons.ArrowLeft data-slot="icon" />
     </Button>
   );

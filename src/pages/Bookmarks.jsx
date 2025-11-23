@@ -9,7 +9,7 @@ import { selectBookmarkedFileById, useListBookmarkedFilesQuery } from 'store/fil
 
 import Empty from 'components/ui-legacy/Empty';
 
-import Heading from 'components/ui/Heading';
+import { Heading } from '@/ui/heading';
 
 import Browser from 'components/Browser';
 import CopyLinkDialogProvider from 'components/CopyLinkDialogProvider';

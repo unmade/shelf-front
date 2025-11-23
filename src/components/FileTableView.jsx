@@ -5,7 +5,7 @@ import { Transition } from '@headlessui/react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Checkbox } from 'components/ui/Checkbox';
+import { Checkbox } from '@/ui/checkbox';
 
 import { filesSelectionChanged, selectAllSelectedFileIds } from '../store/browser';
 
@@ -29,9 +29,8 @@ function TableHeader({ items }) {
       <div className={`flex w-full ${!hasSelection ? 'md:w-3/5 lg:w-2/3' : ''}`}>
         <Checkbox
           className={checkboxClass}
-          onChange={onSelect}
-          checked={hasSelection}
-          indeterminate={hasSelection && selectionSize !== items.length}
+          onCheckedChange={onSelect}
+          checked={hasSelection && selectionSize !== items.length ? 'indeterminate' : hasSelection}
         />
         <div className="ml-3">{t('Name')}</div>
       </div>

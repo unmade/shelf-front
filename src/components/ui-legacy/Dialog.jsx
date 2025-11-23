@@ -11,7 +11,7 @@ import {
   Transition,
 } from '@headlessui/react';
 
-import Button from 'components/ui/Button';
+import { Button } from '@/ui/button';
 
 const defaultOnCancel = () => {};
 
@@ -66,11 +66,9 @@ function Dialog({
                     {onConfirm != null && (
                       <Button
                         className="w-full"
-                        variant="primary"
-                        color={confirmDanger ? 'red' : 'default'}
+                        variant={confirmDanger ? 'destructive' : 'default'}
                         loading={confirmLoading}
                         onClick={onConfirm}
-                        full
                       >
                         {confirmTitle}
                       </Button>
@@ -81,7 +79,7 @@ function Dialog({
                 )}
                 {onCancel && (
                   <div className="mt-3 w-full lg:mt-0 lg:ml-3 lg:w-auto">
-                    <Button className="w-full" variant="plain" color="gray" onClick={onCancel} full>
+                    <Button className="w-full" variant="ghost" onClick={onCancel}>
                       {t('Cancel')}
                     </Button>
                   </div>

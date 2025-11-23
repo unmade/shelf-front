@@ -3,10 +3,10 @@ import { createPortal } from 'react-dom';
 
 import PropTypes from 'prop-types';
 
+import { Spinner } from '@/ui/spinner';
+
 import { MediaType } from '../../../constants';
 import { SharedLinkFileShape } from '../../../types';
-
-import Spinner from '../../../components/ui/Spinner';
 
 import Header from './Header';
 import Info from './Info';

@@ -6,7 +6,7 @@ import {
   useListDeletedMediaItemsQuery,
 } from 'store/mediaItems';
 
-import Spinner from 'components/ui/Spinner';
+import { Spinner } from '@/ui/spinner';
 
 import Empty from 'components/photos/Empty';
 import MediaItemGridView from 'components/photos/MediaItemGridView';

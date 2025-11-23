@@ -1,14 +1,13 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
+import { useLocation, useNavigate } from 'react-router';
 
 import PropTypes from 'prop-types';
 
-import { useLocation, useNavigate } from 'react-router';
+import { Spinner } from '@/ui/spinner';
 
 import useFiles from './hooks/useFiles';
 import useKeyUp from '../../hooks/key-up';
-
-import Spinner from '../ui/Spinner';
 
 import Header from './Header';
 import Info from './Info';

@@ -8,7 +8,8 @@ import useGridLayout from 'hooks/grid-layout';
 import type { RootState } from 'store/store';
 import type { IMediaItem } from 'types/photos';
 
-import Spinner from 'components/ui/Spinner';
+import { Spinner } from '@/ui/spinner';
+
 import VGrid from 'components/ui-legacy/VGrid';
 
 import SelectionProvider from 'components/SelectionProvider';

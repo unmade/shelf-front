@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
 
+import { Spinner } from '@/ui/spinner';
+
 import { useFindDuplicatesQuery } from '../../store/files';
 
 import * as icons from '../../icons';
@@ -18,7 +20,6 @@ import DuplicateListItem from './DuplicateListItem';
 import DuplicateSidePreview from './DuplicateSidePreview';
 import FilePreviewContainer from './FilePreviewContainer';
 import SelectFolderDialogButton from './SelectFolderDialogButton';
-import Spinner from '../../components/ui/Spinner';
 
 const distanceOptions = [
   { name: 'Similar', value: 5, symbol: '≈' },
