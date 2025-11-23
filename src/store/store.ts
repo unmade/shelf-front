@@ -57,6 +57,13 @@ export function isFetchBaseQueryErrorWithApiError(
   return isFetchBaseQueryError(error) && isApiError(error.data);
 }
 
+export function isFetchBaseQueryErrorWithApiErrorCode(
+  error: unknown,
+  code: string | number,
+): error is { status: unknown; data: APIError } {
+  return isFetchBaseQueryError(error) && isApiError(error.data) && error.data?.code === code;
+}
+
 function isApiError(data: unknown): data is APIError {
   return (
     typeof data === 'object' &&
@@ -99,6 +106,10 @@ const ignoredErrorCodes = new Set([
   'USER_ALREADY_EXISTS',
   'USER_EMAIL_ALREADY_VERIFIED',
   'USER_EMAIL_IS_MISSING',
+  // Files
+  'ACTION_NOT_ALLOWED',
+  'FILE_ALREADY_EXISTS',
+  'NOT_A_DIRECTORY',
 ]);
 
 const errorsMiddleware: Middleware =

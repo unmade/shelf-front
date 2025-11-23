@@ -1,16 +1,16 @@
 import apiSlice from './apiSlice';
-import { isFetchBaseQueryErrorWithApiError } from './store';
+import { isFetchBaseQueryErrorWithApiErrorCode } from './store';
 
 export function isInvalidCredentials(error: unknown): boolean {
-  return isFetchBaseQueryErrorWithApiError(error) && error.data?.code === 'INVALID_CREDENTIALS';
+  return isFetchBaseQueryErrorWithApiErrorCode(error, 'INVALID_CREDENTIALS');
 }
 
 export function isSignUpDisabled(error: unknown): boolean {
-  return isFetchBaseQueryErrorWithApiError(error) && error.data?.code === 'SIGN_UP_DISABLED';
+  return isFetchBaseQueryErrorWithApiErrorCode(error, 'SIGN_UP_DISABLED');
 }
 
 export function isUserAlreadyExists(error: unknown): boolean {
-  return isFetchBaseQueryErrorWithApiError(error) && error.data?.code === 'USER_ALREADY_EXISTS';
+  return isFetchBaseQueryErrorWithApiErrorCode(error, 'USER_ALREADY_EXISTS');
 }
 
 interface TokenSchema {

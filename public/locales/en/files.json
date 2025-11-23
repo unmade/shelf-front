@@ -1,0 +1,11 @@
+{
+  "files.dialogs.createFolder.actions.cancel": "Cancel",
+  "files.dialogs.createFolder.actions.create": "Create",
+  "files.dialogs.createFolder.errors.actionNotAllowed": "You do not have permission to create a folder",
+  "files.dialogs.createFolder.errors.folderExists": "A folder with this name already exists",
+  "files.dialogs.createFolder.errors.nameRequired": "Name cannot be empty",
+  "files.dialogs.createFolder.errors.notADirectory": "The specified path is not a directory",
+  "files.dialogs.createFolder.fields.name.label": "Name",
+  "files.dialogs.createFolder.fields.name.placeholder": "Folder name",
+  "files.dialogs.createFolder.title": "New Folder"
+}

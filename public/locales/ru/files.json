@@ -1,0 +1,11 @@
+{
+  "files.dialogs.createFolder.actions.cancel": "Отмена",
+  "files.dialogs.createFolder.actions.create": "Создать",
+  "files.dialogs.createFolder.errors.actionNotAllowed": "У вас нет прав для создания папки",
+  "files.dialogs.createFolder.errors.folderExists": "Папка с таким именем уже существует",
+  "files.dialogs.createFolder.errors.nameRequired": "Имя не может быть пустым",
+  "files.dialogs.createFolder.errors.notADirectory": "Указанный путь не является директорией",
+  "files.dialogs.createFolder.fields.name.label": "Имя",
+  "files.dialogs.createFolder.fields.name.placeholder": "Имя папки",
+  "files.dialogs.createFolder.title": "Создать папку"
+}
