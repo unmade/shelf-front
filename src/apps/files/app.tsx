@@ -8,7 +8,6 @@ import AppNavbar from 'components/AppNavbar';
 import AppSidebar from 'components/AppSidebar';
 
 import Bookmarks from 'pages/Bookmarks';
-import Duplicates from 'pages/Duplicates';
 import Files from 'pages/Files';
 import InAppSharing from 'pages/Shared/InApp';
 import LinkSharing from 'pages/Shared/ViaLink';
@@ -23,7 +22,6 @@ export default function FilesApp() {
         <Route path={routes.BOOKMARKS.route} element={<Bookmarks />} />
         <Route path={routes.SHARED_IN_APP.route} element={<InAppSharing />} />
         <Route path={routes.SHARED_VIA_LINK.route} element={<LinkSharing />} />
-        <Route path={routes.DUPLICATES.route} element={<Duplicates />} />
         <Route path={routes.FILES.route} element={<Files />} />
         <Route path={routes.TRASH.route} element={<Trash />} />
       </Routes>
