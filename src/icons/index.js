@@ -47,7 +47,6 @@ export const Close = hiOutline.XIcon;
 export const CloseCirle = hiOutline.XCircleIcon;
 export const Collection = hiOutline.CollectionIcon;
 export const Database = hiSolid.DatabaseIcon;
-export const DocumentSearchOutlined = hiOutline.DocumentSearchIcon;
 export const DotsHorizontal = hiOutline.DotsHorizontalIcon;
 export const DotsVerticalOutlined = hiOutline.DotsVerticalIcon;
 export const Download = hiOutline.DownloadIcon;

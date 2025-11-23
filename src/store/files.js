@@ -66,14 +66,6 @@ export const filesApi = apiSlice.injectEndpoints({
       }),
       transformResponse: (responseData) => ({ taskId: responseData.async_task_id }),
     }),
-    findDuplicates: builder.query({
-      query: ({ path, maxDistance }) => ({
-        url: '/files/find_duplicates',
-        method: 'POST',
-        body: { path, max_distance: maxDistance },
-      }),
-      transformResponse: (data) => data.items,
-    }),
     getContentMetadata: builder.query({
       query: (fileId) => ({
         url: '/files/get_content_metadata',
@@ -156,7 +148,6 @@ export const {
   useDeleteImmediatelyBatchMutation,
   useDownloadContentQuery,
   useEmptyTrashMutation,
-  useFindDuplicatesQuery,
   useGetContentMetadataQuery,
   useGetThumbnailQuery,
   useListBookmarkedFilesQuery,

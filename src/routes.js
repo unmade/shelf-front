@@ -5,11 +5,6 @@ export const BOOKMARKS = {
   route: '/bookmarks/*',
 };
 
-export const DUPLICATES = {
-  prefix: '/duplicates',
-  route: '/duplicates/*',
-};
-
 export const EMAIL_VERIFICATION = {
   prefix: '/email-verification',
   route: '/email-verification/*',
