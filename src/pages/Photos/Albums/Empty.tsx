@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
 
-import Button from 'components/ui-legacy/Button';
+import { Button } from '@/ui/button';
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from '@/ui/empty';
 
-import Empty from 'components/photos/Empty';
 import { useCreateAlbumDialog } from 'components/photos/CreateAlbumDialogProvider';
 
 export default function EmptyContainer() {
@@ -19,18 +19,16 @@ export default function EmptyContainer() {
   });
 
   return (
-    <Empty
-      title={title}
-      description={
-        <>
-          <p>{description}</p>
-          <div className="mt-8 lg:mt-3">
-            <Button variant="primary" size="lg" onClick={openDialog}>
-              {t('photos:pages.albums.newAlbumButton', { defaultValue: 'Create Album' })}
-            </Button>
-          </div>
-        </>
-      }
-    />
+    <Empty>
+      <EmptyHeader>
+        <EmptyTitle>{title}</EmptyTitle>
+        <EmptyDescription>{description}</EmptyDescription>
+      </EmptyHeader>
+      <EmptyContent>
+        <Button onClick={openDialog}>
+          {t('photos:pages.albums.newAlbumButton', { defaultValue: 'Create Album' })}
+        </Button>
+      </EmptyContent>
+    </Empty>
   );
 }

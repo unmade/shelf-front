@@ -2,13 +2,12 @@ import React from 'react';
 
 import { useTranslation } from 'react-i18next';
 
+import { Empty, EmptyHeader, EmptyMedia, EmptyTitle } from '@/ui/empty';
 import { Spinner } from '@/ui/spinner';
 
 import { useListSharedFilesQuery } from '../../../store/sharing';
 
 import * as icons from '../../../icons';
-
-import Empty from '../../../components/ui-legacy/Empty';
 
 import SharedItem from './SharedFileListItem';
 
@@ -22,12 +21,18 @@ function SharedFileList() {
   const empty = ids?.length === 0 && !loading;
   if (empty) {
     return (
-      <Empty
-        icon={<icons.ShareOutlined className="h-12 w-12 text-gray-400 dark:text-zinc-500" />}
-        title={t('emptyTitle', {
-          defaultValue: 'Files shared with you and other member will appear here',
-        })}
-      />
+      <Empty className="h-full">
+        <EmptyHeader>
+          <EmptyMedia variant="icon">
+            <icons.ShareOutlined />
+          </EmptyMedia>
+          <EmptyTitle>
+            {t('emptyTitle', {
+              defaultValue: 'Files shared with you and other members will appear here',
+            })}
+          </EmptyTitle>
+        </EmptyHeader>
+      </Empty>
     );
   }
 

@@ -7,27 +7,18 @@ import { selectCurrentAccount } from 'store/accounts';
 import { selectFeatureVerificationRequired } from 'store/features';
 import { fileEntriesAdded } from 'store/uploads/slice';
 
-import Button from 'components/ui-legacy/Button';
+import { Button } from '@/ui/button';
 
 import { useVerifyAccountDialog } from 'components/VerifyAccountDialogProvider';
 
 interface Props {
-  children: React.ReactNode;
   allowedMediaTypes?: string[];
-  full?: boolean;
-  icon?: React.ReactElement;
-  size?: 'xs' | 'sm' | 'base' | 'lg';
+  children: React.ReactNode;
+  className?: string;
   uploadTo: string;
 }
 
-export default function UploadButton({
-  children,
-  allowedMediaTypes,
-  full = false,
-  icon,
-  size = 'sm',
-  uploadTo,
-}: Props) {
+export default function UploadButton({ allowedMediaTypes, children, className, uploadTo }: Props) {
   const dispatch = useAppDispatch();
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -65,7 +56,7 @@ export default function UploadButton({
         onChange={setUploadFiles}
         multiple
       />
-      <Button variant="primary" size={size} icon={icon} onClick={openUpload} full={full}>
+      <Button className={className} onClick={openUpload}>
         {children}
       </Button>
     </form>

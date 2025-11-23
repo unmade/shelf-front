@@ -6,9 +6,9 @@ import {
   useListDeletedMediaItemsQuery,
 } from 'store/mediaItems';
 
+import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from '@/ui/empty';
 import { Spinner } from '@/ui/spinner';
 
-import Empty from 'components/photos/Empty';
 import MediaItemGridView from 'components/photos/MediaItemGridView';
 import DeletedMediaItemMenu from 'components/photos/DeletedMediaItemMenu';
 
@@ -34,9 +34,12 @@ export default function Content() {
   const empty = ids?.length != null && ids?.length === 0 && !loading;
   if (empty) {
     return (
-      <div className="flex h-full justify-center">
-        <Empty title={title} description={description} />
-      </div>
+      <Empty className="h-full">
+        <EmptyHeader>
+          <EmptyTitle>{title}</EmptyTitle>
+          <EmptyDescription>{description}</EmptyDescription>
+        </EmptyHeader>
+      </Empty>
     );
   }
 

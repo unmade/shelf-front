@@ -3,6 +3,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
+import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/ui/empty';
 import { Heading } from '@/ui/heading';
 
 import { Page, PageHeader, PageHeaderActions, PageHeaderTitle } from 'apps/files/components/page';
@@ -16,7 +17,6 @@ import * as icons from '../icons';
 import * as routes from '../routes';
 
 import Button from '../components/ui-legacy/Button';
-import Empty from '../components/ui-legacy/Empty';
 
 import BreadcrumbDropdown from '../components/BreadcrumbDropdown';
 import EmptyTrashDialogProvider, {
@@ -49,8 +49,6 @@ function EmptyTrashDialogButton() {
 function EmptyContainer({ path }) {
   const { t } = useTranslation();
 
-  const icon = <icons.Collection className="h-12 w-12 text-gray-400 dark:text-zinc-500" />;
-
   let title;
   let description;
   if (path === TRASH_FOLDER_NAME) {
@@ -61,10 +59,18 @@ function EmptyContainer({ path }) {
     description = null;
   }
 
-  return <Empty icon={icon} title={title} description={description} />;
+  return (
+    <Empty>
+      <EmptyHeader>
+        <EmptyMedia variant="icon">
+          <icons.Collection />
+        </EmptyMedia>
+        <EmptyTitle>{title}</EmptyTitle>
+        <EmptyDescription>{description}</EmptyDescription>
+      </EmptyHeader>
+    </Empty>
+  );
 }
-
-EmptyContainer.propTypes = {};
 
 function Trash() {
   const { t } = useTranslation();

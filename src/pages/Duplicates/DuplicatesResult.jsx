@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
 
+import { Empty, EmptyHeader, EmptyTitle } from '@/ui/empty';
 import { Spinner } from '@/ui/spinner';
 
 import { useFindDuplicatesQuery } from '../../store/files';
@@ -12,7 +13,6 @@ import useResolvedPreviewSearchParam from '../../hooks/resolved-preview-search-p
 import * as routes from '../../routes';
 
 import Button from '../../components/ui-legacy/Button';
-import Empty from '../../components/ui-legacy/Empty';
 import Listbox from '../../components/ui-legacy/Listbox';
 
 import DuplicateList from './DuplicateList';
@@ -125,7 +125,11 @@ function DuplicatesResult({ dirPath, onFolderChange }) {
           {duplicates?.length ? (
             <DuplicateList data={data} itemRenderer={DuplicateListItem} />
           ) : (
-            <Empty title={t('duplicates:emptyResult')} />
+            <Empty>
+              <EmptyHeader>
+                <EmptyTitle>{t('duplicates:emptyResult')}</EmptyTitle>
+              </EmptyHeader>
+            </Empty>
           )}
         </div>
       </div>

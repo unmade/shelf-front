@@ -24,7 +24,7 @@ export default function UploadDialog({ allowedMediaTypes, uploadTo, visible, onC
       icon={<icons.CloudUploadOutlined className="h-6 w-6" />}
       confirmTitle={t('Browse')}
       confirmRender={
-        <UploadButton allowedMediaTypes={allowedMediaTypes} uploadTo={uploadTo} full>
+        <UploadButton className="w-full" allowedMediaTypes={allowedMediaTypes} uploadTo={uploadTo}>
           {t('Browse')}
         </UploadButton>
       }
