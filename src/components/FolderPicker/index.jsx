@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/ui/empty';
+
 import * as icons from '../../icons';
 import * as routes from '../../routes';
 
 import Breadcrumb from '../ui-legacy/Breadcrumb';
-import Empty from '../ui-legacy/Empty';
 
 import FolderPickerList from './FolderPickerList';
 
@@ -93,13 +94,15 @@ const FolderPicker = ({
           excludeIds={excludeIds}
           onItemClick={onItemClick}
           emptyView={
-            <Empty
-              title={emptyTitle}
-              description={emptyDescription}
-              icon={
-                <icons.Collection className="mx-auto mb-4 h-12 w-12 text-gray-400 dark:text-zinc-500" />
-              }
-            />
+            <Empty>
+              <EmptyHeader>
+                <EmptyMedia variant="icon">
+                  <icons.Collection />
+                </EmptyMedia>
+                <EmptyTitle>{emptyTitle}</EmptyTitle>
+                <EmptyDescription>{emptyDescription}</EmptyDescription>
+              </EmptyHeader>
+            </Empty>
           }
         />
       </div>

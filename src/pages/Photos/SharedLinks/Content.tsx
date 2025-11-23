@@ -2,9 +2,8 @@ import { useTranslation } from 'react-i18next';
 
 import { useListMediaItemSharedLinksQuery } from 'store/mediaItems';
 
+import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from '@/ui/empty';
 import { Spinner } from '@/ui/spinner';
-
-import Empty from 'components/photos/Empty';
 
 import SharedLinkList from './SharedLinkList';
 
@@ -27,7 +26,14 @@ export default function Content() {
 
   const empty = ids?.length === 0 && !loading;
   if (empty) {
-    return <Empty title={title} description={description} />;
+    return (
+      <Empty className="h-full">
+        <EmptyHeader>
+          <EmptyTitle>{title}</EmptyTitle>
+          <EmptyDescription>{description}</EmptyDescription>
+        </EmptyHeader>
+      </Empty>
+    );
   }
 
   if (!ids) {

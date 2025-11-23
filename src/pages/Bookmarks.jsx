@@ -7,8 +7,7 @@ import * as icons from 'icons';
 
 import { selectBookmarkedFileById, useListBookmarkedFilesQuery } from 'store/files';
 
-import Empty from 'components/ui-legacy/Empty';
-
+import { Empty, EmptyHeader, EmptyMedia, EmptyTitle } from '@/ui/empty';
 import { Heading } from '@/ui/heading';
 
 import Browser from 'components/Browser';
@@ -60,12 +59,14 @@ function BookmarksBrowserContainer() {
       selectById={selectBookmarkedFileById}
       breadcrumbs={breadcrumbs}
       emptyView={
-        <Empty
-          icon={
-            <icons.BookmarkAltOutlined className="h-12 w-12 text-gray-400 dark:text-zinc-500" />
-          }
-          title={t('Bookmarks will appear here')}
-        />
+        <Empty>
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <icons.BookmarkAltOutlined />
+            </EmptyMedia>
+            <EmptyTitle>{t('Bookmarks will appear here')}</EmptyTitle>
+          </EmptyHeader>
+        </Empty>
       }
     />
   );

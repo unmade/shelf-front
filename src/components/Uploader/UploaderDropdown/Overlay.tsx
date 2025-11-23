@@ -53,11 +53,8 @@ function Dropzone({ allowedMediaTypes, dragging, innerRef, uploadTo }: DropzoneP
       <div className="flex flex-col space-y-1 text-center text-sm font-semibold">
         <p className={textPrimary}>{t('uploads:dropzone.title')}</p>
         <p className={textSecondary}>{t('or')}</p>
-        <UploadButton
-          allowedMediaTypes={allowedMediaTypes}
-          uploadTo={uploadTo}
-          icon={<icons.Upload />}
-        >
+        <UploadButton allowedMediaTypes={allowedMediaTypes} uploadTo={uploadTo}>
+          <icons.Upload />
           {t('uploads:uploadButton.title')}
         </UploadButton>
       </div>

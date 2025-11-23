@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import Empty from 'components/photos/Empty';
+import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from '@/ui/empty';
 
 export default function EmptyContainer() {
   const { t } = useTranslation('photos');
@@ -13,5 +13,12 @@ export default function EmptyContainer() {
     defaultValue: 'Add photos to your album to see them here',
   });
 
-  return <Empty title={title} description={<p>{description}</p>} />;
+  return (
+    <Empty>
+      <EmptyHeader>
+        <EmptyTitle>{title}</EmptyTitle>
+        <EmptyDescription>{description}</EmptyDescription>
+      </EmptyHeader>
+    </Empty>
+  );
 }

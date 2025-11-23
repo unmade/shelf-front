@@ -1,7 +1,17 @@
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from '@/ui/empty';
 import { Heading } from '@/ui/heading';
+
+import UploadButton from '@/components/UploadButton';
 
 import { Page, PageHeader, PageHeaderActions, PageHeaderTitle } from 'apps/files/components/page';
 
@@ -11,8 +21,6 @@ import useResolvedPreviewSearchParam from '../hooks/resolved-preview-search-para
 
 import * as icons from '../icons';
 import * as routes from '../routes';
-
-import Empty from '../components/ui-legacy/Empty';
 
 import BreadcrumbDropdown from '../components/BreadcrumbDropdown';
 import CopyLinkDialogProvider from '../components/CopyLinkDialogProvider';
@@ -88,14 +96,27 @@ CreateFolderDialogButton.propTypes = {};
 function EmptyContainer() {
   const { t } = useTranslation();
 
-  const icon = <icons.Collection className="h-12 w-12 text-gray-400 dark:text-zinc-500" />;
   const title = t('This folder is empty');
-  const description = t('Drag and drop files to upload');
+  const description = t('Start by uploading some files');
 
-  return <Empty icon={icon} title={title} description={description} />;
+  return (
+    <Empty>
+      <EmptyHeader>
+        <EmptyMedia variant="icon">
+          <icons.Collection />
+        </EmptyMedia>
+        <EmptyTitle>{title}</EmptyTitle>
+        <EmptyDescription>{description}</EmptyDescription>
+      </EmptyHeader>
+      <EmptyContent>
+        <UploadButton uploadTo=".">
+          <icons.Upload />
+          {t('Upload', { defaultValue: 'Upload' })}
+        </UploadButton>
+      </EmptyContent>
+    </Empty>
+  );
 }
-
-EmptyContainer.propTypes = {};
 
 function Files() {
   const dirPath = useDirPath();
