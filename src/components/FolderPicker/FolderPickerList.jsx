@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Spinner } from '@/ui/spinner';
+
 import { useListFolderQuery } from '../../store/files';
 
-import Spinner from '../ui/Spinner';
 import VList from '../ui-legacy/VList';
 
 import FolderPickerItem from './FolderPickerItem';

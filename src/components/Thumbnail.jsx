@@ -12,8 +12,8 @@ import {
 
 import { MediaType, ThumbnailSize, thumbnailSizes } from 'constants';
 
-import { MEGABYTE } from 'components/ui/FileSize';
-import Spinner from 'components/ui/Spinner';
+import { MEGABYTE } from '@/ui/filesize';
+import { Spinner } from '@/ui/spinner';
 
 import FileIcon from './FileIcon';
 

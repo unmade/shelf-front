@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
 
-import FileSize from 'components/ui/FileSize';
+import { FileSize } from '@/ui/filesize';
 
 import { FileShape, SharedLinkFileShape } from '../../types';
 

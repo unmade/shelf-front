@@ -1,5 +1,6 @@
 import { AppLogo as AppLogoIcon } from 'icons';
-import Heading from 'components/ui/Heading';
+
+import { Heading } from '@/ui/heading';
 
 export default function AppLogo() {
   return (

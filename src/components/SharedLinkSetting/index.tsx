@@ -12,9 +12,8 @@ import {
   useRevokeSharedLinkMutation,
 } from 'store/sharedLinks';
 
-import Switch from 'components/ui/Switch';
-
-import Input from 'components/ui-legacy/Input';
+import { Input } from '@/ui/input';
+import { Switch } from '@/ui/switch';
 
 import CopyToClipboardButton from 'components/CopyToClipboardButton';
 
@@ -75,17 +74,15 @@ export default function SharedLinkSetting({ file }: Props) {
             </Trans>
           </p>
         </div>
-        <Switch checked={enabled} disabled={loading} onChange={toggleLink} />
+        <Switch checked={enabled} disabled={loading} onCheckedChange={toggleLink} />
       </div>
       <div className="relative">
         <div>
           <Input
             id="link"
             key={link ?? ''}
-            variant="filled"
             placeholder={`${window.location.origin}/s/...`}
             defaultValue={link ?? ''}
-            size="xs"
             onChange={undefined}
             disabled={link == null}
             readOnly

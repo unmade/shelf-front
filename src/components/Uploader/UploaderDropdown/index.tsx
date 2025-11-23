@@ -12,7 +12,7 @@ import { useAppSelector } from 'hooks';
 
 import { selectIsUploading } from 'store/uploads/slice';
 
-import Button from 'components/ui/Button';
+import { Button } from '@/ui/button';
 
 import Overlay from './Overlay';
 
@@ -39,13 +39,12 @@ export default function UploaderDropdown({ allowedMediaTypes = undefined, upload
   return (
     <UIPopover>
       <UIPopoverButton
+        as={Button}
         className="focus:outline-none"
         onClick={() => setOpen(!open)}
         ref={buttonRef}
       >
-        <Button as="div">
-          <icons.CloudUpload data-slot="icon" />
-        </Button>
+        <icons.CloudUpload />
       </UIPopoverButton>
       <UIPopoverPanel
         anchor="bottom end"

@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
-import Heading from 'components/ui/Heading';
+import { Heading } from '@/ui/heading';
 
 import CreateAlbumDialogProvider from 'components/photos/CreateAlbumDialogProvider';
 import DeleteAlbumDialogProvider from 'components/photos/DeleteAlbumDialogProvider';

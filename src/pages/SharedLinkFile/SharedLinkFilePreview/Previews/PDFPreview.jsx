@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
 
-import { MEGABYTE } from 'components/ui/FileSize';
+import { MEGABYTE } from '@/ui/filesize';
+import { Spinner } from '@/ui/spinner';
 
 import { useDownloadSharedLinkContentQuery } from '../../../../store/sharing';
-
-import Spinner from '../../../../components/ui/Spinner';
 
 import NoPreview from './NoPreview';
 import { SharedLinkFileShape } from '../../../../types';

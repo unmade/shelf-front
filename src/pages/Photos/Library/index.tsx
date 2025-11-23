@@ -6,7 +6,7 @@ import { selectPhotosLibraryPath } from 'store/features';
 
 import { MediaType } from 'constants';
 
-import Heading from 'components/ui/Heading';
+import { Heading } from '@/ui/heading';
 
 import CopyLinkDialogProvider from 'components/CopyLinkDialogProvider';
 import FileDrop from 'components/FileDrop';

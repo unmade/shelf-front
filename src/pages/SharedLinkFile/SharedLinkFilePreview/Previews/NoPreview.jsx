@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
-import FileSize from 'components/ui/FileSize';
+import { FileSize } from '@/ui/filesize';
 
 import { downloadSharedLinkFile } from '../../../../store/sharing';
 

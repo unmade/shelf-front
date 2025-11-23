@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
 
-import { MEGABYTE } from 'components/ui/FileSize';
+import { MEGABYTE } from '@/ui/filesize';
 
 import { useDownloadContentQuery } from '../../../store/files';
 

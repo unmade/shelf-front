@@ -1,6 +1,6 @@
 import type { IMediaItem } from 'types/photos';
 
-import FileSize from 'components/ui/FileSize';
+import { FileSize } from '@/ui/filesize';
 
 import Exif from 'components/Exif';
 

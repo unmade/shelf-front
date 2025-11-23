@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useTranslation } from 'react-i18next';
 
-import { MEGABYTE } from 'components/ui/FileSize';
+import { MEGABYTE } from '@/ui/filesize';
 
 import { ThumbnailSize } from '../../../../constants';
 import { SharedLinkFileShape } from '../../../../types';

@@ -5,7 +5,7 @@ import type { GridChildComponentProps } from 'react-window';
 import { FixedSizeGrid } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
 
-import Spinner from 'components/ui/Spinner';
+import { Spinner } from '@/ui/spinner';
 
 export type ItemRendererProps<T> = GridChildComponentProps<T>;
 

@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
-import FileSize from 'components/ui/FileSize';
+import { FileSize } from '@/ui/filesize';
 
 import { filesSelectionChanged, selectAllSelectedFileIds } from '../../store/browser';
 

@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
 
-import Spinner from '../ui/Spinner';
+import { Spinner } from '@/ui/spinner';
+
 import TimeAgo from '../ui-legacy/TimeAgo';
 
 import Property from './Property';

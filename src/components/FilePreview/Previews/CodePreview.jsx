@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { useDownloadContentQuery } from 'store/files';
 
-import { MEGABYTE } from 'components/ui/FileSize';
+import { MEGABYTE } from '@/ui/filesize';
 
 import { usePrefersColorSchemeContext } from 'components/PrefersColorSchemeProvider';
 
