@@ -1,12 +1,8 @@
 {
   "created": "Создан",
-  "delete": "Удалить",
   "exif": "Exif",
   "information": "Сведения",
   "modified": "Изменен",
-  "name": "Имя",
-  "path": "Путь",
-  "preview": "Открыть",
   "sharing": "Доступ",
   "size": "Размер"
 }

@@ -4,8 +4,21 @@ import { MediaType, thumbnailSizes } from '../constants';
 import * as routes from '../routes';
 
 import apiSlice from './apiSlice';
+import { isFetchBaseQueryErrorWithApiErrorCode } from './store';
 
 export { download } from './_download';
+
+export function isFileActionNotAllowed(error) {
+  return isFetchBaseQueryErrorWithApiErrorCode(error, 'ACTION_NOT_ALLOWED');
+}
+
+export function isFileAlreadyExists(error) {
+  return isFetchBaseQueryErrorWithApiErrorCode(error, 'FILE_ALREADY_EXISTS');
+}
+
+export function isNotADirectory(error) {
+  return isFetchBaseQueryErrorWithApiErrorCode(error, 'NOT_A_DIRECTORY');
+}
 
 export const filesAdapter = createEntityAdapter({
   sortComparer: (a, b) => {

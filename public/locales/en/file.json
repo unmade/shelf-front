@@ -1,12 +1,8 @@
 {
   "created": "Created",
-  "delete": "Delete",
   "exif": "Exif",
   "information": "Information",
   "modified": "Modified",
-  "name": "Name",
-  "path": "Path",
-  "preview": "Preview",
   "sharing": "Sharing",
   "size": "Size"
 }
