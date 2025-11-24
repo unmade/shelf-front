@@ -5,7 +5,7 @@
   "dependencies": {
     "@floating-ui/react-dom": "^1.0.0",
     "@headlessui/react": "^2.2.7",
-    "@heroicons/react": "^1.0.6",
+    "@heroicons/react": "^2.2.0",
     "@reduxjs/toolkit": "^2.8.2",
     "@tailwindcss/forms": "^0.5.10",
     "@tailwindcss/vite": "^4.1.11",
