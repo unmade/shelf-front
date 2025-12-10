@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { useListFileMembersQuery } from 'store/sharing';
 
-import { Avatar } from '@/ui/avatar';
+import { Avatar, AvatarFallback } from '@/ui/avatar';
 
 import FileMemberAccessLevel from './FileMemberAccessLevel';
 
@@ -16,7 +16,9 @@ function FileMemberItem({ fileId, memberId }) {
   return (
     <div className="flex items-center justify-between py-3 text-sm font-medium dark:text-zinc-200">
       <div className="mr-2 flex min-w-0 items-center">
-        <Avatar username={displayName} className="size-9" />
+        <Avatar className="size-9">
+          <AvatarFallback>{displayName.charAt(0).toUpperCase()}</AvatarFallback>
+        </Avatar>
         <p className="ml-2 truncate">{displayName}</p>
       </div>
       <div>

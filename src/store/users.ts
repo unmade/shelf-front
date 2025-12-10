@@ -3,7 +3,11 @@ import { createSelector } from '@reduxjs/toolkit';
 import apiSlice from './apiSlice';
 import { filesAdapter, filesApi } from './files';
 import { mediaItemsAdapter, photosApi } from './mediaItems';
-import type { RootState } from './store';
+import { isFetchBaseQueryErrorWithApiErrorCode, type RootState } from './store';
+
+export function isUserNotFound(error: unknown): boolean {
+  return isFetchBaseQueryErrorWithApiErrorCode(error, 'USER_NOT_FOUND');
+}
 
 export const usersApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

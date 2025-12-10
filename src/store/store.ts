@@ -93,23 +93,33 @@ function isRejectedWithApiError(action: unknown): action is RejectedWithAPIError
 
 const ignoredErrorCodes = new Set([
   422,
+  // Accounts
   'EMAIL_ALREADY_TAKEN',
   'EMAIL_UPDATE_LIMIT_REACHED',
   'EMAIL_UPDATE_NOT_STARTED',
-  'CONTENT_METADATA_NOT_FOUND',
+  'OTP_CODE_ALREADY_SENT',
+  'USER_EMAIL_ALREADY_VERIFIED',
+  'USER_EMAIL_IS_MISSING',
+
+  // Auth
   'INVALID_CREDENTIALS',
   'INVALID_TOKEN',
   'MISSING_TOKEN',
-  'OTP_CODE_ALREADY_SENT',
   'SIGN_UP_DISABLED',
-  'SHARED_LINK_NOT_FOUND',
   'USER_ALREADY_EXISTS',
-  'USER_EMAIL_ALREADY_VERIFIED',
-  'USER_EMAIL_IS_MISSING',
+
   // Files
   'ACTION_NOT_ALLOWED',
+  'CONTENT_METADATA_NOT_FOUND',
   'FILE_ALREADY_EXISTS',
   'NOT_A_DIRECTORY',
+
+  // Sharing
+  'FILE_MEMBER_ALREADY_EXISTS',
+  'SHARED_LINK_NOT_FOUND',
+
+  // Users
+  'USER_NOT_FOUND',
 ]);
 
 const errorsMiddleware: Middleware =

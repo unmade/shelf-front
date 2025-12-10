@@ -7,5 +7,10 @@
   "files.dialogs.createFolder.errors.notADirectory": "The specified path is not a directory",
   "files.dialogs.createFolder.fields.name.label": "Name",
   "files.dialogs.createFolder.fields.name.placeholder": "Folder name",
-  "files.dialogs.createFolder.title": "New Folder"
+  "files.dialogs.createFolder.title": "New Folder",
+  "sharing.addMember.buttons.addMember": "Add Member",
+  "sharing.addMember.errors.memberAlreadyExists": "A member with this username already exists",
+  "sharing.addMember.errors.usernameRequired": "Username is required",
+  "sharing.addMember.errors.userNotFound": "User not found",
+  "sharing.addMember.placeholders.username": "Enter a username"
 }
