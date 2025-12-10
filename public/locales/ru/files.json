@@ -7,5 +7,10 @@
   "files.dialogs.createFolder.errors.notADirectory": "Указанный путь не является директорией",
   "files.dialogs.createFolder.fields.name.label": "Имя",
   "files.dialogs.createFolder.fields.name.placeholder": "Имя папки",
-  "files.dialogs.createFolder.title": "Создать папку"
+  "files.dialogs.createFolder.title": "Создать папку",
+  "sharing.addMember.buttons.addMember": "Добавить участника",
+  "sharing.addMember.errors.memberAlreadyExists": "Участник с таким именем пользователя уже существует",
+  "sharing.addMember.errors.usernameRequired": "Имя пользователя обязательно",
+  "sharing.addMember.errors.userNotFound": "Пользователь не найден",
+  "sharing.addMember.placeholders.username": "Введите имя пользователя"
 }

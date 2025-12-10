@@ -8,6 +8,11 @@ import * as routes from '../routes';
 import { selectGetCurrentAccountResult } from './accounts';
 import apiSlice, { API_BASE_URL } from './apiSlice';
 import { filesAdapter } from './files';
+import { isFetchBaseQueryErrorWithApiErrorCode } from './store';
+
+export function isFileMemberAlreadyExists(error) {
+  return isFetchBaseQueryErrorWithApiErrorCode(error, 'FILE_MEMBER_ALREADY_EXISTS');
+}
 
 export const downloadSharedLinkFile = createAsyncThunk(
   'sharing/downloadSharedLinkFile',
