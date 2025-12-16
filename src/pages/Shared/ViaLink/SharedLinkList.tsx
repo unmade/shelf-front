@@ -1,17 +1,15 @@
-import React from 'react';
-
 import { useTranslation } from 'react-i18next';
+
+import { useListFilesSharedViaLinkQuery } from '@/store/sharedLinks';
+
+import * as icons from '@/icons';
 
 import { Empty, EmptyHeader, EmptyMedia, EmptyTitle } from '@/ui/empty';
 import { Spinner } from '@/ui/spinner';
 
-import { useListFilesSharedViaLinkQuery } from '../../../store/sharing';
-
-import * as icons from '../../../icons';
-
 import SharedLinkListItem from './SharedLinkListItem';
 
-function SharedLinkList() {
+export default function SharedLinkList() {
   const { t } = useTranslation('sharedViaLink');
 
   const { ids, isFetching: loading } = useListFilesSharedViaLinkQuery(undefined, {
@@ -59,7 +57,3 @@ function SharedLinkList() {
     </div>
   );
 }
-
-SharedLinkList.propTypes = {};
-
-export default SharedLinkList;

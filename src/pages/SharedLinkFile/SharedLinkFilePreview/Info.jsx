@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
-import { downloadSharedLinkFile } from '../../../store/sharing';
+import { downloadSharedLinkFile } from '@/store/sharedLinks';
 
 import { SharedLinkFileShape } from '../../../types';
 

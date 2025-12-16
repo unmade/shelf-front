@@ -1,29 +1,30 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 
-import useSharedLink from '../../../hooks/shared-link';
+import { selectFilesSharedViaLinkById } from '@/store/sharedLinks';
 
-import { selectFileSharedViaLinkById } from '../../../store/sharing';
+import { useAppSelector } from '@/hooks';
+import { useSharedLink } from '@/hooks/shared-link';
 
-import { MediaType } from '../../../constants';
-import * as icons from '../../../icons';
-import * as routes from '../../../routes';
+import { MediaType } from '@/constants';
+import * as icons from '@/icons';
+import * as routes from '@/routes';
 
-import Button from '../../../components/ui-legacy/Button';
+import Button from '@/components/ui-legacy/Button';
+import TimeAgo from '@/components/ui-legacy/TimeAgo';
 
-import FileLink from '../../../components/FileLink';
-import { useCopyLinkDialog } from '../../../components/CopyLinkDialogProvider';
-import CopyToClipboardButton from '../../../components/CopyToClipboardButton';
-import Thumbnail from '../../../components/Thumbnail';
-import TimeAgo from '../../../components/ui-legacy/TimeAgo';
+import FileLink from '@/components/FileLink';
+import { useCopyLinkDialog } from '@/components/CopyLinkDialogProvider';
+import CopyToClipboardButton from '@/components/CopyToClipboardButton';
+import Thumbnail from '@/components/Thumbnail';
 
-function SharedLinkListItem({ fileId }) {
+interface Props {
+  fileId: string;
+}
+
+export default function SharedLinkListItem({ fileId }: Props) {
   const { t } = useTranslation('sharedLinkSetting');
 
-  const item = useSelector((state) => selectFileSharedViaLinkById(state, fileId));
+  const item = useAppSelector((state) => selectFilesSharedViaLinkById(state, fileId));
   const { name, path, token } = item;
   const sharedLink = useSharedLink({ token, filename: name });
   const parentPath = routes.parent(path);
@@ -77,9 +78,3 @@ function SharedLinkListItem({ fileId }) {
     </div>
   );
 }
-
-SharedLinkListItem.propTypes = {
-  fileId: PropTypes.string.isRequired,
-};
-
-export default SharedLinkListItem;

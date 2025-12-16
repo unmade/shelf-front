@@ -2,23 +2,27 @@ import { useCallback } from 'react';
 
 import { Trans, useTranslation } from 'react-i18next';
 
-import useSharedLink from 'hooks/shared-link';
-
-import type { IFile } from 'types/files';
+import type { IFile } from '@/types/files';
 
 import {
+  isSharedLinkNotFound,
   useCreateSharedLinkMutation,
   useGetSharedLinkQuery,
   useRevokeSharedLinkMutation,
-} from 'store/sharedLinks';
+} from '@/store/sharedLinks';
+
+import { useSharedLink } from '@/hooks/shared-link';
 
 import { Input } from '@/ui/input';
 import { Switch } from '@/ui/switch';
 
-import CopyToClipboardButton from 'components/CopyToClipboardButton';
+import CopyToClipboardButton from '@/components/CopyToClipboardButton';
 
 function useToggleSharedLink(fileId: string) {
-  const { data: sharedLink } = useGetSharedLinkQuery(fileId);
+  const { sharedLink, error } = useGetSharedLinkQuery(fileId, {
+    selectFromResult: ({ data, error }) => ({ sharedLink: data, error }),
+  });
+
   const [createSharedLink, { isLoading: creating }] = useCreateSharedLinkMutation();
   const [revokeSharedLink, { isLoading: revoking }] = useRevokeSharedLinkMutation();
 
@@ -42,7 +46,7 @@ function useToggleSharedLink(fileId: string) {
   }, [sharedLink?.token, fileId, createSharedLink, revokeSharedLink]);
 
   return {
-    sharedLink,
+    token: isSharedLinkNotFound(error) ? undefined : sharedLink?.token,
     toggleLink,
     loading: creating || revoking,
   };
@@ -55,12 +59,10 @@ interface Props {
 export default function SharedLinkSetting({ file }: Props) {
   const { t } = useTranslation('sharedLinkSetting');
 
-  const { sharedLink, toggleLink, loading } = useToggleSharedLink(file.id);
+  const { token, toggleLink, loading } = useToggleSharedLink(file.id);
 
-  const token = sharedLink?.token;
   const enabled = token != null;
   const link = useSharedLink({ token, filename: file.name });
-
   return (
     <>
       <div className="mb-2 flex items-center justify-between space-x-4">
