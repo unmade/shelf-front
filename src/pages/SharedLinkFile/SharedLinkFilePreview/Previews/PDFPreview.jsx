@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
 
+import { SharedLinkFileShape } from '@/types';
+
+import { useDownloadSharedLinkContentQuery } from '@/store/sharedLinks';
+
 import { MEGABYTE } from '@/ui/filesize';
 import { Spinner } from '@/ui/spinner';
 
-import { useDownloadSharedLinkContentQuery } from '../../../../store/sharing';
-
 import NoPreview from './NoPreview';
-import { SharedLinkFileShape } from '../../../../types';
 
 const MAX_SIZE = 9 * MEGABYTE;
 

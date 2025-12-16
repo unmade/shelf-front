@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import useSharedLink from 'hooks/shared-link';
+import { useSharedLink } from 'hooks/shared-link';
 
 import type { RootState } from 'store/store';
 import { selectMediaItemSharedLink } from 'store/mediaItems';
@@ -27,8 +27,7 @@ export default function SharedLinkListItem({ fileId }: Props) {
 
   const link = useSelector((state: RootState) => selectMediaItemSharedLink(state, fileId));
   const { token, createdAt, item } = link;
-  const { name } = item;
-  const sharedLink = useSharedLink({ token, filename: name });
+  const sharedLink = useSharedLink({ token, filename: item.name });
   const file = useFileFromMediaItem(item);
 
   return (
@@ -39,7 +38,7 @@ export default function SharedLinkListItem({ fileId }: Props) {
           <Thumbnail className="h-12 w-12" file={file} />
           <span className="truncate">
             <div>
-              <p className="truncate">{name}</p>
+              <p className="truncate">{item.name}</p>
             </div>
           </span>
         </div>

@@ -39,7 +39,10 @@ export const MediaType = {
   isSVG(mediaType: string) {
     return mediaType === 'image/svg+xml';
   },
-  isText(mediaType: string) {
+  isText(mediaType?: string | null) {
+    if (!mediaType) {
+      return false;
+    }
     if (mediaType.startsWith('text')) {
       return true;
     }

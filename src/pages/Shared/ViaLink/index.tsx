@@ -1,19 +1,17 @@
-import React from 'react';
-
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
+import * as icons from '@/icons';
+
 import { Heading } from '@/ui/heading';
 
-import { Page, PageContent, PageHeader, PageHeaderTitle } from 'apps/files/components/page';
+import CopyLinkDialogProvider from '@/components/CopyLinkDialogProvider';
 
-import * as icons from '../../../icons';
-
-import CopyLinkDialogProvider from '../../../components/CopyLinkDialogProvider';
+import { Page, PageContent, PageHeader, PageHeaderTitle } from '@/apps/files/components/page';
 
 import SharedLinkList from './SharedLinkList';
 
-function LinkSharing() {
+export default function SharedLinks() {
   const { t } = useTranslation('sharedViaLink');
 
   return (
@@ -36,7 +34,3 @@ function LinkSharing() {
     </CopyLinkDialogProvider>
   );
 }
-
-LinkSharing.propTypes = {};
-
-export default LinkSharing;

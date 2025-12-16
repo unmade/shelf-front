@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
-import { FileSize } from '@/ui/filesize';
+import { downloadSharedLinkFile } from '@/store/sharedLinks';
 
-import { downloadSharedLinkFile } from '../../../../store/sharing';
+import { FileSize } from '@/ui/filesize';
 
 import * as icons from '../../../../icons';
 import { SharedLinkFileShape } from '../../../../types';
