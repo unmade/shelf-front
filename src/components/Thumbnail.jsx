@@ -64,11 +64,11 @@ function ImageThumbnail({ className, file, size, style, objectFit }) {
       setShouldSkip(true);
     };
   }, [setShouldSkip]);
-  const { id, name, modified_at: modifiedAt } = file;
+  const { thumbnail_url, name, modified_at: modifiedAt } = file;
   const mtime = new Date(modifiedAt).getTime();
 
   const fallbackThumbnail = useSelector((state) =>
-    selectFallbackThumbnail(state, { fileId: id, size, mtime }),
+    selectFallbackThumbnail(state, { url: thumbnail_url, size, mtime }),
   );
 
   const { data, isFetching: loading } = useGetThumbnailQuery(
