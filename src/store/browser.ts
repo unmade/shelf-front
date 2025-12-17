@@ -1,16 +1,18 @@
-import { combineReducers, createSelector, createSlice } from '@reduxjs/toolkit';
+import { combineReducers, createSelector, createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-const selectionInitialState = [];
+import type { RootState } from './store';
+
+const selectionInitialState: string[] = [];
 
 const selection = createSlice({
   name: 'selection',
   initialState: selectionInitialState,
   reducers: {
-    filesSelectionChanged(_state, action) {
+    filesSelectionChanged(_state, action: PayloadAction<{ ids: string[] }>) {
       const { ids } = action.payload;
       return [...ids];
     },
-    fileSelectionToggled(state, action) {
+    fileSelectionToggled(state, action: PayloadAction<{ id: string }>) {
       const { id } = action.payload;
       const idx = state.indexOf(id);
       if (idx === -1) {
@@ -28,11 +30,13 @@ export const selectAllSelectedFileIds = createSelector(
   (items) => new Set(items),
 );
 
+const scrollOffsetInitialState: Record<string, number> = {};
+
 const scrollOffset = createSlice({
   name: 'scrollOffset',
-  initialState: {},
+  initialState: scrollOffsetInitialState,
   reducers: {
-    scrollOffsetChanged(state, action) {
+    scrollOffsetChanged(state, action: PayloadAction<{ key: string; offset: number }>) {
       const { key, offset } = action.payload;
       if (state[key] !== offset) {
         state[key] = offset;
@@ -43,7 +47,8 @@ const scrollOffset = createSlice({
 
 export const { scrollOffsetChanged: fileBrowserScrollOffsetChanged } = scrollOffset.actions;
 
-export const selectScrollOffset = (state, key) => state.browser.scrollOffset[key] ?? 0;
+export const selectScrollOffset = (state: RootState, key: string) =>
+  state.browser.scrollOffset[key] ?? 0;
 
 export default combineReducers({
   [selection.name]: selection.reducer,
