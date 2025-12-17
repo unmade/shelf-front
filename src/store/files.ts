@@ -1,26 +1,59 @@
-import { createEntityAdapter, createSelector } from '@reduxjs/toolkit';
+import { createEntityAdapter, createSelector, type EntityState } from '@reduxjs/toolkit';
+import { type FetchBaseQueryError } from '@reduxjs/toolkit/query';
 
-import { MediaType, thumbnailSizes } from '../constants';
-import * as routes from '../routes';
+import { MediaType, thumbnailSizes } from '@/constants';
+import * as routes from '@/routes';
 
 import apiSlice from './apiSlice';
-import { isFetchBaseQueryErrorWithApiErrorCode } from './store';
+import { isFetchBaseQueryErrorWithApiErrorCode, type RootState } from './store';
 
 export { download } from './_download';
 
-export function isFileActionNotAllowed(error) {
+export function isFileActionNotAllowed(error: unknown): boolean {
   return isFetchBaseQueryErrorWithApiErrorCode(error, 'ACTION_NOT_ALLOWED');
 }
 
-export function isFileAlreadyExists(error) {
+export function isFileAlreadyExists(error: unknown): boolean {
   return isFetchBaseQueryErrorWithApiErrorCode(error, 'FILE_ALREADY_EXISTS');
 }
 
-export function isNotADirectory(error) {
+export function isNotADirectory(error: unknown): boolean {
   return isFetchBaseQueryErrorWithApiErrorCode(error, 'NOT_A_DIRECTORY');
 }
 
-export const filesAdapter = createEntityAdapter({
+interface FileSchema {
+  id: string;
+  name: string;
+  path: string;
+  size: number;
+  mediatype: string;
+  hidden: boolean;
+  shared: boolean;
+  thumbnail_url?: string;
+  modified_at: string;
+}
+
+interface DataExifSchema {
+  type: 'exif';
+  make: string | null;
+  model: string | null;
+  focal_length: number | null;
+  focal_length_35mm: number | null;
+  fnumber: string | null;
+  exposure: string | null;
+  iso: string | null;
+  dt_original: number | null;
+  dt_digitized: number | null;
+  height: number | null;
+  width: number | null;
+}
+
+interface FileContentMetadataSchema {
+  file_id: string;
+  data: DataExifSchema;
+}
+
+export const filesAdapter = createEntityAdapter<FileSchema>({
   sortComparer: (a, b) => {
     if (a.mediatype === MediaType.FOLDER && b.mediatype !== MediaType.FOLDER) {
       return -1;
@@ -35,7 +68,7 @@ const initialState = filesAdapter.getInitialState();
 
 export const filesApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    createFolder: builder.mutation({
+    createFolder: builder.mutation<FileSchema, { name: string; inPath: string }>({
       query: ({ name, inPath }) => ({
         url: '/files/create_folder',
         method: 'POST',
@@ -43,84 +76,105 @@ export const filesApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: (_result, _error, { inPath }) => [{ type: 'Files', id: inPath }],
     }),
-    deleteImmediatelyBatch: builder.mutation({
+
+    deleteImmediatelyBatch: builder.mutation<{ taskId: string }, string[]>({
       query: (paths) => ({
         url: '/files/delete_immediately_batch',
         method: 'POST',
         body: { items: paths.map((path) => ({ path })) },
       }),
-      transformResponse: (responseData) => ({ taskId: responseData.async_task_id }),
+      transformResponse: (responseData: { async_task_id: string }) => ({
+        taskId: responseData.async_task_id,
+      }),
     }),
-    downloadContent: builder.query({
+
+    downloadContent: builder.query<{ path: string; content: string }, string>({
       query: (path) => ({
         url: '/files/download',
         method: 'POST',
         body: { path },
-        responseHandler: (response) => {
+        responseHandler: (response: Response) => {
           const contentType = response.headers.get('content-type');
-          return MediaType.isText(contentType) ? response.text() : response.blob();
+          if (MediaType.isText(contentType)) {
+            return { text: response.text(), blob: null };
+          }
+          return { text: null, blob: response.blob() };
         },
       }),
-      transformResponse: (data, meta, arg) => {
-        const contentType = meta.response.headers.get('content-type');
-        const content = MediaType.isText(contentType) ? data : URL.createObjectURL(data);
+      transformResponse: (
+        data: { text: string; blob: null } | { text: null; blob: Blob },
+        _meta,
+        arg,
+      ) => {
+        const content = data.text ?? URL.createObjectURL(data.blob);
         return { path: arg, content };
       },
       async onCacheEntryAdded(_arg, { cacheDataLoaded, cacheEntryRemoved }) {
         const data = await cacheDataLoaded;
         await cacheEntryRemoved;
-        URL.revokeObjectURL(data?.content);
+        URL.revokeObjectURL(data.data.content);
       },
     }),
-    emptyTrash: builder.mutation({
+
+    emptyTrash: builder.mutation<{ taskId: string }, void>({
       query: () => ({
         url: '/files/empty_trash',
         method: 'POST',
       }),
-      transformResponse: (responseData) => ({ taskId: responseData.async_task_id }),
+      transformResponse: (responseData: { async_task_id: string }) => ({
+        taskId: responseData.async_task_id,
+      }),
     }),
-    getContentMetadata: builder.query({
+
+    getContentMetadata: builder.query<FileContentMetadataSchema, string>({
       query: (fileId) => ({
         url: '/files/get_content_metadata',
         method: 'POST',
         body: { id: fileId },
       }),
     }),
-    getThumbnail: builder.query({
+
+    getThumbnail: builder.query<{ content: string }, { url: string; size: string; mtime: number }>({
       query: ({ url, size, mtime }) => ({
         url,
         params: { size, mtime },
-        responseHandler: (response) => response.blob(),
+        responseHandler: (response: Response) => response.blob(),
       }),
-      transformResponse: (data, _meta, arg) => {
+      transformResponse: (data: Blob) => {
         const content = URL.createObjectURL(data);
-        return { fileId: arg, content };
+        return { content };
       },
       async onCacheEntryAdded(_arg, { cacheDataLoaded, cacheEntryRemoved }) {
         const data = await cacheDataLoaded;
         await cacheEntryRemoved;
-        URL.revokeObjectURL(data?.content);
+        URL.revokeObjectURL(data.data.content);
       },
     }),
+
     listBookmarkedFiles: builder.query({
       async queryFn(arg, _queryApi, _extraOptions, fetchWithBQ) {
         const fileIdsResult = await fetchWithBQ('/users/bookmarks/list');
         if (fileIdsResult.error) {
-          return { error: fileIdsResult.error };
+          return { error: fileIdsResult.error as FetchBaseQueryError };
         }
-        const { items: fileIds } = fileIdsResult.data;
+        const { items: fileIds } = fileIdsResult.data as { items: string[] };
         const result = await fetchWithBQ({
           url: '/files/get_batch',
           method: 'POST',
           body: { ids: fileIds },
         });
+        if (result.error) {
+          return { error: result.error as FetchBaseQueryError };
+        }
+        const { items } = result.data as { items: FileSchema[] };
         return result.data
-          ? { data: filesAdapter.setAll(initialState, result.data.items) }
+          ? { data: filesAdapter.setAll(initialState, items) }
           : { error: result.error };
       },
       providesTags: () => [{ type: 'Files', id: 'listBookmarkedFiles' }],
     }),
-    listFolder: builder.query({
+
+    listFolder: builder.query<EntityState<FileSchema, string>, string>({
       query: (path) => ({
         url: '/files/list_folder',
         method: 'POST',
@@ -130,9 +184,11 @@ export const filesApi = apiSlice.injectEndpoints({
         { type: 'Files', id: arg },
         { type: 'Files', id: 'listFolder' },
       ],
-      transformResponse: (data) => filesAdapter.setAll(initialState, data.items),
+      transformResponse: (data: { items: FileSchema[] }) =>
+        filesAdapter.setAll(initialState, data.items),
     }),
-    moveFileBatch: builder.mutation({
+
+    moveFileBatch: builder.mutation<{ taskId: string }, { fromPath: string; toPath: string }[]>({
       query: (relocations) => ({
         url: '/files/move_batch',
         method: 'POST',
@@ -143,15 +199,16 @@ export const filesApi = apiSlice.injectEndpoints({
           })),
         },
       }),
-      transformResponse: (responseData) => ({ taskId: responseData.async_task_id }),
+      transformResponse: (data: { async_task_id: string }) => ({ taskId: data.async_task_id }),
     }),
-    moveToTrashBatch: builder.mutation({
+
+    moveToTrashBatch: builder.mutation<{ taskId: string }, string[]>({
       query: (paths) => ({
         url: '/files/move_to_trash_batch',
         method: 'POST',
         body: { items: paths.map((path) => ({ path })) },
       }),
-      transformResponse: (responseData) => ({ taskId: responseData.async_task_id }),
+      transformResponse: (data: { async_task_id: string }) => ({ taskId: data.async_task_id }),
     }),
   }),
 });
@@ -184,7 +241,7 @@ export const selectFileByIdInPath = createSelector(
   },
 );
 
-const selectListBookmarkedFilesResult = filesApi.endpoints.listBookmarkedFiles.select();
+const selectListBookmarkedFilesResult = filesApi.endpoints.listBookmarkedFiles.select(undefined);
 
 const selectListBookmarkedFilesData = createSelector(
   selectListBookmarkedFilesResult,
@@ -192,15 +249,18 @@ const selectListBookmarkedFilesData = createSelector(
 );
 
 export const { selectById: selectBookmarkedFileById } = filesAdapter.getSelectors(
-  (state) => selectListBookmarkedFilesData(state) ?? initialState,
+  (state: RootState) => selectListBookmarkedFilesData(state) ?? initialState,
 );
 
-export const selectFallbackThumbnail = (state, { fileId, size, mtime }) => {
+export const selectFallbackThumbnail = (
+  state: RootState,
+  { url, size, mtime }: { url: string; size: string; mtime: number },
+) => {
   const selector = filesApi.endpoints.getThumbnail.select;
   let thumbnail = null;
 
   for (const fallbackSize of thumbnailSizes) {
-    const { data } = selector({ fileId, size: fallbackSize, mtime })(state);
+    const { data } = selector({ url, size: fallbackSize, mtime })(state);
     if (data?.content != null) {
       thumbnail = data;
     }
