@@ -1,12 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
 import { useTranslation } from 'react-i18next';
 
 import AddFileMemberForm from './AddFileMemberForm';
 import FileMembers from './FileMembers';
 
-function FileMembersSetting({ fileId }) {
+interface Props {
+  fileId: string;
+}
+
+export default function FileMembersSetting({ fileId }: Props) {
   const { t } = useTranslation('fileMembersSetting');
 
   return (
@@ -24,9 +25,3 @@ function FileMembersSetting({ fileId }) {
     </>
   );
 }
-
-FileMembersSetting.propTypes = {
-  fileId: PropTypes.string.isRequired,
-};
-
-export default FileMembersSetting;

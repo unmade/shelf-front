@@ -1,11 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
 import { useListFileMembersQuery } from '../../store/sharing';
 
 import FileMemberItem from './FileMemberItem';
 
-function FileMembers({ fileId }) {
+interface Props {
+  fileId: string;
+}
+
+export default function FileMembers({ fileId }: Props) {
   const { ids } = useListFileMembersQuery(fileId, {
     selectFromResult: ({ data, isFetching }) => ({ ids: data?.ids, isFetching }),
   });
@@ -18,9 +19,3 @@ function FileMembers({ fileId }) {
     </div>
   );
 }
-
-FileMembers.propTypes = {
-  fileId: PropTypes.string.isRequired,
-};
-
-export default FileMembers;
