@@ -39,7 +39,7 @@ function CreateFolderDialogProvider({ children }: Props) {
 
   return (
     <CreateFolderDialogContext.Provider value={value}>
-      <CreateFolderDialog inPath={path} open={open} onClose={closeDialog} />
+      {path && <CreateFolderDialog inPath={path} open={open} onClose={closeDialog} />}
       {children}
     </CreateFolderDialogContext.Provider>
   );

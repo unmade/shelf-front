@@ -26,7 +26,7 @@ import { Field, FieldError, FieldLabel } from '@/ui/field';
 import { Input } from '@/ui/input';
 
 interface Props {
-  inPath?: string;
+  inPath: string;
   open: boolean;
   onClose: () => void;
 }

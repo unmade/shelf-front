@@ -53,7 +53,7 @@ function updateMediaItemsCache(
   scope: Scopes,
   files: IFile[],
   responseData: ResponseData,
-  { dispatch, getState }: { dispatch: AppDispatch; getState: () => RootState },
+  { dispatch, state }: { dispatch: AppDispatch; state: RootState },
 ) {
   if (scope !== Scopes.MovingToTrash) {
     return null;
@@ -61,7 +61,7 @@ function updateMediaItemsCache(
 
   const filesByIds = Object.fromEntries(responseData.result.map((obj) => [obj.file?.id, obj.file]));
 
-  const libraryPath = selectPhotosLibraryPath(getState());
+  const libraryPath = selectPhotosLibraryPath(state);
   const mediaItemIds = files
     .filter((file) => file.path.startsWith(libraryPath) && filesByIds[file.id])
     .map((file) => file.id);
@@ -81,7 +81,7 @@ export const waitForBackgroundTaskToComplete = createAsyncThunk<
   Arg,
   { dispatch: AppDispatch; getState: () => RootState }
 >('tasks/waitForTask', async ({ taskId, scope, files }, { dispatch, getState }) => {
-  const accessToken = selectAccessToken(getState());
+  const accessToken = selectAccessToken(getState() as RootState);
 
   const endpoint = endpointsByScope[scope];
   const url = `${API_BASE_URL}${endpoint}`;
@@ -108,7 +108,7 @@ export const waitForBackgroundTaskToComplete = createAsyncThunk<
     const data = await response.json();
     if (data.status === 'completed') {
       if (files) {
-        updateMediaItemsCache(scope, files, data, { dispatch, getState });
+        updateMediaItemsCache(scope, files, data, { dispatch, state: getState() as RootState });
       }
       return data;
     }

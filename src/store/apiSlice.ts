@@ -1,8 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query';
+
 import { Mutex } from 'async-mutex';
 
 import { tokenRefreshed, signedOut, selectRefreshToken, selectAccessToken } from './authSlice';
+import type { RootState } from './store';
 
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000';
 
@@ -11,7 +14,7 @@ const mutex = new Mutex();
 const baseQuery = fetchBaseQuery({
   baseUrl: API_BASE_URL,
   prepareHeaders: (headers, { getState }) => {
-    const token = selectAccessToken(getState());
+    const token = selectAccessToken(getState() as RootState);
     if (token) {
       headers.set('authorization', `Bearer ${token}`);
     }
@@ -19,36 +22,52 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-async function isTokenError(error) {
-  let code;
-  if (error?.data instanceof Blob) {
-    try {
-      const text = await error?.data.text();
-      const data = JSON.parse(text);
-      code = data.code;
-    } catch {
-      // just skip silently for now
-    }
-  } else if (typeof error?.data === 'string') {
-    try {
-      const data = JSON.parse(error.data);
-      code = data.code;
-    } catch {
-      // just skip silently
-    }
-  } else {
-    code = error?.data?.code;
+interface RefreshResponse {
+  access_token: string;
+  refresh_token: string;
+}
+
+async function isTokenError(error: unknown): Promise<boolean> {
+  if (!error || typeof error !== 'object') {
+    return false;
   }
+
+  const data = 'data' in error ? (error as { data?: unknown }).data : undefined;
+  let code: unknown;
+
+  if (data instanceof Blob) {
+    try {
+      const text = await data.text();
+      const parsed = JSON.parse(text) as { code?: unknown };
+      code = parsed?.code;
+    } catch {
+      // ignore
+    }
+  } else if (typeof data === 'string') {
+    try {
+      const parsed = JSON.parse(data) as { code?: unknown };
+      code = parsed?.code;
+    } catch {
+      // ignore
+    }
+  } else if (data && typeof data === 'object' && 'code' in data) {
+    code = (data as { code?: unknown }).code;
+  }
+
   return code === 'INVALID_TOKEN' || code === 'MISSING_TOKEN';
 }
 
-const baseQueryWithReauth = async (args, api, extraOptions) => {
-  // wait until the mutex is available without locking it
+const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
+  args,
+  api,
+  extraOptions,
+) => {
   await mutex.waitForUnlock();
+
   let result = await baseQuery(args, api, extraOptions);
-  const refreshToken = selectRefreshToken(api.getState());
+
+  const refreshToken = selectRefreshToken(api.getState() as RootState);
   if (refreshToken && (await isTokenError(result.error))) {
-    // checking whether the mutex is locked
     if (!mutex.isLocked()) {
       const release = await mutex.acquire();
       try {
@@ -63,24 +82,25 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
           api,
           extraOptions,
         );
-        if (refreshResult.data) {
-          const { access_token: accessToken, refresh_token: nextRefreshToken } = refreshResult.data;
-          api.dispatch(tokenRefreshed({ accessToken, refreshToken: nextRefreshToken }));
-          // retry the initial query
+
+        const data = refreshResult.data as Partial<RefreshResponse> | undefined;
+        if (typeof data?.access_token === 'string' && typeof data?.refresh_token === 'string') {
+          api.dispatch(
+            tokenRefreshed({ accessToken: data.access_token, refreshToken: data.refresh_token }),
+          );
           result = await baseQuery(args, api, extraOptions);
         } else {
           api.dispatch(signedOut());
         }
       } finally {
-        // release must be called once the mutex should be released again.
         release();
       }
     } else {
-      // wait until the mutex is available without locking it
       await mutex.waitForUnlock();
       result = await baseQuery(args, api, extraOptions);
     }
   }
+
   return result;
 };
 
