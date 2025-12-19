@@ -41,8 +41,7 @@ export const saveAuthState = (state: RootState) => {
 };
 
 export const loadAuthState = () => {
-  const rawState = getItem<string>(KEY);
-  const state = rawState ? JSON.parse(rawState) : {};
+  const state = getItem<string>(KEY) ?? {};
   return {
     auth: {
       ...initialState,

@@ -65,16 +65,16 @@ export const sharedLinksApi = apiSlice.injectEndpoints({
           responseHandler: (response: Response) => {
             const contentType = response.headers.get('content-type');
             if (MediaType.isText(contentType)) {
-              return { text: response.text(), blob: null };
+              return response.text();
             }
-            return { text: null, blob: response.blob() };
+            return response.blob();
           },
         });
         if (result.error) {
           return { error: result.error as FetchBaseQueryError };
         }
-        const data = result.data as { text: string; blob: null } | { text: null; blob: Blob };
-        const content = data.text ?? URL.createObjectURL(data.blob);
+        const data = result.data as string | Blob;
+        const content = typeof data === 'string' ? data : URL.createObjectURL(data);
         return { data: { content } };
       },
       async onCacheEntryAdded(_arg, { cacheDataLoaded, cacheEntryRemoved }) {

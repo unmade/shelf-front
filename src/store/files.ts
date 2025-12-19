@@ -96,17 +96,13 @@ export const filesApi = apiSlice.injectEndpoints({
         responseHandler: (response: Response) => {
           const contentType = response.headers.get('content-type');
           if (MediaType.isText(contentType)) {
-            return { text: response.text(), blob: null };
+            return response.text();
           }
-          return { text: null, blob: response.blob() };
+          return response.blob();
         },
       }),
-      transformResponse: (
-        data: { text: string; blob: null } | { text: null; blob: Blob },
-        _meta,
-        arg,
-      ) => {
-        const content = data.text ?? URL.createObjectURL(data.blob);
+      transformResponse: (data: string | Blob, _meta, arg) => {
+        const content = typeof data === 'string' ? data : URL.createObjectURL(data);
         return { path: arg, content };
       },
       async onCacheEntryAdded(_arg, { cacheDataLoaded, cacheEntryRemoved }) {
