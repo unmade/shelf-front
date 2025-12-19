@@ -14,14 +14,14 @@ export function isFileMemberAlreadyExists(error: unknown): boolean {
   return isFetchBaseQueryErrorWithApiErrorCode(error, 'FILE_MEMBER_ALREADY_EXISTS');
 }
 
-type FileMemberAccessLevel = 'owner' | 'editor' | 'viewer';
+export type FileMemberAccessLevel = 'owner' | 'editor' | 'viewer';
 
 interface FileMemberPermissions {
   can_change_access_level: boolean;
   can_remove: boolean;
 }
 
-interface FileMemberSchema {
+export interface FileMemberSchema {
   id: string;
   file_id: string;
   username: string;
