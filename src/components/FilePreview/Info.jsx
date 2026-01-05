@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { useSelector } from 'react-redux';
 
-import TimeAgo from '../ui-legacy/TimeAgo';
+import { TimeAgo } from '@/ui/timeago';
 
 import SidePreviewActions from '../Browser/SidePreviewActions';
 

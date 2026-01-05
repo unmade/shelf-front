@@ -6,10 +6,11 @@ import { useDispatch } from 'react-redux';
 
 import { downloadSharedLinkFile } from '@/store/sharedLinks';
 
+import { TimeAgo } from '@/ui/timeago';
+
 import { SharedLinkFileShape } from '../../../types';
 
 import Button from '../../../components/ui-legacy/Button';
-import TimeAgo from '../../../components/ui-legacy/TimeAgo';
 
 import FileTabs from './FileTabs';
 

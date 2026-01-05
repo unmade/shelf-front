@@ -5,13 +5,13 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
 import { FileSize } from '@/ui/filesize';
+import { TimeAgo } from '@/ui/timeago';
 
 import { download } from '../../../store/files';
 
 import * as icons from '../../../icons';
 
 import Button from '../../ui-legacy/Button';
-import TimeAgo from '../../ui-legacy/TimeAgo';
 
 import FileIcon from '../../FileIcon';
 
