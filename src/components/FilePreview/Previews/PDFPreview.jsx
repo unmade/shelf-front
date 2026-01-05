@@ -4,10 +4,9 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 import { MEGABYTE } from '@/ui/filesize';
+import { Spinner } from '@/ui/spinner';
 
 import { useDownloadContentQuery } from '../../../store/files';
-
-import Loader from '../Loader';
 
 import NoPreview from './NoPreview';
 
@@ -24,7 +23,7 @@ function PDFPreview({ file }) {
   }
 
   if (loading) {
-    return <Loader />;
+    return <Spinner className="h-full" />;
   }
 
   return (

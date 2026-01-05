@@ -24,7 +24,7 @@ import App from './App';
 
 import './index.css';
 import './tailwind.css';
-import PrefersColorSchemeProvider from 'components/PrefersColorSchemeProvider';
+import AppearanceProvider from '@/components/AppearanceProvider';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
@@ -34,7 +34,7 @@ store.dispatch(featuresApi.endpoints.listFeatures.initiate(undefined));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <PrefersColorSchemeProvider>
+      <AppearanceProvider>
         <HelmetProvider>
           <ToastListContainer>
             <BrowserRouter>
@@ -62,7 +62,7 @@ root.render(
             </BrowserRouter>
           </ToastListContainer>
         </HelmetProvider>
-      </PrefersColorSchemeProvider>
+      </AppearanceProvider>
     </Provider>
   </React.StrictMode>,
 );

@@ -16,21 +16,21 @@ import {
   DropdownMenuSeparator,
 } from '@/ui/dropdown-menu';
 
-import { usePrefersColorSchemeContext, ColorScheme } from 'components/PrefersColorSchemeProvider';
+import { useAppearanceContext, Appearance } from '@/components/AppearanceProvider';
 
 function PreferredAppearanceRadioGroup() {
   const { t } = useTranslation();
 
-  const { scheme, setScheme } = usePrefersColorSchemeContext();
+  const { appearance, setAppearance } = useAppearanceContext();
 
   return (
     <DropdownMenuRadioGroup
-      value={scheme}
-      onValueChange={(value) => setScheme(value as ColorScheme)}
+      value={appearance}
+      onValueChange={(value) => setAppearance(value as Appearance)}
     >
-      <DropdownMenuRadioItem value={ColorScheme.Light}>{t('Light')}</DropdownMenuRadioItem>
-      <DropdownMenuRadioItem value={ColorScheme.Dark}>{t('Dark')}</DropdownMenuRadioItem>
-      <DropdownMenuRadioItem value={ColorScheme.Auto}>{t('Auto')}</DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value={Appearance.Light}>{t('Light')}</DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value={Appearance.Dark}>{t('Dark')}</DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value={Appearance.Auto}>{t('Auto')}</DropdownMenuRadioItem>
     </DropdownMenuRadioGroup>
   );
 }

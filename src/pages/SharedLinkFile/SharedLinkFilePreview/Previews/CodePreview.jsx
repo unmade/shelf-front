@@ -6,11 +6,10 @@ import { SharedLinkFileShape } from '@/types';
 import { useDownloadSharedLinkContentQuery } from '@/store/sharedLinks';
 
 import { MEGABYTE } from '@/ui/filesize';
+import { Highlight } from '@/ui/highlight';
 import { Spinner } from '@/ui/spinner';
 
-import Highlight from '@/components/ui-legacy/Highlight';
-
-import { usePrefersColorSchemeContext } from '@/components/PrefersColorSchemeProvider';
+import { useAppearanceContext } from '@/components/AppearanceProvider';
 
 import NoPreview from './NoPreview';
 
@@ -56,7 +55,7 @@ function langByMediaType({ name, mediatype }) {
 }
 
 function CodePreview({ file, token }) {
-  const { scheme } = usePrefersColorSchemeContext();
+  const { colorScheme } = useAppearanceContext();
 
   const shouldSkip = file.size > MAX_SIZE;
   const { data, isLoading: loading } = useDownloadSharedLinkContentQuery(
@@ -77,7 +76,7 @@ function CodePreview({ file, token }) {
   const lang = langByMediaType(file);
   return (
     <div className="container mx-auto p-4 text-sm">
-      <Highlight language={lang} mode={scheme} className="whitespace-pre-wrap">
+      <Highlight language={lang} mode={colorScheme} className="whitespace-pre-wrap">
         {data?.content}
       </Highlight>
     </div>
