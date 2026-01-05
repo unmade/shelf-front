@@ -4,12 +4,10 @@ import PropTypes from 'prop-types';
 import { useDownloadContentQuery } from 'store/files';
 
 import { MEGABYTE } from '@/ui/filesize';
+import { Highlight } from '@/ui/highlight';
+import { Spinner } from '@/ui/spinner';
 
-import { usePrefersColorSchemeContext } from 'components/PrefersColorSchemeProvider';
-
-import Highlight from 'components/ui-legacy/Highlight';
-
-import Loader from 'components/FilePreview/Loader';
+import { useAppearanceContext } from '@/components/AppearanceProvider';
 
 import NoPreview from './NoPreview';
 
@@ -55,7 +53,7 @@ function langByMediaType({ name, mediatype }) {
 }
 
 function CodePreview({ file }) {
-  const { scheme } = usePrefersColorSchemeContext();
+  const { colorScheme } = useAppearanceContext();
 
   const shouldSkip = file.size > MAX_SIZE;
   const { data, isLoading: loading } = useDownloadContentQuery(file.path, { skip: shouldSkip });
@@ -65,13 +63,13 @@ function CodePreview({ file }) {
   }
 
   if (loading) {
-    return <Loader />;
+    return <Spinner className="h-full" />;
   }
 
   const lang = langByMediaType(file);
   return (
     <div className="container mx-auto p-4 text-sm">
-      <Highlight language={lang} mode={scheme} className="whitespace-pre-wrap">
+      <Highlight language={lang} mode={colorScheme} className="whitespace-pre-wrap">
         {data?.content}
       </Highlight>
     </div>
