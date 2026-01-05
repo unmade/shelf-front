@@ -9,8 +9,9 @@ import { MediaType } from '@/constants';
 import * as icons from '@/icons';
 import * as routes from '@/routes';
 
+import { TimeAgo } from '@/ui/timeago';
+
 import Button from '@/components/ui-legacy/Button';
-import TimeAgo from '@/components/ui-legacy/TimeAgo';
 
 import FileLink from '@/components/FileLink';
 import { useCopyLinkDialog } from '@/components/CopyLinkDialogProvider';

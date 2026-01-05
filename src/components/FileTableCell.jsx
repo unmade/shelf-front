@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { Checkbox } from '@/ui/checkbox';
 import { FileSize } from '@/ui/filesize';
+import { TimeAgo } from '@/ui/timeago';
 
 import {
   filesSelectionChanged,
@@ -18,8 +19,6 @@ import {
 import { FileShape } from '../types';
 
 import { MediaType } from '../constants';
-
-import TimeAgo from './ui-legacy/TimeAgo';
 
 import BookmarkButton from './BookmarkButton';
 import { useBrowserData } from './Browser/BrowserDataProvider';

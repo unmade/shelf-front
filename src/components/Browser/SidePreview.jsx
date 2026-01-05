@@ -4,13 +4,13 @@ import { useTranslation } from 'react-i18next';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import { FileSize } from '@/ui/filesize';
+import { TimeAgo } from '@/ui/timeago';
 
 import { filesSelectionChanged, selectAllSelectedFileIds } from '../../store/browser';
 
 import { MediaType, ThumbnailSize } from '../../constants';
 
 import Button from '../ui-legacy/Button';
-import TimeAgo from '../ui-legacy/TimeAgo';
 
 import BookmarkButton from '../BookmarkButton';
 import FileLink from '../FileLink';

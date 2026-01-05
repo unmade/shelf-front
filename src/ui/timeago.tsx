@@ -8,7 +8,7 @@ interface Props {
   value: string | number;
 }
 
-export default function TimeAgo({ className = '', format, value }: Props) {
+export function TimeAgo({ className = '', format, value }: Props) {
   const { i18n } = useTranslation();
   const lang = i18n.language;
   const dt =

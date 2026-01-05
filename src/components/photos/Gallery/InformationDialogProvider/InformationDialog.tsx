@@ -13,8 +13,7 @@ import {
   DialogTitle,
 } from '@/ui/dialog';
 import { FileSize } from '@/ui/filesize';
-
-import TimeAgo from 'components/ui-legacy/TimeAgo';
+import { TimeAgo } from '@/ui/timeago';
 
 import Exif from 'components/Exif';
 

@@ -7,13 +7,13 @@ import { useDispatch } from 'react-redux';
 import { downloadSharedLinkFile } from '@/store/sharedLinks';
 
 import { FileSize } from '@/ui/filesize';
+import { TimeAgo } from '@/ui/timeago';
 
 import * as icons from '../../../../icons';
 import { SharedLinkFileShape } from '../../../../types';
 
 import Button from '../../../../components/ui-legacy/Button';
 import FileIcon from '../../../../components/FileIcon';
-import TimeAgo from '../../../../components/ui-legacy/TimeAgo';
 
 function NoPreview({ file, reason, token }) {
   const { t } = useTranslation(['translation', 'filePreview']);

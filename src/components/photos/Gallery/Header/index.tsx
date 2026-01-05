@@ -2,8 +2,9 @@ import type { IMediaItem } from 'types/photos';
 
 import * as icons from 'icons';
 
+import { TimeAgo } from '@/ui/timeago';
+
 import Button from 'components/ui-legacy/Button';
-import TimeAgo from 'components/ui-legacy/TimeAgo';
 
 import DeleteButton from './DeleteButton';
 import DownloadButton from './DownloadButton';
