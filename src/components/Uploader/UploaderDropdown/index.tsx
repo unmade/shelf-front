@@ -1,18 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 
-import {
-  Popover as UIPopover,
-  PopoverButton as UIPopoverButton,
-  PopoverPanel as UIPopoverPanel,
-} from '@headlessui/react';
+import * as icons from '@/icons';
 
-import * as icons from 'icons';
+import { useAppSelector } from '@/hooks';
 
-import { useAppSelector } from 'hooks';
-
-import { selectIsUploading } from 'store/uploads/slice';
+import { selectIsUploading } from '@/store/uploads/slice';
 
 import { Button } from '@/ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from '@/ui/popover';
 
 import Overlay from './Overlay';
 
@@ -37,28 +32,15 @@ export default function UploaderDropdown({ allowedMediaTypes = undefined, upload
   }, [shouldClick]);
 
   return (
-    <UIPopover>
-      <UIPopoverButton
-        as={Button}
-        className="focus:outline-none"
-        onClick={() => setOpen(!open)}
-        ref={buttonRef}
-      >
-        <icons.CloudUpload />
-      </UIPopoverButton>
-      <UIPopoverPanel
-        anchor="bottom end"
-        transition
-        className={[
-          'max-w-2xs rounded-2xl',
-          'bg-white/75 backdrop-blur-xl dark:bg-zinc-800/75',
-          'ring-1 ring-zinc-950/10 dark:ring-white/10',
-          'origin-top transition duration-200 ease-out data-closed:scale-95 data-closed:opacity-0',
-          '[--anchor-gap:4px] sm:[--anchor-gap:8px]',
-        ].join(' ')}
-      >
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button onClick={() => setOpen(!open)} ref={buttonRef}>
+          <icons.CloudUpload />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-sm" side="bottom" sideOffset={8} align="end">
         <Overlay allowedMediaTypes={allowedMediaTypes} uploadTo={uploadTo} />
-      </UIPopoverPanel>
-    </UIPopover>
+      </PopoverContent>
+    </Popover>
   );
 }

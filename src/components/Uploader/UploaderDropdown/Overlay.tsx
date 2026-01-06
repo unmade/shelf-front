@@ -69,7 +69,7 @@ interface Props {
 
 export default function Overlay({ allowedMediaTypes, uploadTo }: Props) {
   return (
-    <div className="w-96 rounded-2xl bg-white p-4 text-gray-700 shadow dark:bg-zinc-800 dark:text-gray-200 dark:shadow-zinc-900/70">
+    <div className="text-gray-700 dark:text-gray-200">
       <FileDrop
         allowedMediaTypes={allowedMediaTypes}
         uploadTo={uploadTo}
