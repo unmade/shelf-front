@@ -3,7 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Transition } from '@headlessui/react';
+import * as Collapsible from '@radix-ui/react-collapsible';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { Checkbox } from '@/ui/checkbox';
@@ -113,16 +113,22 @@ function FileTableCell({ className, even, item, selected, hasSelection }) {
         </div>
       </div>
 
-      <Transition show={!hasSelection}>
-        <div className="hidden flex-row items-center justify-evenly space-x-4 md:flex md:w-2/5 lg:w-1/3">
+      <Collapsible.Root
+        open={!hasSelection}
+        className="hidden overflow-hidden transition-all duration-200 data-[state=closed]:pointer-events-none data-[state=closed]:w-0 data-[state=closed]:opacity-0 md:flex md:w-2/5 lg:w-1/3"
+      >
+        <Collapsible.Content
+          forceMount
+          className="flex w-full flex-row items-center justify-evenly space-x-4"
+        >
           <div className={`hidden w-32 text-left md:block ${!hasSelection ? secondaryText : ''}`}>
             <TimeAgo value={item.modified_at} />
           </div>
           <div className={`hidden w-24 text-right md:block ${secondaryText}`}>
             <FileSize bytes={item.size} />
           </div>
-        </div>
-      </Transition>
+        </Collapsible.Content>
+      </Collapsible.Root>
     </div>
   );
 }

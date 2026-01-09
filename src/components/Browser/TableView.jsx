@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { Transition, TransitionChild } from '@headlessui/react';
+import * as Collapsible from '@radix-ui/react-collapsible';
 import { useLocation } from 'react-router';
 
-import useSidePreview from '../../hooks/preview-available';
+import useSidePreview from '@/hooks/preview-available';
 
 import FileTableCell from '../FileTableCell';
 import FileTableView from '../FileTableView';
@@ -38,11 +38,14 @@ function TableView() {
       >
         <FileTableViewContainer />
       </div>
-      <Transition show={withSidePreview}>
-        <div className="w-5/12 transform transition-all duration-500 data-closed:w-0 data-closed:translate-x-full">
+      <Collapsible.Root
+        open={withSidePreview}
+        className="w-5/12 transform overflow-hidden transition-all duration-500 data-[state=closed]:pointer-events-none data-[state=closed]:w-0 data-[state=closed]:translate-x-full"
+      >
+        <Collapsible.Content forceMount className="h-full w-full">
           <SidePreview />
-        </div>
-      </Transition>
+        </Collapsible.Content>
+      </Collapsible.Root>
     </div>
   );
 }
