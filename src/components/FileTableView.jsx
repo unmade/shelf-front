@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Transition } from '@headlessui/react';
+import * as Collapsible from '@radix-ui/react-collapsible';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -34,12 +34,15 @@ function TableHeader({ items }) {
         />
         <div className="ml-3">{t('Name')}</div>
       </div>
-      <Transition show={!hasSelection}>
-        <div className="hidden items-center justify-evenly space-x-4 transition md:flex md:w-2/5 lg:w-1/3">
+      <Collapsible.Root
+        open={!hasSelection}
+        className="hidden overflow-hidden transition-all duration-200 data-[state=closed]:pointer-events-none data-[state=closed]:w-0 data-[state=closed]:opacity-0 md:block md:w-2/5 lg:w-1/3"
+      >
+        <Collapsible.Content forceMount className="flex items-center justify-evenly space-x-4">
           <div className="w-32 text-left md:block">{t('Modified')}</div>
           <div className="w-24 text-right md:block">{t('Size')}</div>
-        </div>
-      </Transition>
+        </Collapsible.Content>
+      </Collapsible.Root>
     </div>
   );
 }
