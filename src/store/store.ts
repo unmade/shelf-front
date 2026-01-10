@@ -13,17 +13,16 @@ import apiSlice from './apiSlice';
 import auth, { signedOut, saveAuthState, loadAuthState } from './authSlice';
 import browser from './browser';
 import tasks from './tasks';
-import toasts, { addToast } from './toasts';
 import uploads, { fileEntriesAdded } from './uploads/slice';
 
 import listenFileEntriesAdded from './uploads/listeners';
+import { toast } from '@/ui/sonner';
 
 const reducers = combineReducers({
   [apiSlice.reducerPath]: apiSlice.reducer,
   auth,
   browser,
   tasks,
-  toasts,
   uploads,
 });
 
@@ -78,16 +77,22 @@ function isApiError(data: unknown): data is APIError {
 }
 
 function isRejectedWithApiError(action: unknown): action is RejectedWithAPIError {
-  if (!isRejectedWithValue(action)) {
-    return false;
-  }
-
   return (
     isRejectedWithValue(action) &&
     typeof action.payload === 'object' &&
     action.payload != null &&
     'data' in action.payload &&
     isApiError(action.payload.data)
+  );
+}
+
+function isServerError(action: unknown): boolean {
+  return (
+    isRejectedWithValue(action) &&
+    typeof action.payload === 'object' &&
+    action.payload != null &&
+    'status' in action.payload &&
+    action.payload.status === 'FETCH_ERROR'
   );
 }
 
@@ -122,24 +127,23 @@ const ignoredErrorCodes = new Set([
   'USER_NOT_FOUND',
 ]);
 
-const errorsMiddleware: Middleware =
-  ({ dispatch }) =>
-  (next) =>
-  (action) => {
-    if (isRejectedWithApiError(action)) {
-      const { payload } = action;
-      const { code, code_verbose: title, message: description } = payload.data;
-      if (!ignoredErrorCodes.has(code)) {
-        if (title != null && description != null) {
-          dispatch(addToast({ title, description }));
-        } else {
-          dispatch(addToast({ title: 'Server Error', description: 'Something went wrong' }));
-        }
+const errorsMiddleware: Middleware = () => (next) => (action) => {
+  if (isRejectedWithApiError(action)) {
+    const { payload } = action;
+    const { code, code_verbose: title, message: description } = payload.data;
+    if (!ignoredErrorCodes.has(code)) {
+      if (title != null && description != null) {
+        toast.error(title, { description });
+      } else {
+        toast.error('Server Error', { description: 'Something went wrong' });
       }
     }
+  } else if (isServerError(action)) {
+    toast.error('Server Error', { description: 'Something went wrong' });
+  }
 
-    return next(action);
-  };
+  return next(action);
+};
 
 const listenerMiddleware = createListenerMiddleware();
 listenerMiddleware.startListening({

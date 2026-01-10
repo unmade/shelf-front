@@ -5,26 +5,27 @@ import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router';
 
-import './i18n';
+import '@/i18n';
 
-import store from './store/store';
-import { featuresApi } from './store/features';
+import store from '@/store/store';
+import { featuresApi } from '@/store/features';
 
-import * as routes from './routes';
+import * as routes from '@/routes';
 
-import OTPVerification from './pages/EmailVerification';
-import SharedLinkFile from './pages/SharedLinkFile';
-import SignIn from './pages/SignIn';
-import SignUp from './pages/SignUp';
+import { Toaster } from '@/ui/sonner';
 
-import RequireAccount from './components/RequireAccount';
-import ToastListContainer from './components/ui-legacy/Toast/ToastListContainer';
+import OTPVerification from '@/pages/EmailVerification';
+import SharedLinkFile from '@/pages/SharedLinkFile';
+import SignIn from '@/pages/SignIn';
+import SignUp from '@/pages/SignUp';
+
+import AppearanceProvider from '@/components/AppearanceProvider';
+import RequireAccount from '@/components/RequireAccount';
 
 import App from './App';
 
 import './index.css';
 import './tailwind.css';
-import AppearanceProvider from '@/components/AppearanceProvider';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
@@ -36,31 +37,30 @@ root.render(
     <Provider store={store}>
       <AppearanceProvider>
         <HelmetProvider>
-          <ToastListContainer>
-            <BrowserRouter>
-              <Routes>
-                <Route path={routes.SIGNIN.route} element={<SignIn />} />
-                <Route path={routes.SIGNUP.route} element={<SignUp />} />
-                <Route path={routes.SHARED_LINK_FILE.route} element={<SharedLinkFile />} />
-                <Route
-                  path={routes.EMAIL_VERIFICATION.route}
-                  element={
-                    <RequireAccount redirectTo={routes.SIGNIN.route}>
-                      <OTPVerification />
-                    </RequireAccount>
-                  }
-                />
-                <Route
-                  path="/*"
-                  element={
-                    <RequireAccount redirectTo={routes.SIGNIN.route}>
-                      <App />
-                    </RequireAccount>
-                  }
-                />
-              </Routes>
-            </BrowserRouter>
-          </ToastListContainer>
+          <BrowserRouter>
+            <Routes>
+              <Route path={routes.SIGNIN.route} element={<SignIn />} />
+              <Route path={routes.SIGNUP.route} element={<SignUp />} />
+              <Route path={routes.SHARED_LINK_FILE.route} element={<SharedLinkFile />} />
+              <Route
+                path={routes.EMAIL_VERIFICATION.route}
+                element={
+                  <RequireAccount redirectTo={routes.SIGNIN.route}>
+                    <OTPVerification />
+                  </RequireAccount>
+                }
+              />
+              <Route
+                path="/*"
+                element={
+                  <RequireAccount redirectTo={routes.SIGNIN.route}>
+                    <App />
+                  </RequireAccount>
+                }
+              />
+            </Routes>
+          </BrowserRouter>
+          <Toaster position="bottom-center" richColors />
         </HelmetProvider>
       </AppearanceProvider>
     </Provider>
