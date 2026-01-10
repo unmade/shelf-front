@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
+import Breadcrumbs from '@/components/Breadcrumbs';
+
 import { selectAllSelectedFileIds } from '../../store/browser';
 import { Scopes, selectCounterByScope } from '../../store/tasks';
 import { selectIsUploading, selectVisibleUploadsLength } from '../../store/uploads/slice';
@@ -12,8 +14,6 @@ import { useIsLaptop } from '../../hooks/media-query';
 
 import * as icons from '../../icons';
 import { BreadcrumbShape } from '../../types';
-
-import Breadcrumb from '../ui-legacy/Breadcrumb';
 
 import { useBrowserData } from './BrowserDataProvider';
 
@@ -94,48 +94,12 @@ TotalFiles.defaultProps = {
   className: '',
 };
 
-const iconsByPath = {
-  '.': icons.Home,
-  trash: icons.Trash,
-};
-
-function BreadcrumbItem({ name, url, path }) {
-  const Icon = iconsByPath[path];
-  return (
-    <Breadcrumb.Item to={url}>
-      <span className="flex max-w-3xs items-center truncate">
-        {Icon && (
-          <span className="py-2 sm:py-1">
-            <Icon className="mr-2 h-4 w-4 shrink-0 text-gray-300 dark:text-zinc-600" />
-          </span>
-        )}
-        <span className="block truncate">{name}</span>
-      </span>
-    </Breadcrumb.Item>
-  );
-}
-
-function BreadcrumbItemCollapsed({ name, url }) {
-  return (
-    <Breadcrumb.Item to={url} className="flex max-w-sm items-center gap-x-2 px-3 py-0.5">
-      <icons.Folder data-slot="icon" className="shrink-0 text-blue-400" />
-      <span className="block truncate">{name}</span>
-    </Breadcrumb.Item>
-  );
-}
-
 function StatusBar({ breadcrumbs }) {
   const isLaptop = useIsLaptop();
 
   return (
     <div className="bottom-0 flex min-h-[33px] w-full items-center justify-center border-t border-gray-200 bg-gray-50 py-0.5 pr-8 pl-6 text-center text-xs text-gray-400 lg:justify-between dark:border-zinc-700 dark:bg-zinc-700/30 dark:text-zinc-500">
-      {isLaptop && (
-        <Breadcrumb
-          items={breadcrumbs}
-          itemRenderer={BreadcrumbItem}
-          itemRendererCollapsed={BreadcrumbItemCollapsed}
-        />
-      )}
+      {isLaptop && <Breadcrumbs className="text-xs" items={breadcrumbs} />}
       <div className="flex">
         <BackgroundTask />
         <TotalFiles className="ml-6" />
