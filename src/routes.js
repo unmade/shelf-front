@@ -1,4 +1,5 @@
 import i18n from './i18n';
+import * as icons from './icons';
 
 export const BOOKMARKS = {
   prefix: '/bookmarks',
@@ -154,14 +155,16 @@ const breadcrumbsAliases = {
   files: {
     key: '.',
     name: i18n.t('Home'),
-    url: FILES.prefix,
+    Icon: icons.Home,
     path: '.',
+    url: FILES.prefix,
   },
   trash: {
     key: 'trash',
     name: i18n.t('Trash'),
-    url: TRASH.prefix,
+    Icon: icons.Trash,
     path: 'trash',
+    url: TRASH.prefix,
   },
 };
 
