@@ -128,11 +128,9 @@ export default function CreateFolderDialog({ inPath, open, onClose }: Props) {
                 {t('files.dialogs.createFolder.actions.cancel', { defaultValue: 'Cancel' })}
               </Button>
             </DialogClose>
-            <DialogClose asChild>
-              <Button type="submit" disabled={creating}>
-                {t('files.dialogs.createFolder.actions.create', { defaultValue: 'Create' })}
-              </Button>
-            </DialogClose>
+            <Button type="submit" disabled={creating}>
+              {t('files.dialogs.createFolder.actions.create', { defaultValue: 'Create' })}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>
