@@ -5,8 +5,6 @@ import type { GridChildComponentProps } from 'react-window';
 import { FixedSizeGrid } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
 
-import { Spinner } from '@/ui/spinner';
-
 export type ItemRendererProps<T> = GridChildComponentProps<T>;
 
 interface Props<T> {
@@ -14,7 +12,6 @@ interface Props<T> {
   columnCount: number;
   innerRef?: React.Ref<FixedSizeGrid>;
   itemData: T;
-  loading?: boolean;
   overscanRowCount?: number;
   rowCount: number;
   rowHeightOffset: number;
@@ -22,22 +19,17 @@ interface Props<T> {
   loadMore?: () => void;
 }
 
-export default function VGrid<T>({
+export function VGrid<T>({
   className,
   columnCount,
   innerRef,
   itemData,
-  loading = false,
   overscanRowCount,
   rowCount,
   rowHeightOffset = 0,
   itemRenderer: View,
   loadMore,
 }: Props<T>) {
-  if (loading) {
-    return <Spinner className="h-full w-full" />;
-  }
-
   return (
     <AutoSizer>
       {({ height, width }) => (
