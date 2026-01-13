@@ -74,7 +74,7 @@ function FileTableCell({ className, even, item, selected, hasSelection }) {
   return (
     <div
       onClick={onCellClick}
-      className={`show-on-hover-trigger ${className} ${background} mx-4 flex h-full flex-row items-center rounded-xl border px-5 text-sm`}
+      className={`show-on-hover-trigger group ${className} ${background} mx-4 flex h-full flex-row items-center rounded-xl border px-5 text-sm`}
     >
       <div className={`flex w-full ${primaryText} ${!hasSelection ? 'md:w-3/5 lg:w-2/3' : ''}`}>
         <div className="flex w-full min-w-0 items-center space-x-3">
@@ -101,11 +101,7 @@ function FileTableCell({ className, even, item, selected, hasSelection }) {
         <div className="ml-2 flex items-center space-x-4">
           <BookmarkButton
             fileId={item.id}
-            className={
-              selected
-                ? 'hover:bg-orange-100 dark:hover:bg-orange-800/30'
-                : 'hover:bg-orange-50 dark:hover:bg-orange-700/30'
-            }
+            className="invisible group-hover:visible data-[state=on]:visible"
           />
           <div className={`flex items-center ${secondaryText} hover:${primaryText}`}>
             <FileTableCellActions item={item} />

@@ -23,11 +23,7 @@ function Info({ className, fileId, selectById }) {
           </p>
         </div>
         <div>
-          <BookmarkButton
-            fileId={file.id}
-            className="hover:bg-orange-50 dark:hover:bg-orange-700/30"
-            size="lg"
-          />
+          <BookmarkButton fileId={file.id} />
         </div>
       </div>
 
