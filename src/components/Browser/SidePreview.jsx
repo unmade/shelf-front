@@ -74,11 +74,7 @@ function SingleFilePreview({ fileId }) {
             <TimeAgo value={file.modified_at} />
           </p>
         </div>
-        <BookmarkButton
-          fileId={file.id}
-          className="hover:bg-orange-50 dark:hover:bg-orange-700/30"
-          size="lg"
-        />
+        <BookmarkButton fileId={file.id} />
       </div>
 
       <div className="flex items-center justify-between py-2 pr-0.5 pl-2">
