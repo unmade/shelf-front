@@ -9,8 +9,7 @@ import type { RootState } from 'store/store';
 import type { IMediaItem } from 'types/photos';
 
 import { Spinner } from '@/ui/spinner';
-
-import VGrid from 'components/ui-legacy/VGrid';
+import { VGrid } from '@/ui/vgrid';
 
 import SelectionProvider from 'components/SelectionProvider';
 
