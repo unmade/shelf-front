@@ -34,7 +34,7 @@ export default function UploaderDropdown({ allowedMediaTypes = undefined, upload
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button onClick={() => setOpen(!open)} ref={buttonRef}>
+        <Button size="icon" onClick={() => setOpen(!open)} ref={buttonRef}>
           <icons.CloudUpload />
         </Button>
       </PopoverTrigger>

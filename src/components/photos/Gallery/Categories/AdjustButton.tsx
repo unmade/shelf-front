@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import Button from 'components/ui-legacy/Button';
+import { Button } from '@/ui/button';
 
 import { useAdjustCategoriesDialogContext } from '../AdjustCategoriesDialogProvider';
 
@@ -21,22 +21,21 @@ export default function AdjustButton({ fileId }: Props) {
     <>
       <Button
         className="md:hidden"
-        size="xs"
-        variant="text"
+        variant="ghost"
         onClick={() => {
           openDialog(fileId);
         }}
       >
-        <span className="font-medium text-blue-500 dark:text-indigo-500">{adjustButtonText}</span>
+        {adjustButtonText}
       </Button>
       <Button
-        className="hidden md:block"
-        variant="text"
+        className="hidden md:flex"
+        variant="ghost"
         onClick={() => {
           openDialog(fileId);
         }}
       >
-        <span className="font-medium text-blue-500 dark:text-indigo-500">{adjustButtonText}</span>
+        {adjustButtonText}
       </Button>
     </>
   );

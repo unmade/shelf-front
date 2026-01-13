@@ -1,11 +1,11 @@
-import type { IMediaItem } from 'types/photos';
+import type { IMediaItem } from '@/types/photos';
 
-import * as icons from 'icons';
-import { useAppDispatch } from 'hooks';
+import { downloadMediaItemsBatch } from '@/store/mediaItems';
 
-import { downloadMediaItemsBatch } from 'store/mediaItems';
+import * as icons from '@/icons';
+import { useAppDispatch } from '@/hooks';
 
-import Button from 'components/ui-legacy/Button';
+import { Button } from '@/ui/button';
 
 interface Props {
   className: string;
@@ -19,10 +19,11 @@ export default function DownloadButton({ className = '', mediaItem }: Props) {
     <Button
       className={className}
       title="Download"
-      variant="text"
-      size="base"
-      icon={<icons.Download className="h-5 w-5" />}
+      variant="ghost"
+      size="icon"
       onClick={() => dispatch(downloadMediaItemsBatch([mediaItem.fileId]))}
-    />
+    >
+      <icons.Download />
+    </Button>
   );
 }

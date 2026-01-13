@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next';
 
-import * as icons from 'icons';
+import * as icons from '@/icons';
 
-import Button from 'components/ui-legacy/Button';
+import { Button } from '@/ui/button';
 
-import { useEmptyMediaItemsTrashDialog } from 'components/photos/EmptyMediaItemsTrashDialogProvider';
+import { useEmptyMediaItemsTrashDialog } from '@/components/photos/EmptyMediaItemsTrashDialogProvider';
 
 export default function EmptyTrashDialogButton() {
   const { t } = useTranslation('photos');
@@ -13,12 +13,12 @@ export default function EmptyTrashDialogButton() {
 
   return (
     <Button
-      variant="primary"
-      color="danger"
+      variant="destructive"
+      size="icon"
       title={t('photos:actions.emptyTrash', { defaultValue: 'Empty Trash' })}
-      size="base"
       onClick={openDialog}
-      icon={<icons.TrashOutlined className="h-5 w-5 shrink-0" />}
-    />
+    >
+      <icons.TrashOutlined className="h-5 w-5 shrink-0" />
+    </Button>
   );
 }

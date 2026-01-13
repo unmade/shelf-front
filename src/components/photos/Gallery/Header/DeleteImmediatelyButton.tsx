@@ -1,8 +1,8 @@
-import type { IMediaItem } from 'types/photos';
+import type { IMediaItem } from '@/types/photos';
 
-import Button from 'components/ui-legacy/Button';
+import { Button } from '@/ui/button';
 
-import { useDeleteMediaItemsImmediatelyDialog } from 'components/photos/DeleteMediaItemsImmediatelyDialogProvider';
+import { useDeleteMediaItemsImmediatelyDialog } from '@/components/photos/DeleteMediaItemsImmediatelyDialogProvider';
 
 interface Props {
   className?: string;
@@ -16,14 +16,12 @@ export default function DeleteImmediatelyButton({ className = '', mediaItem }: P
     <Button
       className={className}
       title="Delete immediately"
-      variant="text"
-      size="sm"
-      color="danger"
+      variant="destructive"
       onClick={() => {
         openDialog([mediaItem]);
       }}
     >
-      <span className="font-medium">Delete</span>
+      Delete
     </Button>
   );
 }

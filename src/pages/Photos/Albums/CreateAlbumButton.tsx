@@ -1,20 +1,20 @@
-import * as icons from 'icons';
+import * as icons from '@/icons';
 
-import Button from 'components/ui-legacy/Button';
+import { Button } from '@/ui/button';
 
-import { useCreateAlbumDialog } from 'components/photos/CreateAlbumDialogProvider';
+import { useCreateAlbumDialog } from '@/components/photos/CreateAlbumDialogProvider';
 
 export default function CreateAlbumButton() {
   const { openDialog } = useCreateAlbumDialog();
 
   return (
     <Button
-      variant="primary"
-      size="lg"
-      icon={<icons.Plus className="h-5 w-5 shrink-0" />}
+      size="icon"
       onClick={() => {
         openDialog();
       }}
-    />
+    >
+      <icons.Plus />
+    </Button>
   );
 }

@@ -1,20 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import * as icons from '../../icons';
+import * as icons from '@/icons';
 
-import Button from '../ui-legacy/Button';
+import { Button } from '@/ui/button';
 
 function Header({ idx, total, name, onGoBack, onNext, onPrev, onInfo }) {
   return (
     <div className="flex flex-row items-center justify-between px-4 py-3">
       <div className="flex flex-row sm:w-48">
-        <Button
-          variant="text"
-          size="base"
-          icon={<icons.ChevronLeftOutlined className="h-5 w-5" />}
-          onClick={onGoBack}
-        />
+        <Button variant="ghost" size="icon" onClick={onGoBack}>
+          <icons.ChevronLeftOutlined />
+        </Button>
       </div>
 
       <div className="w-full min-w-0 px-4 sm:px-8">
@@ -22,12 +19,9 @@ function Header({ idx, total, name, onGoBack, onNext, onPrev, onInfo }) {
       </div>
 
       <div className="flex min-w-max flex-row items-center justify-end space-x-2 text-gray-800 sm:w-48 dark:text-zinc-200">
-        <Button
-          variant="text"
-          size="base"
-          icon={<icons.ArrowNarrowLeftOutlined className="h-5 w-5" />}
-          onClick={onPrev}
-        />
+        <Button variant="ghost" size="icon" onClick={onPrev}>
+          <icons.ArrowNarrowLeftOutlined />
+        </Button>
 
         <div className="text-sm text-gray-700 dark:text-zinc-200">
           <span>{idx + 1}</span>
@@ -35,20 +29,13 @@ function Header({ idx, total, name, onGoBack, onNext, onPrev, onInfo }) {
           <span>{total}</span>
         </div>
 
-        <Button
-          variant="text"
-          size="base"
-          icon={<icons.ArrowNarrowRightOutlined className="h-5 w-5" />}
-          onClick={onNext}
-        />
+        <Button variant="ghost" size="icon" onClick={onNext}>
+          <icons.ArrowNarrowRightOutlined />
+        </Button>
 
-        <Button
-          className="hidden sm:block"
-          variant="text"
-          size="base"
-          icon={<icons.InformationCircleOutlined className="h-5 w-5" />}
-          onClick={onInfo}
-        />
+        <Button variant="ghost" size="icon" className="hidden sm:flex" onClick={onInfo}>
+          <icons.InformationCircleOutlined />
+        </Button>
       </div>
     </div>
   );

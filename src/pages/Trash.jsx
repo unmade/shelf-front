@@ -3,10 +3,11 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
+import { Button } from '@/ui/button';
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/ui/empty';
 import { Heading } from '@/ui/heading';
 
-import { Page, PageHeader, PageHeaderActions, PageHeaderTitle } from 'apps/files/components/page';
+import { Page, PageHeader, PageHeaderActions, PageHeaderTitle } from '@/apps/files/components/page';
 
 import useDirPath from '../hooks/dir-path';
 import { useIsLaptop } from '../hooks/media-query';
@@ -15,8 +16,6 @@ import useResolvedPreviewSearchParam from '../hooks/resolved-preview-search-para
 import { TRASH_FOLDER_NAME } from '../constants';
 import * as icons from '../icons';
 import * as routes from '../routes';
-
-import Button from '../components/ui-legacy/Button';
 
 import BreadcrumbDropdown from '../components/BreadcrumbDropdown';
 import EmptyTrashDialogProvider, {
@@ -36,13 +35,13 @@ function EmptyTrashDialogButton() {
 
   return (
     <Button
-      variant="primary"
-      color="danger"
+      variant="destructive"
+      size="icon"
       title={t('Empty Trash')}
-      size="base"
       onClick={openEmptyTrashDialog}
-      icon={<icons.TrashOutlined className="h-5 w-5 shrink-0" />}
-    />
+    >
+      <icons.TrashOutlined />
+    </Button>
   );
 }
 
