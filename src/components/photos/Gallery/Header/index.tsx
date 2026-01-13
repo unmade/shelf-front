@@ -2,9 +2,8 @@ import type { IMediaItem } from 'types/photos';
 
 import * as icons from 'icons';
 
+import { Button } from '@/ui/button';
 import { TimeAgo } from '@/ui/timeago';
-
-import Button from 'components/ui-legacy/Button';
 
 import DeleteButton from './DeleteButton';
 import DownloadButton from './DownloadButton';
@@ -26,17 +25,14 @@ export default function Header({ idx, mediaItem, itemsCount, onGoBack, onInfo }:
   return (
     <div className="flex flex-row items-center justify-between px-4 py-3">
       <div className="flex flex-row sm:w-48">
-        <Button
-          variant="text"
-          size="base"
-          icon={<icons.ChevronLeftOutlined className="h-5 w-5" />}
-          onClick={onGoBack}
-        />
+        <Button variant="ghost" size="icon" onClick={onGoBack}>
+          <icons.ChevronLeftOutlined />
+        </Button>
       </div>
 
       <div className="w-full min-w-0 px-4 text-center sm:px-8">
         <div className="truncate text-sm font-medium">
-          <TimeAgo className="hidden sm:block" value={mediaItem.modifiedAt} format="LLLL" />
+          <TimeAgo className="max-sm:hidden" value={mediaItem.modifiedAt} format="LLLL" />
           <TimeAgo className="sm:hidden" value={mediaItem.modifiedAt} format="LLL" />
         </div>
         <p className="text-xs dark:text-zinc-400">
@@ -52,17 +48,13 @@ export default function Header({ idx, mediaItem, itemsCount, onGoBack, onInfo }:
           </>
         ) : (
           <>
-            <ShareLinkButton className="hidden sm:block" mediaItem={mediaItem} />
+            <ShareLinkButton className="max-sm:hidden" mediaItem={mediaItem} />
             <FavouriteButton mediaItem={mediaItem} />
-            <DownloadButton className="hidden sm:block" mediaItem={mediaItem} />
-            <DeleteButton className="hidden sm:block" mediaItem={mediaItem} />
-            <Button
-              className="hidden sm:block"
-              variant="text"
-              size="base"
-              icon={<icons.InformationCircleOutlined className="h-5 w-5" />}
-              onClick={onInfo}
-            />
+            <DownloadButton className="max-sm:hidden" mediaItem={mediaItem} />
+            <DeleteButton className="max-sm:hidden" mediaItem={mediaItem} />
+            <Button className="max-sm:hidden" variant="ghost" size="icon" onClick={onInfo}>
+              <icons.InformationCircleOutlined />
+            </Button>
             <MoreButton className="sm:hidden" mediaItem={mediaItem} />
           </>
         )}

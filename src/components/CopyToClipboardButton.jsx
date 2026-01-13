@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import * as icons from '../icons';
-import { Children } from '../types';
+import { Children } from '@/types';
 
-import Button from './ui-legacy/Button';
+import * as icons from '@/icons';
+
+import { Button } from '@/ui/button';
 
 const PENDING = 'pending';
 const COPIED = 'copied';
@@ -48,11 +49,16 @@ function CopyToClipboardButton({ children, className, disabled, title, value }) 
     <Button
       title={title}
       className={`${className} ${borders} bg-gray-100 dark:bg-zinc-900`}
-      variant="text"
+      variant="ghost"
       icon={icon}
       onClick={onClick}
       disabled={disabled || navigator.clipboard == null}
     >
+      {state === COPIED ? (
+        <icons.Check className="text-teal-400 dark:text-teal-500" />
+      ) : (
+        <icons.Duplicate className="text-gray-400 dark:text-zinc-500" />
+      )}
       {children}
     </Button>
   );

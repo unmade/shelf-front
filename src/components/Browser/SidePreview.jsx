@@ -3,14 +3,13 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
+import { Button } from '@/ui/button';
 import { FileSize } from '@/ui/filesize';
 import { TimeAgo } from '@/ui/timeago';
 
 import { filesSelectionChanged, selectAllSelectedFileIds } from '../../store/browser';
 
 import { MediaType, ThumbnailSize } from '../../constants';
-
-import Button from '../ui-legacy/Button';
 
 import BookmarkButton from '../BookmarkButton';
 import FileLink from '../FileLink';
@@ -68,7 +67,7 @@ function SingleFilePreview({ fileId }) {
 
       <div className="flex items-center justify-between py-2 pl-2">
         <div className="min-w-0 text-gray-800 dark:text-zinc-200">
-          <p className={`${fontSize} font-semibold break-words`}>{file.name}</p>
+          <p className={`${fontSize} font-semibold wrap-break-word`}>{file.name}</p>
           <p className="text-xs text-gray-600 dark:text-zinc-400">
             <FileSize bytes={file.size} />
             <span className="px-1">&bull;</span>
@@ -84,7 +83,7 @@ function SingleFilePreview({ fileId }) {
 
       <div className="flex items-center justify-between py-2 pr-0.5 pl-2">
         <div>
-          <Button variant="primary">
+          <Button size="sm">
             <FileLink path={file.path} preview={file.mediatype !== MediaType.FOLDER}>
               {t('Open')}
             </FileLink>
@@ -156,7 +155,7 @@ function MultiFilePreview({ fileIds }) {
       </div>
 
       <div className="p-2 text-gray-800 dark:text-zinc-200">
-        <p className="text-lg font-semibold break-words">
+        <p className="text-lg font-semibold wrap-break-word">
           {t('items_count', { count: files.length })}
         </p>
         <p className="text-xs text-gray-600 dark:text-zinc-400">
@@ -175,7 +174,7 @@ function MultiFilePreview({ fileIds }) {
 
       <div className="flex items-center justify-between py-2 pr-1 pl-2">
         <div>
-          <Button variant="primary">{t('Download')}</Button>
+          <Button>{t('Download')}</Button>
         </div>
         <div className="flex flex-row justify-center space-x-4">
           <SidePreviewActions files={files} />

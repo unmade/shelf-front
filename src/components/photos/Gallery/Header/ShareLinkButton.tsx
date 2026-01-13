@@ -1,12 +1,12 @@
-import type { IMediaItem } from 'types/photos';
+import type { IMediaItem } from '@/types/photos';
 
-import * as icons from 'icons';
+import * as icons from '@/icons';
 
-import Button from 'components/ui-legacy/Button';
+import { Button } from '@/ui/button';
 
-import { useCopyLinkDialog } from 'components/CopyLinkDialogProvider';
+import { useCopyLinkDialog } from '@/components/CopyLinkDialogProvider';
 
-import useFileFromMediaItem from 'components/photos/hooks/file-from-media-item';
+import useFileFromMediaItem from '@/components/photos/hooks/file-from-media-item';
 
 interface Props {
   className?: string;
@@ -21,12 +21,13 @@ export default function ShareLinkButton({ className = '', mediaItem }: Props) {
     <Button
       className={className}
       title="Move to Trash"
-      variant="text"
-      size="base"
-      icon={<icons.LinkOutlined className="h-5 w-5" />}
+      variant="ghost"
+      size="icon"
       onClick={() => {
         openDialog(file);
       }}
-    />
+    >
+      <icons.LinkOutlined />
+    </Button>
   );
 }

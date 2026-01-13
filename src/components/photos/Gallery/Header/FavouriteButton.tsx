@@ -1,8 +1,8 @@
-import type { IMediaItem } from 'types/photos';
+import type { IMediaItem } from '@/types/photos';
 
-import { useFavouriteAction } from 'components/photos/hooks/media-item-actions';
+import { Button } from '@/ui/button';
 
-import Button from 'components/ui-legacy/Button';
+import { useFavouriteAction } from '@/components/photos/hooks/media-item-actions';
 
 interface Props {
   className?: string;
@@ -13,13 +13,8 @@ export default function FavouriteButton({ className = '', mediaItem }: Props) {
   const { name, Icon, onClick } = useFavouriteAction([mediaItem]);
 
   return (
-    <Button
-      className={className}
-      title={name}
-      variant="text"
-      size="base"
-      icon={<Icon className="h-5 w-5 shrink-0" />}
-      onClick={onClick}
-    />
+    <Button className={className} title={name} variant="ghost" size="icon" onClick={onClick}>
+      <Icon />
+    </Button>
   );
 }

@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
+import { Button } from '@/ui/button';
+
 import { selectGetCurrentAccountResult } from '../../../store/accounts';
 import { selectSharedFileById } from '../../../store/sharing';
 
 import { MediaType } from '../../../constants';
 import * as icons from '../../../icons';
 import * as routes from '../../../routes';
-
-import Button from '../../../components/ui-legacy/Button';
 
 import FileLink from '../../../components/FileLink';
 import { useFileMembersDialog } from '../../../components/FileMembersDialogProvider';
@@ -44,12 +44,14 @@ function SharedFileListItem({ fileId }) {
         </div>
         <div className="flex items-center">
           <Button
-            variant="text"
-            icon={<icons.MoreOutlined className="h-4 w-4" />}
+            variant="ghost"
+            size="icon"
             onClick={() => {
               openFileMembersDialog(fileId);
             }}
-          />
+          >
+            <icons.MoreOutlined />
+          </Button>
         </div>
       </div>
 

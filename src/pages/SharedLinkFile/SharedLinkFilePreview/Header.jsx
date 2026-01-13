@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 
+import { Button } from '@/ui/button';
+
 import * as icons from '../../../icons';
 import * as routes from '../../../routes';
-
-import Button from '../../../components/ui-legacy/Button';
 
 function Header({ name, onInfo }) {
   const { t } = useTranslation();
@@ -25,22 +25,14 @@ function Header({ name, onInfo }) {
 
       <div className="flex min-w-max flex-row items-center justify-end text-gray-800 sm:w-48 dark:text-zinc-200">
         <Link to={routes.SIGNIN.prefix} className="hidden sm:inline-block">
-          <Button type="text">
-            <span className="font-medium">{t('Sign In')}</span>
-          </Button>
+          <Button type="ghost">{t('Sign In')}</Button>
         </Link>
         <Link to={routes.SIGNUP.prefix} className="ml-4">
-          <Button as="div" variant="primary">
-            {t('Sign Up')}
-          </Button>
+          <Button asChild>{t('Sign Up')}</Button>
         </Link>
-        <Button
-          className="ml-8 hidden sm:block"
-          variant="text"
-          size="base"
-          icon={<icons.InformationCircleOutlined className="h-5 w-5" />}
-          onClick={onInfo}
-        />
+        <Button className="ml-8 max-sm:hidden" variant="ghost" size="icon" onClick={onInfo}>
+          <icons.InformationCircleOutlined />
+        </Button>
       </div>
     </div>
   );

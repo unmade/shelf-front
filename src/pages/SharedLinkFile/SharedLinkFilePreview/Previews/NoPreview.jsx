@@ -4,16 +4,17 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
+import { SharedLinkFileShape } from '@/types';
+
 import { downloadSharedLinkFile } from '@/store/sharedLinks';
 
+import * as icons from '@/icons';
+
+import { Button } from '@/ui/button';
 import { FileSize } from '@/ui/filesize';
 import { TimeAgo } from '@/ui/timeago';
 
-import * as icons from '../../../../icons';
-import { SharedLinkFileShape } from '../../../../types';
-
-import Button from '../../../../components/ui-legacy/Button';
-import FileIcon from '../../../../components/FileIcon';
+import FileIcon from '@/components/FileIcon';
 
 function NoPreview({ file, reason, token }) {
   const { t } = useTranslation(['translation', 'filePreview']);
@@ -46,12 +47,8 @@ function NoPreview({ file, reason, token }) {
         <p className="mb-4 text-xl font-medium text-gray-700 dark:text-zinc-200">
           {reason || t('filePreview:previewNotAvailable')}
         </p>
-        <Button
-          variant="primary"
-          size="base"
-          icon={<icons.Download className="h-5 w-5" />}
-          onClick={onDownload}
-        >
+        <Button onClick={onDownload}>
+          <icons.Download />
           {t('Download')}
         </Button>
       </div>

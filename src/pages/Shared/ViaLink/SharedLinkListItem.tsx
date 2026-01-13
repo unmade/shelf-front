@@ -9,9 +9,8 @@ import { MediaType } from '@/constants';
 import * as icons from '@/icons';
 import * as routes from '@/routes';
 
+import { Button } from '@/ui/button';
 import { TimeAgo } from '@/ui/timeago';
-
-import Button from '@/components/ui-legacy/Button';
 
 import FileLink from '@/components/FileLink';
 import { useCopyLinkDialog } from '@/components/CopyLinkDialogProvider';
@@ -62,11 +61,9 @@ export default function SharedLinkListItem({ fileId }: Props) {
             </CopyToClipboardButton>
           </div>
           <div className="flex items-center">
-            <Button
-              variant="text"
-              icon={<icons.MoreOutlined className="h-4 w-4" />}
-              onClick={() => openCopyLinkDialog(item)}
-            />
+            <Button variant="ghost" size="icon" onClick={() => openCopyLinkDialog(item)}>
+              <icons.MoreOutlined />
+            </Button>
           </div>
         </div>
       </div>

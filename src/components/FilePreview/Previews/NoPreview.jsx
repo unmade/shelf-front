@@ -4,14 +4,13 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
+import { download } from '@/store/files';
+
+import * as icons from '@/icons';
+
+import { Button } from '@/ui/button';
 import { FileSize } from '@/ui/filesize';
 import { TimeAgo } from '@/ui/timeago';
-
-import { download } from '../../../store/files';
-
-import * as icons from '../../../icons';
-
-import Button from '../../ui-legacy/Button';
 
 import FileIcon from '../../FileIcon';
 
@@ -46,12 +45,8 @@ function NoPreview({ file, reason }) {
         <p className="mb-4 text-xl font-medium text-gray-700 dark:text-zinc-200">
           {reason || t('filePreview:previewNotAvailable')}
         </p>
-        <Button
-          variant="primary"
-          size="base"
-          icon={<icons.Download className="h-5 w-5" />}
-          onClick={onDownload}
-        >
+        <Button onClick={onDownload}>
+          <icons.Download />
           {t('Download')}
         </Button>
       </div>

@@ -13,7 +13,7 @@ import {
 
 import { FileShape } from 'types';
 
-import Button from '../ui-legacy/Button';
+import { Button } from '@/ui/button';
 
 function useTrashedFileActions(files) {
   const moveAction = useMoveAction(files);
@@ -39,13 +39,13 @@ function FileMenu({ menu }) {
       {menu.map((item) => (
         <Button
           key={item.name}
-          variant="text"
-          color={item.danger ? 'danger' : 'primary'}
-          size="lg"
-          icon={item.icon}
+          variant="ghost"
+          size="icon"
           title={item.name}
           onClick={item.onClick}
-        />
+        >
+          {item.icon}
+        </Button>
       ))}
     </>
   );
@@ -62,6 +62,9 @@ function FileActions({ files }) {
 }
 
 function SidePreviewActions({ files }) {
+  if (files.length === 0) {
+    return null;
+  }
   const trashedFiles = files.filter((file) => routes.isTrashed(file.path));
   if (trashedFiles.length) {
     return <TrashedFileActions files={files} />;

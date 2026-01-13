@@ -4,13 +4,12 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
+import { SharedLinkFileShape } from '@/types';
+
 import { downloadSharedLinkFile } from '@/store/sharedLinks';
 
+import { Button } from '@/ui/button';
 import { TimeAgo } from '@/ui/timeago';
-
-import { SharedLinkFileShape } from '../../../types';
-
-import Button from '../../../components/ui-legacy/Button';
 
 import FileTabs from './FileTabs';
 
@@ -23,11 +22,7 @@ function DownloadButton({ filename, token }) {
     dispatch(downloadSharedLinkFile({ token, filename }));
   };
 
-  return (
-    <Button variant="default" onClick={onClick}>
-      {t('Download')}
-    </Button>
-  );
+  return <Button onClick={onClick}>{t('Download')}</Button>;
 }
 
 DownloadButton.propTypes = {
