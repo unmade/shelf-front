@@ -1,9 +1,9 @@
-import { useAppSelector } from 'hooks';
+import type { UploadsFilter } from '@/store/uploads/slice';
+import { selectVisibleUploads } from '@/store/uploads/slice';
 
-import type { UploadsFilter } from 'store/uploads/slice';
-import { selectVisibleUploads } from 'store/uploads/slice';
+import { useAppSelector } from '@/hooks';
 
-import VList from 'components/ui-legacy/VList';
+import { VList } from '@/ui/vlist';
 
 import UploadListItem from './UploadListItem';
 
@@ -15,5 +15,5 @@ export default function UploadList({ visibilityFilter }: Props) {
   const uploads = useAppSelector((state) =>
     selectVisibleUploads(state, { filter: visibilityFilter }),
   );
-  return <VList itemCount={uploads.length} itemData={uploads} itemRender={UploadListItem} />;
+  return <VList itemCount={uploads.length} itemData={uploads} itemRenderer={UploadListItem} />;
 }

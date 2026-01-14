@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useListFolderQuery } from '@/store/files';
+
 import { Spinner } from '@/ui/spinner';
-
-import { useListFolderQuery } from '../../store/files';
-
-import VList from '../ui-legacy/VList';
+import { VList } from '@/ui/vlist';
 
 import FolderPickerItem from './FolderPickerItem';
 
@@ -41,8 +40,7 @@ function FolderPickerList({ className, emptyView, path, excludeIds, onItemClick 
       className={className}
       itemCount={items?.length ?? 0}
       itemData={data}
-      loading={loading}
-      itemRender={FolderPickerItem}
+      itemRenderer={FolderPickerItem}
     />
   );
 }
