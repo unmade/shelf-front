@@ -1,15 +1,22 @@
-import React from 'react';
+import { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import * as Collapsible from '@radix-ui/react-collapsible';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
+import * as Collapsible from '@radix-ui/react-collapsible';
+
+import {
+  fileBrowserScrollOffsetChanged,
+  filesSelectionChanged,
+  selectAllSelectedFileIds,
+  selectScrollOffset,
+} from '@/store/browser';
+
+import { useAppSelector, useAppDispatch } from '@/hooks';
+
 import { Checkbox } from '@/ui/checkbox';
-
-import { filesSelectionChanged, selectAllSelectedFileIds } from '../store/browser';
-
-import FileTableList from '../containers/FileTableList';
+import { VList } from '@/ui/vlist';
 
 function TableHeader({ items }) {
   const { t } = useTranslation();
@@ -47,20 +54,44 @@ function TableHeader({ items }) {
   );
 }
 
-function FileTableView({ className, items, loading, scrollKey, itemRender }) {
+function TableContent({ className, items, scrollKey, itemRenderer }) {
+  const dispatch = useAppDispatch();
+
+  const initialScrollOffset = useAppSelector((state) => selectScrollOffset(state, scrollKey));
+
+  const handleScrollOffsetChange = useCallback(
+    (offset) => {
+      dispatch(fileBrowserScrollOffsetChanged({ scrollKey, offset }));
+    },
+    [dispatch, scrollKey],
+  );
+
   const fileDropBorder = 'transition ease-in-out duration-75 rounded-lg';
+
+  return (
+    <VList
+      className={`${fileDropBorder} ${className}`}
+      initialScrollOffset={initialScrollOffset}
+      itemCount={items.length}
+      itemData={items}
+      itemRenderer={itemRenderer}
+      itemHeight={72}
+      scrollKey={scrollKey}
+      onScrollOffsetChange={handleScrollOffsetChange}
+    />
+  );
+}
+
+function FileTableView({ className, items, scrollKey, itemRenderer }) {
   return (
     <div className="flex h-full flex-col">
       <TableHeader items={items} />
       <div className="h-full">
-        <FileTableList
-          itemCount={items.length}
-          itemData={items}
-          itemRender={itemRender}
-          itemHeight={72}
-          className={`${fileDropBorder} ${className}`}
+        <TableContent
+          className={className}
+          items={items}
+          itemRenderer={itemRenderer}
           scrollKey={scrollKey}
-          loading={loading}
         />
       </div>
     </div>
@@ -70,9 +101,8 @@ function FileTableView({ className, items, loading, scrollKey, itemRender }) {
 FileTableView.propTypes = {
   className: PropTypes.string,
   items: PropTypes.arrayOf(PropTypes.string).isRequired,
-  loading: PropTypes.bool,
   scrollKey: PropTypes.string.isRequired,
-  itemRender: PropTypes.elementType.isRequired,
+  itemRenderer: PropTypes.elementType.isRequired,
 };
 
 FileTableView.defaultProps = {

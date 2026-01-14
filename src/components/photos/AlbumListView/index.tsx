@@ -4,7 +4,8 @@ import type { IAlbum } from 'types/photos';
 
 import type { RootState } from 'store/store';
 
-import VList from 'components/ui-legacy/VList';
+import { Spinner } from '@/ui/spinner';
+import { VList } from '@/ui/vlist';
 
 import AlbumListItem from 'components/photos/AlbumListItem';
 
@@ -38,14 +39,17 @@ export default function AlbumListView({
     [ids, onItemClick, selectById],
   );
 
+  if (loading) {
+    return <Spinner className="flex-1" />;
+  }
+
   return (
     <div className={className}>
       <VList
         itemData={data}
         itemCount={ids?.length ?? 0}
-        itemRender={AlbumListItem}
+        itemRenderer={AlbumListItem}
         itemHeight={84}
-        loading={loading}
       />
     </div>
   );

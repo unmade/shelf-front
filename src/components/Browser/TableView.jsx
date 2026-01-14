@@ -5,6 +5,8 @@ import { useLocation } from 'react-router';
 
 import useSidePreview from '@/hooks/preview-available';
 
+import { Spinner } from '@/ui/spinner';
+
 import FileTableCell from '../FileTableCell';
 import FileTableView from '../FileTableView';
 
@@ -16,17 +18,12 @@ function FileTableViewContainer() {
 
   const { ids, loading } = useBrowserData();
 
-  return (
-    <FileTableView
-      items={ids ?? []}
-      loading={loading}
-      scrollKey={pathname}
-      itemRender={FileTableCell}
-    />
-  );
-}
+  if (loading) {
+    return <Spinner />;
+  }
 
-FileTableViewContainer.propTypes = {};
+  return <FileTableView items={ids ?? []} scrollKey={pathname} itemRenderer={FileTableCell} />;
+}
 
 function TableView() {
   const withSidePreview = useSidePreview();
@@ -49,7 +46,5 @@ function TableView() {
     </div>
   );
 }
-
-TableView.propTypes = {};
 
 export default TableView;
