@@ -14,6 +14,7 @@ export { FileBrowserPreview } from './FileBrowserPreview';
 export { FileBrowserRow } from './FileBrowserRow';
 export { FileBrowserRowActions } from './FileBrowserRowActions';
 export { FileBrowserSkeleton } from './FileBrowserSkeleton';
+export { FileBrowserStatusBar } from './FileBrowserStatusBar';
 export { FileBrowserTableView } from './FileBrowserTableView';
 export { useFileActions } from './hooks';
 export { PreviewProvider, usePreviewContext } from './PreviewContext';
