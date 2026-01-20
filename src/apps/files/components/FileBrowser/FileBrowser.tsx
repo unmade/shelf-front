@@ -6,6 +6,7 @@ import { MediaType } from '@/constants';
 import { useListFolderQuery } from '@/store/files';
 
 import { FileBrowserProvider, type SortOption, useFileBrowserContext } from './context';
+import { FileGallery } from './FileGallery';
 import { FileBrowserEmpty } from './FileBrowserEmpty';
 import { FileBrowserGridView } from './FileBrowserGridView';
 import { FileBrowserHeader } from './FileBrowserHeader';
@@ -13,6 +14,7 @@ import { FileBrowserPreview } from './FileBrowserPreview';
 import { FileBrowserSkeleton } from './FileBrowserSkeleton';
 import { FileBrowserStatusBar } from './FileBrowserStatusBar';
 import { FileBrowserTableView } from './FileBrowserTableView';
+import { GalleryProvider } from './GalleryContext';
 import { PreviewProvider } from './PreviewContext';
 import { SelectionProvider } from './SelectionContext';
 
@@ -148,30 +150,35 @@ const FileBrowserContent = memo(function FileBrowserContent({
   }
 
   const itemCount = sortedData.ids.length;
+  const fileIds = sortedData.ids as string[];
 
   // Render based on view mode
   return (
-    <div className="flex h-full flex-col">
-      <FileBrowserHeader />
-      <div className="flex min-h-0 flex-1">
-        {/* Main content area */}
-        <div className="min-w-0 flex-1">
-          {viewMode === 'grid' ? (
-            <FileBrowserGridView data={sortedData} />
-          ) : (
-            <FileBrowserTableView
-              data={sortedData}
-              scrollKey={scrollKey}
-              onScrollOffsetChange={onScrollOffsetChange}
-              initialScrollOffset={initialScrollOffset}
-            />
-          )}
+    <GalleryProvider fileIds={fileIds}>
+      <div className="flex h-full flex-col">
+        <FileBrowserHeader />
+        <div className="flex min-h-0 flex-1">
+          {/* Main content area */}
+          <div className="min-w-0 flex-1">
+            {viewMode === 'grid' ? (
+              <FileBrowserGridView data={sortedData} />
+            ) : (
+              <FileBrowserTableView
+                data={sortedData}
+                scrollKey={scrollKey}
+                onScrollOffsetChange={onScrollOffsetChange}
+                initialScrollOffset={initialScrollOffset}
+              />
+            )}
+          </div>
+          {/* Preview panel */}
+          <FileBrowserPreview />
         </div>
-        {/* Preview panel */}
-        <FileBrowserPreview />
+        <FileBrowserStatusBar path={path} itemCount={itemCount} />
       </div>
-      <FileBrowserStatusBar path={path} itemCount={itemCount} />
-    </div>
+      {/* Gallery renders via portal to document.body */}
+      <FileGallery />
+    </GalleryProvider>
   );
 });
 

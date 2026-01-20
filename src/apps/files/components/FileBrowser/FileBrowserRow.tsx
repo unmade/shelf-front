@@ -11,7 +11,7 @@ import { FileSize } from '@/ui/filesize';
 import { TimeAgo } from '@/ui/timeago';
 
 import { FileBrowserRowActions } from './FileBrowserRowActions';
-import { usePreviewContext } from './PreviewContext';
+import { useGalleryContextSafe } from './GalleryContext';
 import { useSelectionContext } from './SelectionContext';
 
 interface FileData {
@@ -39,7 +39,7 @@ export const FileBrowserRow = memo(
   function FileBrowserRow({ file, index = 0, style }: FileBrowserRowProps) {
     const navigate = useNavigate();
     const { selectedIds, toggleSelection } = useSelectionContext();
-    const { openPreview } = usePreviewContext();
+    const galleryContext = useGalleryContextSafe();
 
     const isFolder = file.mediatype === MediaType.FOLDER;
     const selected = selectedIds.has(file.id);
@@ -60,8 +60,8 @@ export const FileBrowserRow = memo(
         const encodedPath = routes.encodePath(file.path);
         navigate(`${routes.FILES.prefix}/${encodedPath}`);
       } else {
-        // Open preview for files
-        openPreview(file.id);
+        // Open gallery for files (if gallery context is available)
+        galleryContext?.openGallery(file.id);
       }
     };
 
