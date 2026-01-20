@@ -11,6 +11,7 @@ import { FileBrowserGridView } from './FileBrowserGridView';
 import { FileBrowserHeader } from './FileBrowserHeader';
 import { FileBrowserPreview } from './FileBrowserPreview';
 import { FileBrowserSkeleton } from './FileBrowserSkeleton';
+import { FileBrowserStatusBar } from './FileBrowserStatusBar';
 import { FileBrowserTableView } from './FileBrowserTableView';
 import { PreviewProvider } from './PreviewContext';
 import { SelectionProvider } from './SelectionContext';
@@ -112,6 +113,7 @@ const FileBrowserContent = memo(function FileBrowserContent({
         <div className="flex-1">
           <FileBrowserSkeleton />
         </div>
+        <FileBrowserStatusBar path={path} itemCount={0} />
       </div>
     );
   }
@@ -127,6 +129,7 @@ const FileBrowserContent = memo(function FileBrowserContent({
             description="There was an error loading this folder. Please try again."
           />
         </div>
+        <FileBrowserStatusBar path={path} itemCount={0} />
       </div>
     );
   }
@@ -139,9 +142,12 @@ const FileBrowserContent = memo(function FileBrowserContent({
         <div className="flex-1">
           <FileBrowserEmpty />
         </div>
+        <FileBrowserStatusBar path={path} itemCount={0} />
       </div>
     );
   }
+
+  const itemCount = sortedData.ids.length;
 
   // Render based on view mode
   return (
@@ -164,6 +170,7 @@ const FileBrowserContent = memo(function FileBrowserContent({
         {/* Preview panel */}
         <FileBrowserPreview />
       </div>
+      <FileBrowserStatusBar path={path} itemCount={itemCount} />
     </div>
   );
 });
