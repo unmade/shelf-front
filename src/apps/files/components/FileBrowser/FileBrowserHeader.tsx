@@ -30,7 +30,6 @@ import {
   type SortOption,
   useFileBrowserContext,
 } from './context';
-import { Checkbox } from '@/ui/checkbox';
 
 interface SortOptionConfig {
   field: SortField;
@@ -148,12 +147,9 @@ export const FileBrowserHeader = memo(function FileBrowserHeader({
 }: FileBrowserHeaderProps) {
   return (
     <div
-      className={`flex items-center justify-between border-b border-gray-200 px-5 py-2 dark:border-zinc-700 ${className}`}
+      className={`flex items-center justify-between border-gray-200 px-8 py-2 dark:border-zinc-700 ${className}`}
     >
-      <div className="flex items-center gap-2">
-        <Checkbox />
-        <SortDropdown />
-      </div>
+      <SortDropdown />
       <ViewModeToggle />
     </div>
   );
