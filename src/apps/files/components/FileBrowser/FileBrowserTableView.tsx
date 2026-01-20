@@ -40,7 +40,7 @@ const RowRenderer = memo(
       return null;
     }
 
-    return <FileBrowserRow file={file} style={style} />;
+    return <FileBrowserRow file={file} index={index} style={style} />;
   },
   // Custom comparison: only re-render if the specific file at this index changes
   (prevProps, nextProps) => {
@@ -91,36 +91,32 @@ const FileBrowserTableHeader = memo(function FileBrowserTableHeader({
   };
 
   return (
-    <div
-      role="row"
-      className={`flex items-center border-b border-gray-200 bg-gray-50/50 px-5 py-2 dark:border-zinc-700 dark:bg-zinc-800/50 ${className}`}
-    >
+    <div role="row" className={`text-muted-foreground flex items-center px-8 py-2 ${className}`}>
       {/* Select all checkbox */}
-      <div role="columnheader" className="mr-3 flex shrink-0 items-center">
+      <div role="columnheader" className="mr-4 flex shrink-0 items-center">
         <Checkbox
           checked={isIndeterminate ? 'indeterminate' : isAllSelected}
           onCheckedChange={handleCheckedChange}
           aria-label={t('Select all files')}
         />
       </div>
-      <div
-        role="columnheader"
-        className="flex-1 text-xs font-medium tracking-wide text-gray-500 uppercase dark:text-zinc-400"
-      >
+      <div role="columnheader" className="flex-1 text-xs font-medium tracking-wide uppercase">
         {selectedCount > 0 ? t('{{count}} selected', { count: selectedCount }) : t('Name')}
       </div>
       <div
         role="columnheader"
-        className="hidden w-40 shrink-0 px-3 text-xs font-medium tracking-wide text-gray-500 uppercase md:block dark:text-zinc-400"
+        className="hidden w-30 shrink-0 px-3 text-xs font-medium tracking-wide uppercase md:block"
       >
         {t('Modified')}
       </div>
       <div
         role="columnheader"
-        className="hidden w-28 shrink-0 px-3 text-right text-xs font-medium tracking-wide text-gray-500 uppercase sm:block dark:text-zinc-400"
+        className="hidden w-28 shrink-0 px-3 text-right text-xs font-medium tracking-wide uppercase sm:block"
       >
         {t('Size')}
       </div>
+      {/* Spacer for actions column */}
+      <div className="ml-2 w-10 shrink-0" />
     </div>
   );
 });

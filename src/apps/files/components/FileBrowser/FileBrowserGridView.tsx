@@ -158,11 +158,11 @@ const GridItem = memo(
             <Thumbnail
               className="h-full w-full rounded-md object-cover"
               file={file}
-              size={ThumbnailSize.xs}
+              size={ThumbnailSize.lg}
             />
           ) : (
             <FileIcon
-              className="size-12"
+              className="size-8"
               hidden={file.hidden}
               mediatype={file.mediatype}
               shared={file.shared}
