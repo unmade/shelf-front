@@ -7,6 +7,7 @@ export {
   type SortOption,
   type ViewMode,
 } from './context';
+export { FileGallery } from './FileGallery';
 export { FileBrowserEmpty } from './FileBrowserEmpty';
 export { FileBrowserGridView } from './FileBrowserGridView';
 export { FileBrowserHeader } from './FileBrowserHeader';
@@ -16,6 +17,7 @@ export { FileBrowserRowActions } from './FileBrowserRowActions';
 export { FileBrowserSkeleton } from './FileBrowserSkeleton';
 export { FileBrowserStatusBar } from './FileBrowserStatusBar';
 export { FileBrowserTableView } from './FileBrowserTableView';
+export { GalleryProvider, useGalleryContext, useGalleryContextSafe } from './GalleryContext';
 export { useFileActions } from './hooks';
 export { PreviewProvider, usePreviewContext } from './PreviewContext';
 export { SelectionProvider, useSelectionContext } from './SelectionContext';
