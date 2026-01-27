@@ -34,6 +34,10 @@ export function getHumanSize(size: number) {
     readable = size;
   }
 
+  if (readable === 0) {
+    return '0 B';
+  }
+
   // Return formatted number with suffix
   return `${readable.toFixed(2)} ${suffix}`;
 }
