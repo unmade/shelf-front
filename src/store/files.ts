@@ -21,7 +21,7 @@ export function isNotADirectory(error: unknown): boolean {
   return isFetchBaseQueryErrorWithApiErrorCode(error, 'NOT_A_DIRECTORY');
 }
 
-interface FileSchema {
+export interface FileSchema {
   id: string;
   name: string;
   path: string;

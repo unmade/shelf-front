@@ -21,7 +21,7 @@ function stopPropagation(event: React.MouseEvent) {
 }
 
 interface Props {
-  className?: React.CSSProperties;
+  className?: string;
   fileId: string;
 }
 
