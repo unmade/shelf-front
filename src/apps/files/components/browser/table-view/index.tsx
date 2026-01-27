@@ -1,10 +1,12 @@
-import { memo, useMemo } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 
 import type { EntityState } from '@reduxjs/toolkit';
 
 import { type FileSchema } from '@/store/files';
 
 import { type ItemRendererProps, VList } from '@/ui/vlist';
+
+import { useSelectionContext } from '@/apps/files/components/selection-context';
 
 import { TableViewHeader } from './header';
 import { TableViewRow } from './row';
@@ -14,7 +16,7 @@ interface ItemData {
   entities: Record<string, FileSchema>;
 }
 
-const ROW_HEIGHT = 68;
+const ROW_HEIGHT = 72;
 
 const TableViewRowRenderer = memo(function TableViewRowRenderer({
   index,
@@ -50,15 +52,21 @@ export function TableView({
   onScrollOffsetChange,
   initialScrollOffset = 0,
 }: TableViewProps) {
+  const { selectAll } = useSelectionContext();
+
   const allIds = data.ids as string[];
   const itemCount = allIds.length;
 
   const itemData = useMemo<ItemData>(() => data, [data]);
 
+  const handleSelectAll = useCallback(() => {
+    selectAll(allIds);
+  }, [selectAll, allIds]);
+
   return (
     <div className="min-w-0 flex-1">
       <div className="flex h-full flex-col" role="table" aria-label="Files">
-        <TableViewHeader />
+        <TableViewHeader totalCount={itemCount} onSelectAll={handleSelectAll} />
         <div className="flex-1">
           <VList
             itemCount={itemCount}

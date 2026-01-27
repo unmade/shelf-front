@@ -11,6 +11,8 @@ import Thumbnail from '@/components/Thumbnail';
 import BookmarkButton from '@/components/BookmarkButton';
 
 import { FileActionsDropdown } from '@/apps/files/components/file-actions-dropdown';
+import { useSelectionContext, useIsSelected } from '@/apps/files/components/selection-context';
+
 import { Button } from '@/ui/button';
 import { MoreOutlined } from '@/icons';
 import { memo } from 'react';
@@ -23,12 +25,31 @@ interface Props {
 }
 
 export const TableViewRow = memo(function TableViewRow({ file, index }: Props) {
+  const { toggleSelection } = useSelectionContext();
+
+  const selected = useIsSelected(file.id);
+
   const odd = index % 2 !== 0;
+
+  const handleCheckboxChange = (checked: boolean | 'indeterminate') => {
+    if (checked !== 'indeterminate') {
+      toggleSelection(file.id);
+    }
+  };
 
   return (
     <div className="px-4">
-      <Item className={cn('group px-4', { 'bg-gray-50 dark:bg-zinc-700/30': odd })}>
-        <Checkbox aria-label={`Select ${file.name}`} />
+      <Item
+        className={cn('group px-4', {
+          'bg-gray-50 dark:bg-zinc-700/30': odd && !selected,
+          'bg-blue-100 dark:bg-indigo-600/30': selected,
+        })}
+      >
+        <Checkbox
+          checked={selected}
+          onCheckedChange={handleCheckboxChange}
+          aria-label={`Select ${file.name}`}
+        />
         <ItemMedia>
           <Thumbnail className="size-8" file={file} />
         </ItemMedia>
