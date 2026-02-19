@@ -7,15 +7,14 @@ import { SidebarLayout } from '@/ui/sidebar-layout';
 import AppNavbar from 'components/AppNavbar';
 import AppSidebar from 'components/AppSidebar';
 
-import Bookmarks from 'pages/Bookmarks';
-// import Files from 'pages/Files';
 import InAppSharing from 'pages/Shared/InApp';
 import SharedLinks from 'pages/Shared/ViaLink';
-import Trash from 'pages/Trash';
 
 import appConfig from './config';
 
+import Bookmarks from './pages/bookmarks';
 import Files from './pages/files';
+import Trash from './pages/trash';
 
 export default function FilesApp() {
   return (

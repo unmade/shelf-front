@@ -1,22 +1,42 @@
 import { Link, type LinkProps } from 'react-router';
 
-export function Strong({ className = '', ...props }: React.ComponentPropsWithoutRef<'strong'>) {
-  return <strong {...props} className={`${className} font-medium`} />;
+import { cva, type VariantProps } from 'class-variance-authority';
+
+import { cn } from '@/lib/utils';
+
+export function Strong({ className, ...props }: React.ComponentPropsWithoutRef<'strong'>) {
+  return <strong {...props} className={cn('font-medium', className)} />;
 }
 
-const textStyles = 'text-base/6 text-gray-500 sm:text-sm/6 dark:text-zinc-400';
+const textVariants = cva('text-muted-foreground', {
+  variants: {
+    size: {
+      xs: 'text-xs/5',
+      sm: 'text-sm/6 sm:text-xs/5',
+      base: 'text-base/6 sm:text-sm/6',
+      lg: 'text-lg/7 sm:text-base/6',
+    },
+  },
+  defaultVariants: {
+    size: 'base',
+  },
+});
 
-export function Text({ className = '', ...props }: React.ComponentPropsWithoutRef<'p'>) {
-  return <p {...props} data-slot="text" className={`${className} ${textStyles}`} />;
+interface TextProps
+  extends React.ComponentPropsWithoutRef<'p'>,
+    VariantProps<typeof textVariants> {}
+
+export function Text({ className, size, ...props }: TextProps) {
+  return <p {...props} data-slot="text" className={cn(textVariants({ size }), className)} />;
 }
 
 const textLinkStyles = 'text-blue-600 dark:text-indigo-500';
 
-export function TextLink({ className = '', ...props }: React.ComponentPropsWithoutRef<'a'>) {
+export function TextLink({ className, ...props }: React.ComponentPropsWithoutRef<'a'>) {
   // eslint-disable-next-line jsx-a11y/anchor-has-content
-  return <a {...props} className={`${className} ${textLinkStyles}`} />;
+  return <a {...props} className={cn(textLinkStyles, className)} />;
 }
 
-export function TextAppLink({ className = '', ...props }: LinkProps) {
-  return <Link {...props} className={`${className} ${textLinkStyles}`} />;
+export function TextAppLink({ className, ...props }: LinkProps) {
+  return <Link {...props} className={cn(textLinkStyles, className)} />;
 }

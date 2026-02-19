@@ -53,9 +53,9 @@ export function TableViewHeader({ className, totalCount, onSelectAll }: TableVie
       {/* Spacer for bookmark button */}
       <div className="size-8 shrink-0" />
       {/* Modified column */}
-      <div className="w-40 flex-none">{t('Modified')}</div>
+      <div className="w-40 flex-none @max-2xl:hidden">{t('Modified')}</div>
       {/* Size column */}
-      <div className="w-28 flex-none pr-4 text-right">{t('Size')}</div>
+      <div className="w-28 flex-none pr-4 text-right @max-2xl:hidden">{t('Size')}</div>
       {/* Spacer for row actions */}
       <div className="size-8 shrink-0" />
     </div>

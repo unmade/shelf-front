@@ -148,38 +148,45 @@ export function isRoot(path) {
 }
 
 export function isTrashed(path) {
-  return path.toLowerCase().startsWith('trash/');
+  return path.toLowerCase() === 'trash' || path.toLowerCase().startsWith('trash/');
 }
 
 const breadcrumbsAliases = {
-  files: {
-    key: '.',
+  [FILES.prefix]: {
+    key: FILES.prefix,
     name: i18n.t('Home'),
     Icon: icons.Home,
     path: '.',
     url: FILES.prefix,
   },
-  trash: {
-    key: 'trash',
+  [TRASH.prefix]: {
+    key: TRASH.prefix,
     name: i18n.t('Trash'),
     Icon: icons.Trash,
     path: 'trash',
     url: TRASH.prefix,
   },
+  [BOOKMARKS.prefix]: {
+    key: BOOKMARKS.prefix,
+    name: i18n.t('Saved'),
+    Icon: icons.BookmarkOutlined,
+    url: BOOKMARKS.prefix,
+  },
 };
 
 i18n.on('languageChanged init', () => {
-  breadcrumbsAliases.files.name = i18n.t('Home');
-  breadcrumbsAliases.trash.name = i18n.t('Trash');
+  breadcrumbsAliases[FILES.prefix].name = i18n.t('Home');
+  breadcrumbsAliases[TRASH.prefix].name = i18n.t('Trash');
+  breadcrumbsAliases[BOOKMARKS.prefix].name = i18n.t('Saved');
 });
 
 export function breadcrumbs(path) {
   const items = [];
 
   if (path.toLowerCase() === 'trash' || path.toLowerCase().startsWith('trash/')) {
-    items.push(breadcrumbsAliases.trash);
+    items.push(breadcrumbsAliases[TRASH.prefix]);
   } else {
-    items.push(breadcrumbsAliases.files);
+    items.push(breadcrumbsAliases[FILES.prefix]);
   }
 
   if (isRoot(path)) {
@@ -196,6 +203,39 @@ export function breadcrumbs(path) {
         name: part,
         url: join(items[idx].url, encodePath(part)),
         path: itemPath,
+      });
+    });
+
+  return items;
+}
+
+export function breadcrumbsFromUrl(pathname) {
+  const matchedPrefix = Object.keys(breadcrumbsAliases).find(
+    (prefix) => pathname === prefix || pathname.startsWith(prefix + '/'),
+  );
+
+  if (!matchedPrefix) {
+    return [];
+  }
+
+  const root = breadcrumbsAliases[matchedPrefix];
+  const items = [root];
+
+  const rest = pathname.slice(matchedPrefix.length);
+  if (!rest || rest === '/') {
+    return items;
+  }
+
+  rest
+    .split('/')
+    .filter(Boolean)
+    .forEach((segment) => {
+      const prev = items[items.length - 1];
+      const url = `${prev.url}/${segment}`;
+      items.push({
+        key: url,
+        name: decodeURIComponent(segment),
+        url,
       });
     });
 

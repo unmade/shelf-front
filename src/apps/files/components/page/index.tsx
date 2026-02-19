@@ -3,7 +3,7 @@ export function Page({ className = '', ...props }: React.ComponentPropsWithoutRe
 }
 
 export function PageContent({ className = '', ...props }: React.ComponentPropsWithoutRef<'div'>) {
-  return <div className={`mt-1.5 flex-1 ${className}`} {...props} />;
+  return <div className={`mt-1.5 min-h-0 flex-1 overflow-hidden ${className}`} {...props} />;
 }
 
 export function PageHeader({

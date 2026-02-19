@@ -1,18 +1,15 @@
-import { useListFolderQuery } from '@/store/files';
-
 import { Spinner } from '@/ui/spinner';
 
-import { useFileBrowserContext } from './context';
+import { useFileBrowserData } from './contexts/data';
+import { useScrollPosition } from './contexts/scroll';
+import { useFileBrowserContext } from './contexts/ui';
 import { FileBrowserEmpty } from './empty';
 import { TableView } from './table-view';
 
-interface FileBrowserContentProps {
-  path: string;
-}
-
-export function FileBrowserContent({ path }: FileBrowserContentProps) {
-  const { viewMode } = useFileBrowserContext();
-  const { data, isLoading, isError } = useListFolderQuery(path);
+export function FileBrowserContent() {
+  const { scrollKey: path, viewMode } = useFileBrowserContext();
+  const { data, isLoading, isError } = useFileBrowserData();
+  const { initialScrollOffset, onScrollOffsetChange } = useScrollPosition({ key: path });
 
   if (isLoading) {
     return <Spinner />;
@@ -32,5 +29,14 @@ export function FileBrowserContent({ path }: FileBrowserContentProps) {
   }
 
   // Render based on view mode
-  return viewMode === 'grid' ? <div>Grid</div> : <TableView data={data} />;
+  return viewMode === 'grid' ? (
+    <div>Grid</div>
+  ) : (
+    <TableView
+      data={data}
+      scrollKey={path}
+      initialScrollOffset={initialScrollOffset}
+      onScrollOffsetChange={onScrollOffsetChange}
+    />
+  );
 }

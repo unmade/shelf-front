@@ -1,6 +1,6 @@
 import { useParams } from 'react-router';
 
-function useDirPath() {
+export function useDirPath(): string | undefined {
   const { '*': dirPath } = useParams();
   return dirPath === '' ? '.' : dirPath;
 }

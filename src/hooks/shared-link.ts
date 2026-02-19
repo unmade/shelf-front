@@ -3,7 +3,7 @@ import { generatePath } from 'react-router';
 import * as routes from '../routes';
 
 interface Arg {
-  token?: string;
+  token: string | null;
   filename?: string;
 }
 

@@ -40,16 +40,11 @@ function CopyToClipboardButton({ children, className, disabled, title, value }) 
       <icons.Duplicate className="h-4 w-4 shrink-0 text-gray-400 dark:text-zinc-500" />
     );
 
-  const borders =
-    state === COPIED
-      ? 'focus:ring-teal-300 border-teal-200 dark:focus:ring-teal-700 dark:border-teal-600 z-30'
-      : '';
-
   return (
     <Button
       title={title}
-      className={`${className} ${borders} bg-gray-100 dark:bg-zinc-900`}
-      variant="ghost"
+      className={`${className} bg-gray-100 dark:bg-zinc-900`}
+      variant="outline"
       icon={icon}
       onClick={onClick}
       disabled={disabled || navigator.clipboard == null}

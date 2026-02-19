@@ -1,8 +1,19 @@
-import { Link, useResolvedPath } from 'react-router';
+import { Link, resolvePath, useLocation, useParams, useSearchParams } from 'react-router';
 
+import { PREVIEW_PARAM, TRASH_FOLDER_NAME } from '@/constants';
 import * as routes from '@/routes';
 
-const trashPrefix = 'trash/';
+const trashPrefix = `${TRASH_FOLDER_NAME}/`.toLocaleLowerCase();
+
+function normalizePath(path: string): string {
+  if (path.toLowerCase().startsWith(trashPrefix)) {
+    return path.slice(trashPrefix.length);
+  }
+  if (path.toLowerCase() === TRASH_FOLDER_NAME.toLocaleLowerCase()) {
+    return '.';
+  }
+  return path;
+}
 
 interface FolderLinkProps {
   children: React.ReactNode;
@@ -12,7 +23,8 @@ interface FolderLinkProps {
 }
 
 function FolderLink({ children, className, path, replace }: FolderLinkProps) {
-  const url = useResolvedPath(routes.encodePath(path));
+  const prefix = routes.isTrashed(path) ? routes.TRASH.prefix : routes.FILES.prefix;
+  const url = resolvePath(routes.encodePath(normalizePath(path)), prefix);
 
   return (
     <Link to={url} className={className} replace={replace}>
@@ -29,12 +41,24 @@ interface PreviewLinkProps {
 }
 
 function PreviewLink({ children, className, path, replace }: PreviewLinkProps) {
-  const { pathname: dirPath } = useResolvedPath('.');
+  const [searchParams] = useSearchParams();
+  const { pathname } = useLocation();
+  const { '*': dirPath } = useParams();
 
-  const url = `${dirPath}?preview=${path}`;
+  const currentDir = pathname.startsWith(routes.TRASH.prefix)
+    ? routes.join(trashPrefix, dirPath)
+    : dirPath;
+
+  const parentDir = routes.parent(path) ?? '.';
+  const preview = parentDir === currentDir ? routes.basename(path) : path;
+
+  const params = new URLSearchParams(searchParams);
+  params.set(PREVIEW_PARAM, preview);
+
+  const url = { search: params.toString() };
 
   return (
-    <Link to={`..${url}`} className={className} replace={replace}>
+    <Link to={url} className={className} replace={replace}>
       {children}
     </Link>
   );
@@ -49,13 +73,6 @@ interface FileLinkProps {
 }
 
 export function FileLink({ children, className, path, preview, replace }: FileLinkProps) {
-  if (path.toLowerCase().startsWith(trashPrefix)) {
-    path = path.slice(trashPrefix.length);
-  }
-  if (path.toLowerCase() === 'trash') {
-    path = '';
-  }
-
   const LinkRenderer = preview ? PreviewLink : FolderLink;
 
   return (
