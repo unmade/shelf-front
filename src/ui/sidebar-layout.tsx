@@ -38,7 +38,9 @@ export function SidebarLayout({ navbar, sidebar, children }: SidebarLayoutProps)
       </header>
 
       <main className="flex min-w-0 flex-1 flex-col">
-        <div className="grow lg:bg-white dark:bg-zinc-900 dark:lg:bg-zinc-800">{children}</div>
+        <div className="min-h-0 flex-1 lg:bg-white dark:bg-zinc-900 dark:lg:bg-zinc-800">
+          {children}
+        </div>
       </main>
     </div>
   );

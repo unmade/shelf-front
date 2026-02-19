@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 
 import { ToggleGroup, ToggleGroupItem } from '@/ui/toggle-group';
 
-import { useFileBrowserContext } from './context';
+import { useFileBrowserContext } from './contexts/ui';
 
 function ViewModeToggle() {
   const { viewMode, setViewMode } = useFileBrowserContext();

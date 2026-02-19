@@ -1,8 +1,6 @@
-import useDirPath from '@/hooks/dir-path';
+import * as icons from '@/icons';
 
-import * as routes from '@/routes';
-
-import { useListFolderQuery } from '@/store/files';
+import { useListBookmarkedFilesQuery } from '@/store/files';
 
 import { Heading } from '@/ui/heading';
 
@@ -13,17 +11,9 @@ import DeleteImmediatelyDialogProvider from '@/components/DeleteImmediatelyDialo
 import MoveDialogProvider from '@/components/MoveDialogProvider';
 import RenameFileDialogProvider from '@/components/RenameFileDialogProvider';
 import VerifyAccountDialogProvider from '@/components/VerifyAccountDialogProvider';
-import Uploader from '@/components/Uploader';
 
 import { FileBrowser, FileBrowserDataProvider } from '@/apps/files/components/browser';
-import { GoBackButton } from '@/apps/files/components/go-back-button';
-import {
-  Page,
-  PageContent,
-  PageHeader,
-  PageHeaderActions,
-  PageHeaderTitle,
-} from '@/apps/files/components/page';
+import { Page, PageContent, PageHeader, PageHeaderTitle } from '@/apps/files/components/page';
 
 interface DialogsProviderProps {
   children: React.ReactNode;
@@ -52,7 +42,7 @@ interface FileBrowserContainerProps {
 }
 
 function FileBrowserContainer({ path }: FileBrowserContainerProps) {
-  const { data, isLoading, isError } = useListFolderQuery(path, {
+  const { data, isLoading, isError } = useListBookmarkedFilesQuery(undefined, {
     selectFromResult: ({ data, isLoading, isError }) => ({
       data,
       isLoading,
@@ -68,27 +58,19 @@ function FileBrowserContainer({ path }: FileBrowserContainerProps) {
 }
 
 export default function Files() {
-  const dirPath = useDirPath();
-  const path = dirPath ?? '.';
-
-  const title = routes.folderName(dirPath);
+  const title = 'Bookmarks';
 
   return (
     <DialogsProvider>
       <Page>
         <PageHeader>
           <PageHeaderTitle>
-            <>
-              <GoBackButton path={path} />
-              <Heading>{title}</Heading>
-            </>
+            <icons.BookmarkOutlined data-slot="icon" />
+            <Heading>{title}</Heading>
           </PageHeaderTitle>
-          <PageHeaderActions>
-            <Uploader uploadTo={path} />
-          </PageHeaderActions>
         </PageHeader>
         <PageContent>
-          <FileBrowserContainer path={path} />
+          <FileBrowserContainer path="bookmarks" />
         </PageContent>
       </Page>
     </DialogsProvider>

@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { type FileSchema } from '@/store/files';
 
 import {
@@ -12,7 +14,6 @@ import {
 import { DropdownMenu, DropdownMenuTrigger } from '@/ui/dropdown-menu';
 
 import SimpleMenuContent from '@/components/SimpleMenuContent';
-import { useMemo } from 'react';
 
 function useActionGroups(files: FileSchema[]) {
   const copyLinkAction = useCopyLinkAction(files);

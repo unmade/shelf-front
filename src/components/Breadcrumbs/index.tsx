@@ -26,7 +26,9 @@ interface BreadcrumbShape {
   onClick?: () => void;
 }
 
-function Item({ name, Icon, url, onClick }: BreadcrumbShape) {
+function Item({ item }: { item: BreadcrumbShape }) {
+  const { name, Icon, url, onClick } = item;
+
   return (
     <BreadcrumbItem className="max-w-3xs" onClick={onClick}>
       {url ? (
@@ -49,7 +51,7 @@ interface Props {
   className?: string;
   collapseAfter: number;
   items: BreadcrumbShape[];
-  maxLastItems: number;
+  maxLastItems?: number;
 }
 
 export default function Breadcrumbs({
@@ -93,7 +95,7 @@ export default function Breadcrumbs({
   return (
     <Breadcrumb>
       <BreadcrumbList className={className}>
-        <Item {...first} />
+        <Item item={first} />
         {collapsed && (
           <>
             <BreadcrumbSeparator />
@@ -103,7 +105,7 @@ export default function Breadcrumbs({
         {lastItems.map((item) => (
           <Fragment key={item.key}>
             <BreadcrumbSeparator />
-            <Item {...item} />
+            <Item item={item} />
           </Fragment>
         ))}
         {last && (

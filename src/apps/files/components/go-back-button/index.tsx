@@ -1,15 +1,19 @@
 import * as icons from 'icons';
 
+import * as routes from 'routes';
+
 import { Button } from '@/ui/button';
 
 import { FileLink } from '@/apps/files/components/file-link';
 
 interface Props {
-  to: string;
-  disabled?: boolean;
+  path: string;
 }
 
-export default function GoBackButton({ to, disabled }: Props) {
+export function GoBackButton({ path }: Props) {
+  const parentPath = routes.parent(path);
+  const disabled = routes.isRoot(path);
+
   const button = (
     <Button variant="ghost" size="icon" disabled={disabled}>
       <icons.ArrowLeft data-slot="icon" />
@@ -18,5 +22,5 @@ export default function GoBackButton({ to, disabled }: Props) {
   if (disabled) {
     return button;
   }
-  return <FileLink path={to}>{button}</FileLink>;
+  return <FileLink path={parentPath}>{button}</FileLink>;
 }

@@ -1,23 +1,22 @@
-import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import * as routes from '@/routes';
+import { cn } from '@/lib/utils';
 
 import Breadcrumbs from '@/components/Breadcrumbs';
-import { cn } from '@/lib/utils';
+
+import { useRouteBreadcrumbs } from '@/apps/files/hooks/route-breadcrumbs';
+
+import { useSelectCountFiles } from './contexts/data';
 
 interface Props {
   className?: string;
-  itemCount: number;
-  path: string;
 }
 
-export function FileBrowserStatusBar({ className, path, itemCount }: Props) {
+export function FileBrowserStatusBar({ className }: Props) {
   const { t } = useTranslation();
+  const itemCount = useSelectCountFiles();
 
-  const breadcrumbItems = useMemo(() => {
-    return routes.breadcrumbs(path);
-  }, [path]);
+  const breadcrumbItems = useRouteBreadcrumbs();
 
   return (
     <div
@@ -26,7 +25,7 @@ export function FileBrowserStatusBar({ className, path, itemCount }: Props) {
         className,
       )}
     >
-      <Breadcrumbs className="text-xs" items={breadcrumbItems} collapseAfter={3} maxLastItems={1} />
+      <Breadcrumbs className="text-xs" items={breadcrumbItems} collapseAfter={3} />
       <span className="text-muted-foreground shrink-0 text-xs">
         {t('{{count}} items', { count: itemCount })}
       </span>

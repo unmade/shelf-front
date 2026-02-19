@@ -2,6 +2,8 @@ export const REFRESH_ACCESS_TOKEN_ON_UPLOAD_DELTA =
   import.meta.env.VITE_REFRESH_ACCESS_TOKEN_ON_UPLOAD_DELTA ?? 10 * 60_000; // default to 10 minutes
 export const TRASH_FOLDER_NAME = import.meta.env.VITE_TRASH_FOLDER_NAME ?? 'Trash';
 
+export const PREVIEW_PARAM = 'preview';
+
 export const TERMS_AND_CONDITION_URL = import.meta.env.VITE_TERMS_AND_CONDITION_URL ?? '#';
 export const PRIVACY_POLICY_URL = import.meta.env.VITE_PRIVACY_POLICY_URL ?? '#';
 

@@ -32,14 +32,11 @@ export const sharedLinksApi = apiSlice.injectEndpoints({
         method: 'POST',
         body: { file_id: fileId },
       }),
-      invalidatesTags: [
-        { type: 'Sharing', id: 'listFilesSharedViaLink' },
+      invalidatesTags: (_result, _error, fileId) => [
         { type: 'MediaItems', id: 'listSharedLinks' },
+        { type: 'Sharing', id: 'listFilesSharedViaLink' },
+        { type: 'Sharing', id: `getSharedLink:${fileId}` },
       ],
-      async onQueryStarted(fileId, { dispatch, queryFulfilled }) {
-        const { data } = await queryFulfilled;
-        dispatch(sharedLinksApi.util.updateQueryData('getSharedLink', fileId, () => data));
-      },
     }),
 
     downloadSharedLinkContent: builder.query<

@@ -11,13 +11,10 @@ export interface SortOption {
 }
 
 interface FileBrowserContextValue {
-  /** Current view mode (table or grid) */
+  scrollKey: string;
   viewMode: ViewMode;
-  /** Set the current view mode */
   setViewMode: (mode: ViewMode) => void;
-  /** Current sort option */
   sortOption: SortOption;
-  /** Set the current sort option */
   setSortOption: (option: SortOption) => void;
 }
 
@@ -25,9 +22,8 @@ const FileBrowserContext = createContext<FileBrowserContextValue | null>(null);
 
 interface FileBrowserProviderProps {
   children: React.ReactNode;
-  /** Initial view mode, defaults to 'table' */
+  scrollKey: string;
   defaultViewMode?: ViewMode;
-  /** Initial sort option, defaults to name ascending */
   defaultSortOption?: SortOption;
 }
 
@@ -35,6 +31,7 @@ const DEFAULT_SORT_OPTION: SortOption = { field: 'name', direction: 'asc' };
 
 export function FileBrowserProvider({
   children,
+  scrollKey,
   defaultViewMode = 'table',
   defaultSortOption = DEFAULT_SORT_OPTION,
 }: FileBrowserProviderProps) {
@@ -51,12 +48,13 @@ export function FileBrowserProvider({
 
   const value = useMemo(
     () => ({
+      scrollKey,
       viewMode,
       setViewMode,
       sortOption,
       setSortOption,
     }),
-    [viewMode, setViewMode, sortOption, setSortOption],
+    [scrollKey, viewMode, setViewMode, sortOption, setSortOption],
   );
 
   return <FileBrowserContext.Provider value={value}>{children}</FileBrowserContext.Provider>;
@@ -65,7 +63,7 @@ export function FileBrowserProvider({
 export function useFileBrowserContext() {
   const context = useContext(FileBrowserContext);
   if (context === null) {
-    throw new Error('useFileBrowserContext must be used within a FileBrowserProvider');
+    throw new Error('`useFileBrowserContext` must be used within a `FileBrowserProvider`');
   }
   return context;
 }

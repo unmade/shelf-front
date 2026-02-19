@@ -11,12 +11,12 @@ import { useSelectionContext } from '@/apps/files/components/selection-context';
 import { TableViewHeader } from './header';
 import { TableViewRow } from './row';
 
+const ROW_HEIGHT = 72;
+
 interface ItemData {
   ids: string[];
   entities: Record<string, FileSchema>;
 }
-
-const ROW_HEIGHT = 72;
 
 const TableViewRowRenderer = memo(function TableViewRowRenderer({
   index,
@@ -52,7 +52,7 @@ export function TableView({
   onScrollOffsetChange,
   initialScrollOffset = 0,
 }: TableViewProps) {
-  const { selectAll } = useSelectionContext();
+  const { select } = useSelectionContext();
 
   const allIds = data.ids as string[];
   const itemCount = allIds.length;
@@ -60,11 +60,11 @@ export function TableView({
   const itemData = useMemo<ItemData>(() => data, [data]);
 
   const handleSelectAll = useCallback(() => {
-    selectAll(allIds);
-  }, [selectAll, allIds]);
+    select(allIds);
+  }, [select, allIds]);
 
   return (
-    <div className="min-w-0 flex-1">
+    <div className="@container min-w-0 flex-1">
       <div className="flex h-full flex-col" role="table" aria-label="Files">
         <TableViewHeader totalCount={itemCount} onSelectAll={handleSelectAll} />
         <div className="flex-1">
