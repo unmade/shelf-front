@@ -14,7 +14,7 @@ interface Props<T> {
   itemData: T;
   overscanRowCount?: number;
   rowCount: number;
-  rowHeightOffset: number;
+  rowHeightOffset?: number;
   itemRenderer: React.FC<ItemRendererProps<T>>;
   loadMore?: () => void;
 }

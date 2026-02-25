@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import { type FileSchema } from '@/store/files';
 
 import {
+  useBookmarkAction,
   useCopyLinkAction,
   useDeleteAction,
   useDeleteImmediatelyAction,
@@ -16,6 +17,7 @@ import { DropdownMenu, DropdownMenuTrigger } from '@/ui/dropdown-menu';
 import SimpleMenuContent from '@/components/SimpleMenuContent';
 
 function useActionGroups(files: FileSchema[]) {
+  const bookmarkAction = useBookmarkAction(files);
   const copyLinkAction = useCopyLinkAction(files);
   const deleteAction = useDeleteAction(files);
   const deleteImmediatelyAction = useDeleteImmediatelyAction(files);
@@ -24,6 +26,10 @@ function useActionGroups(files: FileSchema[]) {
   const renameAction = useRenameAction(files);
 
   const groups = [
+    {
+      key: 'user',
+      items: [bookmarkAction].filter((action) => action != null),
+    },
     {
       key: 'sharing',
       items: [downloadAction, copyLinkAction].filter((action) => action != null),

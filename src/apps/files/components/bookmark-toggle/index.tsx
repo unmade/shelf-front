@@ -1,44 +1,10 @@
-import { useCallback, useMemo } from 'react';
-
 import { useTranslation } from 'react-i18next';
 
 import { cn } from '@/lib/utils';
 
-import {
-  selectIsBookmarked,
-  useAddBookmarkBatchMutation,
-  useRemoveBookmarkBatchMutation,
-} from '@/store/users';
-
-import { useAppSelector } from '@/hooks';
-
 import { Toggle, type ToggleVariants } from '@/ui/toggle';
 
-function useToggleBookmark(fileIds: string[]) {
-  const bookmarked = useAppSelector((state) =>
-    fileIds.every((id) => selectIsBookmarked(state, id)),
-  );
-
-  const [addBookmarkBatch, { isLoading: adding }] = useAddBookmarkBatchMutation();
-  const [removeBookmarkBatch, { isLoading: removing }] = useRemoveBookmarkBatchMutation();
-
-  const toggleBookmark = useCallback(async () => {
-    if (bookmarked) {
-      await removeBookmarkBatch(fileIds);
-    } else {
-      await addBookmarkBatch(fileIds);
-    }
-  }, [bookmarked, fileIds, addBookmarkBatch, removeBookmarkBatch]);
-
-  return useMemo(
-    () => ({
-      bookmarked,
-      loading: adding || removing,
-      toggleBookmark,
-    }),
-    [bookmarked, adding, removing, toggleBookmark],
-  );
-}
+import { useToggleBookmark } from '@/apps/files/hooks/toggle-bookmark';
 
 interface Props {
   className?: string;
