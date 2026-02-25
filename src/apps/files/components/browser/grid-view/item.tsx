@@ -2,7 +2,9 @@ import { memo } from 'react';
 
 import { MoreVerticalIcon } from 'lucide-react';
 
-import { MediaType, ThumbnailSize } from '@/constants';
+import type { FileSchema } from '@/store/files';
+
+import { MediaType } from '@/constants';
 
 import { cn } from '@/lib/utils';
 
@@ -10,14 +12,10 @@ import { Button } from '@/ui/button';
 import { Checkbox } from '@/ui/checkbox';
 import { Item, ItemActions, ItemContent, ItemHeader, ItemTitle } from '@/ui/item';
 
-import FileIcon from '@/components/FileIcon';
-import Thumbnail from '@/components/Thumbnail';
-
 import { FileActionsDropdown } from '@/apps/files/components/file-actions-dropdown';
 import { FileLink } from '@/apps/files/components/file-link';
 import { useSelectionContext } from '@/apps/files/components/selection-context';
-
-import type { FileSchema } from '@/store/files';
+import { Thumbnail, ThumbnailSize } from '@/apps/files/components/thumbnail';
 
 interface Props {
   file: FileSchema;
@@ -81,20 +79,12 @@ export const GridViewItem = memo(function GridViewItem({ file }: Props) {
             hasThumbnail && 'bg-muted',
           )}
         >
-          {hasThumbnail ? (
-            <Thumbnail
-              className="h-full w-full rounded-md object-cover"
-              file={file}
-              size={ThumbnailSize.lg}
-            />
-          ) : (
-            <FileIcon
-              className="size-14"
-              hidden={file.hidden}
-              mediatype={file.mediatype}
-              shared={file.shared}
-            />
-          )}
+          <Thumbnail
+            className={cn('rounded-md', hasThumbnail ? 'size-full' : 'size-14')}
+            file={file}
+            size={ThumbnailSize.lg}
+            objectFit="cover"
+          />
         </ItemHeader>
 
         <div className="flex min-w-0 items-center">
