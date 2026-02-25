@@ -9,7 +9,7 @@ import { FileSize } from '@/ui/filesize';
 import { TimeAgo } from '@/ui/timeago';
 import { Text } from '@/ui/text';
 
-import Thumbnail, { ThumbnailSize } from '@/components/Thumbnail';
+import { Thumbnail, ThumbnailSize } from '@/apps/files/components/thumbnail';
 
 const rotations: Record<number, string> = {
   0: 'rotate-6',

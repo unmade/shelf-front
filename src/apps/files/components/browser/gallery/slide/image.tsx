@@ -5,7 +5,7 @@ import type { FileSchema } from '@/store/files';
 
 import { useAppSelector } from '@/hooks';
 
-import Thumbnail, { ThumbnailSize } from '@/components/Thumbnail';
+import { Thumbnail, ThumbnailSize } from '@/apps/files/components/thumbnail';
 
 import { NoPreview } from './no-preview';
 
@@ -49,5 +49,5 @@ export function ImageSlide({ file }: Props) {
   }
 
   const size = getSize(window.screen);
-  return <Thumbnail className="h-full w-full" file={file} size={size} />;
+  return <Thumbnail className="size-full" file={file} size={size} />;
 }

@@ -13,7 +13,7 @@ import { FileSize } from '@/ui/filesize';
 import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/ui/item';
 import { TimeAgo } from '@/ui/timeago';
 
-import Thumbnail from '@/components/Thumbnail';
+import { Thumbnail } from '@/apps/files/components/thumbnail';
 
 import { BookmarkToggle } from '@/apps/files/components/bookmark-toggle';
 import { FileActionsDropdown } from '@/apps/files/components/file-actions-dropdown';
