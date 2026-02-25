@@ -66,19 +66,20 @@ function AddFileMemberForm({ fileId }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} autoComplete="off">
       <div className="flex w-full items-start gap-2">
         <Field data-invalid={!!error}>
           <Input
             id="username"
             name="username"
             placeholder={t('sharing.addMember.placeholders.username', {
-              defaultValue: 'Enter a username',
+              defaultValue: "Enter a member's username",
             })}
             onChange={onUsernameChange}
             minLength={3}
             maxLength={31}
             aria-invalid={!!error}
+            autoComplete="off"
           />
           {error && <FieldError>{error}</FieldError>}
         </Field>
