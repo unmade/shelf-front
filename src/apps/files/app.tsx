@@ -8,12 +8,12 @@ import AppNavbar from 'components/AppNavbar';
 import AppSidebar from 'components/AppSidebar';
 
 import InAppSharing from 'pages/Shared/InApp';
-import SharedLinks from 'pages/Shared/ViaLink';
 
 import appConfig from './config';
 
 import Bookmarks from './pages/bookmarks';
 import Files from './pages/files';
+import SharedLinks from './pages/shared-links';
 import Trash from './pages/trash';
 
 export default function FilesApp() {
