@@ -4,6 +4,7 @@ import { useFileBrowserData } from './contexts/data';
 import { useScrollPosition } from './contexts/scroll';
 import { useFileBrowserContext } from './contexts/ui';
 import { FileBrowserEmpty } from './empty';
+import { GridView } from './grid-view';
 import { TableView } from './table-view';
 
 export function FileBrowserContent() {
@@ -28,10 +29,11 @@ export function FileBrowserContent() {
     return <FileBrowserEmpty />;
   }
 
-  // Render based on view mode
-  return viewMode === 'grid' ? (
-    <div>Grid</div>
-  ) : (
+  if (viewMode === 'grid') {
+    return <GridView data={data} />;
+  }
+
+  return (
     <TableView
       data={data}
       scrollKey={path}

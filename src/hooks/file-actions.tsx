@@ -14,6 +14,7 @@ import { useDeleteDialog } from 'components/DeleteDialogProvider';
 import { useDeleteImmediatelyDialog } from 'components/DeleteImmediatelyDialogProvider';
 import { useMoveDialog } from 'components/MoveDialogProvider';
 import { useRenameFileDialog } from 'components/RenameFileDialogProvider';
+import { useToggleBookmark } from '@/apps/files/hooks/toggle-bookmark';
 
 export interface IAction {
   key: string;
@@ -22,6 +23,27 @@ export interface IAction {
   icon: React.ReactElement;
   danger: boolean;
   onClick: () => void;
+}
+
+export function useBookmarkAction(files: IFile[]): IAction {
+  const { t } = useTranslation('photos');
+
+  const fileIds = files.map(({ id }) => id);
+  const { bookmarked, toggleBookmark } = useToggleBookmark(fileIds);
+
+  return {
+    key: 'bookmark',
+    name: t(bookmarked ? 'Remove from bookmarks' : 'Add to bookmarks', {
+      defaultValue: 'Bookmark',
+      count: fileIds.length,
+    }),
+    Icon: icons.BookmarkOutlined,
+    icon: <icons.HeartOutlined className="h-4 w-4" />,
+    danger: false,
+    onClick: () => {
+      toggleBookmark();
+    },
+  };
 }
 
 export function useCopyLinkAction(files: IFile[]): IAction | null {

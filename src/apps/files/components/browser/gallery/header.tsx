@@ -36,7 +36,7 @@ export function GalleryHeader() {
         >
           <ChevronLeftIcon />
         </Button>
-        <Text size="sm">
+        <Text className="shrink-0" size="sm">
           {currentIndex + 1} / {totalSlides}
         </Text>
         <Button

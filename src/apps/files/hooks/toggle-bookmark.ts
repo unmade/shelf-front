@@ -8,19 +8,21 @@ import {
   useRemoveBookmarkBatchMutation,
 } from '@/store/users';
 
-export function useToggleBookmark(fileId: string) {
-  const bookmarked = useAppSelector((state) => selectIsBookmarked(state, fileId));
+export function useToggleBookmark(fileIds: string[]) {
+  const bookmarked = useAppSelector((state) =>
+    fileIds.every((id) => selectIsBookmarked(state, id)),
+  );
 
   const [addBookmarkBatch, { isLoading: adding }] = useAddBookmarkBatchMutation();
   const [removeBookmarkBatch, { isLoading: removing }] = useRemoveBookmarkBatchMutation();
 
   const toggleBookmark = useCallback(async () => {
     if (bookmarked) {
-      await removeBookmarkBatch([fileId]);
+      await removeBookmarkBatch(fileIds);
     } else {
-      await addBookmarkBatch([fileId]);
+      await addBookmarkBatch(fileIds);
     }
-  }, [bookmarked, fileId, addBookmarkBatch, removeBookmarkBatch]);
+  }, [bookmarked, fileIds, addBookmarkBatch, removeBookmarkBatch]);
 
   return useMemo(
     () => ({
