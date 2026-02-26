@@ -4,19 +4,11 @@ import getFileEntries from 'filereader';
 
 export interface DropzoneProps {
   className?: string;
-  render: React.ElementType;
-  style?: React.CSSProperties;
-  uploadTo: string;
-  onDrop: ({ files, uploadTo }: { files: FileSystemFileEntry[]; uploadTo: string }) => void;
+  children: (props: { dragging: boolean }) => React.ReactNode;
+  onDrop: (files: FileSystemFileEntry[]) => void;
 }
 
-export function Dropzone({
-  className = '',
-  render: View,
-  style,
-  uploadTo = '',
-  onDrop,
-}: DropzoneProps) {
+export function Dropzone({ className = '', children, onDrop }: DropzoneProps) {
   const [dragging, setDragging] = useState(false);
   const dragCounter = useRef(0);
 
@@ -45,14 +37,13 @@ export function Dropzone({
 
   const handleDrop = async (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    if (dragging) {
-      setDragging(false);
-    }
+    dragCounter.current = 0;
+    setDragging(false);
 
     const { items } = event.dataTransfer;
     const files = await getFileEntries(items);
     if (onDrop) {
-      onDrop({ files, uploadTo });
+      onDrop(files);
     }
   };
 
@@ -63,9 +54,8 @@ export function Dropzone({
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       className={className}
-      style={style}
     >
-      <View dragging={dragging} />
+      {children({ dragging })}
     </div>
   );
 }
