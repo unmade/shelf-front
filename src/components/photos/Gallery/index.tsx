@@ -9,12 +9,10 @@ import useKeyUp from 'hooks/key-up';
 import type { RootState } from 'store/store';
 import { selectPhotosLibraryPath } from 'store/features';
 
-import type { CarouselFiles } from 'components/FilePreview/Carousel';
-import Carousel from 'components/FilePreview/Carousel';
-
 import { makeFileFromMediaItem } from '../hooks/file-from-media-item';
 
 import AdjustCategoriesDialogProvider from './AdjustCategoriesDialogProvider';
+import Carousel, { type CarouselFiles } from './Carousel';
 import Header from './Header';
 import InformationDialogProvider from './InformationDialogProvider';
 import Sidebar from './Sidebar';

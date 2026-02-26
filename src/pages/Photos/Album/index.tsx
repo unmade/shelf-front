@@ -1,19 +1,20 @@
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams } from 'react-router';
+import { Link, useNavigate, useParams } from 'react-router';
 import { skipToken } from '@reduxjs/toolkit/query';
 
 import { useAppSelector } from 'hooks';
 
 import { useGetAlbumQuery, selectListAlbumsData } from 'store/albums';
 
+import * as icons from 'icons';
 import * as routes from 'routes';
 
+import { Button } from '@/ui/button';
 import { Heading } from '@/ui/heading';
 import { Spinner } from '@/ui/spinner';
 
 import CopyLinkDialogProvider from 'components/CopyLinkDialogProvider';
-import GoBackButton from 'components/GoBackButton';
 
 import AddToAlbumDialogProvider from 'components/photos/AddToAlbumDialogProvider';
 import DeleteMediaItemsDialogProvider from 'components/photos/DeleteMediaItemsDialogProvider';
@@ -56,7 +57,11 @@ export default function Album() {
           <Page>
             <PageHeader>
               <div className="flex items-center gap-2">
-                <GoBackButton to={routes.PHOTOS_ALBUMS.prefix} />
+                <Button variant="ghost" size="icon" asChild>
+                  <Link to={routes.PHOTOS_ALBUMS.prefix}>
+                    <icons.ArrowLeft data-slot="icon" />
+                  </Link>
+                </Button>
                 <Heading className="py-0.5">{title}</Heading>
               </div>
             </PageHeader>
