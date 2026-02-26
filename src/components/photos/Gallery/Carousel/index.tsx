@@ -1,12 +1,12 @@
 import * as icons from 'icons';
 
-import type { IFile } from 'types/files';
+import { type FileSchema } from '@/store/files';
 
-import Preview from '../Previews';
+import { GallerySlide } from '@/apps/files/components/browser/gallery/slide';
 
 import useCarousel from './hooks/useCarousel';
 
-export type CarouselFiles = [IFile | null, IFile, IFile | null];
+export type CarouselFiles = [FileSchema | null, FileSchema, FileSchema | null];
 
 interface Props {
   files: CarouselFiles;
@@ -34,7 +34,7 @@ export default function Carousel({ files, onSwipeLeft, onSwipeRight }: Props) {
                   </div>
                 </div>
               )}
-              <Preview file={f} />
+              <GallerySlide file={f} inView />
               {onSwipeRight && (
                 <div
                   className="group/rightarrow absolute top-0 right-0 hidden h-full w-1/4 cursor-pointer pointer-fine:block"

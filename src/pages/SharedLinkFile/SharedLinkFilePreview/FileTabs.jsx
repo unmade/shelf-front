@@ -1,43 +1,39 @@
-import React from 'react';
-
 import { useTranslation } from 'react-i18next';
 
 import { SharedLinkFileShape } from '@/types';
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/tabs';
+import { cn } from '@/lib/utils';
 
-import FileTabPanels from '@/components/FileTabPanels';
+import { FileSize } from '@/ui/filesize';
+import { TimeAgo } from '@/ui/timeago';
+
+function Property({ className = '', label, value }) {
+  return (
+    <div className={cn('flex items-start justify-between py-1', className)}>
+      <span className="text-muted-foreground text-xs">{label}</span>
+      <span className="max-w-2/3 truncate text-right text-xs">{value}</span>
+    </div>
+  );
+}
+
+function InfoSection({ file }) {
+  return (
+    <div className="space-y-0.5">
+      {<Property label="Size" value={<FileSize bytes={file.size} />} />}
+      <Property label="Modified" value={<TimeAgo value={file.modified_at} format="LLL" />} />
+    </div>
+  );
+}
 
 function FileTabs({ file }) {
   const { t } = useTranslation('file');
 
-  const tabs = [
-    {
-      name: t('file:information'),
-      renderer: <FileTabPanels.Information file={file} />,
-    },
-  ];
-
   return (
-    <Tabs defaultValue={tabs[0].key} className="w-full">
-      <TabsList className="w-full">
-        {tabs.map(({ key, name }) => (
-          <TabsTrigger key={key} value={key}>
-            {name}
-          </TabsTrigger>
-        ))}
-      </TabsList>
-      {tabs.map(({ key, renderer }) => (
-        <TabsContent key={key} value={key}>
-          {renderer}
-        </TabsContent>
-      ))}
-    </Tabs>
+    <div>
+      <p className="text-sm font-medium uppercase">{t('file:information')}</p>
+      <InfoSection file={file} />
+    </div>
   );
 }
-
-FileTabs.propTypes = {
-  file: SharedLinkFileShape.isRequired,
-};
 
 export default FileTabs;
