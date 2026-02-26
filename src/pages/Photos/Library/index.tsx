@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import { selectPhotosLibraryPath } from 'store/features';
 
-import { MediaType } from 'constants';
+import { MediaType } from '@/constants';
 
 import { Heading } from '@/ui/heading';
 
