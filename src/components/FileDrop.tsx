@@ -12,11 +12,10 @@ import { useVerifyAccountDialog } from 'components/VerifyAccountDialogProvider';
 
 interface Props extends Omit<DropzoneProps, 'onDrop'> {
   allowedMediaTypes?: string[];
+  uploadTo: string;
 }
 
-export default function FileDrop(props: Props) {
-  const { allowedMediaTypes } = props;
-
+export default function FileDrop({ allowedMediaTypes, uploadTo, ...dropzoneProps }: Props) {
   const dispatch = useAppDispatch();
 
   const account = useAppSelector(selectCurrentAccount)!;
@@ -27,15 +26,15 @@ export default function FileDrop(props: Props) {
   const shouldVerify = verificationRequired && !account.verified;
 
   const onDrop = useCallback(
-    (arg: { files: FileSystemFileEntry[]; uploadTo: string }) => {
+    (files: FileSystemFileEntry[]) => {
       if (shouldVerify) {
         openDialog();
       } else {
-        dispatch(fileEntriesAdded({ ...arg, allowedMediaTypes }));
+        dispatch(fileEntriesAdded({ files, uploadTo, allowedMediaTypes }));
       }
     },
-    [shouldVerify, allowedMediaTypes, dispatch, openDialog],
+    [shouldVerify, uploadTo, allowedMediaTypes, dispatch, openDialog],
   );
 
-  return <Dropzone {...props} onDrop={onDrop} />;
+  return <Dropzone {...dropzoneProps} onDrop={onDrop} />;
 }

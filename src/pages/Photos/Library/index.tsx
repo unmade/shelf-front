@@ -41,10 +41,10 @@ export default function Library() {
                 className="relative flex h-full flex-col"
                 allowedMediaTypes={allowedMediaTypes}
                 uploadTo={libraryPath}
-                render={({ innerRef, dragging }) => (
+              >
+                {({ dragging }) => (
                   <>
                     <div
-                      ref={innerRef}
                       className={`${
                         dragging ? 'block' : 'hidden'
                       } absolute z-10 -mt-3 h-full w-full px-2`}
@@ -64,7 +64,7 @@ export default function Library() {
                     </PageContent>
                   </>
                 )}
-              />
+              </FileDrop>
             </Page>
           </DeleteMediaItemsDialogProvider>
         </CopyLinkDialogProvider>

@@ -10,6 +10,7 @@ import CopyLinkDialogProvider from '@/components/CopyLinkDialogProvider';
 import CreateFolderDialogProvider from '@/components/CreateFolderDialogProvider';
 import DeleteDialogProvider from '@/components/DeleteDialogProvider';
 import DeleteImmediatelyDialogProvider from '@/components/DeleteImmediatelyDialogProvider';
+import FileDrop from '@/components/FileDrop';
 import MoveDialogProvider from '@/components/MoveDialogProvider';
 import RenameFileDialogProvider from '@/components/RenameFileDialogProvider';
 import VerifyAccountDialogProvider from '@/components/VerifyAccountDialogProvider';
@@ -75,22 +76,31 @@ export default function Files() {
 
   return (
     <DialogsProvider>
-      <Page>
-        <PageHeader>
-          <PageHeaderTitle>
-            <>
-              <GoBackButton path={path} />
-              <Heading>{title}</Heading>
-            </>
-          </PageHeaderTitle>
-          <PageHeaderActions>
-            <Uploader uploadTo={path} />
-          </PageHeaderActions>
-        </PageHeader>
-        <PageContent>
-          <FileBrowserContainer path={path} />
-        </PageContent>
-      </Page>
+      <FileDrop className="h-full" uploadTo={path}>
+        {({ dragging }) => (
+          <Page className="relative">
+            {dragging && (
+              <div className="absolute inset-0 z-10 mb-10 px-2 pt-2">
+                <div className="h-full w-full rounded-2xl border-3 border-dashed border-teal-200 dark:border-teal-600" />
+              </div>
+            )}
+            <PageHeader>
+              <PageHeaderTitle>
+                <>
+                  <GoBackButton path={path} />
+                  <Heading>{title}</Heading>
+                </>
+              </PageHeaderTitle>
+              <PageHeaderActions>
+                <Uploader uploadTo={path} />
+              </PageHeaderActions>
+            </PageHeader>
+            <PageContent>
+              <FileBrowserContainer path={path} />
+            </PageContent>
+          </Page>
+        )}
+      </FileDrop>
     </DialogsProvider>
   );
 }

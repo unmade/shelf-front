@@ -1,5 +1,3 @@
-import type { RefObject } from 'react';
-
 import { useTranslation } from 'react-i18next';
 
 import * as icons from 'icons';
@@ -28,11 +26,10 @@ const dropzoneClass = [
 interface DropzoneProps {
   allowedMediaTypes?: string[];
   dragging: boolean;
-  innerRef: RefObject<HTMLDivElement>;
   uploadTo: string;
 }
 
-function Dropzone({ allowedMediaTypes, dragging, innerRef, uploadTo }: DropzoneProps) {
+function DropzoneContent({ allowedMediaTypes, dragging, uploadTo }: DropzoneProps) {
   const { t } = useTranslation(['translation', 'uploads']);
 
   let bg;
@@ -48,7 +45,7 @@ function Dropzone({ allowedMediaTypes, dragging, innerRef, uploadTo }: DropzoneP
     textSecondary = 'text-gray-400 dark:text-zinc-500';
   }
   return (
-    <div ref={innerRef} className={`${dropzoneClass} ${bg}`}>
+    <div className={`${dropzoneClass} ${bg}`}>
       <icons.CloudUploadOutlined className={`h-12 w-12 ${textSecondary}`} />
       <div className="flex flex-col space-y-1 text-center text-sm font-semibold">
         <p className={textPrimary}>{t('uploads:dropzone.title')}</p>
@@ -70,19 +67,15 @@ interface Props {
 export default function Overlay({ allowedMediaTypes, uploadTo }: Props) {
   return (
     <div className="text-gray-700 dark:text-gray-200">
-      <FileDrop
-        allowedMediaTypes={allowedMediaTypes}
-        uploadTo={uploadTo}
-        className="w-full"
-        render={({ innerRef, dragging }) => (
-          <Dropzone
+      <FileDrop allowedMediaTypes={allowedMediaTypes} uploadTo={uploadTo} className="w-full">
+        {({ dragging }) => (
+          <DropzoneContent
             allowedMediaTypes={allowedMediaTypes}
-            innerRef={innerRef}
             dragging={dragging}
             uploadTo={uploadTo}
           />
         )}
-      />
+      </FileDrop>
       <RecentUploads />
     </div>
   );
