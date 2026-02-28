@@ -6,17 +6,12 @@ import { useListFolderQuery } from '@/store/files';
 
 import { Heading } from '@/ui/heading';
 
-import CopyLinkDialogProvider from '@/components/CopyLinkDialogProvider';
-import CreateFolderDialogProvider from '@/components/CreateFolderDialogProvider';
-import DeleteDialogProvider from '@/components/DeleteDialogProvider';
-import DeleteImmediatelyDialogProvider from '@/components/DeleteImmediatelyDialogProvider';
 import FileDrop from '@/components/FileDrop';
-import MoveDialogProvider from '@/components/MoveDialogProvider';
-import RenameFileDialogProvider from '@/components/RenameFileDialogProvider';
 import VerifyAccountDialogProvider from '@/components/VerifyAccountDialogProvider';
 import Uploader from '@/components/Uploader';
 
 import { BreadcrumbDropdown, useRouteBreadcrumbs } from '@/apps/files/components/breadcrumbs';
+import { DialogsProvider } from '@/apps/files/components/dialogs';
 import { FileBrowser, FileBrowserDataProvider } from '@/apps/files/components/browser';
 import { GoBackButton } from '@/apps/files/components/go-back-button';
 import {
@@ -31,20 +26,10 @@ interface DialogsProviderProps {
   children: React.ReactNode;
 }
 
-function DialogsProvider({ children }: DialogsProviderProps) {
+function AllDialogsProvider({ children }: DialogsProviderProps) {
   return (
     <VerifyAccountDialogProvider>
-      <CopyLinkDialogProvider>
-        <CreateFolderDialogProvider>
-          <DeleteDialogProvider>
-            <DeleteImmediatelyDialogProvider>
-              <MoveDialogProvider>
-                <RenameFileDialogProvider>{children}</RenameFileDialogProvider>
-              </MoveDialogProvider>
-            </DeleteImmediatelyDialogProvider>
-          </DeleteDialogProvider>
-        </CreateFolderDialogProvider>
-      </CopyLinkDialogProvider>
+      <DialogsProvider>{children}</DialogsProvider>
     </VerifyAccountDialogProvider>
   );
 }
@@ -77,7 +62,7 @@ export default function Files() {
   const breadcrumbs = useRouteBreadcrumbs();
 
   return (
-    <DialogsProvider>
+    <AllDialogsProvider>
       <FileDrop className="h-full" uploadTo={path}>
         {({ dragging }) => (
           <Page className="relative">
@@ -106,6 +91,6 @@ export default function Files() {
           </Page>
         )}
       </FileDrop>
-    </DialogsProvider>
+    </AllDialogsProvider>
   );
 }

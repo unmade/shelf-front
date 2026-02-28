@@ -1,15 +1,15 @@
 import type React from 'react';
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 
-import type { IFile } from 'types/files';
+import type { IFile } from '@/types/files';
 
-import RenameFileDialogContainer from './RenameFileDialogContainer';
+import { RenameFileDialog } from './dialog';
 
 interface ContextValue {
-  openDialog: (files: IFile) => void;
+  openDialog: (file: IFile) => void;
 }
 
-export const RenameFileDialogContext = createContext<ContextValue | null>(null);
+const RenameFileDialogContext = createContext<ContextValue | null>(null);
 
 interface Props {
   children: React.ReactNode;
@@ -22,19 +22,16 @@ interface State {
 
 const initialState: State = { file: null, open: false };
 
-function RenameFileDialogProvider({ children }: Props) {
+export function RenameFileDialogProvider({ children }: Props) {
   const [state, setState] = useState<State>(initialState);
 
-  const openDialog = useCallback(
-    (file: IFile) => {
-      setState({ file, open: true });
-    },
-    [setState],
-  );
+  const openDialog = useCallback((file: IFile) => {
+    setState({ file, open: true });
+  }, []);
 
-  const closeDialog = () => {
+  const closeDialog = useCallback(() => {
     setState(initialState);
-  };
+  }, []);
 
   const { file, open } = state;
 
@@ -42,13 +39,11 @@ function RenameFileDialogProvider({ children }: Props) {
 
   return (
     <RenameFileDialogContext.Provider value={value}>
-      <RenameFileDialogContainer open={open} file={file} onClose={closeDialog} />
+      <RenameFileDialog file={file} open={open} onClose={closeDialog} />
       {children}
     </RenameFileDialogContext.Provider>
   );
 }
-
-export default RenameFileDialogProvider;
 
 export function useRenameFileDialog(): ContextValue {
   const value = useContext(RenameFileDialogContext);

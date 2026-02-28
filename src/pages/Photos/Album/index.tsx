@@ -14,7 +14,7 @@ import { Button } from '@/ui/button';
 import { Heading } from '@/ui/heading';
 import { Spinner } from '@/ui/spinner';
 
-import CopyLinkDialogProvider from 'components/CopyLinkDialogProvider';
+import { CopyLinkDialogProvider } from '@/apps/files/components/dialogs';
 
 import AddToAlbumDialogProvider from 'components/photos/AddToAlbumDialogProvider';
 import DeleteMediaItemsDialogProvider from 'components/photos/DeleteMediaItemsDialogProvider';

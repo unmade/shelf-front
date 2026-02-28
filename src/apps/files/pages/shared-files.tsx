@@ -4,7 +4,7 @@ import * as icons from '@/icons';
 
 import { Heading } from '@/ui/heading';
 
-import FileMembersDialogProvider from '@/components/FileMembersDialogProvider';
+import { FileMembersDialogProvider } from '@/apps/files/components/dialogs';
 
 import { Page, PageContent, PageHeader, PageHeaderTitle } from '@/apps/files/components/page';
 import { SharedFileList } from '@/apps/files/components/shared-files-list';

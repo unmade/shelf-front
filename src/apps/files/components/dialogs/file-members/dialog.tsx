@@ -10,8 +10,9 @@ import {
   DialogTitle,
 } from '@/ui/dialog';
 
-import FileMembersSetting from '../FileMembersSetting';
 import { Button } from '@/ui/button';
+
+import FileMembersSetting from '@/components/FileMembersSetting';
 
 interface Props {
   fileId?: string;
@@ -19,7 +20,7 @@ interface Props {
   onClose: () => void;
 }
 
-export default function FileMembersDialog({ fileId, open, onClose }: Props) {
+export function FileMembersDialog({ fileId, open, onClose }: Props) {
   const { t } = useTranslation();
 
   const handleOpenChanged = (open: boolean) => {

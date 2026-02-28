@@ -31,7 +31,7 @@ interface Props {
   onClose: () => void;
 }
 
-export default function CreateFolderDialog({ inPath, open, onClose }: Props) {
+export function CreateFolderDialog({ inPath, open, onClose }: Props) {
   const { t } = useTranslation('files');
 
   const navigate = useNavigate();

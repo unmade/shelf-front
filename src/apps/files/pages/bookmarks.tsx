@@ -4,13 +4,9 @@ import { useListBookmarkedFilesQuery } from '@/store/files';
 
 import { Heading } from '@/ui/heading';
 
-import CopyLinkDialogProvider from '@/components/CopyLinkDialogProvider';
-import CreateFolderDialogProvider from '@/components/CreateFolderDialogProvider';
-import DeleteDialogProvider from '@/components/DeleteDialogProvider';
-import DeleteImmediatelyDialogProvider from '@/components/DeleteImmediatelyDialogProvider';
-import MoveDialogProvider from '@/components/MoveDialogProvider';
-import RenameFileDialogProvider from '@/components/RenameFileDialogProvider';
 import VerifyAccountDialogProvider from '@/components/VerifyAccountDialogProvider';
+
+import { DialogsProvider } from '@/apps/files/components/dialogs';
 
 import { FileBrowser, FileBrowserDataProvider } from '@/apps/files/components/browser';
 import { Page, PageContent, PageHeader, PageHeaderTitle } from '@/apps/files/components/page';
@@ -19,20 +15,10 @@ interface DialogsProviderProps {
   children: React.ReactNode;
 }
 
-function DialogsProvider({ children }: DialogsProviderProps) {
+function AllDialogsProvider({ children }: DialogsProviderProps) {
   return (
     <VerifyAccountDialogProvider>
-      <CopyLinkDialogProvider>
-        <CreateFolderDialogProvider>
-          <DeleteDialogProvider>
-            <DeleteImmediatelyDialogProvider>
-              <MoveDialogProvider>
-                <RenameFileDialogProvider>{children}</RenameFileDialogProvider>
-              </MoveDialogProvider>
-            </DeleteImmediatelyDialogProvider>
-          </DeleteDialogProvider>
-        </CreateFolderDialogProvider>
-      </CopyLinkDialogProvider>
+      <DialogsProvider>{children}</DialogsProvider>
     </VerifyAccountDialogProvider>
   );
 }
@@ -61,7 +47,7 @@ export default function Files() {
   const title = 'Bookmarks';
 
   return (
-    <DialogsProvider>
+    <AllDialogsProvider>
       <Page>
         <PageHeader>
           <PageHeaderTitle>
@@ -73,6 +59,6 @@ export default function Files() {
           <FileBrowserContainer path="bookmarks" />
         </PageContent>
       </Page>
-    </DialogsProvider>
+    </AllDialogsProvider>
   );
 }

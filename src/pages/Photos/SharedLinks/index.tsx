@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Heading } from '@/ui/heading';
 
-import CopyLinkDialogProvider from 'components/CopyLinkDialogProvider';
+import { CopyLinkDialogProvider } from '@/apps/files/components/dialogs';
 
 import DeleteMediaItemsDialogProvider from 'components/photos/DeleteMediaItemsDialogProvider';
 import DeleteMediaItemsImmediatelyDialogProvider from 'components/photos/DeleteMediaItemsImmediatelyDialogProvider';

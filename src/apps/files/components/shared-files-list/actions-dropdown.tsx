@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from '@/ui/dropdown-menu';
 
-import { useFileMembersDialog } from '@/components/FileMembersDialogProvider';
+import { useFileMembersDialog } from '@/apps/files/components/dialogs';
 
 interface Props {
   children: React.ReactNode;

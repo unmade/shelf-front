@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from '@/ui/dropdown-menu';
 
-import { useCopyLinkDialog } from '@/components/CopyLinkDialogProvider';
+import { useCopyLinkDialog } from '@/apps/files/components/dialogs';
 
 interface Props {
   children: React.ReactNode;

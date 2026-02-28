@@ -1,10 +1,11 @@
 import { useTranslation } from 'react-i18next';
 
-import { useAppSelector } from 'hooks';
-import type { IFile } from 'types/files';
+import type { IFile } from '@/types/files';
 
-import { selectIsSuperuser } from 'store/accounts';
-import { selectFeatureSharedLinksEnabled } from 'store/features';
+import { useAppSelector } from '@/hooks';
+
+import { selectIsSuperuser } from '@/store/accounts';
+import { selectFeatureSharedLinksEnabled } from '@/store/features';
 
 import { Button } from '@/ui/button';
 import {
@@ -17,7 +18,7 @@ import {
   DialogTitle,
 } from '@/ui/dialog';
 
-import SharedLinkSetting from 'components/SharedLinkSetting';
+import SharedLinkSetting from '@/components/SharedLinkSetting';
 
 interface Props {
   file: IFile | null;
@@ -25,7 +26,7 @@ interface Props {
   onClose: () => void;
 }
 
-function CopyLinkDialog({ file, open, onClose }: Props) {
+export function CopyLinkDialog({ file, open, onClose }: Props) {
   const { t } = useTranslation();
 
   const superuser = useAppSelector(selectIsSuperuser);
@@ -60,5 +61,3 @@ function CopyLinkDialog({ file, open, onClose }: Props) {
     </Dialog>
   );
 }
-
-export default CopyLinkDialog;

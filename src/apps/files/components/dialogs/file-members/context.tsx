@@ -1,12 +1,17 @@
+import type React from 'react';
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 
-import FileMembersDialog from './FileMembersDialog';
+import { FileMembersDialog } from './dialog';
 
 interface ContextValue {
   openDialog: (fileId: string) => void;
 }
 
-export const FileMembersDialogContext = createContext<ContextValue | null>(null);
+const FileMembersDialogContext = createContext<ContextValue | null>(null);
+
+interface Props {
+  children: React.ReactNode;
+}
 
 interface State {
   open: boolean;
@@ -15,23 +20,16 @@ interface State {
 
 const initialState: State = { open: false, fileId: undefined };
 
-interface Props {
-  children: React.ReactNode;
-}
-
-function FileMembersDialogProvider({ children }: Props) {
+export function FileMembersDialogProvider({ children }: Props) {
   const [state, setState] = useState(initialState);
 
-  const openDialog = useCallback(
-    (fileId: string) => {
-      setState({ open: true, fileId });
-    },
-    [setState],
-  );
+  const openDialog = useCallback((fileId: string) => {
+    setState({ open: true, fileId });
+  }, []);
 
-  const closeDialog = () => {
+  const closeDialog = useCallback(() => {
     setState(initialState);
-  };
+  }, []);
 
   const { fileId, open } = state;
 
@@ -44,8 +42,6 @@ function FileMembersDialogProvider({ children }: Props) {
     </FileMembersDialogContext.Provider>
   );
 }
-
-export default FileMembersDialogProvider;
 
 export function useFileMembersDialog(): ContextValue {
   const value = useContext(FileMembersDialogContext);
