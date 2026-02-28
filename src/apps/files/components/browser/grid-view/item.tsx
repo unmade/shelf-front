@@ -105,7 +105,7 @@ export const GridViewItem = memo(function GridViewItem({ file }: Props) {
 
           <ItemActions>
             <FileActionsDropdown files={[file]}>
-              <Button className="size-6" size="icon" variant="ghost">
+              <Button className="size-6 rounded" size="icon" variant="ghost">
                 <MoreVerticalIcon className="size-3.5" />
               </Button>
             </FileActionsDropdown>

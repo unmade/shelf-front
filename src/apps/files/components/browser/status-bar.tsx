@@ -2,9 +2,7 @@ import { useTranslation } from 'react-i18next';
 
 import { cn } from '@/lib/utils';
 
-import Breadcrumbs from '@/components/Breadcrumbs';
-
-import { useRouteBreadcrumbs } from '@/apps/files/hooks/route-breadcrumbs';
+import { Breadcrumbs, useRouteBreadcrumbs } from '@/apps/files/components/breadcrumbs';
 
 import { useSelectCountFiles } from './contexts/data';
 

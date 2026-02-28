@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import useDirPath from '@/hooks/dir-path';
 
 import { TRASH_FOLDER_NAME } from '@/constants';
@@ -20,6 +22,7 @@ import MoveDialogProvider from '@/components/MoveDialogProvider';
 import RenameFileDialogProvider from '@/components/RenameFileDialogProvider';
 import VerifyAccountDialogProvider from '@/components/VerifyAccountDialogProvider';
 
+import { BreadcrumbDropdown, useRouteBreadcrumbs } from '@/apps/files/components/breadcrumbs';
 import { FileBrowser, FileBrowserDataProvider } from '@/apps/files/components/browser';
 import { GoBackButton } from '@/apps/files/components/go-back-button';
 import {
@@ -29,7 +32,6 @@ import {
   PageHeaderActions,
   PageHeaderTitle,
 } from '@/apps/files/components/page';
-import { useTranslation } from 'react-i18next';
 
 function EmptyTrashDialogButton() {
   const { t } = useTranslation();
@@ -97,16 +99,20 @@ export default function Trash() {
   const path = routes.join(TRASH_FOLDER_NAME, dirPath);
 
   const title = routes.folderName(path);
+  const breadcrumbs = useRouteBreadcrumbs();
 
   return (
     <DialogsProvider>
       <Page>
         <PageHeader>
           <PageHeaderTitle>
-            <>
+            <div className="sm:hidden">
+              <BreadcrumbDropdown items={breadcrumbs} />
+            </div>
+            <div className="flex min-w-0 items-center max-sm:hidden sm:gap-2">
               <GoBackButton path={path} />
-              <Heading>{title}</Heading>
-            </>
+              <Heading className="truncate">{title}</Heading>
+            </div>
           </PageHeaderTitle>
           <PageHeaderActions>
             <EmptyTrashDialogButton />
