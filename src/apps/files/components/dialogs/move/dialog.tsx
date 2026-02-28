@@ -20,7 +20,7 @@ import {
   DialogTitle,
 } from '@/ui/dialog';
 
-import FolderPicker from '../FolderPicker';
+import FolderPicker from '@/components/FolderPicker';
 import { useAppDispatch } from '@/hooks';
 
 interface Props {
@@ -29,7 +29,7 @@ interface Props {
   onClose: () => void;
 }
 
-export default function MoveDialog({ files, open, onClose }: Props) {
+export function MoveDialog({ files, open, onClose }: Props) {
   const { t } = useTranslation();
 
   const dispatch = useAppDispatch();

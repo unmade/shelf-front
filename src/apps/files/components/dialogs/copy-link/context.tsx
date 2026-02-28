@@ -1,15 +1,15 @@
 import type React from 'react';
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 
-import type { IFile } from 'types/files';
+import type { IFile } from '@/types/files';
 
-import CopyLinkDialog from './CopyLinkDialog';
+import { CopyLinkDialog } from './dialog';
 
 interface ContextValue {
   openDialog: (file: IFile) => void;
 }
 
-export const CopyLinkDialogContext = createContext<ContextValue | null>(null);
+const CopyLinkDialogContext = createContext<ContextValue | null>(null);
 
 interface Props {
   children: React.ReactNode;
@@ -22,19 +22,16 @@ interface State {
 
 const initialState: State = { file: null, open: false };
 
-export default function CopyLinkDialogProvider({ children }: Props) {
+export function CopyLinkDialogProvider({ children }: Props) {
   const [state, setState] = useState<State>(initialState);
 
-  const openDialog = useCallback(
-    (file: IFile) => {
-      setState({ file, open: true });
-    },
-    [setState],
-  );
+  const openDialog = useCallback((file: IFile) => {
+    setState({ file, open: true });
+  }, []);
 
-  const closeDialog = () => {
+  const closeDialog = useCallback(() => {
     setState(initialState);
-  };
+  }, []);
 
   const { file, open } = state;
 

@@ -8,7 +8,7 @@ import { MediaType } from '@/constants';
 
 import { Heading } from '@/ui/heading';
 
-import CopyLinkDialogProvider from 'components/CopyLinkDialogProvider';
+import { CopyLinkDialogProvider } from '@/apps/files/components/dialogs';
 import FileDrop from 'components/FileDrop';
 import Uploader from 'components/Uploader';
 import VerifyAccountDialogProvider from 'components/VerifyAccountDialogProvider';

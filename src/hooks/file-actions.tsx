@@ -9,11 +9,13 @@ import type { IFile } from 'types/files';
 
 import { download } from 'store/files';
 
-import { useCopyLinkDialog } from 'components/CopyLinkDialogProvider';
-import { useDeleteDialog } from 'components/DeleteDialogProvider';
-import { useDeleteImmediatelyDialog } from 'components/DeleteImmediatelyDialogProvider';
-import { useMoveDialog } from 'components/MoveDialogProvider';
-import { useRenameFileDialog } from 'components/RenameFileDialogProvider';
+import {
+  useCopyLinkDialog,
+  useDeleteDialog,
+  useDeleteImmediatelyDialog,
+  useMoveDialog,
+  useRenameFileDialog,
+} from '@/apps/files/components/dialogs';
 import { useToggleBookmark } from '@/apps/files/hooks/toggle-bookmark';
 
 export interface IAction {

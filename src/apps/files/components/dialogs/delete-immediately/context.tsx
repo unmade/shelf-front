@@ -1,15 +1,15 @@
 import type React from 'react';
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 
-import type { IFile } from 'types/files';
+import type { IFile } from '@/types/files';
 
-import DeleteImmediatelyDialogContainer from './DeleteImmediatelyDialogContainer';
+import { DeleteImmediatelyDialogContainer } from './dialog';
 
 interface ContextValue {
   openDialog: (files: IFile[]) => void;
 }
 
-export const DeleteImmediatelyDialogContext = createContext<ContextValue | null>(null);
+const DeleteImmediatelyDialogContext = createContext<ContextValue | null>(null);
 
 interface Props {
   children: React.ReactNode;
@@ -22,19 +22,16 @@ interface State {
 
 const initialState: State = { files: [], open: false };
 
-function DeleteImmediatelyDialogProvider({ children }: Props) {
+export function DeleteImmediatelyDialogProvider({ children }: Props) {
   const [state, setState] = useState<State>(initialState);
 
-  const openDialog = useCallback(
-    (files: IFile[]) => {
-      setState({ files, open: true });
-    },
-    [setState],
-  );
+  const openDialog = useCallback((files: IFile[]) => {
+    setState({ files, open: true });
+  }, []);
 
   const closeDialog = useCallback(() => {
     setState(initialState);
-  }, [setState]);
+  }, []);
 
   const { open, files } = state;
 
@@ -47,8 +44,6 @@ function DeleteImmediatelyDialogProvider({ children }: Props) {
     </DeleteImmediatelyDialogContext.Provider>
   );
 }
-
-export default DeleteImmediatelyDialogProvider;
 
 export function useDeleteImmediatelyDialog(): ContextValue {
   const value = useContext(DeleteImmediatelyDialogContext);

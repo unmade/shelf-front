@@ -4,7 +4,7 @@ import * as icons from '@/icons';
 
 import { Button } from '@/ui/button';
 
-import { useCopyLinkDialog } from '@/components/CopyLinkDialogProvider';
+import { useCopyLinkDialog } from '@/apps/files/components/dialogs';
 
 import useFileFromMediaItem from '@/components/photos/hooks/file-from-media-item';
 

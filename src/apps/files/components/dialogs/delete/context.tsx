@@ -1,15 +1,15 @@
 import type React from 'react';
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 
-import type { IFile } from 'types/files';
+import type { IFile } from '@/types/files';
 
-import DeleteDialogContainer from './DeleteDialogContainer';
+import { DeleteDialogContainer } from './dialog';
 
 interface ContextValue {
   openDialog: (files: IFile[]) => void;
 }
 
-export const DeleteDialogContext = createContext<ContextValue | null>(null);
+const DeleteDialogContext = createContext<ContextValue | null>(null);
 
 interface Props {
   children: React.ReactNode;
@@ -22,19 +22,16 @@ interface State {
 
 const initialState: State = { files: [], open: false };
 
-function DeleteDialogProvider({ children }: Props) {
+export function DeleteDialogProvider({ children }: Props) {
   const [state, setState] = useState<State>(initialState);
 
-  const openDialog = useCallback(
-    (files: IFile[]) => {
-      setState({ files, open: true });
-    },
-    [setState],
-  );
+  const openDialog = useCallback((files: IFile[]) => {
+    setState({ files, open: true });
+  }, []);
 
-  const closeDialog = () => {
+  const closeDialog = useCallback(() => {
     setState(initialState);
-  };
+  }, []);
 
   const { files, open } = state;
 
@@ -47,8 +44,6 @@ function DeleteDialogProvider({ children }: Props) {
     </DeleteDialogContext.Provider>
   );
 }
-
-export default DeleteDialogProvider;
 
 export function useDeleteDialog(): ContextValue {
   const value = useContext(DeleteDialogContext);
