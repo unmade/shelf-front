@@ -6,7 +6,7 @@ import * as routes from '@/routes';
 
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/ui/empty';
 
-import Breadcrumbs from '@/components/Breadcrumbs';
+import { Breadcrumbs } from '@/apps/files/components/breadcrumbs';
 
 import FolderPickerList from './FolderPickerList';
 

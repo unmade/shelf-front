@@ -9,10 +9,10 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { FileSize } from '@/ui/filesize';
 import { TimeAgo } from '@/ui/timeago';
 
-import Breadcrumbs from '@/components/Breadcrumbs';
 import Exif from '@/components/Exif';
 import SharedLinkSetting from '@/components/SharedLinkSetting';
 
+import { Breadcrumbs } from '@/apps/files/components/breadcrumbs';
 interface PropertyProps {
   className?: string;
   label: string;

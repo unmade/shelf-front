@@ -17,16 +17,9 @@ import {
   DropdownMenuItem,
 } from '@/ui/dropdown-menu';
 
-interface BreadcrumbShape {
-  key: string;
-  name: string;
-  Icon?: React.ElementType;
-  url?: string;
-  path?: string;
-  onClick?: () => void;
-}
+import { type BreadcrumbItem as BreadcrumbItemShape } from './types';
 
-function Item({ item }: { item: BreadcrumbShape }) {
+function Item({ item }: { item: BreadcrumbItemShape }) {
   const { name, Icon, url, onClick } = item;
 
   return (
@@ -50,16 +43,11 @@ function Item({ item }: { item: BreadcrumbShape }) {
 interface Props {
   className?: string;
   collapseAfter: number;
-  items: BreadcrumbShape[];
+  items: BreadcrumbItemShape[];
   maxLastItems?: number;
 }
 
-export default function Breadcrumbs({
-  className,
-  items,
-  collapseAfter = 2,
-  maxLastItems = 1,
-}: Props) {
+export function Breadcrumbs({ className, items, collapseAfter = 2, maxLastItems = 1 }: Props) {
   const [first] = items;
   let lastItems = items.slice(Math.max(items.length - maxLastItems, 1), items.length);
   const toCollapse = items.slice(1, -maxLastItems);

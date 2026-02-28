@@ -16,6 +16,7 @@ import RenameFileDialogProvider from '@/components/RenameFileDialogProvider';
 import VerifyAccountDialogProvider from '@/components/VerifyAccountDialogProvider';
 import Uploader from '@/components/Uploader';
 
+import { BreadcrumbDropdown, useRouteBreadcrumbs } from '@/apps/files/components/breadcrumbs';
 import { FileBrowser, FileBrowserDataProvider } from '@/apps/files/components/browser';
 import { GoBackButton } from '@/apps/files/components/go-back-button';
 import {
@@ -73,6 +74,7 @@ export default function Files() {
   const path = dirPath ?? '.';
 
   const title = routes.folderName(dirPath);
+  const breadcrumbs = useRouteBreadcrumbs();
 
   return (
     <DialogsProvider>
@@ -86,10 +88,13 @@ export default function Files() {
             )}
             <PageHeader>
               <PageHeaderTitle>
-                <>
+                <div className="sm:hidden">
+                  <BreadcrumbDropdown items={breadcrumbs} />
+                </div>
+                <div className="flex min-w-0 items-center max-sm:hidden sm:gap-2">
                   <GoBackButton path={path} />
-                  <Heading>{title}</Heading>
-                </>
+                  <Heading className="truncate">{title}</Heading>
+                </div>
               </PageHeaderTitle>
               <PageHeaderActions>
                 <Uploader uploadTo={path} />
