@@ -1,13 +1,17 @@
 import { useTranslation } from 'react-i18next';
 
-import { type FileSchema } from '@/store/files';
-
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/ui/empty';
 
 import FileIcon from '@/components/FileIcon';
 
+export interface PreviewFile {
+  name: string;
+  mediatype: string;
+  hidden: boolean;
+}
+
 interface Props {
-  file: FileSchema;
+  file: PreviewFile;
   reason?: string;
 }
 

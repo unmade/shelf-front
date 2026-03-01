@@ -2,25 +2,47 @@ import { useEffect, useState } from 'react';
 
 import { cva } from 'class-variance-authority';
 
-import { useAppSelector } from '@/hooks';
 import { selectFeatureMaxFileSizeToThumbnail } from '@/store/features';
-import {
-  selectFallbackThumbnail,
-  useDownloadContentQuery,
-  useGetThumbnailQuery,
-  type FileSchema,
-} from '@/store/files';
+import { selectFallbackThumbnail, useGetThumbnailQuery, type FileSchema } from '@/store/files';
+import { type SharedLinkFileSchema } from '@/store/sharedLinks';
 
 import { cn } from '@/lib/utils';
 
-import { MediaType, ThumbnailSize } from '@/constants';
+import { ThumbnailSize } from '@/constants';
+import { useAppSelector } from '@/hooks';
 
-import { MEGABYTE } from '@/ui/filesize';
 import { Spinner } from '@/ui/spinner';
 
 import FileIcon from '@/components/FileIcon';
 
 export { ThumbnailSize } from '@/constants';
+
+function isHiDPI() {
+  return (
+    (window.matchMedia &&
+      (window.matchMedia(
+        'only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx), only screen and (min-resolution: 75.6dpcm)',
+      ).matches ||
+        window.matchMedia(
+          'only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min--moz-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2)',
+        ).matches)) ||
+    (window.devicePixelRatio && window.devicePixelRatio >= 2)
+  );
+}
+
+export function guessThumbnailSize({ width, height }: { width: number; height: number }): string {
+  let pixelSize = Math.max(width, height);
+  if (isHiDPI()) {
+    pixelSize *= 2;
+  }
+  if (pixelSize <= 72) {
+    return ThumbnailSize.xs;
+  }
+  if (pixelSize <= 512) {
+    return ThumbnailSize.lg;
+  }
+  return ThumbnailSize.xxl;
+}
 
 type ObjectFit = 'scale-down' | 'contain' | 'cover' | 'fill' | 'none';
 
@@ -41,32 +63,10 @@ const thumbnailVariants = cva('', {
 
 interface ThumbnailProps {
   className?: string;
-  file: FileSchema;
+  file: FileSchema | SharedLinkFileSchema;
   size?: string;
   style?: React.CSSProperties;
   objectFit?: ObjectFit;
-}
-
-interface SVGThumbnail {
-  className?: string;
-  file: FileSchema;
-}
-
-// Renders SVG files by downloading the raw content and displaying it inline.
-function SVGThumbnail({ className = '', file }: SVGThumbnail) {
-  const { data } = useDownloadContentQuery(file.path, { skip: file.size > MEGABYTE });
-
-  if (data?.content == null) {
-    return <FileIcon className={className} mediatype={file.mediatype} hidden={file.hidden} />;
-  }
-
-  return (
-    <img
-      className={cn(thumbnailVariants({ objectFit: 'scale-down' }), className)}
-      src={data.content}
-      alt={file.name}
-    />
-  );
 }
 
 function ImageThumbnail({
@@ -94,7 +94,10 @@ function ImageThumbnail({
 
   const { data, isFetching } = useGetThumbnailQuery(
     { url: file.thumbnail_url!, size, mtime },
-    { skip: skip || file.thumbnail_url?.startsWith('blob:') },
+    {
+      skip: skip || file.thumbnail_url?.startsWith('blob:'),
+      selectFromResult: ({ data, isFetching }) => ({ data, isFetching }),
+    },
   );
 
   // Newly-uploaded files get a temporary blob URL.
@@ -148,7 +151,7 @@ export function Thumbnail({
       className={className}
       mediatype={file.mediatype}
       hidden={file.hidden}
-      shared={file.shared}
+      shared={'shared' in file && file.shared}
     />
   );
 
@@ -166,10 +169,6 @@ export function Thumbnail({
         objectFit={objectFit}
       />
     );
-  }
-
-  if (MediaType.isSVG(file.mediatype)) {
-    return <SVGThumbnail className={className} file={file} />;
   }
 
   return fileIcon;

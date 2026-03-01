@@ -5,19 +5,22 @@ import { type FileSchema, useDownloadContentQuery } from '@/store/files';
 import { MEGABYTE } from '@/ui/filesize';
 import { Spinner } from '@/ui/spinner';
 
-import { NoPreview } from './no-preview';
+import { NoPreview, PDFPreview } from '@/apps/files/components/previews';
 
 const MAX_SIZE = 9 * MEGABYTE;
 
-interface Props {
+interface PDFSlideProps {
   file: FileSchema;
 }
 
-export function PDFSlide({ file }: Props) {
+export function PDFSlide({ file }: PDFSlideProps) {
   const { t } = useTranslation(['filePreview']);
 
   const shouldSkip = file.size > MAX_SIZE;
-  const { data, isLoading: loading } = useDownloadContentQuery(file.path, { skip: shouldSkip });
+  const { data, isLoading: loading } = useDownloadContentQuery(file.path, {
+    skip: shouldSkip,
+    selectFromResult: ({ data, isLoading }) => ({ data, isLoading }),
+  });
 
   if (shouldSkip) {
     return <NoPreview file={file} reason={t('filePreview:fileTooLarge')} />;
@@ -27,13 +30,5 @@ export function PDFSlide({ file }: Props) {
     return <Spinner className="h-full" />;
   }
 
-  return (
-    <object
-      data={data?.content}
-      type="application/pdf"
-      width="100%"
-      height="100%"
-      aria-label="PDF Preview"
-    />
-  );
+  return <PDFPreview content={data?.content} />;
 }
