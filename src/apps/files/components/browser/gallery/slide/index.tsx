@@ -4,9 +4,10 @@ import type { FileSchema } from '@/store/files';
 
 import { MediaType } from '@/constants';
 
+import { NoPreview } from '@/apps/files/components/previews';
+
 import { CodeSlide } from './code';
 import { ImageSlide } from './image';
-import { NoPreview } from './no-preview';
 import { PDFSlide } from './pdf';
 
 function getSlideRenderer(mediatype: string) {

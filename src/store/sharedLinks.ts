@@ -1,32 +1,42 @@
 import { createAsyncThunk, createEntityAdapter, createSelector } from '@reduxjs/toolkit';
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 
-import type { IFile } from '@/types/files';
+import { MediaType } from '@/constants';
 
 import { isFetchBaseQueryErrorWithApiErrorCode, type RootState } from './store';
 
 import apiSlice, { API_BASE_URL } from './apiSlice';
+import { type FileSchema } from './files';
 import { sharedLinkAdapter as mediaItemsSharedLinksAdapter, photosApi } from './mediaItems';
-import { MediaType } from '@/constants';
 
 export function isSharedLinkNotFound(error: unknown): boolean {
   return isFetchBaseQueryErrorWithApiErrorCode(error, 'SHARED_LINK_NOT_FOUND');
 }
 
-interface ISharedLinkSchema {
+interface SharedLinkSchema {
   file_id: string;
   token: string;
   created_at: string;
 }
 
-type SharedFile = IFile & ISharedLinkSchema;
+export interface SharedLinkFileSchema {
+  id: string;
+  name: string;
+  size: number;
+  modified_at: string;
+  mediatype: string;
+  hidden: boolean;
+  thumbnail_url?: string;
+}
+
+type SharedFile = FileSchema & SharedLinkSchema;
 
 const filesSharedViaLinkAdapter = createEntityAdapter<SharedFile>();
 const filesSharedViaLinkInitialState = filesSharedViaLinkAdapter.getInitialState();
 
 export const sharedLinksApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    createSharedLink: builder.mutation<ISharedLinkSchema, string>({
+    createSharedLink: builder.mutation<SharedLinkSchema, string>({
       query: (fileId) => ({
         url: '/sharing/create_shared_link',
         method: 'POST',
@@ -81,7 +91,7 @@ export const sharedLinksApi = apiSlice.injectEndpoints({
       },
     }),
 
-    getSharedLink: builder.query<ISharedLinkSchema, string>({
+    getSharedLink: builder.query<SharedLinkSchema, string>({
       query: (fileId) => ({
         url: '/sharing/get_shared_link',
         method: 'POST',
@@ -92,7 +102,7 @@ export const sharedLinksApi = apiSlice.injectEndpoints({
       ],
     }),
 
-    getSharedLinkFile: builder.query<IFile, { token: string; filename: string }>({
+    getSharedLinkFile: builder.query<SharedLinkFileSchema, { token: string; filename: string }>({
       query: ({ token, filename }) => ({
         url: '/sharing/get_shared_link_file',
         method: 'POST',
@@ -107,7 +117,7 @@ export const sharedLinksApi = apiSlice.injectEndpoints({
         if (sharedLinksResult.error) {
           return { error: sharedLinksResult.error as FetchBaseQueryError };
         }
-        const { items: sharedLinks } = sharedLinksResult.data as { items: ISharedLinkSchema[] };
+        const { items: sharedLinks } = sharedLinksResult.data as { items: SharedLinkSchema[] };
 
         const sharedLinkByFileId = new Map(
           sharedLinks.map((item) => [item.file_id, item] as const),
@@ -122,7 +132,7 @@ export const sharedLinksApi = apiSlice.injectEndpoints({
           return { error: result.error as FetchBaseQueryError };
         }
 
-        const { items: files } = result.data as { items: IFile[] };
+        const { items: files } = result.data as { items: FileSchema[] };
 
         const merged: SharedFile[] = files
           .map((file) => {

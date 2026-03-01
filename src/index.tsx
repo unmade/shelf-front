@@ -15,9 +15,10 @@ import * as routes from '@/routes';
 import { Toaster } from '@/ui/sonner';
 
 import OTPVerification from '@/pages/EmailVerification';
-import SharedLinkFile from '@/pages/SharedLinkFile';
 import SignIn from '@/pages/SignIn';
 import SignUp from '@/pages/SignUp';
+
+import SharedLinkFile from '@/apps/files/pages/shared-link-file';
 
 import AppearanceProvider from '@/components/AppearanceProvider';
 import RequireAccount from '@/components/RequireAccount';

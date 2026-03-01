@@ -4,13 +4,14 @@ import { skipToken } from '@reduxjs/toolkit/query';
 
 import { useGetSharedLinkFileQuery } from '@/store/sharedLinks';
 
-import SharedLinkFilePreview from './SharedLinkFilePreview';
+import { SharedLinkPreview } from '@/apps/files/components/shared-link-preview';
 
-function PublicView() {
+export default function SharedLinkFile() {
   const { token, filename } = useParams();
 
   const { data: file, isFetching: loading } = useGetSharedLinkFileQuery(
     token && filename ? { token, filename } : skipToken,
+    { selectFromResult: ({ data, isFetching }) => ({ data, isFetching }) },
   );
 
   return (
@@ -18,9 +19,7 @@ function PublicView() {
       <Helmet>
         <title>{file?.name ?? 'Shelf'}</title>
       </Helmet>
-      <SharedLinkFilePreview token={token} file={file} loading={loading} />;
+      <SharedLinkPreview file={file} token={token ?? ''} loading={loading} />
     </>
   );
 }
-
-export default PublicView;
