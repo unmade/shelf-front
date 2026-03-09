@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import { Spinner } from '@/ui/spinner';
 
 import { useFileBrowserData } from './contexts/data';
@@ -8,6 +10,7 @@ import { GridView } from './grid-view';
 import { TableView } from './table-view';
 
 export function FileBrowserContent() {
+  const { t } = useTranslation('files');
   const { scrollKey: path, viewMode } = useFileBrowserContext();
   const { data, isLoading, isError } = useFileBrowserData();
   const { initialScrollOffset, onScrollOffsetChange } = useScrollPosition({ key: path });
@@ -19,8 +22,10 @@ export function FileBrowserContent() {
   if (isError) {
     return (
       <FileBrowserEmpty
-        title="Unable to load folder"
-        description="There was an error loading this folder. Please try again."
+        title={t('browser.error.title', { defaultValue: 'Unable to load folder' })}
+        description={t('browser.error.description', {
+          defaultValue: 'There was an error loading this folder. Please try again.',
+        })}
       />
     );
   }

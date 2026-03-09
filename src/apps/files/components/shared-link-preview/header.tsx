@@ -17,7 +17,7 @@ interface Props {
 }
 
 export function SharedLinkHeader({ fileName, sidePanelOpen, onToggleSidePanel }: Props) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('files');
 
   return (
     <header className="flex h-14 shrink-0 items-center justify-between border-b px-4 dark:bg-zinc-900">
@@ -33,18 +33,18 @@ export function SharedLinkHeader({ fileName, sidePanelOpen, onToggleSidePanel }:
       <div className="flex items-center justify-end gap-4 sm:w-48">
         <Link to={routes.SIGNIN.prefix} className="hidden sm:inline-block">
           <Button variant="ghost" size="sm">
-            {t('Sign In')}
+            {t('sharedLink.signIn', { defaultValue: 'Sign In' })}
           </Button>
         </Link>
         <Link to={routes.SIGNUP.prefix}>
-          <Button size="sm">{t('Sign Up')}</Button>
+          <Button size="sm">{t('sharedLink.signUp', { defaultValue: 'Sign Up' })}</Button>
         </Link>
         <Toggle
           className="max-sm:hidden"
           size="sm"
           pressed={sidePanelOpen}
           onPressedChange={onToggleSidePanel}
-          aria-label={t('Toggle info panel')}
+          aria-label={t('sharedLink.toggleInfoPanel', { defaultValue: 'Toggle info panel' })}
         >
           <PanelRightIcon />
         </Toggle>

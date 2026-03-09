@@ -13,7 +13,7 @@ interface TableViewHeaderProps {
 }
 
 export function TableViewHeader({ className, totalCount, onSelectAll }: TableViewHeaderProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('files');
 
   const { selectedIds, clearSelection } = useSelectionContext();
 
@@ -44,18 +44,27 @@ export function TableViewHeader({ className, totalCount, onSelectAll }: TableVie
       <Checkbox
         checked={indeterminate ? 'indeterminate' : allSelected}
         onCheckedChange={handleCheckedChange}
-        aria-label={t('Select all files')}
+        aria-label={t('tableHeader.selectAll', { defaultValue: 'Select all files' })}
       />
       {/* Name column */}
       <div className="flex-1">
-        {selectedCount > 0 ? t('{{count}} selected', { count: selectedCount }) : t('Name')}
+        {selectedCount > 0
+          ? t('tableHeader.selectedCount', {
+              defaultValue: '{{count}} selected',
+              count: selectedCount,
+            })
+          : t('tableHeader.name', { defaultValue: 'Name' })}
       </div>
       {/* Spacer for bookmark button */}
       <div className="size-8 shrink-0" />
       {/* Modified column */}
-      <div className="w-40 flex-none @max-2xl:hidden">{t('Modified')}</div>
+      <div className="w-40 flex-none @max-2xl:hidden">
+        {t('tableHeader.modified', { defaultValue: 'Modified' })}
+      </div>
       {/* Size column */}
-      <div className="w-28 flex-none pr-4 text-right @max-2xl:hidden">{t('Size')}</div>
+      <div className="w-28 flex-none pr-4 text-right @max-2xl:hidden">
+        {t('tableHeader.size', { defaultValue: 'Size' })}
+      </div>
       {/* Spacer for row actions */}
       <div className="size-8 shrink-0" />
     </div>

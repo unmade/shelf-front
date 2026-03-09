@@ -1,4 +1,5 @@
 import { memo, useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import type { EntityState } from '@reduxjs/toolkit';
 
@@ -53,6 +54,7 @@ export function TableView({
   initialScrollOffset = 0,
 }: TableViewProps) {
   const { select } = useSelectionContext();
+  const { t } = useTranslation('files');
 
   const allIds = data.ids as string[];
   const itemCount = allIds.length;
@@ -65,7 +67,11 @@ export function TableView({
 
   return (
     <div className="@container min-w-0 flex-1">
-      <div className="flex h-full flex-col" role="table" aria-label="Files">
+      <div
+        className="flex h-full flex-col"
+        role="table"
+        aria-label={t('browser.table.ariaLabel', { defaultValue: 'Files' })}
+      >
         <TableViewHeader totalCount={itemCount} onSelectAll={handleSelectAll} />
         <div className="flex-1">
           <VList

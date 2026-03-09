@@ -27,7 +27,7 @@ const RowRenderer = memo(function RowRenderer({ index, data, style }: ItemRender
 });
 
 export function SharedLinkList() {
-  const { t } = useTranslation('sharedViaLink');
+  const { t } = useTranslation('files');
 
   const { ids, isFetching } = useListFilesSharedViaLinkQuery(undefined, {
     selectFromResult: ({ data, isFetching }) => ({
@@ -50,7 +50,9 @@ export function SharedLinkList() {
             <icons.LinkOutlined />
           </EmptyMedia>
           <EmptyTitle>
-            {t('emptyTitle', { defaultValue: 'Files shared via link will appear here' })}
+            {t('sharedViaLink.emptyTitle', {
+              defaultValue: 'Files shared via link will appear here',
+            })}
           </EmptyTitle>
         </EmptyHeader>
       </Empty>

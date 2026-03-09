@@ -13,7 +13,7 @@ interface CopyLinkButtonProps {
 }
 
 export function CopyLinkButton({ token, filename }: CopyLinkButtonProps) {
-  const { t } = useTranslation('sharedViaLink');
+  const { t } = useTranslation('files');
   const link = useSharedLink({ token, filename });
   const [copied, setCopied] = useState(false);
 
@@ -28,7 +28,7 @@ export function CopyLinkButton({ token, filename }: CopyLinkButtonProps) {
       className="text-muted-foreground invisible group-hover/item:visible"
       size="sm"
       variant="outline"
-      title={t('copyLink', { defaultValue: 'Copy link' })}
+      title={t('sharedViaLink.copyLink', { defaultValue: 'Copy link' })}
       onClick={() => {
         if (link) {
           navigator.clipboard?.writeText(link);
@@ -38,7 +38,7 @@ export function CopyLinkButton({ token, filename }: CopyLinkButtonProps) {
       disabled={!link}
     >
       {copied ? <icons.Check className="text-teal-500" /> : <icons.ClipboardCopyOutlined />}
-      {t('copyLink', { defaultValue: 'Copy link' })}
+      {t('sharedViaLink.copyLink', { defaultValue: 'Copy link' })}
     </Button>
   );
 }

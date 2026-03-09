@@ -28,12 +28,12 @@ function Property({ label, value }: PropertyProps) {
 }
 
 function DownloadButton({ token, filename }: { token: string; filename: string }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('files');
   const dispatch = useAppDispatch();
 
   return (
     <Button onClick={() => dispatch(downloadSharedLinkFile({ token, filename }))}>
-      {t('Download')}
+      {t('actions.download', { defaultValue: 'Download' })}
     </Button>
   );
 }
@@ -44,7 +44,7 @@ interface SidePanelContentProps {
 }
 
 function SidePanelContent({ file, token }: SidePanelContentProps) {
-  const { t } = useTranslation('file');
+  const { t } = useTranslation('files');
 
   return (
     <div className="h-full w-full border-l">
@@ -64,10 +64,18 @@ function SidePanelContent({ file, token }: SidePanelContentProps) {
         </div>
         <DownloadButton token={token} filename={file.name} />
         <div>
-          <p className="text-sm font-medium uppercase">{t('file:information')}</p>
+          <p className="text-sm font-medium uppercase">
+            {t('sections.information', { defaultValue: 'Information' })}
+          </p>
           <div className="space-y-0.5">
-            <Property label="Size" value={<FileSize bytes={file.size} />} />
-            <Property label="Modified" value={<TimeAgo value={file.modified_at} format="LLL" />} />
+            <Property
+              label={t('properties.size', { defaultValue: 'Size' })}
+              value={<FileSize bytes={file.size} />}
+            />
+            <Property
+              label={t('properties.modified', { defaultValue: 'Modified' })}
+              value={<TimeAgo value={file.modified_at} format="LLL" />}
+            />
           </div>
         </div>
       </div>

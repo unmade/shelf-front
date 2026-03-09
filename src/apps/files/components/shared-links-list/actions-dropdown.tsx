@@ -21,7 +21,7 @@ interface Props {
 }
 
 export function ActionsDropdown({ children, fileId }: Props) {
-  const { t } = useTranslation('sharedViaLink');
+  const { t } = useTranslation('files');
   const { openDialog } = useCopyLinkDialog();
   const [revokeSharedLink] = useRevokeSharedLinkMutation();
   const file = useAppSelector((state) => selectFilesSharedViaLinkById(state, fileId));
@@ -34,14 +34,14 @@ export function ActionsDropdown({ children, fileId }: Props) {
       <DropdownMenuContent className="min-w-40" side="bottom" align="end">
         <DropdownMenuItem onClick={() => openDialog(file)}>
           <icons.LinkOutlined />
-          {t('configureLink', { defaultValue: 'Configure link' })}
+          {t('sharedViaLink.configureLink', { defaultValue: 'Configure link' })}
         </DropdownMenuItem>
         <DropdownMenuItem
           variant="destructive"
           onClick={() => revokeSharedLink({ fileId: file.id, token: file.token })}
         >
           <icons.TrashOutlined />
-          {t('removeSharedLink', { defaultValue: 'Remove shared link' })}
+          {t('sharedViaLink.removeSharedLink', { defaultValue: 'Remove shared link' })}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

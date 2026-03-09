@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import * as icons from '@/icons';
 
 import { useListBookmarkedFilesQuery } from '@/store/files';
@@ -44,7 +46,8 @@ function FileBrowserContainer({ path }: FileBrowserContainerProps) {
 }
 
 export default function Files() {
-  const title = 'Bookmarks';
+  const { t } = useTranslation('files');
+  const title = t('pages.bookmarks.title', { defaultValue: 'Bookmarks' });
 
   return (
     <AllDialogsProvider>

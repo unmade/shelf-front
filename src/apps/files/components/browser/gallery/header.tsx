@@ -9,7 +9,7 @@ import { Toggle } from '@/ui/toggle';
 import { useGallery, useSelectGallerySlide } from './context';
 
 export function GalleryHeader() {
-  const { t } = useTranslation();
+  const { t } = useTranslation('files');
   const { totalSlides, closeGallery, carouselApi, sidePanelOpen, toggleSidePanel } = useGallery();
 
   const { currentIndex, currentFile } = useSelectGallerySlide();
@@ -18,7 +18,12 @@ export function GalleryHeader() {
   return (
     <header className="flex h-14 shrink-0 items-center justify-between border-b px-4 dark:bg-zinc-900">
       <div className="flex items-center gap-2 sm:w-48">
-        <Button variant="ghost" size="icon" onClick={closeGallery} aria-label={t('Close')}>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={closeGallery}
+          aria-label={t('gallery.close', { defaultValue: 'Close' })}
+        >
           <XIcon />
         </Button>
       </div>
@@ -32,7 +37,7 @@ export function GalleryHeader() {
           variant="ghost"
           size="icon"
           onClick={() => carouselApi?.scrollPrev()}
-          aria-label={t('Previous')}
+          aria-label={t('gallery.previous', { defaultValue: 'Previous' })}
         >
           <ChevronLeftIcon />
         </Button>
@@ -43,7 +48,7 @@ export function GalleryHeader() {
           variant="ghost"
           size="icon"
           onClick={() => carouselApi?.scrollNext()}
-          aria-label={t('Next')}
+          aria-label={t('gallery.next', { defaultValue: 'Next' })}
         >
           <ChevronRightIcon />
         </Button>
@@ -52,7 +57,7 @@ export function GalleryHeader() {
           size="sm"
           pressed={sidePanelOpen}
           onPressedChange={toggleSidePanel}
-          aria-label={t('Toggle side panel')}
+          aria-label={t('gallery.toggleSidePanel', { defaultValue: 'Toggle side panel' })}
         >
           <PanelRightIcon />
         </Toggle>

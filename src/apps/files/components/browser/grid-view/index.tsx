@@ -1,4 +1,5 @@
 import { memo, useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import type { EntityState } from '@reduxjs/toolkit';
 
@@ -79,6 +80,7 @@ interface GridViewProps {
 }
 
 export function GridView({ data }: GridViewProps) {
+  const { t } = useTranslation('files');
   const containerRef = useRef<HTMLDivElement>(null);
   const columnCount = useContainerColumns(containerRef);
 
@@ -95,7 +97,12 @@ export function GridView({ data }: GridViewProps) {
   );
 
   return (
-    <div ref={containerRef} className="min-w-0 flex-1 px-4" role="grid" aria-label="Files grid">
+    <div
+      ref={containerRef}
+      className="min-w-0 flex-1 px-4"
+      role="grid"
+      aria-label={t('browser.grid.ariaLabel', { defaultValue: 'Files grid' })}
+    >
       <VGrid
         columnCount={columnCount}
         rowCount={rowCount}

@@ -31,7 +31,7 @@ ExifProperty.propTypes = {
 };
 
 function Exif({ fileId }) {
-  const { t } = useTranslation(['exif']);
+  const { t } = useTranslation('files');
   const { data, isFetching: loading, isError } = useGetContentMetadataQuery(fileId);
   const meta = data?.data;
 
@@ -51,7 +51,7 @@ function Exif({ fileId }) {
         <div className="flex justify-between">
           <p className="text-left text-base font-medium">
             {getCameraModel(meta) ??
-              t('exif:noCameraInformation', { defaultValue: 'No camera information' })}
+              t('exif.noCameraInformation', { defaultValue: 'No camera information' })}
           </p>
         </div>
         {(focalLength || fnumber || exposure || iso) && (
@@ -66,13 +66,13 @@ function Exif({ fileId }) {
       <div>
         {dimensions && (
           <ExifProperty
-            title={t('exif:dimensions', { defaultValue: 'Dimensions' })}
+            title={t('exif.dimensions', { defaultValue: 'Dimensions' })}
             value={dimensions}
           />
         )}
         {meta.dt_original && (
           <ExifProperty
-            title={t('exif:dateTaken', { defaultValue: 'Date Taken' })}
+            title={t('exif.dateTaken', { defaultValue: 'Date Taken' })}
             value={
               <>
                 <TimeAgo

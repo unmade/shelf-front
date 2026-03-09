@@ -1,4 +1,5 @@
 import { BookmarkIcon, MoreHorizontalIcon } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import type { FileSchema } from '@/store/files';
 
@@ -16,6 +17,8 @@ interface SidePreviewActionsProps {
 }
 
 export function SidePreviewActions({ files }: SidePreviewActionsProps) {
+  const { t } = useTranslation('files');
+
   return (
     <div className="flex shrink-0 items-center justify-between py-4">
       {files.length === 1 ? (
@@ -24,16 +27,18 @@ export function SidePreviewActions({ files }: SidePreviewActionsProps) {
           path={files[0].path}
           preview={!MediaType.isFolder(files[0].mediatype)}
         >
-          <Button size="sm">Open</Button>
+          <Button size="sm">{t('browser.sidePreview.open', { defaultValue: 'Open' })}</Button>
         </FileLink>
       ) : (
-        <Button size="sm">New Folder</Button>
+        <Button size="sm">
+          {t('browser.sidePreview.newFolder', { defaultValue: 'New Folder' })}
+        </Button>
       )}
 
       <ButtonGroup>
         <BookmarkToggle fileIds={files.map((f) => f.id)} variant="outline" size="sm">
           <BookmarkIcon />
-          Bookmark
+          {t('actions.toggleBookmark', { defaultValue: 'Bookmark' })}
         </BookmarkToggle>
         <FileActionsDropdown files={files}>
           <Button size="sm" variant="outline">

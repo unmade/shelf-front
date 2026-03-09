@@ -1,4 +1,5 @@
 import { BookmarkIcon, MoreHorizontalIcon } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import * as Collapsible from '@radix-ui/react-collapsible';
 
@@ -42,13 +43,15 @@ function Description({ file }: { file: FileSchema }) {
 }
 
 function Actions({ className, file }: { className?: string; file: FileSchema }) {
+  const { t } = useTranslation('files');
+
   return (
     <div className={cn('flex items-center justify-between', className)}>
-      <Button size="sm">Download</Button>
+      <Button size="sm">{t('actions.download', { defaultValue: 'Download' })}</Button>
       <ButtonGroup>
         <BookmarkToggle fileIds={[file.id]} variant="outline" size="sm">
           <BookmarkIcon />
-          Bookmark
+          {t('actions.toggleBookmark', { defaultValue: 'Bookmark' })}
         </BookmarkToggle>
         <FileActionsDropdown files={[file]}>
           <Button size="sm" variant="outline">

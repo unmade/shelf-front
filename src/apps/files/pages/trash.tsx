@@ -30,7 +30,7 @@ import {
 } from '@/apps/files/components/page';
 
 function EmptyTrashDialogButton() {
-  const { t } = useTranslation();
+  const { t } = useTranslation('files');
 
   const openEmptyTrashDialog = useEmptyTrashDialog();
 
@@ -38,7 +38,7 @@ function EmptyTrashDialogButton() {
     <Button
       variant="destructive"
       size="icon"
-      title={t('Empty Trash')}
+      title={t('dialogs.emptyTrash.title', { defaultValue: 'Empty Trash' })}
       onClick={openEmptyTrashDialog}
     >
       <icons.TrashOutlined />
