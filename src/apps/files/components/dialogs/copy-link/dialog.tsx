@@ -27,7 +27,7 @@ interface Props {
 }
 
 export function CopyLinkDialog({ file, open, onClose }: Props) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('files');
 
   const superuser = useAppSelector(selectIsSuperuser);
   const sharingEnabled = useAppSelector(selectFeatureSharedLinksEnabled);
@@ -48,14 +48,20 @@ export function CopyLinkDialog({ file, open, onClose }: Props) {
     <Dialog open={open} onOpenChange={handleOpenChanged}>
       <DialogContent className="sm:min-w-md">
         <DialogHeader>
-          <DialogTitle>{t('Share read-only link')}</DialogTitle>
+          <DialogTitle>
+            {t('dialogs.copyLink.title', { defaultValue: 'Share read-only link' })}
+          </DialogTitle>
           <DialogDescription>
-            {!canShare ? 'Sharing is temporarily disabled for your account' : null}
+            {!canShare
+              ? t('dialogs.copyLink.sharingDisabled', {
+                  defaultValue: 'Sharing is temporarily disabled for your account',
+                })
+              : null}
           </DialogDescription>
         </DialogHeader>
         <DialogBody>{canShare && file && <SharedLinkSetting file={file} />}</DialogBody>
         <DialogFooter>
-          <Button onClick={onConfirm}>{t('Done')}</Button>
+          <Button onClick={onConfirm}>{t('actions.done', { defaultValue: 'Done' })}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

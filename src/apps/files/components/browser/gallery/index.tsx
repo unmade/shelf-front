@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 
@@ -8,6 +9,7 @@ import { GalleryHeader } from './header';
 import { GallerySidePanel } from './side-panel';
 
 function GalleryDialog() {
+  const { t } = useTranslation('files');
   const { open: open, closeGallery } = useGallery();
 
   useEffect(() => {
@@ -29,7 +31,9 @@ function GalleryDialog() {
     <DialogPrimitive.Root open={open} onOpenChange={(open) => !open && closeGallery()}>
       <DialogPrimitive.Portal>
         <DialogPrimitive.Content className="bg-background fixed inset-0 flex flex-col outline-none">
-          <DialogPrimitive.Title className="sr-only">Gallery</DialogPrimitive.Title>
+          <DialogPrimitive.Title className="sr-only">
+            {t('gallery.title', { defaultValue: 'Gallery' })}
+          </DialogPrimitive.Title>
           <GalleryHeader />
           <div className="flex min-h-0 flex-1">
             <GalleryContent />

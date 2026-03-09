@@ -17,7 +17,7 @@ interface Props {
 }
 
 export function ActionsDropdown({ children, fileId }: Props) {
-  const { t } = useTranslation('sharedInApp');
+  const { t } = useTranslation('files');
   const { openDialog } = useFileMembersDialog();
 
   return (
@@ -26,7 +26,7 @@ export function ActionsDropdown({ children, fileId }: Props) {
       <DropdownMenuContent className="min-w-40" side="bottom" align="end">
         <DropdownMenuItem onClick={() => openDialog(fileId)}>
           <icons.UsersOutlined />
-          {t('manageMembers', { defaultValue: 'Manage members' })}
+          {t('sharedInApp.manageMembers', { defaultValue: 'Manage members' })}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

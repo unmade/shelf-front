@@ -1,4 +1,5 @@
 import { memo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import type { FileSchema } from '@/store/files';
 
@@ -26,6 +27,7 @@ interface Props {
 }
 
 export const TableViewRow = memo(function TableViewRow({ file, index }: Props) {
+  const { t } = useTranslation('files');
   const { isSelected, select, toggleSelection } = useSelectionContext();
 
   const selected = isSelected(file.id);
@@ -66,7 +68,7 @@ export const TableViewRow = memo(function TableViewRow({ file, index }: Props) {
         <Checkbox
           checked={selected}
           onCheckedChange={handleCheckboxChange}
-          aria-label={`Select ${file.name}`}
+          aria-label={t('browser.selectFile', { defaultValue: 'Select {{name}}', name: file.name })}
         />
         <ItemMedia>
           <Thumbnail className="size-8" file={file} />

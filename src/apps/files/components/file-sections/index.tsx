@@ -1,4 +1,5 @@
 import { type FileSchema } from '@/store/files';
+import { useTranslation } from 'react-i18next';
 
 import { cn } from '@/lib/utils';
 
@@ -33,6 +34,7 @@ interface InfoSectionProps {
 }
 
 function InfoSection({ file }: InfoSectionProps) {
+  const { t } = useTranslation('files');
   const breadcrumbs = routes
     .breadcrumbs(file.path)
     .slice(0, -1)
@@ -44,11 +46,19 @@ function InfoSection({ file }: InfoSectionProps) {
   return (
     <div className="space-y-0.5">
       <Property
-        label="Location"
+        label={t('properties.location', { defaultValue: 'Location' })}
         value={<Breadcrumbs className="text-xs" items={breadcrumbs} collapseAfter={2} />}
       />
-      {<Property label="Size" value={<FileSize bytes={file.size} />} />}
-      <Property label="Modified" value={<TimeAgo value={file.modified_at} format="LLL" />} />
+      {
+        <Property
+          label={t('properties.size', { defaultValue: 'Size' })}
+          value={<FileSize bytes={file.size} />}
+        />
+      }
+      <Property
+        label={t('properties.modified', { defaultValue: 'Modified' })}
+        value={<TimeAgo value={file.modified_at} format="LLL" />}
+      />
     </div>
   );
 }
@@ -59,25 +69,26 @@ interface SidePanelSectionsProps {
 }
 
 export function FileSections({ className, file }: SidePanelSectionsProps) {
+  const { t } = useTranslation('files');
   const isImage = MediaType.isImage(file.mediatype);
 
   const items = [
     {
       value: 'info',
-      trigger: 'Information',
+      trigger: t('sections.information', { defaultValue: 'Information' }),
       content: <InfoSection file={file} />,
     },
     {
       value: 'sharing',
-      trigger: 'Sharing',
-      content: <SharedLinkSetting file={file} />,
+      trigger: t('sections.sharing', { defaultValue: 'Sharing' }),
+      content: <SharedLinkSetting key={file.id} file={file} />,
     },
   ];
 
   if (isImage) {
     items.push({
       value: 'exif',
-      trigger: 'Exif',
+      trigger: t('sections.exif', { defaultValue: 'Exif' }),
       content: <Exif fileId={file.id} />,
     });
   }

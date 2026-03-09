@@ -1,4 +1,5 @@
 import { memo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { MoreVerticalIcon } from 'lucide-react';
 
@@ -22,6 +23,7 @@ interface Props {
 }
 
 export const GridViewItem = memo(function GridViewItem({ file }: Props) {
+  const { t } = useTranslation('files');
   const { isSelected, select, toggleSelection } = useSelectionContext();
 
   const selected = isSelected(file.id);
@@ -64,7 +66,7 @@ export const GridViewItem = memo(function GridViewItem({ file }: Props) {
         <Checkbox
           checked={selected}
           onCheckedChange={handleCheckboxChange}
-          aria-label={`Select ${file.name}`}
+          aria-label={t('browser.selectFile', { defaultValue: 'Select {{name}}', name: file.name })}
           className={cn(
             'absolute top-6 left-6 z-10 size-4 transition-opacity',
             selected ? 'opacity-100' : 'opacity-0 group-hover/item:opacity-100',

@@ -14,7 +14,7 @@ import {
 
 const config: AppConfig = {
   key: 'files',
-  title: i18n.t('filesApp.title'),
+  title: 'Files',
   path: routes.FILES.prefix,
   Icon: FilesAppIcon,
   menu: {
@@ -25,21 +25,21 @@ const config: AppConfig = {
         items: [
           {
             path: routes.FILES.prefix,
-            title: i18n.t('Home', { defaultValue: 'Home' }),
+            title: 'Home',
             Icon: HomeOutlined,
             desktopOnly: false,
             end: false,
           },
           {
             path: routes.BOOKMARKS.prefix,
-            title: i18n.t('Saved', { defaultValue: 'Saved' }),
+            title: 'Saved',
             Icon: BookmarkOutlined,
             desktopOnly: false,
             end: false,
           },
           {
             path: routes.TRASH.prefix,
-            title: i18n.t('Trash', { defaultValue: 'Trash' }),
+            title: 'Trash',
             Icon: TrashOutlined,
             desktopOnly: false,
             end: false,
@@ -48,18 +48,18 @@ const config: AppConfig = {
       },
       {
         key: 'sharing',
-        title: i18n.t('Sharing', { defaultValue: 'Sharing' }),
+        title: 'Sharing',
         items: [
           {
             path: routes.SHARED_IN_APP.prefix,
-            title: i18n.t('In app', { defaultValue: 'In app' }),
+            title: 'In app',
             Icon: ShareOutlined,
             desktopOnly: false,
             end: true,
           },
           {
             path: routes.SHARED_VIA_LINK.prefix,
-            title: i18n.t('Links', { defaultValue: 'Links' }),
+            title: 'Links',
             Icon: LinkOutlined,
             desktopOnly: false,
             end: true,
@@ -70,15 +70,25 @@ const config: AppConfig = {
   },
 };
 
-i18n.on('languageChanged init', () => {
-  config.title = i18n.t('filesApp.title', { defaultValue: 'Files' });
-  config.menu.sections[0].items[0].title = i18n.t('Home');
-  config.menu.sections[0].items[1].title = i18n.t('Saved');
-  config.menu.sections[0].items[2].title = i18n.t('Trash');
+i18n.on('languageChanged init', async () => {
+  if (!i18n.hasLoadedNamespace('files')) {
+    try {
+      await i18n.loadNamespaces('files');
+    } catch (error) {
+      console.error('Error loading files namespace:', error);
+    }
+  }
 
-  config.menu.sections[1].title = i18n.t('Sharing', { defaultValue: 'Sharing' });
-  config.menu.sections[1].items![0].title = i18n.t('In app');
-  config.menu.sections[1].items![1].title = i18n.t('Links');
+  const { t } = i18n;
+
+  config.title = t('nav.title', { ns: 'files', defaultValue: 'Files' });
+  config.menu.sections[0].items[0].title = t('nav.home', { ns: 'files', defaultValue: 'Home' });
+  config.menu.sections[0].items[1].title = t('nav.saved', { ns: 'files', defaultValue: 'Saved' });
+  config.menu.sections[0].items[2].title = t('nav.trash', { ns: 'files', defaultValue: 'Trash' });
+
+  config.menu.sections[1].title = t('nav.sharing', { ns: 'files', defaultValue: 'Sharing' });
+  config.menu.sections[1].items![0].title = t('nav.inApp', { ns: 'files', defaultValue: 'In app' });
+  config.menu.sections[1].items![1].title = t('nav.links', { ns: 'files', defaultValue: 'Links' });
 });
 
 export default config;

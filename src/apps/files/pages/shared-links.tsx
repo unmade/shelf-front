@@ -10,7 +10,7 @@ import { Page, PageContent, PageHeader, PageHeaderTitle } from '@/apps/files/com
 import { SharedLinkList } from '@/apps/files/components/shared-links-list';
 
 export default function SharedLinks() {
-  const { t } = useTranslation('sharedViaLink');
+  const { t } = useTranslation('files');
 
   return (
     <CopyLinkDialogProvider>
@@ -18,7 +18,7 @@ export default function SharedLinks() {
         <PageHeader>
           <PageHeaderTitle>
             <icons.LinkOutlined data-slot="icon" />
-            <Heading>{t('pageTitle', { defaultValue: 'Shared via link' })}</Heading>
+            <Heading>{t('pages.sharedViaLink.title', { defaultValue: 'Shared via link' })}</Heading>
           </PageHeaderTitle>
         </PageHeader>
         <PageContent>

@@ -25,15 +25,15 @@ import {
 } from '@/ui/dropdown-menu';
 
 function useDisplayAccessLevel(accessLevel: FileMemberAccessLevel): string {
-  const { t } = useTranslation('fileMembersSetting');
+  const { t } = useTranslation('files');
 
   switch (accessLevel) {
     case 'owner':
-      return t('accessLevel.owner.title', { defaultValue: 'Owner' });
+      return t('fileMembers.accessLevel.owner', { defaultValue: 'Owner' });
     case 'editor':
-      return t('accessLevel.canEdit.title', { defaultValue: 'Can edit' });
+      return t('fileMembers.accessLevel.canEdit', { defaultValue: 'Can edit' });
     case 'viewer':
-      return t('accessLevel.canView.title', { defaultValue: 'Can view' });
+      return t('fileMembers.accessLevel.canView', { defaultValue: 'Can view' });
     default:
       return accessLevel;
   }
@@ -44,7 +44,7 @@ interface MemberAccessLevelRadioGroupProps {
 }
 
 function MemberAccessLevelRadioGroup({ member }: MemberAccessLevelRadioGroupProps) {
-  const { t } = useTranslation('fileMembersSetting');
+  const { t } = useTranslation('files');
 
   const [setMemberAccessLevel] = useSetFileMemberAccessLevelMutation();
 
@@ -70,10 +70,10 @@ function MemberAccessLevelRadioGroup({ member }: MemberAccessLevelRadioGroupProp
       onValueChange={(value) => handleSetMemberAccessLevel(value as FileMemberAccessLevel)}
     >
       <DropdownMenuRadioItem value="viewer" disabled={isCurrentUser || !canChangeAccessLevel}>
-        {t('accessLevel.canView.title', { defaultValue: 'Can view' })}
+        {t('fileMembers.accessLevel.canView', { defaultValue: 'Can view' })}
       </DropdownMenuRadioItem>
       <DropdownMenuRadioItem value="editor" disabled={isCurrentUser || !canChangeAccessLevel}>
-        {t('accessLevel.canEdit.title', { defaultValue: 'Can edit' })}
+        {t('fileMembers.accessLevel.canEdit', { defaultValue: 'Can edit' })}
       </DropdownMenuRadioItem>
     </DropdownMenuRadioGroup>
   );
@@ -84,7 +84,7 @@ interface Props {
 }
 
 export default function FileMemberAccessLevel({ member }: Props) {
-  const { t } = useTranslation('fileMembersSetting');
+  const { t } = useTranslation('files');
 
   const [removeMember] = useRemoveFileMemberMutation();
 
@@ -109,13 +109,13 @@ export default function FileMemberAccessLevel({ member }: Props) {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="min-w-48" side="bottom" align="end">
         <DropdownMenuLabel>
-          {t('accessLevel.label', { defaultValue: 'Access Level' })}
+          {t('fileMembers.accessLevel.label', { defaultValue: 'Access Level' })}
         </DropdownMenuLabel>
         <MemberAccessLevelRadioGroup member={member} />
         <DropdownMenuSeparator />
         {member.permissions.can_remove && (
           <DropdownMenuItem variant="destructive" onSelect={handleRemoveMember}>
-            {t('removeMemberBtn.title', { defaultValue: 'Remove' })}
+            {t('fileMembers.accessLevel.remove', { defaultValue: 'Remove' })}
           </DropdownMenuItem>
         )}
       </DropdownMenuContent>

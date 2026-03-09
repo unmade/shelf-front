@@ -19,11 +19,13 @@ export function BookmarkToggle({
   variant,
   size,
 }: Props & ToggleVariants) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('files');
 
   const { bookmarked, loading, toggleBookmark } = useToggleBookmark(fileIds);
 
-  const title = bookmarked ? t('Remove from bookmarks') : t('Add to bookmarks');
+  const title = bookmarked
+    ? t('bookmark.remove', { defaultValue: 'Remove from bookmarks' })
+    : t('bookmark.add', { defaultValue: 'Add to bookmarks' });
 
   return (
     <Toggle

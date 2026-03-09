@@ -10,7 +10,7 @@ interface FileBrowserEmptyProps {
 }
 
 export function FileBrowserEmpty({ title, description }: FileBrowserEmptyProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('files');
 
   return (
     <Empty className="h-full">
@@ -18,9 +18,14 @@ export function FileBrowserEmpty({ title, description }: FileBrowserEmptyProps) 
         <EmptyMedia variant="icon">
           <FolderIcon />
         </EmptyMedia>
-        <EmptyTitle>{title ?? t('This folder is empty')}</EmptyTitle>
+        <EmptyTitle>
+          {title ?? t('browser.empty.title', { defaultValue: 'This folder is empty' })}
+        </EmptyTitle>
         <EmptyDescription>
-          {description ?? t('Upload files or create a new folder to get started.')}
+          {description ??
+            t('browser.empty.description', {
+              defaultValue: 'Upload files or create a new folder to get started.',
+            })}
         </EmptyDescription>
       </EmptyHeader>
     </Empty>

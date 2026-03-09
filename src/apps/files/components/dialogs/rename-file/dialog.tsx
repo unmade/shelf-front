@@ -54,7 +54,7 @@ interface Props {
 }
 
 export function RenameFileDialog({ file, open, onClose }: Props) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('files');
   const { rename, isLoading } = useRenameFile(onClose);
 
   const [name, setName] = useState(file?.name ?? '');
@@ -84,9 +84,9 @@ export function RenameFileDialog({ file, open, onClose }: Props) {
     if (file == null) return;
 
     if (name === '') {
-      setError(t('Name cannot be empty.'));
+      setError(t('dialogs.rename.errors.nameRequired', { defaultValue: 'Name cannot be empty.' }));
     } else if (name === file.name) {
-      setError(t('Name is the same.'));
+      setError(t('dialogs.rename.errors.nameSame', { defaultValue: 'Name is the same.' }));
     } else {
       const toPath = routes.join(routes.parent(file.path), name);
       rename(file.path, toPath);
@@ -99,7 +99,10 @@ export function RenameFileDialog({ file, open, onClose }: Props) {
     }
   };
 
-  const title = file?.mediatype === MediaType.FOLDER ? t('Rename Folder') : t('Rename File');
+  const title =
+    file?.mediatype === MediaType.FOLDER
+      ? t('dialogs.rename.titleFolder', { defaultValue: 'Rename Folder' })
+      : t('dialogs.rename.titleFile', { defaultValue: 'Rename File' });
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -113,7 +116,7 @@ export function RenameFileDialog({ file, open, onClose }: Props) {
               <Input
                 id="name"
                 name="name"
-                placeholder={t('New name')}
+                placeholder={t('dialogs.rename.placeholder', { defaultValue: 'New name' })}
                 aria-invalid={error != null}
                 onChange={handleInputChange}
                 defaultValue={name}
@@ -123,10 +126,10 @@ export function RenameFileDialog({ file, open, onClose }: Props) {
           </DialogBody>
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="ghost">{t('Cancel')}</Button>
+              <Button variant="ghost">{t('actions.cancel', { defaultValue: 'Cancel' })}</Button>
             </DialogClose>
             <Button type="submit" disabled={isLoading || name === ''}>
-              {t('Rename')}
+              {t('actions.rename', { defaultValue: 'Rename' })}
             </Button>
           </DialogFooter>
         </form>

@@ -16,7 +16,7 @@ interface Props {
 }
 
 export function NoPreview({ file, reason }: Props) {
-  const { t } = useTranslation(['translation', 'filePreview']);
+  const { t } = useTranslation('files');
 
   const { name, mediatype, hidden } = file;
 
@@ -31,7 +31,9 @@ export function NoPreview({ file, reason }: Props) {
           />
         </EmptyMedia>
         <EmptyTitle>{name}</EmptyTitle>
-        <EmptyDescription>{reason ?? t('filePreview:previewNotAvailable')}</EmptyDescription>
+        <EmptyDescription>
+          {reason ?? t('preview.notAvailable', { defaultValue: 'Preview is not available' })}
+        </EmptyDescription>
       </EmptyHeader>
     </Empty>
   );

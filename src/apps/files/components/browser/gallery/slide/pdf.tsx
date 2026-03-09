@@ -14,7 +14,7 @@ interface PDFSlideProps {
 }
 
 export function PDFSlide({ file }: PDFSlideProps) {
-  const { t } = useTranslation(['filePreview']);
+  const { t } = useTranslation('files');
 
   const shouldSkip = file.size > MAX_SIZE;
   const { data, isLoading: loading } = useDownloadContentQuery(file.path, {
@@ -23,7 +23,12 @@ export function PDFSlide({ file }: PDFSlideProps) {
   });
 
   if (shouldSkip) {
-    return <NoPreview file={file} reason={t('filePreview:fileTooLarge')} />;
+    return (
+      <NoPreview
+        file={file}
+        reason={t('preview.fileTooLarge', { defaultValue: 'File is too large to preview' })}
+      />
+    );
   }
 
   if (loading) {

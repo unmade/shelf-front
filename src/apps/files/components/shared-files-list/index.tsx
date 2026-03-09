@@ -27,7 +27,7 @@ const RowRenderer = memo(function RowRenderer({ index, data, style }: ItemRender
 });
 
 export function SharedFileList() {
-  const { t } = useTranslation('sharedInApp');
+  const { t } = useTranslation('files');
 
   const { ids, isFetching } = useListSharedFilesQuery(undefined, {
     selectFromResult: ({ data, isFetching }) => ({
@@ -50,7 +50,7 @@ export function SharedFileList() {
             <icons.ShareOutlined />
           </EmptyMedia>
           <EmptyTitle>
-            {t('emptyTitle', {
+            {t('sharedInApp.emptyTitle', {
               defaultValue: 'Files shared with you and other members will appear here',
             })}
           </EmptyTitle>

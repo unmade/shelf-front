@@ -28,17 +28,24 @@ export interface IAction {
 }
 
 export function useBookmarkAction(files: IFile[]): IAction {
-  const { t } = useTranslation('photos');
+  const { t } = useTranslation('files');
 
   const fileIds = files.map(({ id }) => id);
   const { bookmarked, toggleBookmark } = useToggleBookmark(fileIds);
 
+  const name = bookmarked
+    ? t('actions.removeBookmark', {
+        defaultValue: 'Remove {{count}} item(s) from bookmarks',
+        count: fileIds.length,
+      })
+    : t('actions.addBookmark', {
+        defaultValue: 'Bookmark {{count}} item(s)',
+        count: fileIds.length,
+      });
+
   return {
     key: 'bookmark',
-    name: t(bookmarked ? 'Remove from bookmarks' : 'Add to bookmarks', {
-      defaultValue: 'Bookmark',
-      count: fileIds.length,
-    }),
+    name,
     Icon: icons.BookmarkOutlined,
     icon: <icons.HeartOutlined className="h-4 w-4" />,
     danger: false,
@@ -49,13 +56,13 @@ export function useBookmarkAction(files: IFile[]): IAction {
 }
 
 export function useCopyLinkAction(files: IFile[]): IAction | null {
-  const { t } = useTranslation();
+  const { t } = useTranslation('files');
   const { openDialog } = useCopyLinkDialog();
 
   if (files.length === 1 && !routes.isTrashed(files[0].path)) {
     return {
       key: 'copy-link',
-      name: t('Share Link'),
+      name: t('actions.shareLink', { defaultValue: 'Share Link' }),
       Icon: icons.LinkOutlined,
       icon: <icons.LinkOutlined className="h-4 w-4" />,
       danger: false,
@@ -68,12 +75,12 @@ export function useCopyLinkAction(files: IFile[]): IAction | null {
 }
 
 export function useDeleteAction(files: IFile[]): IAction | null {
-  const { t } = useTranslation();
+  const { t } = useTranslation('files');
   const { openDialog: openDeleteDialog } = useDeleteDialog();
 
   return {
     key: 'delete',
-    name: t('Delete'),
+    name: t('actions.delete', { defaultValue: 'Delete' }),
     Icon: icons.TrashOutlined,
     icon: <icons.TrashOutlined className="h-4 w-4" />,
     danger: true,
@@ -84,7 +91,7 @@ export function useDeleteAction(files: IFile[]): IAction | null {
 }
 
 export function useDeleteImmediatelyAction(files: IFile[]): IAction | null {
-  const { t } = useTranslation();
+  const { t } = useTranslation('files');
   const { openDialog: openDeleteImmediatelyDialog } = useDeleteImmediatelyDialog();
 
   const trashedFiles = files.filter(
@@ -96,7 +103,7 @@ export function useDeleteImmediatelyAction(files: IFile[]): IAction | null {
   if (trashedFiles.length > 0) {
     return {
       key: 'delete-immediately',
-      name: t('Delete Immediately'),
+      name: t('actions.deleteImmediately', { defaultValue: 'Delete Immediately' }),
       Icon: icons.TrashOutlined,
       icon: <icons.TrashOutlined className="h-4 w-4" />,
       danger: true,
@@ -109,13 +116,13 @@ export function useDeleteImmediatelyAction(files: IFile[]): IAction | null {
 }
 
 export function useDownloadAction(files: IFile[]): IAction | null {
-  const { t } = useTranslation();
+  const { t } = useTranslation('files');
   const dispatch = useAppDispatch();
 
   if (files.length === 1 && !routes.isTrashed(files[0].path)) {
     return {
       key: 'download',
-      name: t('Download'),
+      name: t('actions.download', { defaultValue: 'Download' }),
       Icon: icons.Download,
       icon: <icons.Download className="h-4 w-4" />,
       danger: false,
@@ -128,13 +135,13 @@ export function useDownloadAction(files: IFile[]): IAction | null {
 }
 
 export function useMoveAction(files: IFile[]): IAction | null {
-  const { t } = useTranslation();
+  const { t } = useTranslation('files');
 
   const { openDialog: openMoveDialog } = useMoveDialog();
 
   return {
     key: 'move',
-    name: t('Move'),
+    name: t('actions.move', { defaultValue: 'Move' }),
     Icon: icons.Move,
     icon: <icons.Move className="h-4 w-4" />,
     danger: false,
@@ -145,12 +152,12 @@ export function useMoveAction(files: IFile[]): IAction | null {
 }
 
 export function useRenameAction(files: IFile[]): IAction | null {
-  const { t } = useTranslation();
+  const { t } = useTranslation('files');
   const { openDialog: openRenameDialog } = useRenameFileDialog();
   if (files.length === 1 && !routes.isTrashed(files[0].path)) {
     return {
       key: 'rename',
-      name: t('Rename'),
+      name: t('actions.rename', { defaultValue: 'Rename' }),
       Icon: icons.ICursor,
       icon: <icons.ICursor className="h-4 w-4" />,
       danger: false,

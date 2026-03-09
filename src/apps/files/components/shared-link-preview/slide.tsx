@@ -37,7 +37,7 @@ function SharedCodeSlide({ file, token }: SlideProps) {
 }
 
 function SharedPDFSlide({ file, token }: SlideProps) {
-  const { t } = useTranslation(['filePreview']);
+  const { t } = useTranslation('files');
 
   const shouldSkip = file.size > PDF_MAX_SIZE;
   const { data, isLoading } = useDownloadSharedLinkContentQuery(
@@ -46,7 +46,12 @@ function SharedPDFSlide({ file, token }: SlideProps) {
   );
 
   if (shouldSkip) {
-    return <NoPreview file={file} reason={t('filePreview:fileTooLarge')} />;
+    return (
+      <NoPreview
+        file={file}
+        reason={t('preview.fileTooLarge', { defaultValue: 'File is too large to preview' })}
+      />
+    );
   }
 
   if (isLoading) {
@@ -57,10 +62,15 @@ function SharedPDFSlide({ file, token }: SlideProps) {
 }
 
 function SharedImageSlide({ file }: { file: SharedLinkFileSchema }) {
-  const { t } = useTranslation(['filePreview']);
+  const { t } = useTranslation('files');
 
   if (!file.thumbnail_url) {
-    return <NoPreview file={file} reason={t('filePreview:previewNotAvailable')} />;
+    return (
+      <NoPreview
+        file={file}
+        reason={t('preview.notAvailable', { defaultValue: 'Preview is not available' })}
+      />
+    );
   }
 
   const size = guessThumbnailSize(window.screen);

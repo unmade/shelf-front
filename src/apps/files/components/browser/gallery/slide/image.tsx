@@ -13,11 +13,16 @@ interface Props {
 }
 
 export function ImageSlide({ file }: Props) {
-  const { t } = useTranslation(['filePreview']);
+  const { t } = useTranslation('files');
   const maxSize = useAppSelector(selectFeatureMaxFileSizeToThumbnail);
 
   if (file.size > maxSize) {
-    return <NoPreview file={file} reason={t('filePreview:fileTooLarge')} />;
+    return (
+      <NoPreview
+        file={file}
+        reason={t('preview.fileTooLarge', { defaultValue: 'File is too large to preview' })}
+      />
+    );
   }
 
   const size = guessThumbnailSize(window.screen);

@@ -25,7 +25,7 @@ interface Props {
 }
 
 export const SharedFileRow = memo(function SharedFileRow({ fileId, index }: Props) {
-  const { t } = useTranslation('sharedInApp');
+  const { t } = useTranslation('files');
   const file = useAppSelector((state) => selectSharedFileById(state, fileId));
 
   if (!file) return null;
@@ -57,7 +57,7 @@ export const SharedFileRow = memo(function SharedFileRow({ fileId, index }: Prop
         </ItemContent>
         <ItemContent className="w-32 flex-none @max-2xl:hidden">
           <ItemDescription>
-            {t('membersCount', {
+            {t('sharedInApp.membersCount', {
               defaultValue: '{{ count }} member(s)',
               count: file.members?.length ?? 0,
             })}

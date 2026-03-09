@@ -66,7 +66,7 @@ interface Props {
 }
 
 export default function SharedLinkSetting({ file }: Props) {
-  const { t } = useTranslation('sharedLinkSetting');
+  const { t } = useTranslation('files');
 
   const { token, toggleLink, loading } = useToggleSharedLink(file.id);
 
@@ -77,10 +77,10 @@ export default function SharedLinkSetting({ file }: Props) {
       <Field orientation="horizontal">
         <FieldContent>
           <FieldLabel htmlFor="switch-public-link">
-            {t('publicLink', { defaultValue: 'Public link' })}
+            {t('forms.sharedLink.fields.link.label', { defaultValue: 'Public link' })}
           </FieldLabel>
           <FieldDescription className="text-xs">
-            <Trans i18nKey="anyoneCanViewLink" t={t}>
+            <Trans i18nKey="forms.sharedLink.fields.link.description" t={t}>
               Anyone with this link <b>can view</b>
             </Trans>
           </FieldDescription>
@@ -103,7 +103,9 @@ export default function SharedLinkSetting({ file }: Props) {
           readOnly
         />
         <CopyToClipboardButton
-          title={t('copyToClipboardBtn.title', { defaultValue: 'Copy to clipboard' })}
+          title={t('forms.sharedLink.buttons.copyToClipboard', {
+            defaultValue: 'Copy to clipboard',
+          })}
           value={link}
           disabled={link == null}
         />

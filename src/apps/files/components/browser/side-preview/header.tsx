@@ -18,7 +18,7 @@ const rotations: Record<number, string> = {
 };
 
 function SidePreviewTitle({ files }: { files: FileSchema[] }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('files');
 
   if (files.length === 1) {
     return (
@@ -35,13 +35,13 @@ function SidePreviewTitle({ files }: { files: FileSchema[] }) {
 
   return (
     <p className={'w-full py-1.5 font-semibold wrap-break-word'}>
-      {t('items_count', { count: files.length })}
+      {t('browser.sidePreview.itemCount', { defaultValue: '{{count}} items', count: files.length })}
     </p>
   );
 }
 
 function SidePreviewDescription({ files }: { files: FileSchema[] }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('files');
 
   const folderCount = files.filter((f) => MediaType.isFolder(f.mediatype)).length;
   const fileCount = files.length - folderCount;
@@ -58,8 +58,14 @@ function SidePreviewDescription({ files }: { files: FileSchema[] }) {
   return (
     <Text size="sm">
       {countByTypeText(
-        t('folders_count', { count: folderCount }),
-        t('documents_count', { count: fileCount }),
+        t('browser.sidePreview.foldersCount', {
+          defaultValue: '{{count}} folders',
+          count: folderCount,
+        }),
+        t('browser.sidePreview.documentsCount', {
+          defaultValue: '{{count}} documents',
+          count: fileCount,
+        }),
         folderCount,
         fileCount,
       )}

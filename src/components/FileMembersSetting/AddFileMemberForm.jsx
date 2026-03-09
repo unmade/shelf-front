@@ -24,7 +24,9 @@ function AddFileMemberForm({ fileId }) {
   const isValid = (username) => {
     if (username == null || username === '') {
       setError(
-        t('sharing.addMember.errors.usernameRequired', { defaultValue: 'Username is required' }),
+        t('dialogs.fileMembers.form.errors.usernameRequired', {
+          defaultValue: 'Username is required',
+        }),
       );
       return false;
     }
@@ -48,7 +50,7 @@ function AddFileMemberForm({ fileId }) {
     } catch (err) {
       if (isFileMemberAlreadyExists(err)) {
         setError(
-          t('sharing.addMember.errors.memberAlreadyExists', {
+          t('dialogs.fileMembers.form.errors.memberAlreadyExists', {
             defaultValue: 'A member with this username already exists',
           }),
         );
@@ -56,7 +58,7 @@ function AddFileMemberForm({ fileId }) {
       }
       if (isUserNotFound(err)) {
         setError(
-          t('sharing.addMember.errors.userNotFound', {
+          t('dialogs.fileMembers.form.errors.userNotFound', {
             defaultValue: 'User not found',
           }),
         );
@@ -72,7 +74,7 @@ function AddFileMemberForm({ fileId }) {
           <Input
             id="username"
             name="username"
-            placeholder={t('sharing.addMember.placeholders.username', {
+            placeholder={t('dialogs.fileMembers.form.username.placeholder', {
               defaultValue: "Enter a member's username",
             })}
             onChange={onUsernameChange}
@@ -84,7 +86,7 @@ function AddFileMemberForm({ fileId }) {
           {error && <FieldError>{error}</FieldError>}
         </Field>
         <Button type="submit" variant="outline" disabled={loading}>
-          {t('sharing.addMember.buttons.addMember', { defaultValue: 'Add Member' })}
+          {t('dialogs.fileMembers.form.buttons.addMember', { defaultValue: 'Add Member' })}
         </Button>
       </div>
     </form>

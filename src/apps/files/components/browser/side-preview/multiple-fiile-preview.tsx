@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import type { FileSchema } from '@/store/files';
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/ui/accordion';
@@ -14,6 +16,7 @@ interface InfoSectionProps {
 }
 
 function InfoSection({ files }: InfoSectionProps) {
+  const { t } = useTranslation('files');
   const size = files.reduce((acc, item) => acc + item.size, 0);
 
   const sorted = files.sort((a, b) => Date.parse(a.modified_at) - Date.parse(b.modified_at));
@@ -22,9 +25,14 @@ function InfoSection({ files }: InfoSectionProps) {
 
   return (
     <div className="space-y-0.5">
-      {<Property label="Size" value={<FileSize bytes={size} />} />}
+      {
+        <Property
+          label={t('properties.size', { defaultValue: 'Size' })}
+          value={<FileSize bytes={size} />}
+        />
+      }
       <Property
-        label="Modified"
+        label={t('properties.modified', { defaultValue: 'Modified' })}
         value={
           <>
             <TimeAgo value={minModifiedAt} format="ll" />
@@ -42,10 +50,11 @@ interface SidePreviewSectionsProps {
 }
 
 function SidePreviewSections({ files }: SidePreviewSectionsProps) {
+  const { t } = useTranslation('files');
   const items = [
     {
       value: 'info',
-      trigger: 'Information',
+      trigger: t('sections.information', { defaultValue: 'Information' }),
       content: <InfoSection files={files} />,
     },
   ];

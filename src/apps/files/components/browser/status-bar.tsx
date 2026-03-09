@@ -11,7 +11,7 @@ interface Props {
 }
 
 export function FileBrowserStatusBar({ className }: Props) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('files');
   const itemCount = useSelectCountFiles();
 
   const breadcrumbItems = useRouteBreadcrumbs();
@@ -25,7 +25,7 @@ export function FileBrowserStatusBar({ className }: Props) {
     >
       <Breadcrumbs className="text-xs max-sm:hidden" items={breadcrumbItems} collapseAfter={3} />
       <span className="text-muted-foreground shrink-0 text-xs">
-        {t('{{count}} items', { count: itemCount })}
+        {t('browser.statusBar.itemCount', { defaultValue: '{{count}} items', count: itemCount })}
       </span>
     </div>
   );

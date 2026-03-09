@@ -60,7 +60,7 @@ export function CreateFolderDialog({ inPath, open, onClose }: Props) {
 
     if (folderName.trim() === '') {
       setErrorMessage(
-        t('files.dialogs.createFolder.errors.nameRequired', {
+        t('dialogs.createFolder.errors.nameRequired', {
           defaultValue: 'Name cannot be empty',
         }),
       );
@@ -74,21 +74,21 @@ export function CreateFolderDialog({ inPath, open, onClose }: Props) {
     } catch (err) {
       if (isFileActionNotAllowed(err)) {
         setErrorMessage(
-          t('files.dialogs.createFolder.errors.actionNotAllowed', {
+          t('dialogs.createFolder.errors.actionNotAllowed', {
             defaultValue: 'You do not have permission to create a folder',
           }),
         );
       }
       if (isFileAlreadyExists(err)) {
         setErrorMessage(
-          t('files.dialogs.createFolder.errors.folderExists', {
+          t('dialogs.createFolder.errors.folderExists', {
             defaultValue: 'A folder with this name already exists',
           }),
         );
       }
       if (isNotADirectory(err)) {
         setErrorMessage(
-          t('files.dialogs.createFolder.errors.notADirectory', {
+          t('dialogs.createFolder.errors.notADirectory', {
             defaultValue: 'The specified path is not a directory',
           }),
         );
@@ -101,19 +101,19 @@ export function CreateFolderDialog({ inPath, open, onClose }: Props) {
       <DialogContent className="sm:w-sm">
         <DialogHeader>
           <DialogTitle>
-            {t('files.dialogs.createFolder.title', { defaultValue: 'New Folder' })}
+            {t('dialogs.createFolder.title', { defaultValue: 'New Folder' })}
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
           <DialogBody>
             <Field data-invalid={errorMessage != null}>
               <FieldLabel>
-                {t('files.dialogs.createFolder.fields.name.label', { defaultValue: 'Name' })}
+                {t('dialogs.createFolder.nameLabel', { defaultValue: 'Name' })}
               </FieldLabel>
               <Input
                 id="name"
                 name="name"
-                placeholder={t('files.dialogs.createFolder.fields.name.placeholder', {
+                placeholder={t('dialogs.createFolder.namePlaceholder', {
                   defaultValue: 'Folder name',
                 })}
                 onChange={handleInputChange}
@@ -124,12 +124,10 @@ export function CreateFolderDialog({ inPath, open, onClose }: Props) {
           </DialogBody>
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="ghost">
-                {t('files.dialogs.createFolder.actions.cancel', { defaultValue: 'Cancel' })}
-              </Button>
+              <Button variant="ghost">{t('actions.cancel', { defaultValue: 'Cancel' })}</Button>
             </DialogClose>
             <Button type="submit" disabled={creating}>
-              {t('files.dialogs.createFolder.actions.create', { defaultValue: 'Create' })}
+              {t('actions.create', { defaultValue: 'Create' })}
             </Button>
           </DialogFooter>
         </form>
