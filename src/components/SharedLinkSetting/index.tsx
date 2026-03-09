@@ -17,7 +17,7 @@ import { Field, FieldContent, FieldDescription, FieldLabel } from '@/ui/field';
 import { Input } from '@/ui/input';
 import { Switch } from '@/ui/switch';
 
-import CopyToClipboardButton from '@/components/CopyToClipboardButton';
+import { CopyToClipboardButton } from '@/components/CopyToClipboardButton';
 
 function useToggleSharedLink(fileId: string) {
   const [token, setToken] = useState<string | null>(null);
