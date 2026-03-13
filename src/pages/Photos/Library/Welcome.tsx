@@ -4,7 +4,7 @@ import * as icons from 'icons';
 
 import { Empty, EmptyHeader, EmptyTitle, EmptyDescription, EmptyContent } from '@/ui/empty';
 
-import UploadButton from 'components/UploadButton';
+import { UploadButton } from '@/apps/files/components/upload-button';
 
 interface Props {
   uploadTo: string;

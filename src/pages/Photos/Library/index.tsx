@@ -6,6 +6,9 @@ import { selectPhotosLibraryPath } from 'store/features';
 
 import { MediaType } from '@/constants';
 
+import * as icons from '@/icons';
+
+import { Button } from '@/ui/button';
 import { Heading } from '@/ui/heading';
 
 import { CopyLinkDialogProvider } from '@/apps/files/components/dialogs';
@@ -55,7 +58,11 @@ export default function Library() {
                     <PageHeader>
                       <Heading className="py-0.5">{title}</Heading>
                       <PageHeaderActions>
-                        <Uploader uploadTo={libraryPath} />
+                        <Uploader uploadTo={libraryPath}>
+                          <Button size="icon">
+                            <icons.CloudUpload />
+                          </Button>
+                        </Uploader>
                       </PageHeaderActions>
                     </PageHeader>
 

@@ -4,7 +4,7 @@ import * as icons from 'icons';
 
 import FileDrop from 'components/FileDrop';
 
-import UploadButton from 'components/UploadButton';
+import { UploadButton } from '@/apps/files/components/upload-button';
 
 import RecentUploads from '../RecentUploads';
 
