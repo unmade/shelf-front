@@ -9,7 +9,8 @@ import { selectMediaItemSharedLink } from 'store/mediaItems';
 import { TimeAgo } from '@/ui/timeago';
 
 import { CopyToClipboardButton } from 'components/CopyToClipboardButton';
-import Thumbnail from 'components/Thumbnail';
+
+import { Thumbnail } from '@/apps/files/components/thumbnail';
 
 import useFileFromMediaItem from 'components/photos/hooks/file-from-media-item';
 

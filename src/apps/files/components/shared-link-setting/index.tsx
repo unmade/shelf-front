@@ -65,7 +65,7 @@ interface Props {
   file: IFile;
 }
 
-export default function SharedLinkSetting({ file }: Props) {
+export function SharedLinkSetting({ file }: Props) {
   const { t } = useTranslation('files');
 
   const { token, toggleLink, loading } = useToggleSharedLink(file.id);

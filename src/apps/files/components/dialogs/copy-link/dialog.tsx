@@ -18,7 +18,7 @@ import {
   DialogTitle,
 } from '@/ui/dialog';
 
-import SharedLinkSetting from '@/components/SharedLinkSetting';
+import { SharedLinkSetting } from '@/apps/files/components/shared-link-setting';
 
 interface Props {
   file: IFile | null;

@@ -10,7 +10,8 @@ import { useTouchDevice } from 'hooks/media-query';
 import type { ItemRendererProps } from '@/ui/vgrid';
 
 import { useSelection } from 'components/SelectionProvider';
-import Thumbnail, { ThumbnailSize } from 'components/Thumbnail';
+
+import { Thumbnail, ThumbnailSize } from '@/apps/files/components/thumbnail';
 
 import useFileFromMediaItem from '../hooks/file-from-media-item';
 

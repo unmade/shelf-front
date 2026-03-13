@@ -9,7 +9,7 @@ import { useAppSelector } from 'hooks';
 
 import * as icons from 'icons';
 
-import Thumbnail, { ThumbnailSize } from 'components/Thumbnail';
+import { Thumbnail, ThumbnailSize } from '@/apps/files/components/thumbnail';
 
 import type { ItemDataProps } from '../AlbumListView';
 
