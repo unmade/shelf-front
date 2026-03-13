@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 
 import { useSelector } from 'react-redux';
 
-import { MediaType } from '../../constants';
+import { selectFileByIdInPath } from '@/store/files';
 
-import Thumbnail from '../Thumbnail';
-import { selectFileByIdInPath } from '../../store/files';
+import { MediaType } from '@/constants';
+
+import { Thumbnail } from '@/apps/files/components/thumbnail';
 
 function FolderPickerItem({ data, index, style }) {
   const { path, items, onClick } = data;

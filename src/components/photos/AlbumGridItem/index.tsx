@@ -13,7 +13,8 @@ import * as icons from 'icons';
 import type { ItemRendererProps } from '@/ui/vgrid';
 
 import { useSelection } from 'components/SelectionProvider';
-import Thumbnail, { ThumbnailSize } from 'components/Thumbnail';
+
+import { Thumbnail, ThumbnailSize } from '@/apps/files/components/thumbnail';
 
 import type { ItemDataProps } from '../AlbumGridView';
 import AlbumMenu from '../AlbumMenu';

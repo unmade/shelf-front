@@ -11,9 +11,9 @@ import { FileSize } from '@/ui/filesize';
 import { TimeAgo } from '@/ui/timeago';
 
 import Exif from '@/components/Exif';
-import SharedLinkSetting from '@/components/SharedLinkSetting';
 
 import { Breadcrumbs } from '@/apps/files/components/breadcrumbs';
+import { SharedLinkSetting } from '@/apps/files/components/shared-link-setting';
 interface PropertyProps {
   className?: string;
   label: string;
