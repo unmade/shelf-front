@@ -4,7 +4,10 @@ import * as routes from '@/routes';
 
 import { useListFolderQuery } from '@/store/files';
 
+import * as icons from '@/icons';
+
 import { Heading } from '@/ui/heading';
+import { Button } from '@/ui/button';
 
 import FileDrop from '@/components/FileDrop';
 import VerifyAccountDialogProvider from '@/components/VerifyAccountDialogProvider';
@@ -12,6 +15,7 @@ import Uploader from '@/components/Uploader';
 
 import { BreadcrumbDropdown, useRouteBreadcrumbs } from '@/apps/files/components/breadcrumbs';
 import { DialogsProvider } from '@/apps/files/components/dialogs';
+import { AddActionsDropdown } from '@/apps/files/components/add-actions-dropdown';
 import { FileBrowser, FileBrowserDataProvider } from '@/apps/files/components/browser';
 import { GoBackButton } from '@/apps/files/components/go-back-button';
 import {
@@ -82,7 +86,12 @@ export default function Files() {
                 </div>
               </PageHeaderTitle>
               <PageHeaderActions>
-                <Uploader uploadTo={path} />
+                <Uploader uploadTo={path}>
+                  <Button variant="ghost" size="icon">
+                    <icons.CloudUpload />
+                  </Button>
+                </Uploader>
+                <AddActionsDropdown uploadTo={path} />
               </PageHeaderActions>
             </PageHeader>
             <PageContent>

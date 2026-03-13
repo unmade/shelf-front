@@ -11,7 +11,7 @@ import {
   DialogTitle,
 } from '@/ui/dialog';
 
-import UploadButton from '@/components/UploadButton';
+import { UploadButton } from '@/apps/files/components/upload-button';
 
 import RecentUploads from '../RecentUploads';
 

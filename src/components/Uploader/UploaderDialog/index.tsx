@@ -1,20 +1,20 @@
 import React, { useEffect } from 'react';
 
+import { Slot } from '@radix-ui/react-slot';
+
 import { selectIsUploading } from '@/store/uploads/slice';
 
 import { useAppSelector } from '@/hooks';
-import * as icons from '@/icons';
-
-import { Button } from '@/ui/button';
 
 import UploadDialog from './UploadDialog';
 
 interface Props {
   allowedMediaTypes?: string[];
+  children: React.ReactNode;
   uploadTo: string;
 }
 
-export default function UploaderDialog({ allowedMediaTypes, uploadTo }: Props) {
+export default function UploaderDialog({ allowedMediaTypes, children, uploadTo }: Props) {
   const [open, setOpen] = React.useState(false);
 
   const uploading = useAppSelector(selectIsUploading);
@@ -33,9 +33,7 @@ export default function UploaderDialog({ allowedMediaTypes, uploadTo }: Props) {
 
   return (
     <>
-      <Button title="Uploads" size="icon" onClick={handleOpen}>
-        <icons.CloudUpload />
-      </Button>
+      <Slot onClick={handleOpen}>{children}</Slot>
       <UploadDialog
         allowedMediaTypes={allowedMediaTypes}
         uploadTo={uploadTo}

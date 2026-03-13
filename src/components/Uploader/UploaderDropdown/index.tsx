@@ -1,22 +1,22 @@
 import { useEffect, useRef, useState } from 'react';
 
-import * as icons from '@/icons';
+import { Slot } from '@radix-ui/react-slot';
 
 import { useAppSelector } from '@/hooks';
 
 import { selectIsUploading } from '@/store/uploads/slice';
 
-import { Button } from '@/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/ui/popover';
 
 import Overlay from './Overlay';
 
 interface Props {
   allowedMediaTypes?: string[];
+  children: React.ReactNode;
   uploadTo: string;
 }
 
-export default function UploaderDropdown({ allowedMediaTypes = undefined, uploadTo }: Props) {
+export default function UploaderDropdown({ allowedMediaTypes, children, uploadTo }: Props) {
   const [open, setOpen] = useState(false);
 
   const uploading = useAppSelector(selectIsUploading);
@@ -31,12 +31,16 @@ export default function UploaderDropdown({ allowedMediaTypes = undefined, upload
     }
   }, [shouldClick]);
 
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button size="icon" onClick={() => setOpen(!open)} ref={buttonRef}>
-          <icons.CloudUpload />
-        </Button>
+        <Slot onClick={handleOpen} ref={buttonRef}>
+          {children}
+        </Slot>
       </PopoverTrigger>
       <PopoverContent className="w-sm" side="bottom" sideOffset={8} align="end">
         <Overlay allowedMediaTypes={allowedMediaTypes} uploadTo={uploadTo} />
