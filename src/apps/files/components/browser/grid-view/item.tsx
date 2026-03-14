@@ -5,7 +5,7 @@ import { MoreVerticalIcon } from 'lucide-react';
 
 import type { FileSchema } from '@/store/files';
 
-import { MediaType } from '@/constants';
+import { MediaType, ThumbnailSize } from '@/constants';
 
 import { cn } from '@/lib/utils';
 
@@ -13,10 +13,12 @@ import { Button } from '@/ui/button';
 import { Checkbox } from '@/ui/checkbox';
 import { Item, ItemActions, ItemContent, ItemHeader, ItemTitle } from '@/ui/item';
 
+import FileIcon from '@/components/FileIcon';
+import { Thumbnail, ThumbnailFallback, ThumbnailImage } from '@/components/thumbnail';
+
 import { FileActionsDropdown } from '@/apps/files/components/file-actions-dropdown';
 import { FileLink } from '@/apps/files/components/file-link';
 import { useSelectionContext } from '@/apps/files/components/selection-context';
-import { Thumbnail, ThumbnailSize } from '@/apps/files/components/thumbnail';
 
 interface Props {
   file: FileSchema;
@@ -81,12 +83,17 @@ export const GridViewItem = memo(function GridViewItem({ file }: Props) {
             hasThumbnail && 'bg-muted',
           )}
         >
-          <Thumbnail
-            className={cn('rounded-md', hasThumbnail ? 'size-full' : 'size-14')}
-            file={file}
-            size={ThumbnailSize.lg}
-            objectFit="cover"
-          />
+          <Thumbnail className="size-full rounded-md">
+            <ThumbnailImage
+              src={file.thumbnail_url}
+              size={ThumbnailSize.lg}
+              objectFit="cover"
+              alt={file.name}
+            />
+            <ThumbnailFallback>
+              <FileIcon className="size-14" mediatype={file.mediatype} hidden={file.hidden} />
+            </ThumbnailFallback>
+          </Thumbnail>
         </ItemHeader>
 
         <div className="flex min-w-0 items-center">

@@ -3,13 +3,14 @@ import React from 'react';
 import type { ListChildComponentProps } from 'react-window';
 import { shallowEqual } from 'react-redux';
 
-import type { IAlbum } from 'types/photos';
+import type { IAlbum } from '@/types/photos';
 
-import { useAppSelector } from 'hooks';
+import { useAppSelector } from '@/hooks';
 
-import * as icons from 'icons';
+import { ThumbnailSize } from '@/constants';
+import * as icons from '@/icons';
 
-import { Thumbnail, ThumbnailSize } from '@/apps/files/components/thumbnail';
+import { Thumbnail, ThumbnailFallback, ThumbnailImage } from '@/components/thumbnail';
 
 import type { ItemDataProps } from '../AlbumListView';
 
@@ -37,21 +38,17 @@ function AlbumListItem({ data, index, style }: ListChildComponentProps<ItemDataP
         onClick={onClick}
       >
         <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-gray-200 dark:bg-zinc-700">
-          {(album.cover?.thumbnailUrl && (
-            <Thumbnail
-              file={{
-                id: album.cover?.fileId,
-                thumbnail_url: album.cover?.thumbnailUrl,
-                modified_at: album.createdAt,
-              }}
+          <Thumbnail className="size-full">
+            <ThumbnailImage
+              src={album.cover?.thumbnailUrl}
               size={ThumbnailSize.lg}
               objectFit="cover"
+              alt={album.title}
             />
-          )) ?? (
-            <div className="flex items-center justify-center rounded-lg bg-gray-100 dark:bg-zinc-700">
-              <icons.PhotographOutlined className="h-7 w-7 text-gray-500 dark:text-zinc-400" />
-            </div>
-          )}
+            <ThumbnailFallback className="rounded-lg bg-gray-100 dark:bg-zinc-700">
+              <icons.PhotographOutlined className="size-7 text-gray-500 dark:text-zinc-400" />
+            </ThumbnailFallback>
+          </Thumbnail>
         </div>
         <div className="ml-3 flex min-w-0 flex-1 flex-col">
           <span className="truncate font-medium text-gray-900 dark:text-gray-100">

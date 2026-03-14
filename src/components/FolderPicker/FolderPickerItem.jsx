@@ -7,7 +7,7 @@ import { selectFileByIdInPath } from '@/store/files';
 
 import { MediaType } from '@/constants';
 
-import { Thumbnail } from '@/apps/files/components/thumbnail';
+import { Thumbnail } from '@/components/thumbnail';
 
 function FolderPickerItem({ data, index, style }) {
   const { path, items, onClick } = data;

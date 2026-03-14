@@ -7,8 +7,15 @@ import { MediaType } from '@/constants';
 import { MEGABYTE } from '@/ui/filesize';
 import { Spinner } from '@/ui/spinner';
 
+import FileIcon from '@/components/FileIcon';
+import {
+  Thumbnail,
+  ThumbnailFallback,
+  ThumbnailImage,
+  guessThumbnailSize,
+} from '@/components/thumbnail';
+
 import { CodePreview, NoPreview, PDFPreview } from '@/apps/files/components/previews';
-import { guessThumbnailSize, Thumbnail } from '@/apps/files/components/thumbnail';
 
 const CODE_MAX_SIZE = 1 * MEGABYTE;
 const PDF_MAX_SIZE = 9 * MEGABYTE;
@@ -73,8 +80,18 @@ function SharedImageSlide({ file }: { file: SharedLinkFileSchema }) {
     );
   }
 
-  const size = guessThumbnailSize(window.screen);
-  return <Thumbnail className="size-full" file={file} size={size} />;
+  return (
+    <Thumbnail className="size-full">
+      <ThumbnailImage
+        src={file.thumbnail_url}
+        size={guessThumbnailSize(window.screen)}
+        alt={file.name}
+      />
+      <ThumbnailFallback>
+        <FileIcon className="size-14" mediatype={file.mediatype} hidden={file.hidden} />
+      </ThumbnailFallback>
+    </Thumbnail>
+  );
 }
 
 export function SharedLinkSlide({ file, token }: SlideProps) {

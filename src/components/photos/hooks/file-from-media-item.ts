@@ -1,8 +1,9 @@
 import { useSelector } from 'react-redux';
 
-import { selectPhotosLibraryPath } from 'store/features';
-import type { IMediaItem } from 'types/photos';
-import type { IFile } from 'types/files';
+import type { IMediaItem } from '@/types/photos';
+import type { IFile } from '@/types/files';
+
+import { selectPhotosLibraryPath } from '@/store/features';
 
 export function makeFileFromMediaItem(mediaItem: IMediaItem, libraryPath: string): IFile {
   return {

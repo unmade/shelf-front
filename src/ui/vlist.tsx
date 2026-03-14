@@ -34,7 +34,7 @@ export function VList<T>({
 }: Props<T>) {
   const shouldTrackScrolling = scrollKey && onScrollOffsetChange != null;
 
-  const timeout = useRef<number | undefined>(undefined);
+  const timeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const handleItemsRendered = useCallback(
     ({ visibleStartIndex }: ListOnItemsRenderedProps) => {
       clearTimeout(timeout?.current);
