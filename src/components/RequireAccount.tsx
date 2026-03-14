@@ -1,18 +1,20 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
 import { Navigate, useLocation } from 'react-router';
 import { useSelector } from 'react-redux';
 
-import { useGetCurrentAccountQuery } from 'store/accounts';
-import { selectAccessToken, selectRefreshToken } from 'store/authSlice';
+import { useGetCurrentAccountQuery } from '@/store/accounts';
+import { selectAccessToken, selectRefreshToken } from '@/store/authSlice';
 
 import { Spinner } from '@/ui/spinner';
 
-export default function RequireAccount({ children, redirectTo }) {
+interface Props {
+  children: React.ReactNode;
+  redirectTo: string;
+}
+
+export default function RequireAccount({ children, redirectTo }: Props) {
   const { pathname } = useLocation();
 
-  const { currentData, isFetching, isLoading } = useGetCurrentAccountQuery();
+  const { currentData, isFetching, isLoading } = useGetCurrentAccountQuery(undefined);
 
   const to = `${redirectTo}?next=${pathname}`;
 
@@ -33,8 +35,3 @@ export default function RequireAccount({ children, redirectTo }) {
 
   return children;
 }
-
-RequireAccount.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
-  redirectTo: PropTypes.string.isRequired,
-};
