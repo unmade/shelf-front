@@ -20,8 +20,9 @@ import {
   DialogTitle,
 } from '@/ui/dialog';
 
-import FolderPicker from '@/components/FolderPicker';
 import { useAppDispatch } from '@/hooks';
+
+import { FolderPicker } from './folder-picker';
 
 interface Props {
   files: IFile[];
