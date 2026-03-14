@@ -1,9 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
 import { useTranslation } from 'react-i18next';
 
-import { useGetContentMetadataQuery } from 'store/files';
+import { useGetContentMetadataQuery } from '@/store/files';
 
 import { TimeAgo } from '@/ui/timeago';
 
@@ -16,7 +13,12 @@ import {
   getISO,
 } from './utils';
 
-function ExifProperty({ title, value }) {
+interface ExifPropertyProps {
+  title: string;
+  value: React.ReactNode;
+}
+
+function ExifProperty({ title, value }: ExifPropertyProps) {
   return (
     <div className="mt-1 flex items-center justify-between">
       <p className="text-gray-700 dark:text-zinc-400">{title}</p>
@@ -25,17 +27,16 @@ function ExifProperty({ title, value }) {
   );
 }
 
-ExifProperty.propTypes = {
-  title: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
-};
+interface Props {
+  fileId: string;
+}
 
-function Exif({ fileId }) {
+export function Exif({ fileId }: Props) {
   const { t } = useTranslation('files');
-  const { data, isFetching: loading, isError } = useGetContentMetadataQuery(fileId);
+  const { data, isFetching, isError } = useGetContentMetadataQuery(fileId);
   const meta = data?.data;
 
-  if (loading || meta == null || isError) {
+  if (isFetching || meta == null || isError) {
     return null;
   }
 
@@ -54,7 +55,7 @@ function Exif({ fileId }) {
               t('exif.noCameraInformation', { defaultValue: 'No camera information' })}
           </p>
         </div>
-        {(focalLength || fnumber || exposure || iso) && (
+        {(focalLength != null || fnumber != null || exposure != null || iso != null) && (
           <div className="mt-2 flex items-center justify-between">
             <div>{focalLength ?? '—'}</div>
             <div>{fnumber ?? '—'}</div>
@@ -93,9 +94,5 @@ function Exif({ fileId }) {
     </div>
   );
 }
-
-Exif.propTypes = {
-  fileId: PropTypes.string.isRequired,
-};
 
 export default Exif;
