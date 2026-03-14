@@ -1,14 +1,4 @@
-export interface ExifMeta {
-  make?: string | null;
-  model?: string | null;
-  focal_length_35mm?: number | string | null;
-  focal_length?: number | string | null;
-  fnumber?: number | string | null;
-  exposure?: number | string | null;
-  iso?: number | string | null;
-  width?: number | string | null;
-  height?: number | string | null;
-}
+import type { DataExifSchema } from '@/store/files';
 
 const makersToExclude = new Set<string>([
   'canon',
@@ -19,7 +9,7 @@ const makersToExclude = new Set<string>([
   'pentax corporation',
 ]);
 
-export function getCameraModel(meta: ExifMeta): string | null {
+export function getCameraModel(meta: DataExifSchema): string | null {
   const { make, model } = meta;
   const items = [];
   if (make && !makersToExclude.has(make.toLowerCase())) {
@@ -32,7 +22,7 @@ export function getCameraModel(meta: ExifMeta): string | null {
   return cameraModel !== '' ? cameraModel : null;
 }
 
-export function getFocalLength(meta: ExifMeta): string | null {
+export function getFocalLength(meta: DataExifSchema): string | null {
   if (meta.focal_length_35mm != null) {
     return `${meta.focal_length_35mm}mm`;
   }
@@ -42,29 +32,30 @@ export function getFocalLength(meta: ExifMeta): string | null {
   return null;
 }
 
-export function getFNumber(meta: ExifMeta): string | null {
+export function getFNumber(meta: DataExifSchema): string | null {
   if (meta.fnumber != null) {
     return `ƒ${meta.fnumber}`;
   }
   return null;
 }
 
-export function getExposure(meta: ExifMeta): string | null {
+export function getExposure(meta: DataExifSchema): string | null {
   if (meta.exposure != null) {
     return `${meta.exposure} s`;
   }
   return null;
 }
 
-export function getISO(meta: ExifMeta): string | null {
+export function getISO(meta: DataExifSchema): string | null {
   if (meta.iso != null) {
     return `ISO ${meta.iso}`;
   }
   return null;
 }
 
-export function getDimensions(meta: ExifMeta): string {
-  const width = meta.width ?? '';
-  const height = meta.height ?? '';
-  return `${width}×${height}`;
+export function getDimensions(meta: DataExifSchema): string | null {
+  if (meta.width != null && meta.height != null) {
+    return `${meta.width}×${meta.height}`;
+  }
+  return null;
 }

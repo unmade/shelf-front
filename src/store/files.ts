@@ -33,7 +33,7 @@ export interface FileSchema {
   modified_at: string;
 }
 
-interface DataExifSchema {
+export interface DataExifSchema {
   type: 'exif';
   make: string | null;
   model: string | null;
