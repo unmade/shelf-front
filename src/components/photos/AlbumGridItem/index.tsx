@@ -8,13 +8,13 @@ import type { IAlbum } from 'types/photos';
 import { useAppSelector } from 'hooks';
 import { useTouchDevice } from 'hooks/media-query';
 
+import { ThumbnailSize } from '@/constants';
 import * as icons from 'icons';
 
 import type { ItemRendererProps } from '@/ui/vgrid';
 
 import { useSelection } from 'components/SelectionProvider';
-
-import { Thumbnail, ThumbnailSize } from '@/apps/files/components/thumbnail';
+import { Thumbnail, ThumbnailFallback, ThumbnailImage } from '@/components/thumbnail';
 
 import type { ItemDataProps } from '../AlbumGridView';
 import AlbumMenu from '../AlbumMenu';
@@ -74,26 +74,17 @@ function GridItem({ album, width }: GridItemProps) {
             : ''
         }`}
       >
-        {(album.cover?.thumbnailUrl && (
-          <Thumbnail
-            className="h-56 w-56 rounded-lg"
-            style={style}
-            file={{
-              id: album.cover?.fileId,
-              thumbnail_url: album.cover?.thumbnailUrl,
-              modified_at: album.createdAt,
-            }}
+        <Thumbnail className="size-56 rounded-lg" style={style}>
+          <ThumbnailImage
+            src={album.cover?.thumbnailUrl}
             size={ThumbnailSize.lg}
             objectFit="cover"
+            alt={album.title}
           />
-        )) ?? (
-          <div
-            className="flex items-center justify-center rounded-xl bg-gray-100 dark:bg-zinc-700"
-            style={style}
-          >
-            <icons.PhotographOutlined className="h-12 w-12 text-gray-500 dark:text-zinc-400" />
-          </div>
-        )}
+          <ThumbnailFallback className="rounded-xl bg-gray-100 dark:bg-zinc-700">
+            <icons.PhotographOutlined className="size-12 text-gray-500 dark:text-zinc-400" />
+          </ThumbnailFallback>
+        </Thumbnail>
         <div className={`${selected ? '' : 'hidden'} absolute top-1.5 right-2 group-hover:block`}>
           <AlbumMenu album={album} onOpen={handleMenuOpen} />
         </div>
@@ -128,7 +119,7 @@ function GridItemContainer({
   }
 
   return (
-    <div style={itemStyle} className="pl-[20px]">
+    <div style={itemStyle} className="pl-5">
       <GridItem album={album} width={width as number} />
     </div>
   );

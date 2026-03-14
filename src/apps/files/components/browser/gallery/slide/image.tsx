@@ -5,8 +5,15 @@ import type { FileSchema } from '@/store/files';
 
 import { useAppSelector } from '@/hooks';
 
+import FileIcon from '@/components/FileIcon';
+import {
+  Thumbnail,
+  ThumbnailFallback,
+  ThumbnailImage,
+  guessThumbnailSize,
+} from '@/components/thumbnail';
+
 import { NoPreview } from '@/apps/files/components/previews';
-import { guessThumbnailSize, Thumbnail } from '@/apps/files/components/thumbnail';
 
 interface Props {
   file: FileSchema;
@@ -15,6 +22,7 @@ interface Props {
 export function ImageSlide({ file }: Props) {
   const { t } = useTranslation('files');
   const maxSize = useAppSelector(selectFeatureMaxFileSizeToThumbnail);
+  const size = guessThumbnailSize(window.screen);
 
   if (file.size > maxSize) {
     return (
@@ -25,6 +33,12 @@ export function ImageSlide({ file }: Props) {
     );
   }
 
-  const size = guessThumbnailSize(window.screen);
-  return <Thumbnail className="size-full" file={file} size={size} />;
+  return (
+    <Thumbnail className="size-full">
+      <ThumbnailImage src={file.thumbnail_url} size={size} alt={file.name} />
+      <ThumbnailFallback>
+        <FileIcon className="size-14" mediatype={file.mediatype} hidden={file.hidden} />
+      </ThumbnailFallback>
+    </Thumbnail>
+  );
 }

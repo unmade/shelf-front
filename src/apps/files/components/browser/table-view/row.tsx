@@ -14,7 +14,8 @@ import { FileSize } from '@/ui/filesize';
 import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/ui/item';
 import { TimeAgo } from '@/ui/timeago';
 
-import { Thumbnail } from '@/apps/files/components/thumbnail';
+import FileIcon from '@/components/FileIcon';
+import { Thumbnail, ThumbnailFallback, ThumbnailImage } from '@/components/thumbnail';
 
 import { BookmarkToggle } from '@/apps/files/components/bookmark-toggle';
 import { FileActionsDropdown } from '@/apps/files/components/file-actions-dropdown';
@@ -71,7 +72,17 @@ export const TableViewRow = memo(function TableViewRow({ file, index }: Props) {
           aria-label={t('browser.selectFile', { defaultValue: 'Select {{name}}', name: file.name })}
         />
         <ItemMedia>
-          <Thumbnail className="size-8" file={file} />
+          <Thumbnail className="size-8">
+            <ThumbnailImage src={file.thumbnail_url} alt={file.name} />
+            <ThumbnailFallback>
+              <FileIcon
+                className="size-8"
+                mediatype={file.mediatype}
+                hidden={file.hidden}
+                shared={file.shared}
+              />
+            </ThumbnailFallback>
+          </Thumbnail>
         </ItemMedia>
         <ItemContent className="truncate">
           <ItemTitle className="w-auto min-w-0">

@@ -3,8 +3,10 @@ import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { isEmail, isStrongPassword } from 'validator';
 
-import { TERMS_AND_CONDITION_URL, PRIVACY_POLICY_URL } from 'constants';
-import * as routes from 'routes';
+import { isSignUpDisabled, isUserAlreadyExists } from '@/store/auth';
+
+import { TERMS_AND_CONDITION_URL, PRIVACY_POLICY_URL } from '@/constants';
+import * as routes from '@/routes';
 
 import { Button } from '@/ui/button';
 import { Checkbox } from '@/ui/checkbox';
@@ -14,10 +16,9 @@ import { Input } from '@/ui/input';
 import { Label } from '@/ui/label';
 import { Strong, Text, TextAppLink, TextLink } from '@/ui/text';
 
-import AppLogo from 'components/AppLogo';
+import AppLogo from '@/components/AppLogo';
 
 import useSignUp from './hooks';
-import { isSignUpDisabled, isUserAlreadyExists } from 'store/auth';
 
 const nameRegEx = /^[\p{L} .'-]+$/u;
 

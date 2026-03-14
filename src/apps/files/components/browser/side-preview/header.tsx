@@ -2,14 +2,15 @@ import { useTranslation } from 'react-i18next';
 
 import type { FileSchema } from '@/store/files';
 
-import { MediaType } from '@/constants';
+import { MediaType, ThumbnailSize } from '@/constants';
 import { cn } from '@/lib/utils';
 
 import { FileSize } from '@/ui/filesize';
 import { TimeAgo } from '@/ui/timeago';
 import { Text } from '@/ui/text';
 
-import { Thumbnail, ThumbnailSize } from '@/apps/files/components/thumbnail';
+import FileIcon from '@/components/FileIcon';
+import { Thumbnail, ThumbnailFallback, ThumbnailImage } from '@/components/thumbnail';
 
 const rotations: Record<number, string> = {
   0: 'rotate-6',
@@ -94,6 +95,22 @@ interface Props {
   files: FileSchema[];
 }
 
+function SidePreviewThumbnail({ file }: { file: FileSchema }) {
+  return (
+    <Thumbnail className="size-60">
+      <ThumbnailImage src={file.thumbnail_url} size={ThumbnailSize.lg} alt={file.name} />
+      <ThumbnailFallback>
+        <FileIcon
+          className="size-14"
+          mediatype={file.mediatype}
+          hidden={file.hidden}
+          shared={file.shared}
+        />
+      </ThumbnailFallback>
+    </Thumbnail>
+  );
+}
+
 export function SidePreviewHeader({ files }: Props) {
   const previews = files.slice(-3);
 
@@ -108,7 +125,7 @@ export function SidePreviewHeader({ files }: Props) {
               idx === previews.length - 1 ? 'rotate-0' : rotations[idx],
             )}
           >
-            <Thumbnail className="size-60" size={ThumbnailSize.lg} file={file} />
+            <SidePreviewThumbnail file={file} />
           </span>
         ))}
       </div>

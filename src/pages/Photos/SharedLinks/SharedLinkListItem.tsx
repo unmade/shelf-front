@@ -1,18 +1,17 @@
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { useSharedLink } from 'hooks/shared-link';
+import { useSharedLink } from '@/hooks/shared-link';
 
-import type { RootState } from 'store/store';
-import { selectMediaItemSharedLink } from 'store/mediaItems';
+import type { RootState } from '@/store/store';
+import { selectMediaItemSharedLink } from '@/store/mediaItems';
 
 import { TimeAgo } from '@/ui/timeago';
 
-import { CopyToClipboardButton } from 'components/CopyToClipboardButton';
+import FileIcon from '@/components/FileIcon';
+import { Thumbnail, ThumbnailFallback, ThumbnailImage } from '@/components/thumbnail';
 
-import { Thumbnail } from '@/apps/files/components/thumbnail';
-
-import useFileFromMediaItem from 'components/photos/hooks/file-from-media-item';
+import { CopyToClipboardButton } from '@/components/CopyToClipboardButton';
 
 import SharedLinkListItemMenu from './SharedLinkListItemMenu';
 
@@ -29,14 +28,18 @@ export default function SharedLinkListItem({ fileId }: Props) {
   const link = useSelector((state: RootState) => selectMediaItemSharedLink(state, fileId));
   const { token, createdAt, item } = link;
   const sharedLink = useSharedLink({ token, filename: item.name });
-  const file = useFileFromMediaItem(item);
 
   return (
     <div className="group/row flex h-[72px] w-full items-center rounded-xl px-12 even:bg-gray-50 even:ring-gray-50 even:dark:bg-zinc-700/30">
       {/* file icon and name */}
       <div className="flex w-full text-gray-900 md:w-3/4 dark:text-zinc-100">
         <div className="flex w-full min-w-0 items-center space-x-3">
-          <Thumbnail className="h-12 w-12" file={file} />
+          <Thumbnail className="size-12">
+            <ThumbnailImage src={item.thumbnailUrl} alt={item.name} />
+            <ThumbnailFallback>
+              <FileIcon className="size-12" mediatype={item.mediatype} shared />
+            </ThumbnailFallback>
+          </Thumbnail>
           <span className="truncate">
             <div>
               <p className="truncate">{item.name}</p>

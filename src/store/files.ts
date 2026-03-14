@@ -130,10 +130,10 @@ export const filesApi = apiSlice.injectEndpoints({
       }),
     }),
 
-    getThumbnail: builder.query<{ content: string }, { url: string; size: string; mtime: number }>({
-      query: ({ url, size, mtime }) => ({
+    getThumbnail: builder.query<{ content: string }, { url: string; size: string }>({
+      query: ({ url, size }) => ({
         url,
-        params: { size, mtime },
+        params: { size },
         responseHandler: (response: Response) => response.blob(),
       }),
       transformResponse: (data: Blob) => {
@@ -250,13 +250,13 @@ export const { selectById: selectBookmarkedFileById } = filesAdapter.getSelector
 
 export const selectFallbackThumbnail = (
   state: RootState,
-  { url, size, mtime }: { url: string; size: string; mtime: number },
+  { url, size }: { url: string; size: string },
 ) => {
   const selector = filesApi.endpoints.getThumbnail.select;
   let thumbnail = null;
 
   for (const fallbackSize of thumbnailSizes) {
-    const { data } = selector({ url, size: fallbackSize, mtime })(state);
+    const { data } = selector({ url, size: fallbackSize })(state);
     if (data?.content != null) {
       thumbnail = data;
     }

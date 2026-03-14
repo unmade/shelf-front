@@ -7,13 +7,13 @@ import type { IMediaItem } from 'types/photos';
 import { useAppSelector } from 'hooks';
 import { useTouchDevice } from 'hooks/media-query';
 
+import { ThumbnailSize } from '@/constants';
+
+import { Spinner } from '@/ui/spinner';
 import type { ItemRendererProps } from '@/ui/vgrid';
 
 import { useSelection } from 'components/SelectionProvider';
-
-import { Thumbnail, ThumbnailSize } from '@/apps/files/components/thumbnail';
-
-import useFileFromMediaItem from '../hooks/file-from-media-item';
+import { Thumbnail, ThumbnailFallback, ThumbnailImage } from '@/components/thumbnail';
 
 import type { ItemDataProps } from '../MediaItemGridView';
 import { useMediaItemsData } from '../MediaItemsProvider';
@@ -29,8 +29,6 @@ interface GridItemProps {
 }
 
 function GridItem({ mediaItem, touch, width, onClick, menuItemRenderer: Menu }: GridItemProps) {
-  const file = useFileFromMediaItem(mediaItem);
-
   const { select, toggleSelection, isSelected } = useSelection();
   const selected = isSelected(mediaItem.id);
 
@@ -70,12 +68,16 @@ function GridItem({ mediaItem, touch, width, onClick, menuItemRenderer: Menu }: 
         onClick={onSelect}
         onDoubleClick={onOpen}
       >
-        <Thumbnail
-          className="rounded-lg"
-          style={{ maxHeight: width - 12 }}
-          file={file}
-          size={ThumbnailSize.lg}
-        />
+        <Thumbnail className="rounded-lg" style={{ maxHeight: width - 12 }}>
+          <ThumbnailImage
+            src={mediaItem.thumbnailUrl}
+            size={ThumbnailSize.lg}
+            alt={mediaItem.name}
+          />
+          <ThumbnailFallback>
+            <Spinner />
+          </ThumbnailFallback>
+        </Thumbnail>
         <div
           className={`${!touch && selected ? '' : 'hidden'} ${
             !touch ? 'group-hover:block' : ''

@@ -14,8 +14,10 @@ import { Button } from '@/ui/button';
 import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/ui/item';
 import { TimeAgo } from '@/ui/timeago';
 
+import FileIcon from '@/components/FileIcon';
+import { Thumbnail, ThumbnailFallback, ThumbnailImage } from '@/components/thumbnail';
+
 import { FileLink } from '@/apps/files/components/file-link';
-import { Thumbnail } from '@/apps/files/components/thumbnail';
 
 import { ActionsDropdown } from './actions-dropdown';
 import { CopyLinkButton } from './copy-link-button';
@@ -45,7 +47,12 @@ export const SharedLinkRow = memo(function SharedLinkRow({ fileId, index }: Prop
         })}
       >
         <ItemMedia>
-          <Thumbnail className="size-8" file={{ ...file, shared: true }} />
+          <Thumbnail className="size-8">
+            <ThumbnailImage src={file.thumbnail_url} alt={file.name} />
+            <ThumbnailFallback>
+              <FileIcon className="size-8" mediatype={file.mediatype} hidden={file.hidden} shared />
+            </ThumbnailFallback>
+          </Thumbnail>
         </ItemMedia>
         <ItemContent className="truncate">
           <ItemTitle className="w-auto min-w-0">
