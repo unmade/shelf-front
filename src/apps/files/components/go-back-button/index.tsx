@@ -19,7 +19,7 @@ export function GoBackButton({ path }: Props) {
       <icons.ArrowLeft data-slot="icon" />
     </Button>
   );
-  if (disabled) {
+  if (disabled || parentPath == null) {
     return button;
   }
   return <FileLink path={parentPath}>{button}</FileLink>;

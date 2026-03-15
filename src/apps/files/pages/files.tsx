@@ -62,7 +62,7 @@ export default function Files() {
   const dirPath = useDirPath();
   const path = dirPath ?? '.';
 
-  const title = routes.folderName(dirPath);
+  const title = routes.folderName(dirPath ?? '.');
   const breadcrumbs = useRouteBreadcrumbs();
 
   return (

@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import * as DialogPrimitive from '@radix-ui/react-dialog';
@@ -7,25 +6,16 @@ import { GalleryContent } from './content';
 import { GalleryProvider, useGallery } from './context';
 import { GalleryHeader } from './header';
 import { GallerySidePanel } from './side-panel';
+import { useKeyUp } from '@/hooks/key-up';
 
 function GalleryDialog() {
   const { t } = useTranslation('files');
-  const { open: open, closeGallery } = useGallery();
+  const { open, closeGallery } = useGallery();
 
-  useEffect(() => {
-    if (!open) return;
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        closeGallery();
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [open, closeGallery]);
+  useKeyUp({
+    handlers: { Escape: closeGallery },
+    skip: !open,
+  });
 
   return (
     <DialogPrimitive.Root open={open} onOpenChange={(open) => !open && closeGallery()}>

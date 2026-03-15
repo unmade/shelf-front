@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import type { IMediaItem } from 'types/photos';
+import type { IMediaItem } from '@/types/photos';
 
-import { useAppSelector } from 'hooks';
-import useKeyUp from 'hooks/key-up';
+import type { RootState } from '@/store/store';
+import { selectPhotosLibraryPath } from '@/store/features';
 
-import type { RootState } from 'store/store';
-import { selectPhotosLibraryPath } from 'store/features';
+import { useAppSelector } from '@/hooks';
+import { useKeyUp } from '@/hooks/key-up';
 
 import { makeFileFromMediaItem } from '../hooks/file-from-media-item';
 

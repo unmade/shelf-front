@@ -7,7 +7,9 @@ export const Breakpoint = {
   lg: 'lg',
   xl: 'xl',
   xxl: 'xxl',
-};
+} as const;
+
+export type BreakpointValue = (typeof Breakpoint)[keyof typeof Breakpoint];
 
 const BreakpointWidth = {
   sm: '(min-width: 640px)',
@@ -15,36 +17,26 @@ const BreakpointWidth = {
   lg: '(min-width: 1024px)',
   xl: '(min-width: 1280px)',
   xxl: '(min-width: 1536px)',
-};
+} as const;
 
-export function useBreakpoint() {
+export function useBreakpoint(): BreakpointValue {
   const sm = useMediaQuery({ query: BreakpointWidth.sm });
   const md = useMediaQuery({ query: BreakpointWidth.md });
   const lg = useMediaQuery({ query: BreakpointWidth.lg });
   const xl = useMediaQuery({ query: BreakpointWidth.xl });
   const xxl = useMediaQuery({ query: BreakpointWidth.xxl });
-  if (xxl) {
-    return Breakpoint.xxl;
-  }
-  if (xl) {
-    return Breakpoint.xl;
-  }
-  if (lg) {
-    return Breakpoint.lg;
-  }
-  if (md) {
-    return Breakpoint.md;
-  }
-  if (sm) {
-    return Breakpoint.sm;
-  }
+  if (xxl) return Breakpoint.xxl;
+  if (xl) return Breakpoint.xl;
+  if (lg) return Breakpoint.lg;
+  if (md) return Breakpoint.md;
+  if (sm) return Breakpoint.sm;
   return Breakpoint.base;
 }
 
-export function useIsLaptop() {
+export function useIsLaptop(): boolean {
   return useMediaQuery({ query: BreakpointWidth.lg });
 }
 
-export function useTouchDevice() {
+export function useTouchDevice(): boolean {
   return useMediaQuery({ query: '(pointer: coarse)' });
 }

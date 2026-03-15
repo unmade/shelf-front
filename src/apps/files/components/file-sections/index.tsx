@@ -36,11 +36,12 @@ interface InfoSectionProps {
 function InfoSection({ file }: InfoSectionProps) {
   const { t } = useTranslation('files');
   const breadcrumbs = routes
-    .breadcrumbs(file.path)
+    .parents(file.path)
+    .reverse()
     .slice(0, -1)
-    .map(({ key, name }) => ({
-      key,
-      name,
+    .map((parentPath) => ({
+      key: parentPath,
+      name: routes.folderName(parentPath),
     }));
 
   return (
