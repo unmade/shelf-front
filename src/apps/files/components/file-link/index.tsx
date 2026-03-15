@@ -46,7 +46,7 @@ function PreviewLink({ children, className, path, replace }: PreviewLinkProps) {
   const { '*': dirPath } = useParams();
 
   const currentDir = pathname.startsWith(routes.TRASH.prefix)
-    ? routes.join(trashPrefix, dirPath)
+    ? routes.join(trashPrefix, dirPath!)
     : dirPath;
 
   const parentDir = routes.parent(path) ?? '.';

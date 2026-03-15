@@ -1,3 +1,5 @@
+import type { SVGProps } from 'react';
+
 import i18n from './i18n';
 import * as icons from './icons';
 
@@ -81,7 +83,7 @@ export const USER_MANAGEMENT = {
   route: '/admin/user-management',
 };
 
-export function basename(path) {
+export function basename(path: string): string {
   const end = path.lastIndexOf('/');
   if (end < 0) {
     return path;
@@ -89,14 +91,14 @@ export function basename(path) {
   return path.substring(end + 1);
 }
 
-export function encodePath(path) {
+export function encodePath(path: string): string {
   return path
     .split('/')
     .map((item) => encodeURIComponent(item))
     .join('/');
 }
 
-export function join(pathA, pathB) {
+export function join(pathA: string, pathB: string): string {
   if (pathA === '.') {
     return pathB;
   }
@@ -105,26 +107,26 @@ export function join(pathA, pathB) {
   }
 
   let a = pathA;
-  if (a[a.length - 1] === '/') {
+  if (a.endsWith('/')) {
     a = a.substring(0, a.length - 1);
   }
 
   let b = pathB;
-  if (b[0] === '/') {
+  if (b.startsWith('/')) {
     b = b.substring(1);
   }
 
   return `${a}/${b}`;
 }
 
-export function folderName(path) {
+export function folderName(path: string): string {
   if (path === '.') {
-    return 'Home';
+    return i18n.t('Home');
   }
-  return path.split('/').pop();
+  return path.split('/').at(-1) ?? path;
 }
 
-export function parent(path) {
+export function parent(path: string): string | null {
   if (path === '.') {
     return null;
   }
@@ -135,35 +137,40 @@ export function parent(path) {
   return path.substring(0, end);
 }
 
-export function parents(path) {
-  const items = [];
-  for (let parentPath = path; parentPath !== null; parentPath = parent(parentPath)) {
+export function parents(path: string): string[] {
+  const items: string[] = [];
+  for (let parentPath: string | null = path; parentPath !== null; parentPath = parent(parentPath)) {
     items.push(parentPath);
   }
   return items;
 }
 
-export function isRoot(path) {
+export function isRoot(path: string): boolean {
   return path === '.' || path.toLowerCase() === 'trash';
 }
 
-export function isTrashed(path) {
+export function isTrashed(path: string): boolean {
   return path.toLowerCase() === 'trash' || path.toLowerCase().startsWith('trash/');
 }
 
-const breadcrumbsAliases = {
+interface BreadcrumbEntry {
+  key: string;
+  name: string;
+  Icon?: (props: SVGProps<SVGSVGElement>) => React.JSX.Element;
+  url: string;
+}
+
+const breadcrumbsAliases: Record<string, BreadcrumbEntry> = {
   [FILES.prefix]: {
     key: FILES.prefix,
     name: i18n.t('Home'),
     Icon: icons.Home,
-    path: '.',
     url: FILES.prefix,
   },
   [TRASH.prefix]: {
     key: TRASH.prefix,
     name: i18n.t('Trash'),
     Icon: icons.Trash,
-    path: 'trash',
     url: TRASH.prefix,
   },
   [BOOKMARKS.prefix]: {
@@ -180,36 +187,7 @@ i18n.on('languageChanged init', () => {
   breadcrumbsAliases[BOOKMARKS.prefix].name = i18n.t('Saved');
 });
 
-export function breadcrumbs(path) {
-  const items = [];
-
-  if (path.toLowerCase() === 'trash' || path.toLowerCase().startsWith('trash/')) {
-    items.push(breadcrumbsAliases[TRASH.prefix]);
-  } else {
-    items.push(breadcrumbsAliases[FILES.prefix]);
-  }
-
-  if (isRoot(path)) {
-    return items;
-  }
-
-  path
-    .split('/')
-    .slice(items[0].key === 'trash' ? 1 : 0)
-    .forEach((part, idx) => {
-      const itemPath = join(items[idx].path, part);
-      items.push({
-        key: itemPath,
-        name: part,
-        url: join(items[idx].url, encodePath(part)),
-        path: itemPath,
-      });
-    });
-
-  return items;
-}
-
-export function breadcrumbsFromUrl(pathname) {
+export function breadcrumbsFromUrl(pathname: string): BreadcrumbEntry[] {
   const matchedPrefix = Object.keys(breadcrumbsAliases).find(
     (prefix) => pathname === prefix || pathname.startsWith(prefix + '/'),
   );
@@ -219,7 +197,7 @@ export function breadcrumbsFromUrl(pathname) {
   }
 
   const root = breadcrumbsAliases[matchedPrefix];
-  const items = [root];
+  const items: BreadcrumbEntry[] = [root];
 
   const rest = pathname.slice(matchedPrefix.length);
   if (!rest || rest === '/') {

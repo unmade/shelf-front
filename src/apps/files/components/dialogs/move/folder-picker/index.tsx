@@ -7,7 +7,7 @@ import * as routes from '@/routes';
 
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/ui/empty';
 
-import { Breadcrumbs, type BreadcrumbItem } from '@/apps/files/components/breadcrumbs';
+import { Breadcrumbs } from '@/apps/files/components/breadcrumbs';
 
 import { FolderPickerList } from './list';
 
@@ -47,12 +47,13 @@ export function FolderPicker({
     [changePath],
   );
 
-  const breadcrumbs: BreadcrumbItem[] = routes
-    .breadcrumbs(path)
-    .map((item: { key: string; name: string; path?: string }) => ({
-      key: item.key,
-      name: item.name,
-      onClick: item.path != null ? () => changePath(item.path!) : undefined,
+  const breadcrumbs = routes
+    .parents(path)
+    .reverse()
+    .map((item) => ({
+      key: item,
+      name: routes.folderName(item),
+      onClick: item != null ? () => changePath(item) : undefined,
     }));
 
   return (

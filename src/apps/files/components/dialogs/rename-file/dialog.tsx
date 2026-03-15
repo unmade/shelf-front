@@ -88,7 +88,7 @@ export function RenameFileDialog({ file, open, onClose }: Props) {
     } else if (name === file.name) {
       setError(t('dialogs.rename.errors.nameSame', { defaultValue: 'Name is the same.' }));
     } else {
-      const toPath = routes.join(routes.parent(file.path), name);
+      const toPath = routes.join(routes.parent(file.path) ?? '.', name);
       rename(file.path, toPath);
     }
   };

@@ -82,7 +82,7 @@ function FileBrowserContainer({ path }: FileBrowserContainerProps) {
 
 export default function Trash() {
   const dirPath = useDirPath();
-  const path = routes.join(TRASH_FOLDER_NAME, dirPath);
+  const path = routes.join(TRASH_FOLDER_NAME, dirPath ?? '.');
 
   const title = routes.folderName(path);
   const breadcrumbs = useRouteBreadcrumbs();
