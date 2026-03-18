@@ -21,7 +21,7 @@ export function CopyToClipboardButton({ children, className, disabled, title, va
   const [state, setState] = useState(PENDING);
 
   useEffect(() => {
-    let timeout: NodeJS.Timeout;
+    let timeout: ReturnType<typeof setTimeout>;
     if (state === COPIED) {
       timeout = setTimeout(() => {
         setState(PENDING);
