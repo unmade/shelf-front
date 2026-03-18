@@ -1,4 +1,4 @@
-import type { Middleware } from '@reduxjs/toolkit';
+import type { Middleware, TypedStartListening } from '@reduxjs/toolkit';
 import {
   combineReducers,
   configureStore,
@@ -145,11 +145,7 @@ const errorsMiddleware: Middleware = () => (next) => (action) => {
   return next(action);
 };
 
-const listenerMiddleware = createListenerMiddleware();
-listenerMiddleware.startListening({
-  actionCreator: fileEntriesAdded,
-  effect: listenFileEntriesAdded,
-});
+const listenerMiddleware = createListenerMiddleware<RootState>();
 
 const store = configureStore({
   reducer: rootReducer,
@@ -168,6 +164,11 @@ const store = configureStore({
 
 export type RootState = ReturnType<typeof reducers>;
 export type AppDispatch = typeof store.dispatch;
+
+(listenerMiddleware.startListening as TypedStartListening<RootState, AppDispatch>)({
+  actionCreator: fileEntriesAdded,
+  effect: listenFileEntriesAdded,
+});
 
 store.subscribe(() => {
   saveAuthState(store.getState());
