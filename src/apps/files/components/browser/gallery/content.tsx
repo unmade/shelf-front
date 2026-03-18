@@ -63,7 +63,11 @@ export function GalleryContent() {
     <div className="h-full min-w-0 flex-1 bg-gray-50 px-8 inset-shadow-xs lg:px-20 dark:bg-zinc-950">
       <Carousel opts={{ startIndex, loop: true }} className="h-full w-full" setApi={setCarouselApi}>
         <CarouselContent className="h-[calc(100svh-56px)]">
-          {Object.values(data?.entities ?? {}).map((file, index) => {
+          {data?.ids.map((id, index) => {
+            const file = data.entities[id];
+            if (!file) {
+              return null;
+            }
             return (
               <CarouselItem key={file.id} className="h-full">
                 <GallerySlide file={file} inView={slidesInView.includes(index)} />
