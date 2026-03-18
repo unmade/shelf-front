@@ -7,7 +7,7 @@ export type UploadsFilter = 'all' | 'inProgress' | 'failed';
 
 const uploadsAdapter = createEntityAdapter<IUpload>();
 
-interface IFileEntriesAddedPayload {
+export interface IFileEntriesAddedPayload {
   allowedMediaTypes?: string[];
   files: FileSystemFileEntry[] | File[];
   uploadTo: string;
