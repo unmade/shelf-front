@@ -11,7 +11,6 @@ import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import apiSlice from './apiSlice';
 
 import auth, { signedOut, saveAuthState, loadAuthState } from './authSlice';
-import browser from './browser';
 import tasks from './tasks';
 import uploads, { fileEntriesAdded } from './uploads/slice';
 
@@ -21,7 +20,6 @@ import { toast } from '@/ui/sonner';
 const reducers = combineReducers({
   [apiSlice.reducerPath]: apiSlice.reducer,
   auth,
-  browser,
   tasks,
   uploads,
 });
