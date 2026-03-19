@@ -4,5 +4,13 @@ export function setItem<T>(key: string, value: T): void {
 
 export function getItem<T>(key: string): T | null {
   const item = localStorage.getItem(key);
-  return item ? (JSON.parse(item) as T) : null;
+  if (!item) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(item) as T;
+  } catch {
+    return null;
+  }
 }
