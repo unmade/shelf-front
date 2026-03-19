@@ -4,7 +4,7 @@ import { type EntityState } from '@reduxjs/toolkit';
 
 import { type FileSchema } from '@/store/files';
 
-import useDirPath from '@/hooks/dir-path';
+import { useDirPath } from '@/hooks/dir-path';
 
 import { PREVIEW_PARAM } from '@/constants';
 

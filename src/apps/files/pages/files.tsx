@@ -1,4 +1,4 @@
-import useDirPath from '@/hooks/dir-path';
+import { useDirPath } from '@/hooks/dir-path';
 
 import * as routes from '@/routes';
 

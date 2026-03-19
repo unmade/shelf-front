@@ -10,7 +10,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { FileSize } from '@/ui/filesize';
 import { TimeAgo } from '@/ui/timeago';
 
-import Exif from '@/components/Exif';
+import { Exif } from '@/components/Exif';
 
 import { Breadcrumbs } from '@/apps/files/components/breadcrumbs';
 import { SharedLinkSetting } from '@/apps/files/components/shared-link-setting';

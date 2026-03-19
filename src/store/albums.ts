@@ -36,7 +36,7 @@ interface IListAlbumsFilters {
   pageSize?: number;
 }
 
-export interface IListAlbumItemsFilters {
+interface IListAlbumItemsFilters {
   albumSlug: string;
   page?: number;
   pageSize?: number;
@@ -76,7 +76,7 @@ const albumInitialState = albumsAdapter.getInitialState();
 
 export const albumItemsAdapter = createEntityAdapter<IMediaItem>({});
 
-export const albumsApi = apiSlice.injectEndpoints({
+const albumsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     addAlbumItems: builder.mutation<IAlbum, { albumSlug: string; fileIds: string[] }>({
       query: ({ albumSlug, fileIds }) => ({

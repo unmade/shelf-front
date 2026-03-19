@@ -1,4 +1,4 @@
-import AddFileMemberForm from './AddFileMemberForm';
+import { AddFileMemberForm } from './AddFileMemberForm';
 import FileMembers from './FileMembers';
 
 interface Props {

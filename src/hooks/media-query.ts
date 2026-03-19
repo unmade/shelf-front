@@ -9,7 +9,7 @@ export const Breakpoint = {
   xxl: 'xxl',
 } as const;
 
-export type BreakpointValue = (typeof Breakpoint)[keyof typeof Breakpoint];
+type BreakpointValue = (typeof Breakpoint)[keyof typeof Breakpoint];
 
 const BreakpointWidth = {
   sm: '(min-width: 640px)',

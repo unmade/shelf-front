@@ -34,7 +34,7 @@ type SharedFile = FileSchema & SharedLinkSchema;
 const filesSharedViaLinkAdapter = createEntityAdapter<SharedFile>();
 const filesSharedViaLinkInitialState = filesSharedViaLinkAdapter.getInitialState();
 
-export const sharedLinksApi = apiSlice.injectEndpoints({
+const sharedLinksApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     createSharedLink: builder.mutation<SharedLinkSchema, string>({
       query: (fileId) => ({

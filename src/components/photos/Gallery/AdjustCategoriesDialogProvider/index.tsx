@@ -7,7 +7,7 @@ interface ContextValue {
   openDialog: (fileId: string) => void;
 }
 
-export const AdjustCategoriesDialogContext = createContext<ContextValue | null>(null);
+const AdjustCategoriesDialogContext = createContext<ContextValue | null>(null);
 
 interface Props {
   children: React.ReactNode;

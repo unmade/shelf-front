@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-export interface MediaItemCategory {
+interface MediaItemCategory {
   name: string;
   displayName: string;
 }

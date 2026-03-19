@@ -9,7 +9,7 @@ interface ContextValue {
   openDialog: (album: IAlbum) => void;
 }
 
-export const DeleteAlbumDialogContext = createContext<ContextValue | null>(null);
+const DeleteAlbumDialogContext = createContext<ContextValue | null>(null);
 
 interface Props {
   children: React.ReactNode;

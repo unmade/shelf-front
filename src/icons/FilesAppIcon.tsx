@@ -21,5 +21,3 @@ export function FilesAppIcon({ className = '', ...props }: React.SVGProps<SVGSVG
     </svg>
   );
 }
-
-export default FilesAppIcon;

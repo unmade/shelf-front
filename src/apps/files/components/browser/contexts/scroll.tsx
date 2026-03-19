@@ -30,7 +30,7 @@ export function ScrollProvider({ children }: ScrollProviderProps) {
   return <ScrollContext.Provider value={value}>{children}</ScrollContext.Provider>;
 }
 
-export function useScrollContext() {
+function useScrollContext() {
   const context = useContext(ScrollContext);
   if (context === null) {
     throw new Error('`useScrollContext` must be used within a `ScrollProvider`');

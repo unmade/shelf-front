@@ -7,7 +7,7 @@ interface ContextValue {
   openDialog: () => void;
 }
 
-export const CreateAlbumDialogContext = createContext<ContextValue | null>(null);
+const CreateAlbumDialogContext = createContext<ContextValue | null>(null);
 
 interface Props {
   children: React.ReactNode;

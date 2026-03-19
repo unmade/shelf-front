@@ -15,7 +15,7 @@ import {
 import { FileSize } from '@/ui/filesize';
 import { TimeAgo } from '@/ui/timeago';
 
-import Exif from 'components/Exif';
+import { Exif } from 'components/Exif';
 
 import Categories from '../Categories';
 

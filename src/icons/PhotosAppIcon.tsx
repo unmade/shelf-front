@@ -22,5 +22,3 @@ export function PhotosAppIcon({ className = '', ...props }: React.SVGProps<SVGSV
     </svg>
   );
 }
-
-export default PhotosAppIcon;
