@@ -172,7 +172,6 @@ export type AppDispatch = typeof store.dispatch;
 
 store.subscribe(() => {
   saveAuthState(store.getState());
-  // saveAppearanceState(store.getState());
 });
 
 export default store;
