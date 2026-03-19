@@ -27,8 +27,6 @@ export const featuresApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useListFeaturesQuery } = featuresApi;
-
 const selectListFeaturesResult = featuresApi.endpoints.listFeatures.select(undefined);
 
 const selectListFeaturesData = createSelector(selectListFeaturesResult, (result) => result.data);
@@ -37,8 +35,7 @@ const { selectById } = featuresAdapter.getSelectors(
   (state: RootState) => selectListFeaturesData(state) ?? initialState,
 );
 
-export const selectFeatureValue = (state: RootState, name: string) =>
-  selectById(state, name)?.value;
+const selectFeatureValue = (state: RootState, name: string) => selectById(state, name)?.value;
 
 export const selectFeatureMaxFileSizeToThumbnail = (state: RootState) =>
   selectFeatureValue(state, 'max_file_size_to_thumbnail') as number;

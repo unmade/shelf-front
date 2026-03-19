@@ -97,5 +97,3 @@ export function AddFileMemberForm({ fileId }: Props) {
     </form>
   );
 }
-
-export default AddFileMemberForm;

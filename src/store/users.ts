@@ -78,11 +78,7 @@ export const usersApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const {
-  useAddBookmarkBatchMutation,
-  useListBookmarksQuery,
-  useRemoveBookmarkBatchMutation,
-} = usersApi;
+export const { useAddBookmarkBatchMutation, useRemoveBookmarkBatchMutation } = usersApi;
 
 const selectBookmarksFromResult = usersApi.endpoints.listBookmarks.select(undefined);
 const empty = new Set();

@@ -9,7 +9,7 @@ interface ContextValue {
   openDialog: (file: IFile) => void;
 }
 
-export const InformationDialogContext = createContext<ContextValue | null>(null);
+const InformationDialogContext = createContext<ContextValue | null>(null);
 
 interface Props {
   children: React.ReactNode;

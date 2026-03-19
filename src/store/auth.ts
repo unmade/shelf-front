@@ -23,7 +23,7 @@ interface Tokens {
   refreshToken: string;
 }
 
-export interface SignInArgs {
+interface SignInArgs {
   username: string;
   password: string;
 }
@@ -35,7 +35,7 @@ export interface SignUpArgs {
   confirmPassword: string;
 }
 
-export const authApi = apiSlice.injectEndpoints({
+const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     signIn: builder.mutation<Tokens, SignInArgs>({
       query: ({ username, password }) => ({

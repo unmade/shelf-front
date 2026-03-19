@@ -94,5 +94,3 @@ export function Exif({ fileId }: Props) {
     </div>
   );
 }
-
-export default Exif;

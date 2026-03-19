@@ -2,7 +2,7 @@ import type { IMediaItem } from 'types/photos';
 
 import { FileSize } from '@/ui/filesize';
 
-import Exif from 'components/Exif';
+import { Exif } from 'components/Exif';
 
 import useFileFromMediaItem from '../hooks/file-from-media-item';
 

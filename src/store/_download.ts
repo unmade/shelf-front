@@ -31,5 +31,3 @@ export const download = createAsyncThunk('files/download', async (fileId: string
     link.parentNode?.removeChild(link);
   }
 });
-
-export default download;

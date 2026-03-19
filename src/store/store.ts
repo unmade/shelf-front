@@ -44,14 +44,8 @@ interface RejectedWithAPIError {
   };
 }
 
-export function isFetchBaseQueryError(error: unknown): error is FetchBaseQueryError {
+function isFetchBaseQueryError(error: unknown): error is FetchBaseQueryError {
   return typeof error === 'object' && error != null && 'status' in error;
-}
-
-export function isFetchBaseQueryErrorWithApiError(
-  error: unknown,
-): error is { status: unknown; data: APIError } {
-  return isFetchBaseQueryError(error) && isApiError(error.data);
 }
 
 export function isFetchBaseQueryErrorWithApiErrorCode(

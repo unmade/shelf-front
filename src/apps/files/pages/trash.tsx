@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import useDirPath from '@/hooks/dir-path';
+import { useDirPath } from '@/hooks/dir-path';
 
 import { TRASH_FOLDER_NAME } from '@/constants';
 import * as icons from '@/icons';

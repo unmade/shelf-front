@@ -25,7 +25,7 @@ export function isOTPCodeAlreadySent(error: unknown): boolean {
   return isFetchBaseQueryErrorWithApiErrorCode(error, 'OTP_CODE_ALREADY_SENT');
 }
 
-export interface ICurrentAccountSchema {
+interface ICurrentAccountSchema {
   id: string;
   username: string;
   email: string | null;
@@ -154,8 +154,7 @@ export function useCurrentAccount() {
   };
 }
 
-export const selectGetCurrentAccountResult =
-  accountsApi.endpoints.getCurrentAccount.select(undefined);
+const selectGetCurrentAccountResult = accountsApi.endpoints.getCurrentAccount.select(undefined);
 
 export const selectCurrentAccount = (state: RootState) => selectGetCurrentAccountResult(state).data;
 
