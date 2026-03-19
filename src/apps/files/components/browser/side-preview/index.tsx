@@ -2,7 +2,7 @@ import * as Collapsible from '@radix-ui/react-collapsible';
 
 import { type FileSchema } from '@/store/files';
 
-import { useSelectionContext } from '@/apps/files/components/selection-context';
+import { useSelection } from '@/components/SelectionProvider';
 
 import { useSelectFiles } from '../contexts/data';
 
@@ -27,7 +27,7 @@ function Content({ files }: SidePreviewContentProps) {
 }
 
 export function FileBrowserSidePreview() {
-  const { selectedIds } = useSelectionContext();
+  const { selectedIds } = useSelection();
   const selectedFiles = useSelectFiles(selectedIds);
 
   return (

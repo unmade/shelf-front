@@ -15,12 +15,12 @@ import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle }
 import { TimeAgo } from '@/ui/timeago';
 
 import FileIcon from '@/components/FileIcon';
+import { useSelection } from '@/components/SelectionProvider';
 import { Thumbnail, ThumbnailFallback, ThumbnailImage } from '@/components/thumbnail';
 
 import { BookmarkToggle } from '@/apps/files/components/bookmark-toggle';
 import { FileActionsDropdown } from '@/apps/files/components/file-actions-dropdown';
 import { FileLink } from '@/apps/files/components/file-link';
-import { useSelectionContext } from '@/apps/files/components/selection-context';
 
 interface Props {
   file: FileSchema;
@@ -29,7 +29,7 @@ interface Props {
 
 export const TableViewRow = memo(function TableViewRow({ file, index }: Props) {
   const { t } = useTranslation('files');
-  const { isSelected, select, toggleSelection } = useSelectionContext();
+  const { isSelected, select, toggleSelection } = useSelection();
 
   const selected = isSelected(file.id);
   const folder = MediaType.isFolder(file.mediatype);

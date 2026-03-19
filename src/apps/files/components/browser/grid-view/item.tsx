@@ -15,10 +15,10 @@ import { Item, ItemActions, ItemContent, ItemHeader, ItemTitle } from '@/ui/item
 
 import FileIcon from '@/components/FileIcon';
 import { Thumbnail, ThumbnailFallback, ThumbnailImage } from '@/components/thumbnail';
+import { useSelection } from '@/components/SelectionProvider';
 
 import { FileActionsDropdown } from '@/apps/files/components/file-actions-dropdown';
 import { FileLink } from '@/apps/files/components/file-link';
-import { useSelectionContext } from '@/apps/files/components/selection-context';
 
 interface Props {
   file: FileSchema;
@@ -26,7 +26,7 @@ interface Props {
 
 export const GridViewItem = memo(function GridViewItem({ file }: Props) {
   const { t } = useTranslation('files');
-  const { isSelected, select, toggleSelection } = useSelectionContext();
+  const { isSelected, select, toggleSelection } = useSelection();
 
   const selected = isSelected(file.id);
   const folder = MediaType.isFolder(file.mediatype);

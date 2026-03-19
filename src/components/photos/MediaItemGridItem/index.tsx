@@ -40,7 +40,7 @@ function GridItem({ mediaItem, touch, width, onClick, menuItemRenderer: Menu }: 
     } else if (event.metaKey) {
       toggleSelection(mediaItem.id);
     } else {
-      select(mediaItem.id);
+      select([mediaItem.id]);
     }
   };
 
@@ -52,7 +52,7 @@ function GridItem({ mediaItem, touch, width, onClick, menuItemRenderer: Menu }: 
 
   const handleMenuOpen = () => {
     if (!selected) {
-      select(mediaItem.id);
+      select([mediaItem.id]);
     }
   };
 

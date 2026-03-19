@@ -14,13 +14,13 @@ const EMPTY: IMediaItem[] = [];
 
 function useMediaItemActionGroups(item: IMediaItem) {
   const { selectById } = useMediaItemsData();
-  const { ids, isSelected } = useSelection();
+  const { selectedIds, isSelected } = useSelection();
 
   const mediaItems = useAppSelector((state) => {
     if (!isSelected(item.fileId)) {
       return EMPTY;
     }
-    return ids.map((id) => selectById(state, id)!);
+    return [...selectedIds].map((id) => selectById(state, id)!);
   });
 
   const restore = useRestoreAction(mediaItems);

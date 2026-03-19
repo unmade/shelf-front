@@ -13,7 +13,7 @@ import * as icons from 'icons';
 
 import type { ItemRendererProps } from '@/ui/vgrid';
 
-import { useSelection } from 'components/SelectionProvider';
+import { useSelection } from '@/components/SelectionProvider';
 import { Thumbnail, ThumbnailFallback, ThumbnailImage } from '@/components/thumbnail';
 
 import type { ItemDataProps } from '../AlbumGridView';
@@ -42,7 +42,7 @@ function GridItem({ album, width }: GridItemProps) {
     if (event.metaKey) {
       toggleSelection(album.id);
     } else {
-      select(album.id);
+      select([album.id]);
     }
   };
 
@@ -54,7 +54,7 @@ function GridItem({ album, width }: GridItemProps) {
 
   const handleMenuOpen = () => {
     if (!selected) {
-      select(album.id);
+      select([album.id]);
     }
   };
 

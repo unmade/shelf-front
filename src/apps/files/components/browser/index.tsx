@@ -1,4 +1,4 @@
-import { SelectionProvider } from '@/apps/files/components/selection-context';
+import { SelectionProvider } from '@/components/SelectionProvider';
 
 import { FileBrowserContent } from './content';
 import { FileBrowserProvider } from './contexts/ui';

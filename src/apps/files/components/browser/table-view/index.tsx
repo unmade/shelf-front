@@ -7,7 +7,7 @@ import { type FileSchema } from '@/store/files';
 
 import { type ItemRendererProps, VList } from '@/ui/vlist';
 
-import { useSelectionContext } from '@/apps/files/components/selection-context';
+import { useSelection } from '@/components/SelectionProvider';
 
 import { TableViewHeader } from './header';
 import { TableViewRow } from './row';
@@ -53,7 +53,7 @@ export function TableView({
   onScrollOffsetChange,
   initialScrollOffset = 0,
 }: TableViewProps) {
-  const { select } = useSelectionContext();
+  const { select } = useSelection();
   const { t } = useTranslation('files');
 
   const allIds = data.ids as string[];
