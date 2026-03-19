@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 
 import { Checkbox } from '@/ui/checkbox';
 
-import { useSelectionContext } from '@/apps/files/components/selection-context';
+import { useSelection } from '@/components/SelectionProvider';
 
 interface TableViewHeaderProps {
   className?: string;
@@ -15,7 +15,7 @@ interface TableViewHeaderProps {
 export function TableViewHeader({ className, totalCount, onSelectAll }: TableViewHeaderProps) {
   const { t } = useTranslation('files');
 
-  const { selectedIds, clearSelection } = useSelectionContext();
+  const { selectedIds, clearSelection } = useSelection();
 
   const selectedCount = selectedIds.size;
   const allSelected = totalCount > 0 && selectedCount === totalCount;

@@ -9,7 +9,7 @@ import type { RootState } from 'store/store';
 import { Spinner } from '@/ui/spinner';
 import { VGrid } from '@/ui/vgrid';
 
-import SelectionProvider from 'components/SelectionProvider';
+import { SelectionProvider } from '@/components/SelectionProvider';
 
 import AlbumGridItem from 'components/photos/AlbumGridItem';
 
