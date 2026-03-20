@@ -39,6 +39,7 @@ export const Download = hiOutline.DownloadIcon;
 export const Duplicate = hiOutline.DuplicateIcon;
 export const Edit = hiOutline.PencilIcon;
 export const ExclamationCircle = hiSolid.ExclamationCircleIcon;
+const FileIcon = hiOutline.DocumentIcon;
 const FileCode = hiOutline.CodeIcon;
 const FileImage = hiOutline.PhotographIcon;
 const FileText = hiOutline.DocumentTextIcon;
@@ -104,7 +105,7 @@ const FUZZY_MAP = {
 
 export function getIcon(mediaType, shared) {
   if (mediaType === null || mediaType === undefined) {
-    return File;
+    return FileIcon;
   }
   if (mediaType === MediaType.FOLDER && shared) {
     return SharedFolderSolid;
@@ -116,5 +117,5 @@ export function getIcon(mediaType, shared) {
   if (FUZZY_MAP[type]) {
     return FUZZY_MAP[type];
   }
-  return File;
+  return FileIcon;
 }

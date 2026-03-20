@@ -26,12 +26,13 @@ function Item({ item }: { item: BreadcrumbItemShape }) {
     <BreadcrumbItem className="max-w-3xs" onClick={onClick}>
       {url ? (
         <BreadcrumbLink asChild>
-          <>
+          <NavLink
+            className="hover:text-foreground inline-flex items-center gap-2 truncate"
+            to={url}
+          >
             {Icon && <Icon className="size-4" />}
-            <NavLink className="hover:text-foreground truncate" to={url}>
-              {name}
-            </NavLink>
-          </>
+            {name}
+          </NavLink>
         </BreadcrumbLink>
       ) : (
         <BreadcrumbLink className="truncate">{name}</BreadcrumbLink>
