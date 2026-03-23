@@ -5,13 +5,61 @@ updates:
     directory: '/'
     schedule:
       interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
+      timezone: 'UTC'
+    open-pull-requests-limit: 10
+    groups:
+      radix-ui:
+        patterns:
+          - '@radix-ui/*'
+          - 'radix-ui'
+      tailwind:
+        patterns:
+          - 'tailwindcss'
+          - '@tailwindcss/*'
+          - 'tailwind-merge'
+          - 'tw-animate-css'
+      eslint:
+        patterns:
+          - 'eslint'
+          - 'eslint-*'
+          - '@eslint/*'
+          - 'prettier'
+          - 'prettier-*'
+      typescript:
+        patterns:
+          - 'typescript'
+          - 'typescript-eslint'
+          - '@types/*'
+      i18n:
+        patterns:
+          - 'i18next'
+          - 'i18next-*'
+          - 'react-i18next'
+          - 'i18next-parser'
+      vite:
+        patterns:
+          - 'vite'
+          - 'vite-*'
+          - '@vitejs/*'
 
   - package-ecosystem: 'docker'
     directory: '/'
     schedule:
       interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
+      timezone: 'UTC'
 
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
       interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
+      timezone: 'UTC'
+    groups:
+      github-actions:
+        patterns:
+          - '*'
