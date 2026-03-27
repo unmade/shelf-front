@@ -1,7 +1,7 @@
 import { memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import * as icons from '@/icons';
+import { LinkIcon } from '@/icons';
 
 import { useListFilesSharedViaLinkQuery } from '@/store/sharedLinks';
 
@@ -47,7 +47,7 @@ export function SharedLinkList() {
       <Empty className="h-full">
         <EmptyHeader>
           <EmptyMedia variant="icon">
-            <icons.LinkOutlined />
+            <LinkIcon />
           </EmptyMedia>
           <EmptyTitle>
             {t('sharedViaLink.emptyTitle', {

@@ -4,7 +4,7 @@ import * as routes from '@/routes';
 
 import { useListFolderQuery } from '@/store/files';
 
-import * as icons from '@/icons';
+import { CloudUploadIcon } from '@/icons';
 
 import { Heading } from '@/ui/heading';
 import { Button } from '@/ui/button';
@@ -88,7 +88,7 @@ export default function Files() {
               <PageHeaderActions>
                 <Uploader uploadTo={path}>
                   <Button variant="ghost" size="icon">
-                    <icons.CloudUpload />
+                    <CloudUploadIcon />
                   </Button>
                 </Uploader>
                 <AddActionsDropdown uploadTo={path} />

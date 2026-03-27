@@ -3,7 +3,7 @@ import { NavLink } from 'react-router';
 
 import { type AppConfig } from 'types/AppConfig';
 
-import * as icons from 'icons';
+import { AppLogoIcon, ChevronDownIcon } from '@/icons';
 
 import { useAvailableApps } from 'hooks/available-apps';
 
@@ -53,7 +53,7 @@ export default function AppSelector({ title }: Props) {
   if (apps.length < 2) {
     return (
       <div className="text-foreground flex w-full items-center gap-2 rounded-lg p-2 text-2xl/8 sm:text-xl/8">
-        <icons.AppLogo className="size-7 shrink-0" />
+        <AppLogoIcon className="size-7 shrink-0" />
         <div className="flex w-full items-center justify-between rounded-xl">
           <div className="flex items-center gap-1.5">
             <span className="font-light">Shelf</span>
@@ -81,13 +81,13 @@ export default function AppSelector({ title }: Props) {
               size="lg"
             >
               <div className="flex items-center gap-2">
-                <icons.AppLogo className="size-7 shrink-0" />
+                <AppLogoIcon className="size-7 shrink-0" />
                 <div className="text-foreground flex items-center gap-1 text-2xl/8 leading-tight sm:text-xl/8">
                   <span className="font-light">Shelf</span>
                   <span className="font-medium">{title}</span>
                 </div>
               </div>
-              <icons.ChevronDown className="ml-auto" />
+              <ChevronDownIcon className="ml-auto" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="min-w-56">

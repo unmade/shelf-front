@@ -1,7 +1,5 @@
-import type { SVGProps } from 'react';
-
 import i18n from './i18n';
-import * as icons from './icons';
+import { BookmarkIcon, HomeAltIcon, TrashIcon } from './icons';
 
 export const BOOKMARKS = {
   prefix: '/bookmarks',
@@ -146,7 +144,7 @@ export function isTrashed(path: string): boolean {
 interface BreadcrumbEntry {
   key: string;
   name: string;
-  Icon?: (props: SVGProps<SVGSVGElement>) => React.JSX.Element;
+  Icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   url: string;
 }
 
@@ -154,19 +152,19 @@ const breadcrumbsAliases: Record<string, BreadcrumbEntry> = {
   [FILES.prefix]: {
     key: FILES.prefix,
     name: i18n.t('Home'),
-    Icon: icons.Home,
+    Icon: HomeAltIcon,
     url: FILES.prefix,
   },
   [TRASH.prefix]: {
     key: TRASH.prefix,
     name: i18n.t('Trash'),
-    Icon: icons.Trash,
+    Icon: TrashIcon,
     url: TRASH.prefix,
   },
   [BOOKMARKS.prefix]: {
     key: BOOKMARKS.prefix,
     name: i18n.t('Saved'),
-    Icon: icons.BookmarkOutlined,
+    Icon: BookmarkIcon,
     url: BOOKMARKS.prefix,
   },
 };

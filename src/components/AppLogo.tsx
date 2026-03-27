@@ -1,4 +1,4 @@
-import { AppLogo as AppLogoIcon } from 'icons';
+import { AppLogoIcon } from '@/icons';
 
 import { Heading } from '@/ui/heading';
 

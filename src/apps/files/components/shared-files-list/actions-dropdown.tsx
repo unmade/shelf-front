@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import * as icons from '@/icons';
+import { UsersIcon } from '@/icons';
 
 import {
   DropdownMenu,
@@ -25,7 +25,7 @@ export function ActionsDropdown({ children, fileId }: Props) {
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
       <DropdownMenuContent className="min-w-40" side="bottom" align="end">
         <DropdownMenuItem onClick={() => openDialog(fileId)}>
-          <icons.UsersOutlined />
+          <UsersIcon />
           {t('sharedInApp.manageMembers', { defaultValue: 'Manage members' })}
         </DropdownMenuItem>
       </DropdownMenuContent>

@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 
 import { cn } from '@/lib/utils';
 
-import * as icons from '@/icons';
+import { LayersIcon } from '@/icons';
 import * as routes from '@/routes';
 
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/ui/empty';
@@ -68,7 +68,7 @@ export function FolderPicker({
             <Empty>
               <EmptyHeader>
                 <EmptyMedia variant="icon">
-                  <icons.Collection />
+                  <LayersIcon />
                 </EmptyMedia>
                 <EmptyTitle>{emptyTitle}</EmptyTitle>
                 <EmptyDescription>{emptyDescription}</EmptyDescription>

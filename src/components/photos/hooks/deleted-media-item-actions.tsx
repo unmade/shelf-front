@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 
 import type { IMediaItem } from 'types/photos';
 
-import * as icons from 'icons';
+import { TrashIcon, UndoIcon } from '@/icons';
 
 import type { IAction } from 'hooks/file-actions';
 
@@ -21,8 +21,8 @@ export function useDeleteImmediatelyAction(mediaItems: IMediaItem[]): IAction | 
       defaultValue: 'Delete immediately',
       count: mediaItems.length,
     }),
-    Icon: icons.TrashOutlined,
-    icon: <icons.TrashOutlined className="h-4 w-4" />,
+    Icon: TrashIcon,
+    icon: <TrashIcon className="h-4 w-4" />,
     danger: true,
     onClick: () => {
       openDialog(mediaItems);
@@ -43,8 +43,8 @@ export function useRestoreAction(mediaItems: IMediaItem[]): IAction {
       defaultValue: 'Restore',
       count: mediaItems.length,
     }),
-    Icon: icons.ReplyOutlined,
-    icon: <icons.ReplyOutlined className="h-4 w-4" />,
+    Icon: UndoIcon,
+    icon: <UndoIcon className="h-4 w-4" />,
     danger: false,
     onClick: () => {
       restore(ids);

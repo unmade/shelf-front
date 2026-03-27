@@ -3,11 +3,11 @@ import { useTranslation } from 'react-i18next';
 import { Link, useNavigate, useParams } from 'react-router';
 import { skipToken } from '@reduxjs/toolkit/query';
 
-import { useAppSelector } from 'hooks';
+import { useAppSelector } from '@/hooks';
 
-import { useGetAlbumQuery, selectListAlbumsData } from 'store/albums';
+import { useGetAlbumQuery, selectListAlbumsData } from '@/store/albums';
 
-import * as icons from 'icons';
+import { ArrowLeftStrokeIcon } from '@/icons';
 import * as routes from 'routes';
 
 import { Button } from '@/ui/button';
@@ -16,10 +16,10 @@ import { Spinner } from '@/ui/spinner';
 
 import { CopyLinkDialogProvider } from '@/apps/files/components/dialogs';
 
-import AddToAlbumDialogProvider from 'components/photos/AddToAlbumDialogProvider';
-import DeleteMediaItemsDialogProvider from 'components/photos/DeleteMediaItemsDialogProvider';
+import AddToAlbumDialogProvider from '@/components/photos/AddToAlbumDialogProvider';
+import DeleteMediaItemsDialogProvider from '@/components/photos/DeleteMediaItemsDialogProvider';
 
-import { Page, PageHeader, PageContent } from 'apps/photos/components/page';
+import { Page, PageHeader, PageContent } from '@/apps/photos/components/page';
 
 import Content from './Content';
 
@@ -59,7 +59,7 @@ export default function Album() {
               <div className="flex items-center gap-2">
                 <Button variant="ghost" size="icon" asChild>
                   <Link to={routes.PHOTOS_ALBUMS.prefix}>
-                    <icons.ArrowLeft data-slot="icon" />
+                    <ArrowLeftStrokeIcon data-slot="icon" />
                   </Link>
                 </Button>
                 <Heading className="py-0.5">{title}</Heading>

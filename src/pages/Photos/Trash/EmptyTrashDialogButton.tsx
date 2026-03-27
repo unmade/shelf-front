@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import * as icons from '@/icons';
+import { TrashIcon } from '@/icons';
 
 import { Button } from '@/ui/button';
 
@@ -18,7 +18,7 @@ export default function EmptyTrashDialogButton() {
       title={t('photos:actions.emptyTrash', { defaultValue: 'Empty Trash' })}
       onClick={openDialog}
     >
-      <icons.TrashOutlined className="h-5 w-5 shrink-0" />
+      <TrashIcon className="h-5 w-5 shrink-0" />
     </Button>
   );
 }

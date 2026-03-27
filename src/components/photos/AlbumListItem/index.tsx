@@ -8,7 +8,7 @@ import type { IAlbum } from '@/types/photos';
 import { useAppSelector } from '@/hooks';
 
 import { ThumbnailSize } from '@/constants';
-import * as icons from '@/icons';
+import { ImageIcon } from '@/icons';
 
 import { Thumbnail, ThumbnailFallback, ThumbnailImage } from '@/components/thumbnail';
 
@@ -46,7 +46,7 @@ function AlbumListItem({ data, index, style }: ListChildComponentProps<ItemDataP
               alt={album.title}
             />
             <ThumbnailFallback className="rounded-lg bg-gray-100 dark:bg-zinc-700">
-              <icons.PhotographOutlined className="size-7 text-gray-500 dark:text-zinc-400" />
+              <ImageIcon className="size-7 text-gray-500 dark:text-zinc-400" />
             </ThumbnailFallback>
           </Thumbnail>
         </div>

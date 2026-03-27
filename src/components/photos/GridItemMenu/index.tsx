@@ -1,4 +1,4 @@
-import { More as MoreIcon } from '@/icons';
+import { MoreHorizontalIcon } from '@/icons';
 
 import { DropdownMenu, DropdownMenuTrigger } from '@/ui/dropdown-menu';
 
@@ -27,7 +27,7 @@ export default function GridItemMenu({ groups, onOpen }: Props) {
     <DropdownMenu onOpenChange={handleOpen}>
       <DropdownMenuTrigger asChild>
         <button className={buttonStyles}>
-          <MoreIcon className="size-3" />
+          <MoreHorizontalIcon className="size-3" />
         </button>
       </DropdownMenuTrigger>
       <SimpleMenuContent groups={groups} side="bottom" align="start" />

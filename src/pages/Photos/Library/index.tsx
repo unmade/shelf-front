@@ -6,7 +6,7 @@ import { selectPhotosLibraryPath } from 'store/features';
 
 import { MediaType } from '@/constants';
 
-import * as icons from '@/icons';
+import { CloudUploadIcon } from '@/icons';
 
 import { Button } from '@/ui/button';
 import { Heading } from '@/ui/heading';
@@ -60,7 +60,7 @@ export default function Library() {
                       <PageHeaderActions>
                         <Uploader uploadTo={libraryPath}>
                           <Button size="icon">
-                            <icons.CloudUpload />
+                            <CloudUploadIcon />
                           </Button>
                         </Uploader>
                       </PageHeaderActions>

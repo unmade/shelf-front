@@ -1,16 +1,9 @@
 import i18n from 'i18n';
 
-import { type AppConfig } from 'types/AppConfig';
+import { type AppConfig } from '@/types/AppConfig';
 
-import * as routes from 'routes';
-import {
-  BookmarkOutlined,
-  FilesAppIcon,
-  HomeOutlined,
-  LinkOutlined,
-  ShareOutlined,
-  TrashOutlined,
-} from 'icons';
+import { BookmarksIcon, FilesAppIcon, HomeIcon, LinkIcon, ShareIcon, TrashIcon } from '@/icons';
+import * as routes from '@/routes';
 
 const config: AppConfig = {
   key: 'files',
@@ -26,21 +19,21 @@ const config: AppConfig = {
           {
             path: routes.FILES.prefix,
             title: 'Home',
-            Icon: HomeOutlined,
+            Icon: HomeIcon,
             desktopOnly: false,
             end: false,
           },
           {
             path: routes.BOOKMARKS.prefix,
             title: 'Saved',
-            Icon: BookmarkOutlined,
+            Icon: BookmarksIcon,
             desktopOnly: false,
             end: false,
           },
           {
             path: routes.TRASH.prefix,
             title: 'Trash',
-            Icon: TrashOutlined,
+            Icon: TrashIcon,
             desktopOnly: false,
             end: false,
           },
@@ -53,14 +46,14 @@ const config: AppConfig = {
           {
             path: routes.SHARED_IN_APP.prefix,
             title: 'In app',
-            Icon: ShareOutlined,
+            Icon: ShareIcon,
             desktopOnly: false,
             end: true,
           },
           {
             path: routes.SHARED_VIA_LINK.prefix,
             title: 'Links',
-            Icon: LinkOutlined,
+            Icon: LinkIcon,
             desktopOnly: false,
             end: true,
           },

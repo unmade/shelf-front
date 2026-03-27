@@ -10,7 +10,7 @@ import {
   type FileMemberAccessLevel,
 } from '@/store/sharing';
 
-import * as icons from '@/icons';
+import { ChevronDownIcon } from '@/icons';
 
 import { Button } from '@/ui/button';
 import {
@@ -104,7 +104,7 @@ export default function FileMemberAccessLevel({ member }: Props) {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" disabled={member.access_level === 'owner'}>
           {displayAccessLevel}
-          <icons.ChevronDown className="ml-1 inline h-5 w-5" />
+          <ChevronDownIcon className="ml-1 inline h-5 w-5" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="min-w-48" side="bottom" align="end">

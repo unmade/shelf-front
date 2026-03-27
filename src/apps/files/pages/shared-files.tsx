@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import * as icons from '@/icons';
+import { ShareIcon } from '@/icons';
 
 import { Heading } from '@/ui/heading';
 
@@ -16,7 +16,7 @@ export default function SharedFiles() {
       <Page>
         <PageHeader>
           <PageHeaderTitle>
-            <icons.ShareOutlined data-slot="icon" />
+            <ShareIcon data-slot="icon" />
             <Heading>
               {t('pages.sharedInApp.title', { defaultValue: 'Shared with others' })}
             </Heading>

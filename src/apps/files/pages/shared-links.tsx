@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import * as icons from '@/icons';
+import { LinkIcon } from '@/icons';
 
 import { Heading } from '@/ui/heading';
 
@@ -17,7 +17,7 @@ export default function SharedLinks() {
       <Page>
         <PageHeader>
           <PageHeaderTitle>
-            <icons.LinkOutlined data-slot="icon" />
+            <LinkIcon data-slot="icon" />
             <Heading>{t('pages.sharedViaLink.title', { defaultValue: 'Shared via link' })}</Heading>
           </PageHeaderTitle>
         </PageHeader>

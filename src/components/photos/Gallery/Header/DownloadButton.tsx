@@ -2,7 +2,7 @@ import type { IMediaItem } from '@/types/photos';
 
 import { downloadMediaItemsBatch } from '@/store/mediaItems';
 
-import * as icons from '@/icons';
+import { DownloadIcon } from '@/icons';
 import { useAppDispatch } from '@/hooks';
 
 import { Button } from '@/ui/button';
@@ -23,7 +23,7 @@ export default function DownloadButton({ className = '', mediaItem }: Props) {
       size="icon"
       onClick={() => dispatch(downloadMediaItemsBatch([mediaItem.fileId]))}
     >
-      <icons.Download />
+      <DownloadIcon />
     </Button>
   );
 }

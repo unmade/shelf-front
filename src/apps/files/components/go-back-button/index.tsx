@@ -1,4 +1,4 @@
-import * as icons from 'icons';
+import { ArrowLeftStrokeIcon } from '@/icons';
 
 import * as routes from 'routes';
 
@@ -16,7 +16,7 @@ export function GoBackButton({ path }: Props) {
 
   const button = (
     <Button variant="ghost" size="icon" disabled={disabled}>
-      <icons.ArrowLeft data-slot="icon" />
+      <ArrowLeftStrokeIcon data-slot="icon" size="xs" removePadding />
     </Button>
   );
   if (disabled || parentPath == null) {

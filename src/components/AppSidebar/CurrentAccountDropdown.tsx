@@ -1,6 +1,6 @@
 import { useCurrentAccount } from '@/store/accounts';
 
-import { ChevronUpSolid } from '@/icons';
+import { ChevronUpIcon } from '@/icons';
 
 import { DropdownMenu, DropdownMenuTrigger } from '@/ui/dropdown-menu';
 import { Avatar, AvatarFallback } from '@/ui/avatar';
@@ -43,7 +43,7 @@ function CurrentAccountDropdownButton() {
             </span>
           )}
         </div>
-        <ChevronUpSolid className="ml-auto" />
+        <ChevronUpIcon className="ml-auto" />
       </SidebarMenuButton>
     </DropdownMenuTrigger>
   );

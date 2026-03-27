@@ -7,9 +7,9 @@ settings:
 importers:
   .:
     dependencies:
-      '@heroicons/react':
-        specifier: ^1.0.6
-        version: 1.0.6(react@19.2.4)
+      '@boxicons/react':
+        specifier: ^1.0.3
+        version: 1.0.3(react@19.2.4)
       '@radix-ui/react-avatar':
         specifier: ^1.1.11
         version: 1.1.11(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -85,9 +85,6 @@ importers:
       i18next-http-backend:
         specifier: ^3.0.2
         version: 3.0.2
-      lucide-react:
-        specifier: ^0.553.0
-        version: 0.553.0(react@19.2.4)
       moment:
         specifier: ^2.30.1
         version: 2.30.1
@@ -106,9 +103,6 @@ importers:
       react-i18next:
         specifier: ^15.6.1
         version: 15.7.4(i18next@25.6.2(typescript@5.9.3))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3)
-      react-icons:
-        specifier: ^4.2.0
-        version: 4.12.0(react@19.2.4)
       react-redux:
         specifier: ^9.2.0
         version: 9.2.0(@types/react@19.2.14)(react@19.2.4)(redux@5.0.1)
@@ -470,6 +464,14 @@ packages:
         integrity: sha512-qQ5m48eI/MFLQ5PxQj4PFaprjyCTLI37ElWMmNs0K8Lk3dVeOdNpB3ks8jc7yM5CDmVC73eMVk/trk3fgmrUpA==,
       }
     engines: { node: '>=6.9.0' }
+
+  '@boxicons/react@1.0.3':
+    resolution:
+      {
+        integrity: sha512-NASJNbk4X6Xi24CIa/Anx7KhMH1KPiBuaq0RJq3HJiFg65Ct9mhIB6j/a/Ciz/ZOTGaGzisWYmbU4jdKKK/YYA==,
+      }
+    peerDependencies:
+      react: '>=16.8.0'
 
   '@dotenvx/dotenvx@1.51.1':
     resolution:
@@ -837,14 +839,6 @@ packages:
         integrity: sha512-kjotm7XJrJ6v+7knhPaRgaT6q8F8K2jiafwYdNHLzmV0uGLuZY43FK6smNSHUPrhq5kX2slCUy+RGG/xGqmIKA==,
       }
     engines: { node: '>=10.13.0' }
-
-  '@heroicons/react@1.0.6':
-    resolution:
-      {
-        integrity: sha512-JJCXydOFWMDpCP4q13iEplA503MQO3xLoZiKum+955ZCtHINWnx26CUxVxxFQu/uLb4LW3ge15ZpzIkXKkJ8oQ==,
-      }
-    peerDependencies:
-      react: '>= 16'
 
   '@humanfs/core@0.19.1':
     resolution:
@@ -5369,14 +5363,6 @@ packages:
         integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==,
       }
 
-  lucide-react@0.553.0:
-    resolution:
-      {
-        integrity: sha512-BRgX5zrWmNy/lkVAe0dXBgd7XQdZ3HTf+Hwe3c9WK6dqgnj9h+hxV+MDncM88xDWlCq27+TKvHGE70ViODNILw==,
-      }
-    peerDependencies:
-      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
-
   magic-string@0.30.21:
     resolution:
       {
@@ -6191,14 +6177,6 @@ packages:
         optional: true
       typescript:
         optional: true
-
-  react-icons@4.12.0:
-    resolution:
-      {
-        integrity: sha512-IBaDuHiShdZqmfc/TwHu6+d6k2ltNCf3AszxNmjJc1KUfXdEeRJOKyNvLmAHaarhzGmTSVygNdyu8/opXv2gaw==,
-      }
-    peerDependencies:
-      react: '*'
 
   react-is@16.13.1:
     resolution:
@@ -7807,6 +7785,10 @@ snapshots:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.28.5
 
+  '@boxicons/react@1.0.3(react@19.2.4)':
+    dependencies:
+      react: 19.2.4
+
   '@dotenvx/dotenvx@1.51.1':
     dependencies:
       commander: 11.1.0
@@ -7983,10 +7965,6 @@ snapshots:
   '@gulpjs/to-absolute-glob@4.0.0':
     dependencies:
       is-negated-glob: 1.0.0
-
-  '@heroicons/react@1.0.6(react@19.2.4)':
-    dependencies:
-      react: 19.2.4
 
   '@humanfs/core@0.19.1': {}
 
@@ -11016,10 +10994,6 @@ snapshots:
     dependencies:
       yallist: 3.1.1
 
-  lucide-react@0.553.0(react@19.2.4):
-    dependencies:
-      react: 19.2.4
-
   magic-string@0.30.21:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
@@ -11472,10 +11446,6 @@ snapshots:
     optionalDependencies:
       react-dom: 19.2.4(react@19.2.4)
       typescript: 5.9.3
-
-  react-icons@4.12.0(react@19.2.4):
-    dependencies:
-      react: 19.2.4
 
   react-is@16.13.1: {}
 

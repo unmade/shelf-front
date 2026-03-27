@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router';
 
-import { Folder, ChevronDown } from 'icons';
+import { FolderIcon, ChevronDownIcon } from '@/icons';
 
 import { Button } from '@/ui/button';
 import {
@@ -41,7 +41,7 @@ export function BreadcrumbDropdown({ items }: Props) {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost">
           <span className="max-w-40 truncate text-lg sm:max-w-sm">{currentFolder.name}</span>
-          <ChevronDown data-slot="icon" />
+          <ChevronDownIcon data-slot="icon" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="min-w-xs" side="bottom" align="start">
@@ -52,7 +52,7 @@ export function BreadcrumbDropdown({ items }: Props) {
                 {item.Icon ? (
                   <item.Icon className="size-6 shrink-0 sm:size-4" />
                 ) : (
-                  <Folder className="size-6 shrink-0 text-blue-400 sm:size-4" />
+                  <FolderIcon className="size-6 shrink-0 text-blue-400 sm:size-4" />
                 )}
                 <div className="ml-3 truncate">{item.name}</div>
               </NavLink>

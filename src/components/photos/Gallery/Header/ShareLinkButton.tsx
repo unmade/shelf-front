@@ -1,6 +1,6 @@
 import type { IMediaItem } from '@/types/photos';
 
-import * as icons from '@/icons';
+import { LinkIcon } from '@/icons';
 
 import { Button } from '@/ui/button';
 
@@ -27,7 +27,7 @@ export default function ShareLinkButton({ className = '', mediaItem }: Props) {
         openDialog(file);
       }}
     >
-      <icons.LinkOutlined />
+      <LinkIcon />
     </Button>
   );
 }

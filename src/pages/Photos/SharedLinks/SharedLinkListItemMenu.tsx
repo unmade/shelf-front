@@ -1,4 +1,4 @@
-import { MoreOutlined } from 'icons';
+import { MoreHorizontalOutlineIcon } from '@/icons';
 import type { IMediaItem } from 'types/photos';
 
 import { useCopyLinkAction, useDownloadAction } from 'hooks/file-actions';
@@ -42,7 +42,7 @@ export default function SharedLinkListItemMenu({ mediaItem }: Props) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button className="focus:outline-none" variant="ghost" size="icon">
-          <MoreOutlined data-slot="icon" />
+          <MoreHorizontalOutlineIcon data-slot="icon" />
         </Button>
       </DropdownMenuTrigger>
       <SimpleMenuContent groups={groups} side="bottom" align="end" />

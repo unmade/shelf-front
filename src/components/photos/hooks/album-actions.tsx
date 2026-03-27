@@ -4,7 +4,7 @@ import type { IAlbum } from 'types/photos';
 
 import { useRemoveAlbumCoverMutation } from 'store/albums';
 
-import * as icons from 'icons';
+import { CloseIcon, RenameIcon, TrashIcon } from '@/icons';
 
 import type { IAction } from 'hooks/file-actions';
 
@@ -20,8 +20,8 @@ export function useDeleteAlbumAction(album: IAlbum): IAction {
     name: t('photos:album.actions.delete', {
       defaultValue: 'Delete',
     }),
-    Icon: icons.TrashOutlined,
-    icon: <icons.TrashOutlined className="h-4 w-4" />,
+    Icon: TrashIcon,
+    icon: <TrashIcon className="h-4 w-4" />,
     danger: true,
     onClick: () => {
       openDialog(album);
@@ -38,8 +38,8 @@ export function useRemoveAlbumCoverAction(album: IAlbum): IAction {
     name: t('photos:album.actions.removeCover', {
       defaultValue: 'Remove Cover',
     }),
-    Icon: icons.Close,
-    icon: <icons.Close className="h-4 w-4" />,
+    Icon: CloseIcon,
+    icon: <CloseIcon className="h-4 w-4" />,
     danger: false,
     onClick: () => {
       removeAlbumCover({ albumSlug: album.slug });
@@ -56,8 +56,8 @@ export function useRenameAlbumAction(album: IAlbum): IAction {
     name: t('photos:album.actions.rename', {
       defaultValue: 'Rename',
     }),
-    Icon: icons.Edit,
-    icon: <icons.Edit className="h-4 w-4" />,
+    Icon: RenameIcon,
+    icon: <RenameIcon className="h-4 w-4" />,
     danger: false,
     onClick: () => {
       openDialog(album);

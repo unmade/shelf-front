@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import * as icons from '@/icons';
+import { CheckIcon, CopyIcon } from '@/icons';
 
 import { useSharedLink } from '@/hooks/shared-link';
 
@@ -37,7 +37,7 @@ export function CopyLinkButton({ token, filename }: CopyLinkButtonProps) {
       }}
       disabled={!link}
     >
-      {copied ? <icons.Check className="text-teal-500" /> : <icons.ClipboardCopyOutlined />}
+      {copied ? <CheckIcon className="text-teal-500" /> : <CopyIcon />}
       {t('sharedViaLink.copyLink', { defaultValue: 'Copy link' })}
     </Button>
   );

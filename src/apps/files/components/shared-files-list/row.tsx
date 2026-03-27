@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { MediaType } from '@/constants';
-import * as icons from '@/icons';
+import { MoreHorizontalIcon } from '@/icons';
 import * as routes from '@/routes';
 
 import { selectSharedFileById } from '@/store/sharing';
@@ -80,7 +80,7 @@ export const SharedFileRow = memo(function SharedFileRow({ fileId, index }: Prop
               size="icon"
               variant="ghost"
             >
-              <icons.MoreOutlined />
+              <MoreHorizontalIcon />
             </Button>
           </ActionsDropdown>
         </ItemActions>
