@@ -1,17 +1,16 @@
 import { forwardRef, createElement } from 'react';
+
 import type { BoxIconProps } from '@boxicons/react';
 
 import {
-  Adobe,
+  Adobe as BiAdobe,
   AlbumCovers as BiAlbumCovers,
-  AlertCircle,
-  AlertOctagon,
-  AlertTriangle,
-  Archive,
-  ArrowFromBottom,
-  ArrowLeft as BiArrowLeft,
+  AlertCircle as BiAlertCircle,
+  AlertOctagon as BiAlertOctagon,
+  AlertTriangle as BiAlertTriangle,
+  Archive as BiArchive,
+  ArrowFromBottom as BiArrowFromBottom,
   ArrowLeftStroke as BiArrowLeftStroke,
-  ArrowRight as BiArrowRight,
   ArrowRightStroke as BiArrowRightStroke,
   ArrowToBottomStroke as BiArrowToBottomStroke,
   BookAdd as BiBookAdd,
@@ -28,49 +27,49 @@ import {
   ChevronUp as BiChevronUp,
   Circle as BiCircle,
   CloudAlt as BiCloudAlt,
-  Code,
-  Coffee,
+  Code as BiCode,
+  Coffee as BiCoffee,
   Copy as BiCopy,
   Community as BiCommunity,
-  Css3,
+  Css3 as BiCss3,
   DatabaseAlt as BiDatabaseAlt,
-  DotsHorizontalRounded,
-  DotsVerticalRounded,
-  DoorOpen,
+  DotsHorizontalRounded as BiDotsHorizontalRounded,
+  DotsVerticalRounded as BiDotsVerticalRounded,
+  DoorOpen as BiDoorOpen,
   EditAlt as BiEditAlt,
-  File,
-  FileDetail,
+  File as BiFile,
+  FileDetail as BiFileDetail,
   Film as BiFilm,
   FolderUpArrow as BiFolderUpArrow,
   FolderMinus as BiFolderMinus,
   FolderPlus as BiFolderPlus,
-  GoLang,
+  GoLang as BiGoLang,
   Grid as BiGrid,
   HeartPlus as BiHeartPlus,
   HeartBreak as BiHeartBreak,
   HomeAlt as BiHomeAlt,
   HomeAlt2 as BiHomeAlt2,
-  Html5,
+  Html5 as BiHtml5,
   Image as BiImage,
   InfoCircle as BiInfoCircle,
   Infinite as BiInfinite,
-  Javascript,
-  Layers,
+  Javascript as BiJavascript,
+  Layers as BiLayers,
   Link as BiLink,
-  ListUl,
-  LoaderLines,
-  Markdown,
+  ListUl as BiListUl,
+  LoaderLines as BiLoaderLines,
+  Markdown as BiMarkdown,
   Menu as BiMenu,
   Minus as BiMinus,
-  Music,
+  Music as BiMusic,
   Plus as BiPlus,
-  Python,
-  ReactIcon,
+  Python as BiPython,
+  ReactIcon as BiReactIcon,
   Reply as BiReply,
   Share as BiShare,
-  SidebarRight,
+  SidebarRight as BiSidebarRight,
   Table as BiTable,
-  Terminal,
+  Terminal as BiTerminal,
   Trash as BiTrash,
   X as BiX,
 } from '@boxicons/react';
@@ -95,7 +94,7 @@ function withPack(Icon: BoxIcon, pack: BoxIconProps['pack']): BoxIcon {
 }
 
 // ---------------------------------------------------------------------------
-// Custom icons (kept as-is)
+// Custom icons
 // ---------------------------------------------------------------------------
 export { FilesAppIcon } from './FilesAppIcon';
 export { PhotosAppIcon } from './PhotosAppIcon';
@@ -106,13 +105,11 @@ export const HeartIcon = HeartSolidComponent;
 export const HeartOutlineIcon = HeartOutlinedComponent;
 
 // ---------------------------------------------------------------------------
-// Solid (filled) icons – preferred for buttons, dropdowns, sidebar
+// Solid icons
 // ---------------------------------------------------------------------------
 export const AlbumsIcon = withPack(BiAlbumCovers, 'filled');
 export const AddToAlbumIcon = withPack(BiBookAdd, 'filled');
-export const ArrowLeftIcon = withPack(BiArrowLeft, 'filled');
 export const ArrowLeftStrokeIcon = withPack(BiArrowLeftStroke, 'filled');
-export const ArrowRightIcon = withPack(BiArrowRight, 'filled');
 export const ArrowRightStrokeIcon = withPack(BiArrowRightStroke, 'filled');
 export const BookmarkIcon = withPack(BiBookmark, 'filled');
 export const BookmarkAddIcon = withPack(BiBookmarkPlus, 'filled');
@@ -131,7 +128,7 @@ export const CopyIcon = withPack(BiCopy, 'filled');
 export const DatabaseIcon = withPack(BiDatabaseAlt, 'filled');
 export const DownloadIcon = withPack(BiArrowToBottomStroke, 'filled');
 export const DuplicateIcon = withPack(BiCopy, 'basic');
-export const ExclamationCircleIcon = withPack(AlertCircle, 'filled');
+export const ExclamationCircleIcon = withPack(BiAlertCircle, 'filled');
 export const FavoriteAddIcon = withPack(BiHeartPlus, 'filled');
 export const FavoriteRemoveIcon = withPack(BiHeartBreak, 'filled');
 export const FolderMinusIcon = withPack(BiFolderMinus, 'filled');
@@ -141,94 +138,94 @@ export const HomeIcon = withPack(BiHomeAlt, 'filled');
 export const HomeAltIcon = withPack(BiHomeAlt2, 'filled');
 export const ImageIcon = withPack(BiImage, 'filled');
 export const InfoCircleIcon = withPack(BiInfoCircle, 'filled');
-export const LayersIcon = withPack(Layers, 'filled');
+export const LayersIcon = withPack(BiLayers, 'filled');
 export const LinkIcon = withPack(BiLink, 'filled');
-export const ListIcon = withPack(ListUl, 'filled');
-export const LogoutIcon = withPack(DoorOpen, 'filled');
+export const ListIcon = withPack(BiListUl, 'filled');
+export const LogoutIcon = withPack(BiDoorOpen, 'filled');
 export const MenuIcon = withPack(BiMenu, 'filled');
 export const MinusIcon = withPack(BiMinus, 'filled');
-export const MoreHorizontalIcon = withPack(DotsHorizontalRounded, 'filled');
-export const MoreVerticalIcon = withPack(DotsVerticalRounded, 'filled');
+export const MoreHorizontalIcon = withPack(BiDotsHorizontalRounded, 'filled');
+export const MoreVerticalIcon = withPack(BiDotsVerticalRounded, 'filled');
 export const MoveIcon = withPack(BiFolderUpArrow, 'filled');
 export const PlusIcon = withPack(BiPlus, 'filled');
 export const RemoveFromAlbumIcon = withPack(BiX, 'filled');
 export const RenameIcon = withPack(BiEditAlt, 'filled');
 export const ShareIcon = withPack(BiShare, 'filled');
-export const SidebarRightIcon = withPack(SidebarRight, 'filled');
+export const SidebarRightIcon = withPack(BiSidebarRight, 'filled');
 export const TrashIcon = withPack(BiTrash, 'filled');
 export const UndoIcon = withPack(BiReply, 'filled');
-export const UploadIcon = withPack(ArrowFromBottom, 'filled');
+export const UploadIcon = withPack(BiArrowFromBottom, 'filled');
 export const UsersIcon = withPack(BiCommunity, 'filled');
 
 // ---------------------------------------------------------------------------
-// Outline variants (when a lighter weight is specifically needed)
+// Outline variants
 // ---------------------------------------------------------------------------
 export const CloudUploadOutlineIcon = BiCloudAlt;
-export const MoreHorizontalOutlineIcon = DotsHorizontalRounded;
+export const MoreHorizontalOutlineIcon = BiDotsHorizontalRounded;
 
 // ---------------------------------------------------------------------------
 // Special / utility icons
 // ---------------------------------------------------------------------------
 export const InfiniteIcon = BiInfinite;
-export const SpinnerIcon = LoaderLines;
+export const SpinnerIcon = BiLoaderLines;
 
 // Toast / notification icons
-export const AlertTriangleIcon = withPack(AlertTriangle, 'filled');
-export const AlertOctagonIcon = withPack(AlertOctagon, 'filled');
-export const LoaderIcon = LoaderLines;
+export const AlertTriangleIcon = withPack(BiAlertTriangle, 'filled');
+export const AlertOctagonIcon = withPack(BiAlertOctagon, 'filled');
+export const LoaderIcon = BiLoaderLines;
 
 // ---------------------------------------------------------------------------
-// Internal: file-type icons used by getIcon()
+// File-type icons
 // ---------------------------------------------------------------------------
-const FileIconDefault = withPack(File, 'filled');
+const FileIconDefault = withPack(BiFile, 'filled');
 const FileImageInternal = withPack(BiImage, 'filled');
-const FileTextInternal = withPack(FileDetail, 'filled');
+const FileTextInternal = withPack(BiFileDetail, 'filled');
 
-const ArchiveIcon = withPack(Archive, 'filled');
-const TerminalIcon = withPack(Terminal, 'filled');
+const ArchiveIcon = withPack(BiArchive, 'filled');
+const TerminalIcon = withPack(BiTerminal, 'filled');
 const TableIcon = withPack(BiTable, 'filled');
-const CodeOutline = Code;
+const CodeOutline = BiCode;
 const DatabaseOutline = BiDatabaseAlt;
-const TerminalOutline = Terminal;
-const CoffeeIcon = withPack(Coffee, 'filled');
+const TerminalOutline = BiTerminal;
+const CoffeeIcon = withPack(BiCoffee, 'filled');
 
 const PRECISE_MAP = {
   [MediaType.FOLDER]: FolderIcon,
   'application/epub+zip': FileTextInternal,
   'application/gzip': ArchiveIcon,
-  'application/javascript': Javascript,
+  'application/javascript': BiJavascript,
   'application/json': CodeOutline,
-  'application/pdf': Adobe,
+  'application/pdf': BiAdobe,
   'application/sql': DatabaseOutline,
   'application/x-tar': ArchiveIcon,
   'application/x-sh': TerminalIcon,
   'application/x-zsh': TerminalIcon,
   'image/svg+xml': CodeOutline,
-  'image/vnd.adobe.photoshop': Adobe,
-  'text/css': Css3,
+  'image/vnd.adobe.photoshop': BiAdobe,
+  'text/css': BiCss3,
   'text/csv': TableIcon,
-  'text/html': Html5,
-  'text/markdown': Markdown,
-  'text/jsx': ReactIcon,
+  'text/html': BiHtml5,
+  'text/markdown': BiMarkdown,
+  'text/jsx': BiReactIcon,
   'text/tab-separated-values': TableIcon,
   'text/x-c': BiC,
   'text/x-coffeescript': CoffeeIcon,
-  'text/x-go': GoLang,
-  'text/x-python': Python,
+  'text/x-go': BiGoLang,
+  'text/x-python': BiPython,
   'text/x-rust': CodeOutline,
   'text/x-swift': CodeOutline,
   'text/x-vim': TerminalOutline,
 };
 
 const FUZZY_MAP = {
-  audio: withPack(Music, 'filled'),
+  audio: withPack(BiMusic, 'filled'),
   image: FileImageInternal,
   text: FileTextInternal,
   video: withPack(BiFilm, 'filled'),
 };
 
 export function getIcon(mediaType: string | null | undefined, shared?: boolean) {
-  if (mediaType === null || mediaType === undefined) {
+  if (mediaType == null) {
     return FileIconDefault;
   }
   if (mediaType === MediaType.FOLDER && shared) {
