@@ -2,12 +2,22 @@ import type React from 'react';
 
 import { useTranslation } from 'react-i18next';
 
-import { useAppDispatch } from 'hooks';
-import * as icons from 'icons';
-import * as routes from 'routes';
-import type { IFile } from 'types/files';
+import type { IFile } from '@/types/files';
 
-import { download } from 'store/files';
+import { download } from '@/store/files';
+import { useAppDispatch } from '@/hooks';
+
+import {
+  BookmarkAddIcon,
+  BookmarkRemoveIcon,
+  DownloadIcon,
+  HeartOutlineIcon,
+  LinkIcon,
+  MoveIcon,
+  RenameIcon,
+  TrashIcon,
+} from '@/icons';
+import * as routes from '@/routes';
 
 import {
   useCopyLinkDialog,
@@ -43,11 +53,13 @@ export function useBookmarkAction(files: IFile[]): IAction {
         count: fileIds.length,
       });
 
+  const Icon = bookmarked ? BookmarkRemoveIcon : BookmarkAddIcon;
+
   return {
     key: 'bookmark',
     name,
-    Icon: icons.BookmarkOutlined,
-    icon: <icons.HeartOutlined className="h-4 w-4" />,
+    Icon,
+    icon: <HeartOutlineIcon className="h-4 w-4" />,
     danger: false,
     onClick: () => {
       toggleBookmark();
@@ -63,8 +75,8 @@ export function useCopyLinkAction(files: IFile[]): IAction | null {
     return {
       key: 'copy-link',
       name: t('actions.shareLink', { defaultValue: 'Share Link' }),
-      Icon: icons.LinkOutlined,
-      icon: <icons.LinkOutlined className="h-4 w-4" />,
+      Icon: LinkIcon,
+      icon: <LinkIcon className="h-4 w-4" />,
       danger: false,
       onClick: () => {
         openDialog(files[0]);
@@ -81,8 +93,8 @@ export function useDeleteAction(files: IFile[]): IAction | null {
   return {
     key: 'delete',
     name: t('actions.delete', { defaultValue: 'Delete' }),
-    Icon: icons.TrashOutlined,
-    icon: <icons.TrashOutlined className="h-4 w-4" />,
+    Icon: TrashIcon,
+    icon: <TrashIcon className="h-4 w-4" />,
     danger: true,
     onClick: () => {
       openDeleteDialog(files);
@@ -104,8 +116,8 @@ export function useDeleteImmediatelyAction(files: IFile[]): IAction | null {
     return {
       key: 'delete-immediately',
       name: t('actions.deleteImmediately', { defaultValue: 'Delete Immediately' }),
-      Icon: icons.TrashOutlined,
-      icon: <icons.TrashOutlined className="h-4 w-4" />,
+      Icon: TrashIcon,
+      icon: <TrashIcon className="h-4 w-4" />,
       danger: true,
       onClick: () => {
         openDeleteImmediatelyDialog(files);
@@ -123,8 +135,8 @@ export function useDownloadAction(files: IFile[]): IAction | null {
     return {
       key: 'download',
       name: t('actions.download', { defaultValue: 'Download' }),
-      Icon: icons.Download,
-      icon: <icons.Download className="h-4 w-4" />,
+      Icon: DownloadIcon,
+      icon: <DownloadIcon className="h-4 w-4" />,
       danger: false,
       onClick: () => {
         dispatch(download(files[0].id));
@@ -142,8 +154,8 @@ export function useMoveAction(files: IFile[]): IAction | null {
   return {
     key: 'move',
     name: t('actions.move', { defaultValue: 'Move' }),
-    Icon: icons.Move,
-    icon: <icons.Move className="h-4 w-4" />,
+    Icon: MoveIcon,
+    icon: <MoveIcon className="h-4 w-4" />,
     danger: false,
     onClick: () => {
       openMoveDialog(files);
@@ -158,8 +170,8 @@ export function useRenameAction(files: IFile[]): IAction | null {
     return {
       key: 'rename',
       name: t('actions.rename', { defaultValue: 'Rename' }),
-      Icon: icons.ICursor,
-      icon: <icons.ICursor className="h-4 w-4" />,
+      Icon: RenameIcon,
+      icon: <RenameIcon className="h-4 w-4" />,
       danger: false,
       onClick: () => {
         openRenameDialog(files[0]);

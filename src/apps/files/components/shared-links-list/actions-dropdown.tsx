@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import * as icons from '@/icons';
+import { LinkIcon, TrashIcon } from '@/icons';
 
 import { selectFilesSharedViaLinkById, useRevokeSharedLinkMutation } from '@/store/sharedLinks';
 
@@ -33,14 +33,14 @@ export function ActionsDropdown({ children, fileId }: Props) {
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
       <DropdownMenuContent className="min-w-40" side="bottom" align="end">
         <DropdownMenuItem onClick={() => openDialog(file)}>
-          <icons.LinkOutlined />
+          <LinkIcon />
           {t('sharedViaLink.configureLink', { defaultValue: 'Configure link' })}
         </DropdownMenuItem>
         <DropdownMenuItem
           variant="destructive"
           onClick={() => revokeSharedLink({ fileId: file.id, token: file.token })}
         >
-          <icons.TrashOutlined />
+          <TrashIcon />
           {t('sharedViaLink.removeSharedLink', { defaultValue: 'Remove shared link' })}
         </DropdownMenuItem>
       </DropdownMenuContent>

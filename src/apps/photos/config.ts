@@ -1,16 +1,9 @@
 import i18n from 'i18n';
 
-import {
-  Collection,
-  HeartOutlined,
-  LinkOutlined,
-  PhotographOutlined,
-  PhotosAppIcon,
-  TrashOutlined,
-} from 'icons';
-import * as routes from 'routes';
+import { AlbumsIcon, HeartIcon, LinkIcon, ImageIcon, PhotosAppIcon, TrashIcon } from '@/icons';
+import * as routes from '@/routes';
 
-import { type AppConfig } from 'types/AppConfig';
+import { type AppConfig } from '@/types/AppConfig';
 
 const config: AppConfig = {
   key: 'photos',
@@ -26,28 +19,28 @@ const config: AppConfig = {
           {
             path: '/photos',
             title: i18n.t('Library', { defaultValue: 'Library' }),
-            Icon: PhotographOutlined,
+            Icon: ImageIcon,
             desktopOnly: false,
             end: true,
           },
           {
             path: '/photos/albums',
             title: i18n.t('Albums', { defaultValue: 'Albums' }),
-            Icon: Collection,
+            Icon: AlbumsIcon,
             desktopOnly: false,
             end: true,
           },
           {
             path: '/photos/favourites',
             title: i18n.t('Favourites', { defaultValue: 'Favourites' }),
-            Icon: HeartOutlined,
+            Icon: HeartIcon,
             desktopOnly: false,
             end: false,
           },
           {
             path: '/photos/trash',
             title: i18n.t('Trash', { defaultValue: 'Trash' }),
-            Icon: TrashOutlined,
+            Icon: TrashIcon,
             desktopOnly: false,
             end: false,
           },
@@ -60,7 +53,7 @@ const config: AppConfig = {
           {
             path: '/photos/shared-links',
             title: i18n.t('Shared links', { defaultValue: 'Shared links' }),
-            Icon: LinkOutlined,
+            Icon: LinkIcon,
             desktopOnly: false,
             end: false,
           },

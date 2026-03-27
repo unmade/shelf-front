@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import * as icons from '@/icons';
+import { BookmarksIcon } from '@/icons';
 
 import { useListBookmarkedFilesQuery } from '@/store/files';
 
@@ -54,7 +54,7 @@ export default function Files() {
       <Page>
         <PageHeader>
           <PageHeaderTitle>
-            <icons.BookmarkOutlined data-slot="icon" />
+            <BookmarksIcon data-slot="icon" />
             <Heading>{title}</Heading>
           </PageHeaderTitle>
         </PageHeader>

@@ -1,19 +1,24 @@
 import { useTranslation } from 'react-i18next';
 
-import type { IMediaItem } from 'types/photos';
+import type { IMediaItem } from '@/types/photos';
 
-import * as icons from 'icons';
-
-import { useAppDispatch, useAppSelector } from 'hooks';
-import type { IAction } from 'hooks/file-actions';
-
-import { useRemoveAlbumItemsMutation, useSetAlbumCoverMutation } from 'store/albums';
-import { downloadMediaItemsBatch } from 'store/mediaItems';
 import {
-  selectNonBookmarkedIds,
-  useAddBookmarkBatchMutation,
-  useRemoveBookmarkBatchMutation,
-} from 'store/users';
+  AddToAlbumIcon,
+  DownloadIcon,
+  HeartIcon,
+  HeartOutlineIcon,
+  ImageIcon,
+  RemoveFromAlbumIcon,
+  TrashIcon,
+} from '@/icons';
+
+import { useAppDispatch } from '@/hooks';
+import type { IAction } from '@/hooks/file-actions';
+
+import { useRemoveAlbumItemsMutation, useSetAlbumCoverMutation } from '@/store/albums';
+import { downloadMediaItemsBatch } from '@/store/mediaItems';
+
+import { useToggleBookmark } from '@/apps/files/hooks/toggle-bookmark';
 
 import { useDeleteMediaItemsDialog } from '../DeleteMediaItemsDialogProvider';
 import { useAddToAlbumDialog } from '../AddToAlbumDialogProvider';
@@ -29,8 +34,8 @@ export function useAddToAlbumAction(mediaItems: IMediaItem[]): IAction | null {
       defaultValue: 'Add to Album',
       count: mediaItems.length,
     }),
-    Icon: icons.FolderAddOutlined,
-    icon: <icons.FolderAddOutlined className="h-4 w-4" />,
+    Icon: AddToAlbumIcon,
+    icon: <AddToAlbumIcon className="h-4 w-4" />,
     danger: false,
     onClick: () => {
       openDialog(mediaItems);
@@ -49,8 +54,8 @@ export function useDeleteAction(mediaItems: IMediaItem[]): IAction | null {
       defaultValue: 'Delete',
       count: mediaItems.length,
     }),
-    Icon: icons.TrashOutlined,
-    icon: <icons.TrashOutlined className="h-4 w-4" />,
+    Icon: TrashIcon,
+    icon: <TrashIcon className="h-4 w-4" />,
     danger: true,
     onClick: () => {
       openDeleteDialog(mediaItems);
@@ -69,8 +74,8 @@ export function useDownloadBatchAction(mediaItems: IMediaItem[]): IAction | null
       defaultValue: 'Download',
       count: mediaItems.length,
     }),
-    Icon: icons.Download,
-    icon: <icons.Download className="h-4 w-4" />,
+    Icon: DownloadIcon,
+    icon: <DownloadIcon className="h-4 w-4" />,
     danger: false,
     onClick: () => {
       dispatch(downloadMediaItemsBatch(fileIds));
@@ -81,38 +86,29 @@ export function useDownloadBatchAction(mediaItems: IMediaItem[]): IAction | null
 export function useFavouriteAction(mediaItems: IMediaItem[]): IAction {
   const { t } = useTranslation('photos');
 
-  const [addBookmarkBatch] = useAddBookmarkBatchMutation();
-  const [removeBookmarkBatch] = useRemoveBookmarkBatchMutation();
-
   const fileIds = mediaItems.map(({ fileId }) => fileId);
-  const nonBookmarkedIds = useAppSelector((state) => selectNonBookmarkedIds(state, fileIds));
+  const { bookmarked, toggleBookmark } = useToggleBookmark(fileIds);
 
-  if (!nonBookmarkedIds.length) {
-    return {
-      key: 'unfavourite',
-      name: t('photos:mediaItem.actions.unfavourite', {
+  const name = bookmarked
+    ? t('photos:mediaItem.actions.unfavourite', {
         defaultValue: 'Unfavourite',
         count: fileIds.length,
-      }),
-      Icon: icons.Heart,
-      icon: <icons.Heart className="h-4 w-4" />,
-      danger: false,
-      onClick: () => {
-        removeBookmarkBatch(fileIds);
-      },
-    };
-  }
+      })
+    : t('photos:mediaItem.actions.favourite', {
+        defaultValue: 'Favourite',
+        count: fileIds.length,
+      });
+
+  const Icon = bookmarked ? HeartIcon : HeartOutlineIcon;
+
   return {
     key: 'favourite',
-    name: t('photos:mediaItem.actions.favourite', {
-      defaultValue: 'Favourite',
-      count: fileIds.length,
-    }),
-    Icon: icons.HeartOutlined,
-    icon: <icons.HeartOutlined className="h-4 w-4" />,
+    name,
+    Icon: Icon,
+    icon: <HeartOutlineIcon className="h-4 w-4" />,
     danger: false,
     onClick: () => {
-      addBookmarkBatch(nonBookmarkedIds);
+      toggleBookmark();
     },
   };
 }
@@ -128,8 +124,8 @@ export function useRemoveFromAlbumAction(albumSlug: string, mediaItems: IMediaIt
       defaultValue: 'Remove from Album',
       count: mediaItems.length,
     }),
-    Icon: icons.FolderRemoveOutlined,
-    icon: <icons.FolderRemoveOutlined className="h-4 w-4" />,
+    Icon: RemoveFromAlbumIcon,
+    icon: <RemoveFromAlbumIcon className="h-4 w-4" />,
     danger: false,
     onClick: () => {
       removeAlbumItems({ albumSlug, fileIds });
@@ -155,8 +151,8 @@ export function useSetAlbumCoverAction(
     name: t('photos:mediaItem.actions.setCover', {
       defaultValue: 'Set as Album Cover',
     }),
-    Icon: icons.PhotographOutlined,
-    icon: <icons.PhotographOutlined className="h-4 w-4" />,
+    Icon: ImageIcon,
+    icon: <ImageIcon className="h-4 w-4" />,
     danger: false,
     onClick: () => {
       setAlbumCover({ albumSlug, fileId: mediaItem.fileId });

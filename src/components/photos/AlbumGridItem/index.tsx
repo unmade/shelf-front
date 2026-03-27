@@ -9,7 +9,7 @@ import { useAppSelector } from 'hooks';
 import { useTouchDevice } from 'hooks/media-query';
 
 import { ThumbnailSize } from '@/constants';
-import * as icons from 'icons';
+import { ImageIcon } from '@/icons';
 
 import type { ItemRendererProps } from '@/ui/vgrid';
 
@@ -82,7 +82,7 @@ function GridItem({ album, width }: GridItemProps) {
             alt={album.title}
           />
           <ThumbnailFallback className="rounded-xl bg-gray-100 dark:bg-zinc-700">
-            <icons.PhotographOutlined className="size-12 text-gray-500 dark:text-zinc-400" />
+            <ImageIcon className="size-12 text-gray-500 dark:text-zinc-400" />
           </ThumbnailFallback>
         </Thumbnail>
         <div className={`${selected ? '' : 'hidden'} absolute top-1.5 right-2 group-hover:block`}>

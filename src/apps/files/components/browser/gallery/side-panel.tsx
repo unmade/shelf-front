@@ -1,4 +1,4 @@
-import { BookmarkIcon, MoreHorizontalIcon } from 'lucide-react';
+import { BookmarkIcon, MoreHorizontalIcon } from '@/icons';
 import { useTranslation } from 'react-i18next';
 
 import * as Collapsible from '@radix-ui/react-collapsible';

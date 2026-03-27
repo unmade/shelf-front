@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import { FolderIcon } from 'lucide-react';
+import { FolderIcon } from '@/icons';
 
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/ui/empty';
 

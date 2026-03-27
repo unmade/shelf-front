@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import { MoreOutlined, InformationCircleOutlined } from 'icons';
+import { MoreHorizontalOutlineIcon, InfoCircleIcon } from '@/icons';
 
 import type { IFile } from 'types/files';
 import type { IMediaItem } from 'types/photos';
@@ -24,7 +24,7 @@ function useInformationAction(file: IFile) {
   return {
     key: 'info',
     name: t('photos:mediaItem.actions.showInfo', { defaultValue: 'Info' }),
-    Icon: InformationCircleOutlined,
+    Icon: InfoCircleIcon,
     danger: false,
     onClick: () => {
       openDialog(file);
@@ -69,7 +69,7 @@ function MoreButton({ className = '', mediaItem }: Props) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button className={cn('focus:outline-none', className)} variant="ghost">
-          <MoreOutlined data-slot="icon" />
+          <MoreHorizontalOutlineIcon data-slot="icon" />
         </Button>
       </DropdownMenuTrigger>
       <SimpleMenuContent groups={groups} side="bottom" align="end" />

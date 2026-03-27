@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import * as icons from 'icons';
+import { CloudUploadOutlineIcon, UploadIcon } from '@/icons';
 
 import FileDrop from 'components/FileDrop';
 
@@ -46,12 +46,12 @@ function DropzoneContent({ allowedMediaTypes, dragging, uploadTo }: DropzoneProp
   }
   return (
     <div className={`${dropzoneClass} ${bg}`}>
-      <icons.CloudUploadOutlined className={`h-12 w-12 ${textSecondary}`} />
+      <CloudUploadOutlineIcon className={`h-12 w-12 ${textSecondary}`} />
       <div className="flex flex-col space-y-1 text-center text-sm font-semibold">
         <p className={textPrimary}>{t('uploads:dropzone.title')}</p>
         <p className={textSecondary}>{t('or')}</p>
         <UploadButton allowedMediaTypes={allowedMediaTypes} uploadTo={uploadTo}>
-          <icons.Upload />
+          <UploadIcon />
           {t('uploads:uploadButton.title')}
         </UploadButton>
       </div>

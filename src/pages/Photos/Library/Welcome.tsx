@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import * as icons from 'icons';
+import { UploadIcon } from '@/icons';
 
 import { Empty, EmptyHeader, EmptyTitle, EmptyDescription, EmptyContent } from '@/ui/empty';
 
@@ -29,7 +29,7 @@ export default function Welcome({ uploadTo }: Props) {
       </EmptyHeader>
       <EmptyContent>
         <UploadButton uploadTo={uploadTo}>
-          <icons.Upload />
+          <UploadIcon />
           {t('photos:actions.upload', { defaultValue: 'Upload' })}
         </UploadButton>
       </EmptyContent>

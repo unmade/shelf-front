@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { MoreVerticalIcon } from 'lucide-react';
+import { MoreVerticalIcon } from '@/icons';
 
 import type { FileSchema } from '@/store/files';
 

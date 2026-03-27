@@ -1,4 +1,4 @@
-import * as icons from '@/icons';
+import { PlusIcon } from '@/icons';
 
 import { Button } from '@/ui/button';
 
@@ -14,7 +14,7 @@ export default function CreateAlbumButton() {
         openDialog();
       }}
     >
-      <icons.Plus />
+      <PlusIcon />
     </Button>
   );
 }

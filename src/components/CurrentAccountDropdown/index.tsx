@@ -5,7 +5,7 @@ import { useAppDispatch } from '@/hooks';
 import * as routes from '@/routes';
 import { signedOut } from '@/store/authSlice';
 
-import * as icons from '@/icons';
+import { LogoutIcon } from '@/icons';
 
 import {
   DropdownMenuContent,
@@ -48,7 +48,7 @@ function SignOutMenuItem() {
 
   return (
     <DropdownMenuItem variant="destructive" onSelect={onSignOut}>
-      <icons.LogoutOutlined data-slot="icon" />
+      <LogoutIcon data-slot="icon" />
       {t('Sign Out')}
     </DropdownMenuItem>
   );

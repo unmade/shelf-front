@@ -6,7 +6,7 @@ import type { FileSchema } from '@/store/files';
 import { cn } from '@/lib/utils';
 
 import { MediaType } from '@/constants';
-import { BookmarkOutlined, MoreOutlined } from '@/icons';
+import { BookmarkIcon, MoreHorizontalIcon } from '@/icons';
 
 import { Button } from '@/ui/button';
 import { Checkbox } from '@/ui/checkbox';
@@ -96,7 +96,7 @@ export const TableViewRow = memo(function TableViewRow({ file, index }: Props) {
             className="invisible group-hover:visible data-[state=on]:visible data-[state=on]:bg-transparent"
             fileIds={[file.id]}
           >
-            <BookmarkOutlined />
+            <BookmarkIcon />
           </BookmarkToggle>
         </ItemActions>
         <ItemContent className="w-40 flex-none @max-2xl:hidden">
@@ -116,7 +116,7 @@ export const TableViewRow = memo(function TableViewRow({ file, index }: Props) {
               size="icon"
               variant="ghost"
             >
-              <MoreOutlined />
+              <MoreHorizontalIcon />
             </Button>
           </FileActionsDropdown>
         </ItemActions>

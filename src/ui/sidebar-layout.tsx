@@ -1,6 +1,6 @@
 import { Sheet, SheetTrigger, SheetContent } from '@/ui/sheet';
 
-import * as icons from 'icons';
+import { MenuIcon } from '@/icons';
 
 import { NavbarItem } from '@/ui/navbar';
 
@@ -14,7 +14,7 @@ function SidebarModal({ children }: React.PropsWithChildren) {
     <Sheet>
       <SheetTrigger asChild className="focus:outline-none">
         <NavbarItem>
-          <icons.MenuAlt4Solid />
+          <MenuIcon />
         </NavbarItem>
       </SheetTrigger>
 

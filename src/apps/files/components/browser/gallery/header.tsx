@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import { ChevronLeftIcon, ChevronRightIcon, PanelRightIcon, XIcon } from 'lucide-react';
+import { ChevronLeftIcon, ChevronRightIcon, CloseIcon, SidebarRightIcon } from '@/icons';
 
 import { Button } from '@/ui/button';
 import { Text } from '@/ui/text';
@@ -20,11 +20,11 @@ export function GalleryHeader() {
       <div className="flex items-center gap-2 sm:w-48">
         <Button
           variant="ghost"
-          size="icon"
+          size="icon-sm"
           onClick={closeGallery}
           aria-label={t('gallery.close', { defaultValue: 'Close' })}
         >
-          <XIcon />
+          <CloseIcon />
         </Button>
       </div>
 
@@ -35,7 +35,7 @@ export function GalleryHeader() {
       <div className="flex items-center justify-end gap-2 sm:w-48">
         <Button
           variant="ghost"
-          size="icon"
+          size="icon-sm"
           onClick={() => carouselApi?.scrollPrev()}
           aria-label={t('gallery.previous', { defaultValue: 'Previous' })}
         >
@@ -46,7 +46,7 @@ export function GalleryHeader() {
         </Text>
         <Button
           variant="ghost"
-          size="icon"
+          size="icon-sm"
           onClick={() => carouselApi?.scrollNext()}
           aria-label={t('gallery.next', { defaultValue: 'Next' })}
         >
@@ -59,7 +59,7 @@ export function GalleryHeader() {
           onPressedChange={toggleSidePanel}
           aria-label={t('gallery.toggleSidePanel', { defaultValue: 'Toggle side panel' })}
         >
-          <PanelRightIcon />
+          <SidebarRightIcon />
         </Toggle>
       </div>
     </header>

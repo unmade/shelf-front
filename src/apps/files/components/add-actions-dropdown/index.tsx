@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import * as icons from '@/icons';
+import { FolderPlusIcon, PlusIcon, UploadIcon } from '@/icons';
 
 import { Button } from '@/ui/button';
 import {
@@ -26,17 +26,17 @@ export function AddActionsDropdown({ uploadTo }: Props) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button>
-          <icons.Plus />
+          <PlusIcon />
           {t('addActionsDropdown.label', { defaultValue: 'Add' })}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="min-w-40" side="bottom" align="end">
         <DropdownMenuItem onClick={triggerUpload}>
-          <icons.CloudUploadOutlined />
+          <UploadIcon />
           {t('addActionsDropdown.uploadFiles', { defaultValue: 'Upload Files' })}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => openDialog(uploadTo)}>
-          <icons.FolderAddOutlined />
+          <FolderPlusIcon />
           {t('addActionsDropdown.newFolder', { defaultValue: 'New Folder' })}
         </DropdownMenuItem>
       </DropdownMenuContent>

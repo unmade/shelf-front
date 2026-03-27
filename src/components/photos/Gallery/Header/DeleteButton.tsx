@@ -1,6 +1,6 @@
 import type { IMediaItem } from 'types/photos';
 
-import * as icons from 'icons';
+import { TrashIcon } from '@/icons';
 
 import { Button } from '@/ui/button';
 
@@ -25,7 +25,7 @@ export default function DeleteButton({ className, mediaItem }: Props) {
         openDeleteDialog([mediaItem]);
       }}
     >
-      <icons.TrashOutlined />
+      <TrashIcon />
     </Button>
   );
 }

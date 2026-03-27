@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils';
 
 import { MediaType } from '@/constants';
-import * as icons from '@/icons';
+import { getIcon } from '@/icons';
 
 interface Props {
   className?: string;
@@ -18,6 +18,6 @@ export default function FileIcon({ className, hidden = false, mediatype, shared 
     color = hidden ? 'text-gray-300 dark:text-zinc-600' : 'text-gray-400 dark:text-zinc-500';
   }
 
-  const Icon = icons.getIcon(mediatype, shared);
+  const Icon = getIcon(mediatype, shared);
   return <Icon className={cn(color, className)} />;
 }

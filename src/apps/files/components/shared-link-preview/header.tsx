@@ -1,9 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 
-import { PanelRightIcon } from 'lucide-react';
-
-import * as icons from '@/icons';
+import { AppLogoIcon, SidebarRightIcon } from '@/icons';
 import * as routes from '@/routes';
 
 import { Button } from '@/ui/button';
@@ -22,7 +20,7 @@ export function SharedLinkHeader({ fileName, sidePanelOpen, onToggleSidePanel }:
   return (
     <header className="flex h-14 shrink-0 items-center justify-between border-b px-4 dark:bg-zinc-900">
       <div className="flex items-center gap-2 sm:w-48">
-        <icons.AppLogo className="size-10 rounded-lg p-2 dark:bg-white/5" />
+        <AppLogoIcon className="size-10 rounded-lg p-2 dark:bg-white/5" />
         <p className="hidden font-mono text-xl font-bold sm:block">shelf</p>
       </div>
 
@@ -46,7 +44,7 @@ export function SharedLinkHeader({ fileName, sidePanelOpen, onToggleSidePanel }:
           onPressedChange={onToggleSidePanel}
           aria-label={t('sharedLink.toggleInfoPanel', { defaultValue: 'Toggle info panel' })}
         >
-          <PanelRightIcon />
+          <SidebarRightIcon />
         </Toggle>
       </div>
     </header>

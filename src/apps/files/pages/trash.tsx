@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useDirPath } from '@/hooks/dir-path';
 
 import { TRASH_FOLDER_NAME } from '@/constants';
-import * as icons from '@/icons';
+import { TrashIcon } from '@/icons';
 import * as routes from '@/routes';
 
 import { useListFolderQuery } from '@/store/files';
@@ -41,7 +41,7 @@ function EmptyTrashDialogButton() {
       title={t('dialogs.emptyTrash.title', { defaultValue: 'Empty Trash' })}
       onClick={openEmptyTrashDialog}
     >
-      <icons.TrashOutlined />
+      <TrashIcon />
     </Button>
   );
 }

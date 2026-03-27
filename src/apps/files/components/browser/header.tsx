@@ -1,4 +1,4 @@
-import { LayoutGridIcon, LayoutListIcon } from 'lucide-react';
+import { GridIcon, ListIcon } from '@/icons';
 
 import { cn } from '@/lib/utils';
 
@@ -16,10 +16,10 @@ function ViewModeToggle() {
   return (
     <ToggleGroup type="single" variant="outline" value={viewMode} onValueChange={handleValueChange}>
       <ToggleGroupItem value="table">
-        <LayoutListIcon className="size-5 sm:size-4" />
+        <ListIcon className="size-5 sm:size-4" />
       </ToggleGroupItem>
       <ToggleGroupItem value="grid">
-        <LayoutGridIcon className="size-5 sm:size-4" />
+        <GridIcon className="size-5 sm:size-4" />
       </ToggleGroupItem>
     </ToggleGroup>
   );

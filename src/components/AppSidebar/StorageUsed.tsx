@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useGetSpaceUsageQuery } from 'store/accounts';
 
-import * as icons from 'icons';
+import { DatabaseIcon, InfiniteIcon } from '@/icons';
 
 import { FileSize } from '@/ui/filesize';
 import { Progress } from '@/ui/progress';
@@ -30,7 +30,7 @@ export default function StorageUsed() {
     <div className="space-y-2 px-2">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          <icons.Database className="size-5 sm:size-4" />
+          <DatabaseIcon className="size-5 sm:size-4" />
           <Text>
             <Strong>{t('Storage')}</Strong>
           </Text>
@@ -39,7 +39,7 @@ export default function StorageUsed() {
           <Text>
             <Strong>{storageUsed}%</Strong>
           </Text>
-        )) || <icons.Infinite className="size-6 sm:size-5" />}
+        )) || <InfiniteIcon className="size-6 sm:size-5" />}
       </div>
       <Progress progress={progress} variant={variant} />
       <p className="text-xs font-medium text-gray-400 dark:text-zinc-500">

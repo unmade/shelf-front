@@ -1,6 +1,6 @@
 import type { IMediaItem } from 'types/photos';
 
-import * as icons from 'icons';
+import { ChevronLeftIcon, InfoCircleIcon } from '@/icons';
 
 import { Button } from '@/ui/button';
 import { TimeAgo } from '@/ui/timeago';
@@ -26,7 +26,7 @@ export default function Header({ idx, mediaItem, itemsCount, onGoBack, onInfo }:
     <div className="flex flex-row items-center justify-between px-4 py-3">
       <div className="flex flex-row sm:w-48">
         <Button variant="ghost" size="icon" onClick={onGoBack}>
-          <icons.ChevronLeftOutlined />
+          <ChevronLeftIcon />
         </Button>
       </div>
 
@@ -53,7 +53,7 @@ export default function Header({ idx, mediaItem, itemsCount, onGoBack, onInfo }:
             <DownloadButton className="max-sm:hidden" mediaItem={mediaItem} />
             <DeleteButton className="max-sm:hidden" mediaItem={mediaItem} />
             <Button className="max-sm:hidden" variant="ghost" size="icon" onClick={onInfo}>
-              <icons.InformationCircleOutlined />
+              <InfoCircleIcon />
             </Button>
             <MoreButton className="sm:hidden" mediaItem={mediaItem} />
           </>

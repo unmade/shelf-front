@@ -1,7 +1,7 @@
 import { memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import * as icons from '@/icons';
+import { ShareIcon } from '@/icons';
 
 import { useListSharedFilesQuery } from '@/store/sharing';
 
@@ -47,7 +47,7 @@ export function SharedFileList() {
       <Empty className="h-full">
         <EmptyHeader>
           <EmptyMedia variant="icon">
-            <icons.ShareOutlined />
+            <ShareIcon />
           </EmptyMedia>
           <EmptyTitle>
             {t('sharedInApp.emptyTitle', {

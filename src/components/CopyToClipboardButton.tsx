@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { cn } from '@/lib/utils';
 
-import * as icons from '@/icons';
+import { CheckIcon, DuplicateIcon } from '@/icons';
 
 import { Button } from '@/ui/button';
 
@@ -48,9 +48,9 @@ export function CopyToClipboardButton({ children, className, disabled, title, va
       disabled={disabled ?? navigator.clipboard == null}
     >
       {state === COPIED ? (
-        <icons.Check className="text-teal-400 dark:text-teal-500" />
+        <CheckIcon className="text-teal-400 dark:text-teal-500" />
       ) : (
-        <icons.Duplicate className="text-gray-400 dark:text-zinc-500" />
+        <DuplicateIcon className="text-gray-400 dark:text-zinc-500" />
       )}
       {children}
     </Button>
