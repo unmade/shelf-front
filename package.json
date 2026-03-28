@@ -45,7 +45,8 @@
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.1.11",
-    "validator": "^13.15.15"
+    "validator": "^13.15.15",
+    "vaul": "^1.1.2"
   },
   "scripts": {
     "preinstall": "npx only-allow pnpm",

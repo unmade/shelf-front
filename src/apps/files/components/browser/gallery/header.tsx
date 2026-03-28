@@ -1,10 +1,18 @@
 import { useTranslation } from 'react-i18next';
 
-import { ChevronLeftIcon, ChevronRightIcon, CloseIcon, SidebarRightIcon } from '@/icons';
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  CloseIcon,
+  MoreHorizontalIcon,
+  SidebarRightIcon,
+} from '@/icons';
 
 import { Button } from '@/ui/button';
 import { Text } from '@/ui/text';
 import { Toggle } from '@/ui/toggle';
+
+import { FileActionsDropdown } from '@/apps/files/components/file-actions-dropdown';
 
 import { useGallery, useSelectGallerySlide } from './context';
 
@@ -61,6 +69,18 @@ export function GalleryHeader() {
         >
           <SidebarRightIcon />
         </Toggle>
+        {currentFile && (
+          <FileActionsDropdown files={[currentFile]}>
+            <Button
+              className="lg:hidden"
+              variant="ghost"
+              size="icon-sm"
+              aria-label={t('gallery.moreActions', { defaultValue: 'More actions' })}
+            >
+              <MoreHorizontalIcon />
+            </Button>
+          </FileActionsDropdown>
+        )}
       </div>
     </header>
   );
