@@ -13,6 +13,7 @@ import { DeleteDialogProvider } from './delete';
 import { DeleteImmediatelyDialogProvider } from './delete-immediately';
 import { MoveDialogProvider } from './move';
 import { RenameFileDialogProvider } from './rename-file';
+import { FileInfoSheetProvider } from '@/apps/files/components/file-info-sheet';
 
 interface DialogsProviderProps {
   children: React.ReactNode;
@@ -20,16 +21,18 @@ interface DialogsProviderProps {
 
 export function DialogsProvider({ children }: DialogsProviderProps) {
   return (
-    <CopyLinkDialogProvider>
-      <CreateFolderDialogProvider>
-        <DeleteDialogProvider>
-          <DeleteImmediatelyDialogProvider>
-            <MoveDialogProvider>
-              <RenameFileDialogProvider>{children}</RenameFileDialogProvider>
-            </MoveDialogProvider>
-          </DeleteImmediatelyDialogProvider>
-        </DeleteDialogProvider>
-      </CreateFolderDialogProvider>
-    </CopyLinkDialogProvider>
+    <FileInfoSheetProvider>
+      <CopyLinkDialogProvider>
+        <CreateFolderDialogProvider>
+          <DeleteDialogProvider>
+            <DeleteImmediatelyDialogProvider>
+              <MoveDialogProvider>
+                <RenameFileDialogProvider>{children}</RenameFileDialogProvider>
+              </MoveDialogProvider>
+            </DeleteImmediatelyDialogProvider>
+          </DeleteDialogProvider>
+        </CreateFolderDialogProvider>
+      </CopyLinkDialogProvider>
+    </FileInfoSheetProvider>
   );
 }

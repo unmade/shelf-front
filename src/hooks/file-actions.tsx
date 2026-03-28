@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import type { IFile } from '@/types/files';
 
-import { download } from '@/store/files';
+import { download, type FileSchema } from '@/store/files';
 import { useAppDispatch } from '@/hooks';
 
 import {
@@ -12,12 +12,17 @@ import {
   BookmarkRemoveIcon,
   DownloadIcon,
   HeartOutlineIcon,
+  InfoCircleIcon,
   LinkIcon,
   MoveIcon,
   RenameIcon,
   TrashIcon,
 } from '@/icons';
 import * as routes from '@/routes';
+
+import { useIsLaptop } from '@/hooks/media-query';
+
+import { useToggleBookmark } from '@/apps/files/hooks/toggle-bookmark';
 
 import {
   useCopyLinkDialog,
@@ -26,7 +31,7 @@ import {
   useMoveDialog,
   useRenameFileDialog,
 } from '@/apps/files/components/dialogs';
-import { useToggleBookmark } from '@/apps/files/hooks/toggle-bookmark';
+import { useFileInfoSheet } from '@/apps/files/components/file-info-sheet';
 
 export interface IAction {
   key: string;
@@ -140,6 +145,30 @@ export function useDownloadAction(files: IFile[]): IAction | null {
       danger: false,
       onClick: () => {
         dispatch(download(files[0].id));
+      },
+    };
+  }
+  return null;
+}
+
+export function useInformationAction(files: FileSchema[]): IAction | null {
+  const { t } = useTranslation('files');
+  const { openFileInfoSheet } = useFileInfoSheet();
+  const isLaptop = useIsLaptop();
+
+  if (isLaptop) {
+    return null;
+  }
+
+  if (files.length === 1 && !routes.isTrashed(files[0].path)) {
+    return {
+      key: 'information',
+      name: t('actions.information', { defaultValue: 'Information' }),
+      Icon: InfoCircleIcon,
+      icon: <InfoCircleIcon className="h-4 w-4" />,
+      danger: false,
+      onClick: () => {
+        openFileInfoSheet(files[0]);
       },
     };
   }

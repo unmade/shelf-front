@@ -8,6 +8,7 @@ import {
   useDeleteAction,
   useDeleteImmediatelyAction,
   useDownloadAction,
+  useInformationAction,
   useMoveAction,
   useRenameAction,
 } from '@/hooks/file-actions';
@@ -22,10 +23,15 @@ function useActionGroups(files: FileSchema[]) {
   const deleteAction = useDeleteAction(files);
   const deleteImmediatelyAction = useDeleteImmediatelyAction(files);
   const downloadAction = useDownloadAction(files);
+  const informationAction = useInformationAction(files);
   const moveAction = useMoveAction(files);
   const renameAction = useRenameAction(files);
 
   const groups = [
+    {
+      key: 'info',
+      items: [informationAction].filter((action) => action != null),
+    },
     {
       key: 'user',
       items: [bookmarkAction].filter((action) => action != null),
