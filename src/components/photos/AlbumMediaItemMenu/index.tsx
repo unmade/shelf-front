@@ -1,7 +1,6 @@
 import type { IMediaItem } from 'types/photos';
 
 import { useAppSelector } from 'hooks';
-import { useCopyLinkAction } from 'hooks/file-actions';
 
 import { useSelection } from 'components/SelectionProvider';
 
@@ -13,7 +12,6 @@ import {
   useRemoveFromAlbumAction,
   useSetAlbumCoverAction,
 } from '../hooks/media-item-actions';
-import { makeFileFromMediaItem } from '../hooks/file-from-media-item';
 
 import GridItemMenu from '../GridItemMenu';
 import { useMediaItemsData } from '../MediaItemsProvider';
@@ -24,19 +22,16 @@ function useMediaItemActionGroups(item: IMediaItem, albumSlug: string) {
   const { selectById } = useMediaItemsData();
   const { selectedIds, isSelected } = useSelection();
   const mediaItems = useAppSelector((state) => {
-    if (!isSelected(item.fileId)) {
+    if (!isSelected(item.id)) {
       return EMPTY;
     }
     return [...selectedIds].map((id) => selectById(state, id)!);
   });
 
-  const files = mediaItems.map((mediaItem) => makeFileFromMediaItem(mediaItem, ''));
-
   const addToAlbumAction = useAddToAlbumAction(mediaItems);
   const removeFromAlbumAction = useRemoveFromAlbumAction(albumSlug, mediaItems);
   const setAlbumCoverAction = useSetAlbumCoverAction(albumSlug, mediaItems);
   const toggleFavourite = useFavouriteAction(mediaItems);
-  const copyLinkAction = useCopyLinkAction(files);
   const deleteAction = useDeleteAction(mediaItems);
   const downloadBatchAction = useDownloadBatchAction(mediaItems);
 
@@ -47,7 +42,7 @@ function useMediaItemActionGroups(item: IMediaItem, albumSlug: string) {
     },
     {
       key: 'sharing',
-      items: [downloadBatchAction, copyLinkAction].filter((action) => action != null),
+      items: [downloadBatchAction].filter((action) => action != null),
     },
     {
       key: 'album',

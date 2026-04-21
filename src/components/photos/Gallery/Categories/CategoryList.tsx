@@ -9,15 +9,15 @@ import useMediaItemCategories from 'components/photos/hooks/media-item-categorie
 import CategoryListItem from './CategoryListItem';
 
 interface Props {
-  fileId: string;
+  mediaItemId: string;
 }
 
-export default function CategoryList({ fileId }: Props) {
+export default function CategoryList({ mediaItemId }: Props) {
   const { t } = useTranslation(['photos']);
 
   const allCategories = useMediaItemCategories();
 
-  const { categories, loading } = useListMediaItemCategoriesQuery(fileId, {
+  const { categories, loading } = useListMediaItemCategoriesQuery(mediaItemId, {
     selectFromResult: ({ data, isFetching }) => ({
       categories: data?.categories,
       loading: isFetching,

@@ -4,11 +4,11 @@ import AdjustButton from './AdjustButton';
 import CategoryList from './CategoryList';
 
 interface Props {
-  fileId: string;
+  mediaItemId: string;
   readOnly?: boolean;
 }
 
-export default function Categories({ fileId, readOnly = false }: Props) {
+export default function Categories({ mediaItemId, readOnly = false }: Props) {
   const { t } = useTranslation(['photos']);
 
   return (
@@ -17,10 +17,10 @@ export default function Categories({ fileId, readOnly = false }: Props) {
         <h2 className="text-base font-medium">
           {t('photos:mediaItem.categories.title', { defaultValue: 'Categories' })}
         </h2>
-        {!readOnly && <AdjustButton fileId={fileId} />}
+        {!readOnly && <AdjustButton mediaItemId={mediaItemId} />}
       </div>
       <div className="flex flex-wrap text-sm capitalize">
-        <CategoryList fileId={fileId} />
+        <CategoryList mediaItemId={mediaItemId} />
       </div>
     </>
   );

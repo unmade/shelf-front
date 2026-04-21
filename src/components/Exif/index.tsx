@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import { useGetContentMetadataQuery } from '@/store/files';
+import type { DataExifSchema } from '@/types/Exif';
 
 import { TimeAgo } from '@/ui/timeago';
 
@@ -28,30 +28,24 @@ function ExifProperty({ title, value }: ExifPropertyProps) {
 }
 
 interface Props {
-  fileId: string;
+  data: DataExifSchema;
 }
 
-export function Exif({ fileId }: Props) {
+export function Exif({ data }: Props) {
   const { t } = useTranslation('files');
-  const { data, isFetching, isError } = useGetContentMetadataQuery(fileId);
-  const meta = data?.data;
 
-  if (isFetching || meta == null || isError) {
-    return null;
-  }
-
-  const dimensions = getDimensions(meta);
-  const focalLength = getFocalLength(meta);
-  const fnumber = getFNumber(meta);
-  const exposure = getExposure(meta);
-  const iso = getISO(meta);
+  const dimensions = getDimensions(data);
+  const focalLength = getFocalLength(data);
+  const fnumber = getFNumber(data);
+  const exposure = getExposure(data);
+  const iso = getISO(data);
 
   return (
     <div className="rounded-lg bg-gray-100 px-3 py-2 text-gray-900 sm:text-sm dark:bg-zinc-900/50 dark:text-zinc-100">
       <div className="border-b-2 border-gray-200 py-1 dark:border-zinc-800">
         <div className="flex justify-between">
           <p className="text-left text-base font-medium">
-            {getCameraModel(meta) ??
+            {getCameraModel(data) ??
               t('exif.noCameraInformation', { defaultValue: 'No camera information' })}
           </p>
         </div>
@@ -71,19 +65,19 @@ export function Exif({ fileId }: Props) {
             value={dimensions}
           />
         )}
-        {meta.dt_original && (
+        {data.dt_original && (
           <ExifProperty
             title={t('exif.dateTaken', { defaultValue: 'Date Taken' })}
             value={
               <>
                 <TimeAgo
                   className="sm:hidden xl:inline-block"
-                  value={meta.dt_original * 1000}
+                  value={data.dt_original * 1000}
                   format="LLL"
                 />
                 <TimeAgo
                   className="hidden sm:block xl:hidden"
-                  value={meta.dt_original * 1000}
+                  value={data.dt_original * 1000}
                   format="lll"
                 />
               </>

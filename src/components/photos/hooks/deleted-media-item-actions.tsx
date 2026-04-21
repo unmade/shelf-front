@@ -35,7 +35,7 @@ export function useRestoreAction(mediaItems: IMediaItem[]): IAction {
 
   const [restore] = useRestoreMediaItemsMutation();
 
-  const ids = mediaItems.map((item) => item.fileId);
+  const ids = mediaItems.map((item) => item.id);
 
   return {
     key: 'restore',

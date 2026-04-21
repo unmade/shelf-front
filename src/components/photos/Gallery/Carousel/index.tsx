@@ -1,27 +1,68 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@/icons';
 
-import { type FileSchema } from '@/store/files';
+import type { IMediaItem } from '@/types/photos';
 
-import { GallerySlide } from '@/apps/files/components/browser/gallery/slide';
+import { MediaType } from '@/constants';
+
+import { NoPreview } from '@/apps/files/components/previews';
+
+import FileIcon from '@/components/FileIcon';
+import {
+  Thumbnail,
+  ThumbnailFallback,
+  ThumbnailImage,
+  guessThumbnailSize,
+} from '@/components/thumbnail';
 
 import useCarousel from './hooks/useCarousel';
 
-export type CarouselFiles = [FileSchema | null, FileSchema, FileSchema | null];
+export type CarouselMediaItems = [IMediaItem | null, IMediaItem, IMediaItem | null];
+
+function MediaItemSlide({ mediaItem }: { mediaItem: IMediaItem }) {
+  if (!MediaType.isImage(mediaItem.mediaType)) {
+    return (
+      <div className="h-full flex-col overflow-auto py-4">
+        <NoPreview
+          file={{
+            name: mediaItem.name,
+            mediatype: mediaItem.mediaType,
+            hidden: false,
+          }}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="h-full flex-col overflow-auto py-4">
+      <Thumbnail className="size-full">
+        <ThumbnailImage
+          src={mediaItem.thumbnailUrl}
+          size={guessThumbnailSize(window.screen)}
+          alt={mediaItem.name}
+        />
+        <ThumbnailFallback>
+          <FileIcon className="size-14" mediatype={mediaItem.mediaType} hidden={false} />
+        </ThumbnailFallback>
+      </Thumbnail>
+    </div>
+  );
+}
 
 interface Props {
-  files: CarouselFiles;
+  mediaItems: CarouselMediaItems;
   onSwipeLeft?: () => void;
   onSwipeRight?: () => void;
 }
 
-export default function Carousel({ files, onSwipeLeft, onSwipeRight }: Props) {
-  const [handlers, style] = useCarousel(files.length, onSwipeLeft, onSwipeRight);
+export default function Carousel({ mediaItems, onSwipeLeft, onSwipeRight }: Props) {
+  const [handlers, style] = useCarousel(mediaItems.length, onSwipeLeft, onSwipeRight);
 
   return (
     <div {...handlers} className="w-full overflow-hidden">
       <div style={style} className="relative flex h-[calc(100svh-60px)] overflow-x-scroll">
-        {files.map((f, idx) =>
-          f != null ? (
+        {mediaItems.map((mediaItem, idx) =>
+          mediaItem != null ? (
             <div key={idx} className="relative w-1/3 shrink-0 p-4 select-none">
               {onSwipeLeft && (
                 <div
@@ -34,7 +75,7 @@ export default function Carousel({ files, onSwipeLeft, onSwipeRight }: Props) {
                   </div>
                 </div>
               )}
-              <GallerySlide file={f} inView />
+              <MediaItemSlide mediaItem={mediaItem} />
               {onSwipeRight && (
                 <div
                   className="group/rightarrow absolute top-0 right-0 hidden h-full w-1/4 cursor-pointer pointer-fine:block"

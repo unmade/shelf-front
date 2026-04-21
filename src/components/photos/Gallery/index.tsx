@@ -1,18 +1,15 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import type { IMediaItem } from '@/types/photos';
 
 import type { RootState } from '@/store/store';
-import { selectPhotosLibraryPath } from '@/store/features';
 
 import { useAppSelector } from '@/hooks';
 import { useKeyUp } from '@/hooks/key-up';
 
-import { makeFileFromMediaItem } from '../hooks/file-from-media-item';
-
 import AdjustCategoriesDialogProvider from './AdjustCategoriesDialogProvider';
-import Carousel, { type CarouselFiles } from './Carousel';
+import Carousel, { type CarouselMediaItems } from './Carousel';
 import Header from './Header';
 import InformationDialogProvider from './InformationDialogProvider';
 import Sidebar from './Sidebar';
@@ -20,13 +17,13 @@ import Sidebar from './Sidebar';
 interface Props {
   ids: string[];
   itemsCount?: number;
-  initialFileId: string;
+  initialMediaItemId: string;
   selectById: (state: RootState, id: string) => IMediaItem | undefined;
   onClose?: (currentIndex: number) => void;
 }
 
-function Gallery({ ids, itemsCount, initialFileId, selectById, onClose }: Props) {
-  const idx = ids.findIndex((id) => id === initialFileId);
+function Gallery({ ids, itemsCount, initialMediaItemId, selectById, onClose }: Props) {
+  const idx = ids.findIndex((id) => id === initialMediaItemId);
 
   const [currentIndex, setCurrentIndex] = useState(idx);
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -42,28 +39,18 @@ function Gallery({ ids, itemsCount, initialFileId, selectById, onClose }: Props)
   const prevIndex = currentIndex - 1 < 0 ? null : currentIndex - 1;
   const nextIndex = currentIndex + 1 > ids.length - 1 ? null : currentIndex + 1;
 
-  const fileIds = [
+  const mediaItemIds = [
     prevIndex != null ? ids[prevIndex] : null,
     ids[currentIndex],
     nextIndex != null ? ids[nextIndex] : null,
   ];
 
-  const libraryPath = useAppSelector(selectPhotosLibraryPath);
   const prevMediaItem = useAppSelector((state) =>
-    fileIds[0] != null ? selectById(state, fileIds[0])! : null,
+    mediaItemIds[0] != null ? selectById(state, mediaItemIds[0])! : null,
   );
-  const mediaItem = useAppSelector((state) => selectById(state, fileIds[1]!)!);
+  const mediaItem = useAppSelector((state) => selectById(state, mediaItemIds[1]!)!);
   const nextMediaItem = useAppSelector((state) =>
-    fileIds[2] != null ? selectById(state, fileIds[2])! : null,
-  );
-
-  const files = useMemo(
-    () => [
-      prevMediaItem ? makeFileFromMediaItem(prevMediaItem, libraryPath) : null,
-      mediaItem ? makeFileFromMediaItem(mediaItem, libraryPath) : null,
-      nextMediaItem ? makeFileFromMediaItem(nextMediaItem, libraryPath) : null,
-    ],
-    [libraryPath, prevMediaItem, mediaItem, nextMediaItem],
+    mediaItemIds[2] != null ? selectById(state, mediaItemIds[2])! : null,
   );
 
   const onInfo = () => {
@@ -99,6 +86,8 @@ function Gallery({ ids, itemsCount, initialFileId, selectById, onClose }: Props)
     return null;
   }
 
+  const carouselMediaItems: CarouselMediaItems = [prevMediaItem, mediaItem, nextMediaItem];
+
   return createPortal(
     <AdjustCategoriesDialogProvider>
       <InformationDialogProvider>
@@ -114,7 +103,7 @@ function Gallery({ ids, itemsCount, initialFileId, selectById, onClose }: Props)
             <div className="h-full overflow-scroll bg-gray-200 dark:bg-zinc-900/50">
               <div className="flex">
                 <Carousel
-                  files={files as CarouselFiles}
+                  mediaItems={carouselMediaItems}
                   onSwipeLeft={prevIndex != null ? prev : undefined}
                   onSwipeRight={nextIndex != null ? next : undefined}
                 />

@@ -37,11 +37,11 @@ interface Props {
 }
 
 interface State {
-  initialFileId: string | null;
+  initialMediaItemId: string | null;
   scrollIndex: number | null;
 }
 
-const initialState = { initialFileId: null, scrollIndex: null };
+const initialState = { initialMediaItemId: null, scrollIndex: null };
 
 export default function MediaItemGridView({
   ids,
@@ -50,7 +50,7 @@ export default function MediaItemGridView({
   selectById,
   menuItemRenderer,
 }: Props) {
-  const [{ scrollIndex, initialFileId }, setState] = useState<State>(initialState);
+  const [{ scrollIndex, initialMediaItemId }, setState] = useState<State>(initialState);
 
   const { columnCount, rowCount } = useGridLayout(ids);
 
@@ -66,7 +66,7 @@ export default function MediaItemGridView({
   const onClose = useCallback(
     (currentIndex: number) => {
       const idx = Math.floor(currentIndex / columnCount);
-      setState({ scrollIndex: idx, initialFileId: null });
+      setState({ scrollIndex: idx, initialMediaItemId: null });
     },
     [columnCount],
   );
@@ -85,8 +85,8 @@ export default function MediaItemGridView({
   );
 
   const onItemClick = useCallback(
-    (fileId: string) => {
-      setState((state) => ({ ...state, initialFileId: fileId }));
+    (mediaItemId: string) => {
+      setState((state) => ({ ...state, initialMediaItemId: mediaItemId }));
     },
     [setState],
   );
@@ -102,10 +102,10 @@ export default function MediaItemGridView({
   return (
     <SelectionProvider>
       <MediaItemsProvider ids={ids} selectById={selectById} onItemClick={onItemClick}>
-        {initialFileId != null && (
+        {initialMediaItemId != null && (
           <Gallery
             ids={ids}
-            initialFileId={initialFileId}
+            initialMediaItemId={initialMediaItemId}
             itemsCount={itemsCount}
             selectById={selectById}
             onClose={onClose}

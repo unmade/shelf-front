@@ -11,7 +11,6 @@ import FavouriteButton from './FavouriteButton';
 import MoreButton from './MoreButton';
 import RestoreButton from './RestoreButton';
 import DeleteImmediatelyButton from './DeleteImmediatelyButton';
-import ShareLinkButton from './ShareLinkButton';
 
 interface Props {
   idx: number;
@@ -48,7 +47,6 @@ export default function Header({ idx, mediaItem, itemsCount, onGoBack, onInfo }:
           </>
         ) : (
           <>
-            <ShareLinkButton className="max-sm:hidden" mediaItem={mediaItem} />
             <FavouriteButton mediaItem={mediaItem} />
             <DownloadButton className="max-sm:hidden" mediaItem={mediaItem} />
             <DeleteButton className="max-sm:hidden" mediaItem={mediaItem} />

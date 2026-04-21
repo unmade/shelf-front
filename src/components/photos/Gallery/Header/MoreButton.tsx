@@ -2,23 +2,24 @@ import { useTranslation } from 'react-i18next';
 
 import { MoreHorizontalOutlineIcon, InfoCircleIcon } from '@/icons';
 
-import type { IFile } from 'types/files';
 import type { IMediaItem } from 'types/photos';
 
-import { useCopyLinkAction, useDownloadAction } from 'hooks/file-actions';
+import { cn } from '@/lib/utils';
 
 import { Button } from '@/ui/button';
 import { DropdownMenu, DropdownMenuTrigger } from '@/ui/dropdown-menu';
 
 import SimpleMenuContent from '@/components/SimpleMenuContent';
 
-import { useAddToAlbumAction, useDeleteAction } from 'components/photos/hooks/media-item-actions';
-import useFileFromMediaItem from 'components/photos/hooks/file-from-media-item';
+import {
+  useAddToAlbumAction,
+  useDeleteAction,
+  useDownloadBatchAction,
+} from 'components/photos/hooks/media-item-actions';
 
 import { useInformationDialogContext } from '../InformationDialogProvider';
-import { cn } from '@/lib/utils';
 
-function useInformationAction(file: IFile) {
+function useInformationAction(mediaItem: IMediaItem) {
   const { t } = useTranslation('photos');
   const { openDialog } = useInformationDialogContext();
   return {
@@ -27,7 +28,7 @@ function useInformationAction(file: IFile) {
     Icon: InfoCircleIcon,
     danger: false,
     onClick: () => {
-      openDialog(file);
+      openDialog(mediaItem);
     },
   };
 }
@@ -38,13 +39,10 @@ interface Props {
 }
 
 function MoreButton({ className = '', mediaItem }: Props) {
-  const file = useFileFromMediaItem(mediaItem);
-
   const addToAlbumAction = useAddToAlbumAction([mediaItem]);
-  const copyLinkAction = useCopyLinkAction([file]);
   const deleteAction = useDeleteAction([mediaItem]);
-  const downloadAction = useDownloadAction([file]);
-  const infoAction = useInformationAction(file);
+  const downloadAction = useDownloadBatchAction([mediaItem]);
+  const infoAction = useInformationAction(mediaItem);
 
   const groups = [
     {
@@ -53,7 +51,7 @@ function MoreButton({ className = '', mediaItem }: Props) {
     },
     {
       key: 'sharing',
-      items: [downloadAction, copyLinkAction].filter((action) => action != null),
+      items: [downloadAction].filter((action) => action != null),
     },
     {
       key: 'album',

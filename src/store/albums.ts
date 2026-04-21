@@ -5,6 +5,7 @@ import { defaultSerializeQueryArgs } from '@reduxjs/toolkit/query';
 import type { IAlbum, IMediaItem } from 'types/photos';
 
 import apiSlice from './apiSlice';
+import { toMediaItem, type MediaItemSchema } from './mediaItems';
 import type { RootState } from './store';
 
 const ALBUM_ITEMS_PAGE_SIZE = 250;
@@ -16,19 +17,9 @@ interface IAlbumsSchema {
   items_count: number;
   created_at: string;
   cover: {
-    file_id: string;
+    media_item_id: string;
     thumbnail_url: string | null;
   } | null;
-}
-
-interface IAlbumItemSchema {
-  file_id: string;
-  name: string;
-  size: number;
-  modified_at: string;
-  mediatype: string;
-  thumbnail_url: string;
-  deleted_at: string;
 }
 
 interface IListAlbumsFilters {
@@ -40,7 +31,6 @@ interface IListAlbumItemsFilters {
   albumSlug: string;
   page?: number;
   pageSize?: number;
-  favourites?: boolean;
 }
 
 function toAlbum(schema: IAlbumsSchema): IAlbum {
@@ -48,24 +38,11 @@ function toAlbum(schema: IAlbumsSchema): IAlbum {
   let cover = null;
   if (schema.cover != null) {
     cover = {
-      fileId: schema.cover.file_id,
+      mediaItemId: schema.cover.media_item_id,
       thumbnailUrl: schema.cover.thumbnail_url,
     };
   }
   return { id, slug, title, cover, itemsCount, createdAt };
-}
-
-function toMediaItem(schema: IAlbumItemSchema): IMediaItem {
-  return {
-    id: schema.file_id,
-    fileId: schema.file_id,
-    name: schema.name,
-    size: schema.size,
-    modifiedAt: schema.modified_at,
-    mediatype: schema.mediatype,
-    deletedAt: schema.deleted_at ?? null,
-    thumbnailUrl: schema.thumbnail_url,
-  };
 }
 
 export const albumsAdapter = createEntityAdapter({
@@ -78,12 +55,12 @@ export const albumItemsAdapter = createEntityAdapter<IMediaItem>({});
 
 const albumsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    addAlbumItems: builder.mutation<IAlbum, { albumSlug: string; fileIds: string[] }>({
-      query: ({ albumSlug, fileIds }) => ({
+    addAlbumItems: builder.mutation<IAlbum, { albumSlug: string; mediaItemIds: string[] }>({
+      query: ({ albumSlug, mediaItemIds }) => ({
         url: `/photos/albums/${albumSlug}/items`,
         method: 'PUT',
         body: {
-          file_ids: fileIds,
+          media_item_ids: mediaItemIds,
         },
       }),
       invalidatesTags: (_result, _error, { albumSlug }) => [
@@ -182,13 +159,12 @@ const albumsApi = apiSlice.injectEndpoints({
         params: {
           page: pageParam,
           page_size: queryArg?.pageSize ?? ALBUM_ITEMS_PAGE_SIZE,
-          favourites: queryArg?.favourites,
         },
       }),
       providesTags: (_result, _error, { albumSlug }) => [
         { type: 'Albums', id: `albumItems:${albumSlug}` },
       ],
-      transformResponse: (data: { items: IAlbumItemSchema[] }) => data.items.map(toMediaItem),
+      transformResponse: (data: { items: MediaItemSchema[] }) => data.items.map(toMediaItem),
     }),
 
     removeAlbumCover: builder.mutation<IAlbum, { albumSlug: string }>({
@@ -224,22 +200,22 @@ const albumsApi = apiSlice.injectEndpoints({
       },
     }),
 
-    removeAlbumItems: builder.mutation<IAlbum, { albumSlug: string; fileIds: string[] }>({
-      query: ({ albumSlug, fileIds }) => ({
+    removeAlbumItems: builder.mutation<IAlbum, { albumSlug: string; mediaItemIds: string[] }>({
+      query: ({ albumSlug, mediaItemIds }) => ({
         url: `/photos/albums/${albumSlug}/items`,
         method: 'DELETE',
         body: {
-          file_ids: fileIds,
+          media_item_ids: mediaItemIds,
         },
       }),
       transformResponse: (data: IAlbumsSchema) => toAlbum(data),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-        const { albumSlug, fileIds } = arg;
+        const { albumSlug, mediaItemIds } = arg;
         const listAlbumItemsPatchResult = dispatch(
           albumsApi.util.updateQueryData('listAlbumItems', { albumSlug }, (draft) => {
             if (draft?.pages) {
               draft.pages = draft.pages.map((page: IMediaItem[]) =>
-                page.filter((item) => !fileIds.includes(item.fileId)),
+                page.filter((item) => !mediaItemIds.includes(item.id)),
               );
             }
           }),
@@ -262,15 +238,15 @@ const albumsApi = apiSlice.injectEndpoints({
       },
     }),
 
-    setAlbumCover: builder.mutation<IAlbum, { albumSlug: string; fileId: string }>({
-      query: ({ albumSlug, fileId }) => ({
+    setAlbumCover: builder.mutation<IAlbum, { albumSlug: string; mediaItemId: string }>({
+      query: ({ albumSlug, mediaItemId }) => ({
         url: `/photos/albums/${albumSlug}/cover`,
         method: 'PUT',
-        body: { file_id: fileId },
+        body: { media_item_id: mediaItemId },
       }),
       transformResponse: (data: IAlbumsSchema) => toAlbum(data),
       async onQueryStarted(arg, { dispatch, getState, queryFulfilled }) {
-        const { albumSlug, fileId } = arg;
+        const { albumSlug, mediaItemId } = arg;
 
         let thumbnailUrl: string | null = null;
         const albumItemsState = albumsApi.endpoints.listAlbumItems.select({ albumSlug })(
@@ -278,7 +254,7 @@ const albumsApi = apiSlice.injectEndpoints({
         );
         if (albumItemsState?.data?.pages) {
           const allItems = albumItemsState.data.pages.flat();
-          const mediaItem = allItems.find((item) => item.fileId === fileId);
+          const mediaItem = allItems.find((item) => item.id === mediaItemId);
           if (mediaItem) {
             thumbnailUrl = mediaItem.thumbnailUrl ?? null;
           }
@@ -288,14 +264,14 @@ const albumsApi = apiSlice.injectEndpoints({
           albumsApi.util.updateQueryData('listAlbums', { pageSize: 100 }, (draft) =>
             albumsAdapter.updateOne(draft, {
               id: albumSlug,
-              changes: { cover: { fileId, thumbnailUrl } },
+              changes: { cover: { mediaItemId, thumbnailUrl } },
             }),
           ),
         );
         const patchGetAlbumResult = dispatch(
           albumsApi.util.updateQueryData('getAlbum', albumSlug, (draft) => {
             if (draft) {
-              return { ...draft, cover: { fileId, thumbnailUrl } };
+              return { ...draft, cover: { mediaItemId, thumbnailUrl } };
             }
             return draft;
           }),

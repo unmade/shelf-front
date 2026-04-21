@@ -14,8 +14,8 @@ export default function DeleteImmediatelyDialogContainer({ mediaItems, open, onC
   const [deleteMediaItems, { isLoading: loading }] = useDeleteMediaItemsImmediatelyMutation();
 
   const onConfirm = async () => {
-    const fileIds = mediaItems.map((item) => item.fileId);
-    await deleteMediaItems(fileIds);
+    const mediaItemIds = mediaItems.map((item) => item.id);
+    await deleteMediaItems(mediaItemIds);
     onClose();
   };
 

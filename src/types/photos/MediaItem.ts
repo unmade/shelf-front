@@ -1,10 +1,11 @@
 export interface IMediaItem {
   id: string;
-  fileId: string;
   name: string;
   size: number;
+  mediaType: string;
+  thumbnailUrl?: string | null;
+  takenAt: string | null;
+  createdAt: string;
   modifiedAt: string;
-  mediatype: string;
-  thumbnailUrl?: string;
   deletedAt: string | null;
 }

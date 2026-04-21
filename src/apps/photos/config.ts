@@ -1,6 +1,6 @@
 import i18n from 'i18n';
 
-import { AlbumsIcon, HeartIcon, LinkIcon, ImageIcon, PhotosAppIcon, TrashIcon } from '@/icons';
+import { AlbumsIcon, HeartIcon, ImageIcon, PhotosAppIcon, TrashIcon } from '@/icons';
 import * as routes from '@/routes';
 
 import { type AppConfig } from '@/types/AppConfig';
@@ -46,19 +46,6 @@ const config: AppConfig = {
           },
         ],
       },
-      {
-        key: 'sharing',
-        title: i18n.t('Sharing', { defaultValue: 'Sharing' }),
-        items: [
-          {
-            path: '/photos/shared-links',
-            title: i18n.t('Shared links', { defaultValue: 'Shared links' }),
-            Icon: LinkIcon,
-            desktopOnly: false,
-            end: false,
-          },
-        ],
-      },
     ],
   },
 };
@@ -69,9 +56,6 @@ i18n.on('languageChanged init', () => {
   config.menu.sections[0].items[1].title = i18n.t('Albums');
   config.menu.sections[0].items[2].title = i18n.t('Favourites');
   config.menu.sections[0].items[3].title = i18n.t('Trash');
-
-  config.menu.sections[1].title = i18n.t('Sharing');
-  config.menu.sections[1].items[0].title = i18n.t('Shared links');
 });
 
 export default config;

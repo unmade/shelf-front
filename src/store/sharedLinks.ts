@@ -7,7 +7,6 @@ import { isFetchBaseQueryErrorWithApiErrorCode, type RootState } from './store';
 
 import apiSlice, { API_BASE_URL } from './apiSlice';
 import { type FileSchema } from './files';
-import { sharedLinkAdapter as mediaItemsSharedLinksAdapter, photosApi } from './mediaItems';
 
 export function isSharedLinkNotFound(error: unknown): boolean {
   return isFetchBaseQueryErrorWithApiErrorCode(error, 'SHARED_LINK_NOT_FOUND');
@@ -43,7 +42,6 @@ const sharedLinksApi = apiSlice.injectEndpoints({
         body: { file_id: fileId },
       }),
       invalidatesTags: (_result, _error, fileId) => [
-        { type: 'MediaItems', id: 'listSharedLinks' },
         { type: 'Sharing', id: 'listFilesSharedViaLink' },
         { type: 'Sharing', id: `getSharedLink:${fileId}` },
       ],
@@ -179,18 +177,6 @@ const sharedLinksApi = apiSlice.injectEndpoints({
         { type: 'Sharing', id: 'listFilesSharedViaLink' },
         { type: 'Sharing', id: `getSharedLink:${fileId}` },
       ],
-      async onQueryStarted({ fileId }, { dispatch, queryFulfilled }) {
-        const listMediaItemSharedLinksPatchResult = dispatch(
-          photosApi.util.updateQueryData('listMediaItemSharedLinks', undefined, (draft) =>
-            mediaItemsSharedLinksAdapter.removeOne(draft, fileId),
-          ),
-        );
-        try {
-          await queryFulfilled;
-        } catch {
-          listMediaItemSharedLinksPatchResult.undo();
-        }
-      },
     }),
   }),
 });

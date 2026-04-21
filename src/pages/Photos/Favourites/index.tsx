@@ -3,8 +3,6 @@ import { useTranslation } from 'react-i18next';
 
 import { Heading } from '@/ui/heading';
 
-import { CopyLinkDialogProvider } from '@/apps/files/components/dialogs';
-
 import AddToAlbumDialogProvider from 'components/photos/AddToAlbumDialogProvider';
 import DeleteMediaItemsDialogProvider from 'components/photos/DeleteMediaItemsDialogProvider';
 
@@ -19,21 +17,19 @@ export default function Favourites() {
 
   return (
     <AddToAlbumDialogProvider>
-      <CopyLinkDialogProvider>
-        <DeleteMediaItemsDialogProvider>
-          <Helmet>
-            <title>Shelf Photos</title>
-          </Helmet>
-          <Page>
-            <PageHeader>
-              <Heading className="py-0.5">{title}</Heading>
-            </PageHeader>
-            <PageContent>
-              <Content />
-            </PageContent>
-          </Page>
-        </DeleteMediaItemsDialogProvider>
-      </CopyLinkDialogProvider>
+      <DeleteMediaItemsDialogProvider>
+        <Helmet>
+          <title>Shelf Photos</title>
+        </Helmet>
+        <Page>
+          <PageHeader>
+            <Heading className="py-0.5">{title}</Heading>
+          </PageHeader>
+          <PageContent>
+            <Content />
+          </PageContent>
+        </Page>
+      </DeleteMediaItemsDialogProvider>
     </AddToAlbumDialogProvider>
   );
 }

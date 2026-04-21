@@ -2,9 +2,7 @@ import type { IMediaItem } from 'types/photos';
 
 import { FileSize } from '@/ui/filesize';
 
-import { Exif } from 'components/Exif';
-
-import useFileFromMediaItem from '../hooks/file-from-media-item';
+import MediaItemExif from 'components/photos/MediaItemExif';
 
 import Categories from './Categories';
 
@@ -14,8 +12,6 @@ interface Props {
 }
 
 export default function Sidebar({ className, mediaItem }: Props) {
-  const file = useFileFromMediaItem(mediaItem);
-
   return (
     <div className={className}>
       <div className="space-y-8">
@@ -28,9 +24,9 @@ export default function Sidebar({ className, mediaItem }: Props) {
           </div>
         </div>
 
-        <Exif fileId={file.id} />
+        <MediaItemExif mediaItemId={mediaItem.id} />
         <div>
-          <Categories fileId={file.id} readOnly={!!mediaItem.deletedAt} />
+          <Categories mediaItemId={mediaItem.id} readOnly={!!mediaItem.deletedAt} />
         </div>
       </div>
     </div>

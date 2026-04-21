@@ -22,6 +22,7 @@ import { mediaItemsAdapter, photosApi } from '@/store/mediaItems';
 
 import type { AppDispatch, RootState } from '@/store/store';
 import type { IUpload } from '@/types/files';
+import type { IMediaItem } from '@/types/photos';
 
 import { uploadsAdded, uploadRejected, uploadFulfilled, uploadProgressed } from './slice';
 import type { IFileEntriesAddedPayload } from './slice';
@@ -180,13 +181,14 @@ function updateMediaItemsCache(
     return;
   }
 
-  const mediaItem = {
+  const mediaItem: IMediaItem = {
     id: file.id,
-    fileId: file.id,
     name: file.name,
     size: file.size,
+    mediaType: file.mediatype,
+    takenAt: null,
+    createdAt: file.modified_at,
     modifiedAt: file.modified_at,
-    mediatype: file.mediatype,
     thumbnailUrl: upload.thumbnail ?? file.thumbnail_url,
     deletedAt: null,
   };

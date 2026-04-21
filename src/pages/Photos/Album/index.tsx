@@ -14,8 +14,6 @@ import { Button } from '@/ui/button';
 import { Heading } from '@/ui/heading';
 import { Spinner } from '@/ui/spinner';
 
-import { CopyLinkDialogProvider } from '@/apps/files/components/dialogs';
-
 import AddToAlbumDialogProvider from '@/components/photos/AddToAlbumDialogProvider';
 import DeleteMediaItemsDialogProvider from '@/components/photos/DeleteMediaItemsDialogProvider';
 
@@ -48,29 +46,27 @@ export default function Album() {
 
   return (
     <AddToAlbumDialogProvider>
-      <CopyLinkDialogProvider>
-        <DeleteMediaItemsDialogProvider>
-          <Helmet>
-            <title>Shelf Photos</title>
-          </Helmet>
+      <DeleteMediaItemsDialogProvider>
+        <Helmet>
+          <title>Shelf Photos</title>
+        </Helmet>
 
-          <Page>
-            <PageHeader>
-              <div className="flex items-center gap-2">
-                <Button variant="ghost" size="icon" asChild>
-                  <Link to={routes.PHOTOS_ALBUMS.prefix}>
-                    <ArrowLeftStrokeIcon data-slot="icon" />
-                  </Link>
-                </Button>
-                <Heading className="py-0.5">{title}</Heading>
-              </div>
-            </PageHeader>
-            <PageContent>
-              {isLoading ? <Spinner className="h-full" /> : <Content album={album!} />}
-            </PageContent>
-          </Page>
-        </DeleteMediaItemsDialogProvider>
-      </CopyLinkDialogProvider>
+        <Page>
+          <PageHeader>
+            <div className="flex items-center gap-2">
+              <Button variant="ghost" size="icon" asChild>
+                <Link to={routes.PHOTOS_ALBUMS.prefix}>
+                  <ArrowLeftStrokeIcon data-slot="icon" />
+                </Link>
+              </Button>
+              <Heading className="py-0.5">{title}</Heading>
+            </div>
+          </PageHeader>
+          <PageContent>
+            {isLoading ? <Spinner className="h-full" /> : <Content album={album!} />}
+          </PageContent>
+        </Page>
+      </DeleteMediaItemsDialogProvider>
     </AddToAlbumDialogProvider>
   );
 }

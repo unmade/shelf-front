@@ -11,7 +11,6 @@ import { CloudUploadIcon } from '@/icons';
 import { Button } from '@/ui/button';
 import { Heading } from '@/ui/heading';
 
-import { CopyLinkDialogProvider } from '@/apps/files/components/dialogs';
 import FileDrop from 'components/FileDrop';
 import Uploader from 'components/Uploader';
 import VerifyAccountDialogProvider from 'components/VerifyAccountDialogProvider';
@@ -34,47 +33,43 @@ export default function Library() {
   return (
     <VerifyAccountDialogProvider>
       <AddToAlbumDialogProvider>
-        <CopyLinkDialogProvider>
-          <DeleteMediaItemsDialogProvider>
-            <Helmet>
-              <title>Shelf Photos</title>
-            </Helmet>
-            <Page>
-              <FileDrop
-                className="relative flex h-full flex-col"
-                allowedMediaTypes={allowedMediaTypes}
-                uploadTo={libraryPath}
-              >
-                {({ dragging }) => (
-                  <>
-                    <div
-                      className={`${
-                        dragging ? 'block' : 'hidden'
-                      } absolute z-10 -mt-3 h-full w-full px-2`}
-                    >
-                      <div className="h-full w-full rounded-2xl border-3 border-dashed border-teal-200 dark:border-teal-600" />
-                    </div>
+        <DeleteMediaItemsDialogProvider>
+          <Helmet>
+            <title>Shelf Photos</title>
+          </Helmet>
+          <Page>
+            <FileDrop
+              className="relative flex h-full flex-col"
+              allowedMediaTypes={allowedMediaTypes}
+              uploadTo={libraryPath}
+            >
+              {({ dragging }) => (
+                <>
+                  <div
+                    className={`${dragging ? 'block' : 'hidden'} absolute z-10 -mt-3 h-full w-full px-2`}
+                  >
+                    <div className="h-full w-full rounded-2xl border-3 border-dashed border-teal-200 dark:border-teal-600" />
+                  </div>
 
-                    <PageHeader>
-                      <Heading className="py-0.5">{title}</Heading>
-                      <PageHeaderActions>
-                        <Uploader uploadTo={libraryPath}>
-                          <Button size="icon">
-                            <CloudUploadIcon />
-                          </Button>
-                        </Uploader>
-                      </PageHeaderActions>
-                    </PageHeader>
+                  <PageHeader>
+                    <Heading className="py-0.5">{title}</Heading>
+                    <PageHeaderActions>
+                      <Uploader uploadTo={libraryPath}>
+                        <Button size="icon">
+                          <CloudUploadIcon />
+                        </Button>
+                      </Uploader>
+                    </PageHeaderActions>
+                  </PageHeader>
 
-                    <PageContent>
-                      <Content />
-                    </PageContent>
-                  </>
-                )}
-              </FileDrop>
-            </Page>
-          </DeleteMediaItemsDialogProvider>
-        </CopyLinkDialogProvider>
+                  <PageContent>
+                    <Content />
+                  </PageContent>
+                </>
+              )}
+            </FileDrop>
+          </Page>
+        </DeleteMediaItemsDialogProvider>
       </AddToAlbumDialogProvider>
     </VerifyAccountDialogProvider>
   );

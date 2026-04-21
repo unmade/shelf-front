@@ -2,7 +2,6 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import apiSlice from './apiSlice';
 import { filesAdapter, filesApi } from './files';
-import { mediaItemsAdapter, photosApi } from './mediaItems';
 import { isFetchBaseQueryErrorWithApiErrorCode, type RootState } from './store';
 
 export function isUserNotFound(error: unknown): boolean {
@@ -29,10 +28,7 @@ export const usersApi = apiSlice.injectEndpoints({
           patchResult.undo();
         }
       },
-      invalidatesTags: () => [
-        { type: 'Files', id: 'listBookmarkedFiles' },
-        { type: 'MediaItems', id: 'listFavourites' },
-      ],
+      invalidatesTags: () => [{ type: 'Files', id: 'listBookmarkedFiles' }],
     }),
 
     listBookmarks: builder.query<string[], undefined>({
@@ -58,11 +54,6 @@ export const usersApi = apiSlice.injectEndpoints({
             filesApi.util.updateQueryData('listBookmarkedFiles', undefined, (draft) =>
               // @ts-expect-error waiting for files.js to be rewritten in typescript
               filesAdapter.removeMany(draft, fileIds),
-            ),
-          ),
-          dispatch(
-            photosApi.util.updateQueryData('listMediaItems', { favourites: true }, (draft) =>
-              mediaItemsAdapter.removeMany(draft, fileIds),
             ),
           ),
         ];
