@@ -12,9 +12,10 @@ import apiSlice from './apiSlice';
 
 import auth, { signedOut, saveAuthState, loadAuthState } from './authSlice';
 import tasks from './tasks';
-import uploads, { fileEntriesAdded } from './uploads/slice';
+import uploads, { fileEntriesAdded, mediaItemEntriesAdded } from './uploads/slice';
 
-import listenFileEntriesAdded from './uploads/listeners';
+import listenFileEntriesAdded from './uploads/filesListeners';
+import listenMediaItemEntriesAdded from './uploads/mediaItemsListener';
 import { toast } from '@/ui/sonner';
 
 const reducers = combineReducers({
@@ -144,7 +145,7 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [fileEntriesAdded.type],
+        ignoredActions: [fileEntriesAdded.type, mediaItemEntriesAdded.type],
       },
     })
       .prepend(listenerMiddleware.middleware)
@@ -160,6 +161,11 @@ export type AppDispatch = typeof store.dispatch;
 (listenerMiddleware.startListening as TypedStartListening<RootState, AppDispatch>)({
   actionCreator: fileEntriesAdded,
   effect: listenFileEntriesAdded,
+});
+
+(listenerMiddleware.startListening as TypedStartListening<RootState, AppDispatch>)({
+  actionCreator: mediaItemEntriesAdded,
+  effect: listenMediaItemEntriesAdded,
 });
 
 store.subscribe(() => {

@@ -1,26 +1,28 @@
-import { useIsLaptop } from 'hooks/media-query';
+import type { UploadEntries, UploadScope } from '@/types/uploads';
+
+import { useIsLaptop } from '@/hooks/media-query';
 
 import UploaderDialog from './UploaderDialog';
 import UploaderDropdown from './UploaderDropdown';
 
 interface Props {
-  allowedMediaTypes?: string[];
   children: React.ReactNode;
-  uploadTo: string;
+  onFilesAdded: (files: UploadEntries) => void;
+  uploadScope: UploadScope;
 }
 
-export default function Uploader({ allowedMediaTypes, children, uploadTo }: Props) {
+export default function Uploader({ children, onFilesAdded, uploadScope }: Props) {
   const isLaptop = useIsLaptop();
 
   if (isLaptop) {
     return (
-      <UploaderDropdown allowedMediaTypes={allowedMediaTypes} uploadTo={uploadTo}>
+      <UploaderDropdown onFilesAdded={onFilesAdded} uploadScope={uploadScope}>
         {children}
       </UploaderDropdown>
     );
   }
   return (
-    <UploaderDialog allowedMediaTypes={allowedMediaTypes} uploadTo={uploadTo}>
+    <UploaderDialog onFilesAdded={onFilesAdded} uploadScope={uploadScope}>
       {children}
     </UploaderDialog>
   );

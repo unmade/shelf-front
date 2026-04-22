@@ -1,34 +1,37 @@
 import { useTranslation } from 'react-i18next';
 
+import type { UploadScope } from '@/types/uploads';
+
 import { LayersIcon } from '@/icons';
 
-import { useAppSelector } from 'hooks';
+import { useAppSelector } from '@/hooks';
 
-import type { UploadsFilter } from 'store/uploads/slice';
-import { selectVisibleUploadsLength } from 'store/uploads/slice';
+import type { UploadsFilter } from '@/store/uploads/slice';
+import { selectVisibleUploadsLength } from '@/store/uploads/slice';
 
 import UploadList from '../UploadList';
 
 import TotalProgress from './TotalProgress';
 
 interface Props {
+  uploadScope: UploadScope;
   visibilityFilter: UploadsFilter;
 }
 
-export default function UploadsPanel({ visibilityFilter }: Props) {
+export default function UploadsPanel({ uploadScope, visibilityFilter }: Props) {
   const { t } = useTranslation('uploads');
 
   const uploadCount = useAppSelector((state) =>
-    selectVisibleUploadsLength(state, visibilityFilter),
+    selectVisibleUploadsLength(state, visibilityFilter, uploadScope),
   );
 
   if (uploadCount > 0) {
     return (
       <div>
         <div className="min-h-[30vh] text-xs">
-          <UploadList visibilityFilter={visibilityFilter} />
+          <UploadList uploadScope={uploadScope} visibilityFilter={visibilityFilter} />
         </div>
-        <TotalProgress />
+        <TotalProgress uploadScope={uploadScope} />
       </div>
     );
   }

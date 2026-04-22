@@ -1,20 +1,19 @@
 import { useCallback, useRef } from 'react';
 
-import { useAppDispatch, useAppSelector } from '@/hooks';
+import type { UploadEntries } from '@/types/uploads';
+
+import { useAppSelector } from '@/hooks';
 
 import { selectCurrentAccount } from '@/store/accounts';
 import { selectFeatureVerificationRequired } from '@/store/features';
-import { fileEntriesAdded } from '@/store/uploads/slice';
 
 import { useVerifyAccountDialog } from '@/components/VerifyAccountDialogProvider';
 
 interface UseUploadFilesProps {
-  allowedMediaTypes?: string[];
-  uploadTo: string;
+  onFilesAdded: (files: UploadEntries) => void;
 }
 
-export function useUploadFiles({ allowedMediaTypes, uploadTo }: UseUploadFilesProps) {
-  const dispatch = useAppDispatch();
+export function useUploadFiles({ onFilesAdded }: UseUploadFilesProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const account = useAppSelector(selectCurrentAccount)!;
@@ -33,18 +32,17 @@ export function useUploadFiles({ allowedMediaTypes, uploadTo }: UseUploadFilesPr
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const files = [...(event.target.files ?? [])];
-      dispatch(fileEntriesAdded({ allowedMediaTypes, files, uploadTo }));
+      onFilesAdded(files);
       if (inputRef.current) {
         inputRef.current.value = '';
       }
     },
-    [dispatch, allowedMediaTypes, uploadTo],
+    [onFilesAdded],
   );
 
   const fileInputProps = {
     ref: inputRef,
     type: 'file' as const,
-    accept: allowedMediaTypes?.join(','),
     className: 'hidden',
     multiple: true,
     onChange: handleChange,

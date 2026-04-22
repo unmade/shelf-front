@@ -2,11 +2,10 @@ import type { EntityState } from '@reduxjs/toolkit';
 import { createAsyncThunk, createEntityAdapter, createSelector, nanoid } from '@reduxjs/toolkit';
 import { defaultSerializeQueryArgs } from '@reduxjs/toolkit/query';
 
+import type { DataExifSchema } from '@/types/Exif';
 import type { IMediaItem } from 'types/photos';
 
 import type { RootState } from 'store/store';
-
-import type { DataExifSchema } from '@/types/Exif';
 
 import apiSlice, { API_BASE_URL } from './apiSlice';
 
@@ -464,7 +463,7 @@ export const downloadMediaItemsBatch = createAsyncThunk(
         'Content-Type': 'application/json',
         'X-Request-ID': nanoid(),
       }),
-      body: JSON.stringify({ file_ids: mediaItemIds }),
+      body: JSON.stringify({ ids: mediaItemIds }),
     });
 
     if (!response.ok) {

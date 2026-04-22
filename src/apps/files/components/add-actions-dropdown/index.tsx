@@ -1,4 +1,12 @@
+import { useCallback } from 'react';
+
 import { useTranslation } from 'react-i18next';
+
+import type { UploadEntries } from '@/types/uploads';
+
+import { useAppDispatch } from '@/hooks';
+
+import { fileEntriesAdded } from '@/store/uploads/slice';
 
 import { FolderPlusIcon, PlusIcon, UploadIcon } from '@/icons';
 
@@ -10,17 +18,26 @@ import {
   DropdownMenuTrigger,
 } from '@/ui/dropdown-menu';
 
+import { useUploadFiles } from '@/components/Uploader/hooks/use-upload-files';
+
 import { useCreateFolderDialog } from '@/apps/files/components/dialogs';
-import { useUploadFiles } from '@/apps/files/hooks/use-upload-files';
 
 interface Props {
   uploadTo: string;
 }
 
 export function AddActionsDropdown({ uploadTo }: Props) {
+  const dispatch = useAppDispatch();
   const { t } = useTranslation('files');
   const { openDialog } = useCreateFolderDialog();
-  const { triggerUpload, fileInputProps } = useUploadFiles({ uploadTo });
+
+  const handleFilesAdded = useCallback(
+    (files: UploadEntries) => {
+      dispatch(fileEntriesAdded({ files, uploadTo }));
+    },
+    [dispatch, uploadTo],
+  );
+  const { triggerUpload, fileInputProps } = useUploadFiles({ onFilesAdded: handleFilesAdded });
 
   return (
     <DropdownMenu>

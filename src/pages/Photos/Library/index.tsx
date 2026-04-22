@@ -1,34 +1,41 @@
+import { useCallback } from 'react';
+
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 
-import { selectPhotosLibraryPath } from 'store/features';
+import type { UploadEntries } from '@/types/uploads';
 
-import { MediaType } from '@/constants';
+import { useAppDispatch } from '@/hooks';
+
+import { mediaItemEntriesAdded } from '@/store/uploads/slice';
 
 import { CloudUploadIcon } from '@/icons';
 
 import { Button } from '@/ui/button';
 import { Heading } from '@/ui/heading';
 
-import FileDrop from 'components/FileDrop';
-import Uploader from 'components/Uploader';
-import VerifyAccountDialogProvider from 'components/VerifyAccountDialogProvider';
+import FileDrop from '@/components/FileDrop';
+import Uploader from '@/components/Uploader';
+import VerifyAccountDialogProvider from '@/components/VerifyAccountDialogProvider';
 
-import AddToAlbumDialogProvider from 'components/photos/AddToAlbumDialogProvider';
-import DeleteMediaItemsDialogProvider from 'components/photos/DeleteMediaItemsDialogProvider';
+import AddToAlbumDialogProvider from '@/components/photos/AddToAlbumDialogProvider';
+import DeleteMediaItemsDialogProvider from '@/components/photos/DeleteMediaItemsDialogProvider';
 
-import { Page, PageContent, PageHeader, PageHeaderActions } from 'apps/photos/components/page';
+import { Page, PageContent, PageHeader, PageHeaderActions } from '@/apps/photos/components/page';
 
 import Content from './Content';
 
-const allowedMediaTypes = [...MediaType.IMAGES];
-
 export default function Library() {
-  const libraryPath = useSelector(selectPhotosLibraryPath);
-
   const { t } = useTranslation('photos');
+
+  const dispatch = useAppDispatch();
   const title = t('photos:pages.library.title', { defaultValue: 'Library' });
+  const handleFilesAdded = useCallback(
+    (files: UploadEntries) => {
+      dispatch(mediaItemEntriesAdded({ files }));
+    },
+    [dispatch],
+  );
 
   return (
     <VerifyAccountDialogProvider>
@@ -38,11 +45,7 @@ export default function Library() {
             <title>Shelf Photos</title>
           </Helmet>
           <Page>
-            <FileDrop
-              className="relative flex h-full flex-col"
-              allowedMediaTypes={allowedMediaTypes}
-              uploadTo={libraryPath}
-            >
+            <FileDrop className="relative flex h-full flex-col" onFilesAdded={handleFilesAdded}>
               {({ dragging }) => (
                 <>
                   <div
@@ -54,7 +57,7 @@ export default function Library() {
                   <PageHeader>
                     <Heading className="py-0.5">{title}</Heading>
                     <PageHeaderActions>
-                      <Uploader uploadTo={libraryPath}>
+                      <Uploader onFilesAdded={handleFilesAdded} uploadScope="mediaItems">
                         <Button size="icon">
                           <CloudUploadIcon />
                         </Button>

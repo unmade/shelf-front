@@ -1,19 +1,35 @@
 import { createAction, createEntityAdapter, createSelector, createSlice } from '@reduxjs/toolkit';
 
-import type { RootState } from 'store/store';
-import type { IUpload, IUploadError } from 'types/files';
+import type { IUpload, IUploadError, UploadEntries, UploadScope } from '@/types/uploads';
+
+import type { RootState } from '@/store/store';
 
 export type UploadsFilter = 'all' | 'inProgress' | 'failed';
+
+interface UploadSelectorProps {
+  filter: UploadsFilter;
+  scope: UploadScope;
+}
+
+interface ScopedUploadsProps {
+  scope: UploadScope;
+}
 
 const uploadsAdapter = createEntityAdapter<IUpload>();
 
 export interface IFileEntriesAddedPayload {
-  allowedMediaTypes?: string[];
-  files: FileSystemFileEntry[] | File[];
+  files: UploadEntries;
   uploadTo: string;
 }
 
+export interface IMediaItemEntriesAddedPayload {
+  files: UploadEntries;
+}
+
 export const fileEntriesAdded = createAction<IFileEntriesAddedPayload>('uploads/fileEntriesAdded');
+export const mediaItemEntriesAdded = createAction<IMediaItemEntriesAddedPayload>(
+  'uploads/mediaItemEntriesAdded',
+);
 
 const uploadsSlice = createSlice({
   name: 'uploads',
@@ -49,8 +65,13 @@ export const {
   selectAll: selectAllUploads,
 } = uploadsAdapter.getSelectors<RootState>((state: RootState) => state.uploads);
 
+const selectScopedUploads = createSelector(
+  [selectAllUploads, (_state: RootState, props: ScopedUploadsProps) => props.scope],
+  (uploads: IUpload[], scope: UploadScope) => uploads.filter((upload) => upload.scope === scope),
+);
+
 export const selectVisibleUploads = createSelector(
-  [selectAllUploads, (_state: RootState, props: { filter: UploadsFilter }) => props.filter],
+  [selectScopedUploads, (_state: RootState, props: UploadSelectorProps) => props.filter],
   (uploads: IUpload[], filter: UploadsFilter) => {
     switch (filter) {
       case 'all':
@@ -65,16 +86,20 @@ export const selectVisibleUploads = createSelector(
   },
 );
 
-export const selectVisibleUploadsLength = (state: RootState, filter: UploadsFilter) =>
-  selectVisibleUploads(state, { filter }).length;
+export const selectVisibleUploadsLength = (
+  state: RootState,
+  filter: UploadsFilter,
+  scope: UploadScope,
+) => selectVisibleUploads(state, { filter, scope }).length;
 
-export const selectIsUploading = (state: RootState) =>
-  selectVisibleUploadsLength(state, 'inProgress') > 0;
+export const selectIsUploading = (state: RootState, scope: UploadScope) =>
+  selectVisibleUploadsLength(state, 'inProgress', scope) > 0;
 
-export const selectUploadsTotalProgress = createSelector(
-  [
-    (state) => selectAllUploads(state).reduce((acc, upload) => acc + upload.progress, 0),
-    (state) => selectUploadIds(state).length,
-  ],
-  (totalProgress, uploadsCount) => Math.floor(totalProgress / uploadsCount),
-);
+export const selectUploadsTotalProgress = createSelector([selectScopedUploads], (uploads) => {
+  if (uploads.length === 0) {
+    return 0;
+  }
+
+  const totalProgress = uploads.reduce((acc, upload) => acc + upload.progress, 0);
+  return Math.floor(totalProgress / uploads.length);
+});

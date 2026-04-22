@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
+import type { UploadEntries, UploadScope } from '@/types/uploads';
+
 import { Button } from '@/ui/button';
 import {
   Dialog,
@@ -11,18 +13,18 @@ import {
   DialogTitle,
 } from '@/ui/dialog';
 
-import { UploadButton } from '@/apps/files/components/upload-button';
+import { UploadButton } from '@/components/Uploader/UploadButton';
 
 import RecentUploads from '../RecentUploads';
 
 interface Props {
-  allowedMediaTypes?: string[];
-  uploadTo: string;
+  onFilesAdded: (files: UploadEntries) => void;
+  uploadScope: UploadScope;
   open: boolean;
   onCancel: () => void;
 }
 
-export default function UploadDialog({ allowedMediaTypes, uploadTo, open, onCancel }: Props) {
+export default function UploadDialog({ onFilesAdded, uploadScope, open, onCancel }: Props) {
   const { t } = useTranslation();
 
   return (
@@ -32,17 +34,13 @@ export default function UploadDialog({ allowedMediaTypes, uploadTo, open, onCanc
           <DialogTitle>{t('Uploads')}</DialogTitle>
         </DialogHeader>
         <DialogBody>
-          <RecentUploads />
+          <RecentUploads uploadScope={uploadScope} />
         </DialogBody>
         <DialogFooter>
           <DialogClose asChild>
             <Button variant="ghost">{t('Cancel')}</Button>
           </DialogClose>
-          <UploadButton
-            className="w-full"
-            allowedMediaTypes={allowedMediaTypes}
-            uploadTo={uploadTo}
-          >
+          <UploadButton className="w-full" onFilesAdded={onFilesAdded}>
             {t('Browse')}
           </UploadButton>
         </DialogFooter>

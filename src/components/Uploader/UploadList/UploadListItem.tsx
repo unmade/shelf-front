@@ -1,10 +1,10 @@
 import React from 'react';
 
-import type { IUploadError } from 'types/files';
+import type { IUploadError } from '@/types/uploads';
 
-import { useAppSelector } from 'hooks';
+import { useAppSelector } from '@/hooks';
 
-import { selectUploadById } from 'store/uploads/slice';
+import { selectUploadById } from '@/store/uploads/slice';
 
 import useUploadError from './hooks/upload-error';
 
@@ -60,6 +60,7 @@ function UploadListItem({ uploadId, style }: UploadListItemProps) {
 
   const status = getStatus({ error, done });
   const errorText = useUploadError(error?.code);
+  const secondaryText = errorText ?? parentPath;
   const textColor = textColors[status];
   const bgColor = bgColors[status];
 
@@ -75,7 +76,9 @@ function UploadListItem({ uploadId, style }: UploadListItemProps) {
           <div className="flex flex-row items-center justify-between space-x-4">
             <div className={`flex min-w-0 flex-col ${textColor.primary}`}>
               <p className="truncate font-semibold">{name}</p>
-              <p className={`truncate ${textColor.secondary}`}>{errorText ?? parentPath}</p>
+              {secondaryText && (
+                <p className={`truncate ${textColor.secondary}`}>{secondaryText}</p>
+              )}
             </div>
 
             <div className="text-right text-sm">

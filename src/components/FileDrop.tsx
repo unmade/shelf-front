@@ -1,23 +1,21 @@
 import { useCallback } from 'react';
 
-import { useAppDispatch, useAppSelector } from 'hooks';
+import type { UploadEntries } from '@/types/uploads';
 
-import { selectCurrentAccount } from 'store/accounts';
-import { selectFeatureVerificationRequired } from 'store/features';
-import { fileEntriesAdded } from 'store/uploads/slice';
+import { useAppSelector } from '@/hooks';
+
+import { selectCurrentAccount } from '@/store/accounts';
+import { selectFeatureVerificationRequired } from '@/store/features';
 
 import { Dropzone, type DropzoneProps } from '@/ui/dropzone';
 
-import { useVerifyAccountDialog } from 'components/VerifyAccountDialogProvider';
+import { useVerifyAccountDialog } from '@/components/VerifyAccountDialogProvider';
 
 interface Props extends Omit<DropzoneProps, 'onDrop'> {
-  allowedMediaTypes?: string[];
-  uploadTo: string;
+  onFilesAdded: (files: UploadEntries) => void;
 }
 
-export default function FileDrop({ allowedMediaTypes, uploadTo, ...dropzoneProps }: Props) {
-  const dispatch = useAppDispatch();
-
+export default function FileDrop({ onFilesAdded, ...dropzoneProps }: Props) {
   const account = useAppSelector(selectCurrentAccount)!;
   const verificationRequired = useAppSelector(selectFeatureVerificationRequired);
 
@@ -30,10 +28,10 @@ export default function FileDrop({ allowedMediaTypes, uploadTo, ...dropzoneProps
       if (shouldVerify) {
         openDialog();
       } else {
-        dispatch(fileEntriesAdded({ files, uploadTo, allowedMediaTypes }));
+        onFilesAdded(files);
       }
     },
-    [shouldVerify, uploadTo, allowedMediaTypes, dispatch, openDialog],
+    [shouldVerify, onFilesAdded, openDialog],
   );
 
   return <Dropzone {...dropzoneProps} onDrop={onDrop} />;

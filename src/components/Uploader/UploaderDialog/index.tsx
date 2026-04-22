@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 
 import { Slot } from '@radix-ui/react-slot';
 
+import type { UploadEntries, UploadScope } from '@/types/uploads';
+
 import { selectIsUploading } from '@/store/uploads/slice';
 
 import { useAppSelector } from '@/hooks';
@@ -9,15 +11,15 @@ import { useAppSelector } from '@/hooks';
 import UploadDialog from './UploadDialog';
 
 interface Props {
-  allowedMediaTypes?: string[];
   children: React.ReactNode;
-  uploadTo: string;
+  onFilesAdded: (files: UploadEntries) => void;
+  uploadScope: UploadScope;
 }
 
-export default function UploaderDialog({ allowedMediaTypes, children, uploadTo }: Props) {
+export default function UploaderDialog({ children, onFilesAdded, uploadScope }: Props) {
   const [open, setOpen] = React.useState(false);
 
-  const uploading = useAppSelector(selectIsUploading);
+  const uploading = useAppSelector((state) => selectIsUploading(state, uploadScope));
 
   const shouldBeOpen = uploading && !open;
 
@@ -35,8 +37,8 @@ export default function UploaderDialog({ allowedMediaTypes, children, uploadTo }
     <>
       <Slot onClick={handleOpen}>{children}</Slot>
       <UploadDialog
-        allowedMediaTypes={allowedMediaTypes}
-        uploadTo={uploadTo}
+        onFilesAdded={onFilesAdded}
+        uploadScope={uploadScope}
         open={open}
         onCancel={() => {
           setOpen(false);

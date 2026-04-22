@@ -1,6 +1,3 @@
-import { useAppSelector } from 'hooks';
-
-import { selectPhotosLibraryPath } from 'store/features';
 import { useCountMediaItemsQuery } from 'store/mediaItems';
 
 import { Spinner } from '@/ui/spinner';
@@ -13,8 +10,6 @@ import MediaItemMenu from 'components/photos/MediaItemMenu';
 import Welcome from './Welcome';
 
 export default function Content() {
-  const libraryPath = useAppSelector(selectPhotosLibraryPath);
-
   const { itemsCount } = useCountMediaItemsQuery(undefined, {
     selectFromResult: ({ data }) => ({ itemsCount: data?.total }),
   });
@@ -27,7 +22,7 @@ export default function Content() {
   if (empty) {
     return (
       <div className="flex h-full">
-        <Welcome uploadTo={libraryPath} />
+        <Welcome />
       </div>
     );
   }
