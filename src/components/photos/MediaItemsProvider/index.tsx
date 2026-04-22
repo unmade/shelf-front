@@ -1,6 +1,8 @@
 import type React from 'react';
 import { createContext, useContext, useMemo } from 'react';
 
+import { useListFavouriteMediaItemIdsQuery } from '@/store/mediaItems';
+
 import type { RootState } from 'store/store';
 import type { IMediaItem } from 'types/photos';
 
@@ -29,6 +31,8 @@ export default function MediaItemsProvider({
   onItemClick,
   selectById,
 }: Props) {
+  useListFavouriteMediaItemIdsQuery(undefined);
+
   const ctx = useMemo<ContextValue>(
     () => ({
       ids,

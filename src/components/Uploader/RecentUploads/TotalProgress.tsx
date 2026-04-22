@@ -1,23 +1,33 @@
 import { useTranslation } from 'react-i18next';
 
-import { useAppSelector } from 'hooks';
+import type { UploadScope } from '@/types/uploads';
+
+import { useAppSelector } from '@/hooks';
 
 import {
   selectIsUploading,
   selectUploadsTotalProgress,
   selectVisibleUploadsLength,
-} from 'store/uploads/slice';
+} from '@/store/uploads/slice';
 
 import { Progress } from '@/ui/progress';
 
-export default function TotalProgress() {
+interface Props {
+  uploadScope: UploadScope;
+}
+
+export default function TotalProgress({ uploadScope }: Props) {
   const { t } = useTranslation('uploads');
 
-  const uploading = useAppSelector(selectIsUploading);
-  const allCount = useAppSelector((state) => selectVisibleUploadsLength(state, 'all'));
-  const failedCount = useAppSelector((state) => selectVisibleUploadsLength(state, 'failed'));
+  const uploading = useAppSelector((state) => selectIsUploading(state, uploadScope));
+  const allCount = useAppSelector((state) => selectVisibleUploadsLength(state, 'all', uploadScope));
+  const failedCount = useAppSelector((state) =>
+    selectVisibleUploadsLength(state, 'failed', uploadScope),
+  );
 
-  const progress = useAppSelector(selectUploadsTotalProgress);
+  const progress = useAppSelector((state) =>
+    selectUploadsTotalProgress(state, { scope: uploadScope }),
+  );
 
   return (
     <div className="mt-2 space-y-2 border-t-2 pt-4 text-sm font-semibold dark:border-zinc-700">

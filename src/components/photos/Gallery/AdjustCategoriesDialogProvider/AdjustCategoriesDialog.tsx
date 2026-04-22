@@ -25,25 +25,28 @@ import useMediaItemCategories from '@/components/photos/hooks/media-item-categor
 import CategoryItem from './CategoryItem';
 
 interface Props {
-  fileId: string | null;
+  mediaItemId: string | null;
   open: boolean;
   onClose: () => void;
 }
 
-export default function AdjustCategoriesDialog({ fileId, open, onClose }: Props) {
+export default function AdjustCategoriesDialog({ mediaItemId, open, onClose }: Props) {
   const { t } = useTranslation('photos');
 
   const allCategories = useMediaItemCategories();
 
   const [setCategories, { isLoading: creating }] = useSetMediaItemCategoriesMutation();
 
-  const { categories: selectedCategories } = useListMediaItemCategoriesQuery(fileId ?? skipToken, {
-    selectFromResult: ({ data, isFetching }) => ({
-      categories: data?.categories,
-      isFetching,
-    }),
-    skip: fileId == null,
-  });
+  const { categories: selectedCategories } = useListMediaItemCategoriesQuery(
+    mediaItemId ?? skipToken,
+    {
+      selectFromResult: ({ data, isFetching }) => ({
+        categories: data?.categories,
+        isFetching,
+      }),
+      skip: mediaItemId == null,
+    },
+  );
 
   const [state, setState] = useState<Record<string, boolean>>({});
   useEffect(() => {
@@ -72,8 +75,8 @@ export default function AdjustCategoriesDialog({ fileId, open, onClose }: Props)
   const handleSave = async () => {
     const initialSelection = selectedCategories?.map(({ name }) => name);
     const currentSelection = [...Object.keys(state)];
-    if (!shallowEqual(currentSelection, initialSelection) && fileId) {
-      await setCategories({ fileId, categories: currentSelection });
+    if (!shallowEqual(currentSelection, initialSelection) && mediaItemId) {
+      await setCategories({ mediaItemId, categories: currentSelection });
     }
     onClose();
   };
@@ -87,7 +90,7 @@ export default function AdjustCategoriesDialog({ fileId, open, onClose }: Props)
           </DialogTitle>
         </DialogHeader>
         <DialogBody>
-          {fileId && (
+          {mediaItemId && (
             <div className="grid grid-flow-col grid-rows-10 gap-x-2 gap-y-1 text-sm md:gap-3">
               {Object.values(allCategories).map(({ name, displayName }) => (
                 <CategoryItem

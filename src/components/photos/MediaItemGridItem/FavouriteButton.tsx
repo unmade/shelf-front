@@ -2,7 +2,7 @@ import type { IMediaItem } from 'types/photos';
 
 import { useAppSelector } from 'hooks';
 
-import { selectIsBookmarked } from 'store/users';
+import { selectIsFavouriteMediaItem } from 'store/mediaItems';
 
 import { useFavouriteAction } from '../hooks/media-item-actions';
 
@@ -13,7 +13,7 @@ interface Props {
 
 function FavouriteButton({ mediaItem, touch }: Props) {
   const { name, Icon, onClick } = useFavouriteAction([mediaItem]);
-  const favourite = useAppSelector((state) => selectIsBookmarked(state, mediaItem.fileId));
+  const favourite = useAppSelector((state) => selectIsFavouriteMediaItem(state, mediaItem.id));
 
   if (touch) {
     if (favourite) {

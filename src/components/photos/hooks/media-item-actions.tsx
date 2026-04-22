@@ -12,13 +12,16 @@ import {
   TrashIcon,
 } from '@/icons';
 
-import { useAppDispatch } from '@/hooks';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 import type { IAction } from '@/hooks/file-actions';
 
 import { useRemoveAlbumItemsMutation, useSetAlbumCoverMutation } from '@/store/albums';
-import { downloadMediaItemsBatch } from '@/store/mediaItems';
-
-import { useToggleBookmark } from '@/apps/files/hooks/toggle-bookmark';
+import {
+  downloadMediaItemsBatch,
+  selectIsFavouriteMediaItem,
+  useMarkFavouriteMediaItemsMutation,
+  useUnmarkFavouriteMediaItemsMutation,
+} from '@/store/mediaItems';
 
 import { useDeleteMediaItemsDialog } from '../DeleteMediaItemsDialogProvider';
 import { useAddToAlbumDialog } from '../AddToAlbumDialogProvider';
@@ -66,7 +69,7 @@ export function useDeleteAction(mediaItems: IMediaItem[]): IAction | null {
 export function useDownloadBatchAction(mediaItems: IMediaItem[]): IAction | null {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const fileIds = mediaItems.map((item) => item.fileId);
+  const mediaItemIds = mediaItems.map((item) => item.id);
 
   return {
     key: 'download',
@@ -78,37 +81,45 @@ export function useDownloadBatchAction(mediaItems: IMediaItem[]): IAction | null
     icon: <DownloadIcon className="h-4 w-4" />,
     danger: false,
     onClick: () => {
-      dispatch(downloadMediaItemsBatch(fileIds));
+      dispatch(downloadMediaItemsBatch(mediaItemIds));
     },
   };
 }
 
 export function useFavouriteAction(mediaItems: IMediaItem[]): IAction {
   const { t } = useTranslation('photos');
+  const mediaItemIds = mediaItems.map(({ id }) => id);
+  const favourite = useAppSelector(
+    (state) =>
+      mediaItemIds.length > 0 && mediaItemIds.every((id) => selectIsFavouriteMediaItem(state, id)),
+  );
+  const [markFavouriteMediaItems] = useMarkFavouriteMediaItemsMutation();
+  const [unmarkFavouriteMediaItems] = useUnmarkFavouriteMediaItemsMutation();
 
-  const fileIds = mediaItems.map(({ fileId }) => fileId);
-  const { bookmarked, toggleBookmark } = useToggleBookmark(fileIds);
-
-  const name = bookmarked
+  const name = favourite
     ? t('photos:mediaItem.actions.unfavourite', {
         defaultValue: 'Unfavourite',
-        count: fileIds.length,
+        count: mediaItemIds.length,
       })
     : t('photos:mediaItem.actions.favourite', {
         defaultValue: 'Favourite',
-        count: fileIds.length,
+        count: mediaItemIds.length,
       });
 
-  const Icon = bookmarked ? HeartIcon : HeartOutlineIcon;
+  const Icon = favourite ? HeartIcon : HeartOutlineIcon;
 
   return {
     key: 'favourite',
     name,
     Icon: Icon,
-    icon: <HeartOutlineIcon className="h-4 w-4" />,
+    icon: <Icon className="h-4 w-4" />,
     danger: false,
     onClick: () => {
-      toggleBookmark();
+      if (favourite) {
+        unmarkFavouriteMediaItems(mediaItemIds);
+      } else {
+        markFavouriteMediaItems(mediaItemIds);
+      }
     },
   };
 }
@@ -116,7 +127,7 @@ export function useFavouriteAction(mediaItems: IMediaItem[]): IAction {
 export function useRemoveFromAlbumAction(albumSlug: string, mediaItems: IMediaItem[]): IAction {
   const { t } = useTranslation('photos');
   const [removeAlbumItems] = useRemoveAlbumItemsMutation();
-  const fileIds = mediaItems.map((item) => item.fileId);
+  const mediaItemIds = mediaItems.map((item) => item.id);
 
   return {
     key: 'remove-from-album',
@@ -128,7 +139,7 @@ export function useRemoveFromAlbumAction(albumSlug: string, mediaItems: IMediaIt
     icon: <RemoveFromAlbumIcon className="h-4 w-4" />,
     danger: false,
     onClick: () => {
-      removeAlbumItems({ albumSlug, fileIds });
+      removeAlbumItems({ albumSlug, mediaItemIds });
     },
   };
 }
@@ -155,7 +166,7 @@ export function useSetAlbumCoverAction(
     icon: <ImageIcon className="h-4 w-4" />,
     danger: false,
     onClick: () => {
-      setAlbumCover({ albumSlug, fileId: mediaItem.fileId });
+      setAlbumCover({ albumSlug, mediaItemId: mediaItem.id });
     },
   };
 }

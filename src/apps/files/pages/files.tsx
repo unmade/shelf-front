@@ -1,8 +1,14 @@
+import { useCallback } from 'react';
+
+import type { UploadEntries } from '@/types/uploads';
+
+import { useAppDispatch } from '@/hooks';
 import { useDirPath } from '@/hooks/dir-path';
 
 import * as routes from '@/routes';
 
 import { useListFolderQuery } from '@/store/files';
+import { fileEntriesAdded } from '@/store/uploads/slice';
 
 import { CloudUploadIcon } from '@/icons';
 
@@ -59,15 +65,23 @@ function FileBrowserContainer({ path }: FileBrowserContainerProps) {
 }
 
 export default function Files() {
+  const dispatch = useAppDispatch();
   const dirPath = useDirPath();
   const path = dirPath ?? '.';
 
   const title = routes.folderName(dirPath ?? '.');
   const breadcrumbs = useRouteBreadcrumbs();
 
+  const handleFilesAdded = useCallback(
+    (files: UploadEntries) => {
+      dispatch(fileEntriesAdded({ files, uploadTo: path }));
+    },
+    [dispatch, path],
+  );
+
   return (
     <AllDialogsProvider>
-      <FileDrop className="h-full" uploadTo={path}>
+      <FileDrop className="h-full" onFilesAdded={handleFilesAdded}>
         {({ dragging }) => (
           <Page className="relative">
             {dragging && (
@@ -86,7 +100,7 @@ export default function Files() {
                 </div>
               </PageHeaderTitle>
               <PageHeaderActions>
-                <Uploader uploadTo={path}>
+                <Uploader onFilesAdded={handleFilesAdded} uploadScope="files">
                   <Button variant="ghost" size="icon">
                     <CloudUploadIcon />
                   </Button>

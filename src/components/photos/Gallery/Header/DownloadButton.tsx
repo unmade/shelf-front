@@ -21,7 +21,7 @@ export default function DownloadButton({ className = '', mediaItem }: Props) {
       title="Download"
       variant="ghost"
       size="icon"
-      onClick={() => dispatch(downloadMediaItemsBatch([mediaItem.fileId]))}
+      onClick={() => dispatch(downloadMediaItemsBatch([mediaItem.id]))}
     >
       <DownloadIcon />
     </Button>

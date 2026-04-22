@@ -1,4 +1,4 @@
-import type { DataExifSchema } from '@/store/files';
+import type { DataExifSchema } from '@/types/Exif';
 
 const makersToExclude = new Set<string>([
   'canon',

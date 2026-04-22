@@ -1,12 +1,12 @@
 import type React from 'react';
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 
-import type { IFile } from 'types/files';
+import type { IMediaItem } from '@/types/photos';
 
 import InformationDialog from './InformationDialog';
 
 interface ContextValue {
-  openDialog: (file: IFile) => void;
+  openDialog: (mediaItem: IMediaItem) => void;
 }
 
 const InformationDialogContext = createContext<ContextValue | null>(null);
@@ -16,18 +16,18 @@ interface Props {
 }
 
 interface State {
-  file: IFile | null;
+  mediaItem: IMediaItem | null;
   open: boolean;
 }
 
-const initialState: State = { file: null, open: false };
+const initialState: State = { mediaItem: null, open: false };
 
 export default function InformationDialogProvider({ children }: Props) {
   const [state, setState] = useState<State>(initialState);
 
   const openDialog = useCallback(
-    (file: IFile) => {
-      setState({ file, open: true });
+    (mediaItem: IMediaItem) => {
+      setState({ mediaItem, open: true });
     },
     [setState],
   );
@@ -36,13 +36,13 @@ export default function InformationDialogProvider({ children }: Props) {
     setState(initialState);
   };
 
-  const { open, file } = state;
+  const { open, mediaItem } = state;
 
   const value = useMemo(() => ({ openDialog }), [openDialog]);
 
   return (
     <InformationDialogContext.Provider value={value}>
-      <InformationDialog open={open} file={file} onClose={closeDialog} />
+      <InformationDialog open={open} mediaItem={mediaItem} onClose={closeDialog} />
       {children}
     </InformationDialogContext.Provider>
   );

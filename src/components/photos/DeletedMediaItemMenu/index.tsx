@@ -17,7 +17,7 @@ function useMediaItemActionGroups(item: IMediaItem) {
   const { selectedIds, isSelected } = useSelection();
 
   const mediaItems = useAppSelector((state) => {
-    if (!isSelected(item.fileId)) {
+    if (!isSelected(item.id)) {
       return EMPTY;
     }
     return [...selectedIds].map((id) => selectById(state, id)!);

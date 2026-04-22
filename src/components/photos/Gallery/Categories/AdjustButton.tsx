@@ -5,10 +5,10 @@ import { Button } from '@/ui/button';
 import { useAdjustCategoriesDialogContext } from '../AdjustCategoriesDialogProvider';
 
 interface Props {
-  fileId: string;
+  mediaItemId: string;
 }
 
-export default function AdjustButton({ fileId }: Props) {
+export default function AdjustButton({ mediaItemId }: Props) {
   const { t } = useTranslation(['photos']);
 
   const adjustButtonText = t('photos:mediaItem.categories.adjustButton', {
@@ -23,7 +23,7 @@ export default function AdjustButton({ fileId }: Props) {
         className="md:hidden"
         variant="ghost"
         onClick={() => {
-          openDialog(fileId);
+          openDialog(mediaItemId);
         }}
       >
         {adjustButtonText}
@@ -32,7 +32,7 @@ export default function AdjustButton({ fileId }: Props) {
         className="hidden md:flex"
         variant="ghost"
         onClick={() => {
-          openDialog(fileId);
+          openDialog(mediaItemId);
         }}
       >
         {adjustButtonText}

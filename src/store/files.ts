@@ -3,6 +3,7 @@ import { type FetchBaseQueryError } from '@reduxjs/toolkit/query';
 
 import { MediaType, thumbnailSizes } from '@/constants';
 import * as routes from '@/routes';
+import type { DataExifSchema } from '@/types/Exif';
 
 import apiSlice from './apiSlice';
 import { isFetchBaseQueryErrorWithApiErrorCode, type RootState } from './store';
@@ -31,21 +32,6 @@ export interface FileSchema {
   shared: boolean;
   thumbnail_url?: string;
   modified_at: string;
-}
-
-export interface DataExifSchema {
-  type: 'exif';
-  make: string | null;
-  model: string | null;
-  focal_length: number | null;
-  focal_length_35mm: number | null;
-  fnumber: string | null;
-  exposure: string | null;
-  iso: string | null;
-  dt_original: number | null;
-  dt_digitized: number | null;
-  height: number | null;
-  width: number | null;
 }
 
 interface FileContentMetadataSchema {

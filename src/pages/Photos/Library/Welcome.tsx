@@ -1,17 +1,29 @@
+import { useCallback } from 'react';
+
 import { useTranslation } from 'react-i18next';
+
+import type { UploadEntries } from '@/types/uploads';
+
+import { useAppDispatch } from '@/hooks';
+
+import { mediaItemEntriesAdded } from '@/store/uploads/slice';
 
 import { UploadIcon } from '@/icons';
 
 import { Empty, EmptyHeader, EmptyTitle, EmptyDescription, EmptyContent } from '@/ui/empty';
 
-import { UploadButton } from '@/apps/files/components/upload-button';
+import { UploadButton } from '@/components/Uploader/UploadButton';
 
-interface Props {
-  uploadTo: string;
-}
-
-export default function Welcome({ uploadTo }: Props) {
+export default function Welcome() {
   const { t } = useTranslation('photos');
+
+  const dispatch = useAppDispatch();
+  const handleFilesAdded = useCallback(
+    (files: UploadEntries) => {
+      dispatch(mediaItemEntriesAdded({ files }));
+    },
+    [dispatch],
+  );
 
   const title = t('photos:pages.library.welcomeTitle', {
     defaultValue: 'Blank Canvas Awaits Your Moments',
@@ -28,7 +40,7 @@ export default function Welcome({ uploadTo }: Props) {
         <EmptyDescription>{description}</EmptyDescription>
       </EmptyHeader>
       <EmptyContent>
-        <UploadButton uploadTo={uploadTo}>
+        <UploadButton onFilesAdded={handleFilesAdded}>
           <UploadIcon />
           {t('photos:actions.upload', { defaultValue: 'Upload' })}
         </UploadButton>

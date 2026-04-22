@@ -14,8 +14,8 @@ export default function DeleteDialogContainer({ mediaItems, open: open, onClose 
   const [deleteMediaItems, { isLoading: loading }] = useDeleteMediaItemsMutation();
 
   const onConfirm = async () => {
-    const fileIds = mediaItems.map((item) => item.fileId);
-    await deleteMediaItems(fileIds);
+    const mediaItemIds = mediaItems.map((item) => item.id);
+    await deleteMediaItems(mediaItemIds);
     onClose();
   };
 

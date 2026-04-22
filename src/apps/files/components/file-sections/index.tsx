@@ -10,9 +10,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { FileSize } from '@/ui/filesize';
 import { TimeAgo } from '@/ui/timeago';
 
-import { Exif } from '@/components/Exif';
-
 import { Breadcrumbs } from '@/apps/files/components/breadcrumbs';
+import { FileExif } from '@/apps/files/components/file-exif';
 import { SharedLinkSetting } from '@/apps/files/components/shared-link-setting';
 interface PropertyProps {
   className?: string;
@@ -90,7 +89,7 @@ export function FileSections({ className, file }: SidePanelSectionsProps) {
     items.push({
       value: 'exif',
       trigger: t('sections.exif', { defaultValue: 'Exif' }),
-      content: <Exif fileId={file.id} />,
+      content: <FileExif fileId={file.id} />,
     });
   }
 

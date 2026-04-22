@@ -1,12 +1,18 @@
 import { useTranslation } from 'react-i18next';
 
+import type { UploadScope } from '@/types/uploads';
+
 import type { UploadsFilter } from '@/store/uploads/slice';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/tabs';
 
 import UploadsPanel from './UploadsPanel';
 
-export default function RecentUploads() {
+interface Props {
+  uploadScope: UploadScope;
+}
+
+export default function RecentUploads({ uploadScope }: Props) {
   const { t } = useTranslation('uploads');
 
   const tabs: { key: UploadsFilter; name: string }[] = [
@@ -38,7 +44,7 @@ export default function RecentUploads() {
         </TabsList>
         {tabs.map(({ key }) => (
           <TabsContent key={key} value={key}>
-            <UploadsPanel visibilityFilter={key} />
+            <UploadsPanel uploadScope={uploadScope} visibilityFilter={key} />
           </TabsContent>
         ))}
       </Tabs>

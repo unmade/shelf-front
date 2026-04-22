@@ -1,5 +1,5 @@
 export interface IAlbumCover {
-  fileId: string;
+  mediaItemId: string;
   thumbnailUrl: string | null;
 }
 

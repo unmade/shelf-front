@@ -1,10 +1,12 @@
 import { useTranslation } from 'react-i18next';
 
+import type { UploadEntries, UploadScope } from '@/types/uploads';
+
 import { CloudUploadOutlineIcon, UploadIcon } from '@/icons';
 
-import FileDrop from 'components/FileDrop';
+import FileDrop from '@/components/FileDrop';
 
-import { UploadButton } from '@/apps/files/components/upload-button';
+import { UploadButton } from '@/components/Uploader/UploadButton';
 
 import RecentUploads from '../RecentUploads';
 
@@ -24,12 +26,11 @@ const dropzoneClass = [
 ].join(' ');
 
 interface DropzoneProps {
-  allowedMediaTypes?: string[];
   dragging: boolean;
-  uploadTo: string;
+  onFilesAdded: (files: UploadEntries) => void;
 }
 
-function DropzoneContent({ allowedMediaTypes, dragging, uploadTo }: DropzoneProps) {
+function DropzoneContent({ dragging, onFilesAdded }: DropzoneProps) {
   const { t } = useTranslation(['translation', 'uploads']);
 
   let bg;
@@ -50,7 +51,7 @@ function DropzoneContent({ allowedMediaTypes, dragging, uploadTo }: DropzoneProp
       <div className="flex flex-col space-y-1 text-center text-sm font-semibold">
         <p className={textPrimary}>{t('uploads:dropzone.title')}</p>
         <p className={textSecondary}>{t('or')}</p>
-        <UploadButton allowedMediaTypes={allowedMediaTypes} uploadTo={uploadTo}>
+        <UploadButton onFilesAdded={onFilesAdded}>
           <UploadIcon />
           {t('uploads:uploadButton.title')}
         </UploadButton>
@@ -60,23 +61,17 @@ function DropzoneContent({ allowedMediaTypes, dragging, uploadTo }: DropzoneProp
 }
 
 interface Props {
-  allowedMediaTypes?: string[];
-  uploadTo: string;
+  onFilesAdded: (files: UploadEntries) => void;
+  uploadScope: UploadScope;
 }
 
-export default function Overlay({ allowedMediaTypes, uploadTo }: Props) {
+export default function Overlay({ onFilesAdded, uploadScope }: Props) {
   return (
     <div className="text-gray-700 dark:text-gray-200">
-      <FileDrop allowedMediaTypes={allowedMediaTypes} uploadTo={uploadTo} className="w-full">
-        {({ dragging }) => (
-          <DropzoneContent
-            allowedMediaTypes={allowedMediaTypes}
-            dragging={dragging}
-            uploadTo={uploadTo}
-          />
-        )}
+      <FileDrop onFilesAdded={onFilesAdded} className="w-full">
+        {({ dragging }) => <DropzoneContent dragging={dragging} onFilesAdded={onFilesAdded} />}
       </FileDrop>
-      <RecentUploads />
+      <RecentUploads uploadScope={uploadScope} />
     </div>
   );
 }

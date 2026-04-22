@@ -29,17 +29,17 @@ export default function AddToAlbumDialog({ mediaItems, open, onClose }: Props) {
 
   const [addAlbumItems] = useAddAlbumItemsMutation();
 
-  const fileIds = mediaItems.map((item) => item.fileId);
+  const mediaItemIds = mediaItems.map((item) => item.id);
   const onItemClick = useCallback(
     async (albumSlug: string) => {
       try {
-        await addAlbumItems({ albumSlug, fileIds }).unwrap();
+        await addAlbumItems({ albumSlug, mediaItemIds }).unwrap();
         onClose();
       } catch {
         // skip error
       }
     },
-    [fileIds, addAlbumItems, onClose],
+    [mediaItemIds, addAlbumItems, onClose],
   );
 
   const handleOpenChanged = (open: boolean) => {

@@ -4,7 +4,7 @@ import { createContext, useCallback, useContext, useMemo, useState } from 'react
 import AdjustCategoriesDialog from './AdjustCategoriesDialog';
 
 interface ContextValue {
-  openDialog: (fileId: string) => void;
+  openDialog: (mediaItemId: string) => void;
 }
 
 const AdjustCategoriesDialogContext = createContext<ContextValue | null>(null);
@@ -14,30 +14,30 @@ interface Props {
 }
 
 interface State {
-  fileId: string | null;
+  mediaItemId: string | null;
   open: boolean;
 }
 
-const initialState: State = { fileId: null, open: false };
+const initialState: State = { mediaItemId: null, open: false };
 
 export default function AdjustCategoriesDialogProvider({ children }: Props) {
   const [state, setState] = useState<State>(initialState);
 
-  const openDialog = useCallback((fileId: string) => {
-    setState({ fileId, open: true });
+  const openDialog = useCallback((mediaItemId: string) => {
+    setState({ mediaItemId, open: true });
   }, []);
 
   const closeDialog = useCallback(() => {
     setState(initialState);
   }, []);
 
-  const { open, fileId } = state;
+  const { open, mediaItemId } = state;
 
   const value = useMemo(() => ({ openDialog }), [openDialog]);
 
   return (
     <AdjustCategoriesDialogContext.Provider value={value}>
-      <AdjustCategoriesDialog open={open} fileId={fileId} onClose={closeDialog} />
+      <AdjustCategoriesDialog open={open} mediaItemId={mediaItemId} onClose={closeDialog} />
       {children}
     </AdjustCategoriesDialogContext.Provider>
   );
