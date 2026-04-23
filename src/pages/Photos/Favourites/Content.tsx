@@ -1,16 +1,39 @@
-import { Spinner } from '@/ui/spinner';
+import { useCallback, useState } from 'react';
 
-import usePaginatedMediaItemsQuery from 'components/photos/hooks/list-media-items';
+import { useAppSelector } from '@/hooks';
+import { selectListMediaItemsData, useListMediaItemsQuery } from '@/store/mediaItems';
 
-import MediaItemGridView from 'components/photos/MediaItemGridView';
-import MediaItemMenu from 'components/photos/MediaItemMenu';
+import {
+  MediaItemBrowser,
+  MediaItemsBrowserDataProvider,
+} from '@/apps/photos/components/media-item-browser';
 
 import Empty from './Empty';
 
-export default function Content() {
-  const [{ ids, selectById }, loading] = usePaginatedMediaItemsQuery({ favourites: true });
+const PAGE_SIZE = 1000;
 
-  const empty = ids?.length != null && ids?.length === 0 && !loading;
+export default function Content() {
+  const cachedData = useAppSelector((state) =>
+    selectListMediaItemsData(state, { favourites: true, pageSize: PAGE_SIZE }),
+  );
+  const [page, setPage] = useState(() => Math.floor(cachedData.ids.length / PAGE_SIZE) + 1);
+
+  const { data, isLoading, isError } = useListMediaItemsQuery(
+    { favourites: true, page, pageSize: PAGE_SIZE },
+    {
+      selectFromResult: ({ data, isLoading, isError }) => ({
+        data,
+        isLoading,
+        isError,
+      }),
+    },
+  );
+
+  const loadMore = useCallback(() => {
+    setPage((currentPage) => currentPage + 1);
+  }, []);
+
+  const empty = data?.ids.length === 0 && !isLoading && !isError;
   if (empty) {
     return (
       <div className="flex h-full">
@@ -19,9 +42,14 @@ export default function Content() {
     );
   }
 
-  if (!ids) {
-    return <Spinner className="h-full" />;
-  }
-
-  return <MediaItemGridView ids={ids} selectById={selectById} menuItemRenderer={MediaItemMenu} />;
+  return (
+    <MediaItemsBrowserDataProvider
+      data={data}
+      isLoading={isLoading}
+      isError={isError}
+      loadMore={loadMore}
+    >
+      <MediaItemBrowser />
+    </MediaItemsBrowserDataProvider>
+  );
 }

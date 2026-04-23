@@ -1,24 +1,48 @@
-import { useCountMediaItemsQuery } from 'store/mediaItems';
+import { useCallback, useState } from 'react';
 
-import { Spinner } from '@/ui/spinner';
+import { useAppSelector } from '@/hooks';
 
-import usePaginatedMediaItemsQuery from 'components/photos/hooks/list-media-items';
+import {
+  selectListMediaItemsData,
+  useCountMediaItemsQuery,
+  useListMediaItemsQuery,
+} from '@/store/mediaItems';
 
-import MediaItemGridView from 'components/photos/MediaItemGridView';
-import MediaItemMenu from 'components/photos/MediaItemMenu';
+import {
+  MediaItemBrowser,
+  MediaItemsBrowserDataProvider,
+} from '@/apps/photos/components/media-item-browser';
 
 import Welcome from './Welcome';
+
+const PAGE_SIZE = 1000;
 
 export default function Content() {
   const { itemsCount } = useCountMediaItemsQuery(undefined, {
     selectFromResult: ({ data }) => ({ itemsCount: data?.total }),
   });
 
-  const [{ ids, selectById, loadMore }, loading] = usePaginatedMediaItemsQuery({
-    favourites: false,
-  });
+  const cachedData = useAppSelector((state) =>
+    selectListMediaItemsData(state, { favourites: false, pageSize: PAGE_SIZE }),
+  );
+  const [page, setPage] = useState(() => Math.floor(cachedData.ids.length / PAGE_SIZE) + 1);
 
-  const empty = ids?.length != null && ids?.length === 0 && !loading;
+  const { data, isLoading, isError } = useListMediaItemsQuery(
+    { favourites: false, page, pageSize: PAGE_SIZE },
+    {
+      selectFromResult: ({ data, isLoading, isError }) => ({
+        data,
+        isLoading,
+        isError,
+      }),
+    },
+  );
+
+  const loadMore = useCallback(() => {
+    setPage((currentPage) => currentPage + 1);
+  }, []);
+
+  const empty = data?.ids.length === 0 && !isLoading && !isError;
   if (empty) {
     return (
       <div className="flex h-full">
@@ -27,17 +51,15 @@ export default function Content() {
     );
   }
 
-  if (!ids?.length) {
-    return <Spinner className="h-full" />;
-  }
-
   return (
-    <MediaItemGridView
-      ids={ids}
+    <MediaItemsBrowserDataProvider
+      data={data}
+      isLoading={isLoading}
+      isError={isError}
       itemsCount={itemsCount}
-      selectById={selectById}
       loadMore={loadMore}
-      menuItemRenderer={MediaItemMenu}
-    />
+    >
+      <MediaItemBrowser />
+    </MediaItemsBrowserDataProvider>
   );
 }

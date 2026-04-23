@@ -37,14 +37,17 @@ export default function SimpleMenuContent({ groups, side, align }: SimpleMenuCon
               <DropdownMenuItem
                 key={key}
                 variant={danger ? 'destructive' : 'default'}
-                onClick={onClick}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  onClick();
+                }}
               >
                 <Icon />
                 {name}
               </DropdownMenuItem>
             ))}
           </DropdownMenuGroup>
-          {groups.length > 2 && idx < groups.length - 1 && <DropdownMenuSeparator />}
+          {groups.length >= 2 && idx < groups.length - 1 && <DropdownMenuSeparator />}
         </Fragment>
       ))}
     </DropdownMenuContent>

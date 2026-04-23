@@ -8,23 +8,24 @@ import {
   HeartIcon,
   HeartOutlineIcon,
   ImageIcon,
+  InfoCircleIcon,
   RemoveFromAlbumIcon,
   TrashIcon,
 } from '@/icons';
 
-import { useAppDispatch, useAppSelector } from '@/hooks';
+import { useAppDispatch } from '@/hooks';
 import type { IAction } from '@/hooks/file-actions';
+import { useIsLaptop } from '@/hooks/media-query';
 
 import { useRemoveAlbumItemsMutation, useSetAlbumCoverMutation } from '@/store/albums';
-import {
-  downloadMediaItemsBatch,
-  selectIsFavouriteMediaItem,
-  useMarkFavouriteMediaItemsMutation,
-  useUnmarkFavouriteMediaItemsMutation,
-} from '@/store/mediaItems';
+import { downloadMediaItemsBatch } from '@/store/mediaItems';
+
+import { useMediaItemInfoSheet } from '@/apps/photos/components/media-item-info-sheet';
 
 import { useDeleteMediaItemsDialog } from '../DeleteMediaItemsDialogProvider';
 import { useAddToAlbumDialog } from '../AddToAlbumDialogProvider';
+
+import { useToggleFavourite } from './toggle-favourite';
 
 export function useAddToAlbumAction(mediaItems: IMediaItem[]): IAction | null {
   const { t } = useTranslation('photos');
@@ -89,12 +90,7 @@ export function useDownloadBatchAction(mediaItems: IMediaItem[]): IAction | null
 export function useFavouriteAction(mediaItems: IMediaItem[]): IAction {
   const { t } = useTranslation('photos');
   const mediaItemIds = mediaItems.map(({ id }) => id);
-  const favourite = useAppSelector(
-    (state) =>
-      mediaItemIds.length > 0 && mediaItemIds.every((id) => selectIsFavouriteMediaItem(state, id)),
-  );
-  const [markFavouriteMediaItems] = useMarkFavouriteMediaItemsMutation();
-  const [unmarkFavouriteMediaItems] = useUnmarkFavouriteMediaItemsMutation();
+  const { favourite, toggleFavourite } = useToggleFavourite(mediaItemIds);
 
   const name = favourite
     ? t('photos:mediaItem.actions.unfavourite', {
@@ -114,12 +110,27 @@ export function useFavouriteAction(mediaItems: IMediaItem[]): IAction {
     Icon: Icon,
     icon: <Icon className="h-4 w-4" />,
     danger: false,
+    onClick: toggleFavourite,
+  };
+}
+
+export function useInformationAction(mediaItems: IMediaItem[]): IAction | null {
+  const { t } = useTranslation('photos');
+  const { openMediaItemInfoSheet } = useMediaItemInfoSheet();
+  const isLaptop = useIsLaptop();
+
+  if (isLaptop || mediaItems.length !== 1) {
+    return null;
+  }
+
+  return {
+    key: 'information',
+    name: t('photos:mediaItem.actions.showInfo', { defaultValue: 'Information' }),
+    Icon: InfoCircleIcon,
+    icon: <InfoCircleIcon className="h-4 w-4" />,
+    danger: false,
     onClick: () => {
-      if (favourite) {
-        unmarkFavouriteMediaItems(mediaItemIds);
-      } else {
-        markFavouriteMediaItems(mediaItemIds);
-      }
+      openMediaItemInfoSheet(mediaItems[0]);
     },
   };
 }

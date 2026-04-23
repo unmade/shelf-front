@@ -1,16 +1,13 @@
 import { useTranslation } from 'react-i18next';
 
+import { useCountMediaItemsQuery, useListDeletedMediaItemsQuery } from 'store/mediaItems';
+
+import { DeletedMediaItemActionsDropdown } from '@/apps/photos/components/media-item-actions-dropdown';
 import {
-  selectDeletedMediaItemById as selectById,
-  useCountMediaItemsQuery,
-  useListDeletedMediaItemsQuery,
-} from 'store/mediaItems';
-
+  MediaItemBrowser,
+  MediaItemsBrowserDataProvider,
+} from '@/apps/photos/components/media-item-browser';
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from '@/ui/empty';
-import { Spinner } from '@/ui/spinner';
-
-import MediaItemGridView from 'components/photos/MediaItemGridView';
-import DeletedMediaItemMenu from 'components/photos/DeletedMediaItemMenu';
 
 export default function Content() {
   const { t } = useTranslation('photos');
@@ -24,14 +21,15 @@ export default function Content() {
     selectFromResult: ({ data }) => ({ itemsCount: data?.deleted }),
   });
 
-  const { ids, isFetching: loading } = useListDeletedMediaItemsQuery(undefined, {
-    selectFromResult: ({ data, isFetching }) => ({
-      ids: data?.ids,
-      isFetching,
+  const { data, isError, isLoading } = useListDeletedMediaItemsQuery(undefined, {
+    selectFromResult: ({ data, isError, isLoading }) => ({
+      data,
+      isError,
+      isLoading,
     }),
   });
 
-  const empty = ids?.length != null && ids?.length === 0 && !loading;
+  const empty = data?.ids.length === 0 && !isLoading && !isError;
   if (empty) {
     return (
       <Empty className="h-full">
@@ -43,16 +41,14 @@ export default function Content() {
     );
   }
 
-  if (!ids) {
-    return <Spinner className="h-full" />;
-  }
-
   return (
-    <MediaItemGridView
-      ids={ids}
+    <MediaItemsBrowserDataProvider
+      data={data}
+      isLoading={isLoading}
+      isError={isError}
       itemsCount={itemsCount}
-      selectById={selectById}
-      menuItemRenderer={DeletedMediaItemMenu}
-    />
+    >
+      <MediaItemBrowser mediaItemActionsDropdown={DeletedMediaItemActionsDropdown} />
+    </MediaItemsBrowserDataProvider>
   );
 }

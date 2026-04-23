@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next';
 
 import { Heading } from '@/ui/heading';
 
+import AddToAlbumDialogProvider from '@/components/photos/AddToAlbumDialogProvider';
+import DeleteMediaItemsDialogProvider from '@/components/photos/DeleteMediaItemsDialogProvider';
 import DeleteMediaItemsImmediatelyDialogProvider from 'components/photos/DeleteMediaItemsImmediatelyDialogProvider';
 import EmptyMediaItemsTrashDialogProvider from 'components/photos/EmptyMediaItemsTrashDialogProvider';
 
@@ -17,23 +19,27 @@ export default function Trash() {
   const title = t('photos:pages.trash.title', { defaultValue: 'Trash' });
 
   return (
-    <DeleteMediaItemsImmediatelyDialogProvider>
-      <EmptyMediaItemsTrashDialogProvider>
-        <Helmet>
-          <title>Shelf Photos</title>
-        </Helmet>
-        <Page>
-          <PageHeader>
-            <Heading className="py-0.5">{title}</Heading>
-            <PageHeaderActions>
-              <EmptyTrashDialogButton />
-            </PageHeaderActions>
-          </PageHeader>
-          <PageContent>
-            <Content />
-          </PageContent>
-        </Page>
-      </EmptyMediaItemsTrashDialogProvider>
-    </DeleteMediaItemsImmediatelyDialogProvider>
+    <AddToAlbumDialogProvider>
+      <DeleteMediaItemsDialogProvider>
+        <DeleteMediaItemsImmediatelyDialogProvider>
+          <EmptyMediaItemsTrashDialogProvider>
+            <Helmet>
+              <title>Shelf Photos</title>
+            </Helmet>
+            <Page>
+              <PageHeader>
+                <Heading className="py-0.5">{title}</Heading>
+                <PageHeaderActions>
+                  <EmptyTrashDialogButton />
+                </PageHeaderActions>
+              </PageHeader>
+              <PageContent>
+                <Content />
+              </PageContent>
+            </Page>
+          </EmptyMediaItemsTrashDialogProvider>
+        </DeleteMediaItemsImmediatelyDialogProvider>
+      </DeleteMediaItemsDialogProvider>
+    </AddToAlbumDialogProvider>
   );
 }

@@ -4,6 +4,11 @@
   "album.actions.delete": "Удалить",
   "album.actions.removeCover": "Удалить обложку",
   "album.actions.rename": "Переименовать",
+  "browser.empty.description": "Загрузите фотографии, чтобы начать наполнять свою медиатеку.",
+  "browser.empty.title": "Фотографий пока нет",
+  "browser.error.description": "Не удалось загрузить медиатеку. Пожалуйста, попробуйте ещё раз.",
+  "browser.error.title": "Не удалось загрузить фотографии",
+  "browser.grid.ariaLabel": "Сетка фотографий",
   "dialogs.addToAlbumDialog.actions.close": "Закрыть",
   "dialogs.addToAlbumDialog.title_one": "Добавить в альбом",
   "dialogs.addToAlbumDialog.title_few": "Добавить {{count}} объект в альбом",
@@ -34,7 +39,6 @@
   "mediaItem.actions.addToAlbum_few": "Добавить {{count}} объект в альбом",
   "mediaItem.actions.addToAlbum_many": "Добавить {{count}} объекта в альбом",
   "mediaItem.actions.addToAlbum_other": "Добавить {{count}} объектов в альбом",
-  "mediaItem.actions.copyLink": "Копировать ссылку",
   "mediaItem.actions.delete_one": "Удалить",
   "mediaItem.actions.delete_few": "Удалить {{count}} объекта",
   "mediaItem.actions.delete_many": "Удалить {{count}} объектов",
@@ -110,12 +114,7 @@
   "pages.library.title": "Медиатека",
   "pages.library.welcomeDescription": "Добавьте свои любимые фотографии",
   "pages.library.welcomeTitle": "Добро пожаловать!",
-  "pages.sharedViaLink.emptyDescription": "Фотографии с доступом, предоставленным по ссылке, появятся здесь",
-  "pages.sharedViaLink.emptyTitle": "Нет общих фотографий",
-  "pages.sharedViaLink.title": "Общий доступ по ссылке",
   "pages.trash.emptyDescription": "Фотографии, которые были удалены появятся здесь",
   "pages.trash.emptyTitle": "Корзина",
-  "pages.trash.title": "Корзина",
-  "sharedLinkList.columns.dateCreated.title": "Дата создания",
-  "sharedLinkList.columns.name.title": "Имя"
+  "pages.trash.title": "Корзина"
 }

@@ -1,0 +1,48 @@
+import * as DialogPrimitive from '@radix-ui/react-dialog';
+
+import { useKeyUp } from '@/hooks/key-up';
+
+import { GalleryContent } from './content';
+import { GalleryProvider, useGallery } from './context';
+import { GalleryHeader } from './header';
+import { GallerySidePanel } from './side-panel';
+
+function GalleryDialog() {
+  const { open, closeGallery, carouselApi } = useGallery();
+
+  useKeyUp({
+    handlers: {
+      ArrowLeft: () => carouselApi?.scrollPrev(),
+      ArrowRight: () => carouselApi?.scrollNext(),
+      Escape: closeGallery,
+    },
+    skip: !open,
+  });
+
+  if (!open) {
+    return null;
+  }
+
+  return (
+    <DialogPrimitive.Root open={open} onOpenChange={(nextOpen) => !nextOpen && closeGallery()}>
+      <DialogPrimitive.Portal>
+        <DialogPrimitive.Content className="bg-background fixed inset-0 flex flex-col outline-none">
+          <DialogPrimitive.Title className="sr-only">Photo gallery</DialogPrimitive.Title>
+          <GalleryHeader />
+          <div className="flex min-h-0 flex-1">
+            <GalleryContent />
+            <GallerySidePanel />
+          </div>
+        </DialogPrimitive.Content>
+      </DialogPrimitive.Portal>
+    </DialogPrimitive.Root>
+  );
+}
+
+export function Gallery() {
+  return (
+    <GalleryProvider>
+      <GalleryDialog />
+    </GalleryProvider>
+  );
+}
