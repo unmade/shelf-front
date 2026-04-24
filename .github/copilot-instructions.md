@@ -26,6 +26,7 @@ Use TypeScript, React, Redux Toolkit, and RTK Query patterns already present in 
 - Before editing, identify whether the change is app-specific or truly shared, then place code in the narrowest correct module.
 - Follow existing patterns in the Files app when choosing structure, routing, store usage, and feature boundaries.
 - When touching Photos code, improve the local area without expanding legacy patterns into new folders.
+- Always use translation strings for user-facing text
 - After adding or editing translation strings in components do the following:
   1. Regenerate translation files with `pnpm makelocales`.
   2. Add missing translations in `src/public/locales` for any new strings.

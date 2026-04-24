@@ -1,51 +1,53 @@
-import { useCallback } from 'react';
+import { useMemo, type ComponentType } from 'react';
 
 import type { IAlbum } from 'types/photos';
 
-import type { RootState } from 'store/store';
 import { useListAlbumItemsInfiniteQuery, albumItemsAdapter } from 'store/albums';
 
-import type { MenuItemRendererProps } from 'components/photos/MediaItemGridView';
-import MediaItemGridView from 'components/photos/MediaItemGridView';
-import AlbumMediaItemMenu from 'components/photos/AlbumMediaItemMenu';
+import {
+  AlbumMediaItemActionsDropdown,
+  type MediaItemActionsDropdownProps,
+} from '@/apps/photos/components/album-item-actions-dropdown';
+import {
+  MediaItemBrowser,
+  MediaItemsBrowserDataProvider,
+} from '@/apps/photos/components/media-item-browser';
 
 import Empty from './Empty';
 
 const initialState = albumItemsAdapter.getInitialState();
-const { selectIds, selectById } = albumItemsAdapter.getSelectors();
+const { selectIds } = albumItemsAdapter.getSelectors();
 
 interface Props {
   album: IAlbum;
 }
 
 export default function Content({ album }: Props) {
-  const { data, isSuccess, fetchNextPage } = useListAlbumItemsInfiniteQuery(
-    {
-      albumSlug: album.slug,
-    },
-    {
-      selectFromResult: ({ data: result, isSuccess: success }) => ({
-        data: albumItemsAdapter.setAll(initialState, result?.pages.flat() ?? []),
-        isSuccess: success,
-      }),
-    },
-  );
+  const {
+    data: result,
+    isError,
+    isLoading,
+    isSuccess,
+    fetchNextPage,
+  } = useListAlbumItemsInfiniteQuery({ albumSlug: album.slug });
 
-  const selectByIdCallback = useCallback(
-    (_: RootState, itemId: string) => selectById(data, itemId),
-    [data],
+  const data = useMemo(
+    () => albumItemsAdapter.setAll(initialState, result?.pages.flat() ?? []),
+    [result],
   );
+  const mediaItemActionsDropdown = useMemo<ComponentType<MediaItemActionsDropdownProps>>(() => {
+    function AlbumActionsDropdown(props: MediaItemActionsDropdownProps) {
+      return <AlbumMediaItemActionsDropdown {...props} albumSlug={album.slug} />;
+    }
+
+    AlbumActionsDropdown.displayName = 'AlbumActionsDropdown';
+    return AlbumActionsDropdown;
+  }, [album.slug]);
 
   const ids = selectIds(data);
+  const empty = isSuccess && ids.length === 0;
 
-  const menuItemRenderer = useCallback(
-    ({ mediaItem, onOpen }: MenuItemRendererProps) => (
-      <AlbumMediaItemMenu mediaItem={mediaItem} onOpen={onOpen} albumSlug={album.slug} />
-    ),
-    [album.slug],
-  );
-
-  if (isSuccess && !ids.length) {
+  if (empty) {
     return (
       <div className="flex h-full">
         <Empty />
@@ -54,12 +56,14 @@ export default function Content({ album }: Props) {
   }
 
   return (
-    <MediaItemGridView
-      ids={ids}
+    <MediaItemsBrowserDataProvider
+      data={data}
+      isLoading={isLoading}
+      isError={isError}
       itemsCount={album.itemsCount}
-      selectById={selectByIdCallback}
       loadMore={fetchNextPage}
-      menuItemRenderer={menuItemRenderer}
-    />
+    >
+      <MediaItemBrowser mediaItemActionsDropdown={mediaItemActionsDropdown} />
+    </MediaItemsBrowserDataProvider>
   );
 }

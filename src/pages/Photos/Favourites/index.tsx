@@ -5,6 +5,7 @@ import { Heading } from '@/ui/heading';
 
 import AddToAlbumDialogProvider from 'components/photos/AddToAlbumDialogProvider';
 import DeleteMediaItemsDialogProvider from 'components/photos/DeleteMediaItemsDialogProvider';
+import DeleteImmediatelyDialogProvider from '@/components/photos/DeleteMediaItemsImmediatelyDialogProvider';
 
 import { Page, PageHeader, PageContent } from 'apps/photos/components/page';
 
@@ -18,17 +19,19 @@ export default function Favourites() {
   return (
     <AddToAlbumDialogProvider>
       <DeleteMediaItemsDialogProvider>
-        <Helmet>
-          <title>Shelf Photos</title>
-        </Helmet>
-        <Page>
-          <PageHeader>
-            <Heading className="py-0.5">{title}</Heading>
-          </PageHeader>
-          <PageContent>
-            <Content />
-          </PageContent>
-        </Page>
+        <DeleteImmediatelyDialogProvider>
+          <Helmet>
+            <title>Shelf Photos</title>
+          </Helmet>
+          <Page>
+            <PageHeader>
+              <Heading className="py-0.5">{title}</Heading>
+            </PageHeader>
+            <PageContent>
+              <Content />
+            </PageContent>
+          </Page>
+        </DeleteImmediatelyDialogProvider>
       </DeleteMediaItemsDialogProvider>
     </AddToAlbumDialogProvider>
   );
