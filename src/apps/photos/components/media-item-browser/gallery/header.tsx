@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -14,8 +16,11 @@ import { useGallery, useSelectGallerySlide } from './context';
 import { useMediaItemBrowser } from '../contexts/ui';
 
 export function GalleryHeader() {
-  const { displayTotal, closeGallery, carouselApi, sidePanelOpen, toggleSidePanel } = useGallery();
+  const { t } = useTranslation('photos');
+
   const { mediaItemActionsDropdown: MediaItemActionsDropdown } = useMediaItemBrowser();
+
+  const { displayTotal, closeGallery, carouselApi, sidePanelOpen, toggleSidePanel } = useGallery();
   const { currentIndex, currentMediaItem } = useSelectGallerySlide();
 
   const itemName = currentMediaItem?.name ?? '';
@@ -24,7 +29,12 @@ export function GalleryHeader() {
   return (
     <header className="flex h-14 shrink-0 items-center justify-between border-b px-4 dark:bg-zinc-900">
       <div className="flex items-center gap-2 sm:w-48">
-        <Button variant="ghost" size="icon-sm" onClick={closeGallery} aria-label="Close gallery">
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          onClick={closeGallery}
+          aria-label={t('gallery.close', { defaultValue: 'Close' })}
+        >
           <CloseIcon />
         </Button>
       </div>
@@ -38,7 +48,7 @@ export function GalleryHeader() {
           variant="ghost"
           size="icon-sm"
           onClick={() => carouselApi?.scrollPrev()}
-          aria-label="Previous item"
+          aria-label={t('gallery.previous', { defaultValue: 'Previous' })}
         >
           <ChevronLeftIcon />
         </Button>
@@ -49,7 +59,7 @@ export function GalleryHeader() {
           variant="ghost"
           size="icon-sm"
           onClick={() => carouselApi?.scrollNext()}
-          aria-label="Next item"
+          aria-label={t('gallery.next', { defaultValue: 'Next' })}
         >
           <ChevronRightIcon />
         </Button>
@@ -58,13 +68,18 @@ export function GalleryHeader() {
           size="sm"
           pressed={sidePanelOpen}
           onPressedChange={toggleSidePanel}
-          aria-label="Toggle details panel"
+          aria-label={t('gallery.toggleSidePanel', { defaultValue: 'Toggle side panel' })}
         >
           <SidebarRightIcon />
         </Toggle>
         {currentMediaItem && (
           <MediaItemActionsDropdown mediaItem={currentMediaItem} align="end">
-            <Button className="lg:hidden" variant="ghost" size="icon-sm" aria-label="More actions">
+            <Button
+              className="lg:hidden"
+              variant="ghost"
+              size="icon-sm"
+              aria-label={t('gallery.moreActions', { defaultValue: 'More actions' })}
+            >
               <MoreHorizontalIcon />
             </Button>
           </MediaItemActionsDropdown>

@@ -38,28 +38,25 @@ interface InfoSectionProps {
 }
 
 function InfoSection({ mediaItem }: InfoSectionProps) {
-  const { t } = useTranslation(['photos', 'files']);
+  const { t } = useTranslation('photos');
   const libraryPath = useAppSelector(selectPhotosLibraryPath);
   const location = libraryPath === '.' ? '—' : libraryPath;
 
   return (
     <div className="space-y-0.5">
+      <Property label={t('properties.location', { defaultValue: 'Location' })} value={location} />
       <Property
-        label={t('files:properties.location', { defaultValue: 'Location' })}
-        value={location}
-      />
-      <Property
-        label={t('files:properties.size', { defaultValue: 'Size' })}
+        label={t('properties.size', { defaultValue: 'Size' })}
         value={<FileSize bytes={mediaItem.size} />}
       />
       {mediaItem.takenAt && (
         <Property
-          label={t('files:exif.dateTaken', { defaultValue: 'Date Taken' })}
+          label={t('exif.dateTaken', { defaultValue: 'Date Taken' })}
           value={<TimeAgo value={mediaItem.takenAt} format="LLL" />}
         />
       )}
       <Property
-        label={t('files:properties.modified', { defaultValue: 'Modified' })}
+        label={t('properties.modified', { defaultValue: 'Modified' })}
         value={<TimeAgo value={mediaItem.modifiedAt} format="LLL" />}
       />
     </div>
@@ -87,13 +84,13 @@ interface MediaItemSectionsProps {
 }
 
 export function MediaItemSections({ className, mediaItem }: MediaItemSectionsProps) {
-  const { t } = useTranslation(['photos', 'files']);
+  const { t } = useTranslation('photos');
   const isImage = MediaType.isImage(mediaItem.mediaType);
 
   const items = [
     {
       value: 'info',
-      trigger: t('files:sections.information', { defaultValue: 'Information' }),
+      trigger: t('sections.information', { defaultValue: 'Information' }),
       content: <InfoSection mediaItem={mediaItem} />,
     },
     {
@@ -106,7 +103,7 @@ export function MediaItemSections({ className, mediaItem }: MediaItemSectionsPro
   if (isImage) {
     items.splice(1, 0, {
       value: 'exif',
-      trigger: t('files:sections.exif', { defaultValue: 'Exif' }),
+      trigger: t('sections.exif', { defaultValue: 'Exif' }),
       content: <MediaItemExif mediaItemId={mediaItem.id} />,
     });
   }

@@ -1,4 +1,5 @@
 import { memo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import type { IMediaItem } from '@/types/photos';
 
@@ -46,6 +47,8 @@ const hiddenOverlayControlClassName =
   'pointer-events-none opacity-0 group-hover/item:pointer-events-auto group-hover/item:opacity-100';
 
 export const GridViewItem = memo(function GridViewItem({ mediaItem }: Props) {
+  const { t } = useTranslation('photos');
+
   const touch = useTouchDevice();
   const { isSelected, select, toggleSelection } = useSelection();
   const { mediaItemActionsDropdown: MediaItemActionsDropdown, openPreview } = useMediaItemBrowser();
@@ -133,7 +136,10 @@ export const GridViewItem = memo(function GridViewItem({ mediaItem }: Props) {
           <Checkbox
             checked={selected}
             onCheckedChange={handleCheckboxChange}
-            aria-label={`Select ${mediaItem.name}`}
+            aria-label={t('browser.selectMediaItem', {
+              defaultValue: 'Select {{name}}',
+              name: mediaItem.name,
+            })}
             className={cn(
               'absolute top-2 left-2 z-10',
               overlayControlClassName,
@@ -152,7 +158,7 @@ export const GridViewItem = memo(function GridViewItem({ mediaItem }: Props) {
                 className={overlayControlClassName}
                 size="icon-sm"
                 variant="ghost"
-                aria-label="More actions"
+                aria-label={t('gallery.moreActions', { defaultValue: 'More actions' })}
               >
                 <MoreVerticalIcon className="size-3.5" />
               </Button>

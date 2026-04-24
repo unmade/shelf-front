@@ -65,7 +65,11 @@ function Actions({ className, mediaItem }: { className?: string; mediaItem: IMed
           {t('photos:mediaItem.actions.favourite', { defaultValue: 'Favourite', count: 1 })}
         </FavouriteToggle>
         <MediaItemActionsDropdown mediaItem={mediaItem} align="end">
-          <Button size="sm" variant="outline" aria-label="More actions">
+          <Button
+            size="sm"
+            variant="outline"
+            aria-label={t('gallery.moreActions', { defaultValue: 'More actions' })}
+          >
             <MoreHorizontalIcon />
           </Button>
         </MediaItemActionsDropdown>

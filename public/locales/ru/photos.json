@@ -9,6 +9,7 @@
   "browser.error.description": "Не удалось загрузить медиатеку. Пожалуйста, попробуйте ещё раз.",
   "browser.error.title": "Не удалось загрузить фотографии",
   "browser.grid.ariaLabel": "Сетка фотографий",
+  "browser.selectMediaItem": "Выбрать {{name}}",
   "dialogs.addToAlbumDialog.actions.close": "Закрыть",
   "dialogs.addToAlbumDialog.title_one": "Добавить в альбом",
   "dialogs.addToAlbumDialog.title_few": "Добавить {{count}} объект в альбом",
@@ -35,6 +36,13 @@
   "dialogs.renameAlbum.fields.title.label": "Новое название альбома",
   "dialogs.renameAlbum.fields.title.placeholder": "например, Мой альбом",
   "dialogs.renameAlbum.title": "Переименовать альбом",
+  "exif.dateTaken": "Дата съемки",
+  "gallery.close": "Закрыть",
+  "gallery.moreActions": "Другие действия",
+  "gallery.next": "Следующий",
+  "gallery.previous": "Предыдущий",
+  "gallery.title": "Галерея",
+  "gallery.toggleSidePanel": "Боковая панель",
   "mediaItem.actions.addToAlbum_one": "Добавить в альбом",
   "mediaItem.actions.addToAlbum_few": "Добавить {{count}} объект в альбом",
   "mediaItem.actions.addToAlbum_many": "Добавить {{count}} объекта в альбом",
@@ -116,5 +124,10 @@
   "pages.library.welcomeTitle": "Добро пожаловать!",
   "pages.trash.emptyDescription": "Фотографии, которые были удалены появятся здесь",
   "pages.trash.emptyTitle": "Корзина",
-  "pages.trash.title": "Корзина"
+  "pages.trash.title": "Корзина",
+  "properties.location": "Расположение",
+  "properties.modified": "Дата изменения",
+  "properties.size": "Размер",
+  "sections.exif": "Exif",
+  "sections.information": "Сведения"
 }

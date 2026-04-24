@@ -9,6 +9,7 @@
   "browser.error.description": "There was an error loading your library. Please try again.",
   "browser.error.title": "Unable to load photos",
   "browser.grid.ariaLabel": "Photos grid",
+  "browser.selectMediaItem": "Select {{name}}",
   "dialogs.addToAlbumDialog.actions.close": "Close",
   "dialogs.addToAlbumDialog.title_one": "Add to Album",
   "dialogs.addToAlbumDialog.title_other": "Add {{count}} Items to Album",
@@ -33,6 +34,13 @@
   "dialogs.renameAlbum.fields.title.label": "New Album Title",
   "dialogs.renameAlbum.fields.title.placeholder": "e.g. My Album",
   "dialogs.renameAlbum.title": "Rename Album",
+  "exif.dateTaken": "Date Taken",
+  "gallery.close": "Close",
+  "gallery.moreActions": "More actions",
+  "gallery.next": "Next",
+  "gallery.previous": "Previous",
+  "gallery.title": "Gallery",
+  "gallery.toggleSidePanel": "Toggle side panel",
   "mediaItem.actions.addToAlbum_one": "Add to Album",
   "mediaItem.actions.addToAlbum_other": "Add {{count}} Items to Album",
   "mediaItem.actions.delete_one": "Delete",
@@ -98,5 +106,10 @@
   "pages.library.welcomeTitle": "Blank Canvas Awaits Your Moments",
   "pages.trash.emptyDescription": "All your deleted photos appear here",
   "pages.trash.emptyTitle": "Trash bin",
-  "pages.trash.title": "Trash"
+  "pages.trash.title": "Trash",
+  "properties.location": "Location",
+  "properties.modified": "Modified",
+  "properties.size": "Size",
+  "sections.exif": "Exif",
+  "sections.information": "Information"
 }
