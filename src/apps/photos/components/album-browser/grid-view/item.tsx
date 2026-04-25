@@ -144,11 +144,11 @@ export const GridViewItem = memo(function GridViewItem({ album }: Props) {
         </ItemHeader>
 
         <div className="w-full min-w-0">
-          <ItemContent className="w-full min-w-0 items-center text-center">
+          <ItemContent className="w-full min-w-0 items-center px-2 text-center">
             <ItemTitle className="max-w-full min-w-0 justify-center">
               <p className="truncate">{album.title}</p>
             </ItemTitle>
-            <ItemDescription className="text-xs">{album.itemsCount}</ItemDescription>
+            <ItemDescription className="text-xs max-sm:hidden">{album.itemsCount}</ItemDescription>
           </ItemContent>
         </div>
       </Item>
