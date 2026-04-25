@@ -1,28 +1,42 @@
-import { Spinner } from '@/ui/spinner';
+import { useCallback, useState } from 'react';
 
-import AlbumGridView from 'components/photos/AlbumGridView';
-import usePaginatedAlbumsQuery from 'components/photos/hooks/list-albums';
+import { useAppSelector } from '@/hooks';
 
-import Empty from './Empty';
+import { selectListAlbumsData, useListAlbumsQuery } from '@/store/albums';
+
+import { AlbumsBrowser, AlbumsBrowserDataProvider } from '@/apps/photos/components/album-browser';
+
+const PAGE_SIZE = 100;
 
 export default function Content() {
-  const [{ ids, loadMore, selectById }, loading] = usePaginatedAlbumsQuery({ pageSize: 100 });
+  const cachedData = useAppSelector((state) =>
+    selectListAlbumsData(state, { pageSize: PAGE_SIZE }),
+  );
+  const [page, setPage] = useState(() => Math.floor(cachedData.ids.length / PAGE_SIZE) + 1);
 
-  const empty = ids?.length != null && ids?.length === 0 && !loading;
-  if (empty) {
-    return (
-      <div className="flex h-full">
-        <Empty />
-      </div>
-    );
-  }
+  const { data, isLoading, isError } = useListAlbumsQuery(
+    { page, pageSize: PAGE_SIZE },
+    {
+      selectFromResult: ({ data, isLoading, isError }) => ({
+        data,
+        isLoading,
+        isError,
+      }),
+    },
+  );
 
-  if (!ids?.length) {
-    return (
-      <div className="flex h-full justify-center">
-        <Spinner />
-      </div>
-    );
-  }
-  return <AlbumGridView ids={ids} loadMore={loadMore} selectById={selectById} />;
+  const loadMore = useCallback(() => {
+    setPage((currentPage) => currentPage + 1);
+  }, []);
+
+  return (
+    <AlbumsBrowserDataProvider
+      data={data}
+      isLoading={isLoading}
+      isError={isError}
+      loadMore={loadMore}
+    >
+      <AlbumsBrowser />
+    </AlbumsBrowserDataProvider>
+  );
 }
