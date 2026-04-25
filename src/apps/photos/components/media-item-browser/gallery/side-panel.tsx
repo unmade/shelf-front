@@ -19,8 +19,9 @@ import { MediaItemSections } from '@/apps/photos/components/media-item-sections'
 
 import { useDownloadBatchAction } from '@/components/photos/hooks/media-item-actions';
 
-import { useGallery, useSelectGallerySlide } from './context';
 import { useMediaItemBrowser } from '../contexts/ui';
+
+import { useGallery, useSelectGallerySlide } from './context';
 
 function Title({ name }: { name: string }) {
   return (

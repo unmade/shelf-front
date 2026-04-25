@@ -15,8 +15,6 @@ import { FileSize } from '@/ui/filesize';
 import { TimeAgo } from '@/ui/timeago';
 
 import MediaItemExif from '@/apps/photos/components/media-item-exif';
-import AdjustButton from '@/components/photos/Gallery/Categories/AdjustButton';
-import CategoryList from '@/components/photos/Gallery/Categories/CategoryList';
 
 interface PropertyProps {
   className?: string;
@@ -63,21 +61,6 @@ function InfoSection({ mediaItem }: InfoSectionProps) {
   );
 }
 
-function CategoriesSection({ mediaItem }: InfoSectionProps) {
-  return (
-    <div className="space-y-3">
-      {!mediaItem.deletedAt && (
-        <div className="flex justify-end">
-          <AdjustButton mediaItemId={mediaItem.id} />
-        </div>
-      )}
-      <div className="flex flex-wrap text-sm capitalize">
-        <CategoryList mediaItemId={mediaItem.id} />
-      </div>
-    </div>
-  );
-}
-
 interface MediaItemSectionsProps {
   className?: string;
   mediaItem: IMediaItem;
@@ -92,11 +75,6 @@ export function MediaItemSections({ className, mediaItem }: MediaItemSectionsPro
       value: 'info',
       trigger: t('sections.information', { defaultValue: 'Information' }),
       content: <InfoSection mediaItem={mediaItem} />,
-    },
-    {
-      value: 'categories',
-      trigger: t('photos:mediaItem.categories.title', { defaultValue: 'Categories' }),
-      content: <CategoriesSection mediaItem={mediaItem} />,
     },
   ];
 
