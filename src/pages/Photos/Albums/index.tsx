@@ -3,9 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Heading } from '@/ui/heading';
 
-import CreateAlbumDialogProvider from 'components/photos/CreateAlbumDialogProvider';
-import DeleteAlbumDialogProvider from 'components/photos/DeleteAlbumDialogProvider';
-import RenameAlbumDialogProvider from 'components/photos/RenameAlbumDialogProvider';
+import { AlbumDialogsProvider } from '@/apps/photos/components/dialogs';
 
 import { Page, PageHeader, PageHeaderActions, PageContent } from 'apps/photos/components/page';
 
@@ -18,25 +16,21 @@ export default function Albums() {
   const title = t('photos:pages.albums.title', { defaultValue: 'Albums' });
 
   return (
-    <CreateAlbumDialogProvider>
-      <DeleteAlbumDialogProvider>
-        <RenameAlbumDialogProvider>
-          <Helmet>
-            <title>Shelf Photos</title>
-          </Helmet>
-          <Page>
-            <PageHeader>
-              <Heading className="py-0.5">{title}</Heading>
-              <PageHeaderActions>
-                <CreateAlbumButton />
-              </PageHeaderActions>
-            </PageHeader>
-            <PageContent>
-              <Content />
-            </PageContent>
-          </Page>
-        </RenameAlbumDialogProvider>
-      </DeleteAlbumDialogProvider>
-    </CreateAlbumDialogProvider>
+    <AlbumDialogsProvider>
+      <Helmet>
+        <title>Shelf Photos</title>
+      </Helmet>
+      <Page>
+        <PageHeader>
+          <Heading className="py-0.5">{title}</Heading>
+          <PageHeaderActions>
+            <CreateAlbumButton />
+          </PageHeaderActions>
+        </PageHeader>
+        <PageContent>
+          <Content />
+        </PageContent>
+      </Page>
+    </AlbumDialogsProvider>
   );
 }

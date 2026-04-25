@@ -1,13 +1,13 @@
-import { usePurgeMediaItemsMutation } from 'store/mediaItems';
+import { usePurgeMediaItemsMutation } from '@/store/mediaItems';
 
-import EmptyTrashDialog from 'components/EmptyTrashDialog';
+import EmptyTrashDialog from '@/components/EmptyTrashDialog';
 
 interface Props {
   open: boolean;
   onClose: () => void;
 }
 
-export default function EmptyTrashDialogContainer({ open, onClose }: Props) {
+export function EmptyTrashDialogContainer({ open, onClose }: Props) {
   const [emptyTrash, { isLoading: loading }] = usePurgeMediaItemsMutation();
 
   const onConfirm = async () => {

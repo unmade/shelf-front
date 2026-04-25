@@ -8,7 +8,7 @@ import type { IAction } from '@/hooks/file-actions';
 
 import { useRestoreMediaItemsMutation } from '@/store/mediaItems';
 
-import { useDeleteMediaItemsImmediatelyDialog } from '@/components/photos/DeleteMediaItemsImmediatelyDialogProvider';
+import { useDeleteMediaItemsImmediatelyDialog } from '@/apps/photos/components/dialogs';
 
 export function useDeleteImmediatelyAction(mediaItems: IMediaItem[]): IAction | null {
   const { t } = useTranslation('photos');

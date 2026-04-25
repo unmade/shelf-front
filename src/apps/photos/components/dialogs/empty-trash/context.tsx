@@ -1,7 +1,7 @@
 import type React from 'react';
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 
-import EmptyTrashDialogContainer from './EmptyTrashDialogContainer';
+import { EmptyTrashDialogContainer } from './dialog';
 
 interface ContextValue {
   openDialog: () => void;
@@ -13,8 +13,8 @@ interface Props {
   children: React.ReactNode;
 }
 
-export default function EmptyMediaItemsTrashDialogProvider({ children }: Props) {
-  const [open, setOpen] = useState<boolean>(false);
+export function EmptyTrashDialogProvider({ children }: Props) {
+  const [open, setOpen] = useState(false);
 
   const openDialog = useCallback(() => {
     setOpen(true);
@@ -34,12 +34,10 @@ export default function EmptyMediaItemsTrashDialogProvider({ children }: Props) 
   );
 }
 
-export function useEmptyMediaItemsTrashDialog() {
+export function useEmptyTrashDialog(): ContextValue {
   const value = useContext(EmptyTrashDialogContext);
   if (value == null) {
-    throw new Error(
-      '`useEmptyMediaItemsTrashDialog` must be used within a `EmptyMediaItemsTrashDialogProvider`',
-    );
+    throw new Error('`useEmptyTrashDialog` must be used within a `EmptyTrashDialogProvider`');
   }
   return value;
 }

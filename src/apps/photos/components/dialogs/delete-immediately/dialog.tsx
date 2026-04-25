@@ -1,8 +1,8 @@
-import type { IMediaItem } from 'types/photos';
+import type { IMediaItem } from '@/types/photos';
 
-import { useDeleteMediaItemsImmediatelyMutation } from 'store/mediaItems';
+import { useDeleteMediaItemsImmediatelyMutation } from '@/store/mediaItems';
 
-import DeleteImmediatelyDialog from 'components/DeleteImmediatelyDialog';
+import DeleteImmediatelyDialog from '@/components/DeleteImmediatelyDialog';
 
 interface Props {
   mediaItems: IMediaItem[];
@@ -10,7 +10,7 @@ interface Props {
   onClose: () => void;
 }
 
-export default function DeleteImmediatelyDialogContainer({ mediaItems, open, onClose }: Props) {
+export function DeleteMediaItemsImmediatelyDialog({ mediaItems, open, onClose }: Props) {
   const [deleteMediaItems, { isLoading: loading }] = useDeleteMediaItemsImmediatelyMutation();
 
   const onConfirm = async () => {

@@ -1,7 +1,7 @@
 import type React from 'react';
-import { createContext, useContext, useState, useMemo, useCallback } from 'react';
+import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 
-import CreateAlbumDialog from './CreateAlbumDialog';
+import { CreateAlbumDialog } from './dialog';
 
 interface ContextValue {
   openDialog: () => void;
@@ -16,26 +16,25 @@ interface Props {
 interface State {
   open: boolean;
 }
+
 const initialState: State = { open: false };
 
-export default function CreateAlbumDialogProvider({ children }: Props) {
+export function CreateAlbumDialogProvider({ children }: Props) {
   const [state, setState] = useState<State>(initialState);
 
   const openDialog = useCallback(() => {
     setState({ open: true });
-  }, [setState]);
+  }, []);
 
-  const closeDialog = () => {
+  const closeDialog = useCallback(() => {
     setState(initialState);
-  };
-
-  const { open } = state;
+  }, []);
 
   const value = useMemo(() => ({ openDialog }), [openDialog]);
 
   return (
     <CreateAlbumDialogContext.Provider value={value}>
-      <CreateAlbumDialog open={open} onClose={closeDialog} />
+      <CreateAlbumDialog open={state.open} onClose={closeDialog} />
       {children}
     </CreateAlbumDialogContext.Provider>
   );
@@ -44,7 +43,7 @@ export default function CreateAlbumDialogProvider({ children }: Props) {
 export function useCreateAlbumDialog(): ContextValue {
   const value = useContext(CreateAlbumDialogContext);
   if (value == null) {
-    throw new Error('`useCreateAlbumDialog` must be used within a `CreateAlbumDialogContext`');
+    throw new Error('`useCreateAlbumDialog` must be used within a `CreateAlbumDialogProvider`');
   }
   return value;
 }

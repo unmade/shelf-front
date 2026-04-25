@@ -16,7 +16,7 @@ import {
   DialogTitle,
 } from '@/ui/dialog';
 
-import AlbumPicker from './AlbumPicker';
+import { AlbumPicker } from './album-picker';
 
 interface Props {
   mediaItems: IMediaItem[];
@@ -24,12 +24,13 @@ interface Props {
   onClose: () => void;
 }
 
-export default function AddToAlbumDialog({ mediaItems, open, onClose }: Props) {
+export function AddToAlbumDialog({ mediaItems, open, onClose }: Props) {
   const { t } = useTranslation('photos');
 
   const [addAlbumItems] = useAddAlbumItemsMutation();
 
   const mediaItemIds = mediaItems.map((item) => item.id);
+
   const onItemClick = useCallback(
     async (albumSlug: string) => {
       try {
@@ -39,11 +40,11 @@ export default function AddToAlbumDialog({ mediaItems, open, onClose }: Props) {
         // skip error
       }
     },
-    [mediaItemIds, addAlbumItems, onClose],
+    [addAlbumItems, mediaItemIds, onClose],
   );
 
-  const handleOpenChanged = (open: boolean) => {
-    if (!open) {
+  const handleOpenChanged = (isOpen: boolean) => {
+    if (!isOpen) {
       onClose();
     }
   };
@@ -60,9 +61,10 @@ export default function AddToAlbumDialog({ mediaItems, open, onClose }: Props) {
           </DialogTitle>
         </DialogHeader>
         <DialogBody>
-          <div className="flex min-h-[40vh] sm:min-h-[60vh]">
-            <AlbumPicker className="flex-1" onItemClick={onItemClick} />
-          </div>
+          <AlbumPicker
+            className="flex min-h-[40vh] flex-col sm:min-h-[60vh] sm:w-md"
+            onItemClick={onItemClick}
+          />
         </DialogBody>
         <DialogFooter>
           <DialogClose asChild>

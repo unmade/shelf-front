@@ -12,9 +12,9 @@ import { ImageIcon } from '@/icons';
 
 import { Thumbnail, ThumbnailFallback, ThumbnailImage } from '@/components/thumbnail';
 
-import type { ItemDataProps } from '../AlbumListView';
+import type { ItemData } from './list';
 
-function AlbumListItem({ data, index, style }: ListChildComponentProps<ItemDataProps>) {
+function AlbumPickerItem({ data, index, style }: ListChildComponentProps<ItemData>) {
   const { ids, onItemClick, selectById } = data;
 
   const album = useAppSelector<IAlbum | undefined>(
@@ -23,18 +23,20 @@ function AlbumListItem({ data, index, style }: ListChildComponentProps<ItemDataP
   );
 
   const onClick = React.useCallback(() => {
-    if (onItemClick) {
+    if (onItemClick != null) {
       onItemClick(album?.slug ?? '');
     }
   }, [album, onItemClick]);
 
-  if (!album) return null;
+  if (album == null) {
+    return null;
+  }
 
   return (
     <div style={style} className="py-1">
       <button
         type="button"
-        className="flex h-full w-full items-center justify-start rounded-xl bg-gray-50 px-3 py-3 text-left dark:bg-zinc-900/50"
+        className="flex h-full w-full shrink-0 items-center justify-start rounded-lg bg-white/50 px-3 py-3 text-left dark:bg-zinc-900/50"
         onClick={onClick}
       >
         <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-gray-200 dark:bg-zinc-700">
@@ -51,7 +53,7 @@ function AlbumListItem({ data, index, style }: ListChildComponentProps<ItemDataP
           </Thumbnail>
         </div>
         <div className="ml-3 flex min-w-0 flex-1 flex-col">
-          <span className="truncate font-medium text-gray-900 dark:text-gray-100">
+          <span className="truncate text-sm font-medium text-gray-900 dark:text-gray-100">
             {album.title}
           </span>
           <span className="mt-1 text-xs text-gray-500 dark:text-gray-400">
@@ -63,4 +65,4 @@ function AlbumListItem({ data, index, style }: ListChildComponentProps<ItemDataP
   );
 }
 
-export default React.memo(AlbumListItem);
+export default React.memo(AlbumPickerItem);

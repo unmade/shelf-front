@@ -1,38 +1,31 @@
 import { useMemo } from 'react';
 
-import type { IAlbum } from 'types/photos';
+import type { IAlbum } from '@/types/photos';
 
-import type { RootState } from 'store/store';
+import type { RootState } from '@/store/store';
 
 import { Spinner } from '@/ui/spinner';
 import { VList } from '@/ui/vlist';
 
-import AlbumListItem from 'components/photos/AlbumListItem';
+import AlbumPickerItem from './item';
 
-export interface ItemDataProps {
+export interface ItemData {
   ids: string[];
   onItemClick?: (id: string) => void;
   selectById: (state: RootState, id: string) => IAlbum | undefined;
 }
 
 interface Props {
-  className?: string;
   ids: string[];
   loading: boolean;
   onItemClick?: (id: string) => void;
   selectById: (state: RootState, id: string) => IAlbum | undefined;
 }
 
-export default function AlbumListView({
-  className,
-  ids,
-  loading = false,
-  onItemClick,
-  selectById,
-}: Props) {
-  const data: ItemDataProps = useMemo(
+export function AlbumPickerList({ ids, loading = false, onItemClick, selectById }: Props) {
+  const itemData: ItemData = useMemo(
     () => ({
-      ids: ids ?? [],
+      ids,
       onItemClick,
       selectById,
     }),
@@ -44,13 +37,11 @@ export default function AlbumListView({
   }
 
   return (
-    <div className={className}>
-      <VList
-        itemData={data}
-        itemCount={ids?.length ?? 0}
-        itemRenderer={AlbumListItem}
-        itemHeight={84}
-      />
-    </div>
+    <VList
+      itemData={itemData}
+      itemCount={ids.length}
+      itemRenderer={AlbumPickerItem}
+      itemHeight={84}
+    />
   );
 }

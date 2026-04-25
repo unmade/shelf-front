@@ -25,19 +25,18 @@ interface Props {
   onClose: () => void;
 }
 
-export default function RenameAlbumDialog({ album, open, onClose }: Props) {
+export function RenameAlbumDialog({ album, open, onClose }: Props) {
   const { t } = useTranslation('photos');
 
   const [error, setError] = useState<string | null>(null);
-
   const [updateAlbum, { isLoading: renaming }] = useUpdateAlbumMutation();
 
   const onInputChange = () => {
     setError(null);
   };
 
-  const handleOpenChanged = (open: boolean) => {
-    if (!open) {
+  const handleOpenChanged = (isOpen: boolean) => {
+    if (!isOpen) {
       setError(null);
       onClose();
     }
@@ -46,7 +45,7 @@ export default function RenameAlbumDialog({ album, open, onClose }: Props) {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!album) {
+    if (album == null) {
       return;
     }
 
@@ -109,7 +108,7 @@ export default function RenameAlbumDialog({ album, open, onClose }: Props) {
                 onChange={onInputChange}
                 defaultValue={album?.title ?? ''}
               />
-              {error && <FieldError>{error}</FieldError>}
+              {error ? <FieldError>{error}</FieldError> : null}
             </Field>
           </DialogBody>
           <DialogFooter>

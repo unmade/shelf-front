@@ -1,9 +1,8 @@
-import type React from 'react';
-import { createContext, useContext, useState, useMemo, useCallback } from 'react';
+import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 
-import type { IAlbum } from 'types/photos';
+import type { IAlbum } from '@/types/photos';
 
-import RenameAlbumDialog from './RenameAlbumDialog';
+import { RenameAlbumDialog } from './dialog';
 
 interface ContextValue {
   openDialog: (album: IAlbum) => void;
@@ -19,29 +18,25 @@ interface State {
   album: IAlbum | null;
   open: boolean;
 }
+
 const initialState: State = { album: null, open: false };
 
-export default function RenameAlbumDialogProvider({ children }: Props) {
+export function RenameAlbumDialogProvider({ children }: Props) {
   const [state, setState] = useState<State>(initialState);
 
-  const openDialog = useCallback(
-    (album: IAlbum) => {
-      setState({ album, open: true });
-    },
-    [setState],
-  );
+  const openDialog = useCallback((album: IAlbum) => {
+    setState({ album, open: true });
+  }, []);
 
-  const closeDialog = () => {
+  const closeDialog = useCallback(() => {
     setState(initialState);
-  };
-
-  const { album, open } = state;
+  }, []);
 
   const value = useMemo(() => ({ openDialog }), [openDialog]);
 
   return (
     <RenameAlbumDialogContext.Provider value={value}>
-      <RenameAlbumDialog open={open} album={album} onClose={closeDialog} />
+      <RenameAlbumDialog open={state.open} album={state.album} onClose={closeDialog} />
       {children}
     </RenameAlbumDialogContext.Provider>
   );
@@ -50,7 +45,7 @@ export default function RenameAlbumDialogProvider({ children }: Props) {
 export function useRenameAlbumDialog(): ContextValue {
   const value = useContext(RenameAlbumDialogContext);
   if (value == null) {
-    throw new Error('`useRenameAlbumDialog` must be used within a `RenameAlbumDialogContext`');
+    throw new Error('`useRenameAlbumDialog` must be used within a `RenameAlbumDialogProvider`');
   }
   return value;
 }

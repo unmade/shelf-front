@@ -20,8 +20,7 @@ import { useIsLaptop } from '@/hooks/media-query';
 import { useRemoveAlbumItemsMutation, useSetAlbumCoverMutation } from '@/store/albums';
 import { downloadMediaItemsBatch } from '@/store/mediaItems';
 
-import { useDeleteMediaItemsDialog } from '@/components/photos/DeleteMediaItemsDialogProvider';
-import { useAddToAlbumDialog } from '@/components/photos/AddToAlbumDialogProvider';
+import { useAddToAlbumDialog, useDeleteMediaItemsDialog } from '@/apps/photos/components/dialogs';
 
 import { useToggleFavourite } from '@/apps/photos/hooks/toggle-favourite';
 

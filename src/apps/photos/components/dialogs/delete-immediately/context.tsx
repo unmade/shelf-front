@@ -1,9 +1,9 @@
 import type React from 'react';
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 
-import type { IMediaItem } from 'types/photos';
+import type { IMediaItem } from '@/types/photos';
 
-import DeleteImmediatelyDialogContainer from './DeleteImmediatelyDialogContainer';
+import { DeleteMediaItemsImmediatelyDialog } from './dialog';
 
 interface ContextValue {
   openDialog: (mediaItems: IMediaItem[]) => void;
@@ -22,27 +22,26 @@ interface State {
 
 const initialState: State = { mediaItems: [], open: false };
 
-export default function DeleteMediaItemsImmediatelyDialogProvider({ children }: Props) {
+export function DeleteMediaItemsImmediatelyDialogProvider({ children }: Props) {
   const [state, setState] = useState<State>(initialState);
 
-  const openDialog = useCallback(
-    (mediaItems: IMediaItem[]) => {
-      setState({ mediaItems, open: true });
-    },
-    [setState],
-  );
+  const openDialog = useCallback((mediaItems: IMediaItem[]) => {
+    setState({ mediaItems, open: true });
+  }, []);
 
-  const closeDialog = () => {
+  const closeDialog = useCallback(() => {
     setState(initialState);
-  };
-
-  const { mediaItems, open } = state;
+  }, []);
 
   const value = useMemo(() => ({ openDialog }), [openDialog]);
 
   return (
     <DeleteImmediatelyDialogContext.Provider value={value}>
-      <DeleteImmediatelyDialogContainer open={open} mediaItems={mediaItems} onClose={closeDialog} />
+      <DeleteMediaItemsImmediatelyDialog
+        open={state.open}
+        mediaItems={state.mediaItems}
+        onClose={closeDialog}
+      />
       {children}
     </DeleteImmediatelyDialogContext.Provider>
   );

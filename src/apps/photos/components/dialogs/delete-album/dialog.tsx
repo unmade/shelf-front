@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import type { IAlbum } from '@/types/photos';
@@ -15,7 +16,6 @@ import {
   DialogTitle,
 } from '@/ui/dialog';
 import { Strong } from '@/ui/text';
-import { useCallback } from 'react';
 
 interface Props {
   open: boolean;
@@ -23,13 +23,16 @@ interface Props {
   onClose: () => void;
 }
 
-export default function DeleteAlbumDialog({ open, album, onClose }: Props) {
+export function DeleteAlbumDialog({ open, album, onClose }: Props) {
   const { t } = useTranslation('photos');
 
   const [deleteAlbum, { isLoading: deleting }] = useDeleteAlbumMutation();
 
   const handleConfirm = async () => {
-    if (!album) return;
+    if (album == null) {
+      return;
+    }
+
     try {
       await deleteAlbum(album.slug).unwrap();
       onClose();
@@ -39,8 +42,8 @@ export default function DeleteAlbumDialog({ open, album, onClose }: Props) {
   };
 
   const handleOpenChanged = useCallback(
-    (open: boolean) => {
-      if (!open) {
+    (isOpen: boolean) => {
+      if (!isOpen) {
         onClose();
       }
     },

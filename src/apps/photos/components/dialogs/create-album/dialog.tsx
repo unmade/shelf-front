@@ -1,7 +1,6 @@
-import React from 'react';
-
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, resolvePath } from 'react-router';
+import { resolvePath, useNavigate } from 'react-router';
 
 import * as routes from '@/routes';
 
@@ -25,14 +24,13 @@ interface Props {
   onClose: () => void;
 }
 
-export default function CreateAlbumDialog({ open, onClose }: Props) {
+export function CreateAlbumDialog({ open, onClose }: Props) {
   const { t } = useTranslation();
 
   const navigate = useNavigate();
 
   const [createAlbum, { isLoading: loading }] = useCreateAlbumMutation();
-
-  const [error, setError] = React.useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const onInputChange = () => {
     if (error != null) {
@@ -40,8 +38,8 @@ export default function CreateAlbumDialog({ open, onClose }: Props) {
     }
   };
 
-  const handleOpenChanged = (open: boolean) => {
-    if (!open) {
+  const handleOpenChanged = (isOpen: boolean) => {
+    if (!isOpen) {
       setError(null);
       onClose();
     }
@@ -101,7 +99,7 @@ export default function CreateAlbumDialog({ open, onClose }: Props) {
                 aria-invalid={!!error}
                 onChange={onInputChange}
               />
-              {error && <FieldError>{error}</FieldError>}
+              {error ? <FieldError>{error}</FieldError> : null}
             </Field>
           </DialogBody>
           <DialogFooter>

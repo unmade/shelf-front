@@ -14,9 +14,7 @@ import { Button } from '@/ui/button';
 import { Heading } from '@/ui/heading';
 import { Spinner } from '@/ui/spinner';
 
-import AddToAlbumDialogProvider from '@/components/photos/AddToAlbumDialogProvider';
-import DeleteMediaItemsDialogProvider from '@/components/photos/DeleteMediaItemsDialogProvider';
-import DeleteMediaItemsImmediatelyDialogProvider from '@/components/photos/DeleteMediaItemsImmediatelyDialogProvider';
+import { MediaItemDialogsProvider } from '@/apps/photos/components/dialogs';
 
 import { Page, PageHeader, PageContent } from '@/apps/photos/components/page';
 
@@ -46,30 +44,26 @@ export default function Album() {
     });
 
   return (
-    <AddToAlbumDialogProvider>
-      <DeleteMediaItemsDialogProvider>
-        <DeleteMediaItemsImmediatelyDialogProvider>
-          <Helmet>
-            <title>Shelf Photos</title>
-          </Helmet>
+    <MediaItemDialogsProvider>
+      <Helmet>
+        <title>Shelf Photos</title>
+      </Helmet>
 
-          <Page>
-            <PageHeader>
-              <div className="flex items-center gap-2">
-                <Button variant="ghost" size="icon" asChild>
-                  <Link to={routes.PHOTOS_ALBUMS.prefix}>
-                    <ArrowLeftStrokeIcon data-slot="icon" />
-                  </Link>
-                </Button>
-                <Heading className="py-0.5">{title}</Heading>
-              </div>
-            </PageHeader>
-            <PageContent>
-              {isLoading ? <Spinner className="h-full" /> : <Content album={album!} />}
-            </PageContent>
-          </Page>
-        </DeleteMediaItemsImmediatelyDialogProvider>
-      </DeleteMediaItemsDialogProvider>
-    </AddToAlbumDialogProvider>
+      <Page>
+        <PageHeader>
+          <div className="flex items-center gap-2">
+            <Button variant="ghost" size="icon" asChild>
+              <Link to={routes.PHOTOS_ALBUMS.prefix}>
+                <ArrowLeftStrokeIcon data-slot="icon" />
+              </Link>
+            </Button>
+            <Heading className="py-0.5">{title}</Heading>
+          </div>
+        </PageHeader>
+        <PageContent>
+          {isLoading ? <Spinner className="h-full" /> : <Content album={album!} />}
+        </PageContent>
+      </Page>
+    </MediaItemDialogsProvider>
   );
 }

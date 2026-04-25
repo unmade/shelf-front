@@ -1,8 +1,8 @@
-import type { IMediaItem } from 'types/photos';
+import type { IMediaItem } from '@/types/photos';
 
-import { useDeleteMediaItemsMutation } from 'store/mediaItems';
+import { useDeleteMediaItemsMutation } from '@/store/mediaItems';
 
-import DeleteDialog from 'components/DeleteDialog';
+import DeleteDialog from '@/components/DeleteDialog';
 
 interface Props {
   mediaItems: IMediaItem[];
@@ -10,7 +10,7 @@ interface Props {
   onClose: () => void;
 }
 
-export default function DeleteDialogContainer({ mediaItems, open: open, onClose }: Props) {
+export function DeleteMediaItemsDialog({ mediaItems, open, onClose }: Props) {
   const [deleteMediaItems, { isLoading: loading }] = useDeleteMediaItemsMutation();
 
   const onConfirm = async () => {

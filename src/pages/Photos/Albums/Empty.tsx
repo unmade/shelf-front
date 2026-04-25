@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '@/ui/button';
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from '@/ui/empty';
 
-import { useCreateAlbumDialog } from 'components/photos/CreateAlbumDialogProvider';
+import { useCreateAlbumDialog } from '@/apps/photos/components/dialogs';
 
 export default function EmptyContainer() {
   const { t } = useTranslation('photos');

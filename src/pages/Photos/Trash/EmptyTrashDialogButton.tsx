@@ -4,12 +4,12 @@ import { TrashIcon } from '@/icons';
 
 import { Button } from '@/ui/button';
 
-import { useEmptyMediaItemsTrashDialog } from '@/components/photos/EmptyMediaItemsTrashDialogProvider';
+import { useEmptyTrashDialog } from '@/apps/photos/components/dialogs';
 
 export default function EmptyTrashDialogButton() {
   const { t } = useTranslation('photos');
 
-  const { openDialog } = useEmptyMediaItemsTrashDialog();
+  const { openDialog } = useEmptyTrashDialog();
 
   return (
     <Button

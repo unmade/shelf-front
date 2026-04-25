@@ -8,8 +8,7 @@ import { CloseIcon, RenameIcon, TrashIcon } from '@/icons';
 
 import type { IAction } from '@/hooks/file-actions';
 
-import { useDeleteAlbumDialog } from '@/components/photos/DeleteAlbumDialogProvider';
-import { useRenameAlbumDialog } from '@/components/photos/RenameAlbumDialogProvider';
+import { useDeleteAlbumDialog, useRenameAlbumDialog } from '@/apps/photos/components/dialogs';
 
 export function useDeleteAlbumAction(album: IAlbum): IAction {
   const { t } = useTranslation('photos');
