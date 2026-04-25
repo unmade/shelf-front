@@ -1,5 +1,6 @@
-import { Exif } from '@/components/Exif';
 import { useGetMediaItemContentMetadataQuery } from '@/store/mediaItems';
+
+import { Exif } from '@/components/Exif';
 
 interface Props {
   mediaItemId: string;

@@ -14,7 +14,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { FileSize } from '@/ui/filesize';
 import { TimeAgo } from '@/ui/timeago';
 
-import MediaItemExif from '@/components/photos/MediaItemExif';
+import MediaItemExif from '@/apps/photos/components/media-item-exif';
 import AdjustButton from '@/components/photos/Gallery/Categories/AdjustButton';
 import CategoryList from '@/components/photos/Gallery/Categories/CategoryList';
 
