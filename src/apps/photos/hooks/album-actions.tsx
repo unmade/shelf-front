@@ -1,15 +1,15 @@
 import { useTranslation } from 'react-i18next';
 
-import type { IAlbum } from 'types/photos';
+import type { IAlbum } from '@/types/photos';
 
-import { useRemoveAlbumCoverMutation } from 'store/albums';
+import { useRemoveAlbumCoverMutation } from '@/store/albums';
 
 import { CloseIcon, RenameIcon, TrashIcon } from '@/icons';
 
-import type { IAction } from 'hooks/file-actions';
+import type { IAction } from '@/hooks/file-actions';
 
-import { useDeleteAlbumDialog } from '../DeleteAlbumDialogProvider';
-import { useRenameAlbumDialog } from '../RenameAlbumDialogProvider';
+import { useDeleteAlbumDialog } from '@/components/photos/DeleteAlbumDialogProvider';
+import { useRenameAlbumDialog } from '@/components/photos/RenameAlbumDialogProvider';
 
 export function useDeleteAlbumAction(album: IAlbum): IAction {
   const { t } = useTranslation('photos');

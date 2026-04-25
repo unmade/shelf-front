@@ -1,4 +1,4 @@
-import usePaginatedAlbumsQuery from 'components/photos/hooks/list-albums';
+import usePaginatedAlbumsQuery from '@/apps/photos/hooks/list-albums';
 
 import AlbumListView from '../AlbumListView';
 

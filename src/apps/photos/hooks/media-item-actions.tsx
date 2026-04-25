@@ -20,12 +20,12 @@ import { useIsLaptop } from '@/hooks/media-query';
 import { useRemoveAlbumItemsMutation, useSetAlbumCoverMutation } from '@/store/albums';
 import { downloadMediaItemsBatch } from '@/store/mediaItems';
 
+import { useDeleteMediaItemsDialog } from '@/components/photos/DeleteMediaItemsDialogProvider';
+import { useAddToAlbumDialog } from '@/components/photos/AddToAlbumDialogProvider';
+
+import { useToggleFavourite } from '@/apps/photos/hooks/toggle-favourite';
+
 import { useMediaItemInfoSheet } from '@/apps/photos/components/media-item-info-sheet';
-
-import { useDeleteMediaItemsDialog } from '../DeleteMediaItemsDialogProvider';
-import { useAddToAlbumDialog } from '../AddToAlbumDialogProvider';
-
-import { useToggleFavourite } from './toggle-favourite';
 
 export function useAddToAlbumAction(mediaItems: IMediaItem[]): IAction | null {
   const { t } = useTranslation('photos');

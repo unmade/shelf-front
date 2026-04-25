@@ -20,11 +20,11 @@ import {
   useDownloadBatchAction,
   useFavouriteAction,
   useInformationAction,
-} from '@/components/photos/hooks/media-item-actions';
+} from '@/apps/photos/hooks/media-item-actions';
 import {
   useDeleteImmediatelyAction,
   useRestoreAction,
-} from '@/components/photos/hooks/deleted-media-item-actions';
+} from '@/apps/photos/hooks/deleted-media-item-actions';
 
 import { useSelectMediaItems } from '@/apps/photos/components/media-item-browser/contexts/data';
 

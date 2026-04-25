@@ -1,14 +1,14 @@
 import { useTranslation } from 'react-i18next';
 
-import type { IMediaItem } from 'types/photos';
+import type { IMediaItem } from '@/types/photos';
 
 import { TrashIcon, UndoIcon } from '@/icons';
 
-import type { IAction } from 'hooks/file-actions';
+import type { IAction } from '@/hooks/file-actions';
 
-import { useRestoreMediaItemsMutation } from 'store/mediaItems';
+import { useRestoreMediaItemsMutation } from '@/store/mediaItems';
 
-import { useDeleteMediaItemsImmediatelyDialog } from '../DeleteMediaItemsImmediatelyDialogProvider';
+import { useDeleteMediaItemsImmediatelyDialog } from '@/components/photos/DeleteMediaItemsImmediatelyDialogProvider';
 
 export function useDeleteImmediatelyAction(mediaItems: IMediaItem[]): IAction | null {
   const { t } = useTranslation('photos');

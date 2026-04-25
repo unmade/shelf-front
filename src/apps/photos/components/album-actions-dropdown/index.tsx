@@ -16,7 +16,7 @@ import {
   useDeleteAlbumAction,
   useRemoveAlbumCoverAction,
   useRenameAlbumAction,
-} from '@/components/photos/hooks/album-actions';
+} from '@/apps/photos/hooks/album-actions';
 
 interface ActionGroup {
   key: string;
