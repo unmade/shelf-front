@@ -7,13 +7,12 @@ import { SidebarLayout } from '@/ui/sidebar-layout';
 import AppNavbar from 'components/AppNavbar';
 import AppSidebar from 'components/AppSidebar';
 
-import Library from 'pages/Photos/Library';
-import Albums from 'pages/Photos/Albums';
-import Album from 'pages/Photos/Album';
-import Favourites from 'pages/Photos/Favourites';
-import Trash from 'pages/Photos/Trash';
-
 import appConfig from './config';
+import Album from './pages/album';
+import Albums from './pages/albums';
+import Favourites from './pages/favourites';
+import Library from './pages/library';
+import Trash from './pages/trash';
 
 export default function App() {
   return (
