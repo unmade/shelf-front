@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 
 import { Toggle, type ToggleVariants } from '@/ui/toggle';
 
-import { useToggleFavourite } from '@/components/photos/hooks/toggle-favourite';
+import { useToggleFavourite } from '@/apps/photos/hooks/toggle-favourite';
 
 interface Props {
   className?: string | ((state: { favourite: boolean }) => string);

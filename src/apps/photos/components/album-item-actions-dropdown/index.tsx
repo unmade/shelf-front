@@ -16,7 +16,7 @@ import {
   useInformationAction,
   useRemoveFromAlbumAction,
   useSetAlbumCoverAction,
-} from '@/components/photos/hooks/media-item-actions';
+} from '@/apps/photos/hooks/media-item-actions';
 
 import {
   type MediaItemActionsDropdownProps,

@@ -12,7 +12,7 @@ import {
   EmptyTitle,
 } from '@/ui/empty';
 
-import { useCreateAlbumDialog } from '@/components/photos/CreateAlbumDialogProvider';
+import { useCreateAlbumDialog } from '@/apps/photos/components/dialogs';
 
 interface AlbumsBrowserEmptyProps {
   title?: string;

@@ -1,7 +1,5 @@
 import { SelectionProvider } from '@/components/SelectionProvider';
 
-import AdjustCategoriesDialogProvider from '@/components/photos/Gallery/AdjustCategoriesDialogProvider';
-
 import type { MediaItemActionsDropdownProps } from '@/apps/photos/components/media-item-actions-dropdown';
 import { MediaItemInfoSheetProvider } from '@/apps/photos/components/media-item-info-sheet';
 
@@ -18,18 +16,16 @@ interface MediaItemBrowserProps {
 
 export function MediaItemBrowser({ mediaItemActionsDropdown }: MediaItemBrowserProps) {
   return (
-    <AdjustCategoriesDialogProvider>
-      <MediaItemInfoSheetProvider>
-        <MediaItemBrowserProvider mediaItemActionsDropdown={mediaItemActionsDropdown}>
-          <SelectionProvider>
-            <div className="flex h-full min-h-0 flex-col">
-              <MediaItemBrowserHeader />
-              <MediaItemBrowserContent />
-            </div>
-            <Gallery />
-          </SelectionProvider>
-        </MediaItemBrowserProvider>
-      </MediaItemInfoSheetProvider>
-    </AdjustCategoriesDialogProvider>
+    <MediaItemInfoSheetProvider>
+      <MediaItemBrowserProvider mediaItemActionsDropdown={mediaItemActionsDropdown}>
+        <SelectionProvider>
+          <div className="flex h-full min-h-0 flex-col">
+            <MediaItemBrowserHeader />
+            <MediaItemBrowserContent />
+          </div>
+          <Gallery />
+        </SelectionProvider>
+      </MediaItemBrowserProvider>
+    </MediaItemInfoSheetProvider>
   );
 }

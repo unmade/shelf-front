@@ -14,13 +14,14 @@ import { FileSize } from '@/ui/filesize';
 import { Text } from '@/ui/text';
 import { TimeAgo } from '@/ui/timeago';
 
+import { useDownloadBatchAction } from '@/apps/photos/hooks/media-item-actions';
+
 import { FavouriteToggle } from '@/apps/photos/components/favourite-toggle';
 import { MediaItemSections } from '@/apps/photos/components/media-item-sections';
 
-import { useDownloadBatchAction } from '@/components/photos/hooks/media-item-actions';
+import { useMediaItemBrowser } from '../contexts/ui';
 
 import { useGallery, useSelectGallerySlide } from './context';
-import { useMediaItemBrowser } from '../contexts/ui';
 
 function Title({ name }: { name: string }) {
   return (

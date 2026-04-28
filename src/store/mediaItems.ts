@@ -338,27 +338,6 @@ export const photosApi = apiSlice.injectEndpoints({
       },
     }),
 
-    setMediaItemCategories: builder.mutation<void, { mediaItemId: string; categories: string[] }>({
-      query: ({ mediaItemId, categories }) => ({
-        url: '/photos/media_items/set_categories',
-        method: 'POST',
-        body: { media_item_id: mediaItemId, categories },
-      }),
-      async onQueryStarted({ mediaItemId, categories }, { dispatch, queryFulfilled }) {
-        await queryFulfilled;
-        dispatch(
-          photosApi.util.updateQueryData('listMediaItemCategories', mediaItemId, () => ({
-            mediaItemId,
-            categories: categories.map((name) => ({
-              name,
-              origin: 'user' as const,
-              probability: 100,
-            })),
-          })),
-        );
-      },
-    }),
-
     unmarkFavouriteMediaItems: builder.mutation<void, string[]>({
       query: (mediaItemIds) => ({
         url: '/photos/media_items/favourites/unmark_batch',
@@ -415,7 +394,6 @@ export const {
   useMarkFavouriteMediaItemsMutation,
   usePurgeMediaItemsMutation,
   useRestoreMediaItemsMutation,
-  useSetMediaItemCategoriesMutation,
   useUnmarkFavouriteMediaItemsMutation,
 } = photosApi;
 
