@@ -6,6 +6,7 @@ import {
   type ListChildComponentProps,
   type ListOnItemsRenderedProps,
 } from 'react-window';
+import InfiniteLoader from 'react-window-infinite-loader';
 
 export type ItemRendererProps<T> = ListChildComponentProps<T>;
 
@@ -16,6 +17,7 @@ interface Props<T> {
   itemCount: number;
   itemData: T;
   itemHeight?: number;
+  loadMore?: () => void;
   scrollKey?: string;
   itemRenderer: React.FC<ItemRendererProps<T>>;
   onScrollOffsetChange?: (args: { key: string; offset: number }) => void;
@@ -28,6 +30,7 @@ export function VList<T>({
   itemCount,
   itemData,
   itemHeight = 64,
+  loadMore,
   scrollKey,
   itemRenderer: View,
   onScrollOffsetChange,
@@ -50,18 +53,34 @@ export function VList<T>({
   return (
     <AutoSizer>
       {({ height, width }) => (
-        <FixedSizeList
-          initialScrollOffset={itemHeight * initialScrollOffset}
-          height={height - heightOffset}
+        <InfiniteLoader
+          isItemLoaded={loadMore == null ? () => true : (index) => index < itemCount - 1}
           itemCount={itemCount}
-          itemData={itemData}
-          itemSize={itemHeight}
-          width={width}
-          className={className}
-          onItemsRendered={shouldTrackScrolling ? handleItemsRendered : undefined}
+          loadMoreItems={() => {
+            loadMore?.();
+          }}
         >
-          {View}
-        </FixedSizeList>
+          {({ onItemsRendered, ref }) => (
+            <FixedSizeList
+              ref={ref}
+              initialScrollOffset={itemHeight * initialScrollOffset}
+              height={height - heightOffset}
+              itemCount={itemCount}
+              itemData={itemData}
+              itemSize={itemHeight}
+              width={width}
+              className={className}
+              onItemsRendered={(props) => {
+                onItemsRendered(props);
+                if (shouldTrackScrolling) {
+                  handleItemsRendered(props);
+                }
+              }}
+            >
+              {View}
+            </FixedSizeList>
+          )}
+        </InfiniteLoader>
       )}
     </AutoSizer>
   );

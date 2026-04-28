@@ -24,13 +24,15 @@ interface DialogsProviderProps {
 
 export function MediaItemDialogsProvider({ children }: DialogsProviderProps) {
   return (
-    <AddToAlbumDialogProvider>
-      <DeleteMediaItemsDialogProvider>
-        <DeleteMediaItemsImmediatelyDialogProvider>
-          {children}
-        </DeleteMediaItemsImmediatelyDialogProvider>
-      </DeleteMediaItemsDialogProvider>
-    </AddToAlbumDialogProvider>
+    <CreateAlbumDialogProvider>
+      <AddToAlbumDialogProvider>
+        <DeleteMediaItemsDialogProvider>
+          <DeleteMediaItemsImmediatelyDialogProvider>
+            {children}
+          </DeleteMediaItemsImmediatelyDialogProvider>
+        </DeleteMediaItemsDialogProvider>
+      </AddToAlbumDialogProvider>
+    </CreateAlbumDialogProvider>
   );
 }
 

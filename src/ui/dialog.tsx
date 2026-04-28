@@ -120,7 +120,7 @@ function DialogHeader({ className, ...props }: React.ComponentProps<'div'>) {
 }
 
 function DialogBody({ className = '', ...props }: React.ComponentProps<'div'>) {
-  return <div data-slot="dialog-body" className={'mt-6' + className} {...props} />;
+  return <div data-slot="dialog-body" className={cn('mt-6', className)} {...props} />;
 }
 
 function DialogFooter({ className, ...props }: React.ComponentProps<'div'>) {

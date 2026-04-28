@@ -1,8 +1,5 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { resolvePath, useNavigate } from 'react-router';
-
-import * as routes from '@/routes';
 
 import { useCreateAlbumMutation } from '@/store/albums';
 
@@ -26,8 +23,6 @@ interface Props {
 
 export function CreateAlbumDialog({ open, onClose }: Props) {
   const { t } = useTranslation();
-
-  const navigate = useNavigate();
 
   const [createAlbum, { isLoading: loading }] = useCreateAlbumMutation();
   const [error, setError] = useState<string | null>(null);
@@ -62,8 +57,7 @@ export function CreateAlbumDialog({ open, onClose }: Props) {
     }
 
     try {
-      const album = await createAlbum({ title: albumTitle }).unwrap();
-      navigate(resolvePath(routes.encodePath(album.slug), routes.PHOTOS_ALBUMS.prefix));
+      await createAlbum({ title: albumTitle }).unwrap();
       onClose();
     } catch {
       setError(

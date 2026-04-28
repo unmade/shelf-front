@@ -1,47 +1,69 @@
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 
 import type { IAlbum } from '@/types/photos';
 
-import type { RootState } from '@/store/store';
-
-import { Spinner } from '@/ui/spinner';
-import { VList } from '@/ui/vlist';
+import { type ItemRendererProps, VList } from '@/ui/vlist';
 
 import AlbumPickerItem from './item';
 
 export interface ItemData {
+  entities: Record<string, IAlbum>;
   ids: string[];
-  onItemClick?: (id: string) => void;
-  selectById: (state: RootState, id: string) => IAlbum | undefined;
+  pendingAlbumSlug?: string;
+  onItemClick?: (albumSlug: string) => void;
 }
 
 interface Props {
+  entities: Record<string, IAlbum>;
   ids: string[];
-  loading: boolean;
-  onItemClick?: (id: string) => void;
-  selectById: (state: RootState, id: string) => IAlbum | undefined;
+  loadMore?: () => void;
+  pendingAlbumSlug?: string;
+  onItemClick?: (albumSlug: string) => void;
 }
 
-export function AlbumPickerList({ ids, loading = false, onItemClick, selectById }: Props) {
+const AlbumPickerRowRenderer = memo(function AlbumPickerRowRenderer({
+  data,
+  index,
+  style,
+}: ItemRendererProps<ItemData>) {
+  const album = data.entities[data.ids[index]];
+
+  if (album == null) {
+    return null;
+  }
+
+  return (
+    <div style={style} className="px-1 py-1">
+      <AlbumPickerItem
+        album={album}
+        disabled={data.pendingAlbumSlug != null}
+        loading={data.pendingAlbumSlug === album.slug}
+        onClick={data.onItemClick}
+      />
+    </div>
+  );
+});
+
+AlbumPickerRowRenderer.displayName = 'AlbumPickerRowRenderer';
+
+export function AlbumPickerList({ entities, ids, pendingAlbumSlug, loadMore, onItemClick }: Props) {
   const itemData: ItemData = useMemo(
     () => ({
+      entities,
       ids,
       onItemClick,
-      selectById,
+      pendingAlbumSlug,
     }),
-    [ids, onItemClick, selectById],
+    [entities, ids, onItemClick, pendingAlbumSlug],
   );
-
-  if (loading) {
-    return <Spinner className="flex-1" />;
-  }
 
   return (
     <VList
       itemData={itemData}
       itemCount={ids.length}
-      itemRenderer={AlbumPickerItem}
+      itemRenderer={AlbumPickerRowRenderer}
       itemHeight={84}
+      loadMore={loadMore}
     />
   );
 }

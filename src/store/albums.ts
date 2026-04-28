@@ -6,7 +6,7 @@ import type { IAlbum, IMediaItem } from 'types/photos';
 
 import apiSlice from './apiSlice';
 import { toMediaItem, type MediaItemSchema } from './mediaItems';
-import type { RootState } from './store';
+import type { AppDispatch, RootState } from './store';
 
 const ALBUM_ITEMS_PAGE_SIZE = 250;
 
@@ -53,6 +53,27 @@ const albumInitialState = albumsAdapter.getInitialState();
 
 export const albumItemsAdapter = createEntityAdapter<IMediaItem>({});
 
+function updateListAlbumsCacheEntries(
+  dispatch: AppDispatch,
+  getState: () => unknown,
+  updateCachedAlbums: (draft: EntityState<IAlbum, string>) => void,
+) {
+  for (const { endpointName, originalArgs } of albumsApi.util.selectInvalidatedBy(
+    getState() as RootState,
+    [{ type: 'Albums', id: 'list' }],
+  )) {
+    if (endpointName === 'listAlbums') {
+      dispatch(
+        albumsApi.util.updateQueryData(
+          'listAlbums',
+          originalArgs as IListAlbumsFilters | undefined,
+          updateCachedAlbums,
+        ),
+      );
+    }
+  }
+}
+
 const albumsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     addAlbumItems: builder.mutation<IAlbum, { albumSlug: string; mediaItemIds: string[] }>({
@@ -67,17 +88,15 @@ const albumsApi = apiSlice.injectEndpoints({
         { type: 'Albums', id: `albumItems:${albumSlug}` },
       ],
       transformResponse: (data: IAlbumsSchema) => toAlbum(data),
-      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+      async onQueryStarted(arg, { dispatch, getState, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
 
-          dispatch(
-            albumsApi.util.updateQueryData('listAlbums', { pageSize: 100 }, (draft) =>
-              albumsAdapter.updateOne(draft, {
-                id: data.slug,
-                changes: data,
-              }),
-            ),
+          updateListAlbumsCacheEntries(dispatch, getState, (draft) =>
+            albumsAdapter.updateOne(draft, {
+              id: data.slug,
+              changes: data,
+            }),
           );
 
           dispatch(albumsApi.util.updateQueryData('getAlbum', data.slug, () => data));
@@ -94,6 +113,17 @@ const albumsApi = apiSlice.injectEndpoints({
         body: { title },
       }),
       transformResponse: (data: IAlbumsSchema) => toAlbum(data),
+      async onQueryStarted(_arg, { dispatch, getState, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+
+          updateListAlbumsCacheEntries(dispatch, getState, (draft) =>
+            albumsAdapter.addOne(draft, data),
+          );
+        } catch {
+          /* empty */
+        }
+      },
     }),
 
     deleteAlbum: builder.mutation<IAlbum, string>({
@@ -102,6 +132,32 @@ const albumsApi = apiSlice.injectEndpoints({
         method: 'DELETE',
       }),
       transformResponse: (data: IAlbumsSchema) => toAlbum(data),
+      async onQueryStarted(albumSlug, { dispatch, queryFulfilled, getState }) {
+        const patches: { undo: () => void }[] = [];
+
+        for (const { endpointName, originalArgs } of albumsApi.util.selectInvalidatedBy(
+          getState(),
+          [{ type: 'Albums', id: 'list' }],
+        )) {
+          if (endpointName === 'listAlbums') {
+            patches.push(
+              dispatch(
+                albumsApi.util.updateQueryData(endpointName, originalArgs, (draft) => {
+                  albumsAdapter.removeOne(draft, albumSlug);
+                }),
+              ),
+            );
+          }
+        }
+
+        try {
+          await queryFulfilled;
+        } catch {
+          patches.forEach((patch) => {
+            patch.undo();
+          });
+        }
+      },
     }),
 
     getAlbum: builder.query<IAlbum, string>({

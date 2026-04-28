@@ -5,12 +5,11 @@ import type { IAlbum } from 'types/photos';
 
 import { albumsAdapter, selectListAlbumsData, useListAlbumsQuery } from 'store/albums';
 
-const initialState = albumsAdapter.getInitialState();
-const { selectIds, selectById: selectAlbumById } = albumsAdapter.getSelectors();
+const { selectIds } = albumsAdapter.getSelectors();
 
 interface Result {
-  ids: string[] | null;
-  selectById: (state: unknown, id: string) => IAlbum | undefined;
+  entities: Record<string, IAlbum>;
+  ids: string[];
   loadMore: () => void;
 }
 
@@ -24,32 +23,39 @@ export default function usePaginatedAlbumsQuery({ pageSize = 1000 }: Args): [Res
   const initialPage = Math.floor(currentData.ids.length / pageSize) + 1;
   const [page, setPage] = useState(initialPage);
 
-  const { data, isLoading: loading } = useListAlbumsQuery(
+  const {
+    data,
+    isFetching,
+    isLoading: loading,
+  } = useListAlbumsQuery(
     { page, pageSize },
     {
-      selectFromResult: ({ data: result, isLoading }) => ({
+      selectFromResult: ({ data: result, isFetching, isLoading }) => ({
         data: result,
+        isFetching,
         isLoading,
       }),
     },
   );
 
-  const selectById = useCallback(
-    (_state: unknown, id: string) => selectAlbumById(data ?? initialState, id),
-    [data],
-  );
+  const albums = data ?? currentData;
+  const hasMore = albums.ids.length >= page * pageSize;
 
   const loadMore = useCallback(() => {
+    if (isFetching || !hasMore) {
+      return;
+    }
+
     setPage((state) => state + 1);
-  }, [setPage]);
+  }, [hasMore, isFetching]);
 
   const result = useMemo(
     () => ({
-      ids: data ? selectIds(data) : null,
-      selectById,
+      entities: albums.entities as Record<string, IAlbum>,
+      ids: selectIds(albums) as string[],
       loadMore,
     }),
-    [data, selectById, loadMore],
+    [albums, loadMore],
   );
 
   return [result, loading];

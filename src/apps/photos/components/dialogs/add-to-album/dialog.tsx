@@ -15,6 +15,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/ui/dialog';
+import { toast } from '@/ui/sonner';
+
+import { useCreateAlbumDialog } from '../create-album';
 
 import { AlbumPicker } from './album-picker';
 
@@ -26,25 +29,52 @@ interface Props {
 
 export function AddToAlbumDialog({ mediaItems, open, onClose }: Props) {
   const { t } = useTranslation('photos');
+  const { openDialog } = useCreateAlbumDialog();
 
-  const [addAlbumItems] = useAddAlbumItemsMutation();
+  const [addAlbumItems, { isLoading: loading, originalArgs }] = useAddAlbumItemsMutation();
+  const pendingAlbumSlug = loading ? originalArgs?.albumSlug : undefined;
 
   const mediaItemIds = mediaItems.map((item) => item.id);
 
   const onItemClick = useCallback(
     async (albumSlug: string) => {
+      if (loading) {
+        return;
+      }
+
       try {
-        await addAlbumItems({ albumSlug, mediaItemIds }).unwrap();
+        const album = await addAlbumItems({ albumSlug, mediaItemIds }).unwrap();
+        toast.success(
+          t('photos:dialogs.addToAlbumDialog.notifications.success.title', {
+            defaultValue: 'Added to album',
+          }),
+          {
+            description: t('photos:dialogs.addToAlbumDialog.notifications.success.description', {
+              defaultValue: '{{count}} item added to {{albumTitle}}',
+              count: mediaItems.length,
+              albumTitle: album.title,
+            }),
+          },
+        );
         onClose();
       } catch {
-        // skip error
+        toast.error(
+          t('photos:dialogs.addToAlbumDialog.notifications.error.title', {
+            defaultValue: 'Unable to add to album',
+          }),
+          {
+            description: t('photos:dialogs.addToAlbumDialog.notifications.error.description', {
+              defaultValue: 'Something went wrong. Please try again.',
+            }),
+          },
+        );
       }
     },
-    [addAlbumItems, mediaItemIds, onClose],
+    [addAlbumItems, loading, mediaItemIds, mediaItems.length, onClose, t],
   );
 
   const handleOpenChanged = (isOpen: boolean) => {
-    if (!isOpen) {
+    if (!isOpen && !loading) {
       onClose();
     }
   };
@@ -63,12 +93,16 @@ export function AddToAlbumDialog({ mediaItems, open, onClose }: Props) {
         <DialogBody>
           <AlbumPicker
             className="flex min-h-[40vh] flex-col sm:min-h-[60vh] sm:w-md"
+            pendingAlbumSlug={pendingAlbumSlug}
             onItemClick={onItemClick}
           />
         </DialogBody>
-        <DialogFooter>
+        <DialogFooter className="justify-between">
+          <Button variant="outline" disabled={loading} onClick={openDialog}>
+            {t('photos:pages.albums.newAlbumButton', { defaultValue: 'Create Album' })}
+          </Button>
           <DialogClose asChild>
-            <Button>
+            <Button variant="ghost" disabled={loading}>
               {t('photos:dialogs.addToAlbumDialog.actions.close', { defaultValue: 'Close' })}
             </Button>
           </DialogClose>
