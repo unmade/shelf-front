@@ -1,16 +1,16 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
 import type { UploadEntries } from '@/types/uploads';
 
-import { useAppDispatch, useAppSelector } from '@/hooks';
+import { useAppDispatch } from '@/hooks';
 
 import {
-  selectListMediaItemsData,
+  mediaItemsAdapter,
   useCountMediaItemsQuery,
-  useListMediaItemsQuery,
+  useListMediaItemsInfiniteQuery,
 } from '@/store/mediaItems';
 import { mediaItemEntriesAdded } from '@/store/uploads/slice';
 
@@ -31,8 +31,6 @@ import {
   MediaItemsBrowserDataProvider,
 } from '@/apps/photos/components/media-item-browser';
 import { Page, PageContent, PageHeader, PageHeaderActions } from '@/apps/photos/components/page';
-
-const PAGE_SIZE = 1000;
 
 interface MediaItemBrowserContainerProps {
   onFilesAdded: (files: UploadEntries) => void;
@@ -70,27 +68,20 @@ function MediaItemBrowserContainer({ onFilesAdded }: MediaItemBrowserContainerPr
     selectFromResult: ({ data }) => ({ itemsCount: data?.total }),
   });
 
-  const cachedData = useAppSelector((state) =>
-    selectListMediaItemsData(state, { favourites: false, pageSize: PAGE_SIZE }),
-  );
-  const [page, setPage] = useState(() => Math.floor(cachedData.ids.length / PAGE_SIZE) + 1);
+  const {
+    data: result,
+    isLoading,
+    isError,
+    isSuccess,
+    fetchNextPage,
+  } = useListMediaItemsInfiniteQuery({ favourites: false });
 
-  const { data, isLoading, isError } = useListMediaItemsQuery(
-    { favourites: false, page, pageSize: PAGE_SIZE },
-    {
-      selectFromResult: ({ data, isLoading, isError }) => ({
-        data,
-        isLoading,
-        isError,
-      }),
-    },
+  const data = useMemo(
+    () => mediaItemsAdapter.setAll(mediaItemsAdapter.getInitialState(), result?.pages.flat() ?? []),
+    [result],
   );
 
-  const loadMore = useCallback(() => {
-    setPage((currentPage) => currentPage + 1);
-  }, []);
-
-  const empty = data?.ids.length === 0 && !isLoading && !isError;
+  const empty = isSuccess && data.ids.length === 0;
   if (empty) {
     return (
       <div className="flex h-full">
@@ -105,7 +96,7 @@ function MediaItemBrowserContainer({ onFilesAdded }: MediaItemBrowserContainerPr
       isLoading={isLoading}
       isError={isError}
       itemsCount={itemsCount}
-      loadMore={loadMore}
+      loadMore={fetchNextPage}
     >
       <MediaItemBrowser />
     </MediaItemsBrowserDataProvider>

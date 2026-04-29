@@ -1,11 +1,9 @@
-import { useCallback, useState } from 'react';
+import { useMemo } from 'react';
 
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
-import { useAppSelector } from '@/hooks';
-
-import { selectListMediaItemsData, useListMediaItemsQuery } from '@/store/mediaItems';
+import { mediaItemsAdapter, useListMediaItemsInfiniteQuery } from '@/store/mediaItems';
 
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from '@/ui/empty';
 import { Heading } from '@/ui/heading';
@@ -16,8 +14,6 @@ import {
   MediaItemsBrowserDataProvider,
 } from '@/apps/photos/components/media-item-browser';
 import { Page, PageContent, PageHeader } from '@/apps/photos/components/page';
-
-const PAGE_SIZE = 1000;
 
 function EmptyContainer() {
   const { t } = useTranslation('photos');
@@ -39,27 +35,20 @@ function EmptyContainer() {
 }
 
 function MediaItemBrowserContainer() {
-  const cachedData = useAppSelector((state) =>
-    selectListMediaItemsData(state, { favourites: true, pageSize: PAGE_SIZE }),
-  );
-  const [page, setPage] = useState(() => Math.floor(cachedData.ids.length / PAGE_SIZE) + 1);
+  const {
+    data: result,
+    isLoading,
+    isError,
+    isSuccess,
+    fetchNextPage,
+  } = useListMediaItemsInfiniteQuery({ favourites: true });
 
-  const { data, isLoading, isError } = useListMediaItemsQuery(
-    { favourites: true, page, pageSize: PAGE_SIZE },
-    {
-      selectFromResult: ({ data, isLoading, isError }) => ({
-        data,
-        isLoading,
-        isError,
-      }),
-    },
+  const data = useMemo(
+    () => mediaItemsAdapter.setAll(mediaItemsAdapter.getInitialState(), result?.pages.flat() ?? []),
+    [result],
   );
 
-  const loadMore = useCallback(() => {
-    setPage((currentPage) => currentPage + 1);
-  }, []);
-
-  const empty = data?.ids.length === 0 && !isLoading && !isError;
+  const empty = isSuccess && data.ids.length === 0;
   if (empty) {
     return (
       <div className="flex h-full">
@@ -73,7 +62,7 @@ function MediaItemBrowserContainer() {
       data={data}
       isLoading={isLoading}
       isError={isError}
-      loadMore={loadMore}
+      loadMore={fetchNextPage}
     >
       <MediaItemBrowser />
     </MediaItemsBrowserDataProvider>

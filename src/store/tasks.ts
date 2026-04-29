@@ -5,8 +5,6 @@ import type { IFile } from '@/types/files';
 import type { AppDispatch, RootState } from './store';
 import { API_BASE_URL, invalidateTags } from './apiSlice';
 import { selectAccessToken } from './authSlice';
-import { selectPhotosLibraryPath } from './features';
-import { mediaItemsAdapter, photosApi } from './mediaItems';
 
 export enum Scopes {
   DeletingImmediatelyBatch = 'deletingImmediatelyBatch',
@@ -49,38 +47,11 @@ interface ResponseData {
   result: AsyncTaskResult[];
 }
 
-function updateMediaItemsCache(
-  scope: Scopes,
-  files: IFile[],
-  responseData: ResponseData,
-  { dispatch, state }: { dispatch: AppDispatch; state: RootState },
-) {
-  if (scope !== Scopes.MovingToTrash) {
-    return null;
-  }
-
-  const filesByIds = Object.fromEntries(responseData.result.map((obj) => [obj.file?.id, obj.file]));
-
-  const libraryPath = selectPhotosLibraryPath(state);
-  const mediaItemIds = files
-    .filter((file) => file.path.startsWith(libraryPath) && filesByIds[file.id])
-    .map((file) => file.id);
-
-  if (mediaItemIds.length > 0) {
-    dispatch(
-      photosApi.util.updateQueryData('listMediaItems', undefined, (draft) => {
-        mediaItemsAdapter.removeMany(draft, mediaItemIds);
-      }),
-    );
-  }
-  return null;
-}
-
 export const waitForBackgroundTaskToComplete = createAsyncThunk<
   ResponseData,
   Arg,
   { dispatch: AppDispatch; getState: () => RootState }
->('tasks/waitForTask', async ({ taskId, scope, files }, { dispatch, getState }) => {
+>('tasks/waitForTask', async ({ taskId, scope }, { dispatch, getState }) => {
   const accessToken = selectAccessToken(getState() as RootState);
 
   const endpoint = endpointsByScope[scope];
@@ -107,9 +78,6 @@ export const waitForBackgroundTaskToComplete = createAsyncThunk<
 
     const data = await response.json();
     if (data.status === 'completed') {
-      if (files) {
-        updateMediaItemsCache(scope, files, data, { dispatch, state: getState() as RootState });
-      }
       return data;
     }
   }

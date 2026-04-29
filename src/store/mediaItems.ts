@@ -1,6 +1,4 @@
-import type { EntityState } from '@reduxjs/toolkit';
 import { createAsyncThunk, createEntityAdapter, createSelector, nanoid } from '@reduxjs/toolkit';
-import { defaultSerializeQueryArgs } from '@reduxjs/toolkit/query';
 
 import type { DataExifSchema } from '@/types/Exif';
 import type { IMediaItem } from 'types/photos';
@@ -8,6 +6,8 @@ import type { IMediaItem } from 'types/photos';
 import type { RootState } from 'store/store';
 
 import apiSlice, { API_BASE_URL } from './apiSlice';
+
+const MEDIA_ITEMS_PAGE_SIZE = 1000;
 
 export interface MediaItemSchema {
   id: string;
@@ -29,8 +29,6 @@ interface IMediaItemCategorySchema {
 
 interface IListMediaItemFilters {
   favourites?: boolean;
-  page?: number;
-  pageSize?: number;
 }
 
 interface ICountMediaItemsResponse {
@@ -74,7 +72,35 @@ export function toMediaItem(schema: MediaItemSchema): IMediaItem {
 export const mediaItemsAdapter = createEntityAdapter<IMediaItem>({
   sortComparer: (a, b) => Date.parse(b.modifiedAt) - Date.parse(a.modifiedAt),
 });
-const initialState = mediaItemsAdapter.getInitialState();
+
+function prependInfiniteMediaItems(
+  draft: { pages: IMediaItem[][]; pageParams: number[] },
+  mediaItems: IMediaItem[],
+) {
+  if (!mediaItems.length) {
+    return;
+  }
+
+  if (draft.pages.length === 0) {
+    draft.pages = [mediaItems];
+    draft.pageParams = [1];
+    return;
+  }
+
+  draft.pages[0] = [...mediaItems, ...draft.pages[0]];
+}
+
+function removeInfiniteMediaItems(
+  draft: { pages: IMediaItem[][]; pageParams: number[] },
+  mediaItemIds: Set<string>,
+) {
+  draft.pages = draft.pages.map((page) => page.filter((item) => !mediaItemIds.has(item.id)));
+}
+
+function clearInfiniteMediaItems(draft: { pages: IMediaItem[][]; pageParams: number[] }) {
+  draft.pages = [[]];
+  draft.pageParams = [draft.pageParams[0] ?? 1];
+}
 
 export const photosApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -94,6 +120,7 @@ export const photosApi = apiSlice.injectEndpoints({
       }),
       async onQueryStarted(mediaItemIds, { dispatch, queryFulfilled, getState }) {
         const patches: { undo: () => void }[] = [];
+        const idSet = new Set(mediaItemIds);
 
         for (const { endpointName, originalArgs } of photosApi.util.selectInvalidatedBy(
           getState(),
@@ -106,7 +133,7 @@ export const photosApi = apiSlice.injectEndpoints({
             patches.push(
               dispatch(
                 photosApi.util.updateQueryData(endpointName, originalArgs, (draft) => {
-                  mediaItemsAdapter.removeMany(draft, mediaItemIds);
+                  removeInfiniteMediaItems(draft, idSet);
                 }),
               ),
             );
@@ -130,7 +157,7 @@ export const photosApi = apiSlice.injectEndpoints({
           const { data } = await queryFulfilled;
           dispatch(
             photosApi.util.updateQueryData('listDeletedMediaItems', undefined, (draft) => {
-              mediaItemsAdapter.addMany(draft, data.items.map(toMediaItem));
+              prependInfiniteMediaItems(draft, data.items.map(toMediaItem));
             }),
           );
         } catch {
@@ -148,10 +175,11 @@ export const photosApi = apiSlice.injectEndpoints({
         body: { ids: mediaItemIds },
       }),
       async onQueryStarted(mediaItemIds, { dispatch, queryFulfilled }) {
+        const idSet = new Set(mediaItemIds);
         const patches: { undo: () => void }[] = [
           dispatch(
             photosApi.util.updateQueryData('listDeletedMediaItems', undefined, (draft) => {
-              mediaItemsAdapter.removeMany(draft, mediaItemIds);
+              removeInfiniteMediaItems(draft, idSet);
             }),
           ),
           dispatch(
@@ -173,45 +201,42 @@ export const photosApi = apiSlice.injectEndpoints({
       },
     }),
 
-    listMediaItems: builder.query<
-      EntityState<IMediaItem, string>,
-      IListMediaItemFilters | undefined
-    >({
-      query: (filters) => ({
+    listMediaItems: builder.infiniteQuery<IMediaItem[], IListMediaItemFilters | undefined, number>({
+      infiniteQueryOptions: {
+        initialPageParam: 1,
+        getNextPageParam: (lastPage, _allPages, lastPageParam) =>
+          lastPage.length < MEDIA_ITEMS_PAGE_SIZE ? undefined : lastPageParam + 1,
+      },
+      query: ({ queryArg, pageParam }) => ({
         url: '/photos/media_items/list',
         method: 'GET',
         params: {
-          page: filters?.page,
-          page_size: filters?.pageSize,
-          favourites: filters?.favourites,
+          page: pageParam,
+          page_size: MEDIA_ITEMS_PAGE_SIZE,
+          favourites: queryArg?.favourites,
         },
       }),
-      serializeQueryArgs: ({ endpointDefinition, endpointName, queryArgs }) => {
-        const args: Partial<IListMediaItemFilters> = queryArgs ? { ...queryArgs } : {};
-        delete args.page;
-        return defaultSerializeQueryArgs({ endpointDefinition, endpointName, queryArgs: args });
-      },
-      merge: (currentCache, newItems) => {
-        const { selectAll } = mediaItemsAdapter.getSelectors();
-        return mediaItemsAdapter.upsertMany(currentCache, selectAll(newItems));
-      },
-      forceRefetch({ currentArg, previousArg }) {
-        return currentArg !== previousArg;
-      },
-      providesTags: (_result, _error, arg) => [
-        { type: 'MediaItems', id: arg?.favourites ? 'listFavourites' : 'list' },
+      providesTags: (_result, _error, queryArg) => [
+        { type: 'MediaItems', id: queryArg?.favourites ? 'listFavourites' : 'list' },
       ],
-      transformResponse: (data: { items: MediaItemSchema[] }) =>
-        mediaItemsAdapter.setAll(initialState, data.items.map(toMediaItem)),
+      transformResponse: (data: { items: MediaItemSchema[] }) => data.items.map(toMediaItem),
     }),
 
-    listDeletedMediaItems: builder.query<EntityState<IMediaItem, string>, undefined>({
-      query: () => ({
+    listDeletedMediaItems: builder.infiniteQuery<IMediaItem[], undefined, number>({
+      infiniteQueryOptions: {
+        initialPageParam: 1,
+        getNextPageParam: (lastPage, _allPages, lastPageParam) =>
+          lastPage.length < MEDIA_ITEMS_PAGE_SIZE ? undefined : lastPageParam + 1,
+      },
+      query: ({ pageParam }) => ({
         url: '/photos/media_items/list_deleted',
         method: 'GET',
+        params: {
+          page: pageParam,
+          page_size: MEDIA_ITEMS_PAGE_SIZE,
+        },
       }),
-      transformResponse: (data: { items: MediaItemSchema[] }) =>
-        mediaItemsAdapter.setAll(initialState, data.items.map(toMediaItem)),
+      transformResponse: (data: { items: MediaItemSchema[] }) => data.items.map(toMediaItem),
     }),
 
     listFavouriteMediaItemIds: builder.query<string[], undefined>({
@@ -275,7 +300,7 @@ export const photosApi = apiSlice.injectEndpoints({
       async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
         const listDeletedPatchResult = dispatch(
           photosApi.util.updateQueryData('listDeletedMediaItems', undefined, (draft) => {
-            mediaItemsAdapter.removeAll(draft);
+            clearInfiniteMediaItems(draft);
           }),
         );
 
@@ -294,10 +319,11 @@ export const photosApi = apiSlice.injectEndpoints({
         body: { ids: mediaItemIds },
       }),
       async onQueryStarted(mediaItemIds, { dispatch, queryFulfilled, getState }) {
+        const idSet = new Set(mediaItemIds);
         const patches: { undo: () => void }[] = [
           dispatch(
             photosApi.util.updateQueryData('listDeletedMediaItems', undefined, (draft) => {
-              mediaItemsAdapter.removeMany(draft, mediaItemIds);
+              removeInfiniteMediaItems(draft, idSet);
             }),
           ),
           dispatch(
@@ -323,9 +349,10 @@ export const photosApi = apiSlice.injectEndpoints({
             ],
           )) {
             if (endpointName === 'listMediaItems') {
+              const restoredItems = data.items.map(toMediaItem);
               dispatch(
                 photosApi.util.updateQueryData(endpointName, originalArgs, (draft) => {
-                  mediaItemsAdapter.upsertMany(draft, data.items.map(toMediaItem));
+                  prependInfiniteMediaItems(draft, restoredItems);
                 }),
               );
             }
@@ -363,7 +390,7 @@ export const photosApi = apiSlice.injectEndpoints({
             patches.push(
               dispatch(
                 photosApi.util.updateQueryData(endpointName, originalArgs, (draft) => {
-                  mediaItemsAdapter.removeMany(draft, mediaItemIds);
+                  removeInfiniteMediaItems(draft, mediaItemIdSet);
                 }),
               ),
             );
@@ -387,28 +414,15 @@ export const {
   useDeleteMediaItemsMutation,
   useDeleteMediaItemsImmediatelyMutation,
   useGetMediaItemContentMetadataQuery,
-  useListDeletedMediaItemsQuery,
+  useListDeletedMediaItemsInfiniteQuery,
   useListFavouriteMediaItemIdsQuery,
-  useListMediaItemsQuery,
+  useListMediaItemsInfiniteQuery,
   useListMediaItemCategoriesQuery,
   useMarkFavouriteMediaItemsMutation,
   usePurgeMediaItemsMutation,
   useRestoreMediaItemsMutation,
   useUnmarkFavouriteMediaItemsMutation,
 } = photosApi;
-
-export const selectListMediaItemsData = createSelector(
-  [(state: RootState) => state, (_state: RootState, filters: IListMediaItemFilters) => filters],
-  (state, filters) =>
-    photosApi.endpoints.listMediaItems.select(filters)(state).data ?? initialState,
-);
-
-const createListDeletedMediaItemsSelector =
-  photosApi.endpoints.listDeletedMediaItems.select(undefined);
-
-export const { selectById: selectDeletedMediaItemById } = mediaItemsAdapter.getSelectors(
-  (state: RootState) => createListDeletedMediaItemsSelector(state).data ?? initialState,
-);
 
 const emptyFavouriteIds: string[] = [];
 const emptyFavouriteIdSet = new Set<string>();

@@ -21,7 +21,6 @@ Use TypeScript, React, Redux Toolkit, and RTK Query patterns already present in 
 - Before each task, you must first complete the following steps:
   1. Provide a full plan of your changes.
   2. Provide a list of behaviors that you'll change.
-  3. Provide a list of test cases to add.
 - Before you add any code, always check if you can just re-use or re-configure any existing code to achieve the result.
 - Before editing, identify whether the change is app-specific or truly shared, then place code in the narrowest correct module.
 - Follow existing patterns in the Files app when choosing structure, routing, store usage, and feature boundaries.

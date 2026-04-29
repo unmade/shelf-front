@@ -1,13 +1,12 @@
-import type { EntityState } from '@reduxjs/toolkit';
 import { createEntityAdapter, createSelector } from '@reduxjs/toolkit';
-import { defaultSerializeQueryArgs } from '@reduxjs/toolkit/query';
 
 import type { IAlbum, IMediaItem } from 'types/photos';
 
 import apiSlice from './apiSlice';
 import { toMediaItem, type MediaItemSchema } from './mediaItems';
-import type { AppDispatch, RootState } from './store';
+import type { RootState } from './store';
 
+const ALBUMS_PAGE_SIZE = 100;
 const ALBUM_ITEMS_PAGE_SIZE = 250;
 
 interface IAlbumsSchema {
@@ -20,11 +19,6 @@ interface IAlbumsSchema {
     media_item_id: string;
     thumbnail_url: string | null;
   } | null;
-}
-
-interface IListAlbumsFilters {
-  page?: number;
-  pageSize?: number;
 }
 
 interface IListAlbumItemsFilters {
@@ -49,30 +43,7 @@ export const albumsAdapter = createEntityAdapter({
   selectId: (album: IAlbum) => album.slug,
   sortComparer: (a: IAlbum, b: IAlbum) => a.title.localeCompare(b.title),
 });
-const albumInitialState = albumsAdapter.getInitialState();
-
 export const albumItemsAdapter = createEntityAdapter<IMediaItem>({});
-
-function updateListAlbumsCacheEntries(
-  dispatch: AppDispatch,
-  getState: () => unknown,
-  updateCachedAlbums: (draft: EntityState<IAlbum, string>) => void,
-) {
-  for (const { endpointName, originalArgs } of albumsApi.util.selectInvalidatedBy(
-    getState() as RootState,
-    [{ type: 'Albums', id: 'list' }],
-  )) {
-    if (endpointName === 'listAlbums') {
-      dispatch(
-        albumsApi.util.updateQueryData(
-          'listAlbums',
-          originalArgs as IListAlbumsFilters | undefined,
-          updateCachedAlbums,
-        ),
-      );
-    }
-  }
-}
 
 const albumsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -88,17 +59,17 @@ const albumsApi = apiSlice.injectEndpoints({
         { type: 'Albums', id: `albumItems:${albumSlug}` },
       ],
       transformResponse: (data: IAlbumsSchema) => toAlbum(data),
-      async onQueryStarted(arg, { dispatch, getState, queryFulfilled }) {
+      async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
 
-          updateListAlbumsCacheEntries(dispatch, getState, (draft) =>
-            albumsAdapter.updateOne(draft, {
-              id: data.slug,
-              changes: data,
+          dispatch(
+            albumsApi.util.updateQueryData('listAlbums', undefined, (draft) => {
+              draft.pages = draft.pages.map((page) =>
+                page.map((album) => (album.slug === data.slug ? data : album)),
+              );
             }),
           );
-
           dispatch(albumsApi.util.updateQueryData('getAlbum', data.slug, () => data));
         } catch {
           /* empty */
@@ -113,12 +84,19 @@ const albumsApi = apiSlice.injectEndpoints({
         body: { title },
       }),
       transformResponse: (data: IAlbumsSchema) => toAlbum(data),
-      async onQueryStarted(_arg, { dispatch, getState, queryFulfilled }) {
+      async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
 
-          updateListAlbumsCacheEntries(dispatch, getState, (draft) =>
-            albumsAdapter.addOne(draft, data),
+          dispatch(
+            albumsApi.util.updateQueryData('listAlbums', undefined, (draft) => {
+              if (draft.pages.length > 0) {
+                const page = [...draft.pages[0]];
+                const idx = page.findIndex((a) => data.title.localeCompare(a.title) < 0);
+                page.splice(idx === -1 ? page.length : idx, 0, data);
+                draft.pages[0] = page;
+              }
+            }),
           );
         } catch {
           /* empty */
@@ -132,30 +110,19 @@ const albumsApi = apiSlice.injectEndpoints({
         method: 'DELETE',
       }),
       transformResponse: (data: IAlbumsSchema) => toAlbum(data),
-      async onQueryStarted(albumSlug, { dispatch, queryFulfilled, getState }) {
-        const patches: { undo: () => void }[] = [];
-
-        for (const { endpointName, originalArgs } of albumsApi.util.selectInvalidatedBy(
-          getState(),
-          [{ type: 'Albums', id: 'list' }],
-        )) {
-          if (endpointName === 'listAlbums') {
-            patches.push(
-              dispatch(
-                albumsApi.util.updateQueryData(endpointName, originalArgs, (draft) => {
-                  albumsAdapter.removeOne(draft, albumSlug);
-                }),
-              ),
+      async onQueryStarted(albumSlug, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          albumsApi.util.updateQueryData('listAlbums', undefined, (draft) => {
+            draft.pages = draft.pages.map((page) =>
+              page.filter((album) => album.slug !== albumSlug),
             );
-          }
-        }
+          }),
+        );
 
         try {
           await queryFulfilled;
         } catch {
-          patches.forEach((patch) => {
-            patch.undo();
-          });
+          patchResult.undo();
         }
       },
     }),
@@ -169,30 +136,22 @@ const albumsApi = apiSlice.injectEndpoints({
       transformResponse: (data: IAlbumsSchema) => toAlbum(data),
     }),
 
-    listAlbums: builder.query<EntityState<IAlbum, string>, IListAlbumsFilters | undefined>({
-      query: (filters) => ({
+    listAlbums: builder.infiniteQuery<IAlbum[], undefined, number>({
+      infiniteQueryOptions: {
+        initialPageParam: 1,
+        getNextPageParam: (lastPage, _allPages, lastPageParam) =>
+          lastPage.length < ALBUMS_PAGE_SIZE ? undefined : lastPageParam + 1,
+      },
+      query: ({ pageParam }) => ({
         url: '/photos/albums',
         method: 'GET',
         params: {
-          page: filters?.page,
-          page_size: filters?.pageSize,
+          page: pageParam,
+          page_size: ALBUMS_PAGE_SIZE,
         },
       }),
-      serializeQueryArgs: ({ endpointDefinition, endpointName, queryArgs }) => {
-        const args: Partial<IListAlbumsFilters> = queryArgs ? { ...queryArgs } : {};
-        delete args.page;
-        return defaultSerializeQueryArgs({ endpointDefinition, endpointName, queryArgs: args });
-      },
-      merge: (currentCache, newItems) => {
-        const { selectAll } = albumsAdapter.getSelectors();
-        return albumsAdapter.upsertMany(currentCache, selectAll(newItems));
-      },
-      forceRefetch({ currentArg, previousArg }) {
-        return currentArg !== previousArg;
-      },
       providesTags: [{ type: 'Albums', id: 'list' }],
-      transformResponse: (data: { items: IAlbumsSchema[] }) =>
-        albumsAdapter.setAll(albumInitialState, data.items.map(toAlbum)),
+      transformResponse: (data: { items: IAlbumsSchema[] }) => data.items.map(toAlbum),
     }),
 
     listAlbumItems: builder.infiniteQuery<IMediaItem[], IListAlbumItemsFilters, number>({
@@ -232,22 +191,20 @@ const albumsApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         const { albumSlug } = arg;
         const patchResult = dispatch(
-          albumsApi.util.updateQueryData('listAlbums', { pageSize: 100 }, (draft) =>
-            albumsAdapter.updateOne(draft, {
-              id: albumSlug,
-              changes: { cover: null },
-            }),
-          ),
+          albumsApi.util.updateQueryData('listAlbums', undefined, (draft) => {
+            draft.pages = draft.pages.map((page) =>
+              page.map((album) => (album.slug === albumSlug ? { ...album, cover: null } : album)),
+            );
+          }),
         );
         try {
           const { data } = await queryFulfilled;
           dispatch(
-            albumsApi.util.updateQueryData('listAlbums', { pageSize: 100 }, (draft) =>
-              albumsAdapter.updateOne(draft, {
-                id: data.slug,
-                changes: data,
-              }),
-            ),
+            albumsApi.util.updateQueryData('listAlbums', undefined, (draft) => {
+              draft.pages = draft.pages.map((page) =>
+                page.map((album) => (album.slug === data.slug ? data : album)),
+              );
+            }),
           );
           dispatch(albumsApi.util.updateQueryData('getAlbum', data.slug, () => data));
         } catch {
@@ -280,12 +237,11 @@ const albumsApi = apiSlice.injectEndpoints({
         try {
           const { data } = await queryFulfilled;
           dispatch(
-            albumsApi.util.updateQueryData('listAlbums', { pageSize: 100 }, (draft) =>
-              albumsAdapter.updateOne(draft, {
-                id: data.slug,
-                changes: data,
-              }),
-            ),
+            albumsApi.util.updateQueryData('listAlbums', undefined, (draft) => {
+              draft.pages = draft.pages.map((page) =>
+                page.map((album) => (album.slug === data.slug ? data : album)),
+              );
+            }),
           );
           dispatch(albumsApi.util.updateQueryData('getAlbum', albumSlug, () => data));
         } catch {
@@ -317,12 +273,15 @@ const albumsApi = apiSlice.injectEndpoints({
         }
 
         const patchResult = dispatch(
-          albumsApi.util.updateQueryData('listAlbums', { pageSize: 100 }, (draft) =>
-            albumsAdapter.updateOne(draft, {
-              id: albumSlug,
-              changes: { cover: { mediaItemId, thumbnailUrl } },
-            }),
-          ),
+          albumsApi.util.updateQueryData('listAlbums', undefined, (draft) => {
+            draft.pages = draft.pages.map((page) =>
+              page.map((album) =>
+                album.slug === albumSlug
+                  ? { ...album, cover: { mediaItemId, thumbnailUrl } }
+                  : album,
+              ),
+            );
+          }),
         );
         const patchGetAlbumResult = dispatch(
           albumsApi.util.updateQueryData('getAlbum', albumSlug, (draft) => {
@@ -336,12 +295,11 @@ const albumsApi = apiSlice.injectEndpoints({
         try {
           const { data } = await queryFulfilled;
           dispatch(
-            albumsApi.util.updateQueryData('listAlbums', { pageSize: 100 }, (draft) =>
-              albumsAdapter.updateOne(draft, {
-                id: data.slug,
-                changes: data,
-              }),
-            ),
+            albumsApi.util.updateQueryData('listAlbums', undefined, (draft) => {
+              draft.pages = draft.pages.map((page) =>
+                page.map((album) => (album.slug === data.slug ? data : album)),
+              );
+            }),
           );
           dispatch(albumsApi.util.updateQueryData('getAlbum', data.slug, () => data));
         } catch {
@@ -362,20 +320,20 @@ const albumsApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         const { albumSlug, title } = arg;
         const listAlbumsPatchResult = dispatch(
-          albumsApi.util.updateQueryData('listAlbums', { pageSize: 100 }, (draft) =>
-            albumsAdapter.updateOne(draft, {
-              id: albumSlug,
-              changes: { title },
-            }),
-          ),
+          albumsApi.util.updateQueryData('listAlbums', undefined, (draft) => {
+            draft.pages = draft.pages.map((page) =>
+              page.map((album) => (album.slug === albumSlug ? { ...album, title } : album)),
+            );
+          }),
         );
 
         try {
           const { data } = await queryFulfilled;
           dispatch(
-            albumsApi.util.updateQueryData('listAlbums', { pageSize: 100 }, (draft) => {
-              albumsAdapter.removeOne(draft, albumSlug);
-              albumsAdapter.addOne(draft, data);
+            albumsApi.util.updateQueryData('listAlbums', undefined, (draft) => {
+              draft.pages = draft.pages.map((page) =>
+                page.map((album) => (album.slug === albumSlug ? data : album)),
+              );
             }),
           );
           dispatch(albumsApi.util.updateQueryData('getAlbum', data.slug, () => data));
@@ -392,7 +350,7 @@ export const {
   useCreateAlbumMutation,
   useDeleteAlbumMutation,
   useGetAlbumQuery,
-  useListAlbumsQuery,
+  useListAlbumsInfiniteQuery,
   useListAlbumItemsInfiniteQuery,
   useRemoveAlbumCoverMutation,
   useRemoveAlbumItemsMutation,
@@ -400,8 +358,16 @@ export const {
   useUpdateAlbumMutation,
 } = albumsApi;
 
-export const selectListAlbumsData = createSelector(
-  [(state: RootState) => state, (state: RootState, filters: IListAlbumsFilters) => filters],
-  (state: RootState, filters: IListAlbumsFilters) =>
-    albumsApi.endpoints.listAlbums.select(filters)(state).data ?? albumInitialState,
+const selectListAlbumsResult = albumsApi.endpoints.listAlbums.select(undefined);
+
+const selectAlbumsLookupMap = createSelector(
+  (state: RootState) => selectListAlbumsResult(state).data,
+  (data): Map<string, IAlbum> => {
+    const map = new Map<string, IAlbum>();
+    data?.pages.flat().forEach((album) => map.set(album.slug, album));
+    return map;
+  },
 );
+
+export const selectAlbumBySlug = (state: RootState, slug: string): IAlbum | undefined =>
+  selectAlbumsLookupMap(state).get(slug);

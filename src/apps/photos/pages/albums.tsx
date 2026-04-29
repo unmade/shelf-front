@@ -1,11 +1,9 @@
-import { useCallback, useState } from 'react';
+import { useMemo } from 'react';
 
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
-import { useAppSelector } from '@/hooks';
-
-import { selectListAlbumsData, useListAlbumsQuery } from '@/store/albums';
+import { albumsAdapter, useListAlbumsInfiniteQuery } from '@/store/albums';
 
 import { PlusIcon } from '@/icons';
 
@@ -15,8 +13,6 @@ import { Heading } from '@/ui/heading';
 import { AlbumDialogsProvider, useCreateAlbumDialog } from '@/apps/photos/components/dialogs';
 import { AlbumsBrowser, AlbumsBrowserDataProvider } from '@/apps/photos/components/album-browser';
 import { Page, PageContent, PageHeader, PageHeaderActions } from '@/apps/photos/components/page';
-
-const PAGE_SIZE = 100;
 
 function CreateAlbumButton() {
   const { openDialog } = useCreateAlbumDialog();
@@ -29,32 +25,19 @@ function CreateAlbumButton() {
 }
 
 function AlbumsBrowserContainer() {
-  const cachedData = useAppSelector((state) =>
-    selectListAlbumsData(state, { pageSize: PAGE_SIZE }),
-  );
-  const [page, setPage] = useState(() => Math.floor(cachedData.ids.length / PAGE_SIZE) + 1);
+  const { data: result, isLoading, isError, fetchNextPage } = useListAlbumsInfiniteQuery(undefined);
 
-  const { data, isLoading, isError } = useListAlbumsQuery(
-    { page, pageSize: PAGE_SIZE },
-    {
-      selectFromResult: ({ data, isLoading, isError }) => ({
-        data,
-        isLoading,
-        isError,
-      }),
-    },
+  const data = useMemo(
+    () => albumsAdapter.setAll(albumsAdapter.getInitialState(), result?.pages.flat() ?? []),
+    [result],
   );
-
-  const loadMore = useCallback(() => {
-    setPage((currentPage) => currentPage + 1);
-  }, []);
 
   return (
     <AlbumsBrowserDataProvider
       data={data}
       isLoading={isLoading}
       isError={isError}
-      loadMore={loadMore}
+      loadMore={fetchNextPage}
     >
       <AlbumsBrowser />
     </AlbumsBrowserDataProvider>

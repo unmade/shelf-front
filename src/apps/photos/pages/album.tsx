@@ -11,7 +11,7 @@ import { useAppSelector } from '@/hooks';
 
 import {
   albumItemsAdapter,
-  selectListAlbumsData,
+  selectAlbumBySlug,
   useGetAlbumQuery,
   useListAlbumItemsInfiniteQuery,
 } from '@/store/albums';
@@ -112,9 +112,7 @@ export default function Album() {
 
   const { albumId } = useParams<{ albumId: string }>();
 
-  const albumTitle = useAppSelector(
-    (state) => selectListAlbumsData(state, { pageSize: 100 }).entities[albumId ?? '']?.title,
-  );
+  const albumTitle = useAppSelector((state) => selectAlbumBySlug(state, albumId ?? '')?.title);
 
   const { data: album, isLoading, isError } = useGetAlbumQuery(albumId ?? skipToken);
 

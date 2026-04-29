@@ -1,7 +1,13 @@
+import { useMemo } from 'react';
+
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
-import { useCountMediaItemsQuery, useListDeletedMediaItemsQuery } from '@/store/mediaItems';
+import {
+  mediaItemsAdapter,
+  useCountMediaItemsQuery,
+  useListDeletedMediaItemsInfiniteQuery,
+} from '@/store/mediaItems';
 
 import { TrashIcon } from '@/icons';
 
@@ -45,15 +51,20 @@ function MediaItemBrowserContainer() {
     selectFromResult: ({ data }) => ({ itemsCount: data?.deleted }),
   });
 
-  const { data, isError, isLoading } = useListDeletedMediaItemsQuery(undefined, {
-    selectFromResult: ({ data, isError, isLoading }) => ({
-      data,
-      isError,
-      isLoading,
-    }),
-  });
+  const {
+    data: result,
+    isError,
+    isLoading,
+    isSuccess,
+    fetchNextPage,
+  } = useListDeletedMediaItemsInfiniteQuery(undefined);
 
-  const empty = data?.ids.length === 0 && !isLoading && !isError;
+  const data = useMemo(
+    () => mediaItemsAdapter.setAll(mediaItemsAdapter.getInitialState(), result?.pages.flat() ?? []),
+    [result],
+  );
+
+  const empty = isSuccess && data.ids.length === 0;
   if (empty) {
     return (
       <Empty className="h-full">
@@ -77,6 +88,7 @@ function MediaItemBrowserContainer() {
       isLoading={isLoading}
       isError={isError}
       itemsCount={itemsCount}
+      loadMore={fetchNextPage}
     >
       <MediaItemBrowser mediaItemActionsDropdown={DeletedMediaItemActionsDropdown} />
     </MediaItemsBrowserDataProvider>
