@@ -6,12 +6,7 @@ import type { IMediaItem } from '@/types/photos';
 
 import { API_BASE_URL } from '@/store/apiSlice';
 import { selectFeatureUploadFileMaxSize } from '@/store/features';
-import {
-  mediaItemsAdapter,
-  photosApi,
-  toMediaItem,
-  type MediaItemSchema,
-} from '@/store/mediaItems';
+import { photosApi, toMediaItem, type MediaItemSchema } from '@/store/mediaItems';
 
 import type { AppDispatch, RootState } from '@/store/store';
 
@@ -26,7 +21,9 @@ function updateMediaItemsCache(mediaItem: IMediaItem, { dispatch, getState }: St
     if (endpointName === 'listMediaItems') {
       dispatch(
         photosApi.util.updateQueryData(endpointName, originalArgs, (draft) => {
-          mediaItemsAdapter.addOne(draft, mediaItem);
+          if (draft.pages.length > 0) {
+            draft.pages[0] = [mediaItem, ...draft.pages[0]];
+          }
         }),
       );
     }
