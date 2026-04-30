@@ -1,1 +1,2 @@
-export { RenameFileDialogProvider, useRenameFileDialog } from './context';
+export { RenameFileDialog } from './dialog';
+export { useRenameFileDialog } from './hooks';

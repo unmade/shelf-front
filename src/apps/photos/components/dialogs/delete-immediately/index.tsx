@@ -1,4 +1,2 @@
-export {
-  DeleteMediaItemsImmediatelyDialogProvider,
-  useDeleteMediaItemsImmediatelyDialog,
-} from './context';
+export { DeleteMediaItemsImmediatelyDialog } from './dialog';
+export { useDeleteMediaItemsImmediatelyDialog } from './hooks';

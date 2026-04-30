@@ -1,1 +1,2 @@
-export { DeleteImmediatelyDialogProvider, useDeleteImmediatelyDialog } from './context';
+export { DeleteImmediatelyDialogContainer } from './dialog';
+export { useDeleteImmediatelyDialog } from './hooks';

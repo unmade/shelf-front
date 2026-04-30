@@ -1,1 +1,2 @@
-export { EmptyTrashDialogProvider, useEmptyTrashDialog } from './context';
+export { EmptyTrashDialogContainer } from './dialog';
+export { useEmptyTrashDialog } from './hooks';

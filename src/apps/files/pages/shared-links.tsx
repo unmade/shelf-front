@@ -4,7 +4,7 @@ import { LinkIcon } from '@/icons';
 
 import { Heading } from '@/ui/heading';
 
-import { CopyLinkDialogProvider } from '@/apps/files/components/dialogs';
+import { DialogsProvider } from '@/apps/files/components/dialogs';
 
 import { Page, PageContent, PageHeader, PageHeaderTitle } from '@/apps/files/components/page';
 import { SharedLinkList } from '@/apps/files/components/shared-links-list';
@@ -13,7 +13,7 @@ export default function SharedLinks() {
   const { t } = useTranslation('files');
 
   return (
-    <CopyLinkDialogProvider>
+    <DialogsProvider>
       <Page>
         <PageHeader>
           <PageHeaderTitle>
@@ -25,6 +25,6 @@ export default function SharedLinks() {
           <SharedLinkList />
         </PageContent>
       </Page>
-    </CopyLinkDialogProvider>
+    </DialogsProvider>
   );
 }

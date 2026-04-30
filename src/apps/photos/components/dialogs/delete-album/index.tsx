@@ -1,1 +1,2 @@
-export { DeleteAlbumDialogProvider, useDeleteAlbumDialog } from './context';
+export { DeleteAlbumDialog } from './dialog';
+export { useDeleteAlbumDialog } from './hooks';

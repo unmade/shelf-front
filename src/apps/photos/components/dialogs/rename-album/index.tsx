@@ -1,1 +1,2 @@
-export { RenameAlbumDialogProvider, useRenameAlbumDialog } from './context';
+export { RenameAlbumDialog } from './dialog';
+export { useRenameAlbumDialog } from './hooks';
