@@ -14,11 +14,7 @@ import { Heading } from '@/ui/heading';
 import VerifyAccountDialogProvider from '@/components/VerifyAccountDialogProvider';
 
 import { BreadcrumbDropdown, useRouteBreadcrumbs } from '@/apps/files/components/breadcrumbs';
-import {
-  DialogsProvider,
-  EmptyTrashDialogProvider,
-  useEmptyTrashDialog,
-} from '@/apps/files/components/dialogs';
+import { DialogsProvider, useEmptyTrashDialog } from '@/apps/files/components/dialogs';
 import { FileBrowser, FileBrowserDataProvider } from '@/apps/files/components/browser';
 import { GoBackButton } from '@/apps/files/components/go-back-button';
 import {
@@ -32,7 +28,7 @@ import {
 function EmptyTrashDialogButton() {
   const { t } = useTranslation('files');
 
-  const openEmptyTrashDialog = useEmptyTrashDialog();
+  const { openDialog: openEmptyTrashDialog } = useEmptyTrashDialog();
 
   return (
     <Button
@@ -53,9 +49,7 @@ interface DialogsProviderProps {
 function AllDialogsProvider({ children }: DialogsProviderProps) {
   return (
     <VerifyAccountDialogProvider>
-      <DialogsProvider>
-        <EmptyTrashDialogProvider>{children}</EmptyTrashDialogProvider>
-      </DialogsProvider>
+      <DialogsProvider>{children}</DialogsProvider>
     </VerifyAccountDialogProvider>
   );
 }

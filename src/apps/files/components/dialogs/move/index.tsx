@@ -1,1 +1,2 @@
-export { MoveDialogProvider, useMoveDialog } from './context';
+export { MoveDialog } from './dialog';
+export { useMoveDialog } from './hooks';

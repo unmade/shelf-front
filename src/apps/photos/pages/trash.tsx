@@ -15,11 +15,7 @@ import { Button } from '@/ui/button';
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from '@/ui/empty';
 import { Heading } from '@/ui/heading';
 
-import {
-  EmptyTrashDialogProvider,
-  MediaItemDialogsProvider,
-  useEmptyTrashDialog,
-} from '@/apps/photos/components/dialogs';
+import { MediaItemDialogsProvider, useEmptyTrashDialog } from '@/apps/photos/components/dialogs';
 import { DeletedMediaItemActionsDropdown } from '@/apps/photos/components/media-item-actions-dropdown';
 import {
   MediaItemBrowser,
@@ -102,22 +98,20 @@ export default function Trash() {
 
   return (
     <MediaItemDialogsProvider>
-      <EmptyTrashDialogProvider>
-        <Helmet>
-          <title>Shelf Photos</title>
-        </Helmet>
-        <Page>
-          <PageHeader>
-            <Heading className="py-0.5">{title}</Heading>
-            <PageHeaderActions>
-              <EmptyTrashButton />
-            </PageHeaderActions>
-          </PageHeader>
-          <PageContent>
-            <MediaItemBrowserContainer />
-          </PageContent>
-        </Page>
-      </EmptyTrashDialogProvider>
+      <Helmet>
+        <title>Shelf Photos</title>
+      </Helmet>
+      <Page>
+        <PageHeader>
+          <Heading className="py-0.5">{title}</Heading>
+          <PageHeaderActions>
+            <EmptyTrashButton />
+          </PageHeaderActions>
+        </PageHeader>
+        <PageContent>
+          <MediaItemBrowserContainer />
+        </PageContent>
+      </Page>
     </MediaItemDialogsProvider>
   );
 }

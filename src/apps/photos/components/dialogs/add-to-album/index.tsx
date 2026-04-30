@@ -1,1 +1,2 @@
-export { AddToAlbumDialogProvider, useAddToAlbumDialog } from './context';
+export { AddToAlbumDialog } from './dialog';
+export { useAddToAlbumDialog } from './hooks';

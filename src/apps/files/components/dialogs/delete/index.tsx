@@ -1,1 +1,2 @@
-export { DeleteDialogProvider, useDeleteDialog } from './context';
+export { DeleteDialogContainer } from './dialog';
+export { useDeleteDialog } from './hooks';

@@ -1,1 +1,2 @@
-export { CopyLinkDialogProvider, useCopyLinkDialog } from './context';
+export { CopyLinkDialog } from './dialog';
+export { useCopyLinkDialog } from './hooks';

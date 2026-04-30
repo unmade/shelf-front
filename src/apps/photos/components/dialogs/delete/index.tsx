@@ -1,1 +1,2 @@
-export { DeleteMediaItemsDialogProvider, useDeleteMediaItemsDialog } from './context';
+export { DeleteMediaItemsDialog } from './dialog';
+export { useDeleteMediaItemsDialog } from './hooks';
