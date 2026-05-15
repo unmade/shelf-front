@@ -21,12 +21,6 @@ export interface MediaItemSchema {
   deleted_at: string | null;
 }
 
-interface IMediaItemCategorySchema {
-  name: string;
-  origin: 'auto' | 'user';
-  probability: number;
-}
-
 interface IListMediaItemFilters {
   favourites?: boolean;
 }
@@ -38,16 +32,6 @@ interface ICountMediaItemsResponse {
 
 interface IListFavouriteMediaItemsResponse {
   ids: string[];
-}
-
-interface IListMediaItemCategoriesSchemaResponse {
-  media_item_id: string;
-  categories: IMediaItemCategorySchema[];
-}
-
-interface IListMediaItemCategoriesResponse {
-  mediaItemId: string;
-  categories: IMediaItemCategorySchema[];
 }
 
 interface MediaItemContentMetadataSchema {
@@ -256,18 +240,6 @@ export const photosApi = apiSlice.injectEndpoints({
       }),
     }),
 
-    listMediaItemCategories: builder.query<IListMediaItemCategoriesResponse, string>({
-      query: (mediaItemId) => ({
-        url: '/photos/media_items/list_categories',
-        method: 'POST',
-        body: { media_item_id: mediaItemId },
-      }),
-      transformResponse: (data: IListMediaItemCategoriesSchemaResponse) => ({
-        mediaItemId: data.media_item_id,
-        categories: data.categories,
-      }),
-    }),
-
     markFavouriteMediaItems: builder.mutation<void, string[]>({
       query: (mediaItemIds) => ({
         url: '/photos/media_items/favourites/mark_batch',
@@ -417,7 +389,6 @@ export const {
   useListDeletedMediaItemsInfiniteQuery,
   useListFavouriteMediaItemIdsQuery,
   useListMediaItemsInfiniteQuery,
-  useListMediaItemCategoriesQuery,
   useMarkFavouriteMediaItemsMutation,
   usePurgeMediaItemsMutation,
   useRestoreMediaItemsMutation,
