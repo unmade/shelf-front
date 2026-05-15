@@ -2,7 +2,7 @@ import i18n from 'i18n';
 
 import { type AppConfig } from '@/types/AppConfig';
 
-import { BookmarksIcon, FilesAppIcon, HomeIcon, LinkIcon, ShareIcon, TrashIcon } from '@/icons';
+import { BookmarksIcon, FilesAppIcon, HomeIcon, LinkIcon, TrashIcon } from '@/icons';
 import * as routes from '@/routes';
 
 const config: AppConfig = {
@@ -44,13 +44,6 @@ const config: AppConfig = {
         title: 'Sharing',
         items: [
           {
-            path: routes.SHARED_IN_APP.prefix,
-            title: 'In app',
-            Icon: ShareIcon,
-            desktopOnly: false,
-            end: true,
-          },
-          {
             path: routes.SHARED_VIA_LINK.prefix,
             title: 'Links',
             Icon: LinkIcon,
@@ -80,8 +73,7 @@ i18n.on('languageChanged init', async () => {
   config.menu.sections[0].items[2].title = t('nav.trash', { ns: 'files', defaultValue: 'Trash' });
 
   config.menu.sections[1].title = t('nav.sharing', { ns: 'files', defaultValue: 'Sharing' });
-  config.menu.sections[1].items![0].title = t('nav.inApp', { ns: 'files', defaultValue: 'In app' });
-  config.menu.sections[1].items![1].title = t('nav.links', { ns: 'files', defaultValue: 'Links' });
+  config.menu.sections[1].items![0].title = t('nav.links', { ns: 'files', defaultValue: 'Links' });
 });
 
 export default config;

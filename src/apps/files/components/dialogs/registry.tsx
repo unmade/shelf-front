@@ -11,7 +11,6 @@ export interface FilesDialogsState {
   delete: { files: IFile[]; open: boolean };
   deleteImmediately: { files: IFile[]; open: boolean };
   emptyTrash: { open: boolean };
-  fileMembers: { fileId: string | undefined; open: boolean };
   move: { files: IFile[]; open: boolean };
   renameFile: { file: IFile | null; open: boolean };
 }
@@ -22,7 +21,6 @@ const initialState: FilesDialogsState = {
   delete: { files: [], open: false },
   deleteImmediately: { files: [], open: false },
   emptyTrash: { open: false },
-  fileMembers: { fileId: undefined, open: false },
   move: { files: [], open: false },
   renameFile: { file: null, open: false },
 };
@@ -35,7 +33,6 @@ type Action =
   | { type: 'open-delete'; files: IFile[] }
   | { type: 'open-delete-immediately'; files: IFile[] }
   | { type: 'open-empty-trash' }
-  | { type: 'open-file-members'; fileId: string }
   | { type: 'open-move'; files: IFile[] }
   | { type: 'open-rename-file'; file: IFile }
   | { type: 'close'; key: keyof FilesDialogsState };
@@ -52,8 +49,6 @@ function reducer(state: FilesDialogsState, action: Action): FilesDialogsState {
       return { ...state, deleteImmediately: { files: action.files, open: true } };
     case 'open-empty-trash':
       return { ...state, emptyTrash: { open: true } };
-    case 'open-file-members':
-      return { ...state, fileMembers: { fileId: action.fileId, open: true } };
     case 'open-move':
       return { ...state, move: { files: action.files, open: true } };
     case 'open-rename-file':
